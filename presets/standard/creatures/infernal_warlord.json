@@ -1,0 +1,337 @@
+{
+    "id": "infernal_warlord",
+    "label": "Infernal Warlord",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An infernal warlord.",
+    "hp": 25850,
+    "hpMax": 25850,
+    "speed": 165,
+    "level": 749,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 10000,
+    "lootValue": 23659.164550265,
+    "aggro": true,
+    "resists": {
+        "physical": 98,
+        "fire": 98,
+        "ice": 98,
+        "energy": 98,
+        "earth": 98,
+        "holy": 95,
+        "death": 98
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 85,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 724
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 1000,
+            "chance": 11,
+            "range": 4,
+            "element": "energy",
+            "min": 199,
+            "max": 652,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_purpleenergy"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 14,
+            "range": 4,
+            "element": "manadrain",
+            "min": 72,
+            "max": 398,
+            "radius": 5,
+            "target": false,
+            "effect": "me_stun"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 11,
+            "range": 4,
+            "element": "fire",
+            "min": 40,
+            "max": 414,
+            "radius": 5,
+            "target": true,
+            "effect": "me_firearea"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 0,
+            "max": 119,
+            "radius": 7,
+            "target": false,
+            "effect": "me_poff"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 1000,
+            "chance": 11,
+            "min": 400,
+            "max": 900,
+            "hpBelow": 0.7,
+            "effect": "me_magic_green"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 200,
+            "name": "gold coin"
+        },
+        {
+            "chance": 49920,
+            "name": "slightly rusted legs"
+        },
+        {
+            "chance": 41750,
+            "maxCount": 2,
+            "name": "ultimate health potion"
+        },
+        {
+            "chance": 31010,
+            "name": "spellbook of warding"
+        },
+        {
+            "chance": 30560,
+            "name": "slightly rusted armor"
+        },
+        {
+            "chance": 29950,
+            "name": "beastslayer axe"
+        },
+        {
+            "chance": 21790,
+            "maxCount": 30,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 21180,
+            "name": "great dual potion"
+        },
+        {
+            "chance": 20570,
+            "name": "great health potion"
+        },
+        {
+            "chance": 19670,
+            "name": "Regal Crown Armor"
+        },
+        {
+            "chance": 16190,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 14070,
+            "maxCount": 25,
+            "name": "black pearl"
+        },
+        {
+            "chance": 13920,
+            "maxCount": 25,
+            "name": "white pearl"
+        },
+        {
+            "chance": 12860,
+            "name": "noble axe"
+        },
+        {
+            "chance": 12860,
+            "maxCount": 25,
+            "name": "small diamond"
+        },
+        {
+            "chance": 13010,
+            "maxCount": 5,
+            "name": "small ruby"
+        },
+        {
+            "chance": 12710,
+            "name": "crystal necklace"
+        },
+        {
+            "chance": 12410,
+            "maxCount": 25,
+            "name": "small amethyst"
+        },
+        {
+            "chance": 11800,
+            "name": "ruby necklace"
+        },
+        {
+            "chance": 11650,
+            "maxCount": 25,
+            "name": "small sapphire"
+        },
+        {
+            "chance": 11350,
+            "name": "Emberbound Legs"
+        },
+        {
+            "chance": 11200,
+            "maxCount": 25,
+            "name": "small topaz"
+        },
+        {
+            "chance": 10740,
+            "maxCount": 25,
+            "name": "small emerald"
+        },
+        {
+            "chance": 10740,
+            "name": "steel boots"
+        },
+        {
+            "chance": 10590,
+            "name": "focus cape"
+        },
+        {
+            "chance": 10140,
+            "name": "crown legs"
+        },
+        {
+            "chance": 10140,
+            "name": "spirit cloak"
+        },
+        {
+            "chance": 9680,
+            "name": "golden amulet"
+        },
+        {
+            "chance": 9530,
+            "name": "knight legs"
+        },
+        {
+            "chance": 9230,
+            "maxCount": 2,
+            "name": "demon horn"
+        },
+        {
+            "chance": 8770,
+            "name": "spellbook of mind control"
+        },
+        {
+            "chance": 8620,
+            "name": "spellbook of lost souls"
+        },
+        {
+            "chance": 8170,
+            "name": "blue robe"
+        },
+        {
+            "chance": 2870,
+            "name": "golden armor"
+        },
+        {
+            "chance": 2720,
+            "name": "butcher's axe"
+        },
+        {
+            "chance": 1970,
+            "name": "vile axe"
+        },
+        {
+            "chance": 1360,
+            "name": "spellscroll of prophecies"
+        },
+        {
+            "chance": 610,
+            "name": "executioner"
+        },
+        {
+            "chance": 450,
+            "name": "demonwing axe"
+        },
+        {
+            "chance": 450,
+            "name": "golden legs"
+        },
+        {
+            "chance": 450,
+            "name": "voltage armor"
+        },
+        {
+            "chance": 300,
+            "name": "spellbook of dark mysteries"
+        },
+        {
+            "chance": 150,
+            "name": "fiendbone amulet"
+        },
+        {
+            "chance": 100,
+            "name": "great axe"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ember_ogre_ravager",
+    "threatDps": 270.7125,
+    "burstDps": 270.7125,
+    "avgHit": 332.1626,
+    "maxHit": 724,
+    "manaCost": 0
+}

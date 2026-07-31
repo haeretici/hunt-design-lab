@@ -1,0 +1,267 @@
+{
+    "id": "ironblight_golem",
+    "label": "Ironblight Golem",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An ironblight golem.",
+    "hp": 6600,
+    "hpMax": 6600,
+    "speed": 143,
+    "level": 613,
+    "armor": 84,
+    "mitigation": 2.4,
+    "maxBlock": 0,
+    "exp": 5400,
+    "lootValue": 1946.3030100334,
+    "aggro": true,
+    "resists": {
+        "physical": 15,
+        "fire": 60,
+        "ice": 20,
+        "energy": 5,
+        "earth": 100,
+        "holy": 0,
+        "death": 40
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 260,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 267
+        },
+        {
+            "id": "condition_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "earth",
+            "min": 409,
+            "max": 427,
+            "radius": 6,
+            "target": false,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "ice",
+            "min": 231,
+            "max": 311,
+            "length": 7,
+            "spread": 0,
+            "target": false,
+            "effect": "me_iceattack",
+            "shootEffect": "ani_ice"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "earth",
+            "min": 160,
+            "max": 222,
+            "radius": 2,
+            "target": true,
+            "effect": "me_bigplants",
+            "shootEffect": "ani_greenstar"
+        },
+        {
+            "id": "slow_4",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 5,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -800,
+                "durationSec": 30
+            },
+            "length": 5,
+            "spread": 0,
+            "effect": "me_blockhit",
+            "target": false
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "invisible_0",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 20,
+            "durationSec": 2,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Elemental",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 1
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 199
+        },
+        {
+            "name": "small emerald",
+            "chance": 10890,
+            "maxCount": 3
+        },
+        {
+            "name": "small amethyst",
+            "chance": 15020,
+            "maxCount": 3
+        },
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 8
+        },
+        {
+            "chance": 3510,
+            "name": "red gem"
+        },
+        {
+            "name": "blue gem",
+            "chance": 480
+        },
+        {
+            "name": "epee",
+            "chance": 480
+        },
+        {
+            "name": "magic sulphur",
+            "chance": 830
+        },
+        {
+            "name": "sapphire hammer",
+            "chance": 480
+        },
+        {
+            "name": "great mana potion",
+            "chance": 17640
+        },
+        {
+            "name": "Earthbound Legs",
+            "chance": 1110
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 18330
+        },
+        {
+            "name": "composite hornbow",
+            "chance": 210
+        },
+        {
+            "name": "Bloomshoot Rod",
+            "chance": 1720
+        },
+        {
+            "name": "crystal of balance",
+            "chance": 4480
+        },
+        {
+            "name": "crystal of power",
+            "chance": 2480
+        },
+        {
+            "name": "war crystal",
+            "chance": 21230
+        },
+        {
+            "name": "shiny stone",
+            "chance": 15230
+        },
+        {
+            "name": "jade hat",
+            "chance": 210
+        },
+        {
+            "name": "glacial rod",
+            "chance": 960
+        },
+        {
+            "name": "green crystal shard",
+            "chance": 5720
+        },
+        {
+            "name": "brown crystal splinter",
+            "chance": 12610,
+            "maxCount": 2
+        },
+        {
+            "name": "red crystal fragment",
+            "chance": 10540
+        },
+        {
+            "name": "crystalline spikes",
+            "chance": 18400
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "solar_volcano_golem_slayer",
+    "threatDps": 127.075,
+    "burstDps": 127.075,
+    "avgHit": 175.2759,
+    "maxHit": 427,
+    "manaCost": 0
+}

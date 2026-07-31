@@ -1,0 +1,446 @@
+{
+  "schemaVersion": 1,
+  "experiment": "docs/24 I4 progression tiers on standard_arena_waves",
+  "seed": 42,
+  "huntId": "standard_arena_waves",
+  "tiers": [
+    {
+      "partyId": "balance_quartet_novice",
+      "seed": 42,
+      "endReason": "party_wipe",
+      "kills": 35,
+      "deaths": 4,
+      "damageDealt": 2103,
+      "damageTaken": 933,
+      "spellsCast": 19,
+      "autoAttacks": 70,
+      "manaSpent": 440,
+      "timeSec": 103,
+      "wavesCompleted": 2,
+      "totalWaves": 9,
+      "waveIndex": 2,
+      "waveId": "wave_frontline",
+      "highSpells": {
+        "flame_strike": 4,
+        "ice_strike": 6,
+        "wound_cleanse": 1
+      },
+      "topSpells": [
+        [
+          "piercing_shot",
+          6
+        ],
+        [
+          "ice_strike",
+          6
+        ],
+        [
+          "flame_strike",
+          4
+        ],
+        [
+          "ember_bolt",
+          2
+        ],
+        [
+          "wound_cleanse",
+          1
+        ]
+      ],
+      "members": [
+        {
+          "name": "Guardian",
+          "classId": "guardian",
+          "alive": false,
+          "hp": 0,
+          "hpMax": 245,
+          "spellsCast": 1,
+          "autoAttacks": 20,
+          "high": {
+            "wound_cleanse": 1
+          },
+          "top": [
+            [
+              "wound_cleanse",
+              1
+            ]
+          ]
+        },
+        {
+          "name": "Scout",
+          "classId": "scout",
+          "alive": false,
+          "hp": 0,
+          "hpMax": 225,
+          "spellsCast": 6,
+          "autoAttacks": 36,
+          "high": {},
+          "top": [
+            [
+              "piercing_shot",
+              6
+            ]
+          ]
+        },
+        {
+          "name": "Adept",
+          "classId": "adept",
+          "alive": false,
+          "hp": 0,
+          "hpMax": 205,
+          "spellsCast": 6,
+          "autoAttacks": 7,
+          "high": {
+            "flame_strike": 4
+          },
+          "top": [
+            [
+              "flame_strike",
+              4
+            ],
+            [
+              "ember_bolt",
+              2
+            ]
+          ]
+        },
+        {
+          "name": "Warden",
+          "classId": "warden",
+          "alive": false,
+          "hp": 0,
+          "hpMax": 205,
+          "spellsCast": 6,
+          "autoAttacks": 7,
+          "high": {
+            "ice_strike": 6
+          },
+          "top": [
+            [
+              "ice_strike",
+              6
+            ]
+          ]
+        }
+      ],
+      "ms": 454
+    },
+    {
+      "partyId": "balance_quartet",
+      "seed": 42,
+      "endReason": "party_wipe",
+      "kills": 71,
+      "deaths": 4,
+      "damageDealt": 17573,
+      "damageTaken": 2919,
+      "spellsCast": 141,
+      "autoAttacks": 70,
+      "manaSpent": 1035,
+      "timeSec": 98.7,
+      "wavesCompleted": 8,
+      "totalWaves": 9,
+      "waveIndex": 8,
+      "waveId": "wave_boss",
+      "highSpells": {
+        "berserk": 2,
+        "divine_caldera": 6,
+        "heal_light": 4,
+        "heal_intense": 1
+      },
+      "topSpells": [
+        [
+          "rockfall",
+          68
+        ],
+        [
+          "grand_fireburst",
+          53
+        ],
+        [
+          "ethereal_spear",
+          7
+        ],
+        [
+          "divine_caldera",
+          6
+        ],
+        [
+          "heal_light",
+          4
+        ],
+        [
+          "berserk",
+          2
+        ],
+        [
+          "heal_intense",
+          1
+        ]
+      ],
+      "members": [
+        {
+          "name": "Guardian",
+          "classId": "guardian",
+          "alive": false,
+          "hp": 0,
+          "hpMax": 815,
+          "spellsCast": 2,
+          "autoAttacks": 26,
+          "high": {
+            "berserk": 2
+          },
+          "top": [
+            [
+              "berserk",
+              2
+            ]
+          ]
+        },
+        {
+          "name": "Scout",
+          "classId": "scout",
+          "alive": false,
+          "hp": 0,
+          "hpMax": 605,
+          "spellsCast": 13,
+          "autoAttacks": 37,
+          "high": {
+            "divine_caldera": 6
+          },
+          "top": [
+            [
+              "ethereal_spear",
+              7
+            ],
+            [
+              "divine_caldera",
+              6
+            ]
+          ]
+        },
+        {
+          "name": "Adept",
+          "classId": "adept",
+          "alive": false,
+          "hp": 0,
+          "hpMax": 395,
+          "spellsCast": 57,
+          "autoAttacks": 4,
+          "high": {
+            "heal_light": 4
+          },
+          "top": [
+            [
+              "grand_fireburst",
+              53
+            ],
+            [
+              "heal_light",
+              4
+            ]
+          ]
+        },
+        {
+          "name": "Warden",
+          "classId": "warden",
+          "alive": false,
+          "hp": 0,
+          "hpMax": 395,
+          "spellsCast": 69,
+          "autoAttacks": 3,
+          "high": {
+            "heal_intense": 1
+          },
+          "top": [
+            [
+              "rockfall",
+              68
+            ],
+            [
+              "heal_intense",
+              1
+            ]
+          ]
+        }
+      ],
+      "ms": 437
+    },
+    {
+      "partyId": "balance_quartet_veteran",
+      "seed": 42,
+      "endReason": "waves_complete",
+      "kills": 75,
+      "deaths": 1,
+      "damageDealt": 33052,
+      "damageTaken": 2464,
+      "spellsCast": 95,
+      "autoAttacks": 83,
+      "manaSpent": 5245,
+      "timeSec": 72.4,
+      "wavesCompleted": 9,
+      "totalWaves": 9,
+      "waveIndex": 8,
+      "waveId": "wave_boss",
+      "highSpells": {
+        "front_sweep": 1,
+        "strong_ethereal_spear": 8,
+        "divine_caldera": 9,
+        "sky_rage": 5,
+        "eternal_winter": 3,
+        "heal_intense": 1
+      },
+      "topSpells": [
+        [
+          "grand_fireburst",
+          34
+        ],
+        [
+          "rockfall",
+          30
+        ],
+        [
+          "divine_caldera",
+          9
+        ],
+        [
+          "strong_ethereal_spear",
+          8
+        ],
+        [
+          "sky_rage",
+          5
+        ],
+        [
+          "eternal_winter",
+          3
+        ],
+        [
+          "brutal_strike",
+          2
+        ],
+        [
+          "front_sweep",
+          1
+        ],
+        [
+          "ground_shaker",
+          1
+        ],
+        [
+          "ethereal_spear",
+          1
+        ],
+        [
+          "heal_intense",
+          1
+        ]
+      ],
+      "members": [
+        {
+          "name": "Guardian",
+          "classId": "guardian",
+          "alive": true,
+          "hp": 895,
+          "hpMax": 1415,
+          "spellsCast": 4,
+          "autoAttacks": 19,
+          "high": {
+            "front_sweep": 1
+          },
+          "top": [
+            [
+              "brutal_strike",
+              2
+            ],
+            [
+              "front_sweep",
+              1
+            ],
+            [
+              "ground_shaker",
+              1
+            ]
+          ]
+        },
+        {
+          "name": "Scout",
+          "classId": "scout",
+          "alive": true,
+          "hp": 164,
+          "hpMax": 1005,
+          "spellsCast": 18,
+          "autoAttacks": 26,
+          "high": {
+            "strong_ethereal_spear": 8,
+            "divine_caldera": 9
+          },
+          "top": [
+            [
+              "divine_caldera",
+              9
+            ],
+            [
+              "strong_ethereal_spear",
+              8
+            ],
+            [
+              "ethereal_spear",
+              1
+            ]
+          ]
+        },
+        {
+          "name": "Adept",
+          "classId": "adept",
+          "alive": true,
+          "hp": 351,
+          "hpMax": 595,
+          "spellsCast": 39,
+          "autoAttacks": 20,
+          "high": {
+            "sky_rage": 5
+          },
+          "top": [
+            [
+              "grand_fireburst",
+              34
+            ],
+            [
+              "sky_rage",
+              5
+            ]
+          ]
+        },
+        {
+          "name": "Warden",
+          "classId": "warden",
+          "alive": false,
+          "hp": 0,
+          "hpMax": 595,
+          "spellsCast": 34,
+          "autoAttacks": 18,
+          "high": {
+            "eternal_winter": 3,
+            "heal_intense": 1
+          },
+          "top": [
+            [
+              "rockfall",
+              30
+            ],
+            [
+              "eternal_winter",
+              3
+            ],
+            [
+              "heal_intense",
+              1
+            ]
+          ]
+        }
+      ],
+      "ms": 276
+    }
+  ],
+  "notes": "docs/24 I4 / docs/22 A4. Hunt standard_arena_waves seed 42. Parties: balance_quartet_novice (L12) → balance_quartet (L50) → balance_quartet_veteran (L90). Result: spell.level gates live (novice L8 only; mid berserk/divine_caldera; veteran front_sweep + strong_ethereal_spear + sky_rage/eternal_winter; veteran waves_complete). Equipment item.level is not an equip gate (stats still differ). AI residual: fierce_berserk / strong_*_strike often shadowed by priority. Re-run: npm run sim:hunt -- --hunt standard_arena_waves --party balance_quartet_novice --seed 42 (and balance_quartet / balance_quartet_veteran). Test: npm run test:waves."
+}

@@ -1,0 +1,93 @@
+{
+    "id": "hell_hole",
+    "label": "Hell Hole",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A hell hole.",
+    "hp": 120,
+    "hpMax": 120,
+    "speed": 0,
+    "level": 212,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 100,
+        "fire": 100,
+        "ice": 100,
+        "energy": 100,
+        "earth": 100,
+        "holy": 100,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 100,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": false,
+        "canPushCreatures": true,
+        "healthHidden": true,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "element": "physical",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "min": 6,
+            "max": 49,
+            "target": true
+        }
+    ],
+    "race": "undead",
+    "loot": [],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "hell_hole",
+    "threatDps": 13.75,
+    "burstDps": 13.75,
+    "avgHit": 27.5,
+    "maxHit": 49,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 1,
+        "summons": [
+            {
+                "name": "Death Spawn",
+                "id": "death_spawn",
+                "chance": 25,
+                "interval": 2000,
+                "count": 1
+            }
+        ]
+    }
+}

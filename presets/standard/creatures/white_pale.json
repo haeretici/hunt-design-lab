@@ -1,0 +1,147 @@
+{
+    "id": "white_pale",
+    "label": "White Pale",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A white pale.",
+    "hp": 500,
+    "hpMax": 500,
+    "speed": 85,
+    "level": 356,
+    "armor": 0,
+    "mitigation": 0.87,
+    "maxBlock": 0,
+    "exp": 390,
+    "lootValue": 336.90909090909,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 100,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 14,
+            "range": 4,
+            "element": "earth",
+            "min": 136,
+            "max": 150,
+            "radius": 5,
+            "target": false,
+            "effect": "me_smallplants"
+        },
+        {
+            "id": "condition_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 12,
+            "range": 4,
+            "element": "earth",
+            "min": 272,
+            "max": 409,
+            "radius": 3,
+            "target": false,
+            "effect": "me_hitarea"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 200,
+            "name": "silver raid token"
+        },
+        {
+            "chance": 80000,
+            "maxCount": 100,
+            "name": "gold coin"
+        },
+        {
+            "chance": 70000,
+            "maxCount": 100,
+            "name": "gold coin"
+        },
+        {
+            "chance": 500,
+            "name": "horn"
+        },
+        {
+            "chance": 500,
+            "name": "albino plate"
+        },
+        {
+            "chance": 1000,
+            "name": "life ring"
+        },
+        {
+            "chance": 7000,
+            "name": "small diamond"
+        },
+        {
+            "chance": 70000,
+            "maxCount": 4,
+            "name": "meat"
+        },
+        {
+            "chance": 70000,
+            "name": "lump of dirt"
+        },
+        {
+            "chance": 70000,
+            "name": "daramian mace"
+        },
+        {
+            "chance": 70000,
+            "name": "carrion worm fang"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "sugar_cube",
+    "threatDps": 30.44,
+    "burstDps": 30.44,
+    "avgHit": 234.1538,
+    "maxHit": 409,
+    "manaCost": 0
+}

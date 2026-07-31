@@ -1,0 +1,197 @@
+{
+    "id": "lava_worm",
+    "label": "Lava Worm",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A lava worm.",
+    "hp": 7500,
+    "hpMax": 7500,
+    "speed": 120,
+    "level": 626,
+    "armor": 60,
+    "mitigation": 1.6,
+    "maxBlock": 0,
+    "exp": 6500,
+    "lootValue": 3807.6923076923,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 15,
+        "ice": -14,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 167
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2750,
+            "chance": 20,
+            "range": 5,
+            "element": "death",
+            "min": 167,
+            "max": 212,
+            "target": true,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 60,
+            "range": 4,
+            "element": "fire",
+            "min": 195,
+            "max": 217,
+            "radius": 4,
+            "target": false,
+            "effect": "me_explosionhit"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2750,
+            "chance": 30,
+            "range": 5,
+            "element": "fire",
+            "min": 153,
+            "max": 195,
+            "radius": 3,
+            "target": true,
+            "effect": "me_explosionhit",
+            "shootEffect": "ani_fire"
+        }
+    ],
+    "race": "fire",
+    "bestiary": {
+        "class": "Vermin",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 70000,
+            "maxCount": 24
+        },
+        {
+            "name": "gold ingot",
+            "chance": 18430,
+            "maxCount": 2
+        },
+        {
+            "name": "violet crystal shard",
+            "chance": 15630,
+            "maxCount": 3
+        },
+        {
+            "name": "lavaworm spike roots",
+            "chance": 20310,
+            "maxCount": 3
+        },
+        {
+            "name": "violet gem",
+            "chance": 6750
+        },
+        {
+            "name": "lavaworm spikes",
+            "chance": 4230
+        },
+        {
+            "name": "green gem",
+            "chance": 4130
+        },
+        {
+            "name": "butterfly ring",
+            "chance": 3120
+        },
+        {
+            "name": "Nether Rod",
+            "chance": 2920
+        },
+        {
+            "name": "lavaworm jaws",
+            "chance": 2620
+        },
+        {
+            "name": "blue crystal shard",
+            "chance": 2520
+        },
+        {
+            "name": "warrior helmet",
+            "chance": 1560
+        },
+        {
+            "name": "wand of voodoo",
+            "chance": 1560
+        },
+        {
+            "name": "crusader helmet",
+            "chance": 1560
+        },
+        {
+            "name": "strange helmet",
+            "chance": 500
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "brimstone_ruins_crawler",
+    "threatDps": 136.3136,
+    "burstDps": 148.6,
+    "avgHit": 138.838,
+    "maxHit": 217,
+    "manaCost": 0
+}

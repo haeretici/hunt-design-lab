@@ -1,0 +1,142 @@
+{
+    "id": "ice_overlord",
+    "label": "Ice Overlord",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An ice overlord.",
+    "hp": 4000,
+    "hpMax": 4000,
+    "speed": 195,
+    "level": 563,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 2800,
+    "lootValue": 5197.2,
+    "aggro": true,
+    "resists": {
+        "physical": 50,
+        "fire": 100,
+        "ice": 100,
+        "energy": -25,
+        "earth": 100,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 1,
+        "staticAttackChance": 85,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 320
+        },
+        {
+            "id": "slow_1",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 18,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -800,
+                "durationSec": 5
+            },
+            "radius": 6,
+            "effect": "me_icetornado",
+            "target": false
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 9,
+            "range": 7,
+            "element": "ice",
+            "min": 40,
+            "max": 320,
+            "target": true,
+            "effect": "me_iceattack",
+            "shootEffect": "ani_smallice"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 90,
+            "max": 150,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 38
+        },
+        {
+            "name": "platinum coin",
+            "chance": 50000,
+            "maxCount": 3
+        },
+        {
+            "name": "flawless ice crystal",
+            "chance": 100000
+        }
+    ],
+    "changeTarget": {
+        "interval": 20000,
+        "chance": 15
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ember_ogre_ravager",
+    "threatDps": 96.2,
+    "burstDps": 96.2,
+    "avgHit": 163.0508,
+    "maxHit": 320,
+    "manaCost": 0
+}

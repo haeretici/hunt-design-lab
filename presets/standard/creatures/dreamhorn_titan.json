@@ -1,0 +1,288 @@
+{
+    "id": "dreamhorn_titan",
+    "label": "Dreamhorn Titan",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A dreamhorn titan.",
+    "hp": 320000,
+    "hpMax": 320000,
+    "speed": 125,
+    "level": 1000,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 55000,
+    "lootValue": 38366,
+    "aggro": true,
+    "resists": {
+        "physical": 5,
+        "fire": 0,
+        "ice": 15,
+        "energy": 400,
+        "earth": 0,
+        "holy": 0,
+        "death": 20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 1186,
+            "max": 2371
+        },
+        {
+            "id": "energy_beam_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 1,
+            "element": "physical",
+            "min": 1186,
+            "max": 2845,
+            "target": false,
+            "effect": "me_energyarea",
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "energy_wave_2",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 1,
+            "element": "physical",
+            "min": 1186,
+            "max": 2845,
+            "target": false,
+            "effect": "me_energyarea",
+            "shootEffect": "ani_energy"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 14290,
+            "name": "ring of blue plasma"
+        },
+        {
+            "chance": 3570,
+            "name": "ring of blue plasma"
+        },
+        {
+            "chance": 10710,
+            "name": "ring of green plasma"
+        },
+        {
+            "chance": 14290,
+            "name": "ring of red plasma"
+        },
+        {
+            "chance": 7140,
+            "name": "ring of red plasma"
+        },
+        {
+            "chance": 14290,
+            "name": "collar of blue plasma"
+        },
+        {
+            "chance": 3570,
+            "name": "collar of blue plasma"
+        },
+        {
+            "chance": 10710,
+            "name": "collar of green plasma"
+        },
+        {
+            "chance": 17860,
+            "name": "collar of red plasma"
+        },
+        {
+            "chance": 28570,
+            "name": "red gem"
+        },
+        {
+            "name": "abyss hammer",
+            "chance": 3570
+        },
+        {
+            "name": "berserk potion",
+            "chance": 28570,
+            "maxCount": 19
+        },
+        {
+            "name": "blue gem",
+            "chance": 10710
+        },
+        {
+            "name": "marksman potion",
+            "chance": 10710
+        },
+        {
+            "name": "Maelstrom Mace",
+            "chance": 7140
+        },
+        {
+            "name": "crystal coin",
+            "chance": 14290,
+            "maxCount": 3
+        },
+        {
+            "name": "energized limb",
+            "chance": 3570
+        },
+        {
+            "name": "energy bar",
+            "chance": 82140
+        },
+        {
+            "name": "giant ruby",
+            "chance": 17860
+        },
+        {
+            "id": 282,
+            "chance": 21430
+        },
+        {
+            "name": "gold ingot",
+            "chance": 14290
+        },
+        {
+            "name": "gold token",
+            "chance": 60710
+        },
+        {
+            "name": "green gem",
+            "chance": 28570
+        },
+        {
+            "name": "huge chunk of crude iron",
+            "chance": 42860
+        },
+        {
+            "name": "magic sulphur",
+            "chance": 3570
+        },
+        {
+            "name": "savant potion",
+            "chance": 42860,
+            "maxCount": 6
+        },
+        {
+            "name": "maxxenius head",
+            "chance": 7140
+        },
+        {
+            "name": "mysterious remains",
+            "chance": 85710
+        },
+        {
+            "name": "ornate locket",
+            "chance": 14290
+        },
+        {
+            "name": "piggy bank",
+            "chance": 89290
+        },
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 6
+        },
+        {
+            "name": "pomegranate",
+            "chance": 21430
+        },
+        {
+            "name": "Celestial Band",
+            "chance": 7140
+        },
+        {
+            "name": "royal star",
+            "chance": 57140,
+            "maxCount": 194
+        },
+        {
+            "name": "silver token",
+            "chance": 96430,
+            "maxCount": 3
+        },
+        {
+            "name": "Bone Skull Staff",
+            "chance": 21430
+        },
+        {
+            "name": "soul stone",
+            "chance": 14290
+        },
+        {
+            "name": "supreme health potion",
+            "chance": 85710,
+            "maxCount": 32
+        },
+        {
+            "name": "ultimate mana potion",
+            "chance": 42860,
+            "maxCount": 14
+        },
+        {
+            "name": "ultimate dual potion",
+            "chance": 64290,
+            "maxCount": 20
+        },
+        {
+            "name": "violet gem",
+            "chance": 3570
+        },
+        {
+            "name": "yellow gem",
+            "chance": 50000,
+            "maxCount": 2
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "blood_behemoth",
+    "threatDps": 1090.8,
+    "burstDps": 1090.8,
+    "avgHit": 1818,
+    "maxHit": 2845,
+    "manaCost": 0
+}

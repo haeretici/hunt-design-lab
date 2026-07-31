@@ -1,0 +1,139 @@
+{
+    "id": "dread_bat",
+    "label": "Dread Bat",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A dread bat.",
+    "hp": 8500,
+    "hpMax": 8500,
+    "speed": 122,
+    "level": 638,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 3750,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 100,
+        "holy": 0,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 100,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 403,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 10,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "earth",
+            "min": 118,
+            "max": 302,
+            "target": false,
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "physical",
+            "min": 218,
+            "max": 398,
+            "radius": 6,
+            "target": false,
+            "effect": "me_sound_white"
+        },
+        {
+            "id": "condition_4",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "earth",
+            "min": 20,
+            "max": 20,
+            "length": 4,
+            "spread": 3,
+            "target": false,
+            "effect": "me_poisonarea"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 80,
+            "max": 95,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "storm_catacomb_devil_vanguard",
+    "threatDps": 146.1,
+    "burstDps": 146.1,
+    "avgHit": 194.6207,
+    "maxHit": 403,
+    "manaCost": 0
+}

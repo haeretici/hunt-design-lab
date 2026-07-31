@@ -1,0 +1,120 @@
+{
+    "id": "malicious_soul",
+    "label": "Malicious Soul",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A malicious soul.",
+    "hp": 1,
+    "hpMax": 1,
+    "speed": 120,
+    "level": 770,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 100,
+            "max": 500
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 1700,
+            "chance": 15,
+            "range": 4,
+            "element": "earth",
+            "min": 150,
+            "max": 550,
+            "radius": 3,
+            "target": true,
+            "effect": "me_hitbypoison",
+            "shootEffect": "ani_envenomedarrow"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 1700,
+            "chance": 25,
+            "range": 4,
+            "element": "energy",
+            "min": 150,
+            "max": 550,
+            "length": 4,
+            "spread": 0,
+            "target": false,
+            "effect": "me_energyhit"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 1700,
+            "chance": 35,
+            "range": 4,
+            "element": "death",
+            "min": 150,
+            "max": 550,
+            "radius": 3,
+            "target": false,
+            "effect": "me_mortarea"
+        }
+    ],
+    "race": "undead",
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "glacier_mountain_phantom",
+    "threatDps": 304.4118,
+    "burstDps": 412.5,
+    "avgHit": 323.4375,
+    "maxHit": 550,
+    "manaCost": 0
+}

@@ -1,0 +1,298 @@
+// Shared editor shell layout
+
+@use 'variables' as *;
+
+:root {
+  --accent-primary: #{$accent-primary};
+  --accent-secondary: #{$accent-secondary};
+  --accent-gold: #{$accent-gold};
+  --accent-warning: #{$accent-warning};
+  --bg-darkest: #{$bg-darkest};
+  --bg-dark: #{$bg-dark};
+  --bg-light: #{$bg-light};
+  --bg-selected: #{$bg-selected};
+  --bg-input: #{$bg-input};
+  --text-main: #{$text-main};
+  --text-muted: #{$text-muted};
+  --border-color: #{$border-color};
+  --glass-bg: #{$glass-bg};
+  --cmd-block-bg: #{$cmd-block-bg};
+  --font-ui: #{$font-ui};
+  --font-mono: #{$font-mono};
+  --font-title: #{$font-title};
+  --header-height: #{$header-height};
+  --statusbar-height: #{$statusbar-height};
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: $bg-darkest;
+  color: $text-main;
+  margin: 0;
+  padding: 0 !important;
+  overflow: hidden;
+  font-family: $font-ui;
+  color-scheme: dark;
+  min-height: 100vh;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: $bg-darkest;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $bg-light;
+  border-radius: 3px;
+}
+
+.editor-app-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  background-color: $bg-darkest;
+  overflow: hidden;
+}
+
+.editor-header-bar {
+  height: $header-height;
+  min-height: $header-height;
+  background-color: $bg-darkest;
+  border-bottom: 1px solid $border-color;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0.75rem;
+  z-index: 100;
+  user-select: none;
+  gap: 0.5rem;
+
+  .brand {
+    font-family: $font-title;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    background: linear-gradient(45deg, $accent-primary, $accent-secondary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    text-decoration: none;
+    flex-shrink: 0;
+
+    i.fa-dragon,
+    .brand-icon {
+      -webkit-text-fill-color: initial;
+      color: $brand-dragon;
+      filter: drop-shadow(0 0 4px rgba($brand-dragon, 0.45));
+    }
+
+    i:not(.fa-dragon) {
+      -webkit-text-fill-color: initial;
+      color: $accent-secondary;
+    }
+  }
+
+  .menu-items {
+    display: flex;
+    gap: 2px;
+    flex: 1;
+    justify-content: center;
+    min-width: 0;
+    flex-wrap: wrap;
+  }
+
+  .menu-item {
+    color: rgba(255, 255, 255, 0.65);
+    cursor: pointer;
+    padding: 3px 10px;
+    border-radius: 4px;
+    transition: all 0.15s;
+    text-decoration: none;
+    white-space: nowrap;
+    font-family: $font-ui;
+    font-size: 0.75rem;
+    font-weight: 500;
+
+    &:hover {
+      color: #fff;
+      background: $bg-light;
+    }
+
+    &.active {
+      color: #fff;
+      background: $bg-selected;
+      box-shadow: inset 0 -2px 0 $accent-secondary;
+    }
+  }
+
+  // Hover / focus dropdown (Asset Manager, Tools, …)
+  // Keep panel flush with the trigger (no top offset gap): a gap is outside the
+  // relative parent hit-box, so :hover drops before the pointer reaches the links.
+  .menu-dropdown {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    .menu-dropdown-trigger {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      border: none;
+      background: transparent;
+      user-select: none;
+    }
+
+    .menu-dropdown-caret {
+      font-size: 0.65em;
+      opacity: 0.75;
+    }
+
+    .menu-dropdown-panel {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      min-width: 10rem;
+      padding: 4px;
+      border-radius: 6px;
+      border: 1px solid $border-color;
+      background: $bg-dark;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+      z-index: 200;
+    }
+
+    .menu-dropdown-item {
+      display: block;
+      color: rgba(255, 255, 255, 0.75);
+      text-decoration: none;
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-family: $font-ui;
+      font-size: 0.75rem;
+      font-weight: 500;
+      white-space: nowrap;
+
+      &:hover,
+      &:focus-visible {
+        color: #fff;
+        background: $bg-light;
+        outline: none;
+      }
+
+      &.active {
+        color: #fff;
+        background: $bg-selected;
+      }
+
+      + .menu-dropdown-item {
+        margin-top: 1px;
+      }
+    }
+
+    &:hover .menu-dropdown-panel,
+    &:focus-within .menu-dropdown-panel {
+      display: block;
+    }
+
+    // Highlight the group label when any child page is current
+    &.active > .menu-dropdown-trigger {
+      color: #fff;
+      background: $bg-selected;
+      box-shadow: inset 0 -2px 0 $accent-secondary;
+    }
+  }
+
+  .global-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+    min-width: 0;
+  }
+}
+
+// Popup chrome for Sprite Batch Builder (opened from Sprite Manager)
+body.sprite-batch-popup {
+  .sprite-batch-nav {
+    display: none !important;
+  }
+
+  .sprite-batch-header .brand {
+    pointer-events: none;
+  }
+}
+
+.badge-retro {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid $border-color;
+  color: $accent-secondary;
+  background: rgba(0, 242, 254, 0.08);
+}
+
+.editor-workspace {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.editor-workspace--scroll {
+  overflow: auto;
+}
+
+.editor-workspace--split {
+  display: flex;
+  overflow: auto;
+  height: calc(100vh - #{$header-height} - #{$statusbar-height});
+}
+
+.editor-content {
+  padding: 0.75rem 1rem 1.25rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.editor-statusbar {
+  height: $statusbar-height;
+  min-height: $statusbar-height;
+  border-top: 1px solid $border-color;
+  background: $bg-dark;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0.75rem;
+  font-size: 0.68rem;
+  color: $text-muted;
+}
+
+.status-group {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.status-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}

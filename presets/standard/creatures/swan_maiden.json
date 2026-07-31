@@ -1,0 +1,227 @@
+{
+    "id": "swan_maiden",
+    "label": "Swan Maiden",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A swan maiden.",
+    "hp": 800,
+    "hpMax": 800,
+    "speed": 117,
+    "level": 402,
+    "armor": 54,
+    "mitigation": 1.18,
+    "maxBlock": 0,
+    "exp": 700,
+    "lootValue": 405.18176678445,
+    "aggro": true,
+    "resists": {
+        "physical": -10,
+        "fire": -10,
+        "ice": 0,
+        "energy": 0,
+        "earth": 30,
+        "holy": 30,
+        "death": 50
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 20,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 124
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "energy",
+            "min": 35,
+            "max": 66,
+            "target": true,
+            "effect": "me_energyhit",
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 11,
+            "range": 7,
+            "element": "manadrain",
+            "min": 47,
+            "max": 124,
+            "target": true,
+            "effect": "me_holyarea",
+            "shootEffect": "ani_holy"
+        },
+        {
+            "id": "slow_3",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 11,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -450,
+                "durationSec": 5
+            },
+            "radius": 6,
+            "effect": "me_pixie_explosion",
+            "target": false
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 85,
+            "max": 105,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Fey",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 1
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 30000,
+            "maxCount": 112
+        },
+        {
+            "name": "small enchanted emerald",
+            "chance": 492,
+            "maxCount": 2
+        },
+        {
+            "name": "green mushroom",
+            "chance": 492,
+            "maxCount": 2
+        },
+        {
+            "name": "white pearl",
+            "chance": 492,
+            "maxCount": 2
+        },
+        {
+            "name": "opal",
+            "chance": 492,
+            "maxCount": 2
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 6800
+        },
+        {
+            "name": "clerical mace",
+            "chance": 5155
+        },
+        {
+            "name": "great mana potion",
+            "chance": 591
+        },
+        {
+            "name": "colourful snail shell",
+            "chance": 5800
+        },
+        {
+            "name": "diamond sceptre",
+            "chance": 3400
+        },
+        {
+            "name": "coral brooch",
+            "chance": 3400
+        },
+        {
+            "name": "flower wreath",
+            "chance": 3400
+        },
+        {
+            "name": "powder herb",
+            "chance": 3400
+        },
+        {
+            "name": "silver brooch",
+            "chance": 3400
+        },
+        {
+            "name": "summer dress",
+            "chance": 3400
+        },
+        {
+            "name": "wild flowers",
+            "chance": 3400
+        },
+        {
+            "name": "boots of haste",
+            "chance": 50
+        },
+        {
+            "name": "butterfly ring",
+            "chance": 100
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "animated_skunk",
+    "threatDps": 39.49,
+    "burstDps": 39.49,
+    "avgHit": 62.6825,
+    "maxHit": 124,
+    "manaCost": 0
+}

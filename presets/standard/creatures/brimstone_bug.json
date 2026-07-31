@@ -1,0 +1,201 @@
+{
+    "id": "brimstone_bug",
+    "label": "Brimstone Bug",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A brimstone bug.",
+    "hp": 1300,
+    "hpMax": 1300,
+    "speed": 120,
+    "level": 450,
+    "armor": 38,
+    "mitigation": 1.18,
+    "maxBlock": 0,
+    "exp": 900,
+    "lootValue": 334.98453063447,
+    "aggro": true,
+    "resists": {
+        "physical": -10,
+        "fire": -10,
+        "ice": -10,
+        "energy": -10,
+        "earth": 100,
+        "holy": -10,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 40,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 75,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "slow_1",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -600,
+                "durationSec": 10
+            },
+            "effect": "me_mortarea",
+            "target": false
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 4,
+            "element": "earth",
+            "min": 26,
+            "max": 58,
+            "radius": 6,
+            "target": false,
+            "effect": "me_smallplants"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "manadrain",
+            "min": 24,
+            "max": 38,
+            "length": 6,
+            "spread": 3,
+            "target": false,
+            "effect": "me_hitbypoison"
+        },
+        {
+            "id": "brimstone_bug_wave_4",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 1,
+            "element": "physical",
+            "min": 15,
+            "max": 23,
+            "target": false
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Vermin",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 200
+        },
+        {
+            "name": "small emerald",
+            "chance": 2702,
+            "maxCount": 4
+        },
+        {
+            "chance": 892,
+            "name": "stealth ring"
+        },
+        {
+            "name": "platinum amulet",
+            "chance": 110
+        },
+        {
+            "name": "magic sulphur",
+            "chance": 1639
+        },
+        {
+            "name": "strong health potion",
+            "chance": 9003
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 9025
+        },
+        {
+            "name": "poisonous slime",
+            "chance": 50000
+        },
+        {
+            "name": "lump of earth",
+            "chance": 20000
+        },
+        {
+            "name": "sulphurous stone",
+            "chance": 14970
+        },
+        {
+            "name": "brimstone fangs",
+            "chance": 5710
+        },
+        {
+            "name": "brimstone shell",
+            "chance": 10000
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "chaos_stone_revenant_archer",
+    "threatDps": 51.525,
+    "burstDps": 51.525,
+    "avgHit": 21.5769,
+    "maxHit": 58,
+    "manaCost": 0
+}

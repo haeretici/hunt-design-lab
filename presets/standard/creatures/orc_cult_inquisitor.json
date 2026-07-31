@@ -1,0 +1,168 @@
+{
+    "id": "orc_cult_inquisitor",
+    "label": "Orc Cult Inquisitor",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An orc cult inquisitor.",
+    "hp": 1500,
+    "hpMax": 1500,
+    "speed": 125,
+    "level": 465,
+    "armor": 40,
+    "mitigation": 1.46,
+    "maxBlock": 0,
+    "exp": 1150,
+    "lootValue": 300.30913687252,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 15,
+        "earth": -10,
+        "holy": 10,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 224
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 30,
+            "speedChange": 290,
+            "durationSec": 6,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "strong health potion",
+            "chance": 18390
+        },
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 221
+        },
+        {
+            "name": "black pearl",
+            "chance": 510,
+            "maxCount": 2
+        },
+        {
+            "name": "berserk potion",
+            "chance": 2940
+        },
+        {
+            "name": "small ruby",
+            "chance": 4020,
+            "maxCount": 5
+        },
+        {
+            "name": "battle axe",
+            "chance": 6340
+        },
+        {
+            "name": "bug meat",
+            "chance": 17160
+        },
+        {
+            "name": "red mushroom",
+            "chance": 7730,
+            "maxCount": 3
+        },
+        {
+            "name": "halberd",
+            "chance": 9890
+        },
+        {
+            "name": "orcish axe",
+            "chance": 850
+        },
+        {
+            "name": "cultish robe",
+            "chance": 9890
+        },
+        {
+            "name": "ham",
+            "chance": 8960
+        },
+        {
+            "name": "orc tooth",
+            "chance": 5410
+        },
+        {
+            "name": "orcish gear",
+            "chance": 15460
+        },
+        {
+            "name": "orc leather",
+            "chance": 7730
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "hellfire_kobold_cultist",
+    "threatDps": 56,
+    "burstDps": 56,
+    "avgHit": 112,
+    "maxHit": 224,
+    "manaCost": 0
+}

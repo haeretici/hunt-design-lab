@@ -1,0 +1,165 @@
+{
+    "id": "frost_giantess",
+    "label": "Frost Giantess",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A frost giantess.",
+    "hp": 275,
+    "hpMax": 275,
+    "speed": 97,
+    "level": 295,
+    "armor": 20,
+    "mitigation": 0.67,
+    "maxBlock": 0,
+    "exp": 150,
+    "lootValue": 34.581099068264,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 20,
+        "ice": 100,
+        "energy": -10,
+        "earth": 0,
+        "holy": 10,
+        "death": -3
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "damage": 30
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 60,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": true,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 60
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 90,
+            "target": false,
+            "shootEffect": "ani_largerock"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 300,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Giant",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "small stone",
+            "chance": 10360,
+            "maxCount": 3
+        },
+        {
+            "name": "gold coin",
+            "chance": 80000,
+            "maxCount": 40
+        },
+        {
+            "chance": 70,
+            "name": "club ring"
+        },
+        {
+            "name": "short sword",
+            "chance": 7960
+        },
+        {
+            "name": "dark helmet",
+            "chance": 170
+        },
+        {
+            "name": "battle shield",
+            "chance": 1490
+        },
+        {
+            "name": "ham",
+            "chance": 20990,
+            "maxCount": 2
+        },
+        {
+            "name": "shard",
+            "chance": 100
+        },
+        {
+            "chance": 2008,
+            "name": "ice cube"
+        },
+        {
+            "name": "norse shield",
+            "chance": 320
+        },
+        {
+            "name": "mana potion",
+            "chance": 950
+        },
+        {
+            "name": "frost giant pelt",
+            "chance": 4800
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "radiant_fire_giant_priest",
+    "threatDps": 21.75,
+    "burstDps": 21.75,
+    "avgHit": 33.4615,
+    "maxHit": 90,
+    "manaCost": 490
+}

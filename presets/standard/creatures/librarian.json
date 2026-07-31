@@ -1,0 +1,107 @@
+{
+    "id": "librarian",
+    "label": "Librarian",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A librarian.",
+    "hp": 11000,
+    "hpMax": 11000,
+    "speed": 125,
+    "level": 664,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 100,
+        "fire": 100,
+        "ice": 100,
+        "energy": 100,
+        "earth": 100,
+        "holy": 100,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 5,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 456
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 410,
+            "target": false,
+            "effect": "me_poff",
+            "shootEffect": "ani_snowball"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 1000,
+            "chance": 12,
+            "range": 4,
+            "element": "energy",
+            "min": 0,
+            "max": 399,
+            "length": 3,
+            "spread": 0,
+            "target": false,
+            "effect": "me_poff"
+        }
+    ],
+    "race": "ink",
+    "loot": [],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "eldritch_bugbear_vanguard",
+    "threatDps": 168.69,
+    "burstDps": 168.69,
+    "avgHit": 219.0779,
+    "maxHit": 456,
+    "manaCost": 0
+}

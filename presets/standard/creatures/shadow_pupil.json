@@ -1,0 +1,185 @@
+{
+    "id": "shadow_pupil",
+    "label": "Shadow Pupil",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A shadow pupil.",
+    "hp": 450,
+    "hpMax": 450,
+    "speed": 85,
+    "level": 345,
+    "armor": 32,
+    "mitigation": 1.04,
+    "maxBlock": 0,
+    "exp": 410,
+    "lootValue": 83.287140439932,
+    "aggro": true,
+    "resists": {
+        "physical": -5,
+        "fire": -5,
+        "ice": 20,
+        "energy": 10,
+        "earth": 100,
+        "holy": -5,
+        "death": 50
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 28,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 35,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "death",
+            "min": 24,
+            "max": 32,
+            "target": true,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "death",
+            "min": 12,
+            "max": 24,
+            "radius": 3,
+            "target": false,
+            "effect": "me_mortarea"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Human",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 64
+        },
+        {
+            "name": "boots of haste",
+            "chance": 60
+        },
+        {
+            "name": "clerical mace",
+            "chance": 290
+        },
+        {
+            "name": "mystic turban",
+            "chance": 580
+        },
+        {
+            "name": "brown mushroom",
+            "chance": 5170
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 470
+        },
+        {
+            "name": "spellbook of enlightenment",
+            "chance": 290
+        },
+        {
+            "name": "book of necromantic rituals",
+            "chance": 6920
+        },
+        {
+            "name": "horoscope",
+            "chance": 15000
+        },
+        {
+            "name": "incantation notes",
+            "chance": 9130
+        },
+        {
+            "name": "pieces of magic chalk",
+            "chance": 4300
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "umbral_ghoul",
+    "threatDps": 28.65,
+    "burstDps": 28.65,
+    "avgHit": 16.5185,
+    "maxHit": 32,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 4,
+        "summons": [
+            {
+                "name": "Skeleton",
+                "id": "skeleton",
+                "chance": 10,
+                "interval": 2000,
+                "count": 4
+            },
+            {
+                "name": "Ghost",
+                "id": "ghost",
+                "chance": 5,
+                "interval": 2000,
+                "count": 4
+            }
+        ]
+    }
+}

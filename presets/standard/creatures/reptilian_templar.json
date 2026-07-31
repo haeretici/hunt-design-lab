@@ -1,0 +1,139 @@
+{
+    "id": "reptilian_templar",
+    "label": "Reptilian Templar",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A reptilian templar.",
+    "hp": 410,
+    "hpMax": 410,
+    "speed": 87,
+    "level": 336,
+    "armor": 26,
+    "mitigation": 0.51,
+    "maxBlock": 0,
+    "exp": 265,
+    "lootValue": 35.940797940798,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -10,
+        "ice": 10,
+        "energy": 20,
+        "earth": 100,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 109
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Reptile",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 84000,
+            "maxCount": 60
+        },
+        {
+            "name": "small emerald",
+            "chance": 250
+        },
+        {
+            "chance": 4000,
+            "name": "sword"
+        },
+        {
+            "name": "morning star",
+            "chance": 1990
+        },
+        {
+            "name": "short sword",
+            "chance": 9500
+        },
+        {
+            "name": "steel helmet",
+            "chance": 2000
+        },
+        {
+            "name": "plate armor",
+            "chance": 1000
+        },
+        {
+            "name": "templar scytheblade",
+            "chance": 500
+        },
+        {
+            "name": "salamander shield",
+            "chance": 110
+        },
+        {
+            "name": "lizard leather",
+            "chance": 880
+        },
+        {
+            "name": "lizard scale",
+            "chance": 990
+        },
+        {
+            "name": "health potion",
+            "chance": 890
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "dawn_bat",
+    "threatDps": 27.25,
+    "burstDps": 27.25,
+    "avgHit": 54.5,
+    "maxHit": 109,
+    "manaCost": 0
+}

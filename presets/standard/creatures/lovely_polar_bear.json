@@ -1,0 +1,99 @@
+{
+    "id": "lovely_polar_bear",
+    "label": "Lovely Polar Bear",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A lovely polar bear.",
+    "hp": 85,
+    "hpMax": 85,
+    "speed": 78,
+    "level": 180,
+    "armor": 7,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 28,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 100,
+        "fire": 100,
+        "ice": 100,
+        "energy": 100,
+        "earth": 100,
+        "holy": 100,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 5,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "element": "physical",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "min": 5,
+            "max": 41,
+            "target": true
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 930,
+            "name": "polar bear paw"
+        },
+        {
+            "chance": 50760,
+            "maxCount": 2,
+            "name": "ham"
+        },
+        {
+            "chance": 51080,
+            "maxCount": 4,
+            "name": "meat"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "lovely_polar_bear",
+    "threatDps": 11.5,
+    "burstDps": 11.5,
+    "avgHit": 23,
+    "maxHit": 41,
+    "manaCost": 315
+}

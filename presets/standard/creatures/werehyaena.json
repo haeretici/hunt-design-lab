@@ -1,0 +1,200 @@
+{
+    "id": "werehyaena",
+    "label": "Werehyaena",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A werehyaena.",
+    "hp": 2700,
+    "hpMax": 2700,
+    "speed": 120,
+    "level": 524,
+    "armor": 36,
+    "mitigation": 0.88,
+    "maxBlock": 0,
+    "exp": 2200,
+    "lootValue": 577.65672523254,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 50,
+        "ice": -20,
+        "energy": 0,
+        "earth": 40,
+        "holy": -25,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 30,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 171
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 17,
+            "range": 4,
+            "element": "earth",
+            "min": 100,
+            "max": 146,
+            "radius": 3,
+            "effect": "me_hitbypoison"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 5,
+            "element": "death",
+            "min": 188,
+            "max": 211,
+            "radius": 1,
+            "target": true,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_largerock"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 13,
+            "range": 4,
+            "element": "death",
+            "min": 128,
+            "max": 157,
+            "length": 3,
+            "spread": 0,
+            "effect": "me_mortarea"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Lycanthrope",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 3
+        },
+        {
+            "name": "great health potion",
+            "chance": 49970,
+            "maxCount": 3
+        },
+        {
+            "name": "meat",
+            "chance": 19070
+        },
+        {
+            "name": "axe",
+            "chance": 16810
+        },
+        {
+            "name": "knife",
+            "chance": 16620
+        },
+        {
+            "name": "werehyaena nose",
+            "chance": 12670
+        },
+        {
+            "name": "halberd",
+            "chance": 11480
+        },
+        {
+            "name": "red crystal fragment",
+            "chance": 9540
+        },
+        {
+            "name": "small enchanted amethyst",
+            "chance": 5760,
+            "maxCount": 5
+        },
+        {
+            "name": "life preserver",
+            "chance": 5670
+        },
+        {
+            "chance": 5590,
+            "name": "red gem"
+        },
+        {
+            "name": "yellow gem",
+            "chance": 5420
+        },
+        {
+            "name": "combat knife",
+            "chance": 4700
+        },
+        {
+            "name": "green crystal fragment",
+            "chance": 4580
+        },
+        {
+            "name": "ratana",
+            "chance": 4280
+        },
+        {
+            "name": "werehyaena talisman",
+            "chance": 750
+        },
+        {
+            "name": "werehyaena trophy",
+            "chance": 190
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": true
+    },
+    "customSprite": "dummy",
+    "threatDps": 77.43,
+    "burstDps": 77.43,
+    "avgHit": 106.8,
+    "maxHit": 211,
+    "manaCost": 0
+}

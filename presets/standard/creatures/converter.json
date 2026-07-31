@@ -1,0 +1,185 @@
+{
+    "id": "converter",
+    "label": "Converter",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A converter.",
+    "hp": 29600,
+    "hpMax": 29600,
+    "speed": 250,
+    "level": 763,
+    "armor": 100,
+    "mitigation": 3.31,
+    "maxBlock": 0,
+    "exp": 21425,
+    "lootValue": 7185.0790513834,
+    "aggro": true,
+    "resists": {
+        "physical": -20,
+        "fire": 25,
+        "ice": 0,
+        "energy": -10,
+        "earth": 10,
+        "holy": 35,
+        "death": -14
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 425
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "energy",
+            "min": 661,
+            "max": 898,
+            "length": 7,
+            "spread": 0,
+            "target": false,
+            "effect": "me_pink_energy_spark"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2500,
+            "chance": 20,
+            "range": 4,
+            "element": "holy",
+            "min": 709,
+            "max": 756,
+            "radius": 5,
+            "target": true,
+            "effect": "me_ghostly_bite"
+        },
+        {
+            "id": "largeholyring_3",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 1,
+            "element": "physical",
+            "min": 661,
+            "max": 898
+        },
+        {
+            "id": "energy_chain_4",
+            "kind": "melee",
+            "intervalMs": 3200,
+            "chance": 20,
+            "range": 1,
+            "element": "physical",
+            "min": 378,
+            "max": 567
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Elemental",
+        "toKill": 5000,
+        "firstUnlock": 200,
+        "secondUnlock": 2000,
+        "charmsPoints": 100,
+        "stars": 5,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "crystal coin",
+            "chance": 5230,
+            "maxCount": 1
+        },
+        {
+            "name": "darklight obsidian axe",
+            "chance": 6963,
+            "maxCount": 1
+        },
+        {
+            "name": "darklight matter",
+            "chance": 6927,
+            "maxCount": 1
+        },
+        {
+            "name": "darklight core",
+            "chance": 10715,
+            "maxCount": 1
+        },
+        {
+            "name": "wand of starstorm",
+            "chance": 8797,
+            "maxCount": 1
+        },
+        {
+            "name": "blue gem",
+            "chance": 9372,
+            "maxCount": 1
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 9851,
+            "maxCount": 5
+        },
+        {
+            "name": "focus cape",
+            "chance": 6945,
+            "maxCount": 1
+        },
+        {
+            "name": "white gem",
+            "chance": 14533,
+            "maxCount": 1
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "lovely_deer",
+    "threatDps": 291.8187,
+    "burstDps": 324.1875,
+    "avgHit": 380.2199,
+    "maxHit": 898,
+    "manaCost": 0
+}

@@ -1,0 +1,175 @@
+{
+    "id": "hunter",
+    "label": "Hunter",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A hunter.",
+    "hp": 150,
+    "hpMax": 150,
+    "speed": 105,
+    "level": 235,
+    "armor": 8,
+    "mitigation": 0.25,
+    "maxBlock": 0,
+    "exp": 150,
+    "lootValue": 59.98188976378,
+    "aggro": true,
+    "resists": {
+        "physical": -5,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 20,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 10,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 18
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 50,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 89,
+            "target": false,
+            "shootEffect": "ani_arrow"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Human",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 3300,
+            "name": "torch"
+        },
+        {
+            "name": "small ruby",
+            "chance": 150
+        },
+        {
+            "name": "dragon necklace",
+            "chance": 3000
+        },
+        {
+            "name": "bow",
+            "chance": 5770
+        },
+        {
+            "name": "brass helmet",
+            "chance": 5050
+        },
+        {
+            "name": "brass armor",
+            "chance": 5070
+        },
+        {
+            "name": "arrow",
+            "chance": 82000,
+            "maxCount": 22
+        },
+        {
+            "name": "poison arrow",
+            "chance": 4500,
+            "maxCount": 4
+        },
+        {
+            "chance": 5360,
+            "maxCount": 3,
+            "name": "burst arrow"
+        },
+        {
+            "name": "orange",
+            "chance": 20300,
+            "maxCount": 2
+        },
+        {
+            "name": "roll",
+            "chance": 11370,
+            "maxCount": 2
+        },
+        {
+            "name": "sniper gloves",
+            "chance": 540
+        },
+        {
+            "name": "slingshot",
+            "chance": 120
+        },
+        {
+            "chance": 190,
+            "name": "wolf trophy"
+        },
+        {
+            "chance": 520,
+            "name": "deer trophy"
+        },
+        {
+            "chance": 70,
+            "name": "lion trophy"
+        },
+        {
+            "name": "hunter's quiver",
+            "chance": 10240
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "hunter",
+    "threatDps": 15.625,
+    "burstDps": 15.625,
+    "avgHit": 20.8333,
+    "maxHit": 89,
+    "manaCost": 530
+}

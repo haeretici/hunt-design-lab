@@ -1,0 +1,123 @@
+{
+    "id": "void_charger",
+    "label": "Void Charger",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A void charger.",
+    "hp": 1600,
+    "hpMax": 1600,
+    "speed": 150,
+    "level": 472,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 85,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 28,
+            "max": 85
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "energy",
+            "min": 57,
+            "max": 127,
+            "radius": 2,
+            "target": true,
+            "effect": "me_energyhit",
+            "shootEffect": "ani_energyball"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 5,
+            "element": "energy",
+            "min": 57,
+            "max": 99,
+            "target": true,
+            "effect": "me_energyhit",
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "condition_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "energy",
+            "min": 113,
+            "max": 226,
+            "radius": 5,
+            "target": false,
+            "effect": "me_blockhit"
+        }
+    ],
+    "race": "venom",
+    "loot": [],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 15
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "warp_crypt_wyrm",
+    "threatDps": 57.9625,
+    "burstDps": 57.9625,
+    "avgHit": 74.7903,
+    "maxHit": 226,
+    "manaCost": 0
+}

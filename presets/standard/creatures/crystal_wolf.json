@@ -1,0 +1,165 @@
+{
+    "id": "crystal_wolf",
+    "label": "Crystal Wolf",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A crystal wolf.",
+    "hp": 750,
+    "hpMax": 750,
+    "speed": 160,
+    "level": 397,
+    "armor": 19,
+    "mitigation": 0.67,
+    "maxBlock": 0,
+    "exp": 275,
+    "lootValue": 425.90476190476,
+    "aggro": true,
+    "resists": {
+        "physical": -5,
+        "fire": 10,
+        "ice": 50,
+        "energy": -5,
+        "earth": 5,
+        "holy": 10,
+        "death": 10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 20,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 80
+        },
+        {
+            "id": "crystal_wolf_wave_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 1,
+            "element": "physical",
+            "min": 60,
+            "max": 130,
+            "target": false
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 6,
+            "element": "ice",
+            "min": 80,
+            "max": 150,
+            "radius": 3,
+            "target": true,
+            "effect": "me_giantice",
+            "shootEffect": "ani_smallice"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "manadrain",
+            "min": 25,
+            "max": 80,
+            "target": false
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 5,
+            "min": 15,
+            "max": 55,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Magical",
+        "toKill": 5,
+        "firstUnlock": 2,
+        "secondUnlock": 3,
+        "charmsPoints": 50,
+        "stars": 3,
+        "occurrence": 3
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 56000,
+            "maxCount": 52
+        },
+        {
+            "name": "Hailburst Rod",
+            "chance": 7400
+        },
+        {
+            "name": "meat",
+            "chance": 52000,
+            "maxCount": 4
+        },
+        {
+            "name": "wolf paw",
+            "chance": 3700
+        },
+        {
+            "name": "shiver arrow",
+            "chance": 11000,
+            "maxCount": 10
+        },
+        {
+            "name": "crystalline armor",
+            "chance": 3700
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "storm_wolf_rager",
+    "threatDps": 38.375,
+    "burstDps": 38.375,
+    "avgHit": 54.8214,
+    "maxHit": 150,
+    "manaCost": 0
+}

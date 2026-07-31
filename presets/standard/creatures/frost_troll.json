@@ -1,0 +1,123 @@
+{
+    "id": "frost_troll",
+    "label": "Frost Troll",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A frost troll.",
+    "hp": 55,
+    "hpMax": 55,
+    "speed": 70,
+    "level": 136,
+    "armor": 6,
+    "mitigation": 0.23,
+    "maxBlock": 0,
+    "exp": 23,
+    "lootValue": 6.0202619096721,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 40,
+        "ice": 0,
+        "energy": -14,
+        "earth": -10,
+        "holy": 10,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 10,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": true,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 36
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 250,
+        "firstUnlock": 10,
+        "secondUnlock": 100,
+        "charmsPoints": 5,
+        "stars": 1,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 50840,
+            "maxCount": 12
+        },
+        {
+            "chance": 8300,
+            "name": "twigs"
+        },
+        {
+            "name": "rapier",
+            "chance": 15500
+        },
+        {
+            "name": "spear",
+            "chance": 21500
+        },
+        {
+            "chance": 15850,
+            "name": "wooden shield"
+        },
+        {
+            "name": "coat",
+            "chance": 1200
+        },
+        {
+            "chance": 18000,
+            "name": "fish"
+        },
+        {
+            "name": "frosty ear of a troll",
+            "chance": 2000
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "frost_troll",
+    "threatDps": 9,
+    "burstDps": 9,
+    "avgHit": 18,
+    "maxHit": 36,
+    "manaCost": 300
+}

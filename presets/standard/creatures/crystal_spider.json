@@ -1,0 +1,231 @@
+{
+    "id": "crystal_spider",
+    "label": "Crystal Spider",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A crystal spider.",
+    "hp": 1250,
+    "hpMax": 1250,
+    "speed": 115,
+    "level": 447,
+    "armor": 43,
+    "mitigation": 1.6,
+    "maxBlock": 0,
+    "exp": 900,
+    "lootValue": 283.14196455823,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": 100,
+        "energy": -20,
+        "earth": 20,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 20,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 85,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 55,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "slow_1",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -800,
+                "durationSec": 15
+            },
+            "radius": 6,
+            "effect": "me_poff",
+            "target": false
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "ice",
+            "min": 17,
+            "max": 34,
+            "target": true,
+            "effect": "me_icearea",
+            "shootEffect": "ani_ice"
+        },
+        {
+            "id": "slow_3",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -600,
+                "durationSec": 10
+            },
+            "target": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 250,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Magical",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 1560,
+            "name": "crystal ring"
+        },
+        {
+            "name": "crystal necklace",
+            "chance": 1640
+        },
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 197
+        },
+        {
+            "chance": 1480,
+            "name": "time ring"
+        },
+        {
+            "name": "platinum amulet",
+            "chance": 130
+        },
+        {
+            "name": "steel helmet",
+            "chance": 5200
+        },
+        {
+            "chance": 5000,
+            "name": "ice cube"
+        },
+        {
+            "name": "plate armor",
+            "chance": 9993
+        },
+        {
+            "name": "knight armor",
+            "chance": 560
+        },
+        {
+            "name": "knight legs",
+            "chance": 760
+        },
+        {
+            "name": "jewelled backpack",
+            "chance": 80
+        },
+        {
+            "name": "spider silk",
+            "chance": 2010
+        },
+        {
+            "name": "shard",
+            "chance": 740
+        },
+        {
+            "name": "sniper arrow",
+            "chance": 5840,
+            "maxCount": 6
+        },
+        {
+            "name": "sapphire hammer",
+            "chance": 140
+        },
+        {
+            "name": "crystal sword",
+            "chance": 2490
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 14950
+        },
+        {
+            "name": "Frostbound Mask",
+            "chance": 670
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 15
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "glacier_spider_rager",
+    "threatDps": 50.6625,
+    "burstDps": 50.6625,
+    "avgHit": 40.2826,
+    "maxHit": 85,
+    "manaCost": 0
+}

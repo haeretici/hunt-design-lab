@@ -1,0 +1,42 @@
+{
+    "id": "training_dummy",
+    "label": "Training Dummy",
+    "displayScale": 1,
+    "notes": "A training dummy.",
+    "hp": 500,
+    "hpMax": 500,
+    "speed": 0,
+    "level": 1,
+    "armor": 5,
+    "mitigation": 5,
+    "maxBlock": 0,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "element": "physical",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "min": 0,
+            "max": 0,
+            "target": true
+        }
+    ],
+    "source": "pipeline",
+    "customSprite": "training_dummy",
+    "threatDps": 0,
+    "burstDps": 0,
+    "avgHit": 0,
+    "maxHit": 0
+}

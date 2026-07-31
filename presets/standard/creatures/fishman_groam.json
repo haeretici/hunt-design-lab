@@ -1,0 +1,109 @@
+{
+    "id": "fishman_groam",
+    "label": "Fishman Groam",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A fishman groam.",
+    "hp": 400,
+    "hpMax": 400,
+    "speed": 280,
+    "level": 333,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 180,
+    "lootValue": 166.16666666667,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": 100,
+        "energy": -10,
+        "earth": -10,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 60,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 11,
+            "range": 5,
+            "element": "physical",
+            "min": 64,
+            "max": 425,
+            "target": true,
+            "effect": "me_loseenergy",
+            "shootEffect": "ani_spear"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 50
+        },
+        {
+            "name": "hunting spear",
+            "chance": 31250,
+            "maxCount": 4
+        },
+        {
+            "chance": 25000,
+            "name": "life ring"
+        },
+        {
+            "name": "rusted armor",
+            "chance": 6250
+        },
+        {
+            "name": "fish fin",
+            "chance": 1500
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 50
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "venomous_triton_devourer",
+    "threatDps": 26.895,
+    "burstDps": 26.895,
+    "avgHit": 244.5,
+    "maxHit": 425,
+    "manaCost": 0
+}

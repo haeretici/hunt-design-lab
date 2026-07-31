@@ -1,0 +1,328 @@
+// Shared UI components (batch builder + asset manager)
+
+@use 'variables' as *;
+
+.glass-panel {
+  background: $glass-bg;
+  border: 1px solid $border-color;
+  border-radius: 6px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
+
+  .card-body {
+    padding: 0.75rem 0.85rem;
+  }
+
+  .card-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 0.65rem;
+  }
+}
+
+.label-retro {
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: $text-muted;
+  margin-bottom: 2px;
+  display: block;
+  font-family: $font-ui;
+  letter-spacing: 0.5px;
+}
+
+.form-control-retro,
+.form-select-retro,
+.editor-app-container .form-control,
+.editor-app-container .form-select {
+  background-color: $bg-input;
+  border: 1px solid $border-color;
+  border-radius: 4px;
+  color: $text-main;
+  font-family: $font-mono;
+  font-size: 0.75rem;
+  padding: 3px 6px;
+  height: 26px;
+  min-height: 26px;
+  transition: all 0.15s ease-in-out;
+  color-scheme: dark;
+
+  &:focus {
+    background-color: #000;
+    border-color: $accent-secondary;
+    box-shadow: 0 0 6px rgba(0, 242, 254, 0.3);
+    outline: none;
+    color: #fff;
+  }
+}
+
+.editor-app-container textarea.form-control {
+  height: auto;
+  min-height: 2.5rem;
+  font-size: 0.72rem;
+  line-height: 1.35;
+}
+
+.btn-retro {
+  font-family: $font-ui;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  height: 26px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  transition: all 0.15s ease-in-out;
+  cursor: pointer;
+  border: 1px solid transparent;
+  line-height: 1;
+
+  &:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    filter: none;
+  }
+}
+
+.btn-retro-cyan {
+  background: rgba(0, 242, 254, 0.12);
+  border-color: rgba(0, 242, 254, 0.35);
+  color: $accent-secondary;
+
+  &:hover:not(:disabled) {
+    background: rgba(0, 242, 254, 0.22);
+    color: #fff;
+  }
+}
+
+.btn-retro-secondary {
+  background: $bg-light;
+  border-color: $border-color;
+  color: $text-main;
+
+  &:hover:not(:disabled) {
+    background: $bg-selected;
+  }
+}
+
+.btn-retro-warning {
+  background: rgba(255, 183, 0, 0.12);
+  border-color: rgba(255, 183, 0, 0.4);
+  color: $accent-warning;
+
+  &:hover:not(:disabled) {
+    background: rgba(255, 183, 0, 0.22);
+    color: #fff;
+  }
+}
+
+.btn-retro-primary {
+  background: linear-gradient(135deg, rgba(199, 125, 255, 0.35), rgba(0, 242, 254, 0.25));
+  border-color: rgba(199, 125, 255, 0.45);
+  color: #fff;
+
+  &:hover:not(:disabled) {
+    filter: brightness(1.12);
+  }
+}
+
+.btn-retro-danger {
+  background: rgba(255, 123, 123, 0.12);
+  border-color: rgba(255, 123, 123, 0.4);
+  color: $accent-danger;
+
+  &:hover:not(:disabled) {
+    background: rgba(255, 123, 123, 0.22);
+    color: #fff;
+  }
+}
+
+.cmd-block {
+  background: $cmd-block-bg;
+  border: 1px solid $border-color;
+  border-radius: 4px;
+  color: #b8f0ff;
+  font-family: $font-mono;
+  font-size: 0.68rem;
+  line-height: 1.45;
+  padding: 0.55rem 0.65rem;
+  margin: 0 0 0.55rem;
+  max-height: 220px;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.cmd-block--tall {
+  max-height: 320px;
+}
+
+.cmd-block--prompt {
+  color: #d4c4ff;
+  max-height: 280px;
+}
+
+.text-xxs {
+  font-size: 0.7rem;
+}
+
+.font-monospace {
+  font-family: $font-mono !important;
+}
+
+.roster-table {
+  width: 100%;
+  font-size: 0.72rem;
+  border-collapse: collapse;
+
+  th {
+    text-align: left;
+    color: $text-muted;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.65rem;
+    letter-spacing: 0.04em;
+    padding: 0.3rem 0.4rem;
+    border-bottom: 1px solid $border-color;
+    position: sticky;
+    top: 0;
+    background: $bg-dark;
+  }
+
+  td {
+    padding: 0.28rem 0.4rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    vertical-align: top;
+  }
+}
+
+.roster-scroll {
+  max-height: 280px;
+  overflow: auto;
+  border: 1px solid $border-color;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.genre-meta {
+  font-size: 0.72rem;
+  line-height: 1.45;
+  color: $text-main;
+
+  code {
+    font-size: 0.68rem;
+    color: $accent-secondary;
+  }
+}
+
+.stat-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: $bg-light;
+  border: 1px solid $border-color;
+  color: $text-muted;
+
+  strong {
+    color: $accent-secondary;
+    font-family: $font-mono;
+    font-weight: 600;
+  }
+}
+
+.job-status-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid $border-color;
+  color: $text-muted;
+  background: $bg-light;
+  font-family: $font-mono;
+
+  &[data-status='queued'],
+  &[data-status='running'] {
+    color: $accent-warning;
+    border-color: rgba(255, 183, 0, 0.45);
+    background: rgba(255, 183, 0, 0.1);
+  }
+
+  &[data-status='completed'] {
+    color: $accent-success;
+    border-color: rgba(109, 255, 176, 0.4);
+    background: rgba(109, 255, 176, 0.08);
+  }
+
+  &[data-status='failed'] {
+    color: $accent-danger;
+    border-color: rgba(255, 123, 123, 0.45);
+    background: rgba(255, 123, 123, 0.1);
+  }
+
+  &[data-status='idle'] {
+    color: $text-muted;
+  }
+}
+
+.job-meta {
+  color: $text-muted;
+  line-height: 1.5;
+
+  code {
+    color: $accent-secondary;
+    font-size: 0.68rem;
+  }
+}
+
+.cmd-block--job-log {
+  max-height: 220px;
+  color: #c8e6c9;
+  min-height: 4.5rem;
+}
+
+.form-check-input {
+  background-color: $bg-input;
+  border-color: #fff;
+
+  &:checked {
+    background-color: $accent-secondary;
+    border-color: $accent-secondary;
+  }
+}
+
+.form-check-label {
+  color: $text-muted;
+  user-select: none;
+}
+
+.gp-toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1050;
+  background: rgba(15, 23, 42, 0.94);
+  border: 1px solid rgba(109, 255, 176, 0.45);
+  color: #6dffb0;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-family: $font-ui;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+
+  &.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+

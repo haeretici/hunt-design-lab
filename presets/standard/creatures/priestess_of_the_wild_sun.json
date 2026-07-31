@@ -1,0 +1,195 @@
+{
+    "id": "priestess_of_the_wild_sun",
+    "label": "Priestess Of The Wild Sun",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A priestess of the wild sun.",
+    "hp": 8500,
+    "hpMax": 8500,
+    "speed": 160,
+    "level": 638,
+    "armor": 82,
+    "mitigation": 2.25,
+    "maxBlock": 0,
+    "exp": 6400,
+    "lootValue": 1567.6298230345,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 20,
+        "ice": -25,
+        "energy": 15,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 306
+        },
+        {
+            "id": "targetfirering_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 8,
+            "range": 1,
+            "element": "physical",
+            "min": 262,
+            "max": 437,
+            "target": true
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 14,
+            "range": 4,
+            "element": "fire",
+            "min": 306,
+            "max": 437,
+            "radius": 2,
+            "target": true,
+            "effect": "me_explosionhit",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "energy",
+            "min": 218,
+            "max": 349,
+            "radius": 3,
+            "target": false,
+            "effect": "me_energyarea"
+        },
+        {
+            "id": "wave_4",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 12,
+            "range": 4,
+            "element": "energy",
+            "min": 218,
+            "max": 306,
+            "length": 4,
+            "spread": 3,
+            "target": false,
+            "effect": "me_energyhit"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Human",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 2
+        },
+        {
+            "name": "fafnar symbol",
+            "chance": 7360
+        },
+        {
+            "chance": 6610,
+            "name": "secret instruction"
+        },
+        {
+            "chance": 6610,
+            "name": "secret instruction"
+        },
+        {
+            "chance": 6610,
+            "name": "secret instruction"
+        },
+        {
+            "chance": 2540,
+            "name": "empty honey glass"
+        },
+        {
+            "name": "sea horse figurine",
+            "chance": 910
+        },
+        {
+            "chance": 530,
+            "name": "gryphon mask"
+        },
+        {
+            "name": "wand of decay",
+            "chance": 1250
+        },
+        {
+            "name": "wand of everblazing",
+            "chance": 1290
+        },
+        {
+            "name": "golden sickle",
+            "chance": 1250
+        },
+        {
+            "name": "relic sword",
+            "chance": 1390
+        },
+        {
+            "name": "war axe",
+            "chance": 1777
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "crystal_demon_priest",
+    "threatDps": 146.38,
+    "burstDps": 146.38,
+    "avgHit": 203.3056,
+    "maxHit": 437,
+    "manaCost": 0
+}

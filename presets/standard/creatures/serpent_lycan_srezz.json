@@ -1,0 +1,256 @@
+{
+    "id": "serpent_lycan_srezz",
+    "label": "Serpent Lycan Srezz",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A serpent lycan srezz.",
+    "hp": 6200,
+    "hpMax": 6200,
+    "speed": 117,
+    "level": 606,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 4800,
+    "lootValue": 6424.1379310345,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 30,
+        "ice": 0,
+        "energy": 10,
+        "earth": 40,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 30
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 92
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 5,
+            "element": "earth",
+            "min": 184,
+            "max": 231,
+            "radius": 3,
+            "spread": 3,
+            "target": true,
+            "effect": "me_yellow_rings",
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "lleech_wavet_2",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 1,
+            "element": "physical",
+            "min": 92,
+            "max": 138
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 92,
+            "max": 138,
+            "length": 5,
+            "spread": 3,
+            "effect": "me_drawblood"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 70,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 92,
+            "max": 161,
+            "radius": 4,
+            "target": false,
+            "effect": "me_drawblood"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 250,
+            "max": 500,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 340,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "venom",
+    "loot": [
+        {
+            "chance": 100000,
+            "minCount": 1,
+            "maxCount": 17,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 100000,
+            "minCount": 1,
+            "maxCount": 5,
+            "name": "ultimate health potion"
+        },
+        {
+            "chance": 25560,
+            "minCount": 1,
+            "maxCount": 3,
+            "name": "snake skin"
+        },
+        {
+            "chance": 17780,
+            "name": "savant potion"
+        },
+        {
+            "chance": 16110,
+            "name": "gold ingot"
+        },
+        {
+            "chance": 10560,
+            "name": "blue crystal shard"
+        },
+        {
+            "id": 282,
+            "chance": 10560
+        },
+        {
+            "chance": 10000,
+            "name": "black pearl"
+        },
+        {
+            "chance": 8330,
+            "name": "violet gem"
+        },
+        {
+            "chance": 7220,
+            "name": "green gem"
+        },
+        {
+            "chance": 6670,
+            "name": "blue gem"
+        },
+        {
+            "chance": 5560,
+            "name": "gemmed figurine"
+        },
+        {
+            "chance": 5000,
+            "name": "winged tail"
+        },
+        {
+            "chance": 4440,
+            "name": "Frostbound Kilt"
+        },
+        {
+            "chance": 3890,
+            "name": "Srezz' eye"
+        },
+        {
+            "chance": 3330,
+            "name": "skull helmet"
+        },
+        {
+            "chance": 2780,
+            "name": "Frostbound Robe"
+        },
+        {
+            "chance": 2220,
+            "name": "war axe"
+        },
+        {
+            "chance": 1670,
+            "name": "ring of green plasma"
+        },
+        {
+            "chance": 1110,
+            "name": "giant sword"
+        },
+        {
+            "chance": 560,
+            "name": "demonrage sword"
+        },
+        {
+            "chance": 560,
+            "name": "gold nugget"
+        },
+        {
+            "chance": 360,
+            "name": "red silk flower"
+        },
+        {
+            "chance": 360,
+            "name": "raw watermelon tourmaline"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "tempest_serpent_berserker",
+    "threatDps": 122.525,
+    "burstDps": 122.525,
+    "avgHit": 98.02,
+    "maxHit": 231,
+    "manaCost": 0
+}

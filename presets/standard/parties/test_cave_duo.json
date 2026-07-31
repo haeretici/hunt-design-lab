@@ -1,0 +1,17 @@
+{
+    "id": "test_cave_duo",
+    "label": "Test Cave Duo (CI)",
+    "notes": "FROZEN CI party matching former hunt-embedded duo. Prefer this in tests over starter_duo.",
+    "members": [
+        {
+            "profileId": "test_guardian_bar",
+            "name": "Guardian",
+            "isLeader": true
+        },
+        {
+            "profileId": "test_scout_bar",
+            "name": "Scout",
+            "isLeader": false
+        }
+    ]
+}

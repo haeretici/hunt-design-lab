@@ -1,0 +1,150 @@
+{
+    "id": "minotaur_archer",
+    "label": "Minotaur Archer",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A minotaur archer.",
+    "hp": 100,
+    "hpMax": 100,
+    "speed": 80,
+    "level": 195,
+    "armor": 6,
+    "mitigation": 0.2,
+    "maxBlock": 0,
+    "exp": 65,
+    "lootValue": 18.15926412615,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 20,
+        "ice": -10,
+        "energy": 0,
+        "earth": 0,
+        "holy": 10,
+        "death": -5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 10,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": true,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 22
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 40,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 70,
+            "target": false,
+            "shootEffect": "ani_bolt"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 75410,
+            "maxCount": 30
+        },
+        {
+            "name": "crossbow",
+            "chance": 830
+        },
+        {
+            "name": "brass armor",
+            "chance": 530
+        },
+        {
+            "name": "scale armor",
+            "chance": 530
+        },
+        {
+            "name": "bolt",
+            "chance": 90450,
+            "maxCount": 20
+        },
+        {
+            "name": "meat",
+            "chance": 5000
+        },
+        {
+            "name": "minotaur leather",
+            "chance": 1900
+        },
+        {
+            "name": "piercing bolt",
+            "chance": 12340,
+            "maxCount": 4
+        },
+        {
+            "name": "broken crossbow",
+            "chance": 15400
+        },
+        {
+            "name": "minotaur horn",
+            "chance": 1990,
+            "maxCount": 2
+        },
+        {
+            "name": "piece of archer armor",
+            "chance": 8260
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "minotaur_archer",
+    "threatDps": 12.5,
+    "burstDps": 12.5,
+    "avgHit": 17.8571,
+    "maxHit": 70,
+    "manaCost": 390
+}

@@ -1,0 +1,181 @@
+{
+    "id": "crape_man",
+    "label": "Crape Man",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A crape man.",
+    "hp": 9150,
+    "hpMax": 9150,
+    "speed": 155,
+    "level": 646,
+    "armor": 80,
+    "mitigation": 2.13,
+    "maxBlock": 0,
+    "exp": 5040,
+    "lootValue": 4950,
+    "aggro": true,
+    "resists": {
+        "physical": 25,
+        "fire": 0,
+        "ice": -5,
+        "energy": 10,
+        "earth": 5,
+        "holy": 0,
+        "death": -14
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 258
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 3500,
+            "chance": 40,
+            "range": 7,
+            "element": "physical",
+            "min": 62,
+            "max": 166,
+            "target": true,
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2500,
+            "chance": 50,
+            "range": 7,
+            "element": "energy",
+            "min": 171,
+            "max": 197,
+            "radius": 4,
+            "target": true,
+            "effect": "me_purpleenergy",
+            "shootEffect": "ani_energyball"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 3000,
+            "chance": 65,
+            "range": 4,
+            "element": "energy",
+            "min": 161,
+            "max": 191,
+            "length": 3,
+            "spread": 3,
+            "target": false,
+            "effect": "me_energyhit"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 1
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 71540,
+            "maxCount": 28
+        },
+        {
+            "name": "crab man claws",
+            "chance": 5210,
+            "maxCount": 2
+        },
+        {
+            "name": "green gem",
+            "chance": 3010
+        },
+        {
+            "name": "great health potion",
+            "chance": 2000,
+            "maxCount": 5
+        },
+        {
+            "id": 281,
+            "chance": 1700
+        },
+        {
+            "name": "guardian halberd",
+            "chance": 2400
+        },
+        {
+            "name": "Stormbound Legs",
+            "chance": 900
+        },
+        {
+            "name": "warrior's shield",
+            "chance": 900
+        },
+        {
+            "name": "Frostbound Kilt",
+            "chance": 750
+        },
+        {
+            "name": "noble axe",
+            "chance": 700
+        },
+        {
+            "name": "hammer of wrath",
+            "chance": 400
+        },
+        {
+            "name": "Celestial Band",
+            "chance": 300
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "butterfly",
+    "threatDps": 152.4619,
+    "burstDps": 190.5,
+    "avgHit": 147.8845,
+    "maxHit": 258,
+    "manaCost": 0
+}

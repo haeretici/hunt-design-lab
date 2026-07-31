@@ -1,0 +1,238 @@
+{
+    "id": "animated_ogre_shaman",
+    "label": "Animated Ogre Shaman",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An animated ogre shaman.",
+    "hp": 800,
+    "hpMax": 800,
+    "speed": 120,
+    "level": 403,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 625,
+    "lootValue": 214.3125,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 123,
+            "condition": {
+                "type": "fire",
+                "totalDamage": 3,
+                "intervalMs": 9000
+            }
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "fire",
+            "min": 32,
+            "max": 82,
+            "target": false,
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "earth",
+            "min": 7,
+            "max": 55,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_carniphila"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 80,
+            "max": 95,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 92000,
+            "maxCount": 130,
+            "name": "gold coin"
+        },
+        {
+            "chance": 1200,
+            "maxCount": 3,
+            "name": "opal"
+        },
+        {
+            "chance": 6200,
+            "maxCount": 2,
+            "name": "prickly pear"
+        },
+        {
+            "chance": 2200,
+            "maxCount": 2,
+            "name": "small ruby"
+        },
+        {
+            "chance": 1200,
+            "maxCount": 2,
+            "name": "black pearl"
+        },
+        {
+            "chance": 3200,
+            "name": "bone fetish"
+        },
+        {
+            "chance": 1200,
+            "name": "broken shamanic staff"
+        },
+        {
+            "chance": 2200,
+            "maxCount": 7,
+            "name": "cookie"
+        },
+        {
+            "chance": 800,
+            "name": "Withering Rod"
+        },
+        {
+            "chance": 3200,
+            "name": "ogre ear stud"
+        },
+        {
+            "chance": 2200,
+            "name": "ogre nose ring"
+        },
+        {
+            "chance": 1200,
+            "name": "shamanic talisman"
+        },
+        {
+            "chance": 1200,
+            "name": "skull"
+        },
+        {
+            "chance": 1200,
+            "name": "skull fetish"
+        },
+        {
+            "chance": 1000,
+            "maxCount": 3,
+            "name": "strong mana potion"
+        },
+        {
+            "chance": 600,
+            "name": "wand of decay"
+        },
+        {
+            "chance": 500,
+            "name": "waterskin"
+        },
+        {
+            "chance": 300,
+            "name": "ogre scepta"
+        },
+        {
+            "chance": 300,
+            "name": "shamanic mask"
+        },
+        {
+            "chance": 100,
+            "name": "voodoo doll"
+        },
+        {
+            "chance": 100,
+            "maxCount": 2,
+            "name": "didgeridoo"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "magma_cloud_giant_shaman",
+    "threatDps": 39.625,
+    "burstDps": 39.625,
+    "avgHit": 56.4815,
+    "maxHit": 123,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 2,
+        "summons": [
+            {
+                "name": "Pygmy Fleshhunter",
+                "id": "pygmy_fleshhunter",
+                "chance": 30,
+                "interval": 1000,
+                "count": 1
+            },
+            {
+                "name": "Terror Bird",
+                "id": "terror_bird",
+                "chance": 30,
+                "interval": 1000,
+                "count": 1
+            }
+        ]
+    }
+}

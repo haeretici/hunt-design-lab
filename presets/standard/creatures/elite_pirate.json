@@ -1,0 +1,154 @@
+{
+    "id": "elite_pirate",
+    "label": "Elite Pirate",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An elite pirate.",
+    "hp": 1,
+    "hpMax": 1,
+    "speed": 100,
+    "level": 657,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": true,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 210,
+            "max": 400
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "physical",
+            "min": 80,
+            "max": 110,
+            "target": false,
+            "shootEffect": "ani_whirlwindclub"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 120,
+            "name": "gold coin"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 2,
+            "name": "great dual potion"
+        },
+        {
+            "chance": 10000,
+            "name": "pirate coin"
+        },
+        {
+            "chance": 4761,
+            "name": "Earthbound Boots"
+        },
+        {
+            "chance": 4761,
+            "name": "Earthbound Boots"
+        },
+        {
+            "chance": 5000,
+            "name": "ratana"
+        },
+        {
+            "chance": 5000,
+            "name": "life preserver"
+        },
+        {
+            "chance": 16666,
+            "name": "cheese cutter"
+        },
+        {
+            "chance": 3846,
+            "name": "cheesy figurine"
+        },
+        {
+            "chance": 11111,
+            "name": "mouldy powder"
+        },
+        {
+            "chance": 14285,
+            "name": "soft cheese"
+        },
+        {
+            "chance": 14285,
+            "name": "rat cheese"
+        },
+        {
+            "chance": 1612,
+            "name": "Stormbound Boots"
+        },
+        {
+            "chance": 3225,
+            "name": "Emberbound Boots"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "chaos_triton_assassin",
+    "threatDps": 162,
+    "burstDps": 162,
+    "avgHit": 270,
+    "maxHit": 400,
+    "manaCost": 0
+}

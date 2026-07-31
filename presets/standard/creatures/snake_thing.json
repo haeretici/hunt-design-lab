@@ -1,0 +1,136 @@
+{
+    "id": "snake_thing",
+    "label": "Snake Thing",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A snake thing.",
+    "hp": 70000,
+    "hpMax": 70000,
+    "speed": 120,
+    "level": 848,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 8400,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -10,
+        "ice": 10,
+        "energy": -10,
+        "earth": 100,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 695
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 35,
+            "range": 4,
+            "element": "earth",
+            "min": 0,
+            "max": 869,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_poisonarea"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "manadrain",
+            "min": 0,
+            "max": 4169,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_sound_red"
+        },
+        {
+            "id": "condition_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 4,
+            "element": "earth",
+            "min": 52,
+            "max": 104,
+            "radius": 6,
+            "target": false,
+            "effect": "me_poisonarea"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 25,
+            "min": 150,
+            "max": 450,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "venom",
+    "loot": [],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "tempest_serpent_berserker",
+    "threatDps": 469.9375,
+    "burstDps": 469.9375,
+    "avgHit": 508.0405,
+    "maxHit": 4169,
+    "manaCost": 0
+}

@@ -1,0 +1,179 @@
+{
+    "id": "massive_energy_elemental",
+    "label": "Massive Energy Elemental",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A massive energy elemental.",
+    "hp": 1100,
+    "hpMax": 1100,
+    "speed": 215,
+    "level": 434,
+    "armor": 35,
+    "mitigation": 1.04,
+    "maxBlock": 0,
+    "exp": 950,
+    "lootValue": 182.04826648538,
+    "aggro": true,
+    "resists": {
+        "physical": 50,
+        "fire": 100,
+        "ice": 100,
+        "energy": 100,
+        "earth": -5,
+        "holy": 20,
+        "death": 20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 1,
+        "staticAttackChance": 85,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 103
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "energy",
+            "min": 159,
+            "max": 362,
+            "radius": 2,
+            "target": true,
+            "effect": "me_energyhit",
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "energy",
+            "min": 103,
+            "max": 121,
+            "target": true,
+            "effect": "me_energyhit",
+            "shootEffect": "ani_energyball"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 5,
+            "min": 190,
+            "max": 250,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Elemental",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 1
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 91
+        },
+        {
+            "name": "small amethyst",
+            "chance": 3270,
+            "maxCount": 3
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 17450
+        },
+        {
+            "name": "great mana potion",
+            "chance": 5450
+        },
+        {
+            "name": "Stormbound Pendant",
+            "chance": 730
+        },
+        {
+            "name": "Stormbound Legs",
+            "chance": 150
+        },
+        {
+            "name": "spellbook of warding",
+            "chance": 360
+        },
+        {
+            "name": "wand of starstorm",
+            "chance": 730
+        },
+        {
+            "chance": 730,
+            "name": "rusted armor"
+        },
+        {
+            "name": "shockwave amulet",
+            "chance": 500
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 15
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "arcane_elemental_vanguard",
+    "threatDps": 47.175,
+    "burstDps": 47.175,
+    "avgHit": 75.48,
+    "maxHit": 362,
+    "manaCost": 0
+}

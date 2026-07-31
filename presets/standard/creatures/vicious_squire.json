@@ -1,0 +1,189 @@
+{
+    "id": "vicious_squire",
+    "label": "Vicious Squire",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A vicious squire.",
+    "hp": 1000,
+    "hpMax": 1000,
+    "speed": 130,
+    "level": 425,
+    "armor": 30,
+    "mitigation": 1.24,
+    "maxBlock": 0,
+    "exp": 900,
+    "lootValue": 129.01759964299,
+    "aggro": true,
+    "resists": {
+        "physical": 10,
+        "fire": 30,
+        "ice": 10,
+        "energy": 40,
+        "earth": 50,
+        "holy": 50,
+        "death": -20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 8,
+            "max": 137
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 40,
+            "range": 7,
+            "element": "physical",
+            "min": 8,
+            "max": 78,
+            "target": false,
+            "shootEffect": "ani_bolt"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 4000,
+            "chance": 25,
+            "min": 20,
+            "max": 80,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Human",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 90450,
+            "maxCount": 10,
+            "name": "bolt"
+        },
+        {
+            "chance": 75410,
+            "maxCount": 30,
+            "name": "gold coin"
+        },
+        {
+            "chance": 15400,
+            "name": "grapes"
+        },
+        {
+            "chance": 12340,
+            "maxCount": 2,
+            "name": "great health potion"
+        },
+        {
+            "chance": 5000,
+            "name": "meat"
+        },
+        {
+            "chance": 830,
+            "name": "crossbow"
+        },
+        {
+            "chance": 760,
+            "name": "green tunic"
+        },
+        {
+            "chance": 700,
+            "maxCount": 2,
+            "name": "might ring"
+        },
+        {
+            "chance": 1000,
+            "name": "rope"
+        },
+        {
+            "chance": 1000,
+            "name": "scarf"
+        },
+        {
+            "chance": 830,
+            "name": "scroll"
+        },
+        {
+            "chance": 830,
+            "name": "small diamond"
+        },
+        {
+            "chance": 130,
+            "name": "war hammer"
+        },
+        {
+            "chance": 830,
+            "name": "halberd"
+        },
+        {
+            "chance": 330,
+            "name": "guardian shield"
+        },
+        {
+            "chance": 230,
+            "name": "knight legs"
+        },
+        {
+            "chance": 200,
+            "name": "warrior helmet"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "solar_frost_demon_scout",
+    "threatDps": 44.85,
+    "burstDps": 44.85,
+    "avgHit": 64.0714,
+    "maxHit": 137,
+    "manaCost": 0
+}

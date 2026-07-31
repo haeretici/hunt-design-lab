@@ -1,0 +1,244 @@
+{
+    "id": "enslaved_dwarf",
+    "label": "Enslaved Dwarf",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An enslaved dwarf.",
+    "hp": 3800,
+    "hpMax": 3800,
+    "speed": 135,
+    "level": 558,
+    "armor": 60,
+    "mitigation": 1.88,
+    "maxBlock": 0,
+    "exp": 2700,
+    "lootValue": 951.05085653105,
+    "aggro": true,
+    "resists": {
+        "physical": -3,
+        "fire": 100,
+        "ice": 10,
+        "energy": 5,
+        "earth": 30,
+        "holy": 0,
+        "death": 15
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 325
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 221,
+            "target": false,
+            "shootEffect": "ani_largerock"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 162,
+            "radius": 3,
+            "target": true,
+            "effect": "me_explosionhit",
+            "shootEffect": "ani_explosion"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 396,
+            "max": 478,
+            "hpBelow": 0.7,
+            "effect": "me_magic_green"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 99
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 50
+        },
+        {
+            "name": "small emerald",
+            "chance": 10290,
+            "maxCount": 2
+        },
+        {
+            "name": "small amethyst",
+            "chance": 10680,
+            "maxCount": 2
+        },
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 6
+        },
+        {
+            "chance": 1550,
+            "name": "axe ring"
+        },
+        {
+            "name": "war hammer",
+            "chance": 5050
+        },
+        {
+            "name": "warrior helmet",
+            "chance": 580
+        },
+        {
+            "name": "guardian shield",
+            "chance": 2300
+        },
+        {
+            "name": "tower shield",
+            "chance": 190
+        },
+        {
+            "name": "ancient shield",
+            "chance": 3690
+        },
+        {
+            "name": "brown mushroom",
+            "chance": 15150,
+            "maxCount": 2
+        },
+        {
+            "name": "iron ore",
+            "chance": 11070
+        },
+        {
+            "name": "titan axe",
+            "chance": 1170
+        },
+        {
+            "name": "sapphire hammer",
+            "chance": 80
+        },
+        {
+            "name": "spiked squelcher",
+            "chance": 80
+        },
+        {
+            "name": "glorious axe",
+            "chance": 1940
+        },
+        {
+            "name": "great mana potion",
+            "chance": 6660,
+            "maxCount": 2
+        },
+        {
+            "name": "great health potion",
+            "chance": 7960
+        },
+        {
+            "name": "shiny stone",
+            "chance": 4660
+        },
+        {
+            "chance": 780,
+            "name": "coal"
+        },
+        {
+            "name": "green crystal shard",
+            "chance": 1750
+        },
+        {
+            "name": "green crystal splinter",
+            "chance": 3110
+        },
+        {
+            "name": "brown crystal splinter",
+            "chance": 5630,
+            "maxCount": 2
+        },
+        {
+            "name": "red crystal fragment",
+            "chance": 3690
+        },
+        {
+            "name": "drill bolt",
+            "chance": 3690,
+            "maxCount": 5
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "obsidian_dwarf_warden",
+    "threatDps": 93.5875,
+    "burstDps": 93.5875,
+    "avgHit": 149.74,
+    "maxHit": 325,
+    "manaCost": 0
+}

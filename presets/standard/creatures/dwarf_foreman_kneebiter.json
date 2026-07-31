@@ -1,0 +1,98 @@
+{
+    "id": "dwarf_foreman_kneebiter",
+    "label": "Dwarf Foreman Kneebiter",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A dwarf foreman kneebiter.",
+    "hp": 570,
+    "hpMax": 570,
+    "speed": 100,
+    "level": 369,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 445,
+    "lootValue": 149.68181818182,
+    "aggro": true,
+    "resists": {
+        "physical": 1,
+        "fire": 10,
+        "ice": 0,
+        "energy": 10,
+        "earth": 20,
+        "holy": 0,
+        "death": -1
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 30,
+            "max": 101
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 2500,
+            "maxCount": 2,
+            "name": "iron ore"
+        },
+        {
+            "chance": 90000,
+            "maxCount": 100,
+            "name": "gold coin"
+        },
+        {
+            "chance": 6666,
+            "name": "battle shield"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "obsidian_dwarf_warden",
+    "threatDps": 32.75,
+    "burstDps": 32.75,
+    "avgHit": 65.5,
+    "maxHit": 101,
+    "manaCost": 0
+}

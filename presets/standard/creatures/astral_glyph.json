@@ -1,0 +1,109 @@
+{
+    "id": "astral_glyph",
+    "label": "Astral Glyph",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An astral glyph.",
+    "hp": 1,
+    "hpMax": 1,
+    "speed": 235,
+    "level": 779,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 40,
+        "fire": 35,
+        "ice": 40,
+        "energy": 20,
+        "earth": 40,
+        "holy": 0,
+        "death": 25
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": false,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 780
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 4,
+            "element": "energy",
+            "min": 200,
+            "max": 800,
+            "radius": 3,
+            "target": false,
+            "effect": "me_blockhit"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 4,
+            "element": "manadrain",
+            "min": 200,
+            "max": 800,
+            "radius": 5,
+            "target": false,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "venom",
+    "loot": [],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "tempest_fungal_knight_sorcerer",
+    "threatDps": 320,
+    "burstDps": 320,
+    "avgHit": 426.6667,
+    "maxHit": 800,
+    "manaCost": 0
+}

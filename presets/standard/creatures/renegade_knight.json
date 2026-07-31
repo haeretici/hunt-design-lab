@@ -1,0 +1,181 @@
+{
+    "id": "renegade_knight",
+    "label": "Renegade Knight",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A renegade knight.",
+    "hp": 1450,
+    "hpMax": 1450,
+    "speed": 135,
+    "level": 462,
+    "armor": 38,
+    "mitigation": 1.46,
+    "maxBlock": 0,
+    "exp": 1200,
+    "lootValue": 360.31817696659,
+    "aggro": true,
+    "resists": {
+        "physical": 15,
+        "fire": 20,
+        "ice": 0,
+        "energy": 35,
+        "earth": 20,
+        "holy": 50,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 12,
+            "max": 208
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 4000,
+            "chance": 25,
+            "min": 200,
+            "max": 250,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Human",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 90450,
+            "maxCount": 10,
+            "name": "arrow"
+        },
+        {
+            "chance": 75410,
+            "maxCount": 30,
+            "name": "gold coin"
+        },
+        {
+            "chance": 1210,
+            "name": "grapes"
+        },
+        {
+            "chance": 1210,
+            "name": "great health potion"
+        },
+        {
+            "chance": 1210,
+            "maxCount": 2,
+            "name": "meat"
+        },
+        {
+            "chance": 1210,
+            "maxCount": 4,
+            "name": "sniper arrow"
+        },
+        {
+            "chance": 210,
+            "name": "Regal Crown Armor"
+        },
+        {
+            "chance": 310,
+            "name": "crown helmet"
+        },
+        {
+            "chance": 210,
+            "name": "crown shield"
+        },
+        {
+            "chance": 110,
+            "name": "crown legs"
+        },
+        {
+            "chance": 310,
+            "name": "fire sword"
+        },
+        {
+            "chance": 1610,
+            "name": "halberd"
+        },
+        {
+            "chance": 510,
+            "name": "red rose"
+        },
+        {
+            "chance": 1510,
+            "name": "rope"
+        },
+        {
+            "chance": 910,
+            "name": "scroll"
+        },
+        {
+            "chance": 910,
+            "name": "scroll of heroic deeds"
+        },
+        {
+            "chance": 910,
+            "name": "small notebook"
+        },
+        {
+            "chance": 510,
+            "name": "wedding ring"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "crystal_fungal_knight_berserker",
+    "threatDps": 55,
+    "burstDps": 55,
+    "avgHit": 110,
+    "maxHit": 208,
+    "manaCost": 0
+}

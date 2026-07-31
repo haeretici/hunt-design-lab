@@ -1,0 +1,98 @@
+{
+    "id": "dreadmaw",
+    "label": "Dreadmaw",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A dreadmaw.",
+    "hp": 3500,
+    "hpMax": 3500,
+    "speed": 95,
+    "level": 550,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 1500,
+    "lootValue": 3113.5,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": -5,
+        "earth": 20,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 10,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 358
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 99990,
+            "maxCount": 10
+        },
+        {
+            "name": "gold ingot",
+            "chance": 99990
+        },
+        {
+            "name": "ham",
+            "chance": 50000
+        },
+        {
+            "name": "piece of crocodile leather",
+            "chance": 99990
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "black_sheep",
+    "threatDps": 89.5,
+    "burstDps": 89.5,
+    "avgHit": 179,
+    "maxHit": 358,
+    "manaCost": 0
+}

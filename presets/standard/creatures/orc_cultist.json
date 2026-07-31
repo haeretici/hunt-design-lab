@@ -1,0 +1,133 @@
+{
+    "id": "orc_cultist",
+    "label": "Orc Cultist",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An orc cultist.",
+    "hp": 1350,
+    "hpMax": 1350,
+    "speed": 95,
+    "level": 455,
+    "armor": 30,
+    "mitigation": 1.26,
+    "maxBlock": 0,
+    "exp": 950,
+    "lootValue": 172.82482014388,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 30,
+        "earth": -10,
+        "holy": 10,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 211
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 1
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 166
+        },
+        {
+            "name": "strong health potion",
+            "chance": 19830
+        },
+        {
+            "name": "small topaz",
+            "chance": 6002,
+            "maxCount": 3
+        },
+        {
+            "name": "orcish axe",
+            "chance": 9005
+        },
+        {
+            "name": "cultish robe",
+            "chance": 4960
+        },
+        {
+            "name": "ham",
+            "chance": 7020,
+            "maxCount": 3
+        },
+        {
+            "name": "orc tusk",
+            "chance": 8260,
+            "maxCount": 2
+        },
+        {
+            "name": "green piece of cloth",
+            "chance": 4960
+        },
+        {
+            "name": "brown crystal splinter",
+            "chance": 4960
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "hellfire_kobold_cultist",
+    "threatDps": 52.75,
+    "burstDps": 52.75,
+    "avgHit": 105.5,
+    "maxHit": 211,
+    "manaCost": 0
+}

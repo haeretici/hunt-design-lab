@@ -1,0 +1,193 @@
+{
+    "id": "frost_imp",
+    "label": "Frost Imp",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A frost imp.",
+    "hp": 620,
+    "hpMax": 620,
+    "speed": 135,
+    "level": 379,
+    "armor": 40,
+    "mitigation": 0.83,
+    "maxBlock": 0,
+    "exp": 600,
+    "lootValue": 293.63218658892,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 10,
+        "ice": -20,
+        "energy": 0,
+        "earth": 0,
+        "holy": 10,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 50,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 12,
+            "max": 24
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 70,
+            "range": 7,
+            "element": "ice",
+            "min": 12,
+            "max": 15,
+            "target": false,
+            "shootEffect": "ani_snowball"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 50,
+            "range": 4,
+            "element": "ice",
+            "min": 11,
+            "max": 30,
+            "length": 3,
+            "spread": 0,
+            "target": false,
+            "effect": "me_giantice"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 50,
+            "range": 4,
+            "element": "fire",
+            "min": 12,
+            "max": 30,
+            "radius": 3,
+            "target": true,
+            "effect": "me_firearea"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 50,
+            "range": 4,
+            "element": "fire",
+            "min": 12,
+            "max": 30,
+            "radius": 4,
+            "target": false,
+            "effect": "me_explosionhit"
+        },
+        {
+            "id": "wave_5",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 50,
+            "range": 4,
+            "element": "fire",
+            "min": 12,
+            "max": 30,
+            "length": 3,
+            "spread": 0,
+            "target": false,
+            "effect": "me_fireattack"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Fey",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 2
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 60
+        },
+        {
+            "name": "fireworks capsule",
+            "chance": 12360
+        },
+        {
+            "name": "percht horns",
+            "chance": 9790
+        },
+        {
+            "name": "broken bell",
+            "chance": 5390
+        },
+        {
+            "chance": 3190,
+            "name": "dark bell"
+        },
+        {
+            "name": "Emberbound Amulet",
+            "chance": 1320
+        },
+        {
+            "name": "Emberbound Coat",
+            "chance": 1320
+        },
+        {
+            "name": "Emberbound Monocle",
+            "chance": 950
+        },
+        {
+            "name": "Emberbound Legs",
+            "chance": 510
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "infernal_merrow_necromancer",
+    "threatDps": 34.6,
+    "burstDps": 34.6,
+    "avgHit": 18.7027,
+    "maxHit": 30,
+    "manaCost": 0
+}

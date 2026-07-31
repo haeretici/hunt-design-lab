@@ -1,0 +1,204 @@
+{
+    "id": "evil_mastermind",
+    "label": "Evil Mastermind",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An evil mastermind.",
+    "hp": 1295,
+    "hpMax": 1295,
+    "speed": 175,
+    "level": 451,
+    "armor": 0,
+    "mitigation": 0.4,
+    "maxBlock": 0,
+    "exp": 675,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 5,
+        "fire": 0,
+        "ice": 20,
+        "energy": 90,
+        "earth": 100,
+        "holy": -5,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 3,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 1200,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 50
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 7,
+            "element": "physical",
+            "min": 32,
+            "max": 50,
+            "target": false,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 7,
+            "element": "fire",
+            "min": 43,
+            "max": 47,
+            "radius": 4,
+            "target": true,
+            "effect": "me_firearea",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 7,
+            "element": "energy",
+            "min": 23,
+            "max": 37,
+            "target": false,
+            "effect": "me_energyarea",
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "ranged_4",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 7,
+            "element": "lifedrain",
+            "min": 45,
+            "max": 47,
+            "target": false,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "ranged_5",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 7,
+            "element": "manadrain",
+            "min": 38,
+            "max": 48,
+            "target": false,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "slow_6",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -600,
+                "durationSec": 20
+            },
+            "effect": "me_magic_red",
+            "target": false
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 30,
+            "min": 50,
+            "max": 110,
+            "hpBelow": 0.7,
+            "effect": "me_energyhit"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "chance": 10000,
+            "name": "fan club membership card"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 95,
+            "name": "gold coin"
+        },
+        {
+            "chance": 93000,
+            "maxCount": 3,
+            "name": "platinum coin"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "crystal_mountain_chimera",
+    "threatDps": 51.5833,
+    "burstDps": 55.75,
+    "avgHit": 32.5789,
+    "maxHit": 50,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 3,
+        "summons": [
+            {
+                "name": "Vampire",
+                "id": "vampire",
+                "chance": 40,
+                "interval": 2000,
+                "count": 3
+            }
+        ]
+    }
+}

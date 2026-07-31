@@ -1,0 +1,206 @@
+{
+    "id": "omnivora_plant",
+    "label": "Omnivora Plant",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An omnivora plant.",
+    "hp": 1200,
+    "hpMax": 1200,
+    "speed": 105,
+    "level": 442,
+    "armor": 38,
+    "mitigation": 0.99,
+    "maxBlock": 0,
+    "exp": 750,
+    "lootValue": 127.46620631931,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -10,
+        "ice": 20,
+        "energy": 10,
+        "earth": 100,
+        "holy": 0,
+        "death": 20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 147
+        },
+        {
+            "id": "slow_1",
+            "kind": "status",
+            "intervalMs": 4000,
+            "chance": 20,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -350,
+                "durationSec": 12
+            },
+            "target": true
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "earth",
+            "min": 78,
+            "max": 98,
+            "target": false,
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "earth",
+            "min": 49,
+            "max": 98,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_poisonarea"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 250,
+            "max": 400,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Plant",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 97000,
+            "maxCount": 242,
+            "name": "gold coin"
+        },
+        {
+            "chance": 18200,
+            "maxCount": 2,
+            "name": "fish"
+        },
+        {
+            "chance": 2000,
+            "name": "blue crystal splinter"
+        },
+        {
+            "chance": 2000,
+            "name": "brown crystal splinter"
+        },
+        {
+            "chance": 2210,
+            "name": "green crystal splinter"
+        },
+        {
+            "chance": 1200,
+            "name": "ham"
+        },
+        {
+            "chance": 1900,
+            "name": "white mushroom"
+        },
+        {
+            "chance": 950,
+            "name": "life ring"
+        },
+        {
+            "chance": 780,
+            "name": "serpent sword"
+        },
+        {
+            "chance": 700,
+            "name": "Earthbound Amulet"
+        },
+        {
+            "chance": 560,
+            "name": "Earthbound Boots"
+        },
+        {
+            "chance": 430,
+            "name": "Withering Rod"
+        },
+        {
+            "chance": 320,
+            "name": "spellbook of enlightenment"
+        },
+        {
+            "chance": 100,
+            "name": "carrot on a stick"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "glacier_forest_construct",
+    "threatDps": 49.225,
+    "burstDps": 49.225,
+    "avgHit": 75.7308,
+    "maxHit": 147,
+    "manaCost": 0
+}

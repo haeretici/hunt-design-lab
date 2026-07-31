@@ -1,0 +1,150 @@
+{
+    "id": "jungle_ape_scout",
+    "label": "Jungle Ape Scout",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A jungle ape scout.",
+    "hp": 225,
+    "hpMax": 225,
+    "speed": 107,
+    "level": 277,
+    "armor": 15,
+    "mitigation": 0.83,
+    "maxBlock": 0,
+    "exp": 105,
+    "lootValue": 14.82190338652,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 25,
+        "ice": -14,
+        "energy": 0,
+        "earth": 0,
+        "holy": 10,
+        "death": -5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 53
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 35,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 73,
+            "target": false,
+            "shootEffect": "ani_smallstone"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 380,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Mammal",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "small stone",
+            "chance": 30060,
+            "maxCount": 3
+        },
+        {
+            "name": "gold coin",
+            "chance": 56000,
+            "maxCount": 35
+        },
+        {
+            "name": "orange",
+            "chance": 19840,
+            "maxCount": 5
+        },
+        {
+            "name": "banana",
+            "chance": 30000,
+            "maxCount": 12
+        },
+        {
+            "name": "coconut",
+            "chance": 1960,
+            "maxCount": 3
+        },
+        {
+            "name": "melon",
+            "chance": 1000
+        },
+        {
+            "name": "ape fur",
+            "chance": 1000
+        },
+        {
+            "name": "banana sash",
+            "chance": 5000
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "skeleton",
+    "threatDps": 19.6375,
+    "burstDps": 19.6375,
+    "avgHit": 29.0926,
+    "maxHit": 73,
+    "manaCost": 0
+}

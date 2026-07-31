@@ -1,0 +1,160 @@
+{
+    "id": "ogre_ruffian",
+    "label": "Ogre Ruffian",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An ogre ruffian.",
+    "hp": 5500,
+    "hpMax": 5500,
+    "speed": 215,
+    "level": 595,
+    "armor": 102,
+    "mitigation": 2.72,
+    "maxBlock": 0,
+    "exp": 5000,
+    "lootValue": 133.33333333333,
+    "aggro": true,
+    "resists": {
+        "physical": 50,
+        "fire": 0,
+        "ice": -20,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "damage": 30
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 332
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 13,
+            "range": 4,
+            "element": "physical",
+            "min": 184,
+            "max": 332,
+            "radius": 5,
+            "target": false,
+            "effect": "me_groundshaker"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "physical",
+            "min": 147,
+            "max": 258,
+            "radius": 5,
+            "target": true,
+            "effect": "me_poff",
+            "shootEffect": "ani_largerock"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Giant",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 3
+        },
+        {
+            "name": "ogre ear stud",
+            "chance": 17270
+        },
+        {
+            "name": "ogre nose ring",
+            "chance": 15830
+        },
+        {
+            "name": "pair of iron fists",
+            "chance": 2160
+        },
+        {
+            "name": "meat",
+            "chance": 8630,
+            "maxCount": 5
+        },
+        {
+            "name": "diamond sceptre",
+            "chance": 5760
+        },
+        {
+            "name": "war hammer",
+            "chance": 2160
+        },
+        {
+            "name": "metal spats",
+            "chance": 1440
+        },
+        {
+            "name": "skull fetish",
+            "chance": 1440
+        },
+        {
+            "name": "Stonehide Amulet",
+            "chance": 4320
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ember_ogre_ravager",
+    "threatDps": 114.9575,
+    "burstDps": 114.9575,
+    "avgHit": 179.6211,
+    "maxHit": 332,
+    "manaCost": 0
+}

@@ -1,0 +1,113 @@
+{
+    "id": "furious_scorpion",
+    "label": "Furious Scorpion",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A furious scorpion.",
+    "hp": 15000,
+    "hpMax": 15000,
+    "speed": 125,
+    "level": 695,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 12000,
+    "lootValue": 609.86956521739,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 20,
+        "ice": -20,
+        "energy": 0,
+        "earth": 70,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 541
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 487,
+            "target": false,
+            "effect": "me_poff",
+            "shootEffect": "ani_snowball"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 1000,
+            "chance": 12,
+            "range": 4,
+            "element": "energy",
+            "min": 0,
+            "max": 474,
+            "length": 3,
+            "spread": 0,
+            "target": false,
+            "effect": "me_poff"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 100
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "venomous_ocean_scorpion_ravager",
+    "threatDps": 200.215,
+    "burstDps": 200.215,
+    "avgHit": 260.0195,
+    "maxHit": 541,
+    "manaCost": 0
+}

@@ -1,0 +1,115 @@
+{
+    "id": "empowered_gloom_horror",
+    "label": "Empowered Gloom Horror",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An empowered gloom horror.",
+    "hp": 25000,
+    "hpMax": 25000,
+    "speed": 100,
+    "level": 746,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 2150,
+    "lootValue": 55.05,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 200,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 1,
+            "element": "death",
+            "min": 1519,
+            "max": 2278,
+            "target": true,
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "condition_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 12,
+            "range": 4,
+            "element": "earth",
+            "min": 2278,
+            "max": 3417,
+            "radius": 8,
+            "target": false,
+            "effect": "me_hitbypoison"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 500,
+            "max": 700,
+            "hpBelow": 0.7,
+            "effect": "me_magic_green"
+        }
+    ],
+    "race": "venom",
+    "loot": [
+        {
+            "chance": 10000,
+            "name": "glooth glider hinge"
+        }
+    ],
+    "changeTarget": {
+        "interval": 60000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ember_ruins_horror",
+    "threatDps": 265.775,
+    "burstDps": 265.775,
+    "avgHit": 2416.1364,
+    "maxHit": 3417,
+    "manaCost": 0
+}

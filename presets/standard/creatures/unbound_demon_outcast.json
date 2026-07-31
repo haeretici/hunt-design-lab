@@ -1,0 +1,170 @@
+{
+    "id": "unbound_demon_outcast",
+    "label": "Unbound Demon Outcast",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An unbound demon outcast.",
+    "hp": 1,
+    "hpMax": 1,
+    "speed": 150,
+    "level": 658,
+    "armor": 0,
+    "mitigation": 1.6,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 400
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "energy",
+            "min": 250,
+            "max": 450,
+            "length": 6,
+            "spread": 0,
+            "target": true,
+            "effect": "me_purpleenergy"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "energy",
+            "min": 350,
+            "max": 550,
+            "length": 8,
+            "spread": 0,
+            "target": true,
+            "effect": "me_yellowenergy"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "energy",
+            "min": 100,
+            "max": 250,
+            "radius": 3,
+            "target": true,
+            "effect": "me_energyhit"
+        },
+        {
+            "id": "demon_outcast_skill_reducer_4",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 5,
+            "element": "physical",
+            "target": false,
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "area_5",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "manadrain",
+            "min": 80,
+            "max": 150,
+            "radius": 4,
+            "target": false,
+            "effect": "me_magic_green"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 250,
+            "max": 425,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "fire",
+    "loot": [],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "mist_demon_priest",
+    "threatDps": 163.25,
+    "burstDps": 163.25,
+    "avgHit": 217.6667,
+    "maxHit": 550,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 2,
+        "summons": [
+            {
+                "name": "Energy Elemental",
+                "id": "energy_elemental",
+                "chance": 10,
+                "interval": 2000,
+                "count": 2
+            }
+        ]
+    }
+}

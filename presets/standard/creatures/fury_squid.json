@@ -1,0 +1,278 @@
+{
+    "id": "fury_squid",
+    "label": "Fury Squid",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A fury squid.",
+    "hp": 17000,
+    "hpMax": 17000,
+    "speed": 215,
+    "level": 707,
+    "armor": 78,
+    "mitigation": 2.16,
+    "maxBlock": 0,
+    "exp": 16300,
+    "lootValue": 4175.2654257153,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": -14,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 483
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 15,
+            "range": 7,
+            "element": "fire",
+            "min": 193,
+            "max": 271,
+            "target": false,
+            "effect": "me_hitbyfire",
+            "shootEffect": "ani_flammingarrow"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "fire",
+            "min": 193,
+            "max": 367,
+            "target": false,
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 169,
+            "max": 193,
+            "length": 5,
+            "spread": 0,
+            "target": false,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 12,
+            "range": 4,
+            "element": "fire",
+            "min": 193,
+            "max": 459,
+            "radius": 3,
+            "target": false,
+            "effect": "me_hitbyfire"
+        },
+        {
+            "id": "area_5",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "fire",
+            "min": 193,
+            "max": 459,
+            "radius": 2,
+            "target": false,
+            "effect": "me_firearea"
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Magical",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 10000,
+            "name": "glowing rune"
+        },
+        {
+            "name": "great dual potion",
+            "chance": 10000,
+            "maxCount": 3
+        },
+        {
+            "name": "fire mushroom",
+            "chance": 10000,
+            "maxCount": 6
+        },
+        {
+            "name": "small amethyst",
+            "chance": 90000,
+            "maxCount": 5
+        },
+        {
+            "name": "slime heart",
+            "chance": 3000
+        },
+        {
+            "name": "piece of dead brain",
+            "chance": 4900
+        },
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 6
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 10000,
+            "maxCount": 3
+        },
+        {
+            "name": "small topaz",
+            "chance": 90000,
+            "maxCount": 5
+        },
+        {
+            "name": "small emerald",
+            "chance": 90000,
+            "maxCount": 5
+        },
+        {
+            "chance": 9800,
+            "maxCount": 5,
+            "name": "red gem"
+        },
+        {
+            "name": "orb",
+            "chance": 66000,
+            "maxCount": 5
+        },
+        {
+            "name": "purple tome",
+            "chance": 6333
+        },
+        {
+            "name": "great mana potion",
+            "chance": 10000,
+            "maxCount": 3
+        },
+        {
+            "name": "demonic essence",
+            "chance": 4300
+        },
+        {
+            "chance": 10000,
+            "name": "inkwell"
+        },
+        {
+            "name": "small ruby",
+            "chance": 90000,
+            "maxCount": 5
+        },
+        {
+            "name": "talon",
+            "chance": 8990
+        },
+        {
+            "name": "might ring",
+            "chance": 4990
+        },
+        {
+            "name": "devil helmet",
+            "chance": 6990
+        },
+        {
+            "name": "demonrage sword",
+            "chance": 400
+        },
+        {
+            "chance": 390,
+            "name": "demon trophy"
+        },
+        {
+            "name": "giant sword",
+            "chance": 250
+        },
+        {
+            "name": "demon shield",
+            "chance": 250
+        },
+        {
+            "name": "Arcane Plate Armor",
+            "chance": 150
+        },
+        {
+            "name": "platinum amulet",
+            "chance": 350
+        },
+        {
+            "name": "wand of everblazing",
+            "chance": 300
+        },
+        {
+            "name": "fire axe",
+            "chance": 500
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "storm_catacomb_devil_vanguard",
+    "threatDps": 214.46,
+    "burstDps": 214.46,
+    "avgHit": 249.3721,
+    "maxHit": 483,
+    "manaCost": 0
+}

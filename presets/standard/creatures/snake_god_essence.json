@@ -1,0 +1,122 @@
+{
+    "id": "snake_god_essence",
+    "label": "Snake God Essence",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A snake god essence.",
+    "hp": 65000,
+    "hpMax": 65000,
+    "speed": 150,
+    "level": 841,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 7410,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 10,
+        "fire": -10,
+        "ice": 20,
+        "energy": -10,
+        "earth": 100,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 1164
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 40,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 0,
+            "max": 582,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 50,
+            "range": 4,
+            "element": "earth",
+            "min": 291,
+            "max": 524,
+            "radius": 6,
+            "target": false,
+            "effect": "me_magic_green"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 25,
+            "min": 150,
+            "max": 450,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "tempest_serpent_berserker",
+    "threatDps": 451.075,
+    "burstDps": 451.075,
+    "avgHit": 474.8158,
+    "maxHit": 1164,
+    "manaCost": 0
+}

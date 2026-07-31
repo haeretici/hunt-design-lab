@@ -1,0 +1,256 @@
+{
+    "id": "zarabustor",
+    "label": "Zarabustor",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A zarabustor.",
+    "hp": 5100,
+    "hpMax": 5100,
+    "speed": 110,
+    "level": 587,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 8000,
+    "lootValue": 5377.3461538462,
+    "aggro": true,
+    "resists": {
+        "physical": -1,
+        "fire": 100,
+        "ice": 100,
+        "energy": 100,
+        "earth": 90,
+        "holy": -1,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 900,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 182
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "fire",
+            "min": 0,
+            "max": 349,
+            "radius": 3,
+            "target": true,
+            "effect": "me_firearea",
+            "shootEffect": "ani_burstarrow"
+        },
+        {
+            "id": "firefield_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "radius": 2,
+            "target": true,
+            "shootEffect": "ani_fire",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 349,
+            "target": false,
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "wave_4",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "energy",
+            "min": 182,
+            "max": 489,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_bigclouds"
+        },
+        {
+            "id": "ranged_5",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "manadrain",
+            "min": 0,
+            "max": 349,
+            "target": false
+        },
+        {
+            "id": "slow_6",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -330,
+                "durationSec": 20
+            },
+            "effect": "me_magic_red",
+            "target": false
+        },
+        {
+            "id": "warlock_skill_reducer_7",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 5,
+            "element": "physical",
+            "target": false,
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 20,
+            "min": 100,
+            "max": 225,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "invisible_1",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 20,
+            "durationSec": 2,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 32000,
+            "maxCount": 80,
+            "name": "gold coin"
+        },
+        {
+            "chance": 9600,
+            "name": "poison dagger"
+        },
+        {
+            "chance": 8330,
+            "name": "Bone Skull Staff"
+        },
+        {
+            "chance": 5500,
+            "maxCount": 4,
+            "name": "assassin star"
+        },
+        {
+            "chance": 3390,
+            "name": "blue robe"
+        },
+        {
+            "chance": 3190,
+            "name": "small sapphire"
+        },
+        {
+            "chance": 3040,
+            "name": "Stormbound Robe"
+        },
+        {
+            "chance": 2420,
+            "name": "Celestial Band"
+        },
+        {
+            "chance": 2240,
+            "name": "golden armor"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "skeleton",
+    "threatDps": 110.2625,
+    "burstDps": 110.2625,
+    "avgHit": 133.6515,
+    "maxHit": 489,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 5,
+        "summons": [
+            {
+                "name": "Warlock",
+                "id": "warlock",
+                "chance": 10,
+                "interval": 2000,
+                "count": 2
+            },
+            {
+                "name": "Green Djinn",
+                "id": "green_djinn",
+                "chance": 10,
+                "interval": 2000,
+                "count": 3
+            }
+        ]
+    }
+}

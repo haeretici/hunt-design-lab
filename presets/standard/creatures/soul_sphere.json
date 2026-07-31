@@ -1,0 +1,78 @@
+{
+    "id": "soul_sphere",
+    "label": "Soul Sphere",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A soul sphere.",
+    "hp": 15,
+    "hpMax": 15,
+    "speed": 0,
+    "level": 11,
+    "armor": 0,
+    "mitigation": 0.51,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 6,
+            "max": 12
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "soul_sphere",
+    "threatDps": 4.5,
+    "burstDps": 4.5,
+    "avgHit": 9,
+    "maxHit": 12,
+    "manaCost": 0
+}

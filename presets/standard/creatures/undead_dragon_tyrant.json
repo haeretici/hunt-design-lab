@@ -1,0 +1,187 @@
+{
+    "id": "undead_dragon_tyrant",
+    "label": "Undead Dragon Tyrant",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An undead dragon tyrant.",
+    "hp": 10000,
+    "hpMax": 10000,
+    "speed": 175,
+    "level": 654,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 9000,
+    "lootValue": 20608.733532934,
+    "aggro": true,
+    "resists": {
+        "physical": 10,
+        "fire": 20,
+        "ice": 50,
+        "energy": 20,
+        "earth": 100,
+        "holy": -35,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 800,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "death",
+            "min": 228,
+            "max": 1232,
+            "radius": 5,
+            "target": true,
+            "effect": "me_blacksmoke",
+            "shootEffect": "ani_death"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 11,
+            "range": 7,
+            "element": "fire",
+            "min": 626,
+            "max": 1526,
+            "target": false,
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "wave_4",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 9,
+            "range": 4,
+            "element": "death",
+            "min": 569,
+            "max": 1479,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_smallclouds"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 55,
+            "min": 450,
+            "max": 550,
+            "hpBelow": 0.7,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "chance": 100000,
+            "name": "bones of Zorvorax"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 24,
+            "name": "gold coin"
+        },
+        {
+            "chance": 20000,
+            "maxCount": 3,
+            "name": "great health potion"
+        },
+        {
+            "chance": 20000,
+            "maxCount": 3,
+            "name": "great dual potion"
+        },
+        {
+            "chance": 500,
+            "name": "maxilla maximus"
+        },
+        {
+            "chance": 40000,
+            "maxCount": 4,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 100000,
+            "name": "soul orb"
+        },
+        {
+            "chance": 25000,
+            "name": "skull helmet"
+        },
+        {
+            "chance": 25000,
+            "name": "gold ingot"
+        },
+        {
+            "chance": 25000,
+            "name": "Amulet of Safekeeping"
+        },
+        {
+            "chance": 25000,
+            "name": "dragonbone staff"
+        },
+        {
+            "chance": 26670,
+            "name": "slightly rusted armor"
+        },
+        {
+            "chance": 13330,
+            "name": "death ring"
+        },
+        {
+            "chance": 50000,
+            "maxCount": 2,
+            "name": "unholy bone"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 5
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "wild_desert_dragon",
+    "threatDps": 160.01,
+    "burstDps": 160.01,
+    "avgHit": 914.3429,
+    "maxHit": 1526,
+    "manaCost": 0
+}

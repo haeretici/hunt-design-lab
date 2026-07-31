@@ -1,0 +1,237 @@
+{
+    "id": "broken_rune_construct",
+    "label": "Broken Rune Construct",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A broken rune construct.",
+    "hp": 2200,
+    "hpMax": 2200,
+    "speed": 155,
+    "level": 503,
+    "armor": 37,
+    "mitigation": 1.46,
+    "maxBlock": 0,
+    "exp": 1800,
+    "lootValue": 483.76826280624,
+    "aggro": true,
+    "resists": {
+        "physical": 10,
+        "fire": -14,
+        "ice": 20,
+        "energy": -14,
+        "earth": 30,
+        "holy": 20,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 98,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 192
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 35,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 144,
+            "target": true,
+            "shootEffect": "ani_smallstone"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 35,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 96,
+            "length": 5,
+            "spread": 0,
+            "target": false,
+            "effect": "me_sound_red"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 10,
+            "speedChange": 336,
+            "durationSec": 2,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "heal_1",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 0,
+            "max": 250,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 100320,
+            "maxCount": 165,
+            "name": "gold coin"
+        },
+        {
+            "chance": 70320,
+            "maxCount": 2,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 20000,
+            "maxCount": 2,
+            "name": "cave turnip"
+        },
+        {
+            "chance": 17000,
+            "name": "ancient belt buckle"
+        },
+        {
+            "chance": 20000,
+            "name": "cracked alabaster vase"
+        },
+        {
+            "chance": 13000,
+            "name": "rhino horn carving"
+        },
+        {
+            "chance": 4000,
+            "name": "ancient coin"
+        },
+        {
+            "chance": 15000,
+            "name": "blank rune"
+        },
+        {
+            "chance": 50320,
+            "maxCount": 2,
+            "name": "meat"
+        },
+        {
+            "chance": 5000,
+            "maxCount": 2,
+            "name": "orichalcum pearl"
+        },
+        {
+            "chance": 1000,
+            "maxCount": 2,
+            "name": "blue piece of cloth"
+        },
+        {
+            "chance": 5000,
+            "maxCount": 2,
+            "name": "brown piece of cloth"
+        },
+        {
+            "chance": 2000,
+            "maxCount": 2,
+            "name": "yellow piece of cloth"
+        },
+        {
+            "chance": 230,
+            "name": "boots of haste"
+        },
+        {
+            "chance": 7000,
+            "name": "great health potion"
+        },
+        {
+            "chance": 1000,
+            "name": "ice rapier"
+        },
+        {
+            "chance": 1000,
+            "name": "magic light wand"
+        },
+        {
+            "chance": 4200,
+            "name": "onyx chip"
+        },
+        {
+            "chance": 2000,
+            "name": "ring of healing"
+        },
+        {
+            "chance": 3000,
+            "name": "small ruby"
+        },
+        {
+            "chance": 5000,
+            "name": "small sapphire"
+        },
+        {
+            "chance": 6500,
+            "maxCount": 5,
+            "name": "brown mushroom"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "pillar_of_death",
+    "threatDps": 69,
+    "burstDps": 69,
+    "avgHit": 81.1765,
+    "maxHit": 192,
+    "manaCost": 0
+}

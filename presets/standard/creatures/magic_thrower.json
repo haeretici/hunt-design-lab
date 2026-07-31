@@ -1,0 +1,82 @@
+{
+    "id": "magic_thrower",
+    "label": "Magic Thrower",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A magic thrower.",
+    "hp": 100,
+    "hpMax": 100,
+    "speed": 0,
+    "level": 195,
+    "armor": 1,
+    "mitigation": 0.41,
+    "maxBlock": 0,
+    "exp": 18,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 100,
+        "fire": 100,
+        "ice": 100,
+        "energy": 100,
+        "earth": 100,
+        "holy": 100,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 100,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": false,
+        "canPushCreatures": true,
+        "healthHidden": true,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "ranged_0",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 7,
+            "element": "earth",
+            "min": 0,
+            "max": 50,
+            "target": false,
+            "shootEffect": "ani_poison"
+        }
+    ],
+    "race": "undead",
+    "loot": [],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": true
+    },
+    "customSprite": "magic_thrower",
+    "threatDps": 12.5,
+    "burstDps": 12.5,
+    "avgHit": 25,
+    "maxHit": 50,
+    "manaCost": 0
+}

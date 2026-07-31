@@ -1,0 +1,141 @@
+{
+    "id": "grave_guard",
+    "label": "Grave Guard",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A grave guard.",
+    "hp": 720,
+    "hpMax": 720,
+    "speed": 100,
+    "level": 389,
+    "armor": 35,
+    "mitigation": 1.24,
+    "maxBlock": 0,
+    "exp": 485,
+    "lootValue": 78.8,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": -10,
+        "energy": 30,
+        "earth": 90,
+        "holy": -10,
+        "death": 10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 147
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 1,
+            "element": "physical",
+            "radius": 1,
+            "target": false,
+            "effect": "me_sound_blue",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 2
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 30
+        },
+        {
+            "name": "scarab coin",
+            "chance": 4166
+        },
+        {
+            "name": "daramian waraxe",
+            "chance": 1170
+        },
+        {
+            "name": "grave flower",
+            "chance": 70000
+        },
+        {
+            "chance": 1754,
+            "name": "death ring"
+        },
+        {
+            "name": "health potion",
+            "chance": 20000
+        },
+        {
+            "name": "mana potion",
+            "chance": 20000
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "sun_orc_guard",
+    "threatDps": 36.75,
+    "burstDps": 36.75,
+    "avgHit": 73.5,
+    "maxHit": 147,
+    "manaCost": 0
+}

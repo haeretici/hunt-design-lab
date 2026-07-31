@@ -1,0 +1,237 @@
+{
+    "id": "plague_walker",
+    "label": "Plague Walker",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A plague walker.",
+    "hp": 8100,
+    "hpMax": 8100,
+    "speed": 175,
+    "level": 633,
+    "armor": 63,
+    "mitigation": 1.18,
+    "maxBlock": 0,
+    "exp": 6400,
+    "lootValue": 2176.6070588235,
+    "aggro": true,
+    "resists": {
+        "physical": -10,
+        "fire": 50,
+        "ice": 15,
+        "energy": 20,
+        "earth": 100,
+        "holy": -30,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 80,
+        "health": 10,
+        "damage": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 800,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 433
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "earth",
+            "min": 194,
+            "max": 358,
+            "radius": 1,
+            "target": true,
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 57,
+            "max": 119,
+            "radius": 4,
+            "target": false,
+            "effect": "me_magic_green"
+        },
+        {
+            "id": "slow_4",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -300,
+                "durationSec": 15
+            },
+            "target": true
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 197
+        },
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 5
+        },
+        {
+            "name": "Amulet of Safekeeping",
+            "chance": 120
+        },
+        {
+            "name": "gold ring",
+            "chance": 1870
+        },
+        {
+            "name": "Hailburst Rod",
+            "chance": 10000
+        },
+        {
+            "name": "garlic necklace",
+            "chance": 2050
+        },
+        {
+            "name": "blank rune",
+            "chance": 26250,
+            "maxCount": 2
+        },
+        {
+            "name": "golden sickle",
+            "chance": 350
+        },
+        {
+            "name": "Bone Skull Staff",
+            "chance": 1520
+        },
+        {
+            "name": "scythe",
+            "chance": 3000
+        },
+        {
+            "name": "bunch of wheat",
+            "chance": 50000
+        },
+        {
+            "name": "soul orb",
+            "chance": 23720
+        },
+        {
+            "chance": 1410,
+            "name": "death ring"
+        },
+        {
+            "name": "demonic essence",
+            "chance": 28000
+        },
+        {
+            "name": "assassin star",
+            "chance": 5900,
+            "maxCount": 10
+        },
+        {
+            "name": "great mana potion",
+            "chance": 31360,
+            "maxCount": 3
+        },
+        {
+            "id": 281,
+            "chance": 4450
+        },
+        {
+            "id": 282,
+            "chance": 4450
+        },
+        {
+            "name": "seeds",
+            "chance": 4300
+        },
+        {
+            "name": "Earthbound Mantle",
+            "chance": 1050
+        },
+        {
+            "name": "Earthbound Legs",
+            "chance": 2500
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 14720,
+            "maxCount": 2
+        },
+        {
+            "name": "gold ingot",
+            "chance": 5270
+        },
+        {
+            "name": "bundle of cursed straw",
+            "chance": 15000
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "bog_frog",
+    "threatDps": 142.45,
+    "burstDps": 142.45,
+    "avgHit": 211.037,
+    "maxHit": 433,
+    "manaCost": 0
+}

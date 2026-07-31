@@ -1,0 +1,95 @@
+{
+    "id": "lost_gnome",
+    "label": "Lost Gnome",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A lost gnome.",
+    "hp": 10000,
+    "hpMax": 10000,
+    "speed": 100,
+    "level": 654,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 3.6,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "element": "physical",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "min": 223,
+            "max": 417,
+            "target": true
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 10000,
+            "maxCount": 2
+        },
+        {
+            "name": "heavy old tome",
+            "chance": 10000,
+            "maxCount": 2
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "twilight_dragon_vanguard",
+    "threatDps": 160,
+    "burstDps": 160,
+    "avgHit": 320,
+    "maxHit": 417,
+    "manaCost": 0
+}

@@ -1,0 +1,95 @@
+{
+    "id": "spirit_of_water",
+    "label": "Spirit Of Water",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A spirit of water.",
+    "hp": 1400,
+    "hpMax": 1400,
+    "speed": 100,
+    "level": 458,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 850,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 30,
+        "fire": 100,
+        "ice": 100,
+        "energy": -10,
+        "earth": 0,
+        "holy": 50,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 192
+        },
+        {
+            "id": "melee_2",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 40,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 58,
+            "target": false,
+            "effect": "me_loseenergy"
+        }
+    ],
+    "race": "undead",
+    "loot": [],
+    "changeTarget": {
+        "interval": 0,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "glacier_mountain_phantom",
+    "threatDps": 53.8,
+    "burstDps": 53.8,
+    "avgHit": 76.8571,
+    "maxHit": 192,
+    "manaCost": 0
+}

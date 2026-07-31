@@ -1,0 +1,200 @@
+{
+    "id": "ogre_brute",
+    "label": "Ogre Brute",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An ogre brute.",
+    "hp": 1000,
+    "hpMax": 1000,
+    "speed": 102,
+    "level": 424,
+    "armor": 41,
+    "mitigation": 1.18,
+    "maxBlock": 0,
+    "exp": 800,
+    "lootValue": 225.29335038363,
+    "aggro": true,
+    "resists": {
+        "physical": 20,
+        "fire": 20,
+        "ice": 20,
+        "energy": -10,
+        "earth": 100,
+        "holy": 20,
+        "death": 10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 151,
+            "condition": {
+                "type": "fire",
+                "totalDamage": 3,
+                "intervalMs": 9000
+            }
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "fire",
+            "min": 39,
+            "max": 101,
+            "target": false,
+            "shootEffect": "ani_poison"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 80,
+            "max": 95,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Giant",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 92000,
+            "maxCount": 130,
+            "name": "gold coin"
+        },
+        {
+            "chance": 6200,
+            "name": "meat"
+        },
+        {
+            "chance": 4200,
+            "name": "small ruby"
+        },
+        {
+            "chance": 6200,
+            "maxCount": 3,
+            "name": "white pearl"
+        },
+        {
+            "chance": 6200,
+            "name": "battle stone"
+        },
+        {
+            "chance": 6200,
+            "maxCount": 7,
+            "name": "cookie"
+        },
+        {
+            "chance": 5200,
+            "name": "ogre ear stud"
+        },
+        {
+            "chance": 1200,
+            "name": "ogre nose ring"
+        },
+        {
+            "chance": 3200,
+            "maxCount": 2,
+            "name": "onyx chip"
+        },
+        {
+            "chance": 3200,
+            "maxCount": 3,
+            "name": "opal"
+        },
+        {
+            "chance": 2200,
+            "name": "power ring"
+        },
+        {
+            "chance": 1200,
+            "name": "skull fetish"
+        },
+        {
+            "chance": 6200,
+            "maxCount": 3,
+            "name": "strong health potion"
+        },
+        {
+            "chance": 500,
+            "name": "bonebreaker"
+        },
+        {
+            "chance": 800,
+            "name": "ogre klubba"
+        },
+        {
+            "chance": 500,
+            "name": "pot"
+        },
+        {
+            "name": "rusted helmet",
+            "chance": 220
+        },
+        {
+            "chance": 300,
+            "name": "shamanic mask"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ember_ogre_ravager",
+    "threatDps": 44.5,
+    "burstDps": 44.5,
+    "avgHit": 74.7826,
+    "maxHit": 151,
+    "manaCost": 0
+}

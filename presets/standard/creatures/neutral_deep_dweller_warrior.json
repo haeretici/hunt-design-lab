@@ -1,0 +1,104 @@
+{
+    "id": "neutral_deep_dweller_warrior",
+    "label": "Neutral Deep Dweller Warrior",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A neutral deep dweller warrior.",
+    "hp": 1600,
+    "hpMax": 1600,
+    "speed": 145,
+    "level": 471,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 1500,
+    "lootValue": 355.11278195489,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": 100,
+        "energy": -10,
+        "earth": -10,
+        "holy": 0,
+        "death": 10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 30,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 194
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 188,
+            "target": true,
+            "shootEffect": "ani_whirlwindaxe"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 50,
+            "max": 150,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "sun_orc_guard",
+    "threatDps": 57.9,
+    "burstDps": 57.9,
+    "avgHit": 96.5,
+    "maxHit": 194,
+    "manaCost": 0
+}

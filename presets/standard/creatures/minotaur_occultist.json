@@ -1,0 +1,158 @@
+{
+    "id": "minotaur_occultist",
+    "label": "Minotaur Occultist",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A minotaur occultist.",
+    "hp": 125,
+    "hpMax": 125,
+    "speed": 85,
+    "level": 217,
+    "armor": 8,
+    "mitigation": 0.4,
+    "maxBlock": 0,
+    "exp": 100,
+    "lootValue": 12.464285714286,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 10,
+        "ice": 0,
+        "energy": 10,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 35
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "energy",
+            "min": 0,
+            "max": 71,
+            "target": false,
+            "effect": "me_energyhit",
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "fire",
+            "min": 0,
+            "max": 71,
+            "target": false,
+            "effect": "me_firearea",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "energyfield_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "target": true,
+            "shootEffect": "ani_energyball",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 21,
+            "name": "gold coin"
+        },
+        {
+            "chance": 35000,
+            "maxCount": 4,
+            "name": "carrot"
+        },
+        {
+            "chance": 12000,
+            "name": "swampling club"
+        },
+        {
+            "chance": 10000,
+            "name": "minotaur horn"
+        },
+        {
+            "chance": 9000,
+            "name": "leather legs"
+        },
+        {
+            "chance": 3500,
+            "name": "mana potion"
+        },
+        {
+            "chance": 3500,
+            "name": "torch"
+        },
+        {
+            "chance": 1800,
+            "name": "leather helmet"
+        },
+        {
+            "chance": 1800,
+            "name": "purple robe"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "minotaur_occultist",
+    "threatDps": 14.075,
+    "burstDps": 14.075,
+    "avgHit": 21.6538,
+    "maxHit": 71,
+    "manaCost": 0
+}

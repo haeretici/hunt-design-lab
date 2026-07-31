@@ -1,0 +1,108 @@
+{
+    "id": "rift_brood_spawn",
+    "label": "Rift Brood Spawn",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A rift brood spawn.",
+    "hp": 2950,
+    "hpMax": 2950,
+    "speed": 150,
+    "level": 533,
+    "armor": 0,
+    "mitigation": 0.51,
+    "maxBlock": 0,
+    "exp": 1600,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 1,
+        "fire": 100,
+        "ice": 100,
+        "energy": 0,
+        "earth": 0,
+        "holy": 15,
+        "death": -20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 1,
+        "staticAttackChance": 85,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 144
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 90,
+            "range": 3,
+            "element": "manadrain",
+            "min": 0,
+            "max": 101,
+            "radius": 2,
+            "target": true,
+            "effect": "me_purpleenergy"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 70,
+            "max": 100,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "venom",
+    "loot": [],
+    "changeTarget": {
+        "interval": 20000,
+        "chance": 15
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "rune_stone_bugbear",
+    "threatDps": 81.45,
+    "burstDps": 81.45,
+    "avgHit": 58.1786,
+    "maxHit": 144,
+    "manaCost": 0
+}

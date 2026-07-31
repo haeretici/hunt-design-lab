@@ -1,0 +1,249 @@
+{
+    "id": "minotaur_hunter",
+    "label": "Minotaur Hunter",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A minotaur hunter.",
+    "hp": 1400,
+    "hpMax": 1400,
+    "speed": 115,
+    "level": 458,
+    "armor": 36,
+    "mitigation": 1.71,
+    "maxBlock": 0,
+    "exp": 1700,
+    "lootValue": 266.59053006865,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 10,
+        "ice": -5,
+        "energy": 0,
+        "earth": 0,
+        "holy": 10,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 300,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 22,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 80,
+            "target": false,
+            "effect": "me_explosionarea",
+            "shootEffect": "ani_spear"
+        },
+        {
+            "id": "condition_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 40,
+            "range": 7,
+            "element": "physical",
+            "min": 161,
+            "max": 214,
+            "radius": 3,
+            "target": true,
+            "effect": "me_hitarea",
+            "shootEffect": "ani_throwingknife"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "fire",
+            "min": 86,
+            "max": 139,
+            "radius": 2,
+            "target": true,
+            "effect": "me_explosionhit",
+            "shootEffect": "ani_burstarrow"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 14,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 19,
+            "max": 80,
+            "radius": 4,
+            "target": false,
+            "effect": "me_explosionarea"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 7,
+            "min": 95,
+            "max": 180,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 10,
+            "speedChange": 520,
+            "durationSec": 5,
+            "effect": "me_poff"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 13600,
+            "maxCount": 2,
+            "name": "blank rune"
+        },
+        {
+            "chance": 99500,
+            "maxCount": 199,
+            "name": "gold coin"
+        },
+        {
+            "chance": 14880,
+            "maxCount": 5,
+            "name": "hunting spear"
+        },
+        {
+            "chance": 33890,
+            "maxCount": 3,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 11410,
+            "maxCount": 5,
+            "name": "royal spear"
+        },
+        {
+            "chance": 10350,
+            "maxCount": 2,
+            "name": "strong health potion"
+        },
+        {
+            "chance": 10620,
+            "maxCount": 2,
+            "name": "strong mana potion"
+        },
+        {
+            "chance": 7430,
+            "name": "soul orb"
+        },
+        {
+            "chance": 5030,
+            "name": "minotaur leather"
+        },
+        {
+            "chance": 4720,
+            "maxCount": 2,
+            "name": "minotaur horn"
+        },
+        {
+            "chance": 2640,
+            "maxCount": 3,
+            "name": "small ruby"
+        },
+        {
+            "chance": 2580,
+            "maxCount": 3,
+            "name": "small amethyst"
+        },
+        {
+            "chance": 2220,
+            "name": "stealth ring"
+        },
+        {
+            "chance": 1670,
+            "name": "blue piece of cloth"
+        },
+        {
+            "chance": 1420,
+            "name": "green piece of cloth"
+        },
+        {
+            "chance": 1360,
+            "name": "red piece of cloth"
+        },
+        {
+            "chance": 640,
+            "name": "mino shield"
+        },
+        {
+            "chance": 470,
+            "name": "yellow gem"
+        },
+        {
+            "chance": 400,
+            "name": "red gem"
+        },
+        {
+            "chance": 190,
+            "name": "minotaur trophy"
+        },
+        {
+            "chance": 170,
+            "name": "mooh'tah plate"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 11
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "lunar_minotaur_vanguard",
+    "threatDps": 53.8025,
+    "burstDps": 53.8025,
+    "avgHit": 118.2473,
+    "maxHit": 214,
+    "manaCost": 0
+}

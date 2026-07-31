@@ -1,0 +1,181 @@
+{
+    "id": "brain_head_horror",
+    "label": "Brain Head Horror",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A brain head horror.",
+    "hp": 1,
+    "hpMax": 1,
+    "speed": 0,
+    "level": 856,
+    "armor": 0,
+    "mitigation": 3.27,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 43000,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 70,
+        "ice": -50,
+        "energy": 400,
+        "earth": 0,
+        "holy": 0,
+        "death": 20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "ranged_0",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 80,
+            "range": 7,
+            "element": "death",
+            "min": 700,
+            "max": 1200,
+            "target": true,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 900,
+            "max": 1300,
+            "length": 8,
+            "spread": 0,
+            "effect": "me_electricalspark"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "name": "crystal coin",
+            "chance": 96300,
+            "maxCount": 3
+        },
+        {
+            "name": "diamond",
+            "chance": 55560,
+            "maxCount": 2
+        },
+        {
+            "name": "ultimate mana potion",
+            "chance": 51850,
+            "maxCount": 6
+        },
+        {
+            "name": "white gem",
+            "chance": 51850,
+            "maxCount": 2
+        },
+        {
+            "name": "supreme health potion",
+            "chance": 29630
+        },
+        {
+            "name": "savant potion",
+            "chance": 22220
+        },
+        {
+            "name": "cursed bone",
+            "chance": 22220
+        },
+        {
+            "name": "berserk potion",
+            "chance": 18520
+        },
+        {
+            "name": "death toll",
+            "chance": 18520,
+            "maxCount": 2
+        },
+        {
+            "name": "ivory comb",
+            "chance": 18520
+        },
+        {
+            "name": "marksman potion",
+            "chance": 14810,
+            "maxCount": 10
+        },
+        {
+            "name": "ultimate dual potion",
+            "chance": 14810,
+            "maxCount": 6
+        },
+        {
+            "name": "moonstone",
+            "chance": 14810
+        },
+        {
+            "name": "spooky hood",
+            "chance": 8520
+        },
+        {
+            "name": "silver hand mirror",
+            "chance": 7410
+        },
+        {
+            "name": "amber with a dragonfly",
+            "chance": 7410
+        },
+        {
+            "name": "phantasmal axe",
+            "chance": 3700
+        },
+        {
+            "name": "ghost claw",
+            "chance": 3700
+        },
+        {
+            "name": "giant amethyst",
+            "chance": 3700
+        },
+        {
+            "chance": 3200,
+            "name": "enchanted ring of souls"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "invisible": true
+    },
+    "customSprite": "ember_ruins_horror",
+    "threatDps": 490,
+    "burstDps": 490,
+    "avgHit": 980,
+    "maxHit": 1300
+}

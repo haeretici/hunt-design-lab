@@ -1,0 +1,119 @@
+{
+    "id": "ravenous_lava_ambusher",
+    "label": "Ravenous Lava Ambusher",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A ravenous lava ambusher.",
+    "hp": 5000,
+    "hpMax": 5000,
+    "speed": 58,
+    "level": 585,
+    "armor": 45,
+    "mitigation": 0.91,
+    "maxBlock": 0,
+    "exp": 4000,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 200,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": false,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 177
+        },
+        {
+            "id": "ravennouslavalurkerwave_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 471,
+            "target": false
+        },
+        {
+            "id": "ravennouslavalurkertarget_2",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 40,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 471,
+            "target": true
+        }
+    ],
+    "race": "fire",
+    "bestiary": {
+        "class": "Elemental",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "small enchanted ruby",
+            "chance": 14620
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "crystal_lizard_warrior",
+    "threatDps": 109.0125,
+    "burstDps": 109.0125,
+    "avgHit": 140.6613,
+    "maxHit": 471,
+    "manaCost": 0
+}

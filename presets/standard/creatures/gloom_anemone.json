@@ -1,0 +1,216 @@
+{
+    "id": "gloom_anemone",
+    "label": "Gloom Anemone",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A gloom anemone.",
+    "hp": 2400,
+    "hpMax": 2400,
+    "speed": 90,
+    "level": 512,
+    "armor": 42,
+    "mitigation": 1.02,
+    "maxBlock": 0,
+    "exp": 1755,
+    "lootValue": 626.2940521387,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -5,
+        "ice": 0,
+        "energy": 10,
+        "earth": 100,
+        "holy": 0,
+        "death": 35
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 9,
+            "range": 7,
+            "element": "earth",
+            "min": 774,
+            "max": 1549,
+            "radius": 4,
+            "target": true,
+            "effect": "me_hitbypoison",
+            "shootEffect": "ani_gloothspear"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 7,
+            "range": 7,
+            "element": "lifedrain",
+            "min": 387,
+            "max": 774,
+            "radius": 1,
+            "target": true,
+            "effect": "me_magic_red",
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "earth",
+            "radius": 5,
+            "target": false,
+            "effect": "me_magic_red",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 9,
+            "min": 50,
+            "max": 100,
+            "hpBelow": 0.7,
+            "effect": "me_magic_green"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Plant",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 3190,
+            "name": "bowl of glooth soup"
+        },
+        {
+            "chance": 2020,
+            "name": "slimy leaf tentacle"
+        },
+        {
+            "chance": 3180,
+            "name": "green mushroom"
+        },
+        {
+            "chance": 320,
+            "name": "glooth amulet"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 170,
+            "name": "gold coin"
+        },
+        {
+            "chance": 6690,
+            "maxCount": 2,
+            "name": "strong health potion"
+        },
+        {
+            "chance": 6690,
+            "maxCount": 2,
+            "name": "strong mana potion"
+        },
+        {
+            "chance": 960,
+            "name": "ultimate health potion"
+        },
+        {
+            "chance": 57320,
+            "maxCount": 3,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 1240,
+            "maxCount": 3,
+            "name": "small topaz"
+        },
+        {
+            "chance": 1600,
+            "maxCount": 3,
+            "name": "small emerald"
+        },
+        {
+            "chance": 1150,
+            "maxCount": 3,
+            "name": "small ruby"
+        },
+        {
+            "chance": 140,
+            "name": "glooth cape"
+        },
+        {
+            "chance": 700,
+            "name": "glooth whip"
+        },
+        {
+            "chance": 120,
+            "name": "glooth blade"
+        },
+        {
+            "chance": 370,
+            "name": "glooth club"
+        },
+        {
+            "chance": 240,
+            "name": "glooth axe"
+        },
+        {
+            "chance": 370,
+            "name": "glooth spear"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 3
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "umbral_ghoul",
+    "threatDps": 72.585,
+    "burstDps": 72.585,
+    "avgHit": 907.3125,
+    "maxHit": 1549,
+    "manaCost": 0
+}

@@ -1,0 +1,68 @@
+{
+    "id": "swamp_spitters",
+    "biome": "swamp",
+    "notes": "Stage 11.11 — standard swamp population. Venom-heavy packs with cave_rat swarms; same creature catalog, swamp density feel.",
+    "defaultRespawn": 0,
+    "groups": {
+        "normal": {
+            "weight": 50,
+            "creatureIds": [
+                "venom_spitter"
+            ],
+            "packSize": [
+                1,
+                2
+            ]
+        },
+        "swarm": {
+            "weight": 30,
+            "creatureIds": [
+                "cave_rat"
+            ],
+            "packSize": [
+                2,
+                5
+            ]
+        },
+        "champion": {
+            "weight": 15,
+            "creatureIds": [
+                "venom_spitter"
+            ],
+            "packSize": [
+                2,
+                3
+            ],
+            "affixes": [
+                "champion"
+            ]
+        },
+        "elite": {
+            "weight": 5,
+            "creatureIds": [
+                "venom_spitter"
+            ],
+            "packSize": [
+                1,
+                1
+            ],
+            "affixes": [
+                "elite"
+            ]
+        }
+    },
+    "limits": {
+        "totalPacks": [
+            4,
+            9
+        ],
+        "championPacks": [
+            1,
+            2
+        ],
+        "elitePacks": [
+            0,
+            1
+        ]
+    }
+}

@@ -1,0 +1,179 @@
+{
+    "id": "minotaur_mage",
+    "label": "Minotaur Mage",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A minotaur mage.",
+    "hp": 155,
+    "hpMax": 155,
+    "speed": 85,
+    "level": 238,
+    "armor": 18,
+    "mitigation": 1.04,
+    "maxBlock": 0,
+    "exp": 150,
+    "lootValue": 43.844933881344,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": -10,
+        "energy": 20,
+        "earth": 20,
+        "holy": 10,
+        "death": -5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 23
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "energy",
+            "min": 23,
+            "max": 68,
+            "target": false,
+            "effect": "me_energyhit",
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "fire",
+            "min": 58,
+            "max": 121,
+            "radius": 1,
+            "target": true,
+            "effect": "me_firearea",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "energyfield_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "radius": 1,
+            "target": true,
+            "shootEffect": "ani_energyball",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 4950,
+            "name": "torch"
+        },
+        {
+            "name": "gold coin",
+            "chance": 85780,
+            "maxCount": 35
+        },
+        {
+            "name": "wand of cosmic energy",
+            "chance": 600
+        },
+        {
+            "name": "leather helmet",
+            "chance": 3000
+        },
+        {
+            "name": "leather legs",
+            "chance": 5190
+        },
+        {
+            "chance": 15003,
+            "maxCount": 8,
+            "name": "carrot"
+        },
+        {
+            "name": "minotaur leather",
+            "chance": 2290
+        },
+        {
+            "name": "taurus mace",
+            "chance": 1000
+        },
+        {
+            "name": "mana potion",
+            "chance": 490
+        },
+        {
+            "name": "minotaur horn",
+            "chance": 3020,
+            "maxCount": 2
+        },
+        {
+            "name": "purple robe",
+            "chance": 6430,
+            "maxCount": 2
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "minotaur_mage",
+    "threatDps": 15.875,
+    "burstDps": 15.875,
+    "avgHit": 24.4231,
+    "maxHit": 121,
+    "manaCost": 0
+}

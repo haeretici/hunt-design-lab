@@ -1,0 +1,222 @@
+{
+    "id": "pharaoh_venomancer",
+    "label": "Pharaoh Venomancer",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A pharaoh venomancer.",
+    "hp": 4100,
+    "hpMax": 4100,
+    "speed": 210,
+    "level": 565,
+    "armor": 40,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 2950,
+    "lootValue": 347.92141951838,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -10,
+        "ice": -10,
+        "energy": 20,
+        "earth": 100,
+        "holy": -20,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 80,
+        "health": 10,
+        "damage": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 271
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 7,
+            "element": "earth",
+            "min": 45,
+            "max": 196,
+            "target": false,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "melee_2",
+            "kind": "melee",
+            "intervalMs": 3000,
+            "chance": 20,
+            "range": 1,
+            "element": "physical",
+            "min": 45,
+            "max": 196
+        },
+        {
+            "id": "slow_3",
+            "kind": "status",
+            "intervalMs": 1000,
+            "chance": 6,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -800,
+                "durationSec": 20
+            },
+            "effect": "me_magic_red",
+            "target": false
+        },
+        {
+            "id": "condition_4",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 15,
+            "range": 4,
+            "element": "earth",
+            "min": 10,
+            "max": 11,
+            "radius": 5,
+            "target": false,
+            "effect": "me_poisonarea"
+        },
+        {
+            "id": "wave_5",
+            "kind": "wave",
+            "intervalMs": 3000,
+            "chance": 17,
+            "range": 4,
+            "element": "earth",
+            "min": 17,
+            "max": 166,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_poisonarea"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 1000,
+            "chance": 20,
+            "min": 150,
+            "max": 450,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 80
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 80
+        },
+        {
+            "name": "small emerald",
+            "chance": 7000,
+            "maxCount": 3
+        },
+        {
+            "name": "green gem",
+            "chance": 500
+        },
+        {
+            "chance": 1500,
+            "name": "stealth ring"
+        },
+        {
+            "chance": 7000,
+            "name": "time ring"
+        },
+        {
+            "name": "cobrafang dagger",
+            "chance": 100000
+        },
+        {
+            "name": "serpent sword",
+            "chance": 500
+        },
+        {
+            "name": "poison dagger",
+            "chance": 7000
+        },
+        {
+            "name": "djinn blade",
+            "chance": 200
+        },
+        {
+            "name": "great health potion",
+            "chance": 1500
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "chaos_stone_revenant_archer",
+    "threatDps": 97.6058,
+    "burstDps": 104.215,
+    "avgHit": 108.6521,
+    "maxHit": 271,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 8,
+        "summons": [
+            {
+                "name": "Slime",
+                "id": "slime",
+                "chance": 100,
+                "interval": 2000,
+                "count": 8
+            }
+        ]
+    }
+}

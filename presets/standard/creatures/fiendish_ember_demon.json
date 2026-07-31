@@ -1,0 +1,224 @@
+{
+    "id": "fiendish_ember_demon",
+    "label": "Fiendish Ember Demon",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A fiendish ember demon.",
+    "hp": 1500,
+    "hpMax": 1500,
+    "speed": 115,
+    "level": 465,
+    "armor": 35,
+    "mitigation": 1.04,
+    "maxBlock": 0,
+    "exp": 1150,
+    "lootValue": 169.12407324699,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": 60,
+        "energy": 60,
+        "earth": -25,
+        "holy": 0,
+        "death": -5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 133
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "fire",
+            "min": 23,
+            "max": 70,
+            "radius": 6,
+            "target": false,
+            "effect": "me_fireattack",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "shaburak_wave_2",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 1,
+            "element": "physical",
+            "min": 82,
+            "max": 164,
+            "target": false
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "fire",
+            "min": 153,
+            "max": 200,
+            "length": 4,
+            "spread": 0,
+            "target": false,
+            "effect": "me_fireattack"
+        },
+        {
+            "id": "slow_4",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -600,
+                "durationSec": 15
+            },
+            "radius": 1,
+            "effect": "me_magic_red",
+            "target": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 5,
+            "min": 100,
+            "max": 150,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "fire",
+    "bestiary": {
+        "class": "Demon",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "piggy bank",
+            "chance": 1030
+        },
+        {
+            "name": "small ruby",
+            "chance": 4761,
+            "maxCount": 5
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 50
+        },
+        {
+            "chance": 1052,
+            "name": "voltaic ring"
+        },
+        {
+            "name": "wand of inferno",
+            "chance": 564
+        },
+        {
+            "name": "brown mushroom",
+            "chance": 3846
+        },
+        {
+            "name": "magic sulphur",
+            "chance": 81
+        },
+        {
+            "name": "royal spear",
+            "chance": 10000,
+            "maxCount": 6
+        },
+        {
+            "name": "marksman potion",
+            "chance": 628
+        },
+        {
+            "name": "strong health potion",
+            "chance": 4761
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 5000
+        },
+        {
+            "name": "Emberbound Legs",
+            "chance": 155
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "mist_demon_priest",
+    "threatDps": 55.95,
+    "burstDps": 55.95,
+    "avgHit": 77.1724,
+    "maxHit": 200,
+    "manaCost": 0
+}

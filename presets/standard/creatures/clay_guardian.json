@@ -1,0 +1,167 @@
+{
+    "id": "clay_guardian",
+    "label": "Clay Guardian",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A clay guardian.",
+    "hp": 625,
+    "hpMax": 625,
+    "speed": 115,
+    "level": 378,
+    "armor": 42,
+    "mitigation": 0.7,
+    "maxBlock": 0,
+    "exp": 400,
+    "lootValue": 106.37844273355,
+    "aggro": true,
+    "resists": {
+        "physical": 25,
+        "fire": 0,
+        "ice": 20,
+        "energy": 30,
+        "earth": 100,
+        "holy": 0,
+        "death": 40
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 60,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 93
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "earth",
+            "min": 22,
+            "max": 111,
+            "target": false,
+            "effect": "me_green_rings",
+            "shootEffect": "ani_smallearth"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 50,
+            "range": 4,
+            "element": "earth",
+            "min": 15,
+            "max": 22,
+            "radius": 3,
+            "target": false,
+            "effect": "me_poff"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 40,
+            "max": 130,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Construct",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "small stone",
+            "chance": 10000,
+            "maxCount": 10
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 63
+        },
+        {
+            "name": "blank rune",
+            "chance": 25000
+        },
+        {
+            "name": "earth arrow",
+            "chance": 5555,
+            "maxCount": 8
+        },
+        {
+            "name": "small topaz",
+            "chance": 320
+        },
+        {
+            "name": "lump of earth",
+            "chance": 25000
+        },
+        {
+            "name": "clay lump",
+            "chance": 1100
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "sun_orc_guard",
+    "threatDps": 34.525,
+    "burstDps": 34.525,
+    "avgHit": 40.6176,
+    "maxHit": 111,
+    "manaCost": 0
+}

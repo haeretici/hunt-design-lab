@@ -1,0 +1,252 @@
+{
+    "id": "pale_vampire_count",
+    "label": "Pale Vampire Count",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A pale vampire count.",
+    "hp": 50000,
+    "hpMax": 50000,
+    "speed": 250,
+    "level": 815,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 28000,
+    "lootValue": 7259.962962963,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 15,
+        "ice": 30,
+        "energy": 30,
+        "earth": 0,
+        "holy": -10,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "slow_1",
+            "kind": "status",
+            "intervalMs": 1000,
+            "chance": 17,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -600,
+                "durationSec": 1.5
+            },
+            "radius": 4,
+            "effect": "me_magic_red",
+            "target": true
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 21,
+            "range": 6,
+            "element": "ice",
+            "min": 1587,
+            "max": 4274,
+            "radius": 2,
+            "target": true,
+            "effect": "me_giantice",
+            "shootEffect": "ani_smallice"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "manadrain",
+            "min": 733,
+            "max": 1465,
+            "target": false,
+            "effect": "me_carniphila",
+            "shootEffect": "ani_earth"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 100000,
+            "name": "vampire lord token"
+        },
+        {
+            "chance": 100000,
+            "name": "vampire's cape chain"
+        },
+        {
+            "chance": 5000,
+            "name": "Vampire Count's medal"
+        },
+        {
+            "chance": 5000,
+            "name": "vampire's signet ring"
+        },
+        {
+            "chance": 50000,
+            "name": "blood preservation"
+        },
+        {
+            "chance": 50000,
+            "name": "vampire teeth"
+        },
+        {
+            "chance": 5000,
+            "name": "silver raid token"
+        },
+        {
+            "chance": 1000000,
+            "maxCount": 100,
+            "name": "gold coin"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 5,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 50000,
+            "maxCount": 3,
+            "name": "strong mana potion"
+        },
+        {
+            "chance": 50000,
+            "maxCount": 3,
+            "name": "strong health potion"
+        },
+        {
+            "chance": 10000,
+            "name": "stealth ring"
+        },
+        {
+            "chance": 10000,
+            "name": "ring of healing"
+        },
+        {
+            "chance": 10000,
+            "name": "white piece of cloth"
+        },
+        {
+            "chance": 10000,
+            "name": "red piece of cloth"
+        },
+        {
+            "chance": 10000,
+            "name": "blue piece of cloth"
+        },
+        {
+            "chance": 5000,
+            "name": "Maelstrom Mace"
+        },
+        {
+            "chance": 10000,
+            "name": "epee"
+        },
+        {
+            "chance": 5000,
+            "name": "dreaded cleaver"
+        },
+        {
+            "chance": 5000,
+            "name": "spellbook of lost souls"
+        },
+        {
+            "chance": 5000,
+            "name": "haunted mirror piece"
+        },
+        {
+            "chance": 5000,
+            "name": "Bloodfang Shield"
+        },
+        {
+            "chance": 5000,
+            "name": "vampire silk slippers"
+        },
+        {
+            "chance": 50000,
+            "maxCount": 5,
+            "name": "small diamond"
+        },
+        {
+            "chance": 50000,
+            "maxCount": 5,
+            "name": "black pearl"
+        },
+        {
+            "chance": 50000,
+            "maxCount": 5,
+            "name": "small sapphire"
+        },
+        {
+            "chance": 50000,
+            "maxCount": 5,
+            "name": "small emerald"
+        },
+        {
+            "chance": 10000,
+            "name": "violet gem"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "hellfire_vampire_archer",
+    "threatDps": 390.1275,
+    "burstDps": 390.1275,
+    "avgHit": 2167.375,
+    "maxHit": 4274,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 4,
+        "summons": [
+            {
+                "name": "Night Fiend",
+                "id": "night_fiend",
+                "chance": 10,
+                "interval": 2000,
+                "count": 4
+            }
+        ]
+    }
+}

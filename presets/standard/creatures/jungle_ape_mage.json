@@ -1,0 +1,185 @@
+{
+    "id": "jungle_ape_mage",
+    "label": "Jungle Ape Mage",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A jungle ape mage.",
+    "hp": 235,
+    "hpMax": 235,
+    "speed": 97,
+    "level": 280,
+    "armor": 16,
+    "mitigation": 1.04,
+    "maxBlock": 0,
+    "exp": 145,
+    "lootValue": 26.778220297775,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 20,
+        "ice": -14,
+        "energy": 10,
+        "earth": 0,
+        "holy": 10,
+        "death": -5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 37
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "fire",
+            "min": 75,
+            "max": 112,
+            "target": false,
+            "effect": "me_hitbyfire",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "energy",
+            "min": 19,
+            "max": 56,
+            "target": false,
+            "effect": "me_energyhit",
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "poisonfield_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "radius": 1,
+            "target": true,
+            "shootEffect": "ani_poison",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 25,
+            "min": 30,
+            "max": 40,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Mammal",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 69500,
+            "maxCount": 45
+        },
+        {
+            "name": "small amethyst",
+            "chance": 260
+        },
+        {
+            "chance": 3000,
+            "name": "magic light wand"
+        },
+        {
+            "name": "wand of decay",
+            "chance": 1050
+        },
+        {
+            "name": "orange",
+            "chance": 1000,
+            "maxCount": 5
+        },
+        {
+            "name": "banana",
+            "chance": 30350,
+            "maxCount": 12
+        },
+        {
+            "name": "banana staff",
+            "chance": 100
+        },
+        {
+            "name": "ape fur",
+            "chance": 1000
+        },
+        {
+            "name": "mana potion",
+            "chance": 660
+        },
+        {
+            "name": "banana sash",
+            "chance": 1800
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "arcane_elemental_vanguard",
+    "threatDps": 20.0125,
+    "burstDps": 20.0125,
+    "avgHit": 29.6481,
+    "maxHit": 112,
+    "manaCost": 0
+}

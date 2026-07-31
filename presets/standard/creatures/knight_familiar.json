@@ -1,0 +1,167 @@
+{
+    "id": "knight_familiar",
+    "label": "Knight Familiar",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A knight familiar.",
+    "hp": 10000,
+    "hpMax": 10000,
+    "speed": 154,
+    "level": 654,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": false,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": false,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": false,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 183
+        },
+        {
+            "id": "deathburst_rune_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 17,
+            "range": 7,
+            "element": "physical",
+            "min": 275,
+            "max": 320,
+            "target": false
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 6,
+            "element": "death",
+            "min": 183,
+            "max": 229,
+            "radius": 2,
+            "target": true,
+            "effect": "me_mortarea"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 3000,
+            "chance": 25,
+            "range": 5,
+            "element": "death",
+            "min": 165,
+            "max": 229,
+            "radius": 3,
+            "target": true,
+            "effect": "me_mortarea"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 3000,
+            "chance": 25,
+            "range": 5,
+            "element": "ice",
+            "min": 165,
+            "max": 229,
+            "radius": 3,
+            "target": true,
+            "effect": "me_icearea"
+        },
+        {
+            "id": "area_5",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 6,
+            "element": "ice",
+            "min": 183,
+            "max": 229,
+            "radius": 2,
+            "target": true,
+            "effect": "me_icetornado"
+        },
+        {
+            "id": "ice_strike_6",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 17,
+            "range": 5,
+            "element": "physical",
+            "min": 275,
+            "max": 320,
+            "target": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 75,
+            "min": 300,
+            "max": 300,
+            "hpBelow": 0.7,
+            "effect": "me_magic_green"
+        }
+    ],
+    "race": "undead",
+    "loot": [],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": true,
+        "invisible": true
+    },
+    "customSprite": "crystal_fungal_knight_berserker",
+    "threatDps": 160.0583,
+    "burstDps": 176.475,
+    "avgHit": 162.2213,
+    "maxHit": 320,
+    "manaCost": 1000
+}

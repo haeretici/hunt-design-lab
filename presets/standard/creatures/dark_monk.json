@@ -1,0 +1,182 @@
+{
+    "id": "dark_monk",
+    "label": "Dark Monk",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A dark monk.",
+    "hp": 190,
+    "hpMax": 190,
+    "speed": 115,
+    "level": 258,
+    "armor": 22,
+    "mitigation": 1.13,
+    "maxBlock": 0,
+    "exp": 145,
+    "lootValue": 15.967744845942,
+    "aggro": true,
+    "resists": {
+        "physical": -10,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": -10,
+        "death": 40
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 20,
+        "damage": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 64
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 1,
+            "element": "lifedrain",
+            "min": 13,
+            "max": 32,
+            "target": false,
+            "effect": "me_magic_red"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 25,
+            "max": 49,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 300,
+            "durationSec": 6,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Human",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 1790,
+            "name": "scroll"
+        },
+        {
+            "name": "brown flask",
+            "chance": 380
+        },
+        {
+            "chance": 550,
+            "name": "lamp"
+        },
+        {
+            "name": "gold coin",
+            "chance": 14600,
+            "maxCount": 18
+        },
+        {
+            "chance": 120,
+            "name": "power ring"
+        },
+        {
+            "name": "life crystal",
+            "chance": 990
+        },
+        {
+            "name": "ankh",
+            "chance": 900
+        },
+        {
+            "name": "sandals",
+            "chance": 890
+        },
+        {
+            "name": "bread",
+            "chance": 20550
+        },
+        {
+            "name": "mana potion",
+            "chance": 790
+        },
+        {
+            "name": "book of prayers",
+            "chance": 1900
+        },
+        {
+            "name": "dark rosary",
+            "chance": 10500
+        },
+        {
+            "name": "rope belt",
+            "chance": 6666
+        },
+        {
+            "name": "safety pin",
+            "chance": 990
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "umbral_ghoul",
+    "threatDps": 17.6875,
+    "burstDps": 17.6875,
+    "avgHit": 30.7609,
+    "maxHit": 64,
+    "manaCost": 480
+}

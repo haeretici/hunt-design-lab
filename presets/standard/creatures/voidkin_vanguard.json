@@ -1,0 +1,299 @@
+{
+    "id": "voidkin_vanguard",
+    "label": "Voidkin Vanguard",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A voidkin vanguard.",
+    "hp": 65000,
+    "hpMax": 65000,
+    "speed": 450,
+    "level": 841,
+    "armor": 0,
+    "mitigation": 1,
+    "maxBlock": 0,
+    "exp": 300000,
+    "lootValue": 40504.827586207,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 50
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 1700,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 112,
+            "max": 239
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2500,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 140,
+            "max": 351
+        },
+        {
+            "id": "hugeblackring_2",
+            "kind": "melee",
+            "intervalMs": 3500,
+            "chance": 20,
+            "range": 1,
+            "element": "physical",
+            "min": 195,
+            "max": 419,
+            "target": false
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 3000,
+            "chance": 20,
+            "range": 4,
+            "element": "energy",
+            "min": 1257,
+            "max": 1676,
+            "radius": 9,
+            "target": false,
+            "effect": "me_slash"
+        },
+        {
+            "id": "wave_4",
+            "kind": "wave",
+            "intervalMs": 2500,
+            "chance": 33,
+            "range": 4,
+            "element": "energy",
+            "min": 140,
+            "max": 419,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_purpleenergy"
+        },
+        {
+            "id": "wave_5",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 50,
+            "range": 4,
+            "element": "fire",
+            "min": 168,
+            "max": 279,
+            "length": 8,
+            "spread": 2,
+            "target": false,
+            "effect": "me_hitbyfire"
+        },
+        {
+            "id": "area_6",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 30,
+            "range": 7,
+            "element": "energy",
+            "min": 112,
+            "max": 168,
+            "radius": 2,
+            "target": true,
+            "effect": "me_energyhit",
+            "shootEffect": "ani_bolt"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 895000,
+            "maxCount": 400
+        },
+        {
+            "name": "platinum coin",
+            "chance": 655000,
+            "maxCount": 15
+        },
+        {
+            "name": "crystal coin",
+            "chance": 325000,
+            "maxCount": 5
+        },
+        {
+            "name": "great health potion",
+            "chance": 288900,
+            "maxCount": 15
+        },
+        {
+            "name": "great mana potion",
+            "chance": 281500
+        },
+        {
+            "name": "great dual potion",
+            "chance": 65337,
+            "maxCount": 45
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 214800,
+            "maxCount": 12
+        },
+        {
+            "name": "ultimate mana potion",
+            "chance": 155600,
+            "maxCount": 15
+        },
+        {
+            "name": "supreme health potion",
+            "chance": 33385,
+            "maxCount": 23
+        },
+        {
+            "name": "yellow gem",
+            "chance": 11604,
+            "maxCount": 5
+        },
+        {
+            "name": "blue gem",
+            "chance": 14144,
+            "maxCount": 5
+        },
+        {
+            "name": "green gem",
+            "chance": 11221,
+            "maxCount": 4
+        },
+        {
+            "name": "giant topaz",
+            "chance": 11191,
+            "maxCount": 1
+        },
+        {
+            "name": "giant emerald",
+            "chance": 11191,
+            "maxCount": 1
+        },
+        {
+            "name": "giant sapphire",
+            "chance": 11191,
+            "maxCount": 1
+        },
+        {
+            "name": "giant amethyst",
+            "chance": 12527,
+            "maxCount": 1
+        },
+        {
+            "name": "white gem",
+            "chance": 311100
+        },
+        {
+            "name": "yellow gem",
+            "chance": 251900
+        },
+        {
+            "name": "blue gem",
+            "chance": 222200
+        },
+        {
+            "name": "crystal of the mitmah",
+            "chance": 451900
+        },
+        {
+            "name": "broken mitmah necklace",
+            "chance": 548100
+        },
+        {
+            "name": "broken mitmah chestplate",
+            "chance": 44400
+        },
+        {
+            "name": "splintered mitmah gem",
+            "chance": 3700
+        },
+        {
+            "name": "stoic iks boots",
+            "chance": 500
+        },
+        {
+            "name": "stoic iks faulds",
+            "chance": 500
+        },
+        {
+            "name": "stoic iks casque",
+            "chance": 500
+        },
+        {
+            "name": "stoic iks cuirass",
+            "chance": 500
+        },
+        {
+            "name": "stoic iks chestplate",
+            "chance": 500
+        },
+        {
+            "name": "stoic iks sandals",
+            "chance": 500
+        },
+        {
+            "name": "stoic iks headpiece",
+            "chance": 500
+        },
+        {
+            "name": "stoic iks culet",
+            "chance": 500
+        }
+    ],
+    "changeTarget": {
+        "interval": 10000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "sun_orc_guard",
+    "threatDps": 451.5138,
+    "burstDps": 619.5925,
+    "avgHit": 251.6737,
+    "maxHit": 1676,
+    "manaCost": 0
+}

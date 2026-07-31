@@ -1,0 +1,189 @@
+{
+    "id": "golden_servant",
+    "label": "Golden Servant",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A golden servant.",
+    "hp": 550,
+    "hpMax": 550,
+    "speed": 105,
+    "level": 365,
+    "armor": 29,
+    "mitigation": 0.88,
+    "maxBlock": 0,
+    "exp": 450,
+    "lootValue": 86.030020031041,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 15,
+        "ice": -5,
+        "energy": 25,
+        "earth": 80,
+        "holy": 100,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 50,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 73
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "energy",
+            "min": 44,
+            "max": 73,
+            "radius": 4,
+            "target": true,
+            "effect": "me_yellowenergy",
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "energy",
+            "min": 58,
+            "max": 80,
+            "radius": 4,
+            "target": true,
+            "effect": "me_energyhit",
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "energy",
+            "min": 65,
+            "max": 109,
+            "length": 5,
+            "spread": 2,
+            "target": false,
+            "effect": "me_yellowenergy"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Construct",
+        "toKill": 5,
+        "firstUnlock": 2,
+        "secondUnlock": 3,
+        "charmsPoints": 50,
+        "stars": 3,
+        "occurrence": 3
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 40000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 45000,
+            "maxCount": 40
+        },
+        {
+            "chance": 450,
+            "name": "stealth ring"
+        },
+        {
+            "name": "gold ring",
+            "chance": 10
+        },
+        {
+            "name": "halberd",
+            "chance": 3003
+        },
+        {
+            "name": "golden armor",
+            "chance": 10
+        },
+        {
+            "name": "green mushroom",
+            "chance": 1450
+        },
+        {
+            "name": "health potion",
+            "chance": 4930
+        },
+        {
+            "name": "mana potion",
+            "chance": 4950
+        },
+        {
+            "name": "spellbook of enlightenment",
+            "chance": 520
+        },
+        {
+            "name": "gear wheel",
+            "chance": 940
+        },
+        {
+            "name": "slime mould",
+            "chance": 340
+        },
+        {
+            "name": "golden can of oil",
+            "chance": 40
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "sanguine_jungle_ogre_assassin",
+    "threatDps": 32.1625,
+    "burstDps": 32.1625,
+    "avgHit": 45.9464,
+    "maxHit": 109,
+    "manaCost": 0
+}

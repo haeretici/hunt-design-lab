@@ -1,0 +1,196 @@
+{
+    "id": "blood_beast",
+    "label": "Blood Beast",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A blood beast.",
+    "hp": 1600,
+    "hpMax": 1600,
+    "speed": 110,
+    "level": 472,
+    "armor": 32,
+    "mitigation": 1.18,
+    "maxBlock": 0,
+    "exp": 1000,
+    "lootValue": 162.78038815117,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -10,
+        "ice": 0,
+        "energy": 10,
+        "earth": 100,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "condition": {
+                "type": "poison",
+                "totalDamage": 92,
+                "intervalMs": 4000
+            },
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 5,
+            "element": "earth",
+            "min": 23,
+            "max": 37,
+            "target": true,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_greenstar"
+        },
+        {
+            "id": "condition_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 17,
+            "range": 4,
+            "element": "earth",
+            "min": 106,
+            "max": 141,
+            "radius": 4,
+            "target": false,
+            "effect": "me_magic_green"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 8,
+            "speedChange": 314,
+            "durationSec": 6,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "heal_1",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 7,
+            "min": 80,
+            "max": 120,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 2010,
+            "name": "glooth club"
+        },
+        {
+            "chance": 3080,
+            "name": "poisonous slime"
+        },
+        {
+            "chance": 2720,
+            "name": "glooth steak"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 139,
+            "name": "gold coin"
+        },
+        {
+            "chance": 1040,
+            "name": "slime heart"
+        },
+        {
+            "chance": 7710,
+            "name": "strong health potion"
+        },
+        {
+            "chance": 1290,
+            "maxCount": 5,
+            "name": "viper star"
+        },
+        {
+            "chance": 250,
+            "name": "glooth amulet"
+        },
+        {
+            "chance": 210,
+            "name": "glooth blade"
+        },
+        {
+            "chance": 210,
+            "name": "glooth club"
+        },
+        {
+            "chance": 250,
+            "name": "glooth axe"
+        },
+        {
+            "chance": 280,
+            "name": "glooth spear"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 4
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ethereal_storm_bear",
+    "threatDps": 57.9975,
+    "burstDps": 57.9975,
+    "avgHit": 88.8704,
+    "maxHit": 141,
+    "manaCost": 0
+}

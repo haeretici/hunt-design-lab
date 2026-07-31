@@ -1,0 +1,62 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://hunt-design-lab.local/schemas/populations.schema.json",
+  "title": "Population table",
+  "description": "Shape of presets/<mode>/populations/<id>.json. Loaded by presets.loadPopulation. Storage: folder entity.",
+  "type": "object",
+  "required": ["id"],
+  "additionalProperties": true,
+  "definitions": {
+    "entityId": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]{0,79}$",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "packSize": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": { "type": "integer", "minimum": 0 }
+    },
+    "group": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "weight": { "type": "number", "minimum": 0 },
+        "creatureIds": {
+          "type": "array",
+          "description": "Creature template ids (presets/<mode>/creatures/). Designer: Select opens the combat creature browser.",
+          "items": {
+            "type": "string",
+            "format": "creature_id",
+            "pattern": "^[a-z][a-z0-9_]{0,79}$",
+            "minLength": 1,
+            "maxLength": 80,
+            "description": "Combat creature template id."
+          }
+        },
+        "packSize": { "$ref": "#/definitions/packSize" },
+        "affixes": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    }
+  },
+  "properties": {
+    "id": { "$ref": "#/definitions/entityId" },
+    "label": { "type": "string", "maxLength": 120 },
+    "biome": { "type": "string" },
+    "notes": { "type": "string", "maxLength": 4000 },
+    "defaultRespawn": { "type": "number", "minimum": 0 },
+    "groups": {
+      "type": "object",
+      "additionalProperties": { "$ref": "#/definitions/group" }
+    },
+    "limits": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  }
+}

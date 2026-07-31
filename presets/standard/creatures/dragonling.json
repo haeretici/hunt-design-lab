@@ -1,0 +1,190 @@
+{
+    "id": "dragonling",
+    "label": "Dragonling",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A dragonling.",
+    "hp": 2600,
+    "hpMax": 2600,
+    "speed": 230,
+    "level": 520,
+    "armor": 58,
+    "mitigation": 1.46,
+    "maxBlock": 0,
+    "exp": 2200,
+    "lootValue": 148.42172934748,
+    "aggro": true,
+    "resists": {
+        "physical": -5,
+        "fire": 100,
+        "ice": 5,
+        "energy": 5,
+        "earth": -10,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 900,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 180
+        },
+        {
+            "id": "dragonling_wave_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 1,
+            "element": "physical",
+            "min": 103,
+            "max": 214,
+            "target": false
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "energy",
+            "min": 98,
+            "max": 154,
+            "radius": 3,
+            "target": false,
+            "effect": "me_purpleenergy"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "fire",
+            "min": 81,
+            "max": 128,
+            "radius": 3,
+            "target": false,
+            "effect": "me_explosionhit"
+        },
+        {
+            "id": "slow_4",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -700,
+                "durationSec": 16
+            },
+            "radius": 1,
+            "effect": "me_stun",
+            "target": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 100,
+            "max": 200,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Magical",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 1
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 37500,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 37500,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 37500,
+            "maxCount": 27
+        },
+        {
+            "name": "strong health potion",
+            "chance": 24480,
+            "maxCount": 2
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 16900,
+            "maxCount": 2
+        },
+        {
+            "name": "blazing bone",
+            "chance": 12410
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "wild_desert_dragon",
+    "threatDps": 75.975,
+    "burstDps": 75.975,
+    "avgHit": 101.3,
+    "maxHit": 214,
+    "manaCost": 0
+}

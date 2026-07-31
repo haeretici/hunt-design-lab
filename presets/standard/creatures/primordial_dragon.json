@@ -1,0 +1,157 @@
+{
+    "id": "primordial_dragon",
+    "label": "Primordial Dragon",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A primordial dragon.",
+    "hp": 50000,
+    "hpMax": 50000,
+    "speed": 175,
+    "level": 815,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 5,
+            "element": "fire",
+            "min": 577,
+            "max": 978,
+            "radius": 5,
+            "target": true,
+            "effect": "me_firearea"
+        },
+        {
+            "id": "slow_2",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -600,
+                "durationSec": 10
+            },
+            "radius": 7,
+            "effect": "me_magic_red",
+            "target": false
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "fire",
+            "min": 1421,
+            "max": 2807,
+            "length": 9,
+            "spread": 3,
+            "target": false,
+            "effect": "me_firearea"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "fire",
+            "min": 577,
+            "max": 837,
+            "radius": 7,
+            "target": false,
+            "effect": "me_hitbyfire"
+        },
+        {
+            "id": "area_5",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 211,
+            "max": 394,
+            "radius": 6,
+            "target": false,
+            "effect": "me_magic_red"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 1500,
+            "max": 4500,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "wild_desert_dragon",
+    "threatDps": 390.1,
+    "burstDps": 390.1,
+    "avgHit": 975.25,
+    "maxHit": 2807,
+    "manaCost": 0
+}

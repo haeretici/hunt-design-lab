@@ -1,0 +1,132 @@
+{
+    "id": "horrible_dream",
+    "label": "Horrible Dream",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A horrible dream.",
+    "hp": 1,
+    "hpMax": 1,
+    "speed": 90,
+    "level": 358,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 30,
+        "ice": 0,
+        "energy": 10,
+        "earth": 80,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 85,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 100
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 3,
+            "element": "physical",
+            "min": 35,
+            "max": 60,
+            "radius": 4,
+            "target": false,
+            "effect": "me_poff"
+        },
+        {
+            "id": "death_blob_curse_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 5,
+            "element": "physical",
+            "target": false,
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 5,
+            "min": 20,
+            "max": 30,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "venom",
+    "loot": [],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "rune_frost_giant_ravager",
+    "threatDps": 30.9375,
+    "burstDps": 30.9375,
+    "avgHit": 49.5,
+    "maxHit": 100,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 3,
+        "summons": [
+            {
+                "name": "Death Blob",
+                "id": "death_blob",
+                "chance": 10,
+                "interval": 2000,
+                "count": 3
+            }
+        ]
+    }
+}

@@ -1,0 +1,132 @@
+{
+    "id": "hacker",
+    "label": "Hacker",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A hacker.",
+    "hp": 430,
+    "hpMax": 430,
+    "speed": 125,
+    "level": 340,
+    "armor": 15,
+    "mitigation": 0.36,
+    "maxBlock": 0,
+    "exp": 45,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 429,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 1000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 56
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 1000,
+            "chance": 15,
+            "speedChange": 290,
+            "durationSec": 6,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 6666,
+            "name": "lamp"
+        },
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 12
+        },
+        {
+            "name": "battle axe",
+            "chance": 5000
+        },
+        {
+            "name": "halberd",
+            "chance": 10000
+        },
+        {
+            "name": "axe",
+            "chance": 10000
+        },
+        {
+            "name": "war hammer",
+            "chance": 5000
+        },
+        {
+            "name": "ham",
+            "chance": 50000
+        },
+        {
+            "id": 6570,
+            "chance": 5538
+        },
+        {
+            "id": 6571,
+            "chance": 1538
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "frost_troll",
+    "threatDps": 28,
+    "burstDps": 28,
+    "avgHit": 28,
+    "maxHit": 56,
+    "manaCost": 0
+}

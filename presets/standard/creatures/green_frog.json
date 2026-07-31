@@ -1,0 +1,90 @@
+{
+    "id": "green_frog",
+    "label": "Green Frog",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A green frog.",
+    "hp": 25,
+    "hpMax": 25,
+    "speed": 160,
+    "level": 55,
+    "armor": 2,
+    "mitigation": 0.15,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 6,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": true,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "element": "physical",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 6,
+            "min": 3,
+            "max": 20,
+            "target": true
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Amphibic",
+        "toKill": 250,
+        "firstUnlock": 10,
+        "secondUnlock": 100,
+        "charmsPoints": 5,
+        "stars": 1,
+        "occurrence": 0
+    },
+    "loot": [],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "green_frog",
+    "threatDps": 5.75,
+    "burstDps": 5.75,
+    "avgHit": 11.5,
+    "maxHit": 20,
+    "manaCost": 250
+}

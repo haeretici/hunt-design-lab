@@ -1,0 +1,157 @@
+{
+    "id": "giant_primeval_behemoth",
+    "label": "Giant Primeval Behemoth",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A giant primeval behemoth.",
+    "hp": 20700,
+    "hpMax": 20700,
+    "speed": 191,
+    "level": 727,
+    "armor": 84,
+    "mitigation": 2.51,
+    "maxBlock": 0,
+    "exp": 12690,
+    "lootValue": 5964.7096774194,
+    "aggro": true,
+    "resists": {
+        "physical": 5,
+        "fire": 40,
+        "ice": -14,
+        "energy": 30,
+        "earth": -20,
+        "holy": -14,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 579
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 3500,
+            "chance": 38,
+            "range": 4,
+            "element": "physical",
+            "min": 394,
+            "max": 788,
+            "target": true,
+            "shootEffect": "ani_largerock"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 4100,
+            "chance": 30,
+            "range": 4,
+            "element": "energy",
+            "min": 278,
+            "max": 556,
+            "radius": 5,
+            "target": false,
+            "effect": "me_explosionarea"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Giant",
+        "toKill": 5000,
+        "firstUnlock": 200,
+        "secondUnlock": 2000,
+        "charmsPoints": 100,
+        "stars": 5,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "Crystal Coin",
+            "chance": 28240
+        },
+        {
+            "name": "Prehemoth Horns",
+            "chance": 19870
+        },
+        {
+            "name": "Prehemoth Claw",
+            "chance": 16149,
+            "minCount": 1,
+            "maxCount": 2
+        },
+        {
+            "name": "Ultimate Health Potion",
+            "chance": 16120
+        },
+        {
+            "name": "Furry Club",
+            "chance": 7050
+        },
+        {
+            "name": "War Hammer",
+            "chance": 4660
+        },
+        {
+            "name": "War Axe",
+            "chance": 3040
+        },
+        {
+            "name": "Doublet",
+            "chance": 2880
+        },
+        {
+            "name": "Silver Brooch",
+            "chance": 1160
+        },
+        {
+            "name": "Emerald Bangle",
+            "chance": 780
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "blood_behemoth",
+    "threatDps": 239.4279,
+    "burstDps": 319.59,
+    "avgHit": 351.2001,
+    "maxHit": 788,
+    "manaCost": 0
+}

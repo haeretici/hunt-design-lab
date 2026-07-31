@@ -1,0 +1,95 @@
+{
+    "id": "orc_berserker_grimgor",
+    "label": "Orc Berserker Grimgor",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An orc berserker grimgor.",
+    "hp": 1155,
+    "hpMax": 1155,
+    "speed": 120,
+    "level": 439,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 670,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": 0,
+        "energy": 20,
+        "earth": -10,
+        "holy": 0,
+        "death": -1
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 156
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 4000,
+            "chance": 60,
+            "range": 1,
+            "element": "physical",
+            "min": 37,
+            "max": 88,
+            "target": false,
+            "shootEffect": "ani_throwingstar"
+        }
+    ],
+    "race": "blood",
+    "loot": [],
+    "changeTarget": {
+        "interval": 0,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "sun_orc_guard",
+    "threatDps": 48.375,
+    "burstDps": 57.75,
+    "avgHit": 74.4231,
+    "maxHit": 156,
+    "manaCost": 0
+}

@@ -1,0 +1,95 @@
+{
+    "id": "dromedary",
+    "label": "Dromedary",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A dromedary.",
+    "hp": 45,
+    "hpMax": 45,
+    "speed": 57,
+    "level": 115,
+    "armor": 4,
+    "mitigation": 0.15,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 1.432740005836,
+    "aggro": false,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 45,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": false,
+        "convinceable": false,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 32
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Mammal",
+        "toKill": 250,
+        "firstUnlock": 10,
+        "secondUnlock": 100,
+        "charmsPoints": 5,
+        "stars": 1,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "meat",
+            "chance": 36000,
+            "maxCount": 2
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "dromedary",
+    "threatDps": 8,
+    "burstDps": 8,
+    "avgHit": 16,
+    "maxHit": 32,
+    "manaCost": 0
+}

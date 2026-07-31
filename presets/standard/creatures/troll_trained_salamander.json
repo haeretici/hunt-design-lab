@@ -1,0 +1,152 @@
+{
+    "id": "troll_trained_salamander",
+    "label": "Troll-Trained Salamander",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A troll-trained salamander.",
+    "hp": 70,
+    "hpMax": 70,
+    "speed": 56,
+    "level": 156,
+    "armor": 1,
+    "mitigation": 0.15,
+    "maxBlock": 0,
+    "exp": 23,
+    "lootValue": 8.1102096010818,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 15,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "condition": {
+                "type": "poison",
+                "totalDamage": 18,
+                "intervalMs": 4000
+            },
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 11,
+            "range": 5,
+            "element": "earth",
+            "min": 15,
+            "max": 24,
+            "target": true,
+            "effect": "me_hitbypoison",
+            "shootEffect": "ani_smallearth"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 5080,
+            "name": "axe"
+        },
+        {
+            "chance": 4630,
+            "name": "bone club"
+        },
+        {
+            "chance": 17650,
+            "maxCount": 5,
+            "name": "simple arrow"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 11,
+            "name": "gold coin"
+        },
+        {
+            "chance": 6300,
+            "name": "chain helmet"
+        },
+        {
+            "chance": 1520,
+            "name": "health potion"
+        },
+        {
+            "chance": 34410,
+            "maxCount": 5,
+            "name": "insectoid eggs"
+        },
+        {
+            "chance": 9940,
+            "name": "meat"
+        },
+        {
+            "chance": 2970,
+            "maxCount": 2,
+            "name": "poison arrow"
+        },
+        {
+            "chance": 4470,
+            "name": "short sword"
+        },
+        {
+            "chance": 5080,
+            "name": "shovel"
+        },
+        {
+            "chance": 4070,
+            "name": "studded helmet"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "troll_trained_salamander",
+    "threatDps": 10.0725,
+    "burstDps": 10.0725,
+    "avgHit": 19.5,
+    "maxHit": 24,
+    "manaCost": 0
+}

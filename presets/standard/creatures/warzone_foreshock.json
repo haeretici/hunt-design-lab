@@ -1,0 +1,163 @@
+{
+    "id": "warzone_foreshock",
+    "label": "Warzone Foreshock",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A warzone foreshock.",
+    "hp": 105000,
+    "hpMax": 105000,
+    "speed": 190,
+    "level": 889,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": -20,
+        "energy": -20,
+        "earth": 100,
+        "holy": 100,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 361,
+            "max": 904
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 4,
+            "element": "energy",
+            "min": 316,
+            "max": 723,
+            "length": 10,
+            "spread": 0,
+            "target": false,
+            "effect": "me_loseenergy"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "physical",
+            "min": 361,
+            "max": 904,
+            "radius": 8,
+            "target": false,
+            "effect": "me_hitarea"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 4,
+            "element": "physical",
+            "min": 316,
+            "max": 542,
+            "length": 10,
+            "spread": 0,
+            "target": false,
+            "effect": "me_blockhit"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 4,
+            "element": "holy",
+            "min": 316,
+            "max": 723,
+            "radius": 4,
+            "target": true,
+            "effect": "me_holydamage"
+        },
+        {
+            "id": "wave_5",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 4,
+            "element": "physical",
+            "min": 136,
+            "max": 271,
+            "length": 2,
+            "spread": 0,
+            "target": false,
+            "effect": "me_hitarea"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 300,
+            "max": 600,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "venom",
+    "loot": [],
+    "changeTarget": {
+        "interval": 3000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "glacier_forest_construct",
+    "threatDps": 588.4375,
+    "burstDps": 588.4375,
+    "avgHit": 534.9432,
+    "maxHit": 904,
+    "manaCost": 0
+}

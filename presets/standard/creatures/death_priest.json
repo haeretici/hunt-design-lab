@@ -1,0 +1,156 @@
+{
+    "id": "death_priest",
+    "label": "Death Priest",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A death priest.",
+    "hp": 800,
+    "hpMax": 800,
+    "speed": 102,
+    "level": 402,
+    "armor": 38,
+    "mitigation": 1.29,
+    "maxBlock": 0,
+    "exp": 750,
+    "lootValue": 54,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 80,
+        "earth": 100,
+        "holy": -20,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 80,
+        "health": 10,
+        "damage": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 82
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "death",
+            "min": 123,
+            "max": 257,
+            "target": true,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_death"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 20,
+            "min": 80,
+            "max": 200,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 2
+    },
+    "loot": [
+        {
+            "name": "white pearl",
+            "chance": 3000
+        },
+        {
+            "name": "gold coin",
+            "chance": 70000,
+            "maxCount": 144
+        },
+        {
+            "name": "scarab coin",
+            "chance": 10000,
+            "maxCount": 3
+        },
+        {
+            "chance": 6800,
+            "name": "spellbook"
+        },
+        {
+            "chance": 1000,
+            "name": "ring of healing"
+        },
+        {
+            "name": "orichalcum pearl",
+            "chance": 6000,
+            "maxCount": 4
+        },
+        {
+            "name": "health potion",
+            "chance": 15000
+        },
+        {
+            "name": "mana potion",
+            "chance": 15000
+        },
+        {
+            "chance": 27000,
+            "name": "hieroglyph banner"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "crystal_demon_priest",
+    "threatDps": 39.5,
+    "burstDps": 39.5,
+    "avgHit": 65.8333,
+    "maxHit": 257,
+    "manaCost": 0
+}

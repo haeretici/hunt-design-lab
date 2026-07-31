@@ -1,0 +1,100 @@
+{
+    "id": "living_furnace",
+    "label": "Living Furnace",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A living furnace.",
+    "hp": 7000,
+    "hpMax": 7000,
+    "speed": 130,
+    "level": 619,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 3500,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": 100,
+        "energy": 20,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "wave_0",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 35,
+            "range": 4,
+            "element": "fire",
+            "min": 496,
+            "max": 726,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_firearea"
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 35,
+            "range": 7,
+            "element": "fire",
+            "min": 0,
+            "max": 280,
+            "radius": 7,
+            "target": false,
+            "effect": "me_firearea"
+        }
+    ],
+    "race": "fire",
+    "loot": [],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 9
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "sun_orc_guard",
+    "threatDps": 131.425,
+    "burstDps": 131.425,
+    "avgHit": 375.5,
+    "maxHit": 726,
+    "manaCost": 0
+}

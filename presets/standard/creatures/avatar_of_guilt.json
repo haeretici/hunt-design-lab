@@ -1,0 +1,85 @@
+{
+    "id": "avatar_of_guilt",
+    "label": "Avatar Of Guilt",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An avatar of guilt.",
+    "hp": 1,
+    "hpMax": 1,
+    "speed": 0,
+    "level": 546,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "ranged_0",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 50,
+            "range": 7,
+            "element": "physical",
+            "min": 200,
+            "max": 500,
+            "target": true,
+            "shootEffect": "ani_energy"
+        }
+    ],
+    "race": "undead",
+    "loot": [],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "pig",
+    "threatDps": 87.5,
+    "burstDps": 87.5,
+    "avgHit": 350,
+    "maxHit": 500,
+    "manaCost": 0
+}

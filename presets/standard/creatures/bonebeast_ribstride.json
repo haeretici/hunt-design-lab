@@ -1,0 +1,211 @@
+{
+    "id": "bonebeast_ribstride",
+    "label": "Bonebeast Ribstride",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A bonebeast ribstride.",
+    "hp": 1000,
+    "hpMax": 1000,
+    "speed": 105,
+    "level": 424,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 1100,
+    "lootValue": 5369.9519230769,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -10,
+        "ice": 0,
+        "energy": 0,
+        "earth": 100,
+        "holy": -20,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 135,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 3,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 17,
+            "max": 32,
+            "radius": 3,
+            "target": false,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "earth",
+            "min": 34,
+            "max": 61,
+            "target": false,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "condition_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "earth",
+            "min": 34,
+            "max": 41,
+            "radius": 3,
+            "target": false,
+            "effect": "me_poisonarea"
+        },
+        {
+            "id": "condition_4",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "earth",
+            "min": 47,
+            "max": 54,
+            "length": 6,
+            "spread": 3,
+            "target": false,
+            "effect": "me_poisonarea"
+        },
+        {
+            "id": "slow_5",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -300,
+                "durationSec": 13
+            },
+            "target": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 30,
+            "max": 50,
+            "hpBelow": 0.7,
+            "effect": "me_hitbypoison"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "chance": 100000,
+            "name": "bony tail"
+        },
+        {
+            "chance": 98910,
+            "maxCount": 3,
+            "name": "hardened bone"
+        },
+        {
+            "chance": 98910,
+            "maxCount": 8,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 61960,
+            "maxCount": 4,
+            "name": "small diamond"
+        },
+        {
+            "chance": 60000,
+            "name": "bone shield"
+        },
+        {
+            "chance": 60000,
+            "maxCount": 4,
+            "name": "green mushroom"
+        },
+        {
+            "chance": 29000,
+            "name": "bonebeast trophy"
+        },
+        {
+            "chance": 8700,
+            "name": "skull helmet"
+        },
+        {
+            "chance": 2000,
+            "name": "maxilla maximus"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ethereal_storm_bear",
+    "threatDps": 44.4375,
+    "burstDps": 44.4375,
+    "avgHit": 59.2241,
+    "maxHit": 135,
+    "manaCost": 0
+}

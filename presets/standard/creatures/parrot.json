@@ -1,0 +1,89 @@
+{
+    "id": "parrot",
+    "label": "Parrot",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A parrot.",
+    "hp": 25,
+    "hpMax": 25,
+    "speed": 160,
+    "level": 55,
+    "armor": 2,
+    "mitigation": 0.15,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": false,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 25,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": true,
+        "attackable": true,
+        "hostile": false,
+        "convinceable": true,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 23
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Bird",
+        "toKill": 250,
+        "firstUnlock": 10,
+        "secondUnlock": 100,
+        "charmsPoints": 5,
+        "stars": 1,
+        "occurrence": 0
+    },
+    "loot": [],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "parrot",
+    "threatDps": 5.75,
+    "burstDps": 5.75,
+    "avgHit": 11.5,
+    "maxHit": 23,
+    "manaCost": 250
+}

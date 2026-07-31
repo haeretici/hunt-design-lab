@@ -1,0 +1,245 @@
+{
+    "id": "hydra_welter",
+    "label": "Hydra Welter",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A hydra welter.",
+    "hp": 25000,
+    "hpMax": 25000,
+    "speed": 128,
+    "level": 746,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 11000,
+    "lootValue": 11482.5,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 50,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 25
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 300,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "condition_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 17,
+            "range": 4,
+            "element": "earth",
+            "min": 1299,
+            "max": 1714,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_smallplants"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 14,
+            "range": 4,
+            "element": "death",
+            "min": 519,
+            "max": 1169,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_blacksmoke"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 18,
+            "range": 7,
+            "element": "ice",
+            "min": 390,
+            "max": 701,
+            "radius": 4,
+            "target": true,
+            "effect": "me_iceattack",
+            "shootEffect": "ani_ice"
+        },
+        {
+            "id": "melee_4",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 13,
+            "range": 1,
+            "element": "ice",
+            "min": 312,
+            "max": 597,
+            "radius": 1,
+            "target": true,
+            "effect": "me_iceattack",
+            "shootEffect": "ani_ice"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 32,
+            "min": 250,
+            "max": 600,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "heal_1",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 12,
+            "min": 150,
+            "max": 700,
+            "hpBelow": 0.7,
+            "effect": "me_magic_green"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 200,
+            "name": "silver raid token"
+        },
+        {
+            "chance": 200,
+            "name": "triple bolt crossbow"
+        },
+        {
+            "chance": 2000,
+            "name": "warrior helmet"
+        },
+        {
+            "chance": 500,
+            "name": "shrunken head necklace"
+        },
+        {
+            "chance": 1000,
+            "name": "boots of haste"
+        },
+        {
+            "chance": 2000,
+            "name": "Gorgon Shield"
+        },
+        {
+            "chance": 2000,
+            "name": "ice rapier"
+        },
+        {
+            "chance": 20000,
+            "maxCount": 2,
+            "name": "small sapphire"
+        },
+        {
+            "chance": 3000,
+            "name": "knight armor"
+        },
+        {
+            "chance": 20000,
+            "maxCount": 2,
+            "name": "strong health potion"
+        },
+        {
+            "chance": 1000,
+            "name": "sacred tree amulet"
+        },
+        {
+            "chance": 20000,
+            "name": "Stonehide Amulet"
+        },
+        {
+            "chance": 800,
+            "name": "gold ingot"
+        },
+        {
+            "chance": 500,
+            "name": "royal helmet"
+        },
+        {
+            "id": 281,
+            "chance": 600
+        },
+        {
+            "chance": 2000,
+            "name": "hydra egg"
+        },
+        {
+            "chance": 20000,
+            "maxCount": 2,
+            "name": "strong mana potion"
+        },
+        {
+            "chance": 20000,
+            "maxCount": 10,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 20000,
+            "maxCount": 100,
+            "name": "gold coin"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 5
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "sanguine_crypt_drake_vanguard",
+    "threatDps": 265.77,
+    "burstDps": 265.77,
+    "avgHit": 857.3226,
+    "maxHit": 1714,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 1,
+        "summons": [
+            {
+                "name": "Spawn Of Hydra Welter",
+                "id": "spawn_of_hydra_welter",
+                "chance": 16,
+                "interval": 2000,
+                "count": 1
+            }
+        ]
+    }
+}

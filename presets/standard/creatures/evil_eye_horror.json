@@ -1,0 +1,250 @@
+{
+    "id": "evil_eye_horror",
+    "label": "Evil Eye Horror",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An evil eye horror.",
+    "hp": 1200,
+    "hpMax": 1200,
+    "speed": 175,
+    "level": 443,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 750,
+    "lootValue": 2453.6538461538,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 100,
+        "holy": -1,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 3,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 15,
+            "range": 7,
+            "element": "energy",
+            "min": 28,
+            "max": 60,
+            "target": false,
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 13,
+            "range": 7,
+            "element": "fire",
+            "min": 39,
+            "max": 53,
+            "target": false,
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 17,
+            "range": 7,
+            "element": "physical",
+            "min": 62,
+            "max": 80,
+            "target": false,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "ranged_4",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 15,
+            "range": 7,
+            "element": "earth",
+            "min": 18,
+            "max": 55,
+            "target": false,
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "ranged_5",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 12,
+            "range": 7,
+            "element": "lifedrain",
+            "min": 51,
+            "max": 60,
+            "target": false,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "slow_6",
+            "kind": "status",
+            "intervalMs": 1000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -850,
+                "durationSec": 20
+            },
+            "effect": "me_magic_red",
+            "target": false
+        },
+        {
+            "id": "wave_7",
+            "kind": "wave",
+            "intervalMs": 1000,
+            "chance": 8,
+            "range": 4,
+            "element": "earth",
+            "min": 16,
+            "max": 39,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_green_rings"
+        },
+        {
+            "id": "wave_8",
+            "kind": "wave",
+            "intervalMs": 1000,
+            "chance": 6,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 34,
+            "max": 39,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "wave_9",
+            "kind": "wave",
+            "intervalMs": 1000,
+            "chance": 9,
+            "range": 4,
+            "element": "manadrain",
+            "min": 69,
+            "max": 115,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_loseenergy"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 1000,
+            "chance": 9,
+            "min": 1,
+            "max": 219,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 100000,
+            "name": "bonelord eye"
+        },
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 29
+        },
+        {
+            "name": "bonelord shield",
+            "chance": 13640
+        },
+        {
+            "name": "bonelord helmet",
+            "chance": 500
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ember_ruins_horror",
+    "threatDps": 49.455,
+    "burstDps": 49.455,
+    "avgHit": 52.0579,
+    "maxHit": 115,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 5,
+        "summons": [
+            {
+                "name": "Bone Fiend",
+                "id": "bone_fiend",
+                "chance": 13,
+                "interval": 1000,
+                "count": 5
+            },
+            {
+                "name": "Ghost",
+                "id": "ghost",
+                "chance": 12,
+                "interval": 1000,
+                "count": 3
+            }
+        ]
+    }
+}

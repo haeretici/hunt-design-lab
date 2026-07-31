@@ -1,0 +1,144 @@
+{
+    "id": "nightmarish_dream",
+    "label": "Nightmarish Dream",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A nightmarish dream.",
+    "hp": 1,
+    "hpMax": 1,
+    "speed": 100,
+    "level": 417,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": -20,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 500,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 100,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 3,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 100,
+            "max": 200,
+            "radius": 4,
+            "target": false,
+            "effect": "me_sound_red"
+        },
+        {
+            "id": "melee_2",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 1,
+            "element": "death",
+            "min": 55,
+            "max": 350,
+            "radius": 1,
+            "target": true,
+            "effect": "me_smallclouds"
+        },
+        {
+            "id": "slow_3",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -300,
+                "durationSec": 15
+            },
+            "effect": "me_magic_red",
+            "target": false
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 120,
+            "max": 190,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "undead",
+    "loot": [],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "parrot",
+    "threatDps": 42.8125,
+    "burstDps": 42.8125,
+    "avgHit": 68.8542,
+    "maxHit": 350,
+    "manaCost": 0
+}

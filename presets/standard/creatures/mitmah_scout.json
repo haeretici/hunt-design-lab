@@ -1,0 +1,198 @@
+{
+    "id": "mitmah_scout",
+    "label": "Mitmah Scout",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A mitmah scout.",
+    "hp": 3940,
+    "hpMax": 3940,
+    "speed": 140,
+    "level": 561,
+    "armor": 45,
+    "mitigation": 2.02,
+    "maxBlock": 0,
+    "exp": 3230,
+    "lootValue": 855.68312706776,
+    "aggro": true,
+    "resists": {
+        "physical": 5,
+        "fire": 10,
+        "ice": 15,
+        "energy": -5,
+        "earth": -14,
+        "holy": -10,
+        "death": 15
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 159
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "physical",
+            "min": 199,
+            "max": 318,
+            "radius": 4,
+            "target": false,
+            "effect": "me_poff"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 5,
+            "element": "energy",
+            "min": 159,
+            "max": 318,
+            "target": true,
+            "effect": "me_energyarea",
+            "shootEffect": "ani_powerbolt"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 5,
+            "min": 50,
+            "max": 180,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Extra Dimensional",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 10
+        },
+        {
+            "name": "broken mitmah necklace",
+            "chance": 17180
+        },
+        {
+            "name": "brown crystal splinter",
+            "chance": 7620
+        },
+        {
+            "id": 281,
+            "chance": 7400
+        },
+        {
+            "name": "green crystal splinter",
+            "chance": 6890
+        },
+        {
+            "name": "strong health potion",
+            "chance": 6170,
+            "maxCount": 3
+        },
+        {
+            "name": "opal",
+            "chance": 4080
+        },
+        {
+            "name": "onyx chip",
+            "chance": 3670
+        },
+        {
+            "name": "gold ingot",
+            "chance": 2880
+        },
+        {
+            "chance": 2450,
+            "name": "yellow gem"
+        },
+        {
+            "name": "prismatic quartz",
+            "chance": 2410
+        },
+        {
+            "name": "ruby necklace",
+            "chance": 1810
+        },
+        {
+            "name": "gold-brocaded cloth",
+            "chance": 1340
+        },
+        {
+            "name": "drill bolt",
+            "chance": 1270,
+            "maxCount": 10
+        },
+        {
+            "chance": 320,
+            "name": "gold nugget"
+        },
+        {
+            "name": "ornate crossbow",
+            "chance": 140
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 15
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "dark_sphinx_scout",
+    "threatDps": 95.4125,
+    "burstDps": 95.4125,
+    "avgHit": 131.6034,
+    "maxHit": 318,
+    "manaCost": 0
+}

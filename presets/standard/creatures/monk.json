@@ -1,0 +1,166 @@
+{
+    "id": "monk",
+    "label": "Monk",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A monk.",
+    "hp": 1,
+    "hpMax": 1,
+    "speed": 120,
+    "level": 367,
+    "armor": 25,
+    "mitigation": 1.37,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 12.976623376623,
+    "aggro": true,
+    "resists": {
+        "physical": -5,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 50,
+        "death": 50
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 20,
+        "damage": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": true,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 130
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 30,
+            "max": 50,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 300,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Human",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 2000,
+            "name": "scroll"
+        },
+        {
+            "name": "brown flask",
+            "chance": 820
+        },
+        {
+            "chance": 880,
+            "name": "lamp"
+        },
+        {
+            "name": "gold coin",
+            "chance": 15000,
+            "maxCount": 18
+        },
+        {
+            "chance": 100,
+            "name": "power ring"
+        },
+        {
+            "name": "life crystal",
+            "chance": 1002
+        },
+        {
+            "name": "ankh",
+            "chance": 2240
+        },
+        {
+            "chance": 440,
+            "name": "staff"
+        },
+        {
+            "name": "sandals",
+            "chance": 710
+        },
+        {
+            "name": "bread",
+            "chance": 20000
+        },
+        {
+            "name": "book of prayers",
+            "chance": 4930
+        },
+        {
+            "name": "rope belt",
+            "chance": 2950
+        },
+        {
+            "name": "safety pin",
+            "chance": 1001
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "umbral_ice_orc_packleader",
+    "threatDps": 32.5,
+    "burstDps": 32.5,
+    "avgHit": 65,
+    "maxHit": 130,
+    "manaCost": 600
+}

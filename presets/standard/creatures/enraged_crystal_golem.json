@@ -1,0 +1,126 @@
+{
+    "id": "enraged_crystal_golem",
+    "label": "Enraged Crystal Golem",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An enraged crystal golem.",
+    "hp": 700,
+    "hpMax": 700,
+    "speed": 120,
+    "level": 389,
+    "armor": 38,
+    "mitigation": 1.04,
+    "maxBlock": 0,
+    "exp": 550,
+    "lootValue": 150.50839022523,
+    "aggro": true,
+    "resists": {
+        "physical": 20,
+        "fire": 100,
+        "ice": 100,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 147
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Construct",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 100
+        },
+        {
+            "name": "crystal sword",
+            "chance": 4710
+        },
+        {
+            "name": "glorious axe",
+            "chance": 360
+        },
+        {
+            "name": "strong health potion",
+            "chance": 7140
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 8270
+        },
+        {
+            "name": "blue crystal splinter",
+            "chance": 4120
+        },
+        {
+            "name": "cyan crystal fragment",
+            "chance": 1050
+        },
+        {
+            "name": "crystalline spikes",
+            "chance": 7980
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "solar_volcano_golem_slayer",
+    "threatDps": 36.75,
+    "burstDps": 36.75,
+    "avgHit": 73.5,
+    "maxHit": 147,
+    "manaCost": 0
+}

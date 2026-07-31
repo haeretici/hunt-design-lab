@@ -1,0 +1,17 @@
+{
+    "id": "starter_duo",
+    "label": "Starter Duo",
+    "notes": "Default product party: Guardian + Scout base profiles. May evolve with balance work.",
+    "members": [
+        {
+            "profileId": "guardian_starter",
+            "name": "Guardian",
+            "isLeader": true
+        },
+        {
+            "profileId": "scout_starter",
+            "name": "Scout",
+            "isLeader": false
+        }
+    ]
+}

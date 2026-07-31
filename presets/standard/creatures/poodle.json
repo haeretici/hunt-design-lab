@@ -1,0 +1,81 @@
+{
+    "id": "poodle",
+    "label": "Poodle",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A poodle.",
+    "hp": 20,
+    "hpMax": 20,
+    "speed": 100,
+    "level": 30,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": false,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 8,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": true,
+        "attackable": true,
+        "hostile": false,
+        "convinceable": false,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "element": "physical",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "min": 1,
+            "max": 19,
+            "target": true
+        }
+    ],
+    "race": "blood",
+    "loot": [],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "poodle",
+    "threatDps": 5,
+    "burstDps": 5,
+    "avgHit": 10,
+    "maxHit": 19,
+    "manaCost": 220
+}

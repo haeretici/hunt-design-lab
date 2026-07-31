@@ -1,0 +1,107 @@
+{
+    "id": "scar_tribe_warrior",
+    "label": "Scar Tribe Warrior",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A scar tribe warrior.",
+    "hp": 125,
+    "hpMax": 125,
+    "speed": 80,
+    "level": 216,
+    "armor": 7,
+    "mitigation": 0.33,
+    "maxBlock": 0,
+    "exp": 85,
+    "lootValue": 15.75,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "element": "physical",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "min": 6,
+            "max": 50,
+            "target": true
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 6740,
+            "name": "broken helmet"
+        },
+        {
+            "chance": 5620,
+            "name": "chain armor"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 8,
+            "name": "gold coin"
+        },
+        {
+            "chance": 13480,
+            "name": "meat"
+        },
+        {
+            "chance": 5620,
+            "name": "orc leather"
+        },
+        {
+            "chance": 1120,
+            "name": "skull belt"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "scar_tribe_warrior",
+    "threatDps": 14,
+    "burstDps": 14,
+    "avgHit": 28,
+    "maxHit": 50,
+    "manaCost": 0
+}

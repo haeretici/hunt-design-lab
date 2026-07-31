@@ -1,0 +1,137 @@
+{
+    "id": "arcane_enchantress",
+    "label": "Arcane Enchantress",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An arcane enchantress.",
+    "hp": 100000,
+    "hpMax": 100000,
+    "speed": 150,
+    "level": 884,
+    "armor": 15,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 40000,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 1,
+            "element": "manadrain",
+            "min": 0,
+            "max": 8331,
+            "target": false
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "lifedrain",
+            "min": 0,
+            "max": 6942,
+            "target": true,
+            "effect": "me_magic_red"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 1000,
+            "chance": 1,
+            "min": 0,
+            "max": 10000,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "heal_1",
+            "kind": "heal",
+            "intervalMs": 3500,
+            "chance": 30,
+            "min": 1000,
+            "max": 1000,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "id": 6571,
+            "chance": 100000,
+            "maxCount": 2
+        },
+        {
+            "id": 281,
+            "chance": 100000
+        },
+        {
+            "chance": 100000,
+            "name": "anniversary cake"
+        },
+        {
+            "chance": 100000,
+            "unique": true,
+            "name": "Chayenne's magical key"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "hive_spore_vent",
+    "threatDps": 572.7375,
+    "burstDps": 572.7375,
+    "avgHit": 3818.25,
+    "maxHit": 8331,
+    "manaCost": 0
+}

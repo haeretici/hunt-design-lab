@@ -1,0 +1,161 @@
+{
+    "id": "valkyrie",
+    "label": "Valkyrie",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A valkyrie.",
+    "hp": 190,
+    "hpMax": 190,
+    "speed": 88,
+    "level": 258,
+    "armor": 12,
+    "mitigation": 0.36,
+    "maxBlock": 0,
+    "exp": 85,
+    "lootValue": 23.833752444817,
+    "aggro": true,
+    "resists": {
+        "physical": -10,
+        "fire": 10,
+        "ice": 10,
+        "energy": 0,
+        "earth": 0,
+        "holy": 5,
+        "death": -5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 10,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": true,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 64
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 5,
+            "element": "physical",
+            "min": 0,
+            "max": 46,
+            "target": false,
+            "shootEffect": "ani_spear"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Human",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "spear",
+            "chance": 55000,
+            "maxCount": 3
+        },
+        {
+            "name": "gold coin",
+            "chance": 32000,
+            "maxCount": 12
+        },
+        {
+            "name": "meat",
+            "chance": 30000
+        },
+        {
+            "name": "chain armor",
+            "chance": 10000
+        },
+        {
+            "name": "red apple",
+            "chance": 7500,
+            "maxCount": 2
+        },
+        {
+            "name": "girlish hair decoration",
+            "chance": 5900
+        },
+        {
+            "name": "hunting spear",
+            "chance": 5155
+        },
+        {
+            "name": "protective charm",
+            "chance": 3200
+        },
+        {
+            "name": "protection amulet",
+            "chance": 1100
+        },
+        {
+            "name": "plate armor",
+            "chance": 830
+        },
+        {
+            "chance": 760,
+            "name": "skull"
+        },
+        {
+            "name": "health potion",
+            "chance": 500
+        },
+        {
+            "name": "double axe",
+            "chance": 430
+        },
+        {
+            "name": "small diamond",
+            "chance": 130
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "radiant_desert_elf_champion",
+    "threatDps": 17.725,
+    "burstDps": 17.725,
+    "avgHit": 30.8261,
+    "maxHit": 64,
+    "manaCost": 450
+}

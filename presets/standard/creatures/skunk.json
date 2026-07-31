@@ -1,0 +1,109 @@
+{
+    "id": "skunk",
+    "label": "Skunk",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A skunk.",
+    "hp": 20,
+    "hpMax": 20,
+    "speed": 68,
+    "level": 35,
+    "armor": 1,
+    "mitigation": 0.13,
+    "maxBlock": 0,
+    "exp": 3,
+    "lootValue": 0.49814126394052,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 8,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": true,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 19
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 1,
+            "element": "earth",
+            "min": 4,
+            "max": 11,
+            "target": true
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Mammal",
+        "toKill": 250,
+        "firstUnlock": 10,
+        "secondUnlock": 100,
+        "charmsPoints": 5,
+        "stars": 1,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "bulb of garlic",
+            "chance": 4910
+        },
+        {
+            "name": "skunk tail",
+            "chance": 920
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "skunk",
+    "threatDps": 5.125,
+    "burstDps": 5.125,
+    "avgHit": 9.3182,
+    "maxHit": 19,
+    "manaCost": 200
+}

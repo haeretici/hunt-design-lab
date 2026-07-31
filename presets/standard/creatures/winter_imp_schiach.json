@@ -1,0 +1,181 @@
+{
+    "id": "winter_imp_schiach",
+    "label": "Winter Imp Schiach",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A winter imp schiach.",
+    "hp": 600,
+    "hpMax": 600,
+    "speed": 140,
+    "level": 375,
+    "armor": 43,
+    "mitigation": 0.78,
+    "maxBlock": 0,
+    "exp": 580,
+    "lootValue": 304.95455944831,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -20,
+        "ice": 10,
+        "energy": 0,
+        "earth": 0,
+        "holy": -20,
+        "death": 10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 50,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 12,
+            "max": 23
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 70,
+            "range": 7,
+            "element": "ice",
+            "min": 12,
+            "max": 15,
+            "target": false,
+            "shootEffect": "ani_snowball"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 50,
+            "range": 4,
+            "element": "ice",
+            "min": 11,
+            "max": 29,
+            "length": 3,
+            "spread": 0,
+            "target": false,
+            "effect": "me_giantice"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 50,
+            "range": 4,
+            "element": "fire",
+            "min": 12,
+            "max": 29,
+            "radius": 3,
+            "target": true,
+            "effect": "me_firearea"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 50,
+            "range": 4,
+            "element": "fire",
+            "min": 12,
+            "max": 29,
+            "radius": 4,
+            "target": false,
+            "effect": "me_explosionhit"
+        },
+        {
+            "id": "wave_5",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 50,
+            "range": 4,
+            "element": "fire",
+            "min": 12,
+            "max": 29,
+            "length": 3,
+            "spread": 0,
+            "target": false,
+            "effect": "me_fireattack"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Fey",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 2
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 50
+        },
+        {
+            "name": "broken bell",
+            "chance": 11070
+        },
+        {
+            "name": "percht horns",
+            "chance": 3960
+        },
+        {
+            "name": "bright bell",
+            "chance": 2920
+        },
+        {
+            "name": "Frostbound Kilt",
+            "chance": 1180
+        },
+        {
+            "name": "Frostbound Robe",
+            "chance": 630
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "magical_sphere",
+    "threatDps": 33.85,
+    "burstDps": 33.85,
+    "avgHit": 18.2973,
+    "maxHit": 29,
+    "manaCost": 0
+}

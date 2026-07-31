@@ -1,0 +1,253 @@
+{
+    "id": "lovely_dreadmaw",
+    "label": "Lovely Dreadmaw",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A lovely dreadmaw.",
+    "hp": 4100,
+    "hpMax": 4100,
+    "speed": 200,
+    "level": 565,
+    "armor": 30,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 3400,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 100,
+        "fire": 100,
+        "ice": 100,
+        "energy": 100,
+        "earth": 100,
+        "holy": 100,
+        "death": 15
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 12,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 501,
+            "radius": 3,
+            "target": false,
+            "effect": "me_hitarea"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 13,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 125,
+            "max": 876,
+            "length": 5,
+            "spread": 0,
+            "target": true,
+            "effect": "me_explosionarea"
+        },
+        {
+            "id": "condition_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 16,
+            "range": 4,
+            "element": "physical",
+            "min": 501,
+            "max": 751,
+            "radius": 2,
+            "target": true,
+            "effect": "me_stones",
+            "shootEffect": "ani_largerock"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 13,
+            "min": 250,
+            "max": 425,
+            "hpBelow": 0.7,
+            "effect": "me_hitbypoison"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 4490,
+            "name": "cluster of solace"
+        },
+        {
+            "chance": 18560,
+            "name": "frazzle tongue"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 100,
+            "name": "gold coin"
+        },
+        {
+            "chance": 14490,
+            "maxCount": 2,
+            "name": "great health potion"
+        },
+        {
+            "chance": 14810,
+            "maxCount": 3,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 7,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 9920,
+            "name": "banana skin"
+        },
+        {
+            "chance": 10210,
+            "name": "piece of iron"
+        },
+        {
+            "chance": 10040,
+            "name": "fishbone"
+        },
+        {
+            "chance": 12380,
+            "name": "skull"
+        },
+        {
+            "chance": 9510,
+            "name": "bone"
+        },
+        {
+            "chance": 5360,
+            "name": "big bone"
+        },
+        {
+            "chance": 6780,
+            "maxCount": 3,
+            "name": "fish"
+        },
+        {
+            "chance": 5960,
+            "maxCount": 2,
+            "name": "ham"
+        },
+        {
+            "chance": 3000,
+            "name": "iron ore"
+        },
+        {
+            "chance": 4650,
+            "name": "fish fin"
+        },
+        {
+            "chance": 5190,
+            "name": "hardened bone"
+        },
+        {
+            "chance": 10670,
+            "name": "fish tail"
+        },
+        {
+            "chance": 990,
+            "name": "assassin dagger"
+        },
+        {
+            "chance": 2110,
+            "name": "haunted blade"
+        },
+        {
+            "chance": 3170,
+            "name": "two handed sword"
+        },
+        {
+            "chance": 1030,
+            "name": "nightmare blade"
+        },
+        {
+            "chance": 2330,
+            "name": "gold ingot"
+        },
+        {
+            "chance": 1600,
+            "name": "sai"
+        },
+        {
+            "chance": 3000,
+            "name": "violet crystal shard"
+        },
+        {
+            "chance": 15640,
+            "name": "brown crystal splinter"
+        },
+        {
+            "chance": 5230,
+            "name": "red crystal fragment"
+        },
+        {
+            "chance": 9640,
+            "name": "remains of a crude dream"
+        },
+        {
+            "chance": 15990,
+            "name": "frazzle skin"
+        },
+        {
+            "chance": 9430,
+            "name": "remains of a fish"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "silver_rabbit",
+    "threatDps": 97.6425,
+    "burstDps": 97.6425,
+    "avgHit": 476.3049,
+    "maxHit": 876,
+    "manaCost": 0
+}

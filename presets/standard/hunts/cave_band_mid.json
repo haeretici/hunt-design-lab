@@ -1,0 +1,15 @@
+{
+    "id": "cave_band_mid",
+    "label": "Cave band: mid threat (L200–400)",
+    "notes": "docs/24 I1 — generator-owned small_crawl with cave_mid_mixed population (diverse level-banded ids). artSet cave_simple. Same layout family as cave_band_low for A/B pressure comparison.",
+    "layout": {
+        "type": "procedural",
+        "profileId": "small_crawl"
+    },
+    "populationId": "cave_mid_mixed",
+    "artSet": "cave_simple",
+    "limits": {
+        "maxSeconds": 120,
+        "maxFrames": 2400
+    }
+}

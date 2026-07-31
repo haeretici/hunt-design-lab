@@ -1,0 +1,155 @@
+{
+    "id": "cave_hermit",
+    "label": "Cave Hermit",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A cave hermit.",
+    "hp": 485,
+    "hpMax": 485,
+    "speed": 105,
+    "level": 353,
+    "armor": 0,
+    "mitigation": 1,
+    "maxBlock": 0,
+    "exp": 777,
+    "lootValue": 4273.2666666667,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 50,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 92
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 140,
+            "target": false,
+            "shootEffect": "ani_smallstone"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 12,
+            "speedChange": 250,
+            "durationSec": 4,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "heal_1",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 25,
+            "min": 10,
+            "max": 50,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 3,
+            "name": "rope"
+        },
+        {
+            "chance": 38000,
+            "name": "mercenary sword"
+        },
+        {
+            "chance": 30000,
+            "name": "brown piece of cloth"
+        },
+        {
+            "chance": 30000,
+            "maxCount": 39,
+            "name": "gold coin"
+        },
+        {
+            "chance": 15000,
+            "name": "fur cap"
+        },
+        {
+            "chance": 8000,
+            "name": "shard"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "flamingo",
+    "threatDps": 30,
+    "burstDps": 30,
+    "avgHit": 50,
+    "maxHit": 140,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 5,
+        "summons": [
+            {
+                "name": "Monk",
+                "id": "monk",
+                "chance": 20,
+                "interval": 2000,
+                "count": 2
+            }
+        ]
+    }
+}

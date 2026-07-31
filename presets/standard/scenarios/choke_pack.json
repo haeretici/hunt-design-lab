@@ -1,0 +1,58 @@
+{
+    "id": "choke_pack",
+    "label": "Choke pack",
+    "notes": "Dense cave_rat pack near route start for immediate multi-mob combat. Generator-owned fixed shell (outskirts_camp_fixed); short route — no full camp walk.",
+    "baseHuntId": "outskirts_camp_fixed",
+    "seed": 1,
+    "frames": 800,
+    "maxTicks": 800,
+    "waypoints": [
+        {
+            "x": 0,
+            "y": 3,
+            "z": 0
+        },
+        {
+            "x": 5,
+            "y": 3,
+            "z": 0
+        }
+    ],
+    "spawns": [
+        {
+            "creatureId": "cave_rat",
+            "x": 1,
+            "y": 3,
+            "z": 0,
+            "respawn": 0
+        },
+        {
+            "creatureId": "cave_rat",
+            "x": 2,
+            "y": 3,
+            "z": 0,
+            "respawn": 0
+        },
+        {
+            "creatureId": "cave_rat",
+            "x": 3,
+            "y": 3,
+            "z": 0,
+            "respawn": 0
+        },
+        {
+            "creatureId": "cave_rat",
+            "x": 4,
+            "y": 3,
+            "z": 0,
+            "respawn": 0
+        },
+        {
+            "creatureId": "cave_rat",
+            "x": 5,
+            "y": 3,
+            "z": 0,
+            "respawn": 0
+        }
+    ]
+}

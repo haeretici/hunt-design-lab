@@ -1,0 +1,16 @@
+{
+    "id": "catalog_crawl_generated",
+    "label": "Catalog crawl (generator-owned)",
+    "notes": "Stage 9 catalog content bar: layout.procedural + small_crawl; population catalog_dwarves (catalog creature ids only). Party uses preset equipment ids (not catalog art-only ancient_* stubs). Replaces retired floor07_catalog hand corridor.",
+    "layout": {
+        "type": "procedural",
+        "profileId": "small_crawl"
+    },
+    "populationId": "catalog_dwarves",
+    "artSet": "cave",
+    "genre": "rpg_fantasy",
+    "limits": {
+        "maxSeconds": 90,
+        "maxFrames": 1800
+    }
+}

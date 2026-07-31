@@ -1,0 +1,176 @@
+{
+    "id": "sphinx",
+    "label": "Sphinx",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A sphinx.",
+    "hp": 8500,
+    "hpMax": 8500,
+    "speed": 145,
+    "level": 638,
+    "armor": 82,
+    "mitigation": 2.45,
+    "maxBlock": 0,
+    "exp": 6980,
+    "lootValue": 1409.1298982949,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 10,
+        "ice": -14,
+        "energy": 0,
+        "earth": 0,
+        "holy": 15,
+        "death": -12
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 10,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 255
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 4,
+            "element": "fire",
+            "min": 128,
+            "max": 319,
+            "length": 6,
+            "spread": 0,
+            "target": false,
+            "effect": "me_firearea"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 35,
+            "range": 5,
+            "element": "holy",
+            "min": 64,
+            "max": 223,
+            "radius": 3,
+            "target": true,
+            "effect": "me_holyarea",
+            "shootEffect": "ani_smallholy"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 4,
+            "element": "energy",
+            "min": 128,
+            "max": 255,
+            "radius": 3,
+            "target": false,
+            "effect": "me_energyarea"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Magical",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 3
+        },
+        {
+            "name": "sphinx feather",
+            "chance": 9300
+        },
+        {
+            "name": "Emberbound Amulet",
+            "chance": 7000
+        },
+        {
+            "chance": 5500,
+            "name": "sphinx tiara"
+        },
+        {
+            "name": "Emberbound Boots",
+            "chance": 3600
+        },
+        {
+            "name": "Stormbound Pendant",
+            "chance": 3500
+        },
+        {
+            "name": "Stormbound Headband",
+            "chance": 3100
+        },
+        {
+            "name": "wand of starstorm",
+            "chance": 2900
+        },
+        {
+            "name": "wand of defiance",
+            "chance": 1800
+        },
+        {
+            "name": "Emberbound Monocle",
+            "chance": 1400
+        },
+        {
+            "name": "Emberbound Legs",
+            "chance": 1300
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "dark_sphinx_scout",
+    "threatDps": 146.325,
+    "burstDps": 146.325,
+    "avgHit": 154.0263,
+    "maxHit": 319,
+    "manaCost": 0
+}

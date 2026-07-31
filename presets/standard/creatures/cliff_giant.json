@@ -1,0 +1,291 @@
+{
+    "id": "cliff_giant",
+    "label": "Cliff Giant",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A cliff giant.",
+    "hp": 9400,
+    "hpMax": 9400,
+    "speed": 123,
+    "level": 648,
+    "armor": 89,
+    "mitigation": 2.6,
+    "maxBlock": 0,
+    "exp": 7100,
+    "lootValue": 2515.8543209877,
+    "aggro": true,
+    "resists": {
+        "physical": 10,
+        "fire": 20,
+        "ice": 20,
+        "energy": 5,
+        "earth": 100,
+        "holy": 0,
+        "death": 35
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 386
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 619,
+            "radius": 4,
+            "target": true,
+            "effect": "me_stones",
+            "shootEffect": "ani_largerock"
+        },
+        {
+            "id": "cliff_strider_electrify_3",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 1,
+            "element": "physical",
+            "target": false,
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "wave_4",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 774,
+            "length": 6,
+            "spread": 0,
+            "target": false,
+            "effect": "me_groundshaker"
+        },
+        {
+            "id": "area_5",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "manadrain",
+            "min": 77,
+            "max": 232,
+            "radius": 4,
+            "target": false,
+            "effect": "me_yellowenergy"
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Elemental",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 1
+    },
+    "loot": [
+        {
+            "name": "white pearl",
+            "chance": 9630,
+            "maxCount": 3
+        },
+        {
+            "name": "black pearl",
+            "chance": 9090
+        },
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 95
+        },
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 10
+        },
+        {
+            "chance": 6110,
+            "name": "red gem"
+        },
+        {
+            "name": "blue gem",
+            "chance": 830
+        },
+        {
+            "name": "giant sword",
+            "chance": 620
+        },
+        {
+            "name": "hammer of wrath",
+            "chance": 70
+        },
+        {
+            "name": "knight legs",
+            "chance": 830
+        },
+        {
+            "name": "Regal Crown Armor",
+            "chance": 310
+        },
+        {
+            "name": "crusader helmet",
+            "chance": 410
+        },
+        {
+            "name": "steel boots",
+            "chance": 100
+        },
+        {
+            "name": "iron ore",
+            "chance": 14490
+        },
+        {
+            "name": "magic sulphur",
+            "chance": 1450
+        },
+        {
+            "name": "soul orb",
+            "chance": 17080
+        },
+        {
+            "name": "sapphire hammer",
+            "chance": 1350
+        },
+        {
+            "name": "spiked squelcher",
+            "chance": 1040
+        },
+        {
+            "name": "great mana potion",
+            "chance": 30950,
+            "maxCount": 4
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 25260,
+            "maxCount": 2
+        },
+        {
+            "name": "crystal of balance",
+            "chance": 2690
+        },
+        {
+            "name": "crystal of power",
+            "chance": 720
+        },
+        {
+            "name": "shiny stone",
+            "chance": 11280
+        },
+        {
+            "name": "wand of defiance",
+            "chance": 2000
+        },
+        {
+            "name": "glacial rod",
+            "chance": 1240
+        },
+        {
+            "name": "blue crystal shard",
+            "chance": 6520
+        },
+        {
+            "name": "blue crystal splinter",
+            "chance": 7970,
+            "maxCount": 2
+        },
+        {
+            "name": "cyan crystal fragment",
+            "chance": 8070
+        },
+        {
+            "name": "pulverized ore",
+            "chance": 15110
+        },
+        {
+            "name": "cliff strider claw",
+            "chance": 15630
+        },
+        {
+            "name": "vein of ore",
+            "chance": 18000,
+            "maxCount": 2
+        },
+        {
+            "name": "prismatic bolt",
+            "chance": 9090,
+            "maxCount": 8
+        },
+        {
+            "name": "crystalline sword",
+            "chance": 620
+        },
+        {
+            "name": "crystal crossbow",
+            "chance": 830
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "radiant_fire_giant_priest",
+    "threatDps": 154.525,
+    "burstDps": 154.525,
+    "avgHit": 220.75,
+    "maxHit": 774,
+    "manaCost": 0
+}

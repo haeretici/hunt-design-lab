@@ -1,0 +1,158 @@
+{
+    "id": "honey_elemental",
+    "label": "Honey Elemental",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A honey elemental.",
+    "hp": 2560,
+    "hpMax": 2560,
+    "speed": 100,
+    "level": 519,
+    "armor": 34,
+    "mitigation": 1.02,
+    "maxBlock": 0,
+    "exp": 2400,
+    "lootValue": 732.50578338591,
+    "aggro": true,
+    "resists": {
+        "physical": 30,
+        "fire": 20,
+        "ice": -5,
+        "energy": -10,
+        "earth": 20,
+        "holy": 5,
+        "death": 30
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 236
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "fire",
+            "min": 113,
+            "max": 213,
+            "radius": 4,
+            "target": false,
+            "effect": "me_yellow_rings"
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Elemental",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "small diamond",
+            "chance": 3010
+        },
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 100
+        },
+        {
+            "name": "small emerald",
+            "chance": 3760,
+            "maxCount": 2
+        },
+        {
+            "name": "platinum coin",
+            "chance": 85000,
+            "maxCount": 6
+        },
+        {
+            "chance": 3870,
+            "name": "honeycomb"
+        },
+        {
+            "chance": 1180,
+            "name": "beijinho"
+        },
+        {
+            "chance": 1070,
+            "name": "Emberbound Boots"
+        },
+        {
+            "chance": 756,
+            "name": "Emberbound Legs"
+        },
+        {
+            "name": "strong health potion",
+            "chance": 4620
+        },
+        {
+            "chance": 430,
+            "name": "fire sword"
+        },
+        {
+            "name": "Earthbound Amulet",
+            "chance": 540
+        },
+        {
+            "chance": 433,
+            "maxCount": 6,
+            "name": "dark chocolate coin"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "arcane_elemental_vanguard",
+    "threatDps": 75.3,
+    "burstDps": 75.3,
+    "avgHit": 125.5,
+    "maxHit": 236,
+    "manaCost": 0
+}

@@ -1,0 +1,138 @@
+{
+    "id": "infernal_handmaiden",
+    "label": "Infernal Handmaiden",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An infernal handmaiden.",
+    "hp": 19500,
+    "hpMax": 19500,
+    "speed": 225,
+    "level": 721,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 7500,
+    "lootValue": 59763.823529412,
+    "aggro": true,
+    "resists": {
+        "physical": 10,
+        "fire": 100,
+        "ice": 15,
+        "energy": 15,
+        "earth": 100,
+        "holy": -10,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 3100,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 714
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 7,
+            "element": "manadrain",
+            "min": 134,
+            "max": 714,
+            "target": false,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 3000,
+            "chance": 12,
+            "speedChange": 380,
+            "durationSec": 8,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "invisible_1",
+            "kind": "invisible",
+            "intervalMs": 4000,
+            "chance": 50,
+            "durationSec": 2,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "heal_2",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 50,
+            "min": 100,
+            "max": 250,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_3",
+            "kind": "haste",
+            "intervalMs": 1000,
+            "chance": 35,
+            "speedChange": 370,
+            "durationSec": 30,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 35000,
+            "name": "Handmaiden's protector"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "wild_water_magic",
+    "threatDps": 231.5,
+    "burstDps": 231.5,
+    "avgHit": 370.4,
+    "maxHit": 714,
+    "manaCost": 0
+}

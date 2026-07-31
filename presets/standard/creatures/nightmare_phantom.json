@@ -1,0 +1,144 @@
+{
+    "id": "nightmare_phantom",
+    "label": "Nightmare Phantom",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A nightmare phantom.",
+    "hp": 3950,
+    "hpMax": 3950,
+    "speed": 170,
+    "level": 562,
+    "armor": 80,
+    "mitigation": 1.1,
+    "maxBlock": 0,
+    "exp": 4400,
+    "lootValue": 969.07445652174,
+    "aggro": true,
+    "resists": {
+        "physical": 100,
+        "fire": -10,
+        "ice": 20,
+        "energy": -10,
+        "earth": 20,
+        "holy": -10,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 350,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 245
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "death",
+            "min": 245,
+            "max": 392,
+            "target": false,
+            "effect": "me_smallclouds",
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "manadrain",
+            "min": 25,
+            "max": 392,
+            "radius": 3,
+            "target": false,
+            "effect": "me_yellow_rings"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 30,
+            "min": 40,
+            "max": 65,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 10,
+            "speedChange": 500,
+            "durationSec": 6,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "invisible_2",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 25,
+            "durationSec": 2,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "undead",
+    "loot": [],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "glacier_mountain_phantom",
+    "threatDps": 95.5625,
+    "burstDps": 95.5625,
+    "avgHit": 152.9,
+    "maxHit": 392,
+    "manaCost": 0,
+    "bestiary": {
+        "class": "Magical",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    }
+}

@@ -1,0 +1,80 @@
+{
+    "id": "wipe",
+    "label": "Forced wipe",
+    "notes": "Level-1 solo adventurer into a tight rat pack at start. Deterministic party_wipe without a full camp walk. Generator-owned fixed shell (outskirts_camp_fixed).",
+    "baseHuntId": "outskirts_camp_fixed",
+    "seed": 2,
+    "frames": 800,
+    "maxTicks": 800,
+    "waypoints": [
+        {
+            "x": 0,
+            "y": 3,
+            "z": 0
+        },
+        {
+            "x": 3,
+            "y": 3,
+            "z": 0
+        }
+    ],
+    "spawns": [
+        {
+            "creatureId": "cave_rat",
+            "x": 1,
+            "y": 3,
+            "z": 0,
+            "respawn": 0
+        },
+        {
+            "creatureId": "cave_rat",
+            "x": 2,
+            "y": 3,
+            "z": 0,
+            "respawn": 0
+        },
+        {
+            "creatureId": "cave_rat",
+            "x": 3,
+            "y": 3,
+            "z": 0,
+            "respawn": 0
+        },
+        {
+            "creatureId": "cave_rat",
+            "x": 1,
+            "y": 2,
+            "z": 0,
+            "respawn": 0
+        },
+        {
+            "creatureId": "cave_rat",
+            "x": 2,
+            "y": 2,
+            "z": 0,
+            "respawn": 0
+        },
+        {
+            "creatureId": "cave_rat",
+            "x": 3,
+            "y": 2,
+            "z": 0,
+            "respawn": 0
+        },
+        {
+            "creatureId": "cave_rat",
+            "x": 1,
+            "y": 4,
+            "z": 0,
+            "respawn": 0
+        },
+        {
+            "creatureId": "cave_rat",
+            "x": 2,
+            "y": 4,
+            "z": 0,
+            "respawn": 0
+        }
+    ],
+    "partyId": "test_wipe_solo"
+}

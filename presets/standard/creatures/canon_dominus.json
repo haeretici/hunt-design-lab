@@ -1,0 +1,206 @@
+{
+    "id": "canon_dominus",
+    "label": "Canon Dominus",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A canon dominus.",
+    "hp": 15000,
+    "hpMax": 15000,
+    "speed": 105,
+    "level": 695,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 11000,
+    "lootValue": 1068.5619469027,
+    "aggro": true,
+    "resists": {
+        "physical": 60,
+        "fire": 50,
+        "ice": 50,
+        "energy": 50,
+        "earth": 50,
+        "holy": 0,
+        "death": 50
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 70,
+            "max": 328
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "physical",
+            "min": 47,
+            "max": 338,
+            "target": false,
+            "shootEffect": "ani_etherealspear"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 14,
+            "range": 4,
+            "element": "holy",
+            "min": 47,
+            "max": 469,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_energyhit"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 15,
+            "range": 5,
+            "element": "lifedrain",
+            "min": 94,
+            "max": 328,
+            "radius": 3,
+            "target": false,
+            "effect": "me_holyarea"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 15,
+            "range": 5,
+            "element": "lifedrain",
+            "min": 94,
+            "max": 328,
+            "radius": 3,
+            "target": false,
+            "effect": "me_smallclouds"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 20,
+            "min": 200,
+            "max": 550,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 1000,
+            "chance": 10,
+            "speedChange": 220,
+            "durationSec": 5,
+            "effect": "me_poff"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 5
+        },
+        {
+            "name": "great health potion",
+            "chance": 100000,
+            "maxCount": 3
+        },
+        {
+            "name": "assassin star",
+            "chance": 100000,
+            "maxCount": 2
+        },
+        {
+            "name": "small amethyst",
+            "chance": 100000,
+            "maxCount": 2
+        },
+        {
+            "name": "golden armor",
+            "chance": 1700
+        },
+        {
+            "name": "mastermind shield",
+            "chance": 1100
+        },
+        {
+            "name": "patch of fine cloth",
+            "chance": 1000
+        },
+        {
+            "chance": 1800,
+            "name": "red gem"
+        },
+        {
+            "name": "violet gem",
+            "chance": 1850
+        },
+        {
+            "name": "falcon bow",
+            "chance": 180
+        },
+        {
+            "name": "falcon wand",
+            "chance": 180
+        },
+        {
+            "name": "falcon plate",
+            "chance": 100
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "wild_desert_dragon",
+    "threatDps": 200.11,
+    "burstDps": 200.11,
+    "avgHit": 206.299,
+    "maxHit": 469,
+    "manaCost": 0
+}

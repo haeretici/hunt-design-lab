@@ -1,0 +1,146 @@
+{
+    "id": "blistering_fire_elemental",
+    "label": "Blistering Fire Elemental",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A blistering fire elemental.",
+    "hp": 1500,
+    "hpMax": 1500,
+    "speed": 115,
+    "level": 465,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 1300,
+    "lootValue": 273.85245901639,
+    "aggro": true,
+    "resists": {
+        "physical": 25,
+        "fire": 100,
+        "ice": -14,
+        "energy": 20,
+        "earth": 50,
+        "holy": 100,
+        "death": 40
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 80,
+        "random": 20
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 146
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 1000,
+            "chance": 11,
+            "range": 4,
+            "element": "fire",
+            "min": 27,
+            "max": 213,
+            "length": 7,
+            "spread": 0,
+            "target": false,
+            "effect": "me_firearea"
+        },
+        {
+            "id": "condition_2",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 12,
+            "range": 4,
+            "element": "fire",
+            "min": 21,
+            "max": 83,
+            "radius": 6,
+            "target": false,
+            "effect": "me_firearea"
+        },
+        {
+            "id": "firefield_3",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "radius": 3,
+            "target": true,
+            "shootEffect": "ani_fire",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "race": "fire",
+    "loot": [
+        {
+            "name": "small ruby",
+            "chance": 3200,
+            "maxCount": 3
+        },
+        {
+            "name": "gold coin",
+            "chance": 12500,
+            "maxCount": 65
+        },
+        {
+            "name": "gold coin",
+            "chance": 12500,
+            "maxCount": 60
+        },
+        {
+            "name": "glimmering soil",
+            "chance": 2500
+        },
+        {
+            "name": "wand of draconia",
+            "chance": 1250
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "arcane_elemental_vanguard",
+    "threatDps": 55.94,
+    "burstDps": 55.94,
+    "avgHit": 76.6301,
+    "maxHit": 213,
+    "manaCost": 0
+}

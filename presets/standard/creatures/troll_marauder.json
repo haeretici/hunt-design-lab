@@ -1,0 +1,128 @@
+{
+    "id": "troll_marauder",
+    "label": "Troll Marauder",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A troll marauder.",
+    "hp": 70,
+    "hpMax": 70,
+    "speed": 60,
+    "level": 160,
+    "armor": 8,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 40,
+    "lootValue": 10.911764705882,
+    "aggro": true,
+    "resists": {
+        "physical": -14,
+        "fire": 10,
+        "ice": 10,
+        "energy": 10,
+        "earth": 0,
+        "holy": 10,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 15,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": true,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "element": "physical",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "min": 5,
+            "max": 36,
+            "target": true
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 5190,
+            "maxCount": 3,
+            "name": "simple arrow"
+        },
+        {
+            "chance": 2600,
+            "name": "bunch of troll hair"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 8,
+            "name": "gold coin"
+        },
+        {
+            "chance": 5190,
+            "name": "leather boots"
+        },
+        {
+            "chance": 24680,
+            "name": "meat"
+        },
+        {
+            "chance": 1300,
+            "name": "silver amulet"
+        },
+        {
+            "chance": 25970,
+            "name": "spear"
+        },
+        {
+            "chance": 10390,
+            "name": "studded club"
+        },
+        {
+            "chance": 9090,
+            "name": "studded armor"
+        },
+        {
+            "chance": 5190,
+            "name": "trollroot"
+        },
+        {
+            "chance": 11690,
+            "name": "wooden shield"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "troll_marauder",
+    "threatDps": 10.25,
+    "burstDps": 10.25,
+    "avgHit": 20.5,
+    "maxHit": 36,
+    "manaCost": 350
+}

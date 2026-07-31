@@ -1,0 +1,175 @@
+{
+    "id": "abyssal_titan",
+    "label": "Abyssal Titan",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An abyssal titan.",
+    "hp": 340000,
+    "hpMax": 340000,
+    "speed": 230,
+    "level": 1000,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 400000,
+    "lootValue": 17500,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 15,
+        "ice": 15,
+        "energy": 15,
+        "earth": 100,
+        "holy": 0,
+        "death": 15
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "condition_1",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 10,
+            "range": 4,
+            "element": "energy",
+            "min": 1941,
+            "max": 1941,
+            "radius": 4,
+            "target": false,
+            "effect": "me_smallplants",
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "energy",
+            "min": 1213,
+            "max": 3881,
+            "radius": 4,
+            "target": false,
+            "effect": "me_energyhit",
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "abyssador_poison_wave_3",
+            "kind": "melee",
+            "intervalMs": 1000,
+            "chance": 20,
+            "range": 1,
+            "element": "physical",
+            "min": 2426,
+            "max": 4366,
+            "target": false
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 1000,
+            "chance": 1,
+            "min": 0,
+            "max": 300000,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "heal_1",
+            "kind": "heal",
+            "intervalMs": 5000,
+            "chance": 30,
+            "min": 1000,
+            "max": 1000,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "invisible_2",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 25,
+            "durationSec": 2,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 100000,
+            "name": "Abyssador's lash"
+        },
+        {
+            "chance": 8333,
+            "name": "crystal crossbow"
+        },
+        {
+            "chance": 7333,
+            "name": "crystalline axe"
+        },
+        {
+            "chance": 5333,
+            "name": "shiny blade"
+        },
+        {
+            "chance": 6666,
+            "name": "crystalline sword"
+        },
+        {
+            "chance": 6263,
+            "name": "mycological bow"
+        },
+        {
+            "chance": 2754,
+            "name": "decorative ribbon"
+        },
+        {
+            "chance": 2754,
+            "name": "mycological mace"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "blood_behemoth",
+    "threatDps": 1128,
+    "burstDps": 1128,
+    "avgHit": 2820,
+    "maxHit": 4366,
+    "manaCost": 0
+}

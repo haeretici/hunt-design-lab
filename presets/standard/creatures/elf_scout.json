@@ -1,0 +1,149 @@
+{
+    "id": "elf_scout",
+    "label": "Elf Scout",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An elf scout.",
+    "hp": 160,
+    "hpMax": 160,
+    "speed": 110,
+    "level": 241,
+    "armor": 7,
+    "mitigation": 0.46,
+    "maxBlock": 0,
+    "exp": 75,
+    "lootValue": 25.326946063051,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 20,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 46
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 123,
+            "target": false,
+            "shootEffect": "ani_arrow"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "waterskin",
+            "chance": 1350
+        },
+        {
+            "name": "gold coin",
+            "chance": 75000,
+            "maxCount": 25
+        },
+        {
+            "name": "bow",
+            "chance": 4000
+        },
+        {
+            "name": "arrow",
+            "chance": 30710,
+            "maxCount": 12
+        },
+        {
+            "name": "poison arrow",
+            "chance": 15400,
+            "maxCount": 4
+        },
+        {
+            "name": "sandals",
+            "chance": 1180
+        },
+        {
+            "name": "grapes",
+            "chance": 17750
+        },
+        {
+            "chance": 1130,
+            "name": "heaven blossom"
+        },
+        {
+            "name": "elvish bow",
+            "chance": 140
+        },
+        {
+            "name": "elvish talisman",
+            "chance": 5200
+        },
+        {
+            "name": "elven scouting glass",
+            "chance": 9750
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "elf_scout",
+    "threatDps": 16.1125,
+    "burstDps": 16.1125,
+    "avgHit": 28.0217,
+    "maxHit": 123,
+    "manaCost": 360
+}

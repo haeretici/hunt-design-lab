@@ -1,0 +1,96 @@
+{
+    "id": "orc_warlord_orcus",
+    "label": "Orc Warlord Orcus",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An orc warlord orcus.",
+    "hp": 480,
+    "hpMax": 480,
+    "speed": 115,
+    "level": 351,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 280,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": 0,
+        "energy": 20,
+        "earth": -20,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 103
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 40,
+            "range": 5,
+            "element": "physical",
+            "min": 0,
+            "max": 40,
+            "radius": 1,
+            "target": true,
+            "shootEffect": "ani_throwingknife"
+        }
+    ],
+    "race": "blood",
+    "loot": [],
+    "changeTarget": {
+        "interval": 0,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ember_ogre_ravager",
+    "threatDps": 29.75,
+    "burstDps": 29.75,
+    "avgHit": 42.5,
+    "maxHit": 103,
+    "manaCost": 0
+}

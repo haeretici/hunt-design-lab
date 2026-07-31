@@ -1,0 +1,162 @@
+{
+    "id": "elemental_overlord",
+    "label": "Elemental Overlord",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An elemental overlord.",
+    "hp": 8000,
+    "hpMax": 8000,
+    "speed": 185,
+    "level": 632,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 8000,
+    "lootValue": 2025.2252252252,
+    "aggro": true,
+    "resists": {
+        "physical": 50,
+        "fire": 30,
+        "ice": 30,
+        "energy": 30,
+        "earth": 45,
+        "holy": 100,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 566
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 1000,
+            "chance": 25,
+            "min": 100,
+            "max": 195,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "name": "small sapphire",
+            "chance": 7142,
+            "maxCount": 4
+        },
+        {
+            "name": "small ruby",
+            "chance": 11111,
+            "maxCount": 4
+        },
+        {
+            "name": "small emerald",
+            "chance": 11111,
+            "maxCount": 4
+        },
+        {
+            "name": "small amethyst",
+            "chance": 11111,
+            "maxCount": 3
+        },
+        {
+            "name": "platinum coin",
+            "chance": 50000,
+            "maxCount": 9
+        },
+        {
+            "name": "earthborn titan armor",
+            "chance": 2063
+        },
+        {
+            "name": "gold ingot",
+            "chance": 25000
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "arcane_elemental_vanguard",
+    "threatDps": 141.5,
+    "burstDps": 141.5,
+    "avgHit": 283,
+    "maxHit": 566,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 4,
+        "summons": [
+            {
+                "name": "Blistering Fire Elemental",
+                "id": "blistering_fire_elemental",
+                "chance": 50,
+                "interval": 4000,
+                "count": 1
+            },
+            {
+                "name": "Jagged Earth Elemental",
+                "id": "jagged_earth_elemental",
+                "chance": 50,
+                "interval": 4000,
+                "count": 1
+            },
+            {
+                "name": "Roaring Water Elemental",
+                "id": "roaring_water_elemental",
+                "chance": 50,
+                "interval": 4000,
+                "count": 1
+            },
+            {
+                "name": "Overcharged Energy Elemental",
+                "id": "overcharged_energy_elemental",
+                "chance": 50,
+                "interval": 4000,
+                "count": 1
+            }
+        ]
+    }
+}

@@ -1,0 +1,325 @@
+{
+    "id": "annihilator_demon",
+    "label": "Annihilator Demon",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An annihilator demon.",
+    "hp": 46500,
+    "hpMax": 46500,
+    "speed": 66,
+    "level": 808,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 15000,
+    "lootValue": 34360.673003802,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 20,
+        "energy": 95,
+        "earth": 0,
+        "holy": -5,
+        "death": 95
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 85,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 1214
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 1000,
+            "chance": 11,
+            "range": 4,
+            "element": "death",
+            "min": 0,
+            "max": 427,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_mortarea"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "death",
+            "min": 142,
+            "max": 498,
+            "radius": 4,
+            "target": false,
+            "effect": "me_icearea"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 3000,
+            "chance": 18,
+            "range": 4,
+            "element": "physical",
+            "min": 36,
+            "max": 181,
+            "radius": 5,
+            "target": true,
+            "effect": "me_groundshaker"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "fire",
+            "min": 36,
+            "max": 427,
+            "radius": 6,
+            "target": true,
+            "effect": "me_firearea",
+            "shootEffect": "ani_fire"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 1000,
+            "chance": 14,
+            "min": 400,
+            "max": 900,
+            "hpBelow": 0.7,
+            "effect": "me_magic_green"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 1000,
+            "chance": 4,
+            "speedChange": 500,
+            "durationSec": 7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "fire",
+    "loot": [
+        {
+            "name": "emerald bangle",
+            "chance": 20000
+        },
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 100
+        },
+        {
+            "name": "platinum coin",
+            "chance": 16666,
+            "maxCount": 30
+        },
+        {
+            "name": "violet gem",
+            "chance": 16666
+        },
+        {
+            "name": "yellow gem",
+            "chance": 20000
+        },
+        {
+            "name": "green gem",
+            "chance": 12500
+        },
+        {
+            "chance": 20000,
+            "name": "red gem"
+        },
+        {
+            "name": "blue gem",
+            "chance": 20000
+        },
+        {
+            "name": "halberd",
+            "chance": 20000
+        },
+        {
+            "name": "guardian halberd",
+            "chance": 20000
+        },
+        {
+            "name": "heavy mace",
+            "chance": 25000
+        },
+        {
+            "name": "mastermind shield",
+            "chance": 4166
+        },
+        {
+            "name": "guardian shield",
+            "chance": 7692
+        },
+        {
+            "name": "crown shield",
+            "chance": 11111
+        },
+        {
+            "name": "demon shield",
+            "chance": 4166
+        },
+        {
+            "name": "tower shield",
+            "chance": 9090
+        },
+        {
+            "name": "power bolt",
+            "chance": 16666,
+            "maxCount": 94
+        },
+        {
+            "name": "soul orb",
+            "chance": 20000,
+            "maxCount": 5
+        },
+        {
+            "name": "demon horn",
+            "chance": 12500,
+            "maxCount": 2
+        },
+        {
+            "name": "infernal bolt",
+            "chance": 20000,
+            "maxCount": 46
+        },
+        {
+            "name": "viper star",
+            "chance": 16666,
+            "maxCount": 70
+        },
+        {
+            "name": "assassin star",
+            "chance": 16666,
+            "maxCount": 50
+        },
+        {
+            "name": "diamond sceptre",
+            "chance": 7142
+        },
+        {
+            "name": "Obsidian Flail",
+            "chance": 14285
+        },
+        {
+            "name": "fiendbone",
+            "chance": 1234
+        },
+        {
+            "name": "berserk potion",
+            "chance": 16666
+        },
+        {
+            "name": "savant potion",
+            "chance": 14285
+        },
+        {
+            "name": "great mana potion",
+            "chance": 11111
+        },
+        {
+            "name": "great health potion",
+            "chance": 14285
+        },
+        {
+            "id": 281,
+            "chance": 33333,
+            "maxCount": 2
+        },
+        {
+            "name": "flaming arrow",
+            "chance": 20000,
+            "maxCount": 46
+        },
+        {
+            "name": "great dual potion",
+            "chance": 14285
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 14285
+        },
+        {
+            "name": "lavos armor",
+            "chance": 1851
+        },
+        {
+            "name": "paladin armor",
+            "chance": 10000
+        },
+        {
+            "name": "obsidian truncheon",
+            "chance": 1234
+        },
+        {
+            "chance": 1234,
+            "name": "heavily rusted armor"
+        },
+        {
+            "chance": 50000,
+            "name": "slightly rusted armor"
+        },
+        {
+            "name": "gold ingot",
+            "chance": 20000
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "mist_demon_priest",
+    "threatDps": 374.8575,
+    "burstDps": 378.1125,
+    "avgHit": 457.1433,
+    "maxHit": 1214,
+    "manaCost": 0
+}

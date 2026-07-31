@@ -1,0 +1,120 @@
+{
+    "id": "insectoid_worker",
+    "label": "Insectoid Worker",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An insectoid worker.",
+    "hp": 950,
+    "hpMax": 950,
+    "speed": 120,
+    "level": 421,
+    "armor": 30,
+    "mitigation": 0.91,
+    "maxBlock": 0,
+    "exp": 650,
+    "lootValue": 139.87581462708,
+    "aggro": true,
+    "resists": {
+        "physical": 5,
+        "fire": -10,
+        "ice": -10,
+        "energy": -5,
+        "earth": 100,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 59,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 58,
+                "intervalMs": 4000
+            }
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Vermin",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 90
+        },
+        {
+            "name": "small emerald",
+            "chance": 2880
+        },
+        {
+            "name": "epee",
+            "chance": 560
+        },
+        {
+            "name": "health potion",
+            "chance": 5090
+        },
+        {
+            "name": "compound eye",
+            "chance": 15380
+        },
+        {
+            "chance": 14990,
+            "name": "dung ball"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "rune_stone_bugbear",
+    "threatDps": 43.75,
+    "burstDps": 43.75,
+    "avgHit": 29.5,
+    "maxHit": 59,
+    "manaCost": 0
+}

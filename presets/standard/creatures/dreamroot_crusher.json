@@ -1,0 +1,246 @@
+{
+    "id": "dreamroot_crusher",
+    "label": "Dreamroot Crusher",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A dreamroot crusher.",
+    "hp": 320000,
+    "hpMax": 320000,
+    "speed": 125,
+    "level": 1000,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 55000,
+    "lootValue": 41142.857142857,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 200,
+        "ice": 0,
+        "energy": 5,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 500,
+            "max": 3125,
+            "target": true
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "physical",
+            "min": 500,
+            "max": 6876,
+            "radius": 4,
+            "target": false,
+            "effect": "me_groundshaker"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 22220,
+            "name": "collar of red plasma"
+        },
+        {
+            "chance": 13890,
+            "name": "ring of blue plasma"
+        },
+        {
+            "chance": 8330,
+            "name": "ring of green plasma"
+        },
+        {
+            "chance": 8330,
+            "name": "collar of blue plasma"
+        },
+        {
+            "chance": 16670,
+            "name": "collar of green plasma"
+        },
+        {
+            "chance": 47220,
+            "name": "red gem"
+        },
+        {
+            "name": "berserk potion",
+            "chance": 20000
+        },
+        {
+            "name": "blue gem",
+            "chance": 20000
+        },
+        {
+            "name": "marksman potion",
+            "chance": 20000
+        },
+        {
+            "name": "Maelstrom Mace",
+            "chance": 8330
+        },
+        {
+            "name": "crystal coin",
+            "chance": 25000,
+            "maxCount": 2
+        },
+        {
+            "name": "energy bar",
+            "chance": 88890
+        },
+        {
+            "id": 282,
+            "chance": 8330
+        },
+        {
+            "name": "gold ingot",
+            "chance": 22220
+        },
+        {
+            "name": "gold token",
+            "chance": 60000,
+            "maxCount": 3
+        },
+        {
+            "name": "green gem",
+            "chance": 11110
+        },
+        {
+            "name": "huge chunk of crude iron",
+            "chance": 40000
+        },
+        {
+            "name": "magic sulphur",
+            "chance": 5560
+        },
+        {
+            "name": "savant potion",
+            "chance": 22220
+        },
+        {
+            "name": "mysterious remains",
+            "chance": 88890
+        },
+        {
+            "name": "piggy bank",
+            "chance": 97220
+        },
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 8
+        },
+        {
+            "name": "pomegranate",
+            "chance": 16670
+        },
+        {
+            "name": "resizer",
+            "chance": 2780
+        },
+        {
+            "chance": 5560,
+            "name": "ring of red plasma"
+        },
+        {
+            "name": "Celestial Band",
+            "chance": 2780
+        },
+        {
+            "name": "royal star",
+            "chance": 52780
+        },
+        {
+            "name": "silver token",
+            "chance": 91670,
+            "maxCount": 3
+        },
+        {
+            "name": "Bone Skull Staff",
+            "chance": 8330
+        },
+        {
+            "name": "soul stone",
+            "chance": 8330
+        },
+        {
+            "name": "supreme health potion",
+            "chance": 80000,
+            "maxCount": 29
+        },
+        {
+            "name": "ultimate mana potion",
+            "chance": 55560,
+            "maxCount": 20
+        },
+        {
+            "name": "ultimate dual potion",
+            "chance": 80000,
+            "maxCount": 13
+        },
+        {
+            "name": "violet gem",
+            "chance": 8330
+        },
+        {
+            "name": "yellow gem",
+            "chance": 44440,
+            "maxCount": 2
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "thunder_cave_devil",
+    "threatDps": 1090.65,
+    "burstDps": 1090.65,
+    "avgHit": 1983,
+    "maxHit": 6876,
+    "manaCost": 0
+}

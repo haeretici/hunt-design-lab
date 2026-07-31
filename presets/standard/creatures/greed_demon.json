@@ -1,0 +1,290 @@
+{
+    "id": "greed_demon",
+    "label": "Greed Demon",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A greed demon.",
+    "hp": 90500,
+    "hpMax": 90500,
+    "speed": 165,
+    "level": 874,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 10000,
+    "lootValue": 10711.482708934,
+    "aggro": true,
+    "resists": {
+        "physical": 50,
+        "fire": 30,
+        "ice": 30,
+        "energy": 30,
+        "earth": 30,
+        "holy": 30,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 4500,
+        "staticAttackChance": 85,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 1717
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 0,
+            "max": 1073,
+            "target": true,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "death",
+            "min": 0,
+            "max": 1073,
+            "length": 7,
+            "spread": 3,
+            "target": false,
+            "effect": "me_mortarea"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "death",
+            "min": 0,
+            "max": 215,
+            "radius": 4,
+            "target": false,
+            "effect": "me_smallclouds"
+        },
+        {
+            "id": "condition_4",
+            "kind": "area",
+            "intervalMs": 3000,
+            "chance": 20,
+            "range": 4,
+            "element": "fire",
+            "min": 21,
+            "max": 21,
+            "radius": 4,
+            "target": true,
+            "effect": "me_explosionhit"
+        },
+        {
+            "id": "area_5",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 13,
+            "range": 4,
+            "element": "manadrain",
+            "min": 129,
+            "max": 429,
+            "radius": 5,
+            "target": false,
+            "effect": "me_watersplash"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 50,
+            "min": 40,
+            "max": 60,
+            "hpBelow": 0.7,
+            "effect": "me_magic_green"
+        },
+        {
+            "id": "heal_1",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 50,
+            "min": 400,
+            "max": 600,
+            "hpBelow": 0.7,
+            "effect": "me_magic_green"
+        },
+        {
+            "id": "invisible_2",
+            "kind": "invisible",
+            "intervalMs": 1000,
+            "chance": 5,
+            "durationSec": 2,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "fire",
+    "loot": [
+        {
+            "chance": 100000,
+            "name": "demonic essence"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 194,
+            "name": "gold coin"
+        },
+        {
+            "chance": 54000,
+            "name": "slightly rusted legs"
+        },
+        {
+            "chance": 45000,
+            "name": "slightly rusted armor"
+        },
+        {
+            "chance": 27000,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 26000,
+            "name": "great dual potion"
+        },
+        {
+            "chance": 23000,
+            "name": "great health potion"
+        },
+        {
+            "chance": 22000,
+            "name": "ultimate health potion"
+        },
+        {
+            "chance": 21000,
+            "name": "gold ingot"
+        },
+        {
+            "chance": 21000,
+            "maxCount": 30,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 21000,
+            "name": "jewel case"
+        },
+        {
+            "chance": 21000,
+            "maxCount": 10,
+            "name": "soul orb"
+        },
+        {
+            "chance": 18000,
+            "maxCount": 30,
+            "name": "talon"
+        },
+        {
+            "chance": 17000,
+            "maxCount": 10,
+            "name": "red piece of cloth"
+        },
+        {
+            "chance": 17000,
+            "name": "silver brooch"
+        },
+        {
+            "chance": 15000,
+            "maxCount": 10,
+            "name": "blue piece of cloth"
+        },
+        {
+            "chance": 15000,
+            "maxCount": 10,
+            "name": "white piece of cloth"
+        },
+        {
+            "chance": 14000,
+            "maxCount": 10,
+            "name": "green piece of cloth"
+        },
+        {
+            "chance": 14000,
+            "maxCount": 10,
+            "name": "yellow piece of cloth"
+        },
+        {
+            "chance": 12000,
+            "maxCount": 10,
+            "name": "brown piece of cloth"
+        },
+        {
+            "chance": 9700,
+            "maxCount": 2,
+            "name": "demon horn"
+        },
+        {
+            "chance": 8700,
+            "name": "boots of haste"
+        },
+        {
+            "chance": 6000,
+            "name": "Amulet of Safekeeping"
+        },
+        {
+            "chance": 4500,
+            "name": "steel boots"
+        },
+        {
+            "chance": 1500,
+            "name": "golden boots"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 15
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "mist_demon_priest",
+    "threatDps": 542.045,
+    "burstDps": 542.745,
+    "avgHit": 604.5112,
+    "maxHit": 1717,
+    "manaCost": 0
+}

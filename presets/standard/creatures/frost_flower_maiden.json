@@ -1,0 +1,259 @@
+{
+    "id": "frost_flower_maiden",
+    "label": "Frost Flower Maiden",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A frost flower maiden.",
+    "hp": 3500,
+    "hpMax": 3500,
+    "speed": 110,
+    "level": 549,
+    "armor": 56,
+    "mitigation": 1.62,
+    "maxBlock": 0,
+    "exp": 4200,
+    "lootValue": 1279.6298971937,
+    "aggro": true,
+    "resists": {
+        "physical": -5,
+        "fire": -14,
+        "ice": 100,
+        "energy": 0,
+        "earth": -10,
+        "holy": 30,
+        "death": 20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 3,
+        "runHealth": 0,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 60,
+            "max": 219
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 1300,
+            "chance": 14,
+            "range": 4,
+            "element": "holy",
+            "min": 101,
+            "max": 115,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_icetornado"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 9,
+            "range": 7,
+            "element": "ice",
+            "min": 66,
+            "max": 110,
+            "target": true,
+            "effect": "me_iceattack",
+            "shootEffect": "ani_smallice"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 90,
+            "max": 150,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Demon",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 70980,
+            "maxCount": 100,
+            "name": "gold coin"
+        },
+        {
+            "chance": 80500,
+            "maxCount": 6,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 680,
+            "name": "blue robe"
+        },
+        {
+            "chance": 6640,
+            "maxCount": 5,
+            "name": "assassin star"
+        },
+        {
+            "chance": 5320,
+            "maxCount": 1,
+            "name": "black pearl"
+        },
+        {
+            "chance": 250,
+            "name": "crystal ring"
+        },
+        {
+            "chance": 19650,
+            "name": "flask of demonic blood"
+        },
+        {
+            "chance": 15850,
+            "name": "demonic essence"
+        },
+        {
+            "chance": 8200,
+            "maxCount": 1,
+            "name": "small diamond"
+        },
+        {
+            "chance": 3970,
+            "maxCount": 1,
+            "name": "small emerald"
+        },
+        {
+            "chance": 4560,
+            "maxCount": 1,
+            "name": "small ruby"
+        },
+        {
+            "chance": 7600,
+            "maxCount": 3,
+            "name": "small sapphire"
+        },
+        {
+            "chance": 4770,
+            "maxCount": 1,
+            "name": "small topaz"
+        },
+        {
+            "chance": 12080,
+            "maxCount": 2,
+            "name": "great health potion"
+        },
+        {
+            "chance": 7480,
+            "name": "white pearl"
+        },
+        {
+            "chance": 550,
+            "name": "assassin dagger"
+        },
+        {
+            "chance": 300,
+            "name": "blue gem"
+        },
+        {
+            "chance": 380,
+            "name": "gold ingot"
+        },
+        {
+            "chance": 19650,
+            "name": "golden lotus brooch"
+        },
+        {
+            "chance": 340,
+            "name": "oriental shoes"
+        },
+        {
+            "chance": 17280,
+            "name": "peacock feather fan"
+        },
+        {
+            "chance": 250,
+            "name": "skullcracker armor"
+        },
+        {
+            "chance": 5790,
+            "name": "silver brooch"
+        },
+        {
+            "chance": 1100,
+            "name": "silver amulet"
+        },
+        {
+            "chance": 19520,
+            "name": "soul orb"
+        },
+        {
+            "chance": 420,
+            "name": "spellbook of mind control"
+        },
+        {
+            "chance": 3380,
+            "name": "tribal mask"
+        },
+        {
+            "chance": 1820,
+            "name": "yellow gem"
+        },
+        {
+            "chance": 19520,
+            "name": "Hailburst Rod"
+        },
+        {
+            "chance": 19520,
+            "name": "Boreal Rod"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "glacier_forest_construct",
+    "threatDps": 89.3008,
+    "burstDps": 92.79,
+    "avgHit": 127.9945,
+    "maxHit": 219,
+    "manaCost": 0
+}

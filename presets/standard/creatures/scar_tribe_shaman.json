@@ -1,0 +1,156 @@
+{
+    "id": "scar_tribe_shaman",
+    "label": "Scar Tribe Shaman",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A scar tribe shaman.",
+    "hp": 115,
+    "hpMax": 115,
+    "speed": 78,
+    "level": 209,
+    "armor": 6,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 85,
+    "lootValue": 9.875,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 15,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 13,
+            "range": 7,
+            "element": "energy",
+            "min": 73,
+            "max": 184,
+            "target": false,
+            "effect": "me_energyhit",
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 8,
+            "range": 7,
+            "element": "fire",
+            "min": 37,
+            "max": 220,
+            "radius": 1,
+            "target": true,
+            "effect": "me_firearea",
+            "shootEffect": "ani_fire"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 25,
+            "min": 25,
+            "max": 35,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 3700,
+            "name": "broken shamanic staff"
+        },
+        {
+            "chance": 11110,
+            "maxCount": 2,
+            "name": "corncob"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 17,
+            "name": "gold coin"
+        },
+        {
+            "chance": 11110,
+            "name": "orc tooth"
+        },
+        {
+            "chance": 3700,
+            "name": "shamanic hood"
+        },
+        {
+            "chance": 55560,
+            "name": "spear"
+        },
+        {
+            "chance": 3700,
+            "name": "studded armor"
+        },
+        {
+            "chance": 11110,
+            "name": "studded legs"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 50
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "scar_tribe_shaman",
+    "threatDps": 13.4925,
+    "burstDps": 13.4925,
+    "avgHit": 128.5,
+    "maxHit": 220,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 4,
+        "summons": [
+            {
+                "name": "Snake",
+                "id": "snake",
+                "chance": 25,
+                "interval": 2000,
+                "count": 3
+            }
+        ]
+    }
+}

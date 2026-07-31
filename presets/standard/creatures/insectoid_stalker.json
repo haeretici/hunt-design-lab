@@ -1,0 +1,181 @@
+{
+    "id": "insectoid_stalker",
+    "label": "Insectoid Stalker",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An insectoid stalker.",
+    "hp": 3700,
+    "hpMax": 3700,
+    "speed": 195,
+    "level": 555,
+    "armor": 53,
+    "mitigation": 1.62,
+    "maxBlock": 0,
+    "exp": 2600,
+    "lootValue": 954.38881664499,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 15,
+        "ice": -3,
+        "energy": -5,
+        "earth": 100,
+        "holy": -10,
+        "death": 10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 282
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "earth",
+            "min": 142,
+            "max": 293,
+            "radius": 3,
+            "target": true,
+            "effect": "me_green_rings",
+            "shootEffect": "ani_poison"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 450,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Vermin",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 2
+    },
+    "loot": [
+        {
+            "name": "small ruby",
+            "chance": 11900,
+            "maxCount": 5
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 100
+        },
+        {
+            "name": "platinum coin",
+            "chance": 45000,
+            "maxCount": 4
+        },
+        {
+            "name": "violet gem",
+            "chance": 770
+        },
+        {
+            "chance": 2700,
+            "name": "death ring"
+        },
+        {
+            "name": "titan axe",
+            "chance": 920
+        },
+        {
+            "name": "great mana potion",
+            "chance": 11500,
+            "maxCount": 2
+        },
+        {
+            "id": 281,
+            "chance": 1700
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 6250,
+            "maxCount": 2
+        },
+        {
+            "name": "spidris mandible",
+            "chance": 14960
+        },
+        {
+            "name": "compound eye",
+            "chance": 12500
+        },
+        {
+            "name": "calopteryx cape",
+            "chance": 370
+        },
+        {
+            "name": "carapace shield",
+            "chance": 720
+        },
+        {
+            "name": "hive scythe",
+            "chance": 690
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "twilight_desert_stalker",
+    "threatDps": 92.25,
+    "burstDps": 92.25,
+    "avgHit": 153.75,
+    "maxHit": 293,
+    "manaCost": 0
+}

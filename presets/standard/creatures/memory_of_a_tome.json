@@ -1,0 +1,122 @@
+{
+    "id": "memory_of_a_tome",
+    "label": "Memory Of A Tome",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A memory of a tome.",
+    "hp": 3670,
+    "hpMax": 3670,
+    "speed": 120,
+    "level": 555,
+    "armor": 0,
+    "mitigation": 1.2,
+    "maxBlock": 0,
+    "exp": 1770,
+    "lootValue": 250.1902173913,
+    "aggro": true,
+    "resists": {
+        "physical": 10,
+        "fire": 15,
+        "ice": 30,
+        "energy": 5,
+        "earth": 50,
+        "holy": 90,
+        "death": 20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 230
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 15,
+            "range": 7,
+            "element": "ice",
+            "min": 115,
+            "max": 344,
+            "target": false,
+            "shootEffect": "ani_ice"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 76000,
+            "maxCount": 92
+        },
+        {
+            "chance": 8300,
+            "name": "twigs"
+        },
+        {
+            "name": "green crystal fragment",
+            "chance": 7000
+        },
+        {
+            "name": "great dual potion",
+            "chance": 26400
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 15390
+        },
+        {
+            "name": "bottle of champagne",
+            "chance": 8300
+        },
+        {
+            "name": "green crystal shard",
+            "chance": 7200
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "sanguine_jungle_ogre_assassin",
+    "threatDps": 91.925,
+    "burstDps": 91.925,
+    "avgHit": 141.4231,
+    "maxHit": 344,
+    "manaCost": 0
+}

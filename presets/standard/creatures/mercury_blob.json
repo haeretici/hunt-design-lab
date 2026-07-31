@@ -1,0 +1,134 @@
+{
+    "id": "mercury_blob",
+    "label": "Mercury Blob",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A mercury blob.",
+    "hp": 150,
+    "hpMax": 150,
+    "speed": 75,
+    "level": 235,
+    "armor": 3,
+    "mitigation": 0.25,
+    "maxBlock": 0,
+    "exp": 180,
+    "lootValue": 3.8102023368481,
+    "aggro": true,
+    "resists": {
+        "physical": 10,
+        "fire": 10,
+        "ice": 15,
+        "energy": 0,
+        "earth": 65,
+        "holy": 65,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 85,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 56
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "energy",
+            "min": 8,
+            "max": 23,
+            "target": true,
+            "effect": "me_energyhit",
+            "shootEffect": "ani_energy"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 5,
+            "min": 20,
+            "max": 30,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Slime",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "glob of mercury",
+            "chance": 18750
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "mercury_blob",
+    "threatDps": 15.55,
+    "burstDps": 15.55,
+    "avgHit": 25.9167,
+    "maxHit": 56,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 3,
+        "summons": [
+            {
+                "name": "Mercury Blob",
+                "id": "mercury_blob",
+                "chance": 10,
+                "interval": 2000,
+                "count": 3
+            }
+        ]
+    }
+}

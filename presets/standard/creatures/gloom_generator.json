@@ -1,0 +1,86 @@
+{
+    "id": "gloom_generator",
+    "label": "Gloom-Generator",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A gloom-generator.",
+    "hp": 12000,
+    "hpMax": 12000,
+    "speed": 0,
+    "level": 673,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "area_0",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 18,
+            "range": 4,
+            "element": "energy",
+            "min": 983,
+            "max": 2950,
+            "radius": 2,
+            "target": false,
+            "effect": "me_energyarea"
+        }
+    ],
+    "race": "venom",
+    "loot": [],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 5
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "umbral_ghoul",
+    "threatDps": 176.985,
+    "burstDps": 176.985,
+    "avgHit": 1966.5,
+    "maxHit": 2950,
+    "manaCost": 0
+}

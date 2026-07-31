@@ -1,0 +1,81 @@
+{
+    "id": "biome_volume_macro",
+    "label": "Cave → Swamp → Ice → Ruins volume macro (Stage 11.11)",
+    "notes": "Stage 11.11 — deeper art volume + more biome packs. Four-segment multi_biome chain with distinct artSets (cave, swamp, ice, ruins). pacingBudget.macro requires ≥3 transitions and ≥4 biomes/art sets. Short headless runs validate structure and per-floor art binding.",
+    "layout": {
+        "type": "multi_biome",
+        "segments": [
+            {
+                "biomeId": "cave",
+                "targetMinSec": 900,
+                "role": "entrance",
+                "floors": [
+                    {
+                        "profileId": "small_crawl",
+                        "role": "cave_entrance"
+                    }
+                ]
+            },
+            {
+                "biomeId": "swamp",
+                "targetMinSec": 900,
+                "role": "mid",
+                "floors": [
+                    {
+                        "profileId": "small_crawl",
+                        "role": "swamp_mid"
+                    }
+                ]
+            },
+            {
+                "biomeId": "ice",
+                "targetMinSec": 900,
+                "role": "deep",
+                "floors": [
+                    {
+                        "profileId": "small_crawl",
+                        "role": "ice_deep"
+                    }
+                ]
+            },
+            {
+                "biomeId": "ruins",
+                "targetMinSec": 900,
+                "role": "exit",
+                "floors": [
+                    {
+                        "profileId": "small_crawl",
+                        "role": "ruins_exit"
+                    }
+                ]
+            }
+        ]
+    },
+    "pacingBudget": {
+        "id": "biome_volume_macro",
+        "micro": {
+            "targetGapSec": 20,
+            "warnGapSec": 120,
+            "maxGapSec": 300
+        },
+        "mid": {
+            "minKills": 0,
+            "maxKills": 120
+        },
+        "session": {
+            "minTimeSec": 0,
+            "maxTimeSec": 4800
+        },
+        "macro": {
+            "targetSegmentSec": 900,
+            "warnSegmentSec": 1500,
+            "minTransitions": 3,
+            "minBiomes": 4,
+            "minArtSets": 4
+        }
+    },
+    "limits": {
+        "maxSeconds": 180,
+        "maxFrames": 3600
+    }
+}

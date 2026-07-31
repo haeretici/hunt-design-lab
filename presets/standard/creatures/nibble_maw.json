@@ -1,0 +1,197 @@
+{
+    "id": "nibble_maw",
+    "label": "Nibble Maw",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A nibble maw.",
+    "hp": 2900,
+    "hpMax": 2900,
+    "speed": 118,
+    "level": 531,
+    "armor": 48,
+    "mitigation": 1.1,
+    "maxBlock": 0,
+    "exp": 2700,
+    "lootValue": 683.78645620348,
+    "aggro": true,
+    "resists": {
+        "physical": 10,
+        "fire": 0,
+        "ice": 0,
+        "energy": -14,
+        "earth": 10,
+        "holy": -10,
+        "death": 40
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 209
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 6,
+            "element": "death",
+            "min": 73,
+            "max": 157,
+            "target": true,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "earth",
+            "min": 21,
+            "max": 261,
+            "length": 5,
+            "spread": 5,
+            "effect": "me_siurp"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "earth",
+            "min": 63,
+            "max": 261,
+            "radius": 4,
+            "target": false,
+            "effect": "me_stones"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 225,
+            "max": 250,
+            "hpBelow": 0.7,
+            "effect": "me_hitbypoison"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Magical",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 100
+        },
+        {
+            "name": "platinum coin",
+            "chance": 75000,
+            "maxCount": 6
+        },
+        {
+            "chance": 6000,
+            "name": "yellow gem"
+        },
+        {
+            "chance": 1090,
+            "name": "lime tart"
+        },
+        {
+            "chance": 940,
+            "maxCount": 64,
+            "name": "dark chocolate coin"
+        },
+        {
+            "chance": 4590,
+            "maxCount": 2,
+            "name": "gummy rotworm"
+        },
+        {
+            "chance": 1550,
+            "name": "melon"
+        },
+        {
+            "chance": 1240,
+            "maxCount": 2,
+            "name": "raspberry"
+        },
+        {
+            "name": "assassin dagger",
+            "chance": 400
+        },
+        {
+            "name": "red crystal fragment",
+            "chance": 3400
+        },
+        {
+            "name": "frazzle tongue",
+            "chance": 10430
+        },
+        {
+            "name": "frazzle skin",
+            "chance": 7700
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "cave_spider",
+    "threatDps": 80.725,
+    "burstDps": 80.725,
+    "avgHit": 115.3214,
+    "maxHit": 261,
+    "manaCost": 0
+}

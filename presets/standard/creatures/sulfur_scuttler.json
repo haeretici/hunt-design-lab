@@ -1,0 +1,193 @@
+{
+    "id": "sulfur_scuttler",
+    "label": "Sulfur Scuttler",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A sulfur scuttler.",
+    "hp": 1300,
+    "hpMax": 1300,
+    "speed": 100,
+    "level": 450,
+    "armor": 0,
+    "mitigation": 1.38,
+    "maxBlock": 0,
+    "exp": 900,
+    "lootValue": 9058.1818181818,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -10,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 160
+        },
+        {
+            "id": "slow_1",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -600,
+                "durationSec": 10
+            },
+            "effect": "me_mortarea",
+            "target": false
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 4,
+            "element": "earth",
+            "min": 0,
+            "max": 316,
+            "radius": 6,
+            "target": false,
+            "effect": "me_smallplants"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "manadrain",
+            "min": 0,
+            "max": 160,
+            "length": 6,
+            "spread": 3,
+            "target": false,
+            "effect": "me_hitbypoison"
+        },
+        {
+            "id": "wave_4",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "earth",
+            "min": 0,
+            "max": 96,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_yellow_rings"
+        }
+    ],
+    "race": "venom",
+    "loot": [
+        {
+            "chance": 98330,
+            "maxCount": 10,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 50000,
+            "name": "poisonous slime"
+        },
+        {
+            "chance": 75000,
+            "name": "lump of earth"
+        },
+        {
+            "chance": 96670,
+            "name": "sulphurous stone"
+        },
+        {
+            "chance": 100000,
+            "name": "brimstone shell"
+        },
+        {
+            "chance": 71670,
+            "name": "strong mana potion"
+        },
+        {
+            "chance": 75000,
+            "name": "strong health potion"
+        },
+        {
+            "chance": 100000,
+            "name": "brimstone fangs"
+        },
+        {
+            "chance": 65000,
+            "maxCount": 4,
+            "name": "small emerald"
+        },
+        {
+            "chance": 81670,
+            "name": "magic sulphur"
+        },
+        {
+            "chance": 46670,
+            "name": "stealth ring"
+        },
+        {
+            "chance": 20000,
+            "name": "platinum amulet"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "feral_crypt_leviathan_cultist",
+    "threatDps": 51.55,
+    "burstDps": 51.55,
+    "avgHit": 79.3077,
+    "maxHit": 316,
+    "manaCost": 0
+}

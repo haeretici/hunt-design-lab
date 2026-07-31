@@ -1,0 +1,102 @@
+{
+    "id": "memory_of_a_pale_aristocrat",
+    "label": "Memory Of A Pale Aristocrat",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A memory of a pale aristocrat.",
+    "hp": 3540,
+    "hpMax": 3540,
+    "speed": 100,
+    "level": 551,
+    "armor": 0,
+    "mitigation": 1.3,
+    "maxBlock": 0,
+    "exp": 1640,
+    "lootValue": 381.52173913043,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 100,
+        "holy": 0,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 360
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 15000,
+            "maxCount": 3
+        },
+        {
+            "chance": 5155,
+            "name": "candy floss"
+        },
+        {
+            "name": "bottle of champagne",
+            "chance": 7280
+        },
+        {
+            "name": "special fx box",
+            "chance": 1500
+        },
+        {
+            "name": "violet crystal shard",
+            "chance": 5000
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "brimstone_ruins_crawler",
+    "threatDps": 90,
+    "burstDps": 90,
+    "avgHit": 180,
+    "maxHit": 360,
+    "manaCost": 0
+}

@@ -1,0 +1,183 @@
+{
+    "id": "professor_maxxen",
+    "label": "Professor Maxxen",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A professor maxxen.",
+    "hp": 90000,
+    "hpMax": 90000,
+    "speed": 170,
+    "level": 874,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 15500,
+    "lootValue": 1348.75,
+    "aggro": true,
+    "resists": {
+        "physical": 5,
+        "fire": 35,
+        "ice": 5,
+        "energy": 0,
+        "earth": 50,
+        "holy": 40,
+        "death": 15
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 11,
+            "range": 4,
+            "element": "energy",
+            "min": 816,
+            "max": 1631,
+            "radius": 8,
+            "target": false,
+            "effect": "me_energyhit"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "manadrain",
+            "min": 1468,
+            "max": 4893,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_teleport"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "fire",
+            "min": 1468,
+            "max": 1631,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_fireattack"
+        },
+        {
+            "id": "war_golem_electrify_5",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 16,
+            "range": 2,
+            "element": "physical",
+            "target": false,
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 13,
+            "speedChange": 460,
+            "durationSec": 4,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "heal_1",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 20,
+            "min": 200,
+            "max": 250,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "venom",
+    "loot": [
+        {
+            "chance": 1000,
+            "unique": true,
+            "name": "glooth glider casing"
+        },
+        {
+            "chance": 1000,
+            "name": "feedbag"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 5
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "desperate_soul",
+    "threatDps": 540.2925,
+    "burstDps": 540.2925,
+    "avgHit": 2118.7941,
+    "maxHit": 4893,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 8,
+        "summons": [
+            {
+                "name": "Walker",
+                "id": "walker",
+                "chance": 10,
+                "interval": 2000,
+                "count": 2
+            },
+            {
+                "name": "Gloom Trasher",
+                "id": "gloom_trasher",
+                "chance": 10,
+                "interval": 2000,
+                "count": 2
+            },
+            {
+                "name": "Gloom Slasher",
+                "id": "gloom_slasher",
+                "chance": 10,
+                "interval": 2000,
+                "count": 2
+            }
+        ]
+    }
+}

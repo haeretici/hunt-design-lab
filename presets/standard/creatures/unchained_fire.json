@@ -1,0 +1,100 @@
+{
+    "id": "unchained_fire",
+    "label": "Unchained Fire",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An unchained fire.",
+    "hp": 1,
+    "hpMax": 1,
+    "speed": 238,
+    "level": 957,
+    "armor": 0,
+    "mitigation": 1.6,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 80,
+        "random": 20
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 750,
+            "max": 1700
+        },
+        {
+            "id": "unchained_fire_beam_1",
+            "kind": "melee",
+            "intervalMs": 3100,
+            "chance": 38,
+            "range": 1,
+            "element": "physical",
+            "min": 1000,
+            "max": 1750
+        },
+        {
+            "id": "unchained_fire_explosion_2",
+            "kind": "melee",
+            "intervalMs": 5100,
+            "chance": 35,
+            "range": 1,
+            "element": "physical",
+            "min": 900,
+            "max": 1400
+        }
+    ],
+    "race": "fire",
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "radiant_fire_giant_priest",
+    "threatDps": 859.97,
+    "burstDps": 1075,
+    "avgHit": 1244.1549,
+    "maxHit": 1750,
+    "manaCost": 0
+}

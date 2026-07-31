@@ -1,0 +1,320 @@
+{
+    "id": "tormenting_lord",
+    "label": "Tormenting Lord",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A tormenting lord.",
+    "hp": 75000,
+    "hpMax": 75000,
+    "speed": 165,
+    "level": 855,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 10000,
+    "lootValue": 20450.863636364,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 10,
+        "ice": 1,
+        "energy": 99,
+        "earth": 0,
+        "holy": 0,
+        "death": 95
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 1200,
+        "staticAttackChance": 85,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 1682
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "energy",
+            "min": 151,
+            "max": 555,
+            "radius": 4,
+            "target": true,
+            "effect": "me_purpleenergy"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "death",
+            "min": 504,
+            "max": 715,
+            "length": 5,
+            "spread": 2,
+            "target": false,
+            "effect": "me_blacksmoke"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "manadrain",
+            "min": 0,
+            "max": 168,
+            "radius": 4,
+            "target": true,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 4,
+            "element": "manadrain",
+            "min": 0,
+            "max": 210,
+            "radius": 5,
+            "target": true,
+            "effect": "me_magic_red"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 3000,
+            "chance": 14,
+            "min": 400,
+            "max": 900,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "fire",
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 150,
+            "name": "gold coin"
+        },
+        {
+            "chance": 59000,
+            "name": "slightly rusted legs"
+        },
+        {
+            "chance": 40000,
+            "name": "slightly rusted armor"
+        },
+        {
+            "chance": 33000,
+            "name": "marksman potion"
+        },
+        {
+            "chance": 30000,
+            "name": "great health potion"
+        },
+        {
+            "chance": 30000,
+            "name": "great dual potion"
+        },
+        {
+            "chance": 28000,
+            "name": "savant potion"
+        },
+        {
+            "chance": 23000,
+            "name": "berserk potion"
+        },
+        {
+            "chance": 21000,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 19000,
+            "name": "death ring"
+        },
+        {
+            "chance": 19000,
+            "name": "Hailburst Rod"
+        },
+        {
+            "chance": 19000,
+            "name": "lute"
+        },
+        {
+            "chance": 19000,
+            "maxCount": 26,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 19000,
+            "name": "two handed sword"
+        },
+        {
+            "chance": 16000,
+            "name": "assassin dagger"
+        },
+        {
+            "chance": 16000,
+            "name": "axe ring"
+        },
+        {
+            "chance": 16000,
+            "name": "ultimate health potion"
+        },
+        {
+            "chance": 16000,
+            "name": "Nether Rod"
+        },
+        {
+            "chance": 14000,
+            "name": "club ring"
+        },
+        {
+            "chance": 14000,
+            "name": "demonic essence"
+        },
+        {
+            "chance": 14000,
+            "name": "haunted blade"
+        },
+        {
+            "chance": 14000,
+            "name": "lyre"
+        },
+        {
+            "chance": 14000,
+            "name": "nightmare blade"
+        },
+        {
+            "chance": 14000,
+            "name": "Bloomshoot Rod"
+        },
+        {
+            "chance": 14000,
+            "name": "war drum"
+        },
+        {
+            "chance": 11000,
+            "name": "wand of inferno"
+        },
+        {
+            "chance": 11000,
+            "name": "wand of voodoo"
+        },
+        {
+            "chance": 9500,
+            "name": "bloody edge"
+        },
+        {
+            "chance": 9500,
+            "name": "crystal sword"
+        },
+        {
+            "chance": 9500,
+            "name": "ring of healing"
+        },
+        {
+            "chance": 7000,
+            "maxCount": 2,
+            "name": "demon horn"
+        },
+        {
+            "chance": 7000,
+            "name": "life ring"
+        },
+        {
+            "chance": 7000,
+            "name": "relic sword"
+        },
+        {
+            "chance": 7000,
+            "name": "time ring"
+        },
+        {
+            "chance": 7000,
+            "name": "wand of starstorm"
+        },
+        {
+            "chance": 7000,
+            "name": "war horn"
+        },
+        {
+            "chance": 7000,
+            "name": "wooden flute"
+        },
+        {
+            "chance": 4700,
+            "name": "didgeridoo"
+        },
+        {
+            "chance": 4700,
+            "name": "dwarven ring"
+        },
+        {
+            "chance": 4700,
+            "name": "ice rapier"
+        },
+        {
+            "chance": 4700,
+            "name": "mercenary sword"
+        },
+        {
+            "chance": 4700,
+            "name": "sword ring"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ember_ogre_ravager",
+    "threatDps": 488.475,
+    "burstDps": 488.475,
+    "avgHit": 651.3,
+    "maxHit": 1682,
+    "manaCost": 0
+}

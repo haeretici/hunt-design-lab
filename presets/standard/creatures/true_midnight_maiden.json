@@ -1,0 +1,334 @@
+{
+    "id": "true_midnight_maiden",
+    "label": "True Midnight Maiden",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A true midnight maiden.",
+    "hp": 9000,
+    "hpMax": 9000,
+    "speed": 170,
+    "level": 644,
+    "armor": 75,
+    "mitigation": 2.16,
+    "maxBlock": 0,
+    "exp": 7313,
+    "lootValue": 2503.665158371,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 10,
+        "ice": 10,
+        "energy": -10,
+        "earth": -10,
+        "holy": 30,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 313
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 5,
+            "element": "death",
+            "min": 348,
+            "max": 453,
+            "target": true,
+            "effect": "me_mortarea"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "manadrain",
+            "min": 35,
+            "max": 195,
+            "target": false
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 70,
+            "max": 167,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_purpleenergy"
+        },
+        {
+            "id": "wave_4",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "death",
+            "min": 348,
+            "max": 487,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_blacksmoke"
+        },
+        {
+            "id": "slow_5",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -100,
+                "durationSec": 30
+            },
+            "radius": 1,
+            "effect": "me_magic_red",
+            "target": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 50,
+            "max": 100,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 320,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "invisible_2",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 20,
+            "durationSec": 2,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Demon",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "violet gem",
+            "chance": 1390
+        },
+        {
+            "name": "crystal coin",
+            "chance": 5760,
+            "maxCount": 1
+        },
+        {
+            "name": "royal star",
+            "chance": 4090,
+            "maxCount": 3
+        },
+        {
+            "chance": 100000,
+            "maxCount": 8,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 9210,
+            "maxCount": 5,
+            "name": "assassin star"
+        },
+        {
+            "chance": 9870,
+            "maxCount": 2,
+            "name": "black pearl"
+        },
+        {
+            "chance": 20540,
+            "name": "flask of demonic blood"
+        },
+        {
+            "chance": 10730,
+            "name": "demonic essence"
+        },
+        {
+            "chance": 15630,
+            "maxCount": 2,
+            "name": "small diamond"
+        },
+        {
+            "chance": 7750,
+            "maxCount": 2,
+            "name": "small emerald"
+        },
+        {
+            "chance": 7830,
+            "maxCount": 2,
+            "name": "small ruby"
+        },
+        {
+            "chance": 12690,
+            "maxCount": 2,
+            "name": "small sapphire"
+        },
+        {
+            "chance": 8120,
+            "maxCount": 2,
+            "name": "small topaz"
+        },
+        {
+            "chance": 19960,
+            "maxCount": 2,
+            "name": "great health potion"
+        },
+        {
+            "chance": 8170,
+            "maxCount": 2,
+            "name": "white pearl"
+        },
+        {
+            "chance": 980,
+            "name": "assassin dagger"
+        },
+        {
+            "chance": 1020,
+            "name": "blue gem"
+        },
+        {
+            "chance": 900,
+            "name": "blue robe"
+        },
+        {
+            "chance": 900,
+            "name": "gold ingot"
+        },
+        {
+            "chance": 12440,
+            "name": "golden lotus brooch"
+        },
+        {
+            "chance": 3610,
+            "name": "Withering Rod"
+        },
+        {
+            "chance": 1820,
+            "name": "oriental shoes"
+        },
+        {
+            "chance": 12790,
+            "name": "peacock feather fan"
+        },
+        {
+            "chance": 930,
+            "name": "skullcracker armor"
+        },
+        {
+            "chance": 10060,
+            "name": "silver brooch"
+        },
+        {
+            "chance": 2020,
+            "name": "silver amulet"
+        },
+        {
+            "chance": 10020,
+            "name": "soul orb"
+        },
+        {
+            "chance": 900,
+            "name": "spellbook of mind control"
+        },
+        {
+            "chance": 2290,
+            "name": "tribal mask"
+        },
+        {
+            "chance": 990,
+            "name": "Nether Rod"
+        },
+        {
+            "chance": 900,
+            "name": "yellow gem"
+        },
+        {
+            "chance": 930,
+            "name": "crystal ring"
+        },
+        {
+            "name": "small enchanted amethyst",
+            "chance": 1441,
+            "maxCount": 3
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "obsidian_cyclops_berserker",
+    "threatDps": 150.85,
+    "burstDps": 150.85,
+    "avgHit": 201.1333,
+    "maxHit": 487,
+    "manaCost": 0
+}

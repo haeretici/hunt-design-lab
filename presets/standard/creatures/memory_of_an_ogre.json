@@ -1,0 +1,165 @@
+{
+    "id": "memory_of_an_ogre",
+    "label": "Memory Of An Ogre",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A memory of an ogre.",
+    "hp": 3570,
+    "hpMax": 3570,
+    "speed": 102,
+    "level": 552,
+    "armor": 0,
+    "mitigation": 1.3,
+    "maxBlock": 0,
+    "exp": 1680,
+    "lootValue": 173.32258064516,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 270,
+            "condition": {
+                "type": "fire",
+                "totalDamage": 15,
+                "intervalMs": 9000
+            }
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "fire",
+            "min": 172,
+            "max": 245,
+            "target": false,
+            "shootEffect": "ani_poison"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 80,
+            "max": 95,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 121
+        },
+        {
+            "name": "strong health potion",
+            "chance": 18830,
+            "maxCount": 2
+        },
+        {
+            "name": "onyx chip",
+            "chance": 9800
+        },
+        {
+            "chance": 5070,
+            "name": "power ring"
+        },
+        {
+            "name": "small ruby",
+            "chance": 7430,
+            "maxCount": 2
+        },
+        {
+            "chance": 810,
+            "name": "club ring"
+        },
+        {
+            "name": "small stone",
+            "chance": 13890,
+            "maxCount": 3
+        },
+        {
+            "chance": 5155,
+            "name": "candy floss"
+        },
+        {
+            "name": "white pearl",
+            "chance": 530
+        },
+        {
+            "name": "opal",
+            "chance": 5155
+        },
+        {
+            "name": "bonebreaker",
+            "chance": 400
+        },
+        {
+            "name": "bottle of champagne",
+            "chance": 600
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ember_ogre_ravager",
+    "threatDps": 90.6375,
+    "burstDps": 90.6375,
+    "avgHit": 144.587,
+    "maxHit": 270,
+    "manaCost": 0
+}

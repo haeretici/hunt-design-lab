@@ -1,0 +1,272 @@
+{
+    "id": "nightmare_spider_horror",
+    "label": "Nightmare Spider Horror",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A nightmare spider horror.",
+    "hp": 5000,
+    "hpMax": 5000,
+    "speed": 200,
+    "level": 585,
+    "armor": 70,
+    "mitigation": 1.94,
+    "maxBlock": 0,
+    "exp": 4700,
+    "lootValue": 1209.5878191326,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 50,
+        "earth": 0,
+        "holy": -40,
+        "death": 50
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 218
+        },
+        {
+            "id": "arachnophobicawavedice_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 1,
+            "element": "physical",
+            "min": 156,
+            "max": 218,
+            "target": false
+        },
+        {
+            "id": "arachnophobicawaveenergy_2",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 1,
+            "element": "physical",
+            "min": 156,
+            "max": 218,
+            "target": false
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "physical",
+            "min": 156,
+            "max": 218,
+            "radius": 4,
+            "target": true,
+            "effect": "me_blockhit"
+        },
+        {
+            "id": "ranged_4",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "death",
+            "min": 125,
+            "max": 187,
+            "target": false,
+            "effect": "me_smallclouds",
+            "shootEffect": "ani_suddendeath"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 150,
+            "max": 250,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Magical",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 14
+        },
+        {
+            "name": "great dual potion",
+            "chance": 100000,
+            "maxCount": 3
+        },
+        {
+            "name": "essence of a bad dream",
+            "chance": 15000
+        },
+        {
+            "chance": 12050,
+            "name": "voltaic ring"
+        },
+        {
+            "name": "silver amulet",
+            "chance": 15000
+        },
+        {
+            "chance": 11050,
+            "name": "sword ring"
+        },
+        {
+            "name": "spider fangs",
+            "chance": 11800
+        },
+        {
+            "name": "mind stone",
+            "chance": 17800
+        },
+        {
+            "name": "wand of cosmic energy",
+            "chance": 17800
+        },
+        {
+            "name": "Emberbound Amulet",
+            "chance": 8900
+        },
+        {
+            "name": "elven amulet",
+            "chance": 8100,
+            "maxCount": 2
+        },
+        {
+            "chance": 10590,
+            "name": "collar of red plasma"
+        },
+        {
+            "name": "sacred tree amulet",
+            "chance": 7500
+        },
+        {
+            "name": "spider silk",
+            "chance": 6500
+        },
+        {
+            "chance": 5560,
+            "name": "life ring"
+        },
+        {
+            "name": "orb",
+            "chance": 7800
+        },
+        {
+            "name": "Nether Rod",
+            "chance": 7120
+        },
+        {
+            "chance": 1000,
+            "name": "ring of blue plasma"
+        },
+        {
+            "chance": 9120,
+            "name": "ring of healing"
+        },
+        {
+            "name": "strange talisman",
+            "chance": 8110
+        },
+        {
+            "chance": 7220,
+            "name": "axe ring"
+        },
+        {
+            "chance": 6080,
+            "name": "power ring"
+        },
+        {
+            "chance": 7502,
+            "name": "death ring"
+        },
+        {
+            "name": "garlic necklace",
+            "chance": 7550
+        },
+        {
+            "name": "platinum amulet",
+            "chance": 7650
+        },
+        {
+            "chance": 10590,
+            "name": "collar of green plasma"
+        },
+        {
+            "name": "strange symbol",
+            "chance": 2640
+        },
+        {
+            "name": "Stonehide Amulet",
+            "chance": 2600
+        },
+        {
+            "name": "necklace of the deep",
+            "chance": 1800
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "nightmare_spider_horror",
+    "threatDps": 109.05,
+    "burstDps": 109.05,
+    "avgHit": 136.3125,
+    "maxHit": 218,
+    "manaCost": 0
+}

@@ -1,0 +1,103 @@
+{
+    "id": "lion_king_zomba",
+    "label": "Lion King Zomba",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A lion king zomba.",
+    "hp": 300,
+    "hpMax": 300,
+    "speed": 90,
+    "level": 305,
+    "armor": 0,
+    "mitigation": 0.4,
+    "maxBlock": 0,
+    "exp": 300,
+    "lootValue": 218.13333333333,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": -14,
+        "energy": 0,
+        "earth": 40,
+        "holy": 20,
+        "death": -8
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 10,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "element": "physical",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "min": 17,
+            "max": 75,
+            "target": true
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 25,
+            "name": "gold coin"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 2,
+            "name": "lion's mane"
+        },
+        {
+            "chance": 25000,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 12500,
+            "name": "life ring"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "nether_tiger",
+    "threatDps": 23,
+    "burstDps": 23,
+    "avgHit": 46,
+    "maxHit": 75,
+    "manaCost": 0
+}

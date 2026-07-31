@@ -1,0 +1,130 @@
+{
+    "id": "lava_creature",
+    "label": "Lava Creature",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A lava creature.",
+    "hp": 1,
+    "hpMax": 1,
+    "speed": 175,
+    "level": 930,
+    "armor": 0,
+    "mitigation": 2,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 98,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 675,
+            "max": 1600
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 3100,
+            "chance": 40,
+            "range": 4,
+            "element": "fire",
+            "min": 900,
+            "max": 1200,
+            "length": 5,
+            "target": false,
+            "effect": "me_smoke"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 3700,
+            "chance": 30,
+            "range": 4,
+            "element": "energy",
+            "min": 350,
+            "max": 475,
+            "radius": 3,
+            "target": false,
+            "effect": "me_magic_red"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 3000,
+            "chance": 35,
+            "min": 400,
+            "max": 500,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 320,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "fire",
+    "loot": [],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "penguin",
+    "threatDps": 737.6798,
+    "burstDps": 840.625,
+    "avgHit": 1038.8198,
+    "maxHit": 1600,
+    "manaCost": 0
+}

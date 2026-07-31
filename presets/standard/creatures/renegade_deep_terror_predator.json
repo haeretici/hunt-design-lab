@@ -1,0 +1,186 @@
+{
+    "id": "renegade_deep_terror_predator",
+    "label": "Renegade Deep Terror Predator",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A renegade deep terror predator.",
+    "hp": 3250,
+    "hpMax": 3250,
+    "speed": 225,
+    "level": 543,
+    "armor": 40,
+    "mitigation": 1.46,
+    "maxBlock": 0,
+    "exp": 2700,
+    "lootValue": 828.22959024085,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": 100,
+        "energy": -25,
+        "earth": -10,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "element": "physical",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "min": 92,
+            "max": 252,
+            "target": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 30,
+            "durationSec": 5,
+            "effect": "me_magic_green"
+        },
+        {
+            "id": "heal_1",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 50,
+            "max": 100,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Aquatic",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 2
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 80000,
+            "maxCount": 4
+        },
+        {
+            "name": "quara bone",
+            "chance": 10000,
+            "maxCount": 1
+        },
+        {
+            "name": "royal spear",
+            "chance": 8000,
+            "maxCount": 7
+        },
+        {
+            "name": "great health potion",
+            "chance": 6680,
+            "maxCount": 2
+        },
+        {
+            "name": "mind stone",
+            "chance": 6440
+        },
+        {
+            "name": "assassin star",
+            "chance": 5233,
+            "maxCount": 10
+        },
+        {
+            "name": "shrimp",
+            "chance": 4510,
+            "maxCount": 5
+        },
+        {
+            "name": "small diamond",
+            "chance": 3140,
+            "maxCount": 3
+        },
+        {
+            "name": "fish fin",
+            "chance": 2101
+        },
+        {
+            "name": "blue crystal shard",
+            "chance": 1290
+        },
+        {
+            "name": "relic sword",
+            "chance": 1051
+        },
+        {
+            "name": "skull helmet",
+            "chance": 560
+        },
+        {
+            "name": "Frostbound Robe",
+            "chance": 400
+        },
+        {
+            "name": "abyss hammer",
+            "chance": 320
+        },
+        {
+            "name": "frozen plate",
+            "chance": 160
+        },
+        {
+            "name": "giant shrimp",
+            "chance": 80
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "rat",
+    "threatDps": 86,
+    "burstDps": 86,
+    "avgHit": 172,
+    "maxHit": 252,
+    "manaCost": 0
+}

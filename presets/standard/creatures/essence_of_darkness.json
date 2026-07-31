@@ -1,0 +1,83 @@
+{
+    "id": "essence_of_darkness",
+    "label": "Essence Of Darkness",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An essence of darkness.",
+    "hp": 1000,
+    "hpMax": 1000,
+    "speed": 115,
+    "level": 425,
+    "armor": 0,
+    "mitigation": 0.25,
+    "maxBlock": 0,
+    "exp": 30,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 100,
+        "fire": 98,
+        "ice": 100,
+        "energy": 100,
+        "earth": 100,
+        "holy": 80,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 85,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 179
+        }
+    ],
+    "race": "undead",
+    "loot": [],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "umbral_ghoul",
+    "threatDps": 44.75,
+    "burstDps": 44.75,
+    "avgHit": 89.5,
+    "maxHit": 179,
+    "manaCost": 0
+}

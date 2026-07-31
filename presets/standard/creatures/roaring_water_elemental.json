@@ -1,0 +1,133 @@
+{
+    "id": "roaring_water_elemental",
+    "label": "Roaring Water Elemental",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A roaring water elemental.",
+    "hp": 1750,
+    "hpMax": 1750,
+    "speed": 195,
+    "level": 481,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 1300,
+    "lootValue": 311.91170825336,
+    "aggro": true,
+    "resists": {
+        "physical": 45,
+        "fire": 100,
+        "ice": 100,
+        "energy": 0,
+        "earth": 100,
+        "holy": 40,
+        "death": 1
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 1,
+        "staticAttackChance": 85,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 140
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 15,
+            "range": 4,
+            "element": "ice",
+            "min": 149,
+            "max": 198,
+            "radius": 2,
+            "target": true,
+            "effect": "me_loseenergy",
+            "shootEffect": "ani_ice"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 90,
+            "max": 150,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "name": "small sapphire",
+            "chance": 4125,
+            "maxCount": 2
+        },
+        {
+            "name": "gold coin",
+            "chance": 27000,
+            "maxCount": 90
+        },
+        {
+            "name": "gold coin",
+            "chance": 27000,
+            "maxCount": 87
+        },
+        {
+            "name": "iced soil",
+            "chance": 9000
+        },
+        {
+            "name": "Boreal Rod",
+            "chance": 750
+        }
+    ],
+    "changeTarget": {
+        "interval": 20000,
+        "chance": 15
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "arcane_elemental_vanguard",
+    "threatDps": 61.025,
+    "burstDps": 61.025,
+    "avgHit": 93.8846,
+    "maxHit": 198,
+    "manaCost": 0
+}

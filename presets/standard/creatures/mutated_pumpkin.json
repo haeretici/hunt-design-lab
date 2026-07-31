@@ -1,0 +1,216 @@
+{
+    "id": "mutated_pumpkin",
+    "label": "Mutated Pumpkin",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A mutated pumpkin.",
+    "hp": 500000,
+    "hpMax": 500000,
+    "speed": 200,
+    "level": 1000,
+    "armor": 0,
+    "mitigation": 1,
+    "maxBlock": 0,
+    "exp": 30000,
+    "lootValue": 136.36363636364,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 85,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 3000,
+            "chance": 18,
+            "range": 7,
+            "element": "manadrain",
+            "min": 1654,
+            "max": 4962,
+            "target": true,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "earth",
+            "min": 1654,
+            "max": 4962,
+            "radius": 7,
+            "target": false,
+            "effect": "me_poisonarea"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 3000,
+            "chance": 14,
+            "range": 4,
+            "element": "energy",
+            "min": 662,
+            "max": 4962,
+            "radius": 7,
+            "target": false,
+            "effect": "me_energyhit"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 10,
+            "range": 4,
+            "element": "death",
+            "min": 496,
+            "max": 4962,
+            "radius": 8,
+            "target": false,
+            "effect": "me_poff"
+        },
+        {
+            "id": "wave_5",
+            "kind": "wave",
+            "intervalMs": 3000,
+            "chance": 12,
+            "range": 4,
+            "element": "earth",
+            "min": 1654,
+            "max": 4962,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_plantattack"
+        },
+        {
+            "id": "wave_6",
+            "kind": "wave",
+            "intervalMs": 1000,
+            "chance": 10,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 1654,
+            "max": 6616,
+            "length": 6,
+            "spread": 3,
+            "target": false,
+            "effect": "me_hitbypoison"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 4000,
+            "chance": 15,
+            "min": 2000,
+            "max": 2900,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "name": "pumpkin",
+            "chance": 100000
+        },
+        {
+            "name": "yummy gummy worm",
+            "chance": 100000,
+            "maxCount": 20
+        },
+        {
+            "chance": 1000,
+            "maxCount": 50,
+            "name": "candy cane"
+        },
+        {
+            "chance": 1000,
+            "maxCount": 50,
+            "name": "candy"
+        },
+        {
+            "name": "spiderwebs",
+            "chance": 1000
+        },
+        {
+            "chance": 1000,
+            "name": "toy spider"
+        },
+        {
+            "chance": 1000,
+            "name": "bat decoration"
+        },
+        {
+            "chance": 1000,
+            "name": "skeleton decoration"
+        },
+        {
+            "name": "bar of chocolate",
+            "chance": 1000
+        },
+        {
+            "id": 6570,
+            "chance": 1000
+        },
+        {
+            "id": 6571,
+            "chance": 1000
+        },
+        {
+            "chance": 1000,
+            "name": "pumpkinhead"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ashen_goblin_devourer",
+    "threatDps": 1396.5267,
+    "burstDps": 1627.54,
+    "avgHit": 3311.9209,
+    "maxHit": 6616,
+    "manaCost": 0
+}

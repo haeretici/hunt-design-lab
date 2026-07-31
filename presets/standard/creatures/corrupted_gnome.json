@@ -1,0 +1,173 @@
+{
+    "id": "corrupted_gnome",
+    "label": "Corrupted Gnome",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A corrupted gnome.",
+    "hp": 250000,
+    "hpMax": 250000,
+    "speed": 235,
+    "level": 975,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 400000,
+    "lootValue": 8750,
+    "aggro": true,
+    "resists": {
+        "physical": 10,
+        "fire": 50,
+        "ice": 50,
+        "energy": 100,
+        "earth": 100,
+        "holy": 50,
+        "death": 27
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 10000,
+        "staticAttackChance": 50,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "slow_1",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -400,
+                "durationSec": 2.5
+            },
+            "target": false
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 7,
+            "element": "fire",
+            "min": 1478,
+            "max": 1712,
+            "target": false,
+            "effect": "me_energyarea"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 9,
+            "range": 4,
+            "element": "manadrain",
+            "min": 414,
+            "max": 901,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "ranged_4",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 12,
+            "range": 3,
+            "element": "energy",
+            "min": 631,
+            "max": 1442,
+            "target": true,
+            "effect": "me_purpleenergy"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 1000,
+            "chance": 25,
+            "min": 1000,
+            "max": 4000,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 7030,
+            "name": "crystalline axe"
+        },
+        {
+            "chance": 9120,
+            "name": "crystal crossbow"
+        },
+        {
+            "chance": 99150,
+            "name": "Gnomevil's hat"
+        },
+        {
+            "chance": 6690,
+            "name": "shiny blade"
+        },
+        {
+            "chance": 8400,
+            "name": "mycological bow"
+        },
+        {
+            "chance": 7120,
+            "name": "mycological mace"
+        },
+        {
+            "chance": 14100,
+            "name": "crystalline sword"
+        },
+        {
+            "chance": 3710,
+            "name": "decorative ribbon"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ashen_goblin_devourer",
+    "threatDps": 951.4675,
+    "burstDps": 951.4675,
+    "avgHit": 1430.7782,
+    "maxHit": 1712,
+    "manaCost": 0
+}

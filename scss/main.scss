@@ -1,0 +1,13 @@
+// Hunt Design Lab browser styles entry
+// Build: node build-styles.mjs → build/app.css
+
+@use 'variables';
+@use 'layout';
+@use 'components';
+@use 'asset-manager';
+@use 'game';
+@use 'simulation-analysis';
+@use 'sim-batch-builder';
+@use 'hunt-editor';
+@use 'designer-ui';
+@use 'wiki';

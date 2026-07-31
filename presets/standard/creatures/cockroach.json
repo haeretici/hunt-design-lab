@@ -1,0 +1,86 @@
+{
+    "id": "cockroach",
+    "label": "Cockroach",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A cockroach.",
+    "hp": 1,
+    "hpMax": 1,
+    "speed": 90,
+    "level": 55,
+    "armor": 0,
+    "mitigation": 0.01,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": false,
+    "resists": {
+        "physical": 100,
+        "fire": 100,
+        "ice": 100,
+        "energy": 100,
+        "earth": 100,
+        "holy": 100,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 5,
+        "runHealth": 1,
+        "staticAttackChance": 50,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": false,
+        "convinceable": false,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "element": "physical",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 5,
+            "min": 1,
+            "max": 22,
+            "target": true
+        }
+    ],
+    "race": "venom",
+    "loot": [
+        {
+            "name": "cockroach leg",
+            "chance": 100000
+        }
+    ],
+    "changeTarget": {
+        "interval": 60000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "cockroach",
+    "threatDps": 5.75,
+    "burstDps": 5.75,
+    "avgHit": 11.5,
+    "maxHit": 22,
+    "manaCost": 0
+}

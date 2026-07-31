@@ -1,0 +1,179 @@
+{
+    "id": "goldhanded_cultist",
+    "label": "Goldhanded Cultist",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A goldhanded cultist.",
+    "hp": 3000,
+    "hpMax": 3000,
+    "speed": 150,
+    "level": 534,
+    "armor": 30,
+    "mitigation": 0.78,
+    "maxBlock": 0,
+    "exp": 2000,
+    "lootValue": 600.62529832936,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 10,
+        "ice": 15,
+        "energy": 17,
+        "earth": 0,
+        "holy": 0,
+        "death": 15
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 232
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 3000,
+            "chance": 15,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 0,
+            "max": 139,
+            "radius": 5,
+            "target": false,
+            "effect": "me_drawblood"
+        },
+        {
+            "id": "melee_2",
+            "kind": "melee",
+            "intervalMs": 3000,
+            "chance": 10,
+            "range": 1,
+            "element": "manadrain",
+            "min": 0,
+            "max": 186,
+            "target": true,
+            "effect": "me_loseenergy"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 15,
+            "range": 5,
+            "element": "lifedrain",
+            "min": 0,
+            "max": 232,
+            "radius": 2,
+            "target": true,
+            "effect": "me_drawblood"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 30,
+            "speedChange": 290,
+            "durationSec": 6,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Human",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 1
+    },
+    "loot": [
+        {
+            "name": "golden backpack",
+            "chance": 4290
+        },
+        {
+            "name": "tiger eye",
+            "chance": 11430
+        },
+        {
+            "chance": 41430,
+            "maxCount": 235,
+            "name": "gold coin"
+        },
+        {
+            "name": "golden brush",
+            "chance": 20000
+        },
+        {
+            "name": "green gem",
+            "chance": 5710
+        },
+        {
+            "name": "gold ingot",
+            "chance": 2860
+        },
+        {
+            "name": "opal",
+            "chance": 11430
+        },
+        {
+            "name": "yellow gem",
+            "chance": 5710
+        },
+        {
+            "chance": 1430,
+            "name": "golden bag"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "hellfire_kobold_cultist",
+    "threatDps": 81.975,
+    "burstDps": 85.2625,
+    "avgHit": 111.7841,
+    "maxHit": 232,
+    "manaCost": 0
+}

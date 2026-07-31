@@ -1,0 +1,231 @@
+{
+    "id": "elder_dragon",
+    "label": "Elder Dragon",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An elder dragon.",
+    "hp": 1900,
+    "hpMax": 1900,
+    "speed": 100,
+    "level": 489,
+    "armor": 34,
+    "mitigation": 1.29,
+    "maxBlock": 0,
+    "exp": 2100,
+    "lootValue": 327.47253875372,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": -10,
+        "energy": 20,
+        "earth": 80,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 300,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 140
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 7,
+            "element": "fire",
+            "min": 61,
+            "max": 134,
+            "radius": 4,
+            "target": true,
+            "effect": "me_firearea",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "firefield_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "radius": 4,
+            "target": true,
+            "shootEffect": "ani_fire",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 22,
+            "range": 4,
+            "element": "fire",
+            "min": 91,
+            "max": 165,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_firearea"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 57,
+            "max": 93,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Dragon",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 95300,
+            "maxCount": 237
+        },
+        {
+            "name": "dragon ham",
+            "chance": 79790,
+            "maxCount": 2
+        },
+        {
+            "name": "green mushroom",
+            "chance": 12030
+        },
+        {
+            "chance": 9590,
+            "name": "book"
+        },
+        {
+            "name": "royal spear",
+            "chance": 9380,
+            "maxCount": 3
+        },
+        {
+            "name": "power bolt",
+            "chance": 5920,
+            "maxCount": 7
+        },
+        {
+            "name": "small sapphire",
+            "chance": 5590
+        },
+        {
+            "chance": 4550,
+            "name": "voltaic ring"
+        },
+        {
+            "name": "golden mug",
+            "chance": 3310
+        },
+        {
+            "name": "red dragon scale",
+            "chance": 1940
+        },
+        {
+            "name": "red dragon leather",
+            "chance": 1150
+        },
+        {
+            "name": "strong health potion",
+            "chance": 800
+        },
+        {
+            "name": "life crystal",
+            "chance": 650
+        },
+        {
+            "name": "strange helmet",
+            "chance": 520
+        },
+        {
+            "name": "tower shield",
+            "chance": 410
+        },
+        {
+            "name": "fire sword",
+            "chance": 350
+        },
+        {
+            "name": "royal helmet",
+            "chance": 260
+        },
+        {
+            "name": "dragon slayer",
+            "chance": 220
+        },
+        {
+            "name": "dragon lord trophy",
+            "chance": 130
+        },
+        {
+            "name": "dragon scale mail",
+            "chance": 90
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "wild_desert_dragon",
+    "threatDps": 63.705,
+    "burstDps": 63.705,
+    "avgHit": 83.8224,
+    "maxHit": 165,
+    "manaCost": 0
+}

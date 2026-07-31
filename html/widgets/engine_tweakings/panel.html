@@ -1,0 +1,215 @@
+<div class="card-body engine-tweakings-panel">
+    <h5 class="card-title mb-3 font-monospace">
+        <span class="text-info">●</span> Engine Tweakings
+    </h5>
+
+    <div class="mb-4">
+        <h6 class="text-info border-bottom border-secondary border-opacity-50 pb-2 mb-3">
+            Camera Settings
+        </h6>
+        <div class="d-flex justify-content-between mb-1 align-items-center">
+            <span class="small text-muted">Scale (Zoom)</span>
+            <span class="badge bg-secondary font-monospace" id="scaleVal">32</span>
+        </div>
+        <input
+            type="range"
+            class="form-range"
+            id="scaleSlider"
+            min="8"
+            max="48"
+            step="1"
+            value="32"
+            title="Pixels per tile. Higher = closer; lower = more map visible."
+        >
+        <p class="small text-muted mb-0 mt-1">
+            Canvas zoom via tile size (px). Saved automatically. Live while a hunt is running.
+        </p>
+    </div>
+
+    <div class="mb-4">
+        <h6 class="text-info border-bottom border-secondary border-opacity-50 pb-2 mb-3">
+            Session
+        </h6>
+        <div class="d-flex justify-content-between mb-1 align-items-center">
+            <span class="small text-muted">Status</span>
+            <span class="badge bg-secondary font-monospace" id="sessionStatusVal">READY</span>
+        </div>
+
+        <div class="d-flex justify-content-between mb-1 align-items-center">
+            <span class="small text-muted">Play speed</span>
+            <span class="badge bg-secondary font-monospace" id="timeSpeedVal">1.00</span>
+        </div>
+        <input
+            type="range"
+            class="form-range mb-2"
+            id="timeSpeedSlider"
+            min="0.25"
+            max="20"
+            step="0.25"
+            value="1"
+            title="Wall-clock multiplier (logic dt stays fixed)"
+        >
+
+        <div class="d-flex justify-content-between mb-1 align-items-center">
+            <span class="small text-muted text-info">Scrubber</span>
+            <span class="badge bg-secondary font-monospace" id="playbackFrameVal">0 / 0</span>
+        </div>
+        <input
+            type="range"
+            class="form-range mb-2"
+            id="playbackSlider"
+            min="0"
+            max="0"
+            value="0"
+            disabled
+            title="Seek to logic tick from session seed (reseed)"
+        >
+
+        <div class="d-flex gap-2 flex-wrap mb-2">
+            <button type="button" class="btn btn-sm btn-primary flex-grow-1" id="sessionPlayBtn" title="Start hunt or resume when paused">
+                <i class="fa-solid fa-play"></i> Play
+            </button>
+            <button type="button" class="btn btn-sm btn-secondary flex-grow-1" id="sessionPauseBtn" disabled title="Pause / resume logic">
+                <i class="fa-solid fa-pause"></i> Pause
+            </button>
+            <button type="button" class="btn btn-sm btn-secondary flex-grow-1" id="sessionStopBtn" title="Stop session">
+                <i class="fa-solid fa-stop"></i> Stop
+            </button>
+        </div>
+        <p class="small text-muted mb-0 mt-1">
+            Same transport as the hunt sidebar. Scrubber reseeds from the session seed to any played tick.
+        </p>
+    </div>
+
+    <!-- Progression (Phase C) — pre-run only in UI; frozen at session start -->
+    <div class="mb-4 mt-2 pt-2 border-top border-secondary border-opacity-25" id="progressionSection">
+        <h6 class="text-info border-bottom border-secondary border-opacity-50 pb-2 mb-3">
+            Progression
+            <span class="badge bg-secondary font-monospace ms-1" style="font-size: 0.65rem;">LAB</span>
+        </h6>
+        <p class="small text-muted mb-2">
+            Live exp/level and skill tries. Editable only before a hunt runs
+            (session freezes config for determinism / scrub). Defaults off.
+        </p>
+        <div class="form-check form-switch mb-2">
+            <input class="form-check-input progression-flag" type="checkbox" id="expProgressionToggle" data-feature="expProgression">
+            <label class="form-check-label text-light small fw-semibold" for="expProgressionToggle">
+                Live exp / level-ups
+            </label>
+        </div>
+        <div class="form-check form-switch mb-3">
+            <input class="form-check-input progression-flag" type="checkbox" id="skillProgressionToggle" data-feature="skillProgression">
+            <label class="form-check-label text-muted small" for="skillProgressionToggle">
+                Live skill tries
+                <span class="badge bg-secondary font-monospace ms-1" style="font-size: 0.6rem;">Phase D</span>
+            </label>
+        </div>
+        <div class="row g-2 small" id="expRatesRow">
+            <div class="col-6">
+                <label class="form-label text-muted mb-0" for="expBaseRate">baseRate</label>
+                <input type="number" class="form-control form-control-sm exp-rate-input" id="expBaseRate" data-rate="baseRate" min="0" step="0.1" value="1">
+            </div>
+            <div class="col-6">
+                <label class="form-label text-muted mb-0" for="expEventMult">eventMult</label>
+                <input type="number" class="form-control form-control-sm exp-rate-input" id="expEventMult" data-rate="eventMult" min="0" step="0.1" value="1">
+            </div>
+            <div class="col-6">
+                <label class="form-label text-muted mb-0" for="expStaminaMult">staminaMult</label>
+                <input type="number" class="form-control form-control-sm exp-rate-input" id="expStaminaMult" data-rate="staminaMult" min="0" step="0.1" value="1">
+            </div>
+            <div class="col-6">
+                <label class="form-label text-muted mb-0" for="expAdditiveBonus">additiveBonus</label>
+                <input type="number" class="form-control form-control-sm exp-rate-input" id="expAdditiveBonus" data-rate="additiveBonus" min="0" step="0.05" value="0">
+            </div>
+            <div class="col-6">
+                <label class="form-label text-muted mb-0" for="expPrey">prey</label>
+                <input type="number" class="form-control form-control-sm exp-rate-input" id="expPrey" data-rate="prey" min="0" step="0.05" value="0">
+            </div>
+            <div class="col-6">
+                <label class="form-label text-muted mb-0" for="expXpBoost">xpBoost</label>
+                <input type="number" class="form-control form-control-sm exp-rate-input" id="expXpBoost" data-rate="xpBoost" min="0" step="0.05" value="0">
+            </div>
+        </div>
+        <p class="small text-muted mb-0 mt-2" style="font-size: 0.7rem; line-height: 1.35;" id="progressionLockHint" hidden>
+            Locked while a hunt is live — stop the session to change progression settings.
+        </p>
+    </div>
+
+    <!-- AI Debug Overlays — canvas only; off by default / HEADLESS -->
+    <div class="mt-2 pt-2 border-top border-secondary border-opacity-25">
+        <h6 class="text-info border-bottom border-secondary border-opacity-50 pb-2 mb-3">
+            AI Debug Overlays
+            <span class="badge bg-secondary font-monospace ms-1" style="font-size: 0.65rem;">DEV</span>
+        </h6>
+        <p class="small text-muted mb-2">
+            Canvas overlays for hunt AI tuning (disabled in headless). Master switch required.
+        </p>
+        <div class="form-check form-switch mb-3">
+            <input class="form-check-input" type="checkbox" id="aiDebugEnabled">
+            <label class="form-check-label text-light small fw-semibold" for="aiDebugEnabled">
+                Enable AI debug drawing
+            </label>
+        </div>
+        <div class="row g-2 small" id="aiDebugFlagRow">
+            <div class="col-6">
+                <div class="form-check">
+                    <input class="form-check-input ai-debug-flag" type="checkbox" id="aiDebugStates" data-flag="states">
+                    <label class="form-check-label text-muted" for="aiDebugStates">FSM states</label>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-check">
+                    <input class="form-check-input ai-debug-flag" type="checkbox" id="aiDebugPaths" data-flag="paths">
+                    <label class="form-check-label text-muted" for="aiDebugPaths">Paths</label>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-check">
+                    <input class="form-check-input ai-debug-flag" type="checkbox" id="aiDebugTargets" data-flag="targets">
+                    <label class="form-check-label text-muted" for="aiDebugTargets">Targets</label>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-check">
+                    <input class="form-check-input ai-debug-flag" type="checkbox" id="aiDebugRanges" data-flag="ranges">
+                    <label class="form-check-label text-muted" for="aiDebugRanges">Ranges</label>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-check">
+                    <input class="form-check-input ai-debug-flag" type="checkbox" id="aiDebugSpawns" data-flag="spawns">
+                    <label class="form-check-label text-muted" for="aiDebugSpawns">Spawns / home</label>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-check">
+                    <input class="form-check-input ai-debug-flag" type="checkbox" id="aiDebugHitSources" data-flag="hitSources">
+                    <label class="form-check-label text-muted" for="aiDebugHitSources">Hit sources</label>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-check">
+                    <input class="form-check-input ai-debug-flag" type="checkbox" id="aiDebugTileTypes" data-flag="tileTypes">
+                    <label class="form-check-label text-muted" for="aiDebugTileTypes">Tile types</label>
+                </div>
+            </div>
+        </div>
+        <p class="small text-muted mb-0 mt-2" style="font-size: 0.7rem; line-height: 1.35;">
+            <strong class="text-secondary">Ranges boxes:</strong>
+            <span style="color: #00dcef;">engage</span> player start-fight ·
+            <span style="color: #ff7864;">aggro</span> creature detect ·
+            <span style="color: #ffd264;">leash</span> return-home radius (from home tile).
+            Each box is labeled on the canvas.
+            <br>
+            <strong class="text-secondary">Hit sources:</strong>
+            diamond + line from attacker tile for each active combat VFX frame
+            (melee / projectile / aoe / death).
+            <br>
+            <strong class="text-secondary">Tile types:</strong>
+            <span style="color: #78f0a0;">floor</span> walkable ·
+            <span style="color: #ff9678;">wall</span> blocked edge ·
+            <span style="color: #a096c8;">void</span> blocked interior ·
+            <span style="color: #78d2ff;">stairs</span> multi-floor pad.
+        </p>
+    </div>
+</div>

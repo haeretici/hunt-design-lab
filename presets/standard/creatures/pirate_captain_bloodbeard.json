@@ -1,0 +1,126 @@
+{
+    "id": "pirate_captain_bloodbeard",
+    "label": "Pirate Captain Bloodbeard",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A pirate captain bloodbeard.",
+    "hp": 1555,
+    "hpMax": 1555,
+    "speed": 120,
+    "level": 469,
+    "armor": 0,
+    "mitigation": 1.2,
+    "maxBlock": 0,
+    "exp": 795,
+    "lootValue": 1093.6923076923,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": -1,
+        "energy": -1,
+        "earth": 0,
+        "holy": 1,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 190
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 190,
+            "target": false,
+            "shootEffect": "ani_throwingstar"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 100000,
+            "name": "Brutus Bloodbeard's hat"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 200,
+            "name": "gold coin"
+        },
+        {
+            "chance": 75000,
+            "maxCount": 2,
+            "name": "skull"
+        },
+        {
+            "chance": 25000,
+            "name": "dagger"
+        },
+        {
+            "chance": 25000,
+            "name": "knight armor"
+        },
+        {
+            "chance": 25000,
+            "name": "meat"
+        },
+        {
+            "chance": 25000,
+            "name": "plate armor"
+        }
+    ],
+    "changeTarget": {
+        "interval": 60000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "chaos_triton_assassin",
+    "threatDps": 57,
+    "burstDps": 57,
+    "avgHit": 95,
+    "maxHit": 190,
+    "manaCost": 0
+}

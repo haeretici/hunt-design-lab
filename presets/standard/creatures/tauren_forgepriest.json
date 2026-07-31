@@ -1,0 +1,216 @@
+{
+    "id": "tauren_forgepriest",
+    "label": "Tauren Forgepriest",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A tauren forgepriest.",
+    "hp": 6840,
+    "hpMax": 6840,
+    "speed": 73,
+    "level": 617,
+    "armor": 73,
+    "mitigation": 2.05,
+    "maxBlock": 0,
+    "exp": 6400,
+    "lootValue": 2009.3725268513,
+    "aggro": true,
+    "resists": {
+        "physical": 20,
+        "fire": 15,
+        "ice": -10,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 3,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 100,
+            "max": 111
+        },
+        {
+            "id": "bulltaurewave_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 1,
+            "element": "physical",
+            "min": 129,
+            "max": 184
+        },
+        {
+            "id": "bulltaur_explosion_2",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 1,
+            "element": "physical",
+            "min": 203,
+            "max": 240
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "energy",
+            "min": 103,
+            "max": 140,
+            "radius": 4,
+            "target": true,
+            "effect": "me_purplesmoke",
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "melee_4",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 1,
+            "element": "energy",
+            "min": 111,
+            "max": 155,
+            "target": true,
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "area_5",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "energy",
+            "min": 111,
+            "max": 166,
+            "radius": 3,
+            "target": true,
+            "effect": "me_sound_red",
+            "shootEffect": "ani_energy"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 52410,
+            "maxCount": 45,
+            "name": "platinum coin"
+        },
+        {
+            "id": 44736,
+            "chance": 16131
+        },
+        {
+            "chance": 9889,
+            "maxCount": 3,
+            "name": "small topaz"
+        },
+        {
+            "id": 44741,
+            "chance": 8035
+        },
+        {
+            "id": 44742,
+            "chance": 3832
+        },
+        {
+            "chance": 2719,
+            "name": "gold ingot"
+        },
+        {
+            "chance": 1669,
+            "name": "soul orb"
+        },
+        {
+            "chance": 1236,
+            "name": "blue gem"
+        },
+        {
+            "chance": 1236,
+            "name": "wand of defiance"
+        },
+        {
+            "chance": 989,
+            "name": "Stormbound Robe"
+        },
+        {
+            "chance": 803,
+            "name": "gold nugget"
+        },
+        {
+            "chance": 742,
+            "name": "spellbook of mind control"
+        },
+        {
+            "chance": 618,
+            "name": "white gem"
+        },
+        {
+            "chance": 556,
+            "name": "Stonehide Amulet"
+        },
+        {
+            "chance": 433,
+            "name": "violet gem"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "drunk": true,
+        "bleed": false
+    },
+    "customSprite": "crystal_demon_priest",
+    "threatDps": 129.85,
+    "burstDps": 129.85,
+    "avgHit": 129.85,
+    "maxHit": 240,
+    "manaCost": 0
+}

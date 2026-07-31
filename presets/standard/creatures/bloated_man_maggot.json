@@ -1,0 +1,194 @@
+{
+    "id": "bloated_man_maggot",
+    "label": "Bloated Man-Maggot",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A bloated man-maggot.",
+    "hp": 31700,
+    "hpMax": 31700,
+    "speed": 195,
+    "level": 769,
+    "armor": 104,
+    "mitigation": 3.16,
+    "maxBlock": 0,
+    "exp": 21570,
+    "lootValue": 6958.2152974504,
+    "aggro": true,
+    "resists": {
+        "physical": 45,
+        "fire": 15,
+        "ice": -14,
+        "energy": -14,
+        "earth": 40,
+        "holy": -5,
+        "death": 5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 502
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2500,
+            "chance": 25,
+            "range": 4,
+            "element": "physical",
+            "min": 469,
+            "max": 569,
+            "radius": 5,
+            "target": true,
+            "effect": "me_ghostly_bite"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2500,
+            "chance": 20,
+            "range": 4,
+            "element": "earth",
+            "min": 469,
+            "max": 636,
+            "radius": 5,
+            "target": false,
+            "effect": "me_bigplants"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "physical",
+            "min": 469,
+            "max": 519,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_groundshaker"
+        },
+        {
+            "id": "largefirering_4",
+            "kind": "melee",
+            "intervalMs": 2500,
+            "chance": 15,
+            "range": 1,
+            "element": "physical",
+            "min": 469,
+            "max": 603,
+            "target": false
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Vermin",
+        "toKill": 5000,
+        "firstUnlock": 200,
+        "secondUnlock": 2000,
+        "charmsPoints": 100,
+        "stars": 5,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "crystal coin",
+            "chance": 12961,
+            "maxCount": 1
+        },
+        {
+            "name": "organic acid",
+            "chance": 11678,
+            "maxCount": 1
+        },
+        {
+            "name": "might ring",
+            "chance": 10020,
+            "maxCount": 1
+        },
+        {
+            "name": "small emerald",
+            "chance": 9133,
+            "maxCount": 5
+        },
+        {
+            "name": "rotten roots",
+            "chance": 8637,
+            "maxCount": 1
+        },
+        {
+            "name": "bloated maggot",
+            "chance": 8133,
+            "maxCount": 1
+        },
+        {
+            "name": "Earthbound Rod",
+            "chance": 8078,
+            "maxCount": 1
+        },
+        {
+            "name": "butcher's axe",
+            "chance": 7967,
+            "maxCount": 1
+        },
+        {
+            "name": "blue gem",
+            "chance": 7808,
+            "maxCount": 1
+        },
+        {
+            "name": "violet gem",
+            "chance": 7084,
+            "maxCount": 1
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "lunar_volcano_harpy",
+    "threatDps": 303.16,
+    "burstDps": 335.225,
+    "avgHit": 360.9048,
+    "maxHit": 636,
+    "manaCost": 305
+}

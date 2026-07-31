@@ -1,0 +1,135 @@
+{
+    "id": "obliterator_fiend",
+    "label": "Obliterator Fiend",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An obliterator fiend.",
+    "hp": 9020,
+    "hpMax": 9020,
+    "speed": 140,
+    "level": 644,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 6000,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": 0,
+        "energy": 50,
+        "earth": 0,
+        "holy": -1,
+        "death": 1
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 432
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 20,
+            "range": 5,
+            "element": "fire",
+            "min": 62,
+            "max": 154,
+            "radius": 7,
+            "target": true,
+            "effect": "me_firearea",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 3000,
+            "chance": 30,
+            "range": 4,
+            "element": "energy",
+            "min": 123,
+            "max": 308,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_energyhit"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 4000,
+            "chance": 5,
+            "min": 50,
+            "max": 200,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "fire",
+    "loot": [],
+    "changeTarget": {
+        "interval": 0,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "celestial_fiend",
+    "threatDps": 151.15,
+    "burstDps": 161.925,
+    "avgHit": 188.9375,
+    "maxHit": 432,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 3,
+        "summons": [
+            {
+                "name": "Fire Elemental",
+                "id": "fire_elemental",
+                "chance": 50,
+                "interval": 2000,
+                "count": 3
+            }
+        ]
+    }
+}

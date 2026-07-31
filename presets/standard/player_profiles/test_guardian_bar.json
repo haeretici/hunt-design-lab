@@ -1,0 +1,36 @@
+{
+    "id": "test_guardian_bar",
+    "label": "Test Guardian Bar",
+    "vocation": "guardian",
+    "level": 50,
+    "promoted": false,
+    "skills": {
+        "axe": 13,
+        "club": 13,
+        "distance": 10,
+        "fishing": 10,
+        "fist": 10,
+        "magicLevel": 0,
+        "shielding": 50,
+        "sword": 60
+    },
+    "stats": {
+        "lifeLeech": 0,
+        "manaLeech": 0,
+        "critChance": 5,
+        "critDamage": 10
+    },
+    "equipment": {
+        "head": "steel_helm",
+        "chest": "steel_plate",
+        "legs": "steel_greaves",
+        "boots": "leather_boots",
+        "weapon": "iron_longsword",
+        "shield": "oak_shield",
+        "amulet": "",
+        "ring": "",
+        "backpack": "backpack"
+    },
+    "strategyId": "guardian_aggro",
+    "notes": "FROZEN CI profile. Matches pre-party-select hunt guardian loadout."
+}

@@ -1,0 +1,187 @@
+// Simulation Analysis (Stage 8 + I7 folder view)
+
+@use 'variables' as *;
+
+.sa-sidebar {
+  width: 300px;
+  min-width: 270px;
+  max-width: 340px;
+}
+
+.sa-main {
+  flex: 1;
+  min-width: 0;
+  overflow-y: auto;
+  padding: 0.85rem 1rem 1.25rem;
+  background: $bg-darkest;
+}
+
+.sa-heading {
+  font-family: $font-title;
+  font-size: 1.05rem;
+  letter-spacing: 0.04em;
+  margin: 0 0 0.25rem;
+  color: $text-main;
+}
+
+.sa-header {
+  margin-bottom: 0.75rem;
+}
+
+.sa-summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(7.5rem, 1fr));
+  gap: 0.5rem;
+  margin-bottom: 0.85rem;
+}
+
+.sa-summary-card {
+  background: $bg-dark;
+  border: 1px solid $border-color;
+  border-radius: 6px;
+  padding: 0.45rem 0.55rem;
+  text-align: center;
+
+  &--cyan .sa-summary-value { color: #00f2fe; }
+  &--red .sa-summary-value { color: #ff7b7b; }
+  &--orange .sa-summary-value { color: #ff9f40; }
+  &--green .sa-summary-value { color: #6dffb0; }
+  &--yellow .sa-summary-value { color: #ffcc00; }
+  &--purple .sa-summary-value { color: #c77dff; }
+}
+
+.sa-summary-value {
+  font-family: $font-mono;
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.sa-summary-label {
+  font-size: 0.65rem;
+  color: $text-muted;
+  margin-top: 0.15rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.sa-chart-panel {
+  background: $bg-dark;
+  border: 1px solid $border-color;
+  border-radius: 6px;
+  padding: 0.65rem 0.75rem 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.sa-metrics-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.85rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.75rem;
+}
+
+.sa-metric-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: $text-muted;
+  cursor: pointer;
+  user-select: none;
+
+  input {
+    accent-color: $accent-secondary;
+  }
+}
+
+.sa-canvas-wrap {
+  width: 100%;
+  height: 380px;
+  background: #0a0c10;
+  border-radius: 4px;
+  border: 1px solid $border-color;
+}
+
+#saChart {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.sa-table-panel {
+  background: $bg-dark;
+  border: 1px solid $border-color;
+  border-radius: 6px;
+  padding: 0.65rem 0.75rem 0.85rem;
+}
+
+.sa-table {
+  font-family: $font-mono;
+  font-size: 0.75rem;
+  margin-bottom: 0;
+
+  th {
+    color: $text-muted;
+    font-weight: 500;
+    border-color: $border-color;
+    white-space: nowrap;
+  }
+
+  td {
+    border-color: $border-color;
+    color: $accent-secondary;
+  }
+
+  tbody tr:hover td {
+    background: rgba(0, 242, 254, 0.05);
+  }
+}
+
+.sa-paste {
+  font-family: $font-mono;
+  font-size: 0.72rem;
+}
+
+.sa-code {
+  font-size: 0.68rem;
+}
+
+.sa-knobs-list {
+  padding-left: 1rem;
+  margin: 0;
+  color: $text-muted;
+}
+
+.sa-import-panel {
+  summary.sa-import-summary {
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+  }
+}
+
+.sa-folder-files {
+  max-height: 8rem;
+  overflow: auto;
+  padding: 0.35rem 0.45rem;
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
+  border: 1px solid $border-color;
+}
+
+.sa-file-list {
+  padding-left: 1rem;
+  margin: 0;
+  color: $text-muted;
+
+  li {
+    margin-bottom: 0.1rem;
+  }
+}

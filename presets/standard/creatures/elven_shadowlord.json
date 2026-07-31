@@ -1,0 +1,220 @@
+{
+    "id": "elven_shadowlord",
+    "label": "Elven Shadowlord",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An elven shadowlord.",
+    "hp": 390,
+    "hpMax": 390,
+    "speed": 120,
+    "level": 331,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 570,
+    "lootValue": 658.11881188119,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": -10,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 10,
+        "health": 10,
+        "damage": 20,
+        "random": 60
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 15,
+            "range": 7,
+            "element": "manadrain",
+            "min": 28,
+            "max": 55,
+            "target": false
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 13,
+            "range": 7,
+            "element": "energy",
+            "min": 65,
+            "max": 83,
+            "target": false,
+            "effect": "me_energyhit",
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "min": 74,
+            "max": 140,
+            "target": false,
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "effect_4",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 13,
+            "range": 7,
+            "element": "physical",
+            "target": false,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_poison",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 1000,
+            "chance": 20,
+            "min": 90,
+            "max": 120,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 1000,
+            "chance": 7,
+            "speedChange": 300,
+            "durationSec": 10,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 100
+        },
+        {
+            "name": "holy orchid",
+            "chance": 100000
+        },
+        {
+            "name": "elvish talisman",
+            "chance": 88000
+        },
+        {
+            "name": "elven astral observer",
+            "chance": 82000
+        },
+        {
+            "name": "yellow gem",
+            "chance": 41790
+        },
+        {
+            "name": "blank rune",
+            "chance": 25370,
+            "maxCount": 1
+        },
+        {
+            "name": "melon",
+            "chance": 22390
+        },
+        {
+            "name": "bread",
+            "chance": 16420
+        },
+        {
+            "name": "elven amulet",
+            "chance": 14930
+        },
+        {
+            "name": "great mana potion",
+            "chance": 13430
+        },
+        {
+            "name": "life crystal",
+            "chance": 13430
+        },
+        {
+            "name": "sling herb",
+            "chance": 8960
+        },
+        {
+            "chance": 7460,
+            "name": "cornucopia"
+        },
+        {
+            "name": "green tunic",
+            "chance": 4480
+        },
+        {
+            "name": "royal spear",
+            "chance": 1490,
+            "maxCount": 2
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "umbral_ghoul",
+    "threatDps": 26.545,
+    "burstDps": 26.545,
+    "avgHit": 69.8553,
+    "maxHit": 140,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 2,
+        "summons": [
+            {
+                "name": "Bone Fiend",
+                "id": "bone_fiend",
+                "chance": 6,
+                "interval": 1000,
+                "count": 2
+            }
+        ]
+    }
+}

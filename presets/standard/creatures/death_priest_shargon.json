@@ -1,0 +1,176 @@
+{
+    "id": "death_priest_shargon",
+    "label": "Death Priest Shargon",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A death priest shargon.",
+    "hp": 65000,
+    "hpMax": 65000,
+    "speed": 170,
+    "level": 841,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 4496.9005102041,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 5,
+        "ice": 0,
+        "energy": 3,
+        "earth": 60,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 12,
+            "range": 7,
+            "element": "death",
+            "min": 0,
+            "max": 3697,
+            "radius": 6,
+            "target": false,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_death"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 18,
+            "range": 4,
+            "element": "holy",
+            "min": 1960,
+            "max": 5601,
+            "length": 6,
+            "spread": 2,
+            "target": false,
+            "effect": "me_purpleenergy"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 20,
+            "min": 0,
+            "max": 699,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 99,
+            "name": "gold coin"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 3,
+            "name": "great health potion"
+        },
+        {
+            "chance": 100000,
+            "name": "Withering Rod"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 13,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 10000,
+            "maxCount": 4,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 25000,
+            "name": "gold ingot"
+        },
+        {
+            "chance": 9090,
+            "name": "black skull"
+        },
+        {
+            "chance": 9090,
+            "name": "blood goblet"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "crystal_demon_priest",
+    "threatDps": 451.155,
+    "burstDps": 451.155,
+    "avgHit": 3007.7,
+    "maxHit": 5601,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 2,
+        "summons": [
+            {
+                "name": "Lesser Death Minion",
+                "id": "lesser_death_minion",
+                "chance": 30,
+                "interval": 2000,
+                "count": 2
+            },
+            {
+                "name": "Superior Death Minion",
+                "id": "superior_death_minion",
+                "chance": 30,
+                "interval": 2000,
+                "count": 2
+            },
+            {
+                "name": "Greater Death Minion",
+                "id": "greater_death_minion",
+                "chance": 30,
+                "interval": 2000,
+                "count": 2
+            }
+        ]
+    }
+}

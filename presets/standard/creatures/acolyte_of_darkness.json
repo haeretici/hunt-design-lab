@@ -1,0 +1,137 @@
+{
+    "id": "acolyte_of_darkness",
+    "label": "Acolyte Of Darkness",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An acolyte of darkness.",
+    "hp": 325,
+    "hpMax": 325,
+    "speed": 90,
+    "level": 312,
+    "armor": 19,
+    "mitigation": 0.78,
+    "maxBlock": 0,
+    "exp": 200,
+    "lootValue": 12.096774193548,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": 0,
+        "energy": 0,
+        "earth": 100,
+        "holy": -25,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 22,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 30,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 1,
+            "element": "death",
+            "min": 11,
+            "max": 22,
+            "target": true,
+            "effect": "me_smallclouds",
+            "shootEffect": "ani_death"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "earth",
+            "min": 12,
+            "max": 22,
+            "target": false,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_poison"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 25,
+            "min": 50,
+            "max": 80,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Human",
+        "toKill": 5,
+        "firstUnlock": 2,
+        "secondUnlock": 3,
+        "charmsPoints": 30,
+        "stars": 2,
+        "occurrence": 3
+    },
+    "loot": [
+        {
+            "name": "midnight shard",
+            "chance": 1300
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "umbral_ghoul",
+    "threatDps": 23.85,
+    "burstDps": 23.85,
+    "avgHit": 12.6429,
+    "maxHit": 22,
+    "manaCost": 0
+}

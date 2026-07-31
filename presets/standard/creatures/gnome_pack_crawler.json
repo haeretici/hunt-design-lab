@@ -1,0 +1,90 @@
+{
+    "id": "gnome_pack_crawler",
+    "label": "Gnome Pack Crawler",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A gnome pack crawler.",
+    "hp": 1,
+    "hpMax": 1,
+    "speed": 110,
+    "level": 55,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 3,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "element": "physical",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 4,
+            "min": 1,
+            "max": 22,
+            "target": true
+        }
+    ],
+    "race": "fire",
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 199,
+            "name": "gold coin"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "gnome_pack_crawler",
+    "threatDps": 5.75,
+    "burstDps": 5.75,
+    "avgHit": 11.5,
+    "maxHit": 22,
+    "manaCost": 0
+}

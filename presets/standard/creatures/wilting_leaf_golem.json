@@ -1,0 +1,170 @@
+{
+    "id": "wilting_leaf_golem",
+    "label": "Wilting Leaf Golem",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A wilting leaf golem.",
+    "hp": 380,
+    "hpMax": 380,
+    "speed": 74,
+    "level": 329,
+    "armor": 21,
+    "mitigation": 0.67,
+    "maxBlock": 0,
+    "exp": 225,
+    "lootValue": 30.092365730434,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -5,
+        "ice": -5,
+        "energy": 0,
+        "earth": 40,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 1500,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 12,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 31,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 5,
+            "radius": 1,
+            "target": true,
+            "effect": "me_explosionhit",
+            "shootEffect": "ani_largerock"
+        },
+        {
+            "id": "condition_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "earth",
+            "min": 15,
+            "max": 20,
+            "radius": 4,
+            "target": false,
+            "effect": "me_green_rings"
+        },
+        {
+            "id": "slow_3",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -600,
+                "durationSec": 15
+            },
+            "radius": 3,
+            "effect": "me_magic_red",
+            "target": false
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Plant",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 97540,
+            "maxCount": 45
+        },
+        {
+            "name": "fir cone",
+            "chance": 14950
+        },
+        {
+            "name": "dowser",
+            "chance": 11880
+        },
+        {
+            "name": "small emerald",
+            "chance": 1050
+        },
+        {
+            "name": "white mushroom",
+            "chance": 5040,
+            "maxCount": 3
+        },
+        {
+            "name": "swampling club",
+            "chance": 4890
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "solar_volcano_golem_slayer",
+    "threatDps": 26.2292,
+    "burstDps": 38.5625,
+    "avgHit": 6.6089,
+    "maxHit": 20,
+    "manaCost": 390
+}

@@ -1,0 +1,204 @@
+{
+    "id": "memory_of_a_fungus",
+    "label": "Memory Of A Fungus",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A memory of a fungus.",
+    "hp": 3580,
+    "hpMax": 3580,
+    "speed": 130,
+    "level": 552,
+    "armor": 0,
+    "mitigation": 1.4,
+    "maxBlock": 0,
+    "exp": 1660,
+    "lootValue": 169,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 225
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "earth",
+            "min": 75,
+            "max": 225,
+            "target": false,
+            "effect": "me_smallplants",
+            "shootEffect": "ani_smallearth"
+        },
+        {
+            "id": "poisonfield_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "physical",
+            "radius": 4,
+            "target": false,
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "condition_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "earth",
+            "min": 45,
+            "max": 225,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_green_rings"
+        },
+        {
+            "id": "wave_4",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 120,
+            "max": 195,
+            "length": 5,
+            "spread": 0,
+            "target": false,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "condition_5",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "earth",
+            "min": 75,
+            "max": 270,
+            "radius": 3,
+            "target": false,
+            "effect": "me_hitbypoison"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 225,
+            "max": 380,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "invisible_1",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 15,
+            "durationSec": 2,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 200
+        },
+        {
+            "name": "great mana potion",
+            "chance": 4960,
+            "maxCount": 2
+        },
+        {
+            "name": "strong health potion",
+            "chance": 5040,
+            "maxCount": 2
+        },
+        {
+            "name": "mushroom pie",
+            "chance": 17130,
+            "maxCount": 3
+        },
+        {
+            "name": "great health potion",
+            "chance": 4950,
+            "maxCount": 2
+        },
+        {
+            "chance": 5155,
+            "name": "candy floss"
+        },
+        {
+            "name": "yellow gem",
+            "chance": 4000
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 15
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "time_waster",
+    "threatDps": 90.75,
+    "burstDps": 90.75,
+    "avgHit": 125.1724,
+    "maxHit": 270,
+    "manaCost": 0
+}

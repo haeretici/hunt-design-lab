@@ -1,0 +1,212 @@
+{
+    "id": "infernal_demon",
+    "label": "Infernal Demon",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An infernal demon.",
+    "hp": 32000,
+    "hpMax": 32000,
+    "speed": 200,
+    "level": 770,
+    "armor": 120,
+    "mitigation": 3.34,
+    "maxBlock": 0,
+    "exp": 17430,
+    "lootValue": 7121.9293756397,
+    "aggro": true,
+    "resists": {
+        "physical": 30,
+        "fire": 40,
+        "ice": -20,
+        "energy": 0,
+        "earth": 0,
+        "holy": -25,
+        "death": 50
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 588
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "fire",
+            "min": 467,
+            "max": 568,
+            "target": false,
+            "effect": "me_firearea",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "fire",
+            "min": 325,
+            "max": 507,
+            "length": 8,
+            "target": false,
+            "effect": "me_explosionhit"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "death",
+            "min": 406,
+            "max": 548,
+            "radius": 4,
+            "target": false,
+            "effect": "me_mortarea"
+        },
+        {
+            "id": "death_chain_4",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 1,
+            "element": "physical",
+            "min": 446,
+            "max": 560,
+            "target": true
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Demon",
+        "toKill": 5000,
+        "firstUnlock": 200,
+        "secondUnlock": 2000,
+        "charmsPoints": 100,
+        "stars": 5,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "crystal coin",
+            "chance": 64000
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 22860,
+            "maxCount": 5
+        },
+        {
+            "name": "gold ingot",
+            "chance": 18860
+        },
+        {
+            "name": "cyan crystal fragment",
+            "chance": 7430
+        },
+        {
+            "name": "red crystal fragment",
+            "chance": 7430
+        },
+        {
+            "name": "blue crystal shard",
+            "chance": 5710
+        },
+        {
+            "name": "small diamond",
+            "chance": 4570
+        },
+        {
+            "name": "blue gem",
+            "chance": 4570
+        },
+        {
+            "name": "green crystal fragment",
+            "chance": 3430
+        },
+        {
+            "name": "Emberbound Amulet",
+            "chance": 3430
+        },
+        {
+            "name": "mercenary sword",
+            "chance": 2860
+        },
+        {
+            "name": "onyx chip",
+            "chance": 2860
+        },
+        {
+            "name": "war axe",
+            "chance": 2860
+        },
+        {
+            "name": "giant sword",
+            "chance": 2860
+        },
+        {
+            "name": "Emberbound Boots",
+            "chance": 2290
+        },
+        {
+            "name": "Stonehide Amulet",
+            "chance": 570
+        },
+        {
+            "name": "bag you desire",
+            "chance": 15
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "mist_demon_priest",
+    "threatDps": 304.6125,
+    "burstDps": 304.6125,
+    "avgHit": 369.2273,
+    "maxHit": 588,
+    "manaCost": 0
+}

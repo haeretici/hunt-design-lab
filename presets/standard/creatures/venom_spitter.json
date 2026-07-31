@@ -1,0 +1,78 @@
+{
+    "id": "venom_spitter",
+    "label": "Venom Spitter",
+    "displayScale": 1,
+    "notes": "Ranged kit demo: ideal stand-off 3, multi-attack (spit + bite), damage-biased targeting, low-HP flee.",
+    "hp": 80,
+    "hpMax": 80,
+    "speed": 90,
+    "level": 152,
+    "armor": 3,
+    "mitigation": 3,
+    "maxBlock": 0,
+    "exp": 28,
+    "lootValue": 2,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 15,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "damage": 50,
+        "nearest": 30,
+        "health": 20
+    },
+    "flags": {
+        "targetDistance": 3,
+        "runHealthPercent": 0.2,
+        "fleeTargetDistance": 8,
+        "staticAttackChance": 100,
+        "aggroRange": 8,
+        "loseTargetDistance": 12
+    },
+    "attacks": [
+        {
+            "id": "venom_spit",
+            "kind": "ranged",
+            "intervalMs": 2500,
+            "chance": 70,
+            "range": 5,
+            "min": 10,
+            "max": 23,
+            "element": "earth"
+        },
+        {
+            "id": "bite",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "min": 6,
+            "max": 15,
+            "element": "physical"
+        },
+        {
+            "id": "acid_burst",
+            "kind": "area",
+            "intervalMs": 6000,
+            "chance": 35,
+            "range": 4,
+            "radius": 1,
+            "min": 8,
+            "max": 18,
+            "element": "earth",
+            "target": true
+        }
+    ],
+    "customSprite": "venom_spitter",
+    "threatDps": 10.6283,
+    "burstDps": 13.3,
+    "avgHit": 12.6779,
+    "maxHit": 23
+}

@@ -1,0 +1,223 @@
+{
+    "id": "infernal_imperor",
+    "label": "Infernal Imperor",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An infernal imperor.",
+    "hp": 15000,
+    "hpMax": 15000,
+    "speed": 155,
+    "level": 695,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 8000,
+    "lootValue": 63029.95,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 1500,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "condition": {
+                "type": "poison",
+                "totalDamage": 319,
+                "intervalMs": 4000
+            },
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "fire",
+            "min": 114,
+            "max": 398,
+            "radius": 4,
+            "target": true,
+            "effect": "me_firearea",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2500,
+            "chance": 12,
+            "range": 7,
+            "element": "fire",
+            "min": 114,
+            "max": 524,
+            "radius": 2,
+            "target": true,
+            "effect": "me_fireattack",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "diabolic_imp_skill_reducer_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "target": false,
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 35,
+            "min": 275,
+            "max": 840,
+            "hpBelow": 0.7,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "haste_2",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 12,
+            "speedChange": 1496,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "invisible_3",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 11,
+            "durationSec": 2,
+            "effect": "me_teleport"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 100000,
+            "name": "demonic essence"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 150,
+            "name": "gold coin"
+        },
+        {
+            "chance": 100000,
+            "name": "Imperor's trident"
+        },
+        {
+            "chance": 53850,
+            "name": "pitchfork"
+        },
+        {
+            "chance": 11000,
+            "name": "fire axe"
+        },
+        {
+            "chance": 46150,
+            "maxCount": 3,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 100000,
+            "name": "soul orb"
+        },
+        {
+            "chance": 30770,
+            "name": "crown legs"
+        },
+        {
+            "chance": 7690,
+            "name": "golden legs"
+        },
+        {
+            "chance": 15380,
+            "name": "fiendbone amulet"
+        },
+        {
+            "chance": 7690,
+            "name": "tempest shield"
+        },
+        {
+            "chance": 15400,
+            "name": "guardian shield"
+        },
+        {
+            "chance": 15380,
+            "name": "Emberbound Coat"
+        },
+        {
+            "chance": 30770,
+            "maxCount": 4,
+            "name": "small amethyst"
+        },
+        {
+            "chance": 7690,
+            "maxCount": 4,
+            "name": "small ruby"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 5
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "twilight_basilisk_raider",
+    "threatDps": 200.412,
+    "burstDps": 204.24,
+    "avgHit": 276.4324,
+    "maxHit": 524,
+    "manaCost": 0
+}

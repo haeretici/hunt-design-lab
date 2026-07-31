@@ -1,0 +1,224 @@
+{
+    "id": "fallen_hero",
+    "label": "Fallen Hero",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A fallen hero.",
+    "hp": 1400,
+    "hpMax": 1400,
+    "speed": 140,
+    "level": 458,
+    "armor": 35,
+    "mitigation": 1.32,
+    "maxBlock": 0,
+    "exp": 1200,
+    "lootValue": 288.98761130468,
+    "aggro": true,
+    "resists": {
+        "physical": 10,
+        "fire": 30,
+        "ice": 10,
+        "energy": 40,
+        "earth": 50,
+        "holy": 50,
+        "death": -20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 80,
+        "health": 10,
+        "damage": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 196
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 98,
+            "target": false,
+            "shootEffect": "ani_arrow"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 20,
+            "min": 200,
+            "max": 250,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Human",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 45000,
+            "name": "scroll"
+        },
+        {
+            "chance": 1640,
+            "name": "lyre"
+        },
+        {
+            "name": "piggy bank",
+            "chance": 80
+        },
+        {
+            "chance": 2190,
+            "name": "rope"
+        },
+        {
+            "name": "wedding ring",
+            "chance": 4910
+        },
+        {
+            "name": "gold coin",
+            "chance": 59500,
+            "maxCount": 100
+        },
+        {
+            "name": "might ring",
+            "chance": 470
+        },
+        {
+            "name": "two handed sword",
+            "chance": 1500
+        },
+        {
+            "name": "war hammer",
+            "chance": 870
+        },
+        {
+            "name": "fire sword",
+            "chance": 550
+        },
+        {
+            "name": "bow",
+            "chance": 13300
+        },
+        {
+            "name": "Regal Crown Armor",
+            "chance": 490
+        },
+        {
+            "name": "crown legs",
+            "chance": 660
+        },
+        {
+            "name": "crown helmet",
+            "chance": 450
+        },
+        {
+            "name": "crown shield",
+            "chance": 280
+        },
+        {
+            "name": "arrow",
+            "chance": 26000,
+            "maxCount": 13
+        },
+        {
+            "name": "green tunic",
+            "chance": 8000
+        },
+        {
+            "name": "scarf",
+            "chance": 1110
+        },
+        {
+            "name": "meat",
+            "chance": 8200,
+            "maxCount": 3
+        },
+        {
+            "name": "grapes",
+            "chance": 19850
+        },
+        {
+            "name": "red rose",
+            "chance": 20450
+        },
+        {
+            "name": "red piece of cloth",
+            "chance": 2006
+        },
+        {
+            "name": "sniper arrow",
+            "chance": 11400,
+            "maxCount": 4
+        },
+        {
+            "name": "great health potion",
+            "chance": 720
+        },
+        {
+            "name": "small notebook",
+            "chance": 930
+        },
+        {
+            "name": "scroll of heroic deeds",
+            "chance": 5000
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "furious_orc_berserker",
+    "threatDps": 53.9,
+    "burstDps": 53.9,
+    "avgHit": 89.8333,
+    "maxHit": 196,
+    "manaCost": 0
+}

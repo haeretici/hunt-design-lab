@@ -1,0 +1,143 @@
+{
+    "id": "memory_of_a_reptilian",
+    "label": "Memory Of A Reptilian",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A memory of a reptilian.",
+    "hp": 3520,
+    "hpMax": 3520,
+    "speed": 119,
+    "level": 550,
+    "armor": 0,
+    "mitigation": 1.3,
+    "maxBlock": 0,
+    "exp": 1450,
+    "lootValue": 468.9,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 359
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 25,
+            "max": 75,
+            "hpBelow": 0.7,
+            "effect": "me_magic_green"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 32000,
+            "maxCount": 100
+        },
+        {
+            "name": "small emerald",
+            "chance": 2520,
+            "maxCount": 4
+        },
+        {
+            "name": "tower shield",
+            "chance": 1040
+        },
+        {
+            "name": "lizard leather",
+            "chance": 1000
+        },
+        {
+            "name": "lizard scale",
+            "chance": 970
+        },
+        {
+            "name": "strong health potion",
+            "chance": 11925
+        },
+        {
+            "name": "great health potion",
+            "chance": 7070
+        },
+        {
+            "name": "red lantern",
+            "chance": 1220
+        },
+        {
+            "name": "bunch of ripe rice",
+            "chance": 4950
+        },
+        {
+            "name": "zaoan legs",
+            "chance": 720
+        },
+        {
+            "name": "special fx box",
+            "chance": 1500
+        },
+        {
+            "chance": 5155,
+            "name": "candy floss"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "crab",
+    "threatDps": 89.75,
+    "burstDps": 89.75,
+    "avgHit": 179.5,
+    "maxHit": 359,
+    "manaCost": 0
+}

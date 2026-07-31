@@ -1,0 +1,88 @@
+{
+    "id": "mr_punish",
+    "label": "Mr. Punish",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A mr. punish.",
+    "hp": 22000,
+    "hpMax": 22000,
+    "speed": 235,
+    "level": 733,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 9000,
+    "lootValue": 52267.642857143,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": 100,
+        "energy": 100,
+        "earth": 100,
+        "holy": 0,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 2000,
+        "staticAttackChance": 50,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 337,
+            "max": 653
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "chance": 100000,
+            "name": "Mr. Punish's handcuffs"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 5
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "freed_soul",
+    "threatDps": 247.5,
+    "burstDps": 247.5,
+    "avgHit": 495,
+    "maxHit": 653,
+    "manaCost": 0
+}

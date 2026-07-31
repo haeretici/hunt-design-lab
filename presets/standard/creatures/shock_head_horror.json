@@ -1,0 +1,178 @@
+{
+    "id": "shock_head_horror",
+    "label": "Shock Head Horror",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A shock head horror.",
+    "hp": 4200,
+    "hpMax": 4200,
+    "speed": 136,
+    "level": 568,
+    "armor": 78,
+    "mitigation": 1.74,
+    "maxBlock": 0,
+    "exp": 2300,
+    "lootValue": 135.38695395514,
+    "aggro": true,
+    "resists": {
+        "physical": 10,
+        "fire": 100,
+        "ice": 25,
+        "energy": 10,
+        "earth": 100,
+        "holy": 0,
+        "death": 20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 335
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "death",
+            "min": 84,
+            "max": 126,
+            "length": 5,
+            "spread": 2,
+            "target": false,
+            "effect": "me_blacksmoke"
+        },
+        {
+            "id": "slow_2",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 8,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -800,
+                "durationSec": 7.5
+            },
+            "length": 8,
+            "spread": 0,
+            "effect": "me_purpleenergy",
+            "target": false
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 147,
+            "radius": 4,
+            "target": true,
+            "effect": "me_stones",
+            "shootEffect": "ani_earth"
+        },
+        {
+            "id": "shock_head_skill_reducer_1_4",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 5,
+            "element": "physical",
+            "target": false,
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 250,
+            "max": 350,
+            "hpBelow": 0.7,
+            "effect": "me_insects"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Magical",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "small sapphire",
+            "chance": 5000
+        },
+        {
+            "chance": 92000,
+            "maxCount": 200,
+            "name": "gold coin"
+        },
+        {
+            "name": "royal helmet",
+            "chance": 270
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ember_ruins_horror",
+    "threatDps": 98.975,
+    "burstDps": 98.975,
+    "avgHit": 146.6296,
+    "maxHit": 335,
+    "manaCost": 0
+}

@@ -1,0 +1,214 @@
+{
+    "id": "wiggler",
+    "label": "Wiggler",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A wiggler.",
+    "hp": 1200,
+    "hpMax": 1200,
+    "speed": 180,
+    "level": 443,
+    "armor": 52,
+    "mitigation": 1.46,
+    "maxBlock": 0,
+    "exp": 900,
+    "lootValue": 136.29827351204,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -5,
+        "ice": 0,
+        "energy": 5,
+        "earth": 100,
+        "holy": 0,
+        "death": 10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "damage": 30
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 359,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 31,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 77,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "earth",
+            "min": 28,
+            "max": 42,
+            "length": 4,
+            "spread": 3,
+            "target": false,
+            "effect": "me_hitbypoison"
+        },
+        {
+            "id": "condition_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "earth",
+            "min": 25,
+            "max": 31,
+            "target": false,
+            "effect": "me_smallplants",
+            "shootEffect": "ani_poisonarrow"
+        },
+        {
+            "id": "slow_3",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 3,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -700,
+                "durationSec": 30
+            },
+            "length": 3,
+            "spread": 2,
+            "effect": "me_hitarea",
+            "target": false
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 510,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Vermin",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 100
+        },
+        {
+            "name": "platinum coin",
+            "chance": 14790
+        },
+        {
+            "name": "Earthbound Rod",
+            "chance": 850
+        },
+        {
+            "name": "serpent sword",
+            "chance": 1360
+        },
+        {
+            "name": "black shield",
+            "chance": 1320
+        },
+        {
+            "name": "white mushroom",
+            "chance": 7142,
+            "maxCount": 5
+        },
+        {
+            "name": "blue piece of cloth",
+            "chance": 2080
+        },
+        {
+            "name": "yellow piece of cloth",
+            "chance": 2160
+        },
+        {
+            "name": "strong health potion",
+            "chance": 4930
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 5250
+        },
+        {
+            "name": "crystalline arrow",
+            "chance": 15540,
+            "maxCount": 5
+        },
+        {
+            "name": "green crystal splinter",
+            "chance": 3600
+        },
+        {
+            "name": "green crystal fragment",
+            "chance": 2070
+        },
+        {
+            "name": "drill bolt",
+            "chance": 15260,
+            "maxCount": 5
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "feral_dune_orc_warden",
+    "threatDps": 49.4,
+    "burstDps": 49.4,
+    "avgHit": 18.1667,
+    "maxHit": 42,
+    "manaCost": 0
+}

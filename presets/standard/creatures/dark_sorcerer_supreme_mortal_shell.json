@@ -1,0 +1,458 @@
+{
+    "id": "dark_sorcerer_supreme_mortal_shell",
+    "label": "Dark Sorcerer Supreme Mortal Shell",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A dark sorcerer supreme mortal shell.",
+    "hp": 300000,
+    "hpMax": 300000,
+    "speed": 195,
+    "level": 994,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 2000000,
+    "lootValue": 99206.378787879,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 65,
+        "ice": 65,
+        "energy": 65,
+        "earth": 65,
+        "holy": 65,
+        "death": 65
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 2500,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "condition_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "earth",
+            "min": 925,
+            "max": 1923,
+            "radius": 6,
+            "target": false,
+            "effect": "me_poisonarea"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 16,
+            "range": 4,
+            "element": "manadrain",
+            "min": 832,
+            "max": 1516,
+            "radius": 6,
+            "target": false,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "manadrain",
+            "min": 1572,
+            "max": 2995,
+            "radius": 9,
+            "target": false,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "area_5",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 21,
+            "range": 4,
+            "element": "energy",
+            "min": 1479,
+            "max": 2404,
+            "radius": 9,
+            "target": false,
+            "effect": "me_energyhit"
+        },
+        {
+            "id": "area_6",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 21,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 740,
+            "max": 1664,
+            "radius": 6,
+            "target": false,
+            "effect": "me_poff"
+        },
+        {
+            "id": "ferumbras_soulfire_7",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "physical",
+            "target": false,
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "wave_8",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 17,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 2182,
+            "max": 3883,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_hitbypoison"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 23,
+            "min": 600,
+            "max": 2490,
+            "hpBelow": 0.7,
+            "effect": "me_magic_green"
+        },
+        {
+            "id": "heal_1",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 3,
+            "min": 20000,
+            "max": 35000,
+            "hpBelow": 0.7,
+            "effect": "me_magic_green"
+        },
+        {
+            "id": "haste_2",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 14,
+            "speedChange": 700,
+            "durationSec": 7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "invisible_3",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 10,
+            "durationSec": 2,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "venom",
+    "loot": [
+        {
+            "chance": 800,
+            "name": "Stormbound Legs"
+        },
+        {
+            "chance": 400,
+            "name": "greenwood coat"
+        },
+        {
+            "chance": 10000,
+            "maxCount": 10,
+            "name": "small sapphire"
+        },
+        {
+            "chance": 800,
+            "name": "bloody edge"
+        },
+        {
+            "chance": 800,
+            "name": "Maelstrom Mace"
+        },
+        {
+            "chance": 800,
+            "name": "golden armor"
+        },
+        {
+            "chance": 400,
+            "name": "emerald sword"
+        },
+        {
+            "chance": 800,
+            "name": "boots of homecoming"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 100,
+            "name": "gold coin"
+        },
+        {
+            "chance": 10000,
+            "maxCount": 10,
+            "name": "small emerald"
+        },
+        {
+            "id": 281,
+            "chance": 1000
+        },
+        {
+            "chance": 1000,
+            "name": "red gem"
+        },
+        {
+            "chance": 300,
+            "name": "velvet mantle"
+        },
+        {
+            "chance": 1000,
+            "name": "emerald bangle"
+        },
+        {
+            "chance": 300,
+            "name": "skullcrusher"
+        },
+        {
+            "chance": 10000,
+            "maxCount": 10,
+            "name": "small amethyst"
+        },
+        {
+            "chance": 800,
+            "name": "Ferumbras' staff"
+        },
+        {
+            "chance": 800,
+            "name": "jade hammer"
+        },
+        {
+            "chance": 10000,
+            "maxCount": 5,
+            "name": "white pearl"
+        },
+        {
+            "chance": 600,
+            "name": "nightmare blade"
+        },
+        {
+            "chance": 800,
+            "name": "phoenix shield"
+        },
+        {
+            "chance": 800,
+            "name": "demon shield"
+        },
+        {
+            "chance": 150,
+            "name": "elven parchment"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 100,
+            "name": "gold coin"
+        },
+        {
+            "chance": 800,
+            "name": "Frostbound Kilt"
+        },
+        {
+            "chance": 400,
+            "name": "Arcane Plate Armor"
+        },
+        {
+            "chance": 100,
+            "unique": true,
+            "name": "death gaze"
+        },
+        {
+            "chance": 800,
+            "name": "berserker"
+        },
+        {
+            "chance": 500,
+            "name": "rift bow"
+        },
+        {
+            "chance": 300,
+            "name": "demonwing axe"
+        },
+        {
+            "chance": 3000,
+            "name": "rift tapestry"
+        },
+        {
+            "chance": 800,
+            "name": "queen's sceptre"
+        },
+        {
+            "chance": 800,
+            "name": "blue gem"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 25,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 400,
+            "name": "obsidian truncheon"
+        },
+        {
+            "chance": 800,
+            "name": "abyss hammer"
+        },
+        {
+            "chance": 100,
+            "unique": true,
+            "name": "Ferumbras' hat"
+        },
+        {
+            "chance": 800,
+            "name": "Ferumbras' mana keg"
+        },
+        {
+            "chance": 800,
+            "name": "demonrage sword"
+        },
+        {
+            "chance": 4000,
+            "name": "green gem"
+        },
+        {
+            "chance": 600,
+            "name": "mastermind shield"
+        },
+        {
+            "chance": 800,
+            "name": "Skewering Spear"
+        },
+        {
+            "chance": 1000000,
+            "maxCount": 3,
+            "name": "silver token"
+        },
+        {
+            "chance": 10000,
+            "maxCount": 5,
+            "name": "black pearl"
+        },
+        {
+            "chance": 10000,
+            "maxCount": 10,
+            "name": "small diamond"
+        },
+        {
+            "chance": 800,
+            "name": "scroll of ascension"
+        },
+        {
+            "chance": 10000,
+            "maxCount": 10,
+            "name": "small topaz"
+        },
+        {
+            "chance": 800,
+            "name": "Ferumbras' amulet"
+        },
+        {
+            "chance": 500,
+            "name": "rift crossbow"
+        },
+        {
+            "chance": 800,
+            "name": "divine plate"
+        },
+        {
+            "chance": 700,
+            "name": "great axe"
+        },
+        {
+            "chance": 100,
+            "unique": true,
+            "name": "great shield"
+        },
+        {
+            "chance": 800,
+            "name": "Emberbound Legs"
+        },
+        {
+            "chance": 800,
+            "name": "gold ingot"
+        },
+        {
+            "chance": 800,
+            "name": "Ruin Blade"
+        },
+        {
+            "chance": 400,
+            "name": "ornamented axe"
+        },
+        {
+            "chance": 3500,
+            "name": "folded rift carpet"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "infernal_merrow_necromancer",
+    "threatDps": 1052.5,
+    "burstDps": 1052.5,
+    "avgHit": 1830.4348,
+    "maxHit": 3883,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 3,
+        "summons": [
+            {
+                "name": "Demon",
+                "id": "demon",
+                "chance": 100,
+                "interval": 1000,
+                "count": 3
+            }
+        ]
+    }
+}

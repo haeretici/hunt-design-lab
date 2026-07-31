@@ -1,0 +1,98 @@
+{
+    "id": "carrion_worm_queen",
+    "label": "Carrion Worm Queen",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A carrion worm queen.",
+    "hp": 105,
+    "hpMax": 105,
+    "speed": 63,
+    "level": 199,
+    "armor": 0,
+    "mitigation": 0.58,
+    "maxBlock": 0,
+    "exp": 75,
+    "lootValue": 100.50684931507,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -20,
+        "ice": 0,
+        "energy": 0,
+        "earth": 40,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 50,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 3,
+            "max": 48
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 47,
+            "name": "gold coin"
+        },
+        {
+            "chance": 3333,
+            "name": "gland"
+        },
+        {
+            "chance": 20000,
+            "maxCount": 45,
+            "name": "worm"
+        }
+    ],
+    "changeTarget": {
+        "interval": 60000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "carrion_worm_queen",
+    "threatDps": 12.75,
+    "burstDps": 12.75,
+    "avgHit": 25.5,
+    "maxHit": 48,
+    "manaCost": 0
+}

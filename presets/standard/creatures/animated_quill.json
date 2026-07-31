@@ -1,0 +1,210 @@
+{
+    "id": "animated_quill",
+    "label": "Animated Quill",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An animated quill.",
+    "hp": 13000,
+    "hpMax": 13000,
+    "speed": 210,
+    "level": 681,
+    "armor": 79,
+    "mitigation": 2.02,
+    "maxBlock": 0,
+    "exp": 9860,
+    "lootValue": 3563.9520733876,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -18,
+        "ice": 100,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 82,
+            "max": 165
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 15,
+            "range": 7,
+            "element": "ice",
+            "min": 82,
+            "max": 165,
+            "target": false,
+            "shootEffect": "ani_ice"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 10,
+            "range": 7,
+            "element": "ice",
+            "min": 165,
+            "max": 642,
+            "target": false,
+            "effect": "me_iceattack",
+            "shootEffect": "ani_smallice"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 1000,
+            "chance": 10,
+            "range": 4,
+            "element": "ice",
+            "min": 165,
+            "max": 226,
+            "length": 3,
+            "spread": 2,
+            "target": false,
+            "effect": "me_iceattack"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 12,
+            "range": 7,
+            "element": "ice",
+            "min": 189,
+            "max": 560,
+            "radius": 3,
+            "target": false,
+            "effect": "me_icetornado",
+            "shootEffect": "ani_smallice"
+        }
+    ],
+    "race": "ink",
+    "bestiary": {
+        "class": "Magical",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "small sapphire",
+            "chance": 8700,
+            "maxCount": 5
+        },
+        {
+            "name": "platinum coin",
+            "chance": 87000,
+            "maxCount": 50
+        },
+        {
+            "chance": 500,
+            "maxCount": 10,
+            "name": "glowing rune"
+        },
+        {
+            "chance": 8700,
+            "name": "voltaic ring"
+        },
+        {
+            "chance": 4000,
+            "name": "ice cube"
+        },
+        {
+            "name": "shard",
+            "chance": 250,
+            "maxCount": 3
+        },
+        {
+            "name": "Frostbound Mask",
+            "chance": 250
+        },
+        {
+            "name": "Hailburst Rod",
+            "chance": 250
+        },
+        {
+            "name": "life crystal",
+            "chance": 8700
+        },
+        {
+            "name": "great mana potion",
+            "chance": 900,
+            "maxCount": 6
+        },
+        {
+            "name": "golden mug",
+            "chance": 500
+        },
+        {
+            "name": "glowing rune",
+            "chance": 500,
+            "maxCount": 10
+        },
+        {
+            "chance": 8700,
+            "name": "voltaic ring"
+        },
+        {
+            "name": "quill",
+            "chance": 250
+        },
+        {
+            "name": "small diamond",
+            "chance": 500,
+            "maxCount": 5
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "dummy",
+    "threatDps": 185.115,
+    "burstDps": 185.115,
+    "avgHit": 190.8402,
+    "maxHit": 642,
+    "manaCost": 0
+}

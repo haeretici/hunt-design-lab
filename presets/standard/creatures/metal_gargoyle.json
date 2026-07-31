@@ -1,0 +1,171 @@
+{
+    "id": "metal_gargoyle",
+    "label": "Metal Gargoyle",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A metal gargoyle.",
+    "hp": 2100,
+    "hpMax": 2100,
+    "speed": 95,
+    "level": 499,
+    "armor": 60,
+    "mitigation": 1.57,
+    "maxBlock": 0,
+    "exp": 1470,
+    "lootValue": 459.88527064913,
+    "aggro": true,
+    "resists": {
+        "physical": 15,
+        "fire": 10,
+        "ice": -5,
+        "energy": -10,
+        "earth": 100,
+        "holy": 0,
+        "death": 80
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "death",
+            "min": 595,
+            "max": 1095,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_yellowenergy"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 9,
+            "range": 7,
+            "element": "lifedrain",
+            "min": 405,
+            "max": 714,
+            "radius": 3,
+            "target": true,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_suddendeath"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Construct",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 200,
+            "name": "gold coin"
+        },
+        {
+            "chance": 1490,
+            "name": "bronze gear wheel"
+        },
+        {
+            "chance": 17160,
+            "name": "metal jaw"
+        },
+        {
+            "chance": 43280,
+            "maxCount": 2,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 9700,
+            "maxCount": 2,
+            "name": "strong health potion"
+        },
+        {
+            "chance": 9700,
+            "maxCount": 2,
+            "name": "strong mana potion"
+        },
+        {
+            "chance": 1490,
+            "name": "metal bat"
+        },
+        {
+            "chance": 1490,
+            "name": "Nether Rod"
+        },
+        {
+            "chance": 2240,
+            "name": "voltaic ring"
+        },
+        {
+            "chance": 750,
+            "name": "life ring"
+        },
+        {
+            "chance": 2240,
+            "name": "shiny stone"
+        },
+        {
+            "chance": 1490,
+            "name": "metal spats"
+        },
+        {
+            "chance": 1490,
+            "name": "alloy legs"
+        },
+        {
+            "chance": 2990,
+            "name": "slightly rusted armor"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 5
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "rune_gargoyle",
+    "threatDps": 67.4275,
+    "burstDps": 67.4275,
+    "avgHit": 709.7632,
+    "maxHit": 1095,
+    "manaCost": 0
+}

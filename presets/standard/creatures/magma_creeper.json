@@ -1,0 +1,273 @@
+{
+    "id": "magma_creeper",
+    "label": "Magma Creeper",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A magma creeper.",
+    "hp": 4800,
+    "hpMax": 4800,
+    "speed": 230,
+    "level": 581,
+    "armor": 84,
+    "mitigation": 2.51,
+    "maxBlock": 0,
+    "exp": 4250,
+    "lootValue": 1107.6792248836,
+    "aggro": true,
+    "resists": {
+        "physical": 5,
+        "fire": 100,
+        "ice": 0,
+        "energy": 10,
+        "earth": 100,
+        "holy": 0,
+        "death": 25
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 80,
+        "random": 20
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 300,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 156
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "death",
+            "min": 231,
+            "max": 846,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_mortarea"
+        },
+        {
+            "id": "magma_crawler_wave_2",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 1,
+            "element": "physical",
+            "min": 223,
+            "max": 615,
+            "target": false
+        },
+        {
+            "id": "area_5",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "fire",
+            "min": 108,
+            "max": 138,
+            "radius": 3,
+            "target": false,
+            "effect": "me_hitbyfire"
+        },
+        {
+            "id": "slow_6",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -800,
+                "durationSec": 20
+            },
+            "radius": 2,
+            "effect": "me_magic_red",
+            "target": false
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "invisible_0",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 5,
+            "durationSec": 2,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "fire",
+    "bestiary": {
+        "class": "Construct",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "small diamond",
+            "chance": 8800,
+            "maxCount": 3
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 99
+        },
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 5
+        },
+        {
+            "name": "yellow gem",
+            "chance": 1030
+        },
+        {
+            "chance": 1650,
+            "name": "voltaic ring"
+        },
+        {
+            "name": "fire sword",
+            "chance": 1680
+        },
+        {
+            "name": "black shield",
+            "chance": 1550
+        },
+        {
+            "name": "iron ore",
+            "chance": 4280
+        },
+        {
+            "name": "white piece of cloth",
+            "chance": 2310
+        },
+        {
+            "name": "red piece of cloth",
+            "chance": 930
+        },
+        {
+            "name": "yellow piece of cloth",
+            "chance": 2980
+        },
+        {
+            "name": "great mana potion",
+            "chance": 6500
+        },
+        {
+            "name": "great health potion",
+            "chance": 7270
+        },
+        {
+            "name": "Emberbound Amulet",
+            "chance": 3120
+        },
+        {
+            "name": "Emberbound Boots",
+            "chance": 1820
+        },
+        {
+            "name": "wand of draconia",
+            "chance": 4280
+        },
+        {
+            "name": "fiery heart",
+            "chance": 7810
+        },
+        {
+            "chance": 1675,
+            "name": "coal"
+        },
+        {
+            "name": "crystalline arrow",
+            "chance": 5950,
+            "maxCount": 10
+        },
+        {
+            "name": "wand of everblazing",
+            "chance": 690
+        },
+        {
+            "name": "blue crystal shard",
+            "chance": 3930,
+            "maxCount": 2
+        },
+        {
+            "name": "brown crystal splinter",
+            "chance": 8500,
+            "maxCount": 2
+        },
+        {
+            "name": "green crystal fragment",
+            "chance": 7000
+        },
+        {
+            "name": "magma clump",
+            "chance": 11600
+        },
+        {
+            "name": "blazing bone",
+            "chance": 11500
+        },
+        {
+            "name": "blazing bone",
+            "chance": 12220
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 5
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "void_phoenix_packleader",
+    "threatDps": 106.575,
+    "burstDps": 106.575,
+    "avgHit": 152.25,
+    "maxHit": 846,
+    "manaCost": 0
+}

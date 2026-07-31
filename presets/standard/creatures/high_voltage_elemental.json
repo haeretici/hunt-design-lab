@@ -1,0 +1,145 @@
+{
+    "id": "high_voltage_elemental",
+    "label": "High Voltage Elemental",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A high voltage elemental.",
+    "hp": 1500,
+    "hpMax": 1500,
+    "speed": 139,
+    "level": 465,
+    "armor": 35,
+    "mitigation": 1.6,
+    "maxBlock": 0,
+    "exp": 1500,
+    "lootValue": 307.86382113821,
+    "aggro": true,
+    "resists": {
+        "physical": 35,
+        "fire": 0,
+        "ice": 100,
+        "energy": 100,
+        "earth": -14,
+        "holy": 5,
+        "death": 5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "energy",
+            "min": 323,
+            "max": 784,
+            "radius": 2,
+            "target": true,
+            "effect": "me_energyhit",
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "energy",
+            "min": 317,
+            "max": 437,
+            "target": true,
+            "effect": "me_energyhit",
+            "shootEffect": "ani_energyball"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Elemental",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 185,
+            "name": "gold coin"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 20,
+            "name": "flash arrow"
+        },
+        {
+            "chance": 7142,
+            "name": "strong mana potion"
+        },
+        {
+            "chance": 7142,
+            "maxCount": 2,
+            "name": "small amethyst"
+        },
+        {
+            "chance": 7142,
+            "name": "crystal ring"
+        },
+        {
+            "chance": 4761,
+            "name": "obsidian lance"
+        },
+        {
+            "chance": 4761,
+            "name": "mana potion"
+        },
+        {
+            "chance": 4761,
+            "name": "crystal sword"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "arcane_elemental_vanguard",
+    "threatDps": 55.95,
+    "burstDps": 55.95,
+    "avgHit": 447.6,
+    "maxHit": 784,
+    "manaCost": 0
+}

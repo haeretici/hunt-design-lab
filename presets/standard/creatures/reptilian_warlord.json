@@ -1,0 +1,186 @@
+{
+    "id": "reptilian_warlord",
+    "label": "Reptilian Warlord",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A reptilian warlord.",
+    "hp": 2955,
+    "hpMax": 2955,
+    "speed": 138,
+    "level": 533,
+    "armor": 42,
+    "mitigation": 1.37,
+    "maxBlock": 0,
+    "exp": 1700,
+    "lootValue": 644.04376192801,
+    "aggro": true,
+    "resists": {
+        "physical": 5,
+        "fire": 45,
+        "ice": 15,
+        "energy": 20,
+        "earth": 100,
+        "holy": 0,
+        "death": 10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 259
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "earth",
+            "min": 164,
+            "max": 279,
+            "radius": 1,
+            "target": true,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_poison"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 175,
+            "max": 275,
+            "hpBelow": 0.7,
+            "effect": "me_magic_green"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Reptile",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 31500,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 31500,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 31000,
+            "maxCount": 68
+        },
+        {
+            "name": "small emerald",
+            "chance": 4830,
+            "maxCount": 5
+        },
+        {
+            "name": "platinum coin",
+            "chance": 48900,
+            "maxCount": 2
+        },
+        {
+            "name": "tower shield",
+            "chance": 1000
+        },
+        {
+            "name": "lizard leather",
+            "chance": 14360
+        },
+        {
+            "name": "lizard scale",
+            "chance": 12520
+        },
+        {
+            "name": "strong health potion",
+            "chance": 1900
+        },
+        {
+            "name": "great health potion",
+            "chance": 7000,
+            "maxCount": 3
+        },
+        {
+            "name": "red lantern",
+            "chance": 2170
+        },
+        {
+            "name": "zaoan armor",
+            "chance": 530
+        },
+        {
+            "name": "zaoan shoes",
+            "chance": 1000
+        },
+        {
+            "name": "zaoan legs",
+            "chance": 1001
+        },
+        {
+            "name": "zaogun flag",
+            "chance": 8280
+        },
+        {
+            "name": "zaogun shoulderplates",
+            "chance": 14980
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ember_ogre_ravager",
+    "threatDps": 81.3625,
+    "burstDps": 81.3625,
+    "avgHit": 141.5,
+    "maxHit": 279,
+    "manaCost": 0
+}

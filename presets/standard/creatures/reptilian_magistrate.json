@@ -1,0 +1,145 @@
+{
+    "id": "reptilian_magistrate",
+    "label": "Reptilian Magistrate",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A reptilian magistrate.",
+    "hp": 6250,
+    "hpMax": 6250,
+    "speed": 128,
+    "level": 607,
+    "armor": 25,
+    "mitigation": 1.18,
+    "maxBlock": 0,
+    "exp": 2000,
+    "lootValue": 263.08566853483,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 85,
+        "ice": 0,
+        "energy": 0,
+        "earth": 100,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 493
+        },
+        {
+            "id": "lizard_magistratus_curse_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 5,
+            "element": "physical",
+            "target": false,
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 50,
+            "min": 200,
+            "max": 250,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Reptile",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "small ruby",
+            "chance": 8970,
+            "maxCount": 5
+        },
+        {
+            "name": "gold coin",
+            "chance": 77230,
+            "maxCount": 50
+        },
+        {
+            "name": "platinum coin",
+            "chance": 13400,
+            "maxCount": 19
+        },
+        {
+            "name": "lizard leather",
+            "chance": 220
+        },
+        {
+            "name": "lizard scale",
+            "chance": 450
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 6280
+        },
+        {
+            "name": "great mana potion",
+            "chance": 4480
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "brimstone_ruins_crawler",
+    "threatDps": 123.25,
+    "burstDps": 123.25,
+    "avgHit": 246.5,
+    "maxHit": 493,
+    "manaCost": 0
+}

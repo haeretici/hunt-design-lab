@@ -1,0 +1,244 @@
+{
+    "id": "gloom_titan",
+    "label": "Gloom Titan",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A gloom titan.",
+    "hp": 1,
+    "hpMax": 1,
+    "speed": 250,
+    "level": 1000,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 3250000,
+    "lootValue": 1169392.8571429,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 10,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 98,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 1300,
+            "max": 2250
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "earth",
+            "min": 500,
+            "max": 900,
+            "radius": 4,
+            "target": false,
+            "effect": "me_green_rings"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "death",
+            "min": 500,
+            "max": 900,
+            "radius": 4,
+            "target": true,
+            "effect": "241"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "earth",
+            "min": 1000,
+            "max": 1200,
+            "length": 10,
+            "spread": 0,
+            "target": false,
+            "effect": "me_poff"
+        },
+        {
+            "id": "wave_4",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 1500,
+            "max": 1900,
+            "length": 10,
+            "spread": 0,
+            "target": false,
+            "effect": "225"
+        },
+        {
+            "id": "slow_5",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -600,
+                "durationSec": 20
+            },
+            "radius": 7,
+            "effect": "me_magic_green",
+            "target": false
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 3000,
+            "chance": 10,
+            "min": 700,
+            "max": 1500,
+            "hpBelow": 0.7,
+            "effect": "236"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "name": "crystal coin",
+            "chance": 5441,
+            "maxCount": 108
+        },
+        {
+            "name": "savant potion",
+            "chance": 5530,
+            "maxCount": 28
+        },
+        {
+            "name": "supreme health potion",
+            "chance": 5044,
+            "maxCount": 154
+        },
+        {
+            "name": "giant sapphire",
+            "chance": 10546,
+            "maxCount": 1
+        },
+        {
+            "name": "ultimate mana potion",
+            "chance": 5752,
+            "maxCount": 107
+        },
+        {
+            "name": "violet gem",
+            "chance": 13217,
+            "maxCount": 4
+        },
+        {
+            "chance": 13465,
+            "maxCount": 1,
+            "name": "red gem"
+        },
+        {
+            "name": "yellow gem",
+            "chance": 14071,
+            "maxCount": 1
+        },
+        {
+            "name": "blue gem",
+            "chance": 11156,
+            "maxCount": 3
+        },
+        {
+            "name": "marksman potion",
+            "chance": 6792,
+            "maxCount": 21
+        },
+        {
+            "name": "giant amethyst",
+            "chance": 11603,
+            "maxCount": 1
+        },
+        {
+            "name": "giant topaz",
+            "chance": 12280,
+            "maxCount": 1
+        },
+        {
+            "name": "green gem",
+            "chance": 8348,
+            "maxCount": 1
+        },
+        {
+            "name": "ultimate dual potion",
+            "chance": 10934,
+            "maxCount": 18
+        },
+        {
+            "name": "white gem",
+            "chance": 9600,
+            "maxCount": 3
+        }
+    ],
+    "changeTarget": {
+        "interval": 10000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "blood_behemoth",
+    "threatDps": 1307.5,
+    "burstDps": 1307.5,
+    "avgHit": 1452.7778,
+    "maxHit": 2250,
+    "manaCost": 0
+}

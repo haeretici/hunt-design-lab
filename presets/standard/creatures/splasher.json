@@ -1,0 +1,171 @@
+{
+    "id": "splasher",
+    "label": "Splasher",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A splasher.",
+    "hp": 1700,
+    "hpMax": 1700,
+    "speed": 260,
+    "level": 477,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 1500,
+    "lootValue": 0.25,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": 100,
+        "energy": -25,
+        "earth": -14,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 117,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 5,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 8,
+            "range": 7,
+            "element": "lifedrain",
+            "min": 114,
+            "max": 181,
+            "target": true,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 7,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 174,
+            "max": 245,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_hitbypoison"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 9,
+            "range": 4,
+            "element": "ice",
+            "min": 144,
+            "max": 159,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_bubbles"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 12,
+            "range": 4,
+            "element": "ice",
+            "min": 108,
+            "max": 160,
+            "radius": 3,
+            "target": false,
+            "effect": "me_bubbles"
+        },
+        {
+            "id": "slow_5",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -300,
+                "durationSec": 3
+            },
+            "effect": "me_magic_red",
+            "target": false
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 100,
+            "max": 120,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "warp_crypt_wolf",
+    "threatDps": 59.84,
+    "burstDps": 59.84,
+    "avgHit": 84.3235,
+    "maxHit": 245,
+    "manaCost": 0
+}

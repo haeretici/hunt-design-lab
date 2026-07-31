@@ -1,0 +1,190 @@
+{
+    "id": "magma_ape",
+    "label": "Magma Ape",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A magma ape.",
+    "hp": 1600,
+    "hpMax": 1600,
+    "speed": 160,
+    "level": 471,
+    "armor": 50,
+    "mitigation": 1.46,
+    "maxBlock": 0,
+    "exp": 1100,
+    "lootValue": 330.03422634206,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": -5,
+        "energy": 0,
+        "earth": 100,
+        "holy": 0,
+        "death": 5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 220,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 163
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "fire",
+            "min": 136,
+            "max": 236,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_explosionhit"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "fire",
+            "min": 70,
+            "max": 139,
+            "target": true,
+            "shootEffect": "ani_fire"
+        }
+    ],
+    "race": "fire",
+    "bestiary": {
+        "class": "Mammal",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 7
+        },
+        {
+            "name": "platinum coin",
+            "chance": 14780
+        },
+        {
+            "name": "wand of inferno",
+            "chance": 1000
+        },
+        {
+            "chance": 2920,
+            "name": "sword ring"
+        },
+        {
+            "name": "fire sword",
+            "chance": 260
+        },
+        {
+            "name": "banana",
+            "chance": 10420,
+            "maxCount": 10
+        },
+        {
+            "name": "strong health potion",
+            "chance": 7100
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 7100
+        },
+        {
+            "name": "Emberbound Amulet",
+            "chance": 970
+        },
+        {
+            "name": "Emberbound Coat",
+            "chance": 140
+        },
+        {
+            "name": "fiery heart",
+            "chance": 9380
+        },
+        {
+            "chance": 940,
+            "name": "coal"
+        },
+        {
+            "name": "brown crystal splinter",
+            "chance": 4850
+        },
+        {
+            "name": "red crystal fragment",
+            "chance": 2280
+        },
+        {
+            "name": "magma clump",
+            "chance": 12440
+        },
+        {
+            "name": "blazing bone",
+            "chance": 8030
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "pigeon",
+    "threatDps": 57.8875,
+    "burstDps": 57.8875,
+    "avgHit": 92.62,
+    "maxHit": 236,
+    "manaCost": 0
+}

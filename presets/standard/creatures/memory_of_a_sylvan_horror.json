@@ -1,0 +1,133 @@
+{
+    "id": "memory_of_a_sylvan_horror",
+    "label": "Memory Of A Sylvan Horror",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A memory of a sylvan horror.",
+    "hp": 3800,
+    "hpMax": 3800,
+    "speed": 52,
+    "level": 558,
+    "armor": 37,
+    "mitigation": 1.3,
+    "maxBlock": 0,
+    "exp": 1850,
+    "lootValue": 233.5632183908,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -14,
+        "ice": -5,
+        "energy": 0,
+        "earth": 25,
+        "holy": 0,
+        "death": 5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 234
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 40,
+            "range": 5,
+            "element": "earth",
+            "min": 0,
+            "max": 234,
+            "radius": 4,
+            "target": true,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_smallearth"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 5,
+            "element": "earth",
+            "min": 0,
+            "max": 234,
+            "target": true,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_smallearth"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 8,
+            "speedChange": 250,
+            "durationSec": 5,
+            "effect": "me_magic_green"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 70000,
+            "maxCount": 75
+        },
+        {
+            "name": "emerald bangle",
+            "chance": 4970
+        },
+        {
+            "name": "small topaz",
+            "chance": 6810,
+            "maxCount": 2
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ember_ruins_horror",
+    "threatDps": 93.6,
+    "burstDps": 93.6,
+    "avgHit": 117,
+    "maxHit": 234,
+    "manaCost": 0
+}

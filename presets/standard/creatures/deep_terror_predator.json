@@ -1,0 +1,174 @@
+{
+    "id": "deep_terror_predator",
+    "label": "Deep Terror Predator",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A deep terror predator.",
+    "hp": 2200,
+    "hpMax": 2200,
+    "speed": 225,
+    "level": 504,
+    "armor": 40,
+    "mitigation": 1.46,
+    "maxBlock": 0,
+    "exp": 1850,
+    "lootValue": 486.38153272636,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": 100,
+        "energy": -25,
+        "earth": -10,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 277,
+            "effect": "me_drawblood"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 270,
+            "durationSec": 5,
+            "effect": "me_magic_green"
+        },
+        {
+            "id": "heal_1",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 25,
+            "max": 75,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Aquatic",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 28000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 54
+        },
+        {
+            "name": "quara bone",
+            "chance": 9860
+        },
+        {
+            "name": "royal spear",
+            "chance": 9240,
+            "maxCount": 7
+        },
+        {
+            "name": "small diamond",
+            "chance": 5300,
+            "maxCount": 2
+        },
+        {
+            "name": "shrimp",
+            "chance": 4980,
+            "maxCount": 5
+        },
+        {
+            "name": "double axe",
+            "chance": 3011
+        },
+        {
+            "name": "fish fin",
+            "chance": 1920,
+            "maxCount": 1
+        },
+        {
+            "name": "great health potion",
+            "chance": 1040
+        },
+        {
+            "name": "relic sword",
+            "chance": 670
+        },
+        {
+            "name": "assassin star",
+            "chance": 530
+        },
+        {
+            "name": "Frostbound Robe",
+            "chance": 440
+        },
+        {
+            "name": "skull helmet",
+            "chance": 390
+        },
+        {
+            "name": "giant shrimp",
+            "chance": 10
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "warp_goblin_slayer",
+    "threatDps": 69.25,
+    "burstDps": 69.25,
+    "avgHit": 138.5,
+    "maxHit": 277,
+    "manaCost": 0
+}

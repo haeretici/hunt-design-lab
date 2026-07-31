@@ -1,0 +1,212 @@
+{
+    "id": "gazer_spectre",
+    "label": "Gazer Spectre",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A gazer spectre.",
+    "hp": 4500,
+    "hpMax": 4500,
+    "speed": 195,
+    "level": 575,
+    "armor": 68,
+    "mitigation": 2.02,
+    "maxBlock": 0,
+    "exp": 4200,
+    "lootValue": 1056.5962656872,
+    "aggro": true,
+    "resists": {
+        "physical": 85,
+        "fire": 70,
+        "ice": -30,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 218
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2500,
+            "chance": 35,
+            "range": 7,
+            "element": "fire",
+            "min": 97,
+            "max": 169,
+            "target": false,
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 3000,
+            "chance": 35,
+            "range": 5,
+            "element": "fire",
+            "min": 97,
+            "max": 218,
+            "radius": 5,
+            "target": true,
+            "effect": "me_fireattack"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 3700,
+            "chance": 25,
+            "range": 7,
+            "element": "lifedrain",
+            "min": 145,
+            "max": 193,
+            "target": true,
+            "effect": "me_yellowenergy",
+            "shootEffect": "ani_energyball"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 30,
+            "min": 150,
+            "max": 200,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 5
+        },
+        {
+            "name": "brown crystal splinter",
+            "chance": 900
+        },
+        {
+            "name": "red crystal fragment",
+            "chance": 8500
+        },
+        {
+            "name": "small enchanted ruby",
+            "chance": 7500
+        },
+        {
+            "name": "small diamond",
+            "chance": 6000
+        },
+        {
+            "name": "small sapphire",
+            "chance": 5000
+        },
+        {
+            "chance": 4000,
+            "name": "red gem"
+        },
+        {
+            "name": "yellow gem",
+            "chance": 3000
+        },
+        {
+            "chance": 1100,
+            "name": "golden idol of Tukh"
+        },
+        {
+            "name": "wand of draconia",
+            "chance": 3500
+        },
+        {
+            "name": "wand of inferno",
+            "chance": 1100
+        },
+        {
+            "chance": 700,
+            "name": "red ectoplasm"
+        },
+        {
+            "name": "Emberbound Coat",
+            "chance": 900
+        },
+        {
+            "name": "prismatic quartz",
+            "chance": 1500
+        },
+        {
+            "name": "small enchanted emerald",
+            "chance": 800
+        },
+        {
+            "name": "onyx chip",
+            "chance": 770
+        },
+        {
+            "name": "hexagonal ruby",
+            "chance": 500
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "glacier_mountain_phantom",
+    "threatDps": 102.9139,
+    "burstDps": 126.4625,
+    "avgHit": 124.86,
+    "maxHit": 218,
+    "manaCost": 0
+}

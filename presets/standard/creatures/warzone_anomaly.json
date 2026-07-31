@@ -1,0 +1,303 @@
+{
+    "id": "warzone_anomaly",
+    "label": "Warzone Anomaly",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A warzone anomaly.",
+    "hp": 290000,
+    "hpMax": 290000,
+    "speed": 200,
+    "level": 990,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 50000,
+    "lootValue": 31247.93442623,
+    "aggro": true,
+    "resists": {
+        "physical": 30,
+        "fire": 30,
+        "ice": 30,
+        "energy": 30,
+        "earth": 30,
+        "holy": 30,
+        "death": 30
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 427,
+            "max": 1995
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 4,
+            "element": "death",
+            "min": 427,
+            "max": 855,
+            "radius": 4,
+            "target": true,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "anomaly_wave_2",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 1,
+            "element": "physical",
+            "min": 712,
+            "max": 1282,
+            "target": false
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 4,
+            "element": "physical",
+            "min": 855,
+            "max": 1425,
+            "length": 9,
+            "spread": 0,
+            "target": false,
+            "effect": "me_explosionhit"
+        },
+        {
+            "id": "wave_4",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 427,
+            "max": 855,
+            "length": 9,
+            "spread": 0,
+            "target": false,
+            "effect": "me_magic_red"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 30,
+            "min": 150,
+            "max": 400,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "venom",
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 4,
+            "name": "gold token"
+        },
+        {
+            "chance": 100000,
+            "name": "mysterious remains"
+        },
+        {
+            "chance": 100000,
+            "name": "odd organ"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 200,
+            "name": "gold coin"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 30,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 8000,
+            "maxCount": 3,
+            "name": "blue crystal shard"
+        },
+        {
+            "chance": 8000,
+            "maxCount": 3,
+            "name": "violet crystal shard"
+        },
+        {
+            "chance": 8000,
+            "maxCount": 3,
+            "name": "green crystal shard"
+        },
+        {
+            "chance": 8000,
+            "maxCount": 10,
+            "name": "small amethyst"
+        },
+        {
+            "chance": 8000,
+            "maxCount": 10,
+            "name": "small diamond"
+        },
+        {
+            "chance": 8000,
+            "maxCount": 10,
+            "name": "small topaz"
+        },
+        {
+            "chance": 8000,
+            "maxCount": 10,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 8000,
+            "maxCount": 5,
+            "name": "great dual potion"
+        },
+        {
+            "chance": 8000,
+            "maxCount": 5,
+            "name": "ultimate health potion"
+        },
+        {
+            "chance": 8000,
+            "maxCount": 5,
+            "name": "energy drink"
+        },
+        {
+            "chance": 8000,
+            "name": "yellow gem"
+        },
+        {
+            "chance": 6000,
+            "name": "blue gem"
+        },
+        {
+            "chance": 6000,
+            "name": "green gem"
+        },
+        {
+            "chance": 3500,
+            "name": "collar of blue plasma"
+        },
+        {
+            "chance": 3500,
+            "name": "ring of blue plasma"
+        },
+        {
+            "chance": 3500,
+            "name": "ring of green plasma"
+        },
+        {
+            "chance": 8000,
+            "name": "curious matter"
+        },
+        {
+            "chance": 8000,
+            "name": "frozen lightning"
+        },
+        {
+            "chance": 4000,
+            "unique": true,
+            "name": "crystalline sword"
+        },
+        {
+            "chance": 4000,
+            "name": "Stormbound Headband"
+        },
+        {
+            "chance": 3000,
+            "name": "Maelstrom Mace"
+        },
+        {
+            "chance": 3000,
+            "name": "shadow sceptre"
+        },
+        {
+            "chance": 3000,
+            "name": "spellbook of warding"
+        },
+        {
+            "chance": 2500,
+            "name": "Stormbound Legs"
+        },
+        {
+            "chance": 2500,
+            "name": "Stormbound Robe"
+        },
+        {
+            "chance": 1600,
+            "unique": true,
+            "name": "tiara of power"
+        },
+        {
+            "chance": 1600,
+            "unique": true,
+            "name": "void boots"
+        },
+        {
+            "chance": 1600,
+            "unique": true,
+            "name": "ruthless axe"
+        },
+        {
+            "id": 282,
+            "chance": 1600,
+            "maxCount": 3
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 25
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "rat_lord_munster",
+    "threatDps": 1032.875,
+    "burstDps": 1032.875,
+    "avgHit": 1032.875,
+    "maxHit": 1995,
+    "manaCost": 0
+}

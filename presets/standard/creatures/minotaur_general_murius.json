@@ -1,0 +1,209 @@
+{
+    "id": "minotaur_general_murius",
+    "label": "Minotaur General Murius",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A minotaur general murius.",
+    "hp": 550,
+    "hpMax": 550,
+    "speed": 125,
+    "level": 366,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 450,
+    "lootValue": 897.70588235294,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 20,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 20
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 102
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 12,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 72,
+            "target": false,
+            "shootEffect": "ani_bolt"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 10,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 48,
+            "radius": 3,
+            "target": false,
+            "effect": "me_hitarea"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 1000,
+            "chance": 15,
+            "min": 50,
+            "max": 100,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 275,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "minotaur horn",
+            "chance": 100000,
+            "maxCount": 2
+        },
+        {
+            "name": "minotaur leather",
+            "chance": 100000
+        },
+        {
+            "name": "gold coin",
+            "chance": 92310,
+            "maxCount": 97
+        },
+        {
+            "name": "platinum coin",
+            "chance": 92310,
+            "maxCount": 3
+        },
+        {
+            "name": "brass armor",
+            "chance": 76920
+        },
+        {
+            "name": "double axe",
+            "chance": 76920
+        },
+        {
+            "name": "piercing bolt",
+            "chance": 38460,
+            "maxCount": 11
+        },
+        {
+            "name": "meat",
+            "chance": 30770
+        },
+        {
+            "name": "battle shield",
+            "chance": 23080
+        },
+        {
+            "name": "chain legs",
+            "chance": 23080
+        },
+        {
+            "chance": 23080,
+            "name": "minotaur trophy"
+        },
+        {
+            "name": "power bolt",
+            "chance": 23080,
+            "maxCount": 7
+        },
+        {
+            "name": "fishing rod",
+            "chance": 7690
+        },
+        {
+            "name": "strong health potion",
+            "chance": 7690
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "lunar_minotaur_vanguard",
+    "threatDps": 32.22,
+    "burstDps": 32.22,
+    "avgHit": 44.75,
+    "maxHit": 102,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 4,
+        "summons": [
+            {
+                "name": "Minotaur Archer",
+                "id": "minotaur_archer",
+                "chance": 15,
+                "interval": 1000,
+                "count": 2
+            },
+            {
+                "name": "Minotaur Guard",
+                "id": "minotaur_guard",
+                "chance": 12,
+                "interval": 1000,
+                "count": 2
+            }
+        ]
+    }
+}

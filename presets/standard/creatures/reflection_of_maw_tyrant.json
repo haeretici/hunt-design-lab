@@ -1,0 +1,202 @@
+{
+    "id": "reflection_of_maw_tyrant",
+    "label": "Reflection Of Maw Tyrant",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A reflection of maw tyrant.",
+    "hp": 45000,
+    "hpMax": 45000,
+    "speed": 135,
+    "level": 804,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 14000,
+    "lootValue": 5202.4210526316,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 1237
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 8,
+            "range": 7,
+            "element": "lifedrain",
+            "min": 167,
+            "max": 346,
+            "radius": 5,
+            "target": true,
+            "effect": "me_drawblood",
+            "shootEffect": "ani_whirlwindaxe"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 8,
+            "range": 7,
+            "element": "physical",
+            "min": 111,
+            "max": 619,
+            "target": true,
+            "effect": "me_explosionarea",
+            "shootEffect": "ani_whirlwindaxe"
+        },
+        {
+            "id": "wave_4",
+            "kind": "wave",
+            "intervalMs": 1800,
+            "chance": 10,
+            "range": 4,
+            "element": "earth",
+            "min": 371,
+            "max": 848,
+            "length": 7,
+            "spread": 0,
+            "target": false,
+            "effect": "me_stones"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 198,
+            "name": "gold coin"
+        },
+        {
+            "chance": 67610,
+            "maxCount": 3,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 390,
+            "name": "gold ingot"
+        },
+        {
+            "chance": 3230,
+            "name": "red piece of cloth"
+        },
+        {
+            "chance": 14710,
+            "name": "minotaur leather"
+        },
+        {
+            "chance": 6580,
+            "maxCount": 2,
+            "name": "minotaur horn"
+        },
+        {
+            "chance": 13160,
+            "name": "execowtioner mask"
+        },
+        {
+            "chance": 11480,
+            "name": "great health potion"
+        },
+        {
+            "chance": 10060,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 7230,
+            "name": "meat"
+        },
+        {
+            "chance": 5810,
+            "maxCount": 2,
+            "name": "small topaz"
+        },
+        {
+            "chance": 4520,
+            "maxCount": 2,
+            "name": "small ruby"
+        },
+        {
+            "chance": 900,
+            "name": "butcher's axe"
+        },
+        {
+            "chance": 770,
+            "name": "Regal Crown Armor"
+        },
+        {
+            "chance": 1420,
+            "name": "execowtioner axe"
+        },
+        {
+            "chance": 770,
+            "name": "knight axe"
+        },
+        {
+            "chance": 390,
+            "name": "titan axe"
+        },
+        {
+            "chance": 520,
+            "name": "minotaur trophy"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 4
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "celestial_fiend",
+    "threatDps": 367.9711,
+    "burstDps": 395.06,
+    "avgHit": 578.9755,
+    "maxHit": 1237,
+    "manaCost": 0
+}

@@ -1,0 +1,204 @@
+{
+    "id": "flameborn",
+    "label": "Flameborn",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A flameborn.",
+    "hp": 3500,
+    "hpMax": 3500,
+    "speed": 130,
+    "level": 550,
+    "armor": 0,
+    "mitigation": 1.52,
+    "maxBlock": 0,
+    "exp": 2550,
+    "lootValue": 10002.5,
+    "aggro": true,
+    "resists": {
+        "physical": 20,
+        "fire": 40,
+        "ice": -10,
+        "energy": 10,
+        "earth": 80,
+        "holy": 30,
+        "death": -5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 302
+        },
+        {
+            "id": "fireburst_rune_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 1,
+            "element": "physical",
+            "min": 129,
+            "max": 151,
+            "target": false
+        },
+        {
+            "id": "hellspawn_soulfire_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 5,
+            "element": "physical",
+            "target": false,
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 120,
+            "max": 230,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 270,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "fire",
+    "loot": [
+        {
+            "chance": 100000,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 13,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 75810,
+            "name": "great health potion"
+        },
+        {
+            "chance": 100000,
+            "name": "hellspawn tail"
+        },
+        {
+            "chance": 19350,
+            "maxCount": 5,
+            "name": "assassin star"
+        },
+        {
+            "chance": 77420,
+            "name": "ultimate health potion"
+        },
+        {
+            "chance": 35480,
+            "name": "demonic essence"
+        },
+        {
+            "chance": 67740,
+            "maxCount": 2,
+            "name": "red mushroom"
+        },
+        {
+            "chance": 43550,
+            "maxCount": 4,
+            "name": "small topaz"
+        },
+        {
+            "chance": 67740,
+            "name": "knight legs"
+        },
+        {
+            "chance": 20970,
+            "name": "warrior helmet"
+        },
+        {
+            "chance": 6450,
+            "name": "spiked squelcher"
+        },
+        {
+            "chance": 37100,
+            "name": "berserk potion"
+        },
+        {
+            "chance": 20970,
+            "name": "black skull"
+        },
+        {
+            "chance": 1610,
+            "name": "dracoyle statue"
+        },
+        {
+            "chance": 3230,
+            "name": "Obsidian Flail"
+        },
+        {
+            "chance": 4840,
+            "name": "carrot on a stick"
+        },
+        {
+            "chance": 29030,
+            "name": "crown shield"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 15
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "dark_soul",
+    "threatDps": 89.5,
+    "burstDps": 89.5,
+    "avgHit": 149.1667,
+    "maxHit": 302,
+    "manaCost": 0
+}

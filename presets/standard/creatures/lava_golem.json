@@ -1,0 +1,276 @@
+{
+    "id": "lava_golem",
+    "label": "Lava Golem",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A lava golem.",
+    "hp": 9000,
+    "hpMax": 9000,
+    "speed": 210,
+    "level": 644,
+    "armor": 84,
+    "mitigation": 2.51,
+    "maxBlock": 0,
+    "exp": 7900,
+    "lootValue": 2037.8672914969,
+    "aggro": true,
+    "resists": {
+        "physical": 30,
+        "fire": 100,
+        "ice": -5,
+        "energy": 30,
+        "earth": 100,
+        "holy": 0,
+        "death": 35
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 80,
+        "random": 20
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": false,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 290
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "fire",
+            "min": 254,
+            "max": 508,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_fireattack"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "fire",
+            "min": 160,
+            "max": 254,
+            "radius": 4,
+            "target": true,
+            "effect": "me_firearea"
+        },
+        {
+            "id": "slow_4",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 5,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -800,
+                "durationSec": 30
+            },
+            "length": 5,
+            "spread": 3,
+            "effect": "me_blockhit",
+            "target": false
+        },
+        {
+            "id": "area_5",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 4,
+            "element": "fire",
+            "min": 203,
+            "max": 254,
+            "radius": 3,
+            "target": false,
+            "effect": "me_hitbyfire"
+        }
+    ],
+    "race": "fire",
+    "bestiary": {
+        "class": "Construct",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 1
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 199
+        },
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 11
+        },
+        {
+            "name": "yellow gem",
+            "chance": 6480
+        },
+        {
+            "chance": 1180,
+            "name": "red gem"
+        },
+        {
+            "name": "wand of inferno",
+            "chance": 2950
+        },
+        {
+            "name": "fire sword",
+            "chance": 1710
+        },
+        {
+            "name": "fire axe",
+            "chance": 1560
+        },
+        {
+            "name": "crown shield",
+            "chance": 1180
+        },
+        {
+            "name": "iron ore",
+            "chance": 11570
+        },
+        {
+            "name": "white piece of cloth",
+            "chance": 4810
+        },
+        {
+            "name": "red piece of cloth",
+            "chance": 3530
+        },
+        {
+            "name": "yellow piece of cloth",
+            "chance": 7230
+        },
+        {
+            "name": "strong health potion",
+            "chance": 18830,
+            "maxCount": 2
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 18150,
+            "maxCount": 2
+        },
+        {
+            "name": "great mana potion",
+            "chance": 16030,
+            "maxCount": 2
+        },
+        {
+            "name": "mana potion",
+            "chance": 20720,
+            "maxCount": 2
+        },
+        {
+            "name": "Emberbound Amulet",
+            "chance": 2900
+        },
+        {
+            "name": "Emberbound Boots",
+            "chance": 2650
+        },
+        {
+            "name": "Emberbound Coat",
+            "chance": 430
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 15390
+        },
+        {
+            "name": "spellbook of mind control",
+            "chance": 450
+        },
+        {
+            "name": "fiery heart",
+            "chance": 13510
+        },
+        {
+            "name": "wand of everblazing",
+            "chance": 1390
+        },
+        {
+            "name": "violet crystal shard",
+            "chance": 6200
+        },
+        {
+            "name": "green crystal splinter",
+            "chance": 13990,
+            "maxCount": 2
+        },
+        {
+            "name": "red crystal fragment",
+            "chance": 10990
+        },
+        {
+            "name": "magma clump",
+            "chance": 15370,
+            "maxCount": 2
+        },
+        {
+            "name": "blazing bone",
+            "chance": 15200
+        },
+        {
+            "name": "prismatic bolt",
+            "chance": 12580,
+            "maxCount": 5
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "solar_volcano_golem_slayer",
+    "threatDps": 150.875,
+    "burstDps": 150.875,
+    "avgHit": 188.5938,
+    "maxHit": 508,
+    "manaCost": 0
+}

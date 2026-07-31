@@ -1,0 +1,96 @@
+{
+    "id": "time_keeper",
+    "label": "Time Keeper",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A time keeper.",
+    "hp": 2500,
+    "hpMax": 2500,
+    "speed": 80,
+    "level": 516,
+    "armor": 0,
+    "mitigation": 0.49,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 293
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 17,
+            "range": 7,
+            "element": "lifedrain",
+            "min": 10,
+            "max": 16,
+            "target": false,
+            "effect": "me_yalaharighost",
+            "shootEffect": "ani_suddendeath"
+        }
+    ],
+    "race": "undead",
+    "loot": [],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "sanguine_crypt_drake_vanguard",
+    "threatDps": 74.355,
+    "burstDps": 74.355,
+    "avgHit": 127.1026,
+    "maxHit": 293,
+    "manaCost": 0
+}

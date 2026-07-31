@@ -1,0 +1,137 @@
+{
+    "id": "smuggler",
+    "label": "Smuggler",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A smuggler.",
+    "hp": 130,
+    "hpMax": 130,
+    "speed": 88,
+    "level": 222,
+    "armor": 8,
+    "mitigation": 0.33,
+    "maxBlock": 0,
+    "exp": 48,
+    "lootValue": 12.22582396619,
+    "aggro": true,
+    "resists": {
+        "physical": -5,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": -5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 15,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": true,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 58
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Human",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 30200,
+            "maxCount": 2,
+            "name": "torch"
+        },
+        {
+            "name": "gold coin",
+            "chance": 80000,
+            "maxCount": 10
+        },
+        {
+            "chance": 5000,
+            "name": "sword"
+        },
+        {
+            "name": "knife",
+            "chance": 9920
+        },
+        {
+            "name": "combat knife",
+            "chance": 4400
+        },
+        {
+            "name": "short sword",
+            "chance": 10000
+        },
+        {
+            "name": "leather helmet",
+            "chance": 10050
+        },
+        {
+            "name": "leather legs",
+            "chance": 14840
+        },
+        {
+            "name": "ham",
+            "chance": 10200
+        },
+        {
+            "chance": 110,
+            "name": "deer trophy"
+        },
+        {
+            "name": "raspberry",
+            "chance": 5000,
+            "maxCount": 5
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "smuggler",
+    "threatDps": 14.5,
+    "burstDps": 14.5,
+    "avgHit": 29,
+    "maxHit": 58,
+    "manaCost": 390
+}

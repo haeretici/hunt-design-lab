@@ -1,0 +1,98 @@
+{
+    "id": "generator",
+    "label": "Generator",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A generator.",
+    "hp": 8000,
+    "hpMax": 8000,
+    "speed": 0,
+    "level": 632,
+    "armor": 30,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 3000,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 25,
+        "ice": 25,
+        "energy": 100,
+        "earth": 1,
+        "holy": 25,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "area_0",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "earth",
+            "min": 2544,
+            "max": 3112,
+            "radius": 6,
+            "target": false,
+            "effect": "me_green_rings"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 4000,
+            "chance": 15,
+            "min": 133,
+            "max": 454,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "brimstone_ruins_crawler",
+    "threatDps": 141.4,
+    "burstDps": 141.4,
+    "avgHit": 2828,
+    "maxHit": 3112,
+    "manaCost": 0
+}

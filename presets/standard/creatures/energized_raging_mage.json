@@ -1,0 +1,147 @@
+{
+    "id": "energized_raging_mage",
+    "label": "Energized Raging Mage",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An energized raging mage.",
+    "hp": 3500,
+    "hpMax": 3500,
+    "speed": 115,
+    "level": 550,
+    "armor": 30,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": -50,
+        "fire": 100,
+        "ice": 0,
+        "energy": 100,
+        "earth": 0,
+        "holy": 10,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 300,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "energyfield_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "physical",
+            "radius": 2,
+            "target": true,
+            "shootEffect": "ani_energy",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "stormlash_rune_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 40,
+            "range": 7,
+            "element": "physical",
+            "min": 158,
+            "max": 243,
+            "target": true
+        },
+        {
+            "id": "ranged_4",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "manadrain",
+            "min": 106,
+            "max": 222,
+            "target": false
+        },
+        {
+            "id": "wave_5",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 4,
+            "element": "energy",
+            "min": 211,
+            "max": 317,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_bigclouds"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 20,
+            "min": 155,
+            "max": 200,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "arcane_elemental_vanguard",
+    "threatDps": 89.5,
+    "burstDps": 89.5,
+    "avgHit": 210.5882,
+    "maxHit": 317,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 1,
+        "summons": [
+            {
+                "name": "Golden Servant",
+                "id": "golden_servant",
+                "chance": 50,
+                "interval": 2000,
+                "count": 1
+            }
+        ]
+    }
+}

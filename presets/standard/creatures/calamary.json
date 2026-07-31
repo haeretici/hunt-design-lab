@@ -1,0 +1,96 @@
+{
+    "id": "calamary",
+    "label": "Calamary",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A calamary.",
+    "hp": 75,
+    "hpMax": 75,
+    "speed": 100,
+    "level": 164,
+    "armor": 13,
+    "mitigation": 0.36,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": false,
+    "resists": {
+        "physical": -5,
+        "fire": 100,
+        "ice": 0,
+        "energy": -5,
+        "earth": 100,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 75,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": false,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": false,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "element": "physical",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "min": 9,
+            "max": 33,
+            "target": true
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Aquatic",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 1
+    },
+    "loot": [
+        {
+            "name": "shrimp",
+            "chance": 12270,
+            "maxCount": 2
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "calamary",
+    "threatDps": 10.5,
+    "burstDps": 10.5,
+    "avgHit": 21,
+    "maxHit": 33,
+    "manaCost": 0
+}

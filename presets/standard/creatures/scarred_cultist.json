@@ -1,0 +1,137 @@
+{
+    "id": "scarred_cultist",
+    "label": "Scarred Cultist",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A scarred cultist.",
+    "hp": 3200,
+    "hpMax": 3200,
+    "speed": 150,
+    "level": 541,
+    "armor": 30,
+    "mitigation": 0.78,
+    "maxBlock": 0,
+    "exp": 2500,
+    "lootValue": 99.393637327678,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 10,
+        "ice": 15,
+        "energy": 17,
+        "earth": 0,
+        "holy": 0,
+        "death": 15
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 207
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "earth",
+            "min": 198,
+            "max": 404,
+            "radius": 4,
+            "target": true,
+            "effect": "me_green_rings",
+            "shootEffect": "ani_spear"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "earth",
+            "min": 0,
+            "max": 135,
+            "radius": 6,
+            "target": false,
+            "effect": "me_green_rings"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 199,
+            "name": "gold coin"
+        },
+        {
+            "chance": 2310,
+            "name": "bed of nails"
+        },
+        {
+            "chance": 12690,
+            "name": "fig leaf"
+        },
+        {
+            "chance": 6920,
+            "name": "tiger eye"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "hellfire_kobold_cultist",
+    "threatDps": 85.225,
+    "burstDps": 85.225,
+    "avgHit": 131.1154,
+    "maxHit": 404,
+    "manaCost": 390
+}

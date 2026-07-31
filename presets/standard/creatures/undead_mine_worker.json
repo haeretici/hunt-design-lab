@@ -1,0 +1,128 @@
+{
+    "id": "undead_mine_worker",
+    "label": "Undead Mine Worker",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An undead mine worker.",
+    "hp": 65,
+    "hpMax": 65,
+    "speed": 77,
+    "level": 153,
+    "armor": 5,
+    "mitigation": 0.25,
+    "maxBlock": 0,
+    "exp": 45,
+    "lootValue": 34,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": -25,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": true,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 36
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 1,
+            "element": "lifedrain",
+            "min": 8,
+            "max": 16,
+            "target": false,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 1
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 73000,
+            "maxCount": 10
+        },
+        {
+            "chance": 42000,
+            "name": "bone"
+        },
+        {
+            "chance": 3850,
+            "name": "sword"
+        },
+        {
+            "name": "mace",
+            "chance": 26900
+        },
+        {
+            "name": "white mushroom",
+            "chance": 15400,
+            "maxCount": 3
+        },
+        {
+            "name": "brown mushroom",
+            "chance": 3850
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "undead_mine_worker",
+    "threatDps": 9.9,
+    "burstDps": 9.9,
+    "avgHit": 17.2174,
+    "maxHit": 36,
+    "manaCost": 435
+}

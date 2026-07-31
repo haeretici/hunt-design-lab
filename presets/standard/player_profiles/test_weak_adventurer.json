@@ -1,0 +1,36 @@
+{
+    "id": "test_weak_adventurer",
+    "label": "Test Weak Adventurer",
+    "vocation": "adventurer",
+    "level": 1,
+    "promoted": false,
+    "skills": {
+        "axe": 13,
+        "club": 13,
+        "distance": 10,
+        "fishing": 10,
+        "fist": 10,
+        "magicLevel": 0,
+        "shielding": 20,
+        "sword": 30
+    },
+    "stats": {
+        "lifeLeech": 0,
+        "manaLeech": 0,
+        "critChance": 5,
+        "critDamage": 10
+    },
+    "equipment": {
+        "head": "",
+        "chest": "",
+        "legs": "",
+        "boots": "",
+        "weapon": "",
+        "shield": "arrow",
+        "amulet": "",
+        "ring": "",
+        "backpack": "backpack"
+    },
+    "strategyId": "balanced",
+    "notes": "FROZEN CI profile for wipe scenario (level 1)."
+}

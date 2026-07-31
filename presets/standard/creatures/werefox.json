@@ -1,0 +1,239 @@
+{
+    "id": "werefox",
+    "label": "Werefox",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A werefox.",
+    "hp": 1500,
+    "hpMax": 1500,
+    "speed": 140,
+    "level": 465,
+    "armor": 35,
+    "mitigation": 0.86,
+    "maxBlock": 0,
+    "exp": 1600,
+    "lootValue": 346.77026164646,
+    "aggro": true,
+    "resists": {
+        "physical": 5,
+        "fire": -10,
+        "ice": 0,
+        "energy": 10,
+        "earth": 40,
+        "holy": -10,
+        "death": 40
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 131
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 1,
+            "element": "physical",
+            "min": 45,
+            "max": 90,
+            "target": false,
+            "shootEffect": "ani_greenstar"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "lifedrain",
+            "min": 45,
+            "max": 102,
+            "radius": 4,
+            "target": true,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 14,
+            "range": 4,
+            "element": "death",
+            "min": 45,
+            "max": 316,
+            "length": 5,
+            "spread": 0,
+            "target": false,
+            "effect": "me_mortarea"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 4000,
+            "chance": 15,
+            "min": 50,
+            "max": 145,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "invisible_1",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 20,
+            "durationSec": 2,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Lycanthrope",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 405000,
+            "maxCount": 200
+        },
+        {
+            "name": "platinum coin",
+            "chance": 4050,
+            "maxCount": 2
+        },
+        {
+            "name": "fox paw",
+            "chance": 4050,
+            "maxCount": 2
+        },
+        {
+            "name": "werefox tail",
+            "chance": 4050,
+            "maxCount": 2
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 4050,
+            "maxCount": 2
+        },
+        {
+            "name": "great mana potion",
+            "chance": 4050,
+            "maxCount": 2
+        },
+        {
+            "name": "mana potion",
+            "chance": 4050,
+            "maxCount": 2
+        },
+        {
+            "name": "small enchanted emerald",
+            "chance": 4050,
+            "maxCount": 2
+        },
+        {
+            "name": "emerald bangle",
+            "chance": 4050,
+            "maxCount": 2
+        },
+        {
+            "name": "Lunar Rod",
+            "chance": 500
+        },
+        {
+            "name": "troll green",
+            "chance": 500,
+            "maxCount": 2
+        },
+        {
+            "name": "assassin star",
+            "chance": 300,
+            "maxCount": 5
+        },
+        {
+            "name": "platinum amulet",
+            "chance": 130
+        },
+        {
+            "chance": 200,
+            "name": "ring of healing"
+        },
+        {
+            "name": "werewolf amulet",
+            "chance": 50
+        },
+        {
+            "chance": 30,
+            "name": "werefox trophy"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "skunk",
+    "threatDps": 55.96,
+    "burstDps": 55.96,
+    "avgHit": 77.7222,
+    "maxHit": 316,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 1,
+        "summons": [
+            {
+                "name": "Fox",
+                "id": "fox",
+                "chance": 10,
+                "interval": 2000,
+                "count": 1
+            }
+        ]
+    }
+}

@@ -1,0 +1,149 @@
+{
+    "id": "muglex_clan_assassin",
+    "label": "Muglex Clan Assassin",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A muglex clan assassin.",
+    "hp": 75,
+    "hpMax": 75,
+    "speed": 70,
+    "level": 166,
+    "armor": 6,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 48,
+    "lootValue": 9.4230769230769,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 15,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 9,
+            "range": 6,
+            "element": "physical",
+            "min": 0,
+            "max": 473,
+            "target": false,
+            "shootEffect": "ani_throwingknife"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "invisible_0",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 11,
+            "durationSec": 2,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 10,
+            "speedChange": 145,
+            "durationSec": 4,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 10760,
+            "name": "bone"
+        },
+        {
+            "chance": 4890,
+            "name": "bone club"
+        },
+        {
+            "chance": 18090,
+            "name": "dagger"
+        },
+        {
+            "chance": 11000,
+            "maxCount": 2,
+            "name": "fish"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 18,
+            "name": "gold coin"
+        },
+        {
+            "chance": 6460,
+            "name": "leather armor"
+        },
+        {
+            "chance": 8070,
+            "name": "leather helmet"
+        },
+        {
+            "chance": 6850,
+            "name": "mouldy cheese"
+        },
+        {
+            "chance": 9780,
+            "name": "short sword"
+        },
+        {
+            "chance": 9540,
+            "name": "small axe"
+        },
+        {
+            "chance": 11980,
+            "maxCount": 3,
+            "name": "small stone"
+        },
+        {
+            "chance": 1710,
+            "name": "studded armor"
+        }
+    ],
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "muglex_clan_assassin",
+    "threatDps": 10.6425,
+    "burstDps": 10.6425,
+    "avgHit": 236.5,
+    "maxHit": 473,
+    "manaCost": 0
+}

@@ -1,0 +1,204 @@
+{
+    "id": "ogre_sage",
+    "label": "Ogre Sage",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An ogre sage.",
+    "hp": 4800,
+    "hpMax": 4800,
+    "speed": 230,
+    "level": 581,
+    "armor": 93,
+    "mitigation": 2.51,
+    "maxBlock": 0,
+    "exp": 5500,
+    "lootValue": 1082.0680628272,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": -30,
+        "earth": 25,
+        "holy": -10,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "damage": 30
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 303
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 24,
+            "range": 7,
+            "element": "lifedrain",
+            "min": 34,
+            "max": 88,
+            "target": true,
+            "shootEffect": "ani_smallstone"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 16,
+            "range": 4,
+            "element": "energy",
+            "min": 67,
+            "max": 111,
+            "target": false,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_smallearth"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "death",
+            "min": 78,
+            "max": 135,
+            "radius": 3,
+            "target": true,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_death"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 13,
+            "range": 7,
+            "element": "earth",
+            "min": 135,
+            "max": 202,
+            "radius": 4,
+            "target": true,
+            "effect": "me_hitbypoison",
+            "shootEffect": "ani_smallearth"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 300,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Giant",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 3
+        },
+        {
+            "name": "ogre ear stud",
+            "chance": 7950
+        },
+        {
+            "name": "ogre nose ring",
+            "chance": 15830
+        },
+        {
+            "name": "shamanic talisman",
+            "chance": 10230
+        },
+        {
+            "name": "broken shamanic staff",
+            "chance": 12500
+        },
+        {
+            "name": "skull fetish",
+            "chance": 9090
+        },
+        {
+            "name": "Earthbound Boots",
+            "chance": 4550
+        },
+        {
+            "name": "bone fetish",
+            "chance": 2270
+        },
+        {
+            "name": "sacred tree amulet",
+            "chance": 1140
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ember_ogre_ravager",
+    "threatDps": 106.4675,
+    "burstDps": 106.4675,
+    "avgHit": 130.635,
+    "maxHit": 303,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 1,
+        "summons": [
+            {
+                "name": "Young Goanna",
+                "id": "young_goanna",
+                "chance": 10,
+                "interval": 2000,
+                "count": 1
+            }
+        ]
+    }
+}

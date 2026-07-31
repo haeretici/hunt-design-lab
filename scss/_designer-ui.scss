@@ -1,0 +1,1300 @@
+// Designer Rule UI (Phase 2–3: catalog, folder, piece packs + grid)
+
+@use 'variables' as *;
+
+// Designer: keep sidebar | main side-by-side even when the global split
+// media query sets flex-wrap (wrap breaks height constraints and clips the form).
+#designer-ui-app {
+    .editor-workspace--split {
+        flex-wrap: nowrap;
+        align-items: stretch;
+    }
+
+    // Sidebar fills workspace height (down to the statusbar/footer).
+    .du-sidebar {
+        flex: 0 0 auto;
+        align-self: stretch;
+        height: 100%;
+        max-height: 100%;
+        min-width: 280px;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+    }
+
+    .du-sidebar-body {
+        display: flex;
+        flex-direction: column;
+        flex: 1 1 0;
+        min-height: 0;
+        // Stacked (< xl): single scroller for mode + kinds + list + pager.
+        overflow: auto;
+    }
+
+    // Stacked layout: do NOT flex-shrink children. Shrinking with min-height:0
+    // clipped the entity list/pager while the body scrollHeight stayed short
+    // ("scroll doesn't reach the bottom").
+    .du-sidebar-mode {
+        flex: 0 0 auto;
+    }
+
+    .du-sidebar-nav-row {
+        display: flex;
+        flex-direction: column;
+        flex: 0 0 auto;
+        min-height: 0;
+    }
+
+    .du-sidebar-kinds {
+        flex: 0 0 auto;
+    }
+
+    .du-sidebar-list {
+        display: flex;
+        flex-direction: column;
+        flex: 0 0 auto;
+        min-height: 0;
+    }
+
+    // Entity list: no viewport clamp. On stacked layouts the body scrolls the
+    // full content; at xl the list flex-grows to the footer (see media query).
+    .du-entity-list {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        max-height: none;
+        overflow: visible;
+        padding-right: 2px;
+    }
+
+    // Bootstrap xl (≥1200px): ~2× sidebar width; category | entity list columns.
+    // Columns stretch to the footer; kinds and entity list scroll independently.
+    @media (min-width: 1200px) {
+        .du-sidebar {
+            width: 560px;
+            min-width: 520px;
+            max-width: min(560px, 42vw);
+        }
+
+        .du-sidebar-body {
+            // Nested columns scroll independently; body only hosts the grid.
+            overflow: hidden;
+        }
+
+        .du-sidebar-nav-row {
+            flex: 1 1 0;
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            gap: 0 0.65rem;
+            min-height: 0;
+            align-items: stretch;
+        }
+
+        .du-sidebar-kinds,
+        .du-sidebar-list {
+            margin-bottom: 0;
+            min-height: 0;
+            min-width: 0;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            // Separate scroll regions so kinds and list don't fight for height.
+            overflow: hidden;
+        }
+
+        .du-sidebar-kinds {
+            border-right: 1px solid $border-color;
+            padding-right: 0.55rem;
+            overflow-y: auto;
+        }
+
+        .du-sidebar-kinds-hint {
+            // Compact footnote under kinds; list gets the vertical space.
+            font-size: 0.7rem;
+            flex: 0 0 auto;
+        }
+
+        .du-sidebar-list {
+            padding-left: 0.15rem;
+        }
+
+        .du-entity-list {
+            // Grow between filter and pager so the column meets the footer.
+            flex: 1 1 0;
+            min-height: 0;
+            max-height: none;
+            overflow: auto;
+        }
+    }
+
+    // Column shell: toolbar stays put; .du-scroll is the only vertical scroller.
+    // Parent chain (body / .editor-app-container / .editor-workspace--split) is
+    // overflow:hidden + fixed height, so without a bounded flex child the tall
+    // json-editor form is clipped (Tab still reaches fields below the fold).
+    .du-main.am-main {
+        display: flex;
+        flex-direction: column;
+        flex: 1 1 0;
+        min-width: 0;
+        min-height: 0;
+        max-height: 100%;
+        height: 100%;
+        overflow: hidden;
+        padding: 0;
+    }
+
+    .du-scroll {
+        flex: 1 1 0;
+        min-height: 0;
+        overflow-x: hidden;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        padding: 12px 16px 24px;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .du-form {
+        padding-bottom: 1.5rem;
+    }
+
+    .du-editor-holder {
+        overflow: visible;
+    }
+
+    .du-kind-nav {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .du-kind-group-label {
+        margin: 8px 0 2px;
+        font-size: 0.68rem;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: $text-muted;
+
+        &:first-child {
+            margin-top: 0;
+        }
+    }
+
+    .du-kind-btn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+        text-align: left;
+        padding: 8px 10px;
+        border: 1px solid $border-color;
+        border-radius: 4px;
+        background: $bg-dark;
+        color: $text-main;
+        font-family: $font-ui;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: border-color 0.12s ease, background 0.12s ease;
+
+        i {
+            width: 1.1em;
+            color: $text-muted;
+        }
+
+        &:hover {
+            border-color: $accent-primary;
+            background: $bg-selected;
+        }
+
+        &.is-active {
+            border-color: $accent-secondary;
+            background: $bg-selected;
+            box-shadow: inset 0 0 0 1px rgba($accent-secondary, 0.35);
+
+            i {
+                color: $accent-secondary;
+            }
+        }
+    }
+
+    .du-list-item {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        text-align: left;
+        width: 100%;
+        padding: 8px 10px;
+        border: 1px solid $border-color;
+        border-radius: 4px;
+        background: $bg-dark;
+        color: $text-main;
+        cursor: pointer;
+        font-family: $font-ui;
+        transition: border-color 0.12s ease, background 0.12s ease;
+
+        &:hover {
+            border-color: $accent-primary;
+            background: $bg-selected;
+        }
+
+        &.is-active {
+            border-color: $accent-secondary;
+            background: $bg-selected;
+            box-shadow: inset 0 0 0 1px rgba($accent-secondary, 0.35);
+        }
+    }
+
+    .du-list-id {
+        font-family: $font-mono;
+        font-size: 0.8rem;
+        color: $accent-secondary;
+    }
+
+    .du-list-label {
+        font-size: 0.78rem;
+        color: $text-muted;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .du-list-empty {
+        font-size: 0.8rem;
+    }
+
+    .du-pager {
+        display: flex;
+        flex: 0 0 auto;
+        align-items: center;
+        justify-content: space-between;
+        gap: 6px;
+        margin-top: 8px;
+    }
+
+    .du-pager-meta {
+        flex: 1 1 auto;
+        text-align: center;
+        white-space: nowrap;
+    }
+
+    .du-toolbar {
+        display: flex;
+        flex: 0 0 auto;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        margin: 0;
+        padding: 12px 16px 10px;
+        border-bottom: 1px solid $border-color;
+        background: $bg-darkest;
+    }
+
+    .du-editing-id {
+        font-family: $font-mono;
+        color: $accent-secondary;
+    }
+
+    .du-validate-group {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .du-validate-level {
+        width: auto;
+        min-width: 8.5rem;
+        max-width: 11rem;
+        font-size: 0.75rem;
+        padding-top: 0.2rem;
+        padding-bottom: 0.2rem;
+    }
+
+    .du-refs-strip {
+        margin: 0 0 10px;
+        padding: 8px 10px;
+        font-size: 0.78rem;
+        line-height: 1.45;
+        color: $text-main;
+        background: rgba(255, 193, 7, 0.08);
+        border: 1px solid rgba(255, 193, 7, 0.35);
+        border-radius: 6px;
+
+        code {
+            font-size: 0.74rem;
+            color: $accent-secondary;
+        }
+    }
+
+    .du-validate-report {
+        margin: 0 0 12px;
+        padding: 10px 12px;
+        font-size: 0.8rem;
+        line-height: 1.4;
+        border-radius: 6px;
+        border: 1px solid $border-color;
+        background: rgba(0, 0, 0, 0.25);
+
+        &.is-ok {
+            border-color: rgba(40, 167, 69, 0.55);
+            background: rgba(40, 167, 69, 0.08);
+        }
+
+        &.is-fail {
+            border-color: rgba(220, 53, 69, 0.55);
+            background: rgba(220, 53, 69, 0.1);
+        }
+    }
+
+    .du-validate-report-head {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px 12px;
+        margin-bottom: 6px;
+        font-family: $font-mono;
+        font-size: 0.78rem;
+    }
+
+    .du-validate-report-meta {
+        margin-bottom: 6px;
+        font-size: 0.76rem;
+        color: $text-muted;
+    }
+
+    .du-validate-badge {
+        display: inline-block;
+        padding: 1px 8px;
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        border-radius: 4px;
+        background: rgba(255, 255, 255, 0.08);
+
+        .is-ok & {
+            color: #7dffa0;
+            background: rgba(40, 167, 69, 0.25);
+        }
+
+        .is-fail & {
+            color: #ffb3bc;
+            background: rgba(220, 53, 69, 0.3);
+        }
+    }
+
+    .du-validate-list {
+        margin: 4px 0 0;
+        padding-left: 1.15rem;
+
+        li {
+            margin-bottom: 2px;
+            word-break: break-word;
+        }
+
+        &--err li {
+            color: #ffb3bc;
+        }
+
+        &--warn li {
+            color: #ffd666;
+        }
+    }
+
+    .du-json {
+        min-height: min(60vh, 520px);
+        font-size: 0.8rem;
+        line-height: 1.4;
+        resize: vertical;
+    }
+
+    // json-editor injects `.je-modal { background-color: white }` and Bootstrap
+    // panels use `bg-light` — force engine dark surfaces + light text everywhere.
+    .je-modal {
+        background-color: $bg-dark !important;
+        color: $text-main !important;
+        border: 1px solid $border-color !important;
+        box-shadow: 0 8px 28px rgba(0, 0, 0, 0.55) !important;
+        padding: 0.65rem 0.75rem;
+        border-radius: 6px;
+        max-width: min(420px, 92vw);
+
+        label,
+        .form-check-label,
+        .card-title,
+        h1, h2, h3, h4, h5, h6,
+        p, span, div {
+            color: $text-main;
+        }
+
+        .form-control,
+        .form-select,
+        textarea,
+        input[type='text'],
+        input[type='number'],
+        input[type='search'] {
+            background-color: $bg-input !important;
+            border-color: $border-color !important;
+            color: $text-main !important;
+            color-scheme: dark;
+
+            &:focus {
+                background-color: #000 !important;
+                border-color: $accent-secondary !important;
+                color: #fff !important;
+                box-shadow: 0 0 6px rgba(0, 242, 254, 0.3);
+            }
+        }
+
+        .btn,
+        button {
+            color: $text-main;
+        }
+
+        .btn-secondary,
+        .btn-light {
+            background: $bg-selected !important;
+            border-color: $border-color !important;
+            color: $text-main !important;
+        }
+
+        .btn-primary {
+            color: #fff;
+        }
+
+        .list-group-item {
+            background-color: $bg-dark;
+            border-color: $border-color;
+            color: $text-main;
+        }
+    }
+
+    .du-editor-holder {
+        color: $text-main;
+
+        // Never use Bootstrap light utility surfaces in this shell
+        .bg-light,
+        .bg-white,
+        .bg-body-tertiary,
+        .bg-body-secondary {
+            background-color: $bg-dark !important;
+            color: $text-main !important;
+        }
+
+        .text-bg-light,
+        .text-dark {
+            color: $text-main !important;
+        }
+
+        .je-object__container,
+        .je-header,
+        .je-panel,
+        .je-panel-top,
+        .card,
+        .card-body,
+        .card-header {
+            background-color: $bg-dark !important;
+            color: $text-main !important;
+        }
+
+        .card,
+        .card-body,
+        .card-header {
+            border-color: $border-color !important;
+        }
+
+        .card {
+            margin-bottom: 0.75rem;
+        }
+
+        .card-title,
+        .je-object__title,
+        .je-header,
+        label,
+        .form-check-label,
+        .form-text,
+        legend {
+            color: $text-main !important;
+            font-size: 0.85rem;
+        }
+
+        .text-muted {
+            color: $text-muted !important;
+        }
+
+        .form-control,
+        .form-select,
+        textarea.form-control,
+        select.form-select,
+        input.form-control {
+            color: $text-main !important;
+            border-color: $border-color !important;
+            background-color: $bg-input !important;
+            color-scheme: dark;
+
+            &:focus {
+                background-color: #000 !important;
+                border-color: $accent-secondary !important;
+                color: #fff !important;
+                box-shadow: 0 0 6px rgba(0, 242, 254, 0.3);
+            }
+
+            option {
+                background-color: $bg-dark;
+                color: $text-main;
+                &:checked {
+                    background-color: $bg-selected !important;
+                }
+            }
+        }
+        .form-select[multiple] {
+            min-height: 150px;
+        }
+
+        .form-check-input {
+            background-color: $bg-input;
+            border-color: $border-color;
+
+            &:checked {
+                background-color: $accent-secondary;
+                border-color: $accent-secondary;
+            }
+        }
+
+        .btn {
+            font-size: 0.8rem;
+        }
+
+        .btn-secondary,
+        .btn-light,
+        .btn-outline-secondary {
+            background: $bg-selected !important;
+            border-color: $border-color !important;
+            color: $text-main !important;
+
+            &:hover {
+                background: #343b4d !important;
+                color: #fff !important;
+            }
+        }
+
+        .table,
+        .je-table,
+        .je-table-border {
+            color: $text-main;
+            border-color: $border-color;
+            --bs-table-bg: transparent;
+            --bs-table-color: #{$text-main};
+            --bs-table-border-color: #{$border-color};
+            --bs-table-striped-bg: #{$bg-dark};
+            --bs-table-hover-bg: #{$bg-selected};
+        }
+
+        .je-table-zebra:nth-child(even),
+            .table-striped > tbody > tr:nth-of-type(odd) > * {
+            background-color: $bg-dark !important;
+            color: $text-main !important;
+        }
+
+        .je-indented-panel {
+            border-left: 2px solid rgba($accent-primary, 0.35);
+            padding-left: 0.75rem;
+            margin-left: 0.25rem;
+            background: transparent;
+        }
+
+        .invalid-feedback,
+        .alert-danger,
+        .errmsg {
+            color: #f88 !important;
+        }
+
+        .alert {
+            background-color: $bg-selected;
+            border-color: $border-color;
+            color: $text-main;
+        }
+
+        // oneOf / type switcher
+        .je-switcher {
+            color: $accent-secondary;
+            background-color: transparent !important;
+        }
+    }
+
+    .du-empty {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        min-height: 40vh;
+        padding: 1.5rem;
+    }
+
+    #duViewFormBtn.is-active,
+    #duViewRawBtn.is-active {
+        border-color: $accent-secondary;
+        color: $accent-secondary;
+    }
+
+    #duError {
+        white-space: pre-wrap;
+        word-break: break-word;
+    }
+
+    // ── Piece friction grid (Phase 3) ──────────────────────────────────────────
+
+    .du-piece-editor {
+        --du-cell: 22px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 10px;
+        border: 1px solid $border-color;
+        border-radius: 6px;
+        background: $bg-darkest;
+        margin-bottom: 0.5rem;
+    }
+
+    .du-piece-meta,
+    .du-piece-exits,
+    .du-piece-tools {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-end;
+        gap: 8px 10px;
+    }
+
+    .du-piece-field {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        font-size: 0.72rem;
+        color: $text-muted;
+        min-width: 4.5rem;
+
+        &--grow {
+            flex: 1 1 140px;
+            min-width: 120px;
+        }
+
+        input {
+            min-width: 0;
+        }
+    }
+
+    .du-piece-label {
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: $text-muted;
+        align-self: center;
+        margin-right: 2px;
+    }
+
+    .du-piece-exit {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 0.8rem;
+        color: $text-main;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    .du-piece-tool {
+        &.is-active {
+            border-color: $accent-secondary !important;
+            color: $accent-secondary !important;
+            box-shadow: inset 0 0 0 1px rgba($accent-secondary, 0.35);
+        }
+
+        // Brush ink while Flood/Rect is the active tool (Wall or Floor stays marked).
+        &.is-brush {
+            border-color: $accent-primary !important;
+            color: $accent-primary !important;
+            box-shadow: inset 0 0 0 1px rgba($accent-primary, 0.35);
+        }
+    }
+
+    .du-piece-marker-id {
+        min-width: 5rem;
+    }
+
+    .du-piece-grid-wrap {
+        overflow: auto;
+        max-width: 100%;
+        padding: 4px 0;
+    }
+
+    .du-piece-grid {
+        display: grid;
+        gap: 1px;
+        width: max-content;
+        background: $border-color;
+        border: 1px solid $border-color;
+        user-select: none;
+    }
+
+    .du-piece-cell {
+        width: var(--du-cell);
+        height: var(--du-cell);
+        min-width: var(--du-cell);
+        min-height: var(--du-cell);
+        padding: 0;
+        border: 0;
+        margin: 0;
+        font-size: 0.55rem;
+        line-height: 1;
+        font-family: $font-mono;
+        cursor: crosshair;
+        color: #0a0a0a;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &.is-wall {
+            background: #2a2a32;
+            color: #888;
+        }
+
+        &.is-floor {
+            background: #9aa0a8;
+        }
+
+        &.has-socket {
+            font-weight: 700;
+            color: #111;
+            box-shadow: inset 0 0 0 1px rgba($accent-secondary, 0.85);
+        }
+
+        &.is-rect-preview {
+            outline: 1px solid $accent-secondary;
+            box-shadow: inset 0 0 0 1px rgba($accent-secondary, 0.55);
+            z-index: 1;
+        }
+
+        &:hover {
+            outline: 1px solid $accent-primary;
+            z-index: 1;
+        }
+    }
+
+    .du-piece-hint {
+        margin: 0;
+    }
+
+    // ── Dungeon profile editor (procedural rules + fixed map) ─────────────────
+
+    .du-dungeon-editor {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding: 4px 0 8px;
+    }
+
+    .du-dungeon-section {
+        padding: 10px 12px;
+        border: 1px solid $border-color;
+        border-radius: 6px;
+        background: $bg-darkest;
+    }
+
+    .du-dungeon-section-title {
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: $text-muted;
+        margin-bottom: 8px;
+    }
+
+    .du-dungeon-subhead {
+        font-size: 0.72rem;
+        font-weight: 600;
+        color: $accent-secondary;
+        margin: 6px 0 4px;
+    }
+
+    .du-dungeon-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-end;
+        gap: 8px 10px;
+        margin-bottom: 6px;
+
+        &--tight {
+            gap: 6px;
+        }
+    }
+
+    .du-dungeon-field {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        font-size: 0.72rem;
+        color: $text-muted;
+        min-width: 4.5rem;
+
+        &--grow {
+            flex: 1 1 160px;
+            min-width: 140px;
+        }
+
+        input,
+        select,
+        textarea {
+            min-width: 0;
+        }
+    }
+
+    .du-dungeon-check {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.8rem;
+        color: $text-main;
+        cursor: pointer;
+        user-select: none;
+        padding-bottom: 4px;
+    }
+
+    .du-dungeon-type-toggle {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 4px;
+    }
+
+    .du-dungeon-type-btn.is-active,
+    .du-dungeon-tool.is-active,
+    .du-dungeon-chip.is-active {
+        border-color: $accent-secondary !important;
+        color: $accent-secondary !important;
+        box-shadow: inset 0 0 0 1px rgba($accent-secondary, 0.35);
+    }
+
+    .du-dungeon-hint {
+        margin: 0 0 6px;
+    }
+
+    .du-dungeon-label {
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: $text-muted;
+        align-self: center;
+        margin-right: 2px;
+    }
+
+    .du-dungeon-details {
+        summary {
+            cursor: pointer;
+            list-style: none;
+            user-select: none;
+
+            &::-webkit-details-marker {
+                display: none;
+            }
+        }
+    }
+
+    .du-dungeon-rules {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .du-dungeon-rule {
+        padding: 8px 10px;
+        border: 1px solid $border-color;
+        border-radius: 6px;
+        background: rgba(0, 0, 0, 0.22);
+    }
+
+    .du-dungeon-rule-head {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 6px;
+    }
+
+    .du-dungeon-rule-idx {
+        font-family: $font-mono;
+        font-size: 0.75rem;
+        color: $accent-secondary;
+        min-width: 1.6rem;
+    }
+
+    .du-dungeon-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        margin: 4px 0 2px;
+    }
+
+    .du-dungeon-chip {
+        font-size: 0.7rem !important;
+        padding: 0.1rem 0.4rem !important;
+        font-family: $font-mono;
+    }
+
+    .du-dungeon-fixed-layout {
+        display: grid;
+        grid-template-columns: minmax(120px, 160px) minmax(0, 1fr) minmax(160px, 220px);
+        gap: 10px;
+        align-items: start;
+
+        @media (max-width: 1100px) {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .du-dungeon-palette-list {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        max-height: 360px;
+        overflow: auto;
+    }
+
+    .du-dungeon-palette-item {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1px;
+        width: 100%;
+        text-align: left;
+        padding: 6px 8px;
+        border: 1px solid $border-color;
+        border-radius: 4px;
+        background: $bg-dark;
+        color: $text-main;
+        cursor: pointer;
+        font-family: $font-ui;
+
+        &:hover {
+            border-color: $accent-primary;
+        }
+
+        &.is-active {
+            border-color: $accent-secondary;
+            box-shadow: inset 0 0 0 1px rgba($accent-secondary, 0.35);
+        }
+    }
+
+    .du-dungeon-palette-id {
+        font-family: $font-mono;
+        font-size: 0.75rem;
+        color: $accent-secondary;
+    }
+
+    .du-dungeon-palette-meta {
+        font-size: 0.68rem;
+        color: $text-muted;
+    }
+
+    .du-dungeon-tools {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 8px;
+    }
+
+    .du-dungeon-map-wrap {
+        overflow: auto;
+        max-width: 100%;
+        max-height: 420px;
+        padding: 4px;
+        border: 1px solid $border-color;
+        border-radius: 4px;
+        background: #0a0a0e;
+    }
+
+    // Relative stage so waypoint edge SVG lines up with the cell grid
+    .du-dungeon-map-stage {
+        position: relative;
+        width: max-content;
+    }
+
+    .du-dungeon-map {
+        display: grid;
+        gap: 0;
+        width: max-content;
+        user-select: none;
+        position: relative;
+        z-index: 1;
+    }
+
+    // Consecutive waypoint path (pointer-events none so map clicks still work)
+    .du-dungeon-wp-edges {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 2;
+        overflow: visible;
+    }
+
+    .du-dungeon-wp-edge {
+        stroke: #7ec8ff;
+        stroke-width: 1.75;
+        stroke-linecap: round;
+        stroke-opacity: 0.92;
+        fill: none;
+    }
+
+    .du-dungeon-wp-arrow {
+        fill: #7ec8ff;
+        fill-opacity: 0.95;
+    }
+
+    .du-dungeon-map-cell {
+        width: 14px;
+        height: 14px;
+        min-width: 14px;
+        min-height: 14px;
+        font-size: 0.55rem;
+        line-height: 14px;
+        text-align: center;
+        font-family: $font-mono;
+        font-weight: 700;
+        box-sizing: border-box;
+        position: relative;
+
+        &.is-void {
+            background: #121218;
+        }
+
+        &.is-wall {
+            background: #2a2a34;
+        }
+
+        &.is-floor {
+            background: #8b929c;
+        }
+
+        &.is-selected-piece {
+            outline: 1px solid rgba($accent-secondary, 0.9);
+            outline-offset: -1px;
+            z-index: 1;
+        }
+
+        &.in-cutout {
+            box-shadow: inset 0 0 0 1px rgba(255, 193, 7, 0.45);
+        }
+
+        &.in-cutout-active {
+            box-shadow: inset 0 0 0 1px rgba(255, 193, 7, 0.95);
+            background-image: linear-gradient(
+                135deg,
+                rgba(255, 193, 7, 0.18) 25%,
+                transparent 25%,
+                transparent 50%,
+                rgba(255, 193, 7, 0.18) 50%,
+                rgba(255, 193, 7, 0.18) 75%,
+                transparent 75%
+            );
+            background-size: 6px 6px;
+        }
+
+        &.is-entrance {
+            background: #2d8a4e !important;
+            color: #fff;
+            z-index: 3;
+        }
+
+        &.is-exit {
+            background: #b33a4a !important;
+            color: #fff;
+            z-index: 3;
+        }
+
+        &.is-waypoint {
+            background: #3a6fb3 !important;
+            color: #fff;
+            z-index: 3;
+            // Tighter type so two-digit order fits in 14px cells
+            font-size: 0.5rem;
+            letter-spacing: -0.04em;
+        }
+
+        // Entrance/exit that are also path nodes keep their colour
+        &.is-entrance.is-waypoint,
+        &.is-exit.is-waypoint {
+            box-shadow: inset 0 0 0 1px rgba(126, 200, 255, 0.85);
+        }
+    }
+
+    .du-dungeon-place-list,
+    .du-dungeon-cutout-list {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        max-height: 280px;
+        overflow: auto;
+    }
+
+    .du-dungeon-place-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 4px;
+        padding: 4px 6px;
+        border: 1px solid $border-color;
+        border-radius: 4px;
+        background: $bg-dark;
+
+        &.is-active {
+            border-color: $accent-secondary;
+        }
+    }
+
+    .du-dungeon-place-pick {
+        flex: 1 1 auto;
+        min-width: 0;
+        text-align: left;
+        border: 0;
+        background: transparent;
+        color: $text-main;
+        font-size: 0.72rem;
+        cursor: pointer;
+        padding: 0;
+
+        code {
+            color: $accent-secondary;
+            font-size: 0.7rem;
+        }
+    }
+
+    .du-dungeon-xy {
+        display: inline-flex;
+        align-items: center;
+        gap: 2px;
+        font-size: 0.68rem;
+        color: $text-muted;
+
+        input {
+            width: 3.2rem;
+            padding: 0.1rem 0.25rem;
+            font-size: 0.72rem;
+            background: $bg-input;
+            border: 1px solid $border-color;
+            border-radius: 3px;
+            color: $text-main;
+        }
+    }
+
+    .du-dungeon-cutout {
+        padding: 6px 8px;
+        border: 1px solid $border-color;
+        border-radius: 4px;
+        background: $bg-dark;
+
+        &.is-active {
+            border-color: rgba(255, 193, 7, 0.7);
+        }
+    }
+
+}
+
+// Shared relation Select field chrome (Designer + Hunt Editor forms)
+#designer-ui-app,
+#hunt-editor-app {
+    .du-asset-id-field {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: stretch;
+        gap: 10px;
+        max-width: 40rem;
+    }
+
+    .du-asset-id-thumb {
+        flex: 0 0 56px;
+        width: 56px;
+        height: 56px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.45);
+        border: 1px solid $border-color;
+        border-radius: 4px;
+        overflow: hidden;
+        align-self: center;
+
+        img {
+            max-width: 100%;
+            max-height: 100%;
+            image-rendering: pixelated;
+            object-fit: contain;
+        }
+    }
+
+    .du-asset-id-thumb-missing {
+        font-size: 0.65rem;
+        color: $text-muted;
+        font-family: $font-mono;
+        text-align: center;
+        padding: 0 2px;
+        line-height: 1.1;
+        user-select: none;
+    }
+
+    .du-asset-id-controls {
+        flex: 1 1 auto;
+        min-width: 0;
+        max-width: none;
+    }
+
+    .du-rel-field {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: stretch;
+        gap: 8px;
+        max-width: 36rem;
+    }
+
+    .du-rel-field-input {
+        flex: 1 1 12rem;
+        min-width: 0;
+    }
+
+    .du-rel-select-btn {
+        flex: 0 0 auto;
+        white-space: nowrap;
+    }
+
+    .du-rel-clear-btn {
+        flex: 0 0 auto;
+        white-space: nowrap;
+    }
+
+    .du-shape-field {
+        max-width: 40rem;
+    }
+
+    .du-shape-field-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .du-shape-summary {
+        flex: 1 1 12rem;
+        display: inline-block;
+        min-height: 1.75rem;
+        padding: 0.35rem 0.55rem;
+        font-size: 0.8rem;
+        color: $accent-secondary;
+        background: rgba(0, 0, 0, 0.35);
+        border: 1px solid $border-color;
+        border-radius: 4px;
+        word-break: break-word;
+    }
+}

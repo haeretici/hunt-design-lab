@@ -1,0 +1,151 @@
+{
+    "id": "crazed_beggar",
+    "label": "Crazed Beggar",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A crazed beggar.",
+    "hp": 100,
+    "hpMax": 100,
+    "speed": 77,
+    "level": 195,
+    "armor": 4,
+    "mitigation": 0.2,
+    "maxBlock": 0,
+    "exp": 35,
+    "lootValue": 6.6708730363121,
+    "aggro": true,
+    "resists": {
+        "physical": 5,
+        "fire": 0,
+        "ice": 0,
+        "energy": 20,
+        "earth": -10,
+        "holy": 10,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 10,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": true,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 50
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Human",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "small blue pillow",
+            "chance": 420
+        },
+        {
+            "chance": 360,
+            "name": "lute"
+        },
+        {
+            "name": "gold coin",
+            "chance": 99000,
+            "maxCount": 9
+        },
+        {
+            "chance": 120,
+            "name": "dwarven ring"
+        },
+        {
+            "chance": 55000,
+            "name": "dirty cape"
+        },
+        {
+            "name": "wooden hammer",
+            "chance": 6500
+        },
+        {
+            "name": "wooden spoon",
+            "chance": 9750
+        },
+        {
+            "chance": 5650,
+            "name": "rolling pin"
+        },
+        {
+            "name": "meat",
+            "chance": 9500
+        },
+        {
+            "name": "roll",
+            "chance": 22500
+        },
+        {
+            "name": "red rose",
+            "chance": 4700
+        },
+        {
+            "name": "sling herb",
+            "chance": 420
+        },
+        {
+            "name": "rum flask",
+            "chance": 420
+        },
+        {
+            "chance": 300,
+            "name": "very noble-looking watch"
+        },
+        {
+            "chance": 80,
+            "name": "heavily rusted armor"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "crazed_beggar",
+    "threatDps": 12.5,
+    "burstDps": 12.5,
+    "avgHit": 25,
+    "maxHit": 50,
+    "manaCost": 300
+}

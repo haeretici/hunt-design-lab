@@ -1,0 +1,215 @@
+{
+    "id": "blazing_chrono_guardian",
+    "label": "Blazing Chrono Guardian",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A blazing chrono guardian.",
+    "hp": 290000,
+    "hpMax": 290000,
+    "speed": 170,
+    "level": 990,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 50000,
+    "lootValue": 34813.476190476,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 300,
+        "ice": -1,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "death",
+            "min": 1116,
+            "max": 1451,
+            "radius": 4,
+            "target": true,
+            "effect": "me_energyhit",
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "energy",
+            "min": 1116,
+            "max": 1451,
+            "length": 9,
+            "spread": 0,
+            "target": false,
+            "effect": "me_energyhit"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "energy",
+            "min": 1116,
+            "max": 1451,
+            "length": 9,
+            "spread": 0,
+            "target": false,
+            "effect": "me_energyarea"
+        },
+        {
+            "id": "condition_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "energy",
+            "min": 3720,
+            "max": 3720,
+            "radius": 7,
+            "target": false,
+            "effect": "me_blockhit"
+        },
+        {
+            "id": "condition_5",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "physical",
+            "min": 3720,
+            "max": 3720,
+            "length": 9,
+            "spread": 0,
+            "target": false,
+            "effect": "me_blockhit"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 100,
+            "name": "gold coin"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 100,
+            "name": "gold coin"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 25,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 10,
+            "name": "small topaz"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 5,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 10,
+            "name": "great dual potion"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 3,
+            "name": "green crystal shard"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 3,
+            "name": "violet crystal shard"
+        },
+        {
+            "chance": 2000,
+            "name": "luminous orb"
+        },
+        {
+            "chance": 2000,
+            "name": "savant potion"
+        },
+        {
+            "chance": 2000,
+            "name": "ring of healing"
+        },
+        {
+            "chance": 1000,
+            "name": "Bone Skull Staff"
+        },
+        {
+            "chance": 100000,
+            "name": "gold token"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 5
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "sun_orc_guard",
+    "threatDps": 1032.7875,
+    "burstDps": 1032.7875,
+    "avgHit": 2430.0882,
+    "maxHit": 3720,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 8,
+        "summons": [
+            {
+                "name": "Time Waster",
+                "id": "time_waster",
+                "chance": 3,
+                "interval": 2000,
+                "count": 8
+            }
+        ]
+    }
+}

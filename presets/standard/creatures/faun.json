@@ -1,0 +1,216 @@
+{
+    "id": "faun",
+    "label": "Faun",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A faun.",
+    "hp": 900,
+    "hpMax": 900,
+    "speed": 105,
+    "level": 414,
+    "armor": 45,
+    "mitigation": 1.1,
+    "maxBlock": 0,
+    "exp": 800,
+    "lootValue": 384.43954449034,
+    "aggro": true,
+    "resists": {
+        "physical": 10,
+        "fire": -14,
+        "ice": 0,
+        "energy": -10,
+        "earth": 70,
+        "holy": 30,
+        "death": 20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 20,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 146
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "earth",
+            "min": 24,
+            "max": 46,
+            "target": true,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 40,
+            "target": false,
+            "shootEffect": "ani_leafstar"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 75,
+            "max": 90,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Fey",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 30000,
+            "maxCount": 136
+        },
+        {
+            "name": "goat grass",
+            "chance": 5155
+        },
+        {
+            "name": "leaf star",
+            "chance": 10000,
+            "maxCount": 7
+        },
+        {
+            "name": "grapes",
+            "chance": 30100,
+            "maxCount": 2
+        },
+        {
+            "name": "small enchanted sapphire",
+            "chance": 492,
+            "maxCount": 2
+        },
+        {
+            "name": "leaf legs",
+            "chance": 492
+        },
+        {
+            "name": "dandelion seeds",
+            "chance": 5800
+        },
+        {
+            "name": "shimmering beetles",
+            "chance": 492
+        },
+        {
+            "name": "panpipes",
+            "chance": 172
+        },
+        {
+            "name": "cookie",
+            "chance": 55000,
+            "maxCount": 5
+        },
+        {
+            "name": "great health potion",
+            "chance": 6400,
+            "maxCount": 2
+        },
+        {
+            "name": "wooden spellbook",
+            "chance": 92
+        },
+        {
+            "name": "strong health potion",
+            "chance": 6800,
+            "maxCount": 2
+        },
+        {
+            "name": "fresh fruit",
+            "chance": 3400,
+            "maxCount": 3
+        },
+        {
+            "name": "rainbow quartz",
+            "chance": 1086,
+            "maxCount": 4
+        },
+        {
+            "name": "small stone",
+            "chance": 492,
+            "maxCount": 3
+        },
+        {
+            "name": "wood cape",
+            "chance": 492
+        },
+        {
+            "id": 5792,
+            "chance": 80
+        },
+        {
+            "name": "mandrake",
+            "chance": 50
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "training_machine",
+    "threatDps": 42.125,
+    "burstDps": 42.125,
+    "avgHit": 58.1034,
+    "maxHit": 146,
+    "manaCost": 0
+}

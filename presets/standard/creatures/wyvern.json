@@ -1,0 +1,169 @@
+{
+    "id": "wyvern",
+    "label": "Wyvern",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A wyvern.",
+    "hp": 795,
+    "hpMax": 795,
+    "speed": 93,
+    "level": 402,
+    "armor": 19,
+    "mitigation": 1.21,
+    "maxBlock": 0,
+    "exp": 515,
+    "lootValue": 121.25726991324,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 10,
+        "energy": 20,
+        "earth": 100,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 300,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 16,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 66,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "condition_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "earth",
+            "min": 33,
+            "max": 33,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_poisonarea"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 45,
+            "max": 65,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 300,
+            "durationSec": 5,
+            "effect": "me_magic_green"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Reptile",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "emerald bangle",
+            "chance": 540
+        },
+        {
+            "name": "small sapphire",
+            "chance": 5000
+        },
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 90
+        },
+        {
+            "name": "wand of inferno",
+            "chance": 810
+        },
+        {
+            "name": "power bolt",
+            "chance": 3400,
+            "maxCount": 2
+        },
+        {
+            "name": "dragon ham",
+            "chance": 60500,
+            "maxCount": 3
+        },
+        {
+            "name": "wyvern fang",
+            "chance": 410
+        },
+        {
+            "name": "strong health potion",
+            "chance": 2500
+        },
+        {
+            "name": "wyvern talisman",
+            "chance": 12300
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "soul_sphere",
+    "threatDps": 39.475,
+    "burstDps": 39.475,
+    "avgHit": 11.2609,
+    "maxHit": 33,
+    "manaCost": 0
+}

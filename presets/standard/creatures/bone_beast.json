@@ -1,0 +1,222 @@
+{
+    "id": "bone_beast",
+    "label": "Bone Beast",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A bone beast.",
+    "hp": 515,
+    "hpMax": 515,
+    "speed": 109,
+    "level": 359,
+    "armor": 40,
+    "mitigation": 1.15,
+    "maxBlock": 0,
+    "exp": 580,
+    "lootValue": 86.551904406273,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -10,
+        "ice": 0,
+        "energy": 0,
+        "earth": 100,
+        "holy": -25,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 55,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 27,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "earth",
+            "min": 14,
+            "max": 25,
+            "target": false,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 7,
+            "max": 13,
+            "radius": 3,
+            "target": false,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "condition_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "earth",
+            "min": 14,
+            "max": 16,
+            "radius": 3,
+            "target": false,
+            "effect": "me_poisonarea"
+        },
+        {
+            "id": "condition_4",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "earth",
+            "min": 19,
+            "max": 22,
+            "length": 6,
+            "spread": 0,
+            "target": false,
+            "effect": "me_poisonarea"
+        },
+        {
+            "id": "slow_5",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -600,
+                "durationSec": 13
+            },
+            "target": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 50,
+            "max": 60,
+            "hpBelow": 0.7,
+            "effect": "me_hitbypoison"
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 90
+        },
+        {
+            "chance": 20000,
+            "name": "skull"
+        },
+        {
+            "chance": 47750,
+            "name": "bone"
+        },
+        {
+            "name": "bone club",
+            "chance": 4950
+        },
+        {
+            "name": "plate armor",
+            "chance": 8000
+        },
+        {
+            "name": "bone shield",
+            "chance": 2000
+        },
+        {
+            "name": "green mushroom",
+            "chance": 1350
+        },
+        {
+            "name": "hardened bone",
+            "chance": 960
+        },
+        {
+            "name": "health potion",
+            "chance": 540
+        },
+        {
+            "name": "bonebeast trophy",
+            "chance": 120
+        },
+        {
+            "name": "bony tail",
+            "chance": 9780
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ethereal_storm_bear",
+    "threatDps": 30.9875,
+    "burstDps": 30.9875,
+    "avgHit": 24.1207,
+    "maxHit": 55,
+    "manaCost": 0
+}

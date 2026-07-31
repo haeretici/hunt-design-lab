@@ -1,0 +1,213 @@
+{
+    "id": "fleshcraft_abomination",
+    "label": "Fleshcraft Abomination",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A fleshcraft abomination.",
+    "hp": 45000,
+    "hpMax": 45000,
+    "speed": 180,
+    "level": 804,
+    "armor": 0,
+    "mitigation": 3.7,
+    "maxBlock": 0,
+    "exp": 30000,
+    "lootValue": 35567.647058824,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 60,
+        "health": 30,
+        "damage": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 1202
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 35,
+            "range": 3,
+            "element": "energy",
+            "min": 258,
+            "max": 515,
+            "radius": 5,
+            "target": true,
+            "effect": "me_energyarea"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 25,
+            "min": 900,
+            "max": 2400,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxcount": 30
+        },
+        {
+            "chance": 35542,
+            "maxCount": 2,
+            "name": "red gem"
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 27000,
+            "maxcount": 7
+        },
+        {
+            "name": "ultimate mana potion",
+            "chance": 24300,
+            "maxcount": 5
+        },
+        {
+            "name": "ultimate dual potion",
+            "chance": 25750,
+            "maxcount": 4
+        },
+        {
+            "name": "savant potion",
+            "chance": 23200,
+            "maxcount": 3
+        },
+        {
+            "name": "berserk potion",
+            "chance": 24800,
+            "maxcount": 3
+        },
+        {
+            "name": "marksman potion",
+            "chance": 23500,
+            "maxcount": 3
+        },
+        {
+            "name": "yellow gem",
+            "chance": 26200,
+            "maxcount": 5
+        },
+        {
+            "name": "blue gem",
+            "chance": 25100
+        },
+        {
+            "name": "green gem",
+            "chance": 24600
+        },
+        {
+            "name": "violet gem",
+            "chance": 25350
+        },
+        {
+            "name": "giant amethyst",
+            "chance": 4300
+        },
+        {
+            "name": "giant topaz",
+            "chance": 4600
+        },
+        {
+            "name": "giant emerald",
+            "chance": 4500
+        },
+        {
+            "chance": 900,
+            "name": "raw watermelon tourmaline"
+        },
+        {
+            "name": "alchemist's notepad",
+            "chance": 420
+        },
+        {
+            "name": "antler-horn helmet",
+            "chance": 390
+        },
+        {
+            "name": "mutant bone kilt",
+            "chance": 450
+        },
+        {
+            "name": "mutated skin armor",
+            "chance": 430
+        },
+        {
+            "name": "mutated skin legs",
+            "chance": 410
+        },
+        {
+            "name": "stitched mutant hide legs",
+            "chance": 440
+        },
+        {
+            "name": "alchemist's boots",
+            "chance": 460
+        },
+        {
+            "name": "mutant bone boots",
+            "chance": 400
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 15
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "dread_abomination",
+    "threatDps": 368.1375,
+    "burstDps": 368.1375,
+    "avgHit": 545.3889,
+    "maxHit": 1202,
+    "manaCost": 0
+}

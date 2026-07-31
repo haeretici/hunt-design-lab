@@ -1,0 +1,117 @@
+{
+    "id": "dwarf_miner",
+    "label": "Dwarf Miner",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A dwarf miner.",
+    "hp": 120,
+    "hpMax": 120,
+    "speed": 85,
+    "level": 212,
+    "armor": 7,
+    "mitigation": 0.51,
+    "maxBlock": 0,
+    "exp": 60,
+    "lootValue": 11.032352941176,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": true,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 55
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 33333,
+            "maxCount": 10
+        },
+        {
+            "chance": 793,
+            "name": "dwarven ring"
+        },
+        {
+            "name": "axe",
+            "chance": 14285
+        },
+        {
+            "name": "studded armor",
+            "chance": 6666
+        },
+        {
+            "chance": 11111,
+            "name": "pick"
+        },
+        {
+            "name": "leather legs",
+            "chance": 9090
+        },
+        {
+            "name": "meat",
+            "chance": 3846
+        },
+        {
+            "name": "iron ore",
+            "chance": 793
+        }
+    ],
+    "changeTarget": {
+        "interval": 0,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "dwarf_miner",
+    "threatDps": 13.75,
+    "burstDps": 13.75,
+    "avgHit": 27.5,
+    "maxHit": 55,
+    "manaCost": 420
+}

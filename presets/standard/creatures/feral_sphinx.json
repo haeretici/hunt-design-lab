@@ -1,0 +1,230 @@
+{
+    "id": "feral_sphinx",
+    "label": "Feral Sphinx",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A feral sphinx.",
+    "hp": 9800,
+    "hpMax": 9800,
+    "speed": 160,
+    "level": 652,
+    "armor": 90,
+    "mitigation": 2.69,
+    "maxBlock": 0,
+    "exp": 8450,
+    "lootValue": 1671.9701065352,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 20,
+        "ice": -14,
+        "energy": 0,
+        "earth": 0,
+        "holy": 20,
+        "death": -14
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 251
+        },
+        {
+            "id": "fire_wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "physical",
+            "min": 195,
+            "max": 279,
+            "length": 1,
+            "spread": 0,
+            "target": true,
+            "effect": "me_firearea"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 4,
+            "element": "energy",
+            "min": 167,
+            "max": 279,
+            "radius": 4,
+            "target": false,
+            "effect": "me_energyarea"
+        },
+        {
+            "id": "melee_3",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 1,
+            "element": "fire",
+            "min": 195,
+            "max": 307,
+            "target": false,
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "wave_4",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 18,
+            "range": 4,
+            "element": "holy",
+            "min": 223,
+            "max": 324,
+            "length": 6,
+            "spread": 3,
+            "target": false,
+            "effect": "me_holyarea"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 20,
+            "min": 200,
+            "max": 425,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Magical",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 3
+        },
+        {
+            "name": "green crystal shard",
+            "chance": 8740
+        },
+        {
+            "name": "cyan crystal fragment",
+            "chance": 8620
+        },
+        {
+            "chance": 8390,
+            "name": "red gem"
+        },
+        {
+            "name": "Emberbound Amulet",
+            "chance": 6060
+        },
+        {
+            "name": "wand of inferno",
+            "chance": 5710
+        },
+        {
+            "name": "small sapphire",
+            "chance": 5590,
+            "maxCount": 2
+        },
+        {
+            "name": "dragon necklace",
+            "chance": 5590
+        },
+        {
+            "name": "blue gem",
+            "chance": 5480
+        },
+        {
+            "name": "sphinx feather",
+            "chance": 5480
+        },
+        {
+            "name": "sphinx tiara",
+            "chance": 5240
+        },
+        {
+            "name": "fire axe",
+            "chance": 4200
+        },
+        {
+            "name": "wand of draconia",
+            "chance": 2910
+        },
+        {
+            "name": "green gem",
+            "chance": 2680
+        },
+        {
+            "name": "Emberbound Monocle",
+            "chance": 1400
+        },
+        {
+            "name": "Emberbound Boots",
+            "chance": 1280
+        },
+        {
+            "name": "small enchanted emerald",
+            "chance": 1050,
+            "maxCount": 2
+        },
+        {
+            "name": "Emberbound Legs",
+            "chance": 930
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "dark_sphinx_scout",
+    "threatDps": 158.115,
+    "burstDps": 158.115,
+    "avgHit": 177.6573,
+    "maxHit": 324,
+    "manaCost": 0
+}

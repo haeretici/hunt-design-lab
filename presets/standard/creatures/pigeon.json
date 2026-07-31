@@ -1,0 +1,90 @@
+{
+    "id": "pigeon",
+    "label": "Pigeon",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A pigeon.",
+    "hp": 30,
+    "hpMax": 30,
+    "speed": 65,
+    "level": 78,
+    "armor": 1,
+    "mitigation": 0.05,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": false,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": -10,
+        "holy": 0,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 30,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": false,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "element": "physical",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "min": 1,
+            "max": 25,
+            "target": true
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Bird",
+        "toKill": 25,
+        "firstUnlock": 5,
+        "secondUnlock": 10,
+        "charmsPoints": 1,
+        "stars": 0,
+        "occurrence": 1
+    },
+    "loot": [],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "pigeon",
+    "threatDps": 6.5,
+    "burstDps": 6.5,
+    "avgHit": 13,
+    "maxHit": 25,
+    "manaCost": 0
+}

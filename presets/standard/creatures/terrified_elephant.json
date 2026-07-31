@@ -1,0 +1,119 @@
+{
+    "id": "terrified_elephant",
+    "label": "Terrified Elephant",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A terrified elephant.",
+    "hp": 320,
+    "hpMax": 320,
+    "speed": 105,
+    "level": 311,
+    "armor": 20,
+    "mitigation": 0.41,
+    "maxBlock": 0,
+    "exp": 160,
+    "lootValue": 14.22712459263,
+    "aggro": true,
+    "resists": {
+        "physical": 10,
+        "fire": 0,
+        "ice": 20,
+        "energy": -10,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 95
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 800,
+            "durationSec": 5
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Mammal",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "meat",
+            "chance": 40000,
+            "maxCount": 4
+        },
+        {
+            "name": "ham",
+            "chance": 27000,
+            "maxCount": 9
+        },
+        {
+            "name": "tusk",
+            "chance": 8510,
+            "maxCount": 2
+        },
+        {
+            "name": "tusk shield",
+            "chance": 80
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "tempest_serpent_berserker",
+    "threatDps": 23.75,
+    "burstDps": 23.75,
+    "avgHit": 47.5,
+    "maxHit": 95,
+    "manaCost": 500
+}

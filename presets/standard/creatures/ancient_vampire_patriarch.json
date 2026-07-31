@@ -1,0 +1,166 @@
+{
+    "id": "ancient_vampire_patriarch",
+    "label": "Ancient Vampire Patriarch",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An ancient vampire patriarch.",
+    "hp": 1600,
+    "hpMax": 1600,
+    "speed": 143,
+    "level": 472,
+    "armor": 0,
+    "mitigation": 1.04,
+    "maxBlock": 0,
+    "exp": 1800,
+    "lootValue": 2026.3039215686,
+    "aggro": true,
+    "resists": {
+        "physical": 1,
+        "fire": -1,
+        "ice": 5,
+        "energy": 5,
+        "earth": 100,
+        "holy": -5,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 9000,
+            "chance": 100,
+            "range": 4,
+            "element": "death",
+            "min": 228,
+            "max": 570,
+            "radius": 3,
+            "target": false,
+            "effect": "me_mortarea"
+        },
+        {
+            "id": "melee_2",
+            "kind": "melee",
+            "intervalMs": 1000,
+            "chance": 12,
+            "range": 1,
+            "element": "death",
+            "min": 0,
+            "max": 228,
+            "target": true,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_suddendeath"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 1000,
+            "chance": 12,
+            "min": 100,
+            "max": 235,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "invisible_1",
+            "kind": "invisible",
+            "intervalMs": 3000,
+            "chance": 25,
+            "durationSec": 2,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "chance": 1200,
+            "name": "bloody edge"
+        },
+        {
+            "chance": 10000,
+            "name": "strong health potion"
+        },
+        {
+            "chance": 10000,
+            "name": "skull"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 98,
+            "name": "gold coin"
+        },
+        {
+            "chance": 100000,
+            "name": "vampire lord token"
+        },
+        {
+            "chance": 50000,
+            "maxCount": 5,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 6300,
+            "name": "Bloodfang Shield"
+        },
+        {
+            "chance": 8980,
+            "name": "black pearl"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "hellfire_vampire_archer",
+    "threatDps": 58.0133,
+    "burstDps": 213.18,
+    "avgHit": 251.0192,
+    "maxHit": 570,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 2,
+        "summons": [
+            {
+                "name": "Lich",
+                "id": "lich",
+                "chance": 100,
+                "interval": 9000,
+                "count": 2
+            }
+        ]
+    }
+}

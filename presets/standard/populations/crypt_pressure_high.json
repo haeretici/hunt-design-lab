@@ -1,0 +1,94 @@
+{
+    "id": "crypt_pressure_high",
+    "label": "crypt pressure high (L450–650)",
+    "biome": "crypt",
+    "notes": "Threat-banded population (docs/24). Auto-selected 16 of 504 eligible templates in level 450..650 threatDps [0.01..+∞]. seed=42 even-spread; excluded physical≥100 / multi-immune (≥5 full resists). Champion/elite ids = top threatDps in pool; affix mults still applied at resolve.",
+    "band": {
+        "levelMin": 450,
+        "levelMax": 650,
+        "threatMin": 0.01,
+        "threatMax": null,
+        "count": 16,
+        "seed": 42,
+        "selectedLevelRange": [
+            450,
+            649
+        ],
+        "selectedThreatRange": [
+            51.4,
+            155.61
+        ]
+    },
+    "defaultRespawn": 0,
+    "groups": {
+        "normal": {
+            "weight": 80,
+            "creatureIds": [
+                "giant_spider",
+                "fiendish_ember_demon",
+                "tribal_chanter",
+                "diabolic_imp",
+                "superior_death_minion",
+                "reptilian_warlord",
+                "gryphon",
+                "infernalist",
+                "malicious_minion",
+                "gazer_spectre",
+                "voice_of_ruin",
+                "rift_invader",
+                "deathling_spellsinger",
+                "poisonous_sylvan_horror",
+                "wolf_doomhowl",
+                "candy_baron"
+            ],
+            "packSize": [
+                1,
+                3
+            ]
+        },
+        "champion": {
+            "weight": 15,
+            "creatureIds": [
+                "poisonous_sylvan_horror",
+                "deathling_spellsinger",
+                "rift_invader",
+                "voice_of_ruin"
+            ],
+            "packSize": [
+                1,
+                2
+            ],
+            "affixes": [
+                "champion"
+            ]
+        },
+        "elite": {
+            "weight": 5,
+            "creatureIds": [
+                "candy_baron",
+                "wolf_doomhowl"
+            ],
+            "packSize": [
+                1,
+                1
+            ],
+            "affixes": [
+                "elite"
+            ]
+        }
+    },
+    "limits": {
+        "totalPacks": [
+            4,
+            8
+        ],
+        "championPacks": [
+            1,
+            2
+        ],
+        "elitePacks": [
+            0,
+            1
+        ]
+    }
+}

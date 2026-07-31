@@ -1,0 +1,204 @@
+{
+    "id": "gloom_bomb",
+    "label": "Gloom Bomb",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A gloom bomb.",
+    "hp": 250000,
+    "hpMax": 250000,
+    "speed": 40,
+    "level": 975,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 2745.7142857143,
+    "aggro": true,
+    "resists": {
+        "physical": 85,
+        "fire": 85,
+        "ice": 85,
+        "energy": 85,
+        "earth": 85,
+        "holy": 85,
+        "death": 85
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 13,
+            "range": 4,
+            "element": "physical",
+            "min": 2243,
+            "max": 5159,
+            "length": 3,
+            "spread": 0,
+            "target": false,
+            "effect": "me_groundshaker"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 12,
+            "range": 4,
+            "element": "physical",
+            "min": 2243,
+            "max": 4486,
+            "radius": 3,
+            "target": false,
+            "effect": "me_groundshaker"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 19,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 1122,
+            "max": 5047,
+            "radius": 5,
+            "target": false,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "lifedrain",
+            "min": 3365,
+            "max": 5271,
+            "radius": 4,
+            "target": true,
+            "effect": "me_explosionarea",
+            "shootEffect": "ani_largerock"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 9,
+            "min": 50,
+            "max": 150,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 5000,
+            "name": "gearwheel chain"
+        },
+        {
+            "chance": 10000,
+            "name": "glooth glider gear wheel"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 50,
+            "name": "gold coin"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 13,
+            "name": "great health potion"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 13,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 13,
+            "name": "great dual potion"
+        },
+        {
+            "chance": 83300,
+            "maxCount": 2,
+            "name": "moohtant horn"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 30,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 16670,
+            "name": "red piece of cloth"
+        },
+        {
+            "chance": 16670,
+            "name": "ring of healing"
+        },
+        {
+            "chance": 16670,
+            "maxCount": 5,
+            "name": "small diamond"
+        },
+        {
+            "chance": 50000,
+            "name": "small ruby"
+        },
+        {
+            "chance": 16670,
+            "maxCount": 3,
+            "name": "small topaz"
+        },
+        {
+            "chance": 33330,
+            "name": "yellow gem"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 3
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "umbral_ghoul",
+    "threatDps": 951.3625,
+    "burstDps": 951.3625,
+    "avgHit": 3523.5648,
+    "maxHit": 5271,
+    "manaCost": 0
+}

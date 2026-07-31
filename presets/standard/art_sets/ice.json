@@ -1,0 +1,207 @@
+{
+    "id": "ice",
+    "label": "Ice",
+    "notes": "Stage 11.11 — frozen/ice biome art pack. Snow floors, ice walls, stone/gravel paths, ice-sheet voids. Cold macro contrast vs cave/swamp.",
+    "genre": "rpg_fantasy",
+    "kind": "tiles",
+    "roles": {
+        "floor": [
+            {
+                "id": "polished_snow_floor",
+                "weight": 10
+            },
+            {
+                "id": "broken_snow_floor",
+                "weight": 8
+            },
+            {
+                "id": "dark_marble_floor",
+                "weight": 5
+            },
+            {
+                "id": "weathered_cobble_floor",
+                "weight": 5
+            },
+            {
+                "id": "dark_cobble_floor",
+                "weight": 4
+            },
+            {
+                "id": "broken_tile_floor",
+                "weight": 4
+            },
+            {
+                "id": "weathered_tile_floor",
+                "weight": 3
+            },
+            {
+                "id": "cracked_bone_floor",
+                "weight": 3
+            },
+            {
+                "id": "dark_bone_floor",
+                "weight": 2
+            },
+            {
+                "id": "damp_metal_floor",
+                "weight": 2
+            },
+            {
+                "id": "mossy_metal_floor",
+                "weight": 2
+            },
+            {
+                "id": "sacred_metal_floor",
+                "weight": 1
+            },
+            {
+                "id": "overgrown_metal_floor",
+                "weight": 1
+            }
+        ],
+        "path": [
+            {
+                "id": "dark_stone_path",
+                "weight": 8
+            },
+            {
+                "id": "ancient_stone_path",
+                "weight": 6
+            },
+            {
+                "id": "dark_gravel_path",
+                "weight": 5
+            },
+            {
+                "id": "ancient_gravel_path",
+                "weight": 4
+            },
+            {
+                "id": "damp_metal_walkway",
+                "weight": 4
+            },
+            {
+                "id": "weathered_metal_walkway",
+                "weight": 3
+            },
+            {
+                "id": "overgrown_metal_walkway",
+                "weight": 2
+            },
+            {
+                "id": "dark_bridge_deck",
+                "weight": 2
+            }
+        ],
+        "wall": [
+            {
+                "id": "ancient_ice_wall",
+                "weight": 10
+            },
+            {
+                "id": "mossy_ice_wall",
+                "weight": 8
+            },
+            {
+                "id": "polished_ice_wall",
+                "weight": 7
+            },
+            {
+                "id": "dark_stone_wall",
+                "weight": 5
+            },
+            {
+                "id": "ancient_stone_wall",
+                "weight": 4
+            },
+            {
+                "id": "damp_stone_wall",
+                "weight": 4
+            },
+            {
+                "id": "dark_metal_wall",
+                "weight": 3
+            },
+            {
+                "id": "cracked_hull_wall",
+                "weight": 3
+            },
+            {
+                "id": "dark_hull_wall",
+                "weight": 2
+            },
+            {
+                "id": "broken_crystal_wall",
+                "weight": 2
+            },
+            {
+                "id": "sunlit_crystal_wall",
+                "weight": 2
+            },
+            {
+                "id": "dark_force_wall",
+                "weight": 1
+            }
+        ],
+        "stairs": [
+            {
+                "id": "dark_stone_stairs",
+                "weight": 8
+            },
+            {
+                "id": "ancient_stone_stairs",
+                "weight": 6
+            },
+            {
+                "id": "sacred_stone_stairs",
+                "weight": 4
+            },
+            {
+                "id": "damp_cave_stairs",
+                "weight": 3
+            },
+            {
+                "id": "broken_cave_stairs",
+                "weight": 2
+            },
+            {
+                "id": "polished_wood_stairs",
+                "weight": 1
+            }
+        ],
+        "void": [
+            {
+                "id": "ancient_ice_sheet",
+                "weight": 8
+            },
+            {
+                "id": "polished_ice_sheet",
+                "weight": 6
+            },
+            {
+                "id": "broken_ice_sheet",
+                "weight": 5
+            },
+            {
+                "id": "mossy_ice_sheet",
+                "weight": 4
+            },
+            {
+                "id": "damp_ice_sheet",
+                "weight": 3
+            },
+            {
+                "id": "runic_ice_sheet",
+                "weight": 2
+            },
+            {
+                "id": "sacred_ice_sheet",
+                "weight": 2
+            }
+        ]
+    },
+    "rules": {
+        "blockedEdgeOnly": true,
+        "pathMix": 0.16
+    }
+}

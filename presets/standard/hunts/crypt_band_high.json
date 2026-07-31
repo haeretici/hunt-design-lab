@@ -1,0 +1,15 @@
+{
+    "id": "crypt_band_high",
+    "label": "Crypt band: high threat (L450–650)",
+    "notes": "docs/24 I1 — small_crawl layout + crypt_pressure_high population (high level band). artSet cave_simple for readability (crypt rich tiles deferred). Intended as stress / wipe-prone vs starter parties.",
+    "layout": {
+        "type": "procedural",
+        "profileId": "small_crawl"
+    },
+    "populationId": "crypt_pressure_high",
+    "artSet": "cave_simple",
+    "limits": {
+        "maxSeconds": 120,
+        "maxFrames": 2400
+    }
+}

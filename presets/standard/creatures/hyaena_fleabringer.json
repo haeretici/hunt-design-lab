@@ -1,0 +1,95 @@
+{
+    "id": "hyaena_fleabringer",
+    "label": "Hyaena Fleabringer",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A hyaena fleabringer.",
+    "hp": 265,
+    "hpMax": 265,
+    "speed": 140,
+    "level": 293,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 100,
+    "lootValue": 25.933333333333,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 86
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "meat",
+            "chance": 25000,
+            "maxCount": 3
+        },
+        {
+            "name": "worm",
+            "chance": 75000,
+            "maxCount": 3
+        },
+        {
+            "name": "shaggy tail",
+            "chance": 99990
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "dawn_bat",
+    "threatDps": 21.5,
+    "burstDps": 21.5,
+    "avgHit": 43,
+    "maxHit": 86,
+    "manaCost": 0
+}

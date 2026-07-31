@@ -1,0 +1,220 @@
+{
+    "id": "walking_pillar",
+    "label": "Walking Pillar",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A walking pillar.",
+    "hp": 38000,
+    "hpMax": 38000,
+    "speed": 190,
+    "level": 788,
+    "armor": 120,
+    "mitigation": 2.75,
+    "maxBlock": 0,
+    "exp": 24300,
+    "lootValue": 5914.6257554626,
+    "aggro": true,
+    "resists": {
+        "physical": -10,
+        "fire": -14,
+        "ice": 45,
+        "energy": 60,
+        "earth": -14,
+        "holy": 0,
+        "death": 10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 50,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 680
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "energy",
+            "min": 634,
+            "max": 747,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_blue_energy_spark"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "holy",
+            "min": 680,
+            "max": 815,
+            "radius": 5,
+            "target": true,
+            "effect": "me_purplesmoke"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "holy",
+            "min": 544,
+            "max": 544,
+            "radius": 5,
+            "target": true,
+            "effect": "me_ghostly_bite"
+        },
+        {
+            "id": "extended_energy_chain_4",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 1,
+            "element": "physical",
+            "min": 362,
+            "max": 544,
+            "target": true
+        },
+        {
+            "id": "largepinkring_5",
+            "kind": "melee",
+            "intervalMs": 3500,
+            "chance": 10,
+            "range": 1,
+            "element": "physical",
+            "min": 498,
+            "max": 725,
+            "target": false
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Construct",
+        "toKill": 5000,
+        "firstUnlock": 200,
+        "secondUnlock": 2000,
+        "charmsPoints": 100,
+        "stars": 5,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "crystal coin",
+            "chance": 12186,
+            "maxCount": 1
+        },
+        {
+            "name": "yellow darklight matter",
+            "chance": 5354,
+            "maxCount": 1
+        },
+        {
+            "name": "magma clump",
+            "chance": 11440,
+            "maxCount": 1
+        },
+        {
+            "name": "darklight core",
+            "chance": 10276,
+            "maxCount": 1
+        },
+        {
+            "chance": 8489,
+            "maxCount": 4,
+            "name": "coal"
+        },
+        {
+            "name": "darklight basalt chunk",
+            "chance": 12855,
+            "maxCount": 1
+        },
+        {
+            "name": "onyx chip",
+            "chance": 12831,
+            "maxCount": 2
+        },
+        {
+            "name": "strange helmet",
+            "chance": 11001,
+            "maxCount": 1
+        },
+        {
+            "name": "fire sword",
+            "chance": 8347,
+            "maxCount": 1
+        },
+        {
+            "name": "ultimate mana potion",
+            "chance": 9687,
+            "maxCount": 3
+        },
+        {
+            "name": "blue gem",
+            "chance": 5868,
+            "maxCount": 1
+        },
+        {
+            "name": "Emberbound Legs",
+            "chance": 14497,
+            "maxCount": 1
+        },
+        {
+            "name": "white gem",
+            "chance": 9936,
+            "maxCount": 1
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "dog",
+    "threatDps": 335.2714,
+    "burstDps": 348.375,
+    "avgHit": 444.91,
+    "maxHit": 815,
+    "manaCost": 0
+}

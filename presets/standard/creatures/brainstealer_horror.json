@@ -1,0 +1,269 @@
+{
+    "id": "brainstealer_horror",
+    "label": "Brainstealer Horror",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A brainstealer horror.",
+    "hp": 1,
+    "hpMax": 1,
+    "speed": 425,
+    "level": 872,
+    "armor": 0,
+    "mitigation": 3.27,
+    "maxBlock": 0,
+    "exp": 72000,
+    "lootValue": 78665.853658537,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 900
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "death",
+            "min": 1200,
+            "max": 1900,
+            "radius": 4,
+            "target": true,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 700,
+            "max": 1000,
+            "radius": 4,
+            "effect": "me_drawblood"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 1200,
+            "max": 1600,
+            "length": 8,
+            "spread": 0,
+            "effect": "me_electricalspark"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 1450,
+            "max": 5350,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "name": "platinum coin",
+            "mincount": 10,
+            "maxcount": 50,
+            "chance": 100000
+        },
+        {
+            "name": "crystal coin",
+            "mincount": 1,
+            "maxcount": 5,
+            "chance": 100000
+        },
+        {
+            "name": "violet gem",
+            "chance": 50000
+        },
+        {
+            "name": "savant potion",
+            "chance": 50000
+        },
+        {
+            "name": "moonstone",
+            "chance": 50000
+        },
+        {
+            "name": "ultimate dual potion",
+            "chance": 50000
+        },
+        {
+            "name": "white gem",
+            "chance": 50000
+        },
+        {
+            "name": "brainstealer's tissue",
+            "chance": 6000
+        },
+        {
+            "name": "brainstealer's brain",
+            "chance": 5000
+        },
+        {
+            "name": "brainstealer's brainwave",
+            "chance": 2500
+        },
+        {
+            "name": "eldritch breeches",
+            "chance": 180
+        },
+        {
+            "name": "eldritch cowl",
+            "chance": 240
+        },
+        {
+            "name": "eldritch hood",
+            "chance": 225
+        },
+        {
+            "name": "eldritch bow",
+            "chance": 210
+        },
+        {
+            "name": "eldritch quiver",
+            "chance": 250
+        },
+        {
+            "name": "eldritch claymore",
+            "chance": 130
+        },
+        {
+            "name": "eldritch greataxe",
+            "chance": 110
+        },
+        {
+            "name": "eldritch warmace",
+            "chance": 320
+        },
+        {
+            "name": "eldritch shield",
+            "chance": 180
+        },
+        {
+            "name": "eldritch cuirass",
+            "chance": 160
+        },
+        {
+            "name": "eldritch folio",
+            "chance": 170
+        },
+        {
+            "name": "eldritch tome",
+            "chance": 190
+        },
+        {
+            "name": "eldritch rod",
+            "chance": 200
+        },
+        {
+            "name": "eldritch wand",
+            "chance": 180
+        },
+        {
+            "name": "gilded eldritch claymore",
+            "chance": 140
+        },
+        {
+            "name": "gilded eldritch greataxe",
+            "chance": 120
+        },
+        {
+            "name": "gilded eldritch warmace",
+            "chance": 100
+        },
+        {
+            "name": "gilded eldritch wand",
+            "chance": 80
+        },
+        {
+            "name": "gilded eldritch rod",
+            "chance": 60
+        },
+        {
+            "name": "gilded eldritch bow",
+            "chance": 50
+        },
+        {
+            "name": "eldritch crystal",
+            "chance": 30
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "invisible": true
+    },
+    "customSprite": "ember_ruins_horror",
+    "threatDps": 535,
+    "burstDps": 535,
+    "avgHit": 713.3333,
+    "maxHit": 1900,
+    "summon": {
+        "maxSummons": 2,
+        "summons": [
+            {
+                "name": "Brain Parasite",
+                "id": "brain_parasite",
+                "chance": 20,
+                "interval": 4000,
+                "count": 1
+            }
+        ]
+    }
+}

@@ -1,0 +1,169 @@
+{
+    "id": "unbound_defiler",
+    "label": "Unbound Defiler",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An unbound defiler.",
+    "hp": 1,
+    "hpMax": 1,
+    "speed": 80,
+    "level": 733,
+    "armor": 0,
+    "mitigation": 1.32,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 85,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 240,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 150,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "earth",
+            "min": 160,
+            "max": 270,
+            "target": false,
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "condition_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "earth",
+            "min": 400,
+            "max": 640,
+            "radius": 7,
+            "target": false,
+            "effect": "me_hitbypoison"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "earth",
+            "min": 120,
+            "max": 170,
+            "radius": 3,
+            "target": false,
+            "effect": "me_poisonarea"
+        },
+        {
+            "id": "condition_4",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "earth",
+            "min": 500,
+            "max": 1000,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_smallplants"
+        },
+        {
+            "id": "slow_5",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 8,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -700,
+                "durationSec": 15
+            },
+            "length": 8,
+            "spread": 3,
+            "effect": "me_smallclouds",
+            "target": false
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 280,
+            "max": 350,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "venom",
+    "loot": [],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "lunar_swamp_behemoth",
+    "threatDps": 247.5,
+    "burstDps": 247.5,
+    "avgHit": 209.0909,
+    "maxHit": 1000,
+    "manaCost": 0
+}

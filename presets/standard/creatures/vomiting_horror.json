@@ -1,0 +1,219 @@
+{
+    "id": "vomiting_horror",
+    "label": "Vomiting Horror",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A vomiting horror.",
+    "hp": 5300,
+    "hpMax": 5300,
+    "speed": 180,
+    "level": 591,
+    "armor": 74,
+    "mitigation": 2.19,
+    "maxBlock": 0,
+    "exp": 4100,
+    "lootValue": 1463.7570948218,
+    "aggro": true,
+    "resists": {
+        "physical": 5,
+        "fire": 85,
+        "ice": 15,
+        "energy": -3,
+        "earth": 100,
+        "holy": 0,
+        "death": 20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 359
+        },
+        {
+            "id": "slow_2",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -700,
+                "durationSec": 15
+            },
+            "radius": 4,
+            "effect": "me_stun",
+            "target": true
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 99,
+            "radius": 4,
+            "target": false,
+            "effect": "me_hitarea"
+        },
+        {
+            "id": "melee_4",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 180,
+            "radius": 1,
+            "target": true,
+            "shootEffect": "ani_sniperarrow"
+        },
+        {
+            "id": "melee_5",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 1,
+            "element": "fire",
+            "min": 180,
+            "max": 314,
+            "radius": 1,
+            "target": true,
+            "effect": "me_fireattack",
+            "shootEffect": "ani_fire"
+        }
+    ],
+    "race": "fire",
+    "bestiary": {
+        "class": "Magical",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 100
+        },
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 9
+        },
+        {
+            "name": "fire sword",
+            "chance": 1240
+        },
+        {
+            "name": "crown shield",
+            "chance": 1700
+        },
+        {
+            "name": "tower shield",
+            "chance": 550
+        },
+        {
+            "name": "brown mushroom",
+            "chance": 14000,
+            "maxCount": 2
+        },
+        {
+            "name": "beastslayer axe",
+            "chance": 4260
+        },
+        {
+            "name": "mercenary sword",
+            "chance": 2500
+        },
+        {
+            "name": "spiked squelcher",
+            "chance": 410
+        },
+        {
+            "name": "great mana potion",
+            "chance": 12500
+        },
+        {
+            "name": "great health potion",
+            "chance": 15000
+        },
+        {
+            "name": "Nether Rod",
+            "chance": 1800
+        },
+        {
+            "name": "wand of starstorm",
+            "chance": 960
+        },
+        {
+            "chance": 3700,
+            "name": "broken dream"
+        },
+        {
+            "name": "goosebump leather",
+            "chance": 16400
+        },
+        {
+            "name": "pool of chitinous glue",
+            "chance": 14000
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ember_ruins_horror",
+    "threatDps": 112.5625,
+    "burstDps": 112.5625,
+    "avgHit": 160.8036,
+    "maxHit": 359,
+    "manaCost": 0
+}

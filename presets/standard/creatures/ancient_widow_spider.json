@@ -1,0 +1,224 @@
+{
+    "id": "ancient_widow_spider",
+    "label": "Ancient Widow Spider",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An ancient widow spider.",
+    "hp": 3200,
+    "hpMax": 3200,
+    "speed": 219,
+    "level": 541,
+    "armor": 45,
+    "mitigation": 1.54,
+    "maxBlock": 0,
+    "exp": 4200,
+    "lootValue": 5907.5144230769,
+    "aggro": true,
+    "resists": {
+        "physical": 20,
+        "fire": 20,
+        "ice": 0,
+        "energy": 10,
+        "earth": 100,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 20,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 45,
+            "max": 223
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 15,
+            "range": 7,
+            "element": "earth",
+            "min": 111,
+            "max": 134,
+            "target": false,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "slow_2",
+            "kind": "status",
+            "intervalMs": 1000,
+            "chance": 20,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -850,
+                "durationSec": 25
+            },
+            "effect": "me_poisonarea",
+            "target": false
+        },
+        {
+            "id": "poisonfield_3",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "radius": 4,
+            "target": true,
+            "shootEffect": "ani_poison",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 1000,
+            "chance": 17,
+            "min": 225,
+            "max": 275,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 1000,
+            "chance": 8,
+            "speedChange": 345,
+            "durationSec": 6,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 99,
+            "name": "gold coin"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 10,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 100000,
+            "name": "spider silk"
+        },
+        {
+            "chance": 100000,
+            "name": "steel helmet"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 4,
+            "name": "great health potion"
+        },
+        {
+            "chance": 50000,
+            "name": "knight armor"
+        },
+        {
+            "chance": 33333,
+            "name": "stealth ring"
+        },
+        {
+            "chance": 33333,
+            "name": "voltaic ring"
+        },
+        {
+            "chance": 33333,
+            "name": "time ring"
+        },
+        {
+            "chance": 33333,
+            "name": "sweet smelling bait"
+        },
+        {
+            "chance": 25000,
+            "name": "knight legs"
+        },
+        {
+            "chance": 25000,
+            "name": "platinum amulet"
+        },
+        {
+            "chance": 25000,
+            "name": "spool of yarn"
+        },
+        {
+            "chance": 3225,
+            "name": "bloody edge"
+        },
+        {
+            "chance": 1639,
+            "name": "dreaded cleaver"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ancient_widow_spider",
+    "threatDps": 85.375,
+    "burstDps": 85.375,
+    "avgHit": 131.3462,
+    "maxHit": 223,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 2,
+        "summons": [
+            {
+                "name": "Giant Spider",
+                "id": "giant_spider",
+                "chance": 13,
+                "interval": 1000,
+                "count": 2
+            }
+        ]
+    }
+}

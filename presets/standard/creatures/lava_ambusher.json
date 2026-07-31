@@ -1,0 +1,126 @@
+{
+    "id": "lava_ambusher",
+    "label": "Lava Ambusher",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A lava ambusher.",
+    "hp": 5900,
+    "hpMax": 5900,
+    "speed": 58,
+    "level": 602,
+    "armor": 82,
+    "mitigation": 2.16,
+    "maxBlock": 0,
+    "exp": 4000,
+    "lootValue": 87.5,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 200,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 285
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 1000,
+            "chance": 15,
+            "range": 7,
+            "element": "fire",
+            "min": 100,
+            "max": 428,
+            "length": 3,
+            "spread": 0,
+            "target": false,
+            "effect": "me_hitbyfire"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 1000,
+            "chance": 12,
+            "range": 7,
+            "element": "fire",
+            "min": 0,
+            "max": 143,
+            "length": 6,
+            "spread": 0,
+            "target": false,
+            "effect": "me_hitbyfire"
+        }
+    ],
+    "race": "fire",
+    "bestiary": {
+        "class": "Elemental",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 14620,
+            "maxCount": 2,
+            "name": "small enchanted ruby"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "crystal_wolf_raider",
+    "threatDps": 119.43,
+    "burstDps": 119.43,
+    "avgHit": 155.1039,
+    "maxHit": 428,
+    "manaCost": 0
+}

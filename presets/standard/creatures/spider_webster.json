@@ -1,0 +1,125 @@
+{
+    "id": "spider_webster",
+    "label": "Spider Webster",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A spider webster.",
+    "hp": 2950,
+    "hpMax": 2950,
+    "speed": 145,
+    "level": 532,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 1200,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 100,
+        "energy": -1,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 274
+        },
+        {
+            "id": "slow_1",
+            "kind": "status",
+            "intervalMs": 3500,
+            "chance": 65,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -500,
+                "durationSec": 0.04
+            },
+            "radius": 1,
+            "effect": "me_magic_red",
+            "target": true
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 3000,
+            "chance": 75,
+            "range": 7,
+            "element": "energy",
+            "min": 14,
+            "max": 88,
+            "target": false,
+            "shootEffect": "ani_energy"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 5000,
+            "chance": 100,
+            "speedChange": 500,
+            "durationSec": 2.5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "undead",
+    "loot": [],
+    "changeTarget": {
+        "interval": 0,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "spider_webster",
+    "threatDps": 81.25,
+    "burstDps": 87.625,
+    "avgHit": 108.3333,
+    "maxHit": 274,
+    "manaCost": 0
+}

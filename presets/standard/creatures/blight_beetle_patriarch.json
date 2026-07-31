@@ -1,0 +1,125 @@
+{
+    "id": "blight_beetle_patriarch",
+    "label": "Blight Beetle Patriarch",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A blight beetle patriarch.",
+    "hp": 400,
+    "hpMax": 400,
+    "speed": 145,
+    "level": 334,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 400,
+    "lootValue": 362.2962962963,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 100,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 80,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "element": "physical",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "min": 20,
+            "max": 88,
+            "target": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "invisible_0",
+            "kind": "invisible",
+            "intervalMs": 1000,
+            "chance": 10,
+            "durationSec": 2,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "venom",
+    "loot": [
+        {
+            "chance": 2000,
+            "maxCount": 61,
+            "name": "gold coin"
+        },
+        {
+            "chance": 2000,
+            "maxCount": 60,
+            "name": "gold coin"
+        },
+        {
+            "chance": 17500,
+            "name": "lump of dirt"
+        },
+        {
+            "chance": 12500,
+            "name": "poisonous slime"
+        },
+        {
+            "chance": 7000,
+            "name": "lancer beetle shell"
+        },
+        {
+            "chance": 400,
+            "name": "beetle necklace"
+        },
+        {
+            "chance": 800,
+            "name": "small amethyst"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 12
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "rune_stone_bugbear",
+    "threatDps": 27,
+    "burstDps": 27,
+    "avgHit": 54,
+    "maxHit": 88,
+    "manaCost": 0
+}

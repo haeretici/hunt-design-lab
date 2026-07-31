@@ -1,0 +1,195 @@
+{
+    "id": "diamond_servant",
+    "label": "Diamond Servant",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A diamond servant.",
+    "hp": 1000,
+    "hpMax": 1000,
+    "speed": 86,
+    "level": 425,
+    "armor": 25,
+    "mitigation": 0.83,
+    "maxBlock": 0,
+    "exp": 700,
+    "lootValue": 187.88416262364,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 10,
+        "ice": 0,
+        "energy": 100,
+        "earth": 75,
+        "holy": -14,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 100,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 97
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "energy",
+            "min": 78,
+            "max": 116,
+            "radius": 3,
+            "target": false,
+            "effect": "me_yellowenergy"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "energy",
+            "min": 121,
+            "max": 165,
+            "length": 5,
+            "spread": 2,
+            "target": false,
+            "effect": "me_energyhit",
+            "shootEffect": "ani_energy"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Construct",
+        "toKill": 5,
+        "firstUnlock": 2,
+        "secondUnlock": 3,
+        "charmsPoints": 50,
+        "stars": 3,
+        "occurrence": 3
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 44000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 79
+        },
+        {
+            "name": "yellow gem",
+            "chance": 550
+        },
+        {
+            "name": "might ring",
+            "chance": 940
+        },
+        {
+            "name": "life crystal",
+            "chance": 9150
+        },
+        {
+            "name": "wand of cosmic energy",
+            "chance": 530
+        },
+        {
+            "name": "soul orb",
+            "chance": 45000
+        },
+        {
+            "name": "bonebreaker",
+            "chance": 10
+        },
+        {
+            "name": "savant potion",
+            "chance": 400
+        },
+        {
+            "name": "strong health potion",
+            "chance": 5790
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 5980
+        },
+        {
+            "name": "Stormbound Pendant",
+            "chance": 710
+        },
+        {
+            "name": "crystalline armor",
+            "chance": 20
+        },
+        {
+            "name": "gear wheel",
+            "chance": 5000
+        },
+        {
+            "chance": 5320,
+            "name": "crystal pedestal"
+        },
+        {
+            "name": "shockwave amulet",
+            "chance": 110
+        },
+        {
+            "name": "gear crystal",
+            "chance": 5000
+        },
+        {
+            "name": "slime mould",
+            "chance": 480
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "lunar_volcano_harpy",
+    "threatDps": 44.675,
+    "burstDps": 44.675,
+    "avgHit": 66.1852,
+    "maxHit": 165,
+    "manaCost": 0
+}

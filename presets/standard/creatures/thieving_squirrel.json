@@ -1,0 +1,100 @@
+{
+    "id": "thieving_squirrel",
+    "label": "Thieving Squirrel",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A thieving squirrel.",
+    "hp": 55,
+    "hpMax": 55,
+    "speed": 500,
+    "level": 136,
+    "armor": 0,
+    "mitigation": 0.1,
+    "maxBlock": 0,
+    "exp": 15,
+    "lootValue": 0,
+    "aggro": false,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 55,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": true,
+        "attackable": true,
+        "hostile": false,
+        "convinceable": true,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "element": "physical",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "min": 4,
+            "max": 32,
+            "target": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "invisible_0",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 10,
+            "durationSec": 2,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 100000,
+            "name": "flask with beaver bait"
+        },
+        {
+            "chance": 4550,
+            "name": "peanut"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "thieving_squirrel",
+    "threatDps": 9,
+    "burstDps": 9,
+    "avgHit": 18,
+    "maxHit": 32,
+    "manaCost": 220
+}

@@ -1,0 +1,236 @@
+{
+    "id": "void_crawler",
+    "label": "Void Crawler",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A void crawler.",
+    "hp": 1500,
+    "hpMax": 1500,
+    "speed": 150,
+    "level": 466,
+    "armor": 32,
+    "mitigation": 0.99,
+    "maxBlock": 0,
+    "exp": 1250,
+    "lootValue": 276.77631578947,
+    "aggro": true,
+    "resists": {
+        "physical": -10,
+        "fire": 25,
+        "ice": -5,
+        "energy": -5,
+        "earth": 100,
+        "holy": 0,
+        "death": 50
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 75,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 1000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 85
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 42,
+            "max": 54,
+            "length": 4,
+            "spread": 0,
+            "target": false,
+            "effect": "me_energyarea"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "earth",
+            "min": 62,
+            "max": 104,
+            "radius": 3,
+            "target": false,
+            "effect": "me_hitbypoison"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "earth",
+            "min": 29,
+            "max": 50,
+            "radius": 3,
+            "target": true,
+            "effect": "me_hitbypoison"
+        },
+        {
+            "id": "wave_4",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "manadrain",
+            "min": 21,
+            "max": 62,
+            "length": 4,
+            "spread": 0,
+            "target": false,
+            "effect": "me_magic_red"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 100,
+            "max": 150,
+            "hpBelow": 0.7,
+            "effect": "me_hitbypoison"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Extra Dimensional",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "small diamond",
+            "chance": 4761,
+            "maxCount": 5
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 27
+        },
+        {
+            "name": "talon",
+            "chance": 917
+        },
+        {
+            "name": "might ring",
+            "chance": 3846
+        },
+        {
+            "name": "wand of cosmic energy",
+            "chance": 523
+        },
+        {
+            "name": "epee",
+            "chance": 564
+        },
+        {
+            "name": "brown mushroom",
+            "chance": 9090,
+            "maxCount": 3
+        },
+        {
+            "name": "savant potion",
+            "chance": 490
+        },
+        {
+            "name": "strong health potion",
+            "chance": 20000
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 20000
+        },
+        {
+            "name": "Stormbound Pendant",
+            "chance": 862
+        },
+        {
+            "name": "Stormbound Legs",
+            "chance": 480
+        },
+        {
+            "name": "shockwave amulet",
+            "chance": 571
+        },
+        {
+            "name": "broken ring of ending",
+            "chance": 261
+        },
+        {
+            "name": "yielowax",
+            "chance": 300
+        },
+        {
+            "name": "yielocks",
+            "chance": 320
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "brimstone_ruins_crawler",
+    "threatDps": 56.1625,
+    "burstDps": 56.1625,
+    "avgHit": 44.93,
+    "maxHit": 104,
+    "manaCost": 0
+}

@@ -1,0 +1,59 @@
+{
+    "id": "cave_to_crypt_macro",
+    "label": "Cave → Crypt macro multi-biome (Stage 11.10)",
+    "notes": "Macro 15-min multi-biome: cave segment then crypt segment. Distinct artSet + population per segment; stairs link floors. pacingBudget.macro asserts ≥1 transition and dual biomes/art sets. targetMinSec is design intent (900s); short headless runs still validate structure.",
+    "layout": {
+        "type": "multi_biome",
+        "segments": [
+            {
+                "biomeId": "cave",
+                "targetMinSec": 900,
+                "role": "entrance",
+                "floors": [
+                    {
+                        "profileId": "small_crawl",
+                        "role": "cave_entrance"
+                    }
+                ]
+            },
+            {
+                "biomeId": "crypt",
+                "targetMinSec": 900,
+                "role": "deep",
+                "floors": [
+                    {
+                        "profileId": "small_crawl",
+                        "role": "crypt_deep"
+                    }
+                ]
+            }
+        ]
+    },
+    "pacingBudget": {
+        "id": "cave_to_crypt_macro",
+        "micro": {
+            "targetGapSec": 20,
+            "warnGapSec": 120,
+            "maxGapSec": 300
+        },
+        "mid": {
+            "minKills": 0,
+            "maxKills": 80
+        },
+        "session": {
+            "minTimeSec": 0,
+            "maxTimeSec": 2400
+        },
+        "macro": {
+            "targetSegmentSec": 900,
+            "warnSegmentSec": 1500,
+            "minTransitions": 1,
+            "minBiomes": 2,
+            "minArtSets": 2
+        }
+    },
+    "limits": {
+        "maxSeconds": 180,
+        "maxFrames": 3600
+    }
+}

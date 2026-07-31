@@ -1,0 +1,126 @@
+{
+    "id": "undead_minion",
+    "label": "Undead Minion",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An undead minion.",
+    "hp": 850,
+    "hpMax": 850,
+    "speed": 115,
+    "level": 409,
+    "armor": 25,
+    "mitigation": 0.9,
+    "maxBlock": 0,
+    "exp": 550,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 1000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 72
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 13,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 29,
+            "max": 46,
+            "radius": 4,
+            "target": false,
+            "effect": "me_mortarea"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 40
+        },
+        {
+            "name": "blank rune",
+            "chance": 10000
+        },
+        {
+            "name": "battle hammer",
+            "chance": 5000
+        },
+        {
+            "name": "battle shield",
+            "chance": 1000
+        },
+        {
+            "name": "guardian shield",
+            "chance": 5000
+        },
+        {
+            "id": 6570,
+            "chance": 5538
+        },
+        {
+            "id": 6571,
+            "chance": 1538
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 1
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "tempest_fungal_knight_sorcerer",
+    "threatDps": 40.875,
+    "burstDps": 40.875,
+    "avgHit": 36.1726,
+    "maxHit": 72,
+    "manaCost": 620
+}

@@ -1,0 +1,165 @@
+{
+    "id": "ghoul",
+    "label": "Ghoul",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A ghoul.",
+    "hp": 100,
+    "hpMax": 100,
+    "speed": 72,
+    "level": 195,
+    "armor": 8,
+    "mitigation": 0.43,
+    "maxBlock": 0,
+    "exp": 85,
+    "lootValue": 20.780114722753,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 10,
+        "energy": 30,
+        "earth": 20,
+        "holy": -25,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": true,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 47
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 1,
+            "element": "lifedrain",
+            "min": 10,
+            "max": 18,
+            "radius": 1,
+            "target": true,
+            "effect": "me_smallclouds"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 5,
+            "min": 9,
+            "max": 15,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 5000,
+            "name": "torch"
+        },
+        {
+            "name": "gold coin",
+            "chance": 68000,
+            "maxCount": 30
+        },
+        {
+            "chance": 180,
+            "name": "life ring"
+        },
+        {
+            "chance": 240,
+            "name": "skull"
+        },
+        {
+            "name": "viking helmet",
+            "chance": 990
+        },
+        {
+            "name": "scale armor",
+            "chance": 1000
+        },
+        {
+            "name": "worm",
+            "chance": 9600,
+            "maxCount": 2
+        },
+        {
+            "name": "brown piece of cloth",
+            "chance": 1000
+        },
+        {
+            "name": "rotten piece of cloth",
+            "chance": 14470
+        },
+        {
+            "name": "ghoul snack",
+            "chance": 5130
+        },
+        {
+            "name": "pile of grave earth",
+            "chance": 950
+        },
+        {
+            "chance": 1000,
+            "name": "heavy old tome"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ghoul",
+    "threatDps": 12.45,
+    "burstDps": 12.45,
+    "avgHit": 22.6364,
+    "maxHit": 47,
+    "manaCost": 450
+}

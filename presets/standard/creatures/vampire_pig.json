@@ -1,0 +1,119 @@
+{
+    "id": "vampire_pig",
+    "label": "Vampire Pig",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A vampire pig.",
+    "hp": 305,
+    "hpMax": 305,
+    "speed": 55,
+    "level": 307,
+    "armor": 20,
+    "mitigation": 0.62,
+    "maxBlock": 0,
+    "exp": 165,
+    "lootValue": 18.485714285714,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 30,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 77
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 11,
+            "max": 19,
+            "radius": 4,
+            "target": true,
+            "effect": "me_bats"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 3,
+            "element": "lifedrain",
+            "min": 27,
+            "max": 42,
+            "target": true
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 1
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 90000,
+            "maxCount": 40
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "hellfire_vampire_archer",
+    "threatDps": 23.225,
+    "burstDps": 23.225,
+    "avgHit": 33.1786,
+    "maxHit": 77,
+    "manaCost": 0
+}

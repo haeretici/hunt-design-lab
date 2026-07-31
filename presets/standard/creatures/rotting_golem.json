@@ -1,0 +1,210 @@
+{
+    "id": "rotting_golem",
+    "label": "Rotting Golem",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A rotting golem.",
+    "hp": 28000,
+    "hpMax": 28000,
+    "speed": 200,
+    "level": 757,
+    "armor": 108,
+    "mitigation": 3.04,
+    "maxBlock": 0,
+    "exp": 17324,
+    "lootValue": 6657.4869109948,
+    "aggro": true,
+    "resists": {
+        "physical": 20,
+        "fire": -25,
+        "ice": 0,
+        "energy": -14,
+        "earth": 40,
+        "holy": 50,
+        "death": -20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 393
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "holy",
+            "min": 496,
+            "max": 600,
+            "target": true,
+            "effect": "me_holyarea",
+            "shootEffect": "ani_smallholy"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "earth",
+            "min": 372,
+            "max": 579,
+            "radius": 5,
+            "target": false,
+            "effect": "me_bigplants"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "earth",
+            "min": 455,
+            "max": 538,
+            "radius": 7,
+            "target": false,
+            "effect": "me_bigplants"
+        },
+        {
+            "id": "poison_chain_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "physical",
+            "min": 434,
+            "max": 496,
+            "radius": 7,
+            "target": false,
+            "effect": "me_bigplants"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Construct",
+        "toKill": 5000,
+        "firstUnlock": 200,
+        "secondUnlock": 2000,
+        "charmsPoints": 100,
+        "stars": 5,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "crystal coin",
+            "chance": 60590
+        },
+        {
+            "name": "great dual potion",
+            "chance": 31180,
+            "maxCount": 5
+        },
+        {
+            "name": "sacred tree amulet",
+            "chance": 3590
+        },
+        {
+            "name": "Nether Rod",
+            "chance": 3030
+        },
+        {
+            "id": 281,
+            "chance": 2690
+        },
+        {
+            "name": "titan axe",
+            "chance": 2500
+        },
+        {
+            "name": "Earthbound Amulet",
+            "chance": 1900
+        },
+        {
+            "name": "mercenary sword",
+            "chance": 1900
+        },
+        {
+            "name": "war axe",
+            "chance": 1560
+        },
+        {
+            "name": "giant sword",
+            "chance": 1540
+        },
+        {
+            "name": "fur armor",
+            "chance": 990
+        },
+        {
+            "name": "wood cape",
+            "chance": 920
+        },
+        {
+            "name": "Stonehide Amulet",
+            "chance": 740
+        },
+        {
+            "name": "Earthbound Mantle",
+            "chance": 510
+        },
+        {
+            "name": "rubber cap",
+            "chance": 430
+        },
+        {
+            "name": "bag you desire",
+            "chance": 15
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "solar_volcano_golem_slayer",
+    "threatDps": 283.05,
+    "burstDps": 283.05,
+    "avgHit": 323.4857,
+    "maxHit": 600,
+    "manaCost": 0
+}

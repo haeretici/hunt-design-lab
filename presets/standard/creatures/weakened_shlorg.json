@@ -1,0 +1,229 @@
+{
+    "id": "weakened_shlorg",
+    "label": "Weakened Shlorg",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A weakened shlorg.",
+    "hp": 10000,
+    "hpMax": 10000,
+    "speed": 135,
+    "level": 654,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 6500,
+    "lootValue": 1777.0588235294,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "condition": {
+                "type": "poison",
+                "totalDamage": 225,
+                "intervalMs": 4000
+            },
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 113,
+            "max": 225,
+            "length": 4,
+            "spread": 0,
+            "target": false,
+            "effect": "me_magic_green"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 14,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 188,
+            "radius": 5,
+            "target": false,
+            "effect": "me_green_rings"
+        },
+        {
+            "id": "condition_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 13,
+            "range": 4,
+            "element": "earth",
+            "min": 450,
+            "max": 550,
+            "radius": 5,
+            "target": false,
+            "effect": "me_green_rings"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 35,
+            "min": 95,
+            "max": 150,
+            "hpBelow": 0.7,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "venom",
+    "loot": [
+        {
+            "chance": 3000,
+            "name": "silver raid token"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 105,
+            "name": "gold coin"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 8,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 3000,
+            "name": "glass of goo"
+        },
+        {
+            "chance": 3000,
+            "name": "goo shell"
+        },
+        {
+            "chance": 10000,
+            "name": "yellow gem"
+        },
+        {
+            "chance": 10000,
+            "name": "green gem"
+        },
+        {
+            "chance": 10000,
+            "maxCount": 3,
+            "name": "ultimate health potion"
+        },
+        {
+            "chance": 10000,
+            "maxCount": 3,
+            "name": "great dual potion"
+        },
+        {
+            "chance": 10000,
+            "maxCount": 3,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 10000,
+            "maxCount": 5,
+            "name": "small emerald"
+        },
+        {
+            "chance": 10000,
+            "maxCount": 5,
+            "name": "small topaz"
+        },
+        {
+            "chance": 20000,
+            "name": "belted cape"
+        },
+        {
+            "chance": 10000,
+            "name": "green piece of cloth"
+        },
+        {
+            "chance": 10000,
+            "name": "red piece of cloth"
+        },
+        {
+            "chance": 10000,
+            "name": "yellow piece of cloth"
+        },
+        {
+            "chance": 20000,
+            "name": "serpent sword"
+        },
+        {
+            "chance": 20000,
+            "name": "Bloomshoot Rod"
+        },
+        {
+            "chance": 10000,
+            "name": "paladin armor"
+        },
+        {
+            "chance": 100000,
+            "name": "boggy dreads"
+        }
+    ],
+    "changeTarget": {
+        "interval": 60000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "skeletal_hill_giant",
+    "threatDps": 160.03,
+    "burstDps": 160.03,
+    "avgHit": 256.9189,
+    "maxHit": 550,
+    "manaCost": 0
+}

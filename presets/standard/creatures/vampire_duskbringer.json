@@ -1,0 +1,145 @@
+{
+    "id": "vampire_duskbringer",
+    "label": "Vampire Duskbringer",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A vampire duskbringer.",
+    "hp": 1400,
+    "hpMax": 1400,
+    "speed": 155,
+    "level": 458,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 1800,
+    "lootValue": 1949.640625,
+    "aggro": true,
+    "resists": {
+        "physical": 50,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 100,
+        "holy": -5,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 1000,
+            "chance": 12,
+            "range": 1,
+            "element": "death",
+            "min": 0,
+            "max": 898,
+            "target": true,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_suddendeath"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 1000,
+            "chance": 12,
+            "min": 100,
+            "max": 235,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "invisible_1",
+            "kind": "invisible",
+            "intervalMs": 3000,
+            "chance": 25,
+            "durationSec": 2,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "chance": 4000,
+            "name": "strong health potion"
+        },
+        {
+            "chance": 8000,
+            "name": "black pearl"
+        },
+        {
+            "chance": 100000,
+            "name": "vampire lord token"
+        },
+        {
+            "chance": 50000,
+            "maxCount": 5,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 75,
+            "name": "gold coin"
+        },
+        {
+            "chance": 4500,
+            "name": "Bloodfang Shield"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "hellfire_vampire_archer",
+    "threatDps": 53.88,
+    "burstDps": 53.88,
+    "avgHit": 449,
+    "maxHit": 898,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 3,
+        "summons": [
+            {
+                "name": "Vampire",
+                "id": "vampire",
+                "chance": 40,
+                "interval": 3000,
+                "count": 3
+            }
+        ]
+    }
+}

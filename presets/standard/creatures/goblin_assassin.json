@@ -1,0 +1,167 @@
+{
+    "id": "goblin_assassin",
+    "label": "Goblin Assassin",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A goblin assassin.",
+    "hp": 75,
+    "hpMax": 75,
+    "speed": 70,
+    "level": 169,
+    "armor": 6,
+    "mitigation": 0.15,
+    "maxBlock": 0,
+    "exp": 52,
+    "lootValue": 5.7301587301587,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 20,
+        "earth": -10,
+        "holy": 20,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 15,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 35
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 6,
+            "element": "physical",
+            "min": 0,
+            "max": 81,
+            "target": false,
+            "shootEffect": "ani_throwingknife"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "invisible_0",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 10,
+            "durationSec": 2,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 100,
+            "durationSec": 3,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "small stone",
+            "chance": 9900,
+            "maxCount": 3
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 9
+        },
+        {
+            "chance": 13000,
+            "name": "bone"
+        },
+        {
+            "name": "mouldy cheese",
+            "chance": 6610
+        },
+        {
+            "name": "dagger",
+            "chance": 17000
+        },
+        {
+            "name": "short sword",
+            "chance": 8820
+        },
+        {
+            "name": "bone club",
+            "chance": 4770
+        },
+        {
+            "name": "leather helmet",
+            "chance": 13000
+        },
+        {
+            "name": "leather armor",
+            "chance": 7240
+        },
+        {
+            "name": "small axe",
+            "chance": 9800
+        },
+        {
+            "chance": 12400,
+            "name": "fish"
+        }
+    ],
+    "changeTarget": {
+        "interval": 10000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "goblin_assassin",
+    "threatDps": 10.775,
+    "burstDps": 10.775,
+    "avgHit": 19.5909,
+    "maxHit": 81,
+    "manaCost": 360
+}

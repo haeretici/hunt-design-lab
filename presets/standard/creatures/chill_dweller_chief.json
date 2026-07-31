@@ -1,0 +1,136 @@
+{
+    "id": "chill_dweller_chief",
+    "label": "Chill Dweller Chief",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A chill dweller chief.",
+    "hp": 700,
+    "hpMax": 700,
+    "speed": 200,
+    "level": 389,
+    "armor": 0,
+    "mitigation": 0.99,
+    "maxBlock": 0,
+    "exp": 490,
+    "lootValue": 348.90909090909,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 10,
+        "ice": 100,
+        "energy": -10,
+        "earth": 0,
+        "holy": 0,
+        "death": 50
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "min": 403,
+            "max": 1065,
+            "radius": 3,
+            "target": true,
+            "effect": "me_hitarea",
+            "shootEffect": "ani_smallstone"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 200,
+            "name": "silver raid token"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 20,
+            "name": "gold coin"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 5,
+            "name": "fish"
+        },
+        {
+            "chance": 100000,
+            "name": "white pearl"
+        },
+        {
+            "chance": 100000,
+            "name": "white piece of cloth"
+        },
+        {
+            "chance": 37500,
+            "name": "mace"
+        },
+        {
+            "chance": 200,
+            "unique": true,
+            "name": "eye of the storm"
+        },
+        {
+            "chance": 37570,
+            "name": "bone shield"
+        },
+        {
+            "chance": 25050,
+            "name": "mammoth whopper"
+        },
+        {
+            "chance": 62570,
+            "name": "ice cube"
+        },
+        {
+            "chance": 12500,
+            "name": "green perch"
+        },
+        {
+            "chance": 12520,
+            "name": "northern pike"
+        }
+    ],
+    "changeTarget": {
+        "interval": 60000,
+        "chance": 60
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "plague_wyrmling_overlord",
+    "threatDps": 36.7,
+    "burstDps": 36.7,
+    "avgHit": 734,
+    "maxHit": 1065,
+    "manaCost": 0
+}

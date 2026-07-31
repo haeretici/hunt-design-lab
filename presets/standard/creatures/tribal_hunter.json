@@ -1,0 +1,182 @@
+{
+    "id": "tribal_hunter",
+    "label": "Tribal Hunter",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A tribal hunter.",
+    "hp": 1520,
+    "hpMax": 1520,
+    "speed": 105,
+    "level": 466,
+    "armor": 36,
+    "mitigation": 1.32,
+    "maxBlock": 0,
+    "exp": 1240,
+    "lootValue": 515.73649538867,
+    "aggro": true,
+    "resists": {
+        "physical": 5,
+        "fire": 5,
+        "ice": -5,
+        "energy": -5,
+        "earth": 0,
+        "holy": 0,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 157,
+            "effect": "me_purpleenergy"
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 40,
+            "range": 4,
+            "element": "physical",
+            "min": 47,
+            "max": 63,
+            "length": 7,
+            "spread": 0,
+            "target": false,
+            "effect": "216"
+        },
+        {
+            "id": "melee_2",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 1,
+            "element": "physical",
+            "min": 63,
+            "max": 100,
+            "radius": 0,
+            "target": true,
+            "effect": "me_explosionhit"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 1
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 475
+        },
+        {
+            "name": "brown crystal splinter",
+            "chance": 15500
+        },
+        {
+            "name": "green crystal splinter",
+            "chance": 15060
+        },
+        {
+            "name": "small enchanted sapphire",
+            "chance": 10100
+        },
+        {
+            "name": "plate shield",
+            "chance": 8720
+        },
+        {
+            "name": "onyx chip",
+            "chance": 8060,
+            "maxCount": 2
+        },
+        {
+            "name": "opal",
+            "chance": 7260
+        },
+        {
+            "name": "small emerald",
+            "chance": 6820
+        },
+        {
+            "name": "war hammer",
+            "chance": 5620
+        },
+        {
+            "name": "strong health potion",
+            "chance": 5180,
+            "maxCount": 2
+        },
+        {
+            "name": "small ruby",
+            "chance": 4300,
+            "maxCount": 2
+        },
+        {
+            "name": "rotten feather",
+            "chance": 2170
+        },
+        {
+            "name": "ritual tooth",
+            "chance": 1330
+        },
+        {
+            "name": "gold-brocaded cloth",
+            "chance": 890
+        },
+        {
+            "name": "broken iks sandals",
+            "chance": 40
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "feral_ice_spider_hunter",
+    "threatDps": 56.3625,
+    "burstDps": 56.3625,
+    "avgHit": 72.7258,
+    "maxHit": 157,
+    "manaCost": 0
+}

@@ -1,0 +1,85 @@
+{
+    "id": "electric_sparks",
+    "label": "Electric Sparks",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An electric sparks.",
+    "hp": 2000,
+    "hpMax": 2000,
+    "speed": 0,
+    "level": 494,
+    "armor": 10,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 320,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 100,
+        "fire": 100,
+        "ice": 100,
+        "energy": 100,
+        "earth": 100,
+        "holy": 100,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": true,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 50,
+            "range": 1,
+            "element": "energy",
+            "min": 197,
+            "max": 328,
+            "target": false,
+            "shootEffect": "ani_energy"
+        }
+    ],
+    "race": "undead",
+    "loot": [],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "blood_behemoth",
+    "threatDps": 65.625,
+    "burstDps": 65.625,
+    "avgHit": 262.5,
+    "maxHit": 328,
+    "manaCost": 0
+}

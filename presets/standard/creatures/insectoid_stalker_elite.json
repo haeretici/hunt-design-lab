@@ -1,0 +1,147 @@
+{
+    "id": "insectoid_stalker_elite",
+    "label": "Insectoid Stalker Elite",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An insectoid stalker elite.",
+    "hp": 5000,
+    "hpMax": 5000,
+    "speed": 197,
+    "level": 585,
+    "armor": 55,
+    "mitigation": 1.74,
+    "maxBlock": 0,
+    "exp": 4000,
+    "lootValue": 1613.6953342618,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 15,
+        "ice": -3,
+        "energy": -5,
+        "earth": 100,
+        "holy": -10,
+        "death": 10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 436
+        }
+    ],
+    "race": "venom",
+    "loot": [
+        {
+            "name": "small ruby",
+            "chance": 23280,
+            "maxCount": 5
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 100
+        },
+        {
+            "name": "platinum coin",
+            "chance": 45000,
+            "maxCount": 6
+        },
+        {
+            "name": "violet gem",
+            "chance": 1120
+        },
+        {
+            "chance": 4480,
+            "name": "death ring"
+        },
+        {
+            "name": "titan axe",
+            "chance": 1440
+        },
+        {
+            "name": "great mana potion",
+            "chance": 20400,
+            "maxCount": 2
+        },
+        {
+            "id": 281,
+            "chance": 3040
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 9250,
+            "maxCount": 2
+        },
+        {
+            "name": "spidris mandible",
+            "chance": 27440
+        },
+        {
+            "name": "compound eye",
+            "chance": 13210
+        },
+        {
+            "name": "calopteryx cape",
+            "chance": 1280
+        },
+        {
+            "name": "carapace shield",
+            "chance": 1170
+        },
+        {
+            "name": "hive scythe",
+            "chance": 1390
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "twilight_desert_stalker",
+    "threatDps": 109,
+    "burstDps": 109,
+    "avgHit": 218,
+    "maxHit": 436,
+    "manaCost": 0
+}

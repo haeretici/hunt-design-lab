@@ -1,0 +1,47 @@
+{
+    "id": "rune_field_demo",
+    "label": "Rune field demo",
+    "notes": "Solo adept with seeded field/missile runes and strategy adept_field_runes. Watch Scenario Lab to see fire bomb/wall/field deploy (source player) and backpack stacks consume under features.runeConsumption. Nested bag holds spare missiles so tree-search is visible in the inventory UI. Short fixed shell (outskirts_camp_fixed) + dense cave_rat pack.",
+    "baseHuntId": "outskirts_camp_fixed",
+    "seed": 11,
+    "frames": 1200,
+    "maxTicks": 1200,
+    "waypoints": [
+        { "x": 0, "y": 3, "z": 0 },
+        { "x": 6, "y": 3, "z": 0 }
+    ],
+    "spawns": [
+        { "creatureId": "cave_rat", "x": 2, "y": 3, "z": 0, "respawn": 0 },
+        { "creatureId": "vampire", "x": 3, "y": 3, "z": 0, "respawn": 0 },
+        { "creatureId": "cave_rat", "x": 4, "y": 3, "z": 0, "respawn": 0 },
+        { "creatureId": "cave_rat", "x": 5, "y": 3, "z": 0, "respawn": 0 },
+        { "creatureId": "cave_rat", "x": 3, "y": 2, "z": 0, "respawn": 0 },
+        { "creatureId": "cave_rat", "x": 3, "y": 4, "z": 0, "respawn": 0 }
+    ],
+    "members": [
+        {
+            "profileId": "adept_starter",
+            "name": "Rune Adept",
+            "isLeader": true,
+            "strategyId": "adept_field_runes",
+            "inventory": {
+                "backpack": [
+                    { "itemId": "blaze_bomb_rune", "count": 20 },
+                    { "itemId": "blaze_wall_rune", "count": 15 },
+                    { "itemId": "blaze_field_rune", "count": 20 },
+                    { "itemId": "spark_bomb_rune", "count": 12 },
+                    { "itemId": "spark_field_rune", "count": 12 },
+                    { "itemId": "purge_field_rune", "count": 15 },
+                    {
+                        "itemId": "bag",
+                        "contents": [
+                            { "itemId": "grand_fireburst_rune", "count": 25 },
+                            { "itemId": "deathburst_rune", "count": 15 },
+                            { "itemId": "blastwave_rune", "count": 15 }
+                        ]
+                    }
+                ]
+            }
+        }
+    ]
+}

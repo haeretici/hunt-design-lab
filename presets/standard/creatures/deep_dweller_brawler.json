@@ -1,0 +1,133 @@
+{
+    "id": "deep_dweller_brawler",
+    "label": "Deep Dweller Brawler",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A deep dweller brawler.",
+    "hp": 380,
+    "hpMax": 380,
+    "speed": 85,
+    "level": 327,
+    "armor": 18,
+    "mitigation": 0.72,
+    "maxBlock": 0,
+    "exp": 260,
+    "lootValue": 61.982535575679,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": 100,
+        "energy": -10,
+        "earth": -10,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 40,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 82,
+            "effect": "me_drawblood"
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 49,
+            "max": 99,
+            "target": true,
+            "effect": "me_loseenergy",
+            "shootEffect": "ani_spear"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Aquatic",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 1
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 96000,
+            "maxCount": 44
+        },
+        {
+            "chance": 19730,
+            "maxCount": 3,
+            "name": "fish"
+        },
+        {
+            "name": "deepling scales",
+            "chance": 14500
+        },
+        {
+            "name": "eye of a deepling",
+            "chance": 6500
+        },
+        {
+            "name": "heavy trident",
+            "chance": 2720
+        },
+        {
+            "name": "fish fin",
+            "chance": 680
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "brittle_skeleton",
+    "threatDps": 26.05,
+    "burstDps": 26.05,
+    "avgHit": 45.3043,
+    "maxHit": 99,
+    "manaCost": 0
+}

@@ -1,0 +1,203 @@
+{
+    "id": "water_elemental",
+    "label": "Water Elemental",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A water elemental.",
+    "hp": 550,
+    "hpMax": 550,
+    "speed": 115,
+    "level": 366,
+    "armor": 37,
+    "mitigation": 0.88,
+    "maxBlock": 0,
+    "exp": 650,
+    "lootValue": 102.62676056338,
+    "aggro": true,
+    "resists": {
+        "physical": 30,
+        "fire": 100,
+        "ice": 100,
+        "energy": -25,
+        "earth": 100,
+        "holy": 50,
+        "death": 50
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 47,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 18,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "min": 37,
+            "max": 69,
+            "radius": 2,
+            "target": true,
+            "effect": "me_loseenergy"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "ice",
+            "min": 26,
+            "max": 44,
+            "target": false,
+            "shootEffect": "ani_smallice"
+        },
+        {
+            "id": "condition_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "earth",
+            "min": 66,
+            "max": 77,
+            "radius": 5,
+            "target": false,
+            "effect": "me_poisonarea"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 5,
+            "min": 50,
+            "max": 80,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 300,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Elemental",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "small diamond",
+            "chance": 2500
+        },
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 100
+        },
+        {
+            "name": "small emerald",
+            "chance": 2500,
+            "maxCount": 2
+        },
+        {
+            "name": "platinum coin",
+            "chance": 25000
+        },
+        {
+            "chance": 950,
+            "name": "voltaic ring"
+        },
+        {
+            "chance": 930,
+            "name": "life ring"
+        },
+        {
+            "chance": 20000,
+            "name": "fish"
+        },
+        {
+            "name": "rainbow trout",
+            "chance": 940
+        },
+        {
+            "name": "green perch",
+            "chance": 1050
+        },
+        {
+            "name": "strong health potion",
+            "chance": 10000
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 10000
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "arcane_elemental_vanguard",
+    "threatDps": 32.2625,
+    "burstDps": 32.2625,
+    "avgHit": 32.0862,
+    "maxHit": 77,
+    "manaCost": 0
+}

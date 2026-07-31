@@ -1,0 +1,179 @@
+{
+    "id": "mean_lost_soul",
+    "label": "Mean Lost Soul",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A mean lost soul.",
+    "hp": 5000,
+    "hpMax": 5000,
+    "speed": 250,
+    "level": 585,
+    "armor": 80,
+    "mitigation": 2.31,
+    "maxBlock": 0,
+    "exp": 5580,
+    "lootValue": 1389.8659517426,
+    "aggro": true,
+    "resists": {
+        "physical": 55,
+        "fire": 0,
+        "ice": 0,
+        "energy": 30,
+        "earth": 20,
+        "holy": -30,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 32,
+            "max": 161
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 1700,
+            "chance": 15,
+            "range": 4,
+            "element": "earth",
+            "min": 97,
+            "max": 178,
+            "radius": 3,
+            "target": true,
+            "effect": "me_hitbypoison",
+            "shootEffect": "ani_envenomedarrow"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 1700,
+            "chance": 25,
+            "range": 4,
+            "element": "energy",
+            "min": 97,
+            "max": 178,
+            "length": 4,
+            "spread": 0,
+            "target": false,
+            "effect": "me_energyhit"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 1700,
+            "chance": 35,
+            "range": 4,
+            "element": "death",
+            "min": 97,
+            "max": 178,
+            "radius": 3,
+            "target": false,
+            "effect": "me_mortarea"
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 56040
+        },
+        {
+            "name": "lost soul",
+            "chance": 36220
+        },
+        {
+            "name": "death toll",
+            "chance": 4890
+        },
+        {
+            "name": "Bone Skull Staff",
+            "chance": 4540
+        },
+        {
+            "name": "machete",
+            "chance": 3520
+        },
+        {
+            "name": "ensouled essence",
+            "chance": 2760
+        },
+        {
+            "name": "fire axe",
+            "chance": 1400
+        },
+        {
+            "name": "ivory comb",
+            "chance": 1200
+        },
+        {
+            "name": "mercenary sword",
+            "chance": 1050
+        },
+        {
+            "name": "haunted blade",
+            "chance": 960
+        },
+        {
+            "name": "warrior's axe",
+            "chance": 730
+        },
+        {
+            "name": "twiceslicer",
+            "chance": 310
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "glacier_mountain_phantom",
+    "threatDps": 108.9118,
+    "burstDps": 151.375,
+    "avgHit": 115.7188,
+    "maxHit": 178,
+    "manaCost": 0
+}

@@ -1,0 +1,154 @@
+{
+    "id": "gargoyle",
+    "label": "Gargoyle",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A gargoyle.",
+    "hp": 250,
+    "hpMax": 250,
+    "speed": 100,
+    "level": 287,
+    "armor": 26,
+    "mitigation": 0.78,
+    "maxBlock": 0,
+    "exp": 150,
+    "lootValue": 31.287879275395,
+    "aggro": true,
+    "resists": {
+        "physical": 20,
+        "fire": -10,
+        "ice": 0,
+        "energy": 0,
+        "earth": 100,
+        "holy": 0,
+        "death": 40
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "damage": 30
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 30,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 83
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 20,
+            "min": 5,
+            "max": 15,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Magical",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 1480,
+            "name": "wolf tooth chain"
+        },
+        {
+            "name": "gold coin",
+            "chance": 88000,
+            "maxCount": 30
+        },
+        {
+            "chance": 260,
+            "name": "club ring"
+        },
+        {
+            "name": "morning star",
+            "chance": 2150
+        },
+        {
+            "name": "steel helmet",
+            "chance": 850
+        },
+        {
+            "name": "dark armor",
+            "chance": 300
+        },
+        {
+            "name": "battle shield",
+            "chance": 1000
+        },
+        {
+            "name": "strawberry",
+            "chance": 1810,
+            "maxCount": 5
+        },
+        {
+            "name": "potato",
+            "chance": 9220,
+            "maxCount": 2
+        },
+        {
+            "name": "stone wing",
+            "chance": 11730
+        },
+        {
+            "name": "shiny stone",
+            "chance": 190
+        },
+        {
+            "name": "piece of marble rock",
+            "chance": 630
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "rune_gargoyle",
+    "threatDps": 20.75,
+    "burstDps": 20.75,
+    "avgHit": 41.5,
+    "maxHit": 83,
+    "manaCost": 0
+}

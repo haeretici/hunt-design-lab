@@ -1,0 +1,51 @@
+{
+    "id": "cave_simple",
+    "label": "Cave Simple",
+    "notes": "Stage 11.11 — deeper cave art volume (blueprint 18–70). Dirt/moss/cobble/bone floors, gravel-stone paths, cave+stone walls, cave/stone stairs, optional deep-void water. Genre: rpg_fantasy/tiles.",
+    "genre": "rpg_fantasy",
+    "kind": "tiles",
+    "roles": {
+        "floor": [
+            {
+                "id": "damp_dirt_floor",
+                "weight": 12
+            },
+            {
+                "id": "ancient_dirt_floor",
+                "weight": 8
+            }
+        ],
+        "path": [
+            {
+                "id": "polished_dirt_path",
+                "weight": 3
+            },
+            {
+                "id": "sunlit_dirt_path",
+                "weight": 2
+            }
+        ],
+        "wall": [
+            {
+                "id": "damp_cave_wall",
+                "weight": 12
+            }
+        ],
+        "stairs": [
+            {
+                "id": "broken_cave_stairs",
+                "weight": 5
+            }
+        ],
+        "void": [
+            {
+                "id": "damp_deep_water",
+                "weight": 4
+            }
+        ]
+    },
+    "rules": {
+        "blockedEdgeOnly": true,
+        "pathMix": 0.18
+    }
+}

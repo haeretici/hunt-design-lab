@@ -1,0 +1,172 @@
+{
+    "id": "pirate_buccaneer",
+    "label": "Pirate Buccaneer",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A pirate buccaneer.",
+    "hp": 425,
+    "hpMax": 425,
+    "speed": 109,
+    "level": 340,
+    "armor": 16,
+    "mitigation": 1.04,
+    "maxBlock": 0,
+    "exp": 250,
+    "lootValue": 36.110766847405,
+    "aggro": true,
+    "resists": {
+        "physical": -5,
+        "fire": -5,
+        "ice": -5,
+        "energy": -5,
+        "earth": 10,
+        "holy": 10,
+        "death": -5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 50,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 99
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 62,
+            "target": false,
+            "shootEffect": "ani_throwingknife"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Human",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 10190,
+            "name": "torch"
+        },
+        {
+            "name": "gold coin",
+            "chance": 67740,
+            "maxCount": 59
+        },
+        {
+            "name": "worn leather boots",
+            "chance": 9900
+        },
+        {
+            "name": "sabre",
+            "chance": 10100
+        },
+        {
+            "name": "throwing knife",
+            "chance": 9000,
+            "maxCount": 5
+        },
+        {
+            "name": "plate armor",
+            "chance": 1130
+        },
+        {
+            "name": "battle shield",
+            "chance": 3850
+        },
+        {
+            "chance": 1000,
+            "name": "treasure map"
+        },
+        {
+            "name": "rum flask",
+            "chance": 120
+        },
+        {
+            "id": 5792,
+            "chance": 40
+        },
+        {
+            "name": "pirate backpack",
+            "chance": 430
+        },
+        {
+            "name": "pirate shirt",
+            "chance": 1200
+        },
+        {
+            "name": "hook",
+            "chance": 450
+        },
+        {
+            "name": "eye patch",
+            "chance": 420
+        },
+        {
+            "name": "peg leg",
+            "chance": 510
+        },
+        {
+            "name": "strong health potion",
+            "chance": 670
+        },
+        {
+            "name": "compass",
+            "chance": 9780
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 15
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "chaos_triton_assassin",
+    "threatDps": 27.85,
+    "burstDps": 27.85,
+    "avgHit": 46.4167,
+    "maxHit": 99,
+    "manaCost": 595
+}

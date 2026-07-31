@@ -1,0 +1,158 @@
+{
+    "id": "renegade_orc",
+    "label": "Renegade Orc",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A renegade orc.",
+    "hp": 450,
+    "hpMax": 450,
+    "speed": 110,
+    "level": 346,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 270,
+    "lootValue": 185.13888888889,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 107
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 41,
+            "target": false,
+            "shootEffect": "ani_throwingknife"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 30000,
+            "name": "fish"
+        },
+        {
+            "chance": 28000,
+            "maxCount": 35,
+            "name": "gold coin"
+        },
+        {
+            "chance": 19000,
+            "name": "orc leather"
+        },
+        {
+            "chance": 10000,
+            "name": "plate shield"
+        },
+        {
+            "chance": 9850,
+            "maxCount": 4,
+            "name": "throwing knife"
+        },
+        {
+            "chance": 9650,
+            "name": "brown mushroom"
+        },
+        {
+            "chance": 3920,
+            "name": "sword ring"
+        },
+        {
+            "chance": 2800,
+            "name": "longsword"
+        },
+        {
+            "chance": 2600,
+            "name": "royal spear"
+        },
+        {
+            "chance": 2100,
+            "name": "scimitar"
+        },
+        {
+            "chance": 890,
+            "name": "orc tooth"
+        },
+        {
+            "chance": 830,
+            "name": "broadsword"
+        },
+        {
+            "chance": 550,
+            "name": "health potion"
+        },
+        {
+            "chance": 420,
+            "name": "plate legs"
+        },
+        {
+            "chance": 160,
+            "name": "warrior helmet"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "sun_orc_guard",
+    "threatDps": 28.8,
+    "burstDps": 28.8,
+    "avgHit": 48,
+    "maxHit": 107,
+    "manaCost": 0
+}

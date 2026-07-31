@@ -1,0 +1,242 @@
+{
+    "id": "enlightened_of_the_cult",
+    "label": "Enlightened Of The Cult",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An enlightened of the cult.",
+    "hp": 700,
+    "hpMax": 700,
+    "speed": 100,
+    "level": 388,
+    "armor": 40,
+    "mitigation": 1.18,
+    "maxBlock": 0,
+    "exp": 500,
+    "lootValue": 121.32834185537,
+    "aggro": true,
+    "resists": {
+        "physical": -5,
+        "fire": 0,
+        "ice": 20,
+        "energy": -5,
+        "earth": 0,
+        "holy": 20,
+        "death": -5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 50,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 85,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 3,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 1,
+            "element": "lifedrain",
+            "min": 60,
+            "max": 158,
+            "radius": 1,
+            "target": true,
+            "effect": "me_holyarea",
+            "shootEffect": "ani_holy"
+        },
+        {
+            "id": "slow_3",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -360,
+                "durationSec": 6
+            },
+            "effect": "me_magic_red",
+            "target": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 25,
+            "min": 60,
+            "max": 90,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "invisible_1",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 15,
+            "durationSec": 2,
+            "effect": "me_yellow_rings"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Human",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "id": 2828,
+            "chance": 910
+        },
+        {
+            "name": "piggy bank",
+            "chance": 130
+        },
+        {
+            "name": "small sapphire",
+            "chance": 550
+        },
+        {
+            "name": "gold coin",
+            "chance": 64550,
+            "maxCount": 70
+        },
+        {
+            "chance": 450,
+            "name": "voltaic ring"
+        },
+        {
+            "name": "platinum amulet",
+            "chance": 200
+        },
+        {
+            "name": "wand of inferno",
+            "chance": 180
+        },
+        {
+            "name": "protection amulet",
+            "chance": 790
+        },
+        {
+            "name": "Bone Skull Staff",
+            "chance": 350
+        },
+        {
+            "name": "blue robe",
+            "chance": 40
+        },
+        {
+            "name": "jewelled backpack",
+            "chance": 100
+        },
+        {
+            "name": "pirate voodoo doll",
+            "chance": 430
+        },
+        {
+            "chance": 490,
+            "name": "music sheet"
+        },
+        {
+            "name": "amber staff",
+            "chance": 100
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 740
+        },
+        {
+            "name": "cultish mask",
+            "chance": 10250
+        },
+        {
+            "name": "cultish symbol",
+            "chance": 890
+        },
+        {
+            "name": "broken key ring",
+            "chance": 100
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "celestial_fiend",
+    "threatDps": 36.375,
+    "burstDps": 36.375,
+    "avgHit": 55.8,
+    "maxHit": 158,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 2,
+        "summons": [
+            {
+                "name": "Crypt Shambler",
+                "id": "crypt_shambler",
+                "chance": 10,
+                "interval": 2000,
+                "count": 1
+            },
+            {
+                "name": "Ghost",
+                "id": "ghost",
+                "chance": 10,
+                "interval": 2000,
+                "count": 1
+            }
+        ]
+    }
+}

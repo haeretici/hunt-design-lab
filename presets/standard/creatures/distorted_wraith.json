@@ -1,0 +1,224 @@
+{
+    "id": "distorted_wraith",
+    "label": "Distorted Wraith",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A distorted wraith.",
+    "hp": 26000,
+    "hpMax": 26000,
+    "speed": 240,
+    "level": 750,
+    "armor": 100,
+    "mitigation": 2.45,
+    "maxBlock": 0,
+    "exp": 18870,
+    "lootValue": 7597.5917431193,
+    "aggro": true,
+    "resists": {
+        "physical": -10,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 50,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 329
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 4000,
+            "chance": 33,
+            "range": 4,
+            "element": "holy",
+            "min": 439,
+            "max": 549,
+            "radius": 4,
+            "target": false,
+            "effect": "me_explosionhit"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 5000,
+            "chance": 44,
+            "range": 7,
+            "element": "ice",
+            "min": 461,
+            "max": 571,
+            "radius": 4,
+            "target": true,
+            "effect": "me_icetornado",
+            "shootEffect": "ani_ice"
+        },
+        {
+            "id": "ice_chain_3",
+            "kind": "ranged",
+            "intervalMs": 10000,
+            "chance": 59,
+            "range": 7,
+            "element": "physical",
+            "min": 483,
+            "max": 571
+        },
+        {
+            "id": "ranged_4",
+            "kind": "ranged",
+            "intervalMs": 3000,
+            "chance": 18,
+            "range": 7,
+            "element": "holy",
+            "min": 461,
+            "max": 549,
+            "target": true,
+            "effect": "me_holydamage",
+            "shootEffect": "ani_smallholy"
+        },
+        {
+            "id": "area_5",
+            "kind": "area",
+            "intervalMs": 4000,
+            "chance": 25,
+            "range": 7,
+            "element": "holy",
+            "min": 395,
+            "max": 483,
+            "radius": 4,
+            "target": true,
+            "effect": "me_holydamage",
+            "shootEffect": "ani_smallholy"
+        },
+        {
+            "id": "extended_holy_chain_6",
+            "kind": "ranged",
+            "intervalMs": 10000,
+            "chance": 59,
+            "range": 7,
+            "element": "physical",
+            "min": 176,
+            "max": 307
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 5000,
+        "firstUnlock": 200,
+        "secondUnlock": 2000,
+        "charmsPoints": 100,
+        "stars": 5,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "crystal coin",
+            "chance": 74920
+        },
+        {
+            "name": "great dual potion",
+            "chance": 27010,
+            "maxCount": 5
+        },
+        {
+            "name": "distorted heart",
+            "chance": 6750
+        },
+        {
+            "chance": 4820,
+            "name": "ring of blue plasma"
+        },
+        {
+            "name": "Nether Rod",
+            "chance": 4820
+        },
+        {
+            "name": "distorted robe",
+            "chance": 4500
+        },
+        {
+            "name": "violet gem",
+            "chance": 4180
+        },
+        {
+            "name": "Bloomshoot Rod",
+            "chance": 3860
+        },
+        {
+            "chance": 3540,
+            "name": "ring of red plasma"
+        },
+        {
+            "name": "gold ingot",
+            "chance": 2890
+        },
+        {
+            "name": "spellbook of warding",
+            "chance": 2890
+        },
+        {
+            "chance": 1930,
+            "name": "ring of green plasma"
+        },
+        {
+            "name": "glacial rod",
+            "chance": 1290
+        },
+        {
+            "name": "bag you desire",
+            "chance": 15
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "bad_dream",
+    "threatDps": 271.492,
+    "burstDps": 604.3125,
+    "avgHit": 298.0154,
+    "maxHit": 571,
+    "manaCost": 0
+}

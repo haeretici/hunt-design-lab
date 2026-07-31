@@ -1,0 +1,230 @@
+{
+    "id": "infernal_wraith",
+    "label": "Infernal Wraith",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An infernal wraith.",
+    "hp": 26000,
+    "hpMax": 26000,
+    "speed": 200,
+    "level": 750,
+    "armor": 100,
+    "mitigation": 2.45,
+    "maxBlock": 0,
+    "exp": 15770,
+    "lootValue": 7429.8387096774,
+    "aggro": true,
+    "resists": {
+        "physical": -10,
+        "fire": 80,
+        "ice": -20,
+        "energy": 1,
+        "earth": -10,
+        "holy": -20,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 371
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "fire",
+            "min": 441,
+            "max": 604,
+            "target": true,
+            "effect": "me_firearea",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "extended_fire_chain_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 325,
+            "max": 418
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 3000,
+            "chance": 20,
+            "range": 4,
+            "element": "death",
+            "min": 418,
+            "max": 627,
+            "radius": 4,
+            "target": false,
+            "effect": "me_firearea"
+        },
+        {
+            "id": "wave_4",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "fire",
+            "min": 455,
+            "max": 580,
+            "length": 6,
+            "spread": 3,
+            "target": false,
+            "effect": "me_explosionhit"
+        },
+        {
+            "id": "area_5",
+            "kind": "area",
+            "intervalMs": 3000,
+            "chance": 24,
+            "range": 7,
+            "element": "death",
+            "min": 395,
+            "max": 557,
+            "radius": 3,
+            "target": true,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_suddendeath"
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 5000,
+        "firstUnlock": 200,
+        "secondUnlock": 2000,
+        "charmsPoints": 100,
+        "stars": 5,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "crystal coin",
+            "chance": 61900
+        },
+        {
+            "name": "Earthbound Rod",
+            "chance": 34070
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 24400,
+            "maxCount": 4
+        },
+        {
+            "name": "Hailburst Rod",
+            "chance": 7460
+        },
+        {
+            "name": "Bloomshoot Rod",
+            "chance": 4640
+        },
+        {
+            "name": "infernal heart",
+            "chance": 4440
+        },
+        {
+            "name": "Nether Rod",
+            "chance": 3830
+        },
+        {
+            "name": "fire axe",
+            "chance": 3630
+        },
+        {
+            "name": "wand of starstorm",
+            "chance": 3430
+        },
+        {
+            "name": "glorious axe",
+            "chance": 3230
+        },
+        {
+            "name": "infernal robe",
+            "chance": 2620
+        },
+        {
+            "name": "Maelstrom Mace",
+            "chance": 2420
+        },
+        {
+            "name": "titan axe",
+            "chance": 2020
+        },
+        {
+            "name": "wand of voodoo",
+            "chance": 1610
+        },
+        {
+            "name": "crystal mace",
+            "chance": 1610
+        },
+        {
+            "name": "war axe",
+            "chance": 1410
+        },
+        {
+            "name": "warrior's axe",
+            "chance": 1410
+        },
+        {
+            "name": "bag you desire",
+            "chance": 15
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "chaos_deep_sea_ogre",
+    "threatDps": 271.5258,
+    "burstDps": 307.9825,
+    "avgHit": 311.5019,
+    "maxHit": 627,
+    "manaCost": 0
+}

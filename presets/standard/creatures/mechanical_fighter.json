@@ -1,0 +1,88 @@
+{
+    "id": "mechanical_fighter",
+    "label": "Mechanical Fighter",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A mechanical fighter.",
+    "hp": 420,
+    "hpMax": 420,
+    "speed": 100,
+    "level": 339,
+    "armor": 0,
+    "mitigation": 0.55,
+    "maxBlock": 0,
+    "exp": 255,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 50,
+        "earth": 100,
+        "holy": 100,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 111
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "chance": 87460,
+            "name": "wooden trash"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "force_field",
+    "threatDps": 27.75,
+    "burstDps": 27.75,
+    "avgHit": 55.5,
+    "maxHit": 111,
+    "manaCost": 0
+}

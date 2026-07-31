@@ -1,0 +1,242 @@
+{
+    "id": "banshee",
+    "label": "Banshee",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A banshee.",
+    "hp": 1000,
+    "hpMax": 1000,
+    "speed": 110,
+    "level": 424,
+    "armor": 25,
+    "mitigation": 1.74,
+    "maxBlock": 0,
+    "exp": 900,
+    "lootValue": 191.66808510638,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": 0,
+        "energy": 0,
+        "earth": 100,
+        "holy": -25,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 80,
+        "health": 10,
+        "damage": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 500,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 104,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 3,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 104,
+            "max": 209,
+            "radius": 4,
+            "target": false,
+            "effect": "me_sound_red"
+        },
+        {
+            "id": "melee_2",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 1,
+            "element": "death",
+            "min": 57,
+            "max": 365,
+            "radius": 1,
+            "target": true,
+            "effect": "me_smallclouds"
+        },
+        {
+            "id": "slow_3",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -300,
+                "durationSec": 15
+            },
+            "effect": "me_magic_red",
+            "target": false
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 120,
+            "max": 190,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "candlestick",
+            "chance": 70000
+        },
+        {
+            "name": "wedding ring",
+            "chance": 460
+        },
+        {
+            "chance": 60,
+            "name": "crystal ring"
+        },
+        {
+            "name": "silver brooch",
+            "chance": 1250
+        },
+        {
+            "name": "white pearl",
+            "chance": 1010
+        },
+        {
+            "name": "black pearl",
+            "chance": 2030
+        },
+        {
+            "name": "gold coin",
+            "chance": 30000,
+            "maxCount": 80
+        },
+        {
+            "name": "silver amulet",
+            "chance": 8700
+        },
+        {
+            "chance": 520,
+            "name": "spellbook"
+        },
+        {
+            "name": "life crystal",
+            "chance": 70
+        },
+        {
+            "name": "Stonehide Amulet",
+            "chance": 820
+        },
+        {
+            "chance": 730,
+            "name": "ring of healing"
+        },
+        {
+            "chance": 910,
+            "name": "lyre"
+        },
+        {
+            "name": "poison dagger",
+            "chance": 1350
+        },
+        {
+            "name": "red robe",
+            "chance": 150
+        },
+        {
+            "name": "blue robe",
+            "chance": 700
+        },
+        {
+            "name": "simple dress",
+            "chance": 6050
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 680
+        },
+        {
+            "name": "Earthbound Mantle",
+            "chance": 340
+        },
+        {
+            "name": "petrified scream",
+            "chance": 4150
+        },
+        {
+            "name": "hair of a banshee",
+            "chance": 4810
+        },
+        {
+            "name": "sweet smelling bait",
+            "chance": 40
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "crystal_horror_berserker",
+    "threatDps": 44.5125,
+    "burstDps": 44.5125,
+    "avgHit": 71.6875,
+    "maxHit": 365,
+    "manaCost": 0
+}

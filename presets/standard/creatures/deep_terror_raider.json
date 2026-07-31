@@ -1,0 +1,195 @@
+{
+    "id": "deep_terror_raider",
+    "label": "Deep Terror Raider",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A deep terror raider.",
+    "hp": 12500,
+    "hpMax": 12500,
+    "speed": 215,
+    "level": 677,
+    "armor": 95,
+    "mitigation": 2.75,
+    "maxBlock": 0,
+    "exp": 8150,
+    "lootValue": 1369.0990453461,
+    "aggro": true,
+    "resists": {
+        "physical": 10,
+        "fire": 20,
+        "ice": 100,
+        "energy": -10,
+        "earth": -14,
+        "holy": 10,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 67,
+            "max": 86
+        },
+        {
+            "id": "quaralargeicering_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 1,
+            "element": "physical",
+            "min": 335,
+            "max": 375,
+            "target": false
+        },
+        {
+            "id": "quararaidershoot_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 35,
+            "range": 7,
+            "element": "physical",
+            "min": 174,
+            "max": 241,
+            "target": true
+        },
+        {
+            "id": "quarawatersplash_3",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 18,
+            "range": 1,
+            "element": "physical",
+            "min": 361,
+            "max": 428,
+            "target": false
+        },
+        {
+            "id": "quaraseamonster_4",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 18,
+            "range": 1,
+            "element": "physical",
+            "min": 361,
+            "max": 428,
+            "target": false
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 7,
+            "min": 800,
+            "max": 1000,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Aquatic",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 1
+    },
+    "loot": [
+        {
+            "name": "Amber Souvenir",
+            "chance": 7330
+        },
+        {
+            "chance": 5340,
+            "name": "red gem"
+        },
+        {
+            "name": "Resinous Fish Fin",
+            "chance": 4090
+        },
+        {
+            "name": "Bone Skull Staff",
+            "chance": 1480
+        },
+        {
+            "chance": 1140,
+            "name": "blue gem"
+        },
+        {
+            "name": "Frostbound Robe",
+            "chance": 910
+        },
+        {
+            "name": "Crystalline Armor",
+            "chance": 510
+        },
+        {
+            "name": "Quara Pincers",
+            "chance": 510
+        },
+        {
+            "name": "Abyss Hammer",
+            "chance": 170
+        },
+        {
+            "name": "Preserved Light Blue Seed",
+            "chance": 110
+        },
+        {
+            "name": "Preserved Purple Seed",
+            "chance": 110
+        },
+        {
+            "name": "platinum coin",
+            "chance": 10000,
+            "maxCount": 25
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 11
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "freed_soul",
+    "threatDps": 181.0725,
+    "burstDps": 181.0725,
+    "avgHit": 189.6047,
+    "maxHit": 428,
+    "manaCost": 0
+}

@@ -1,0 +1,139 @@
+{
+    "id": "damaged_worker_golem",
+    "label": "Damaged Worker Golem",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A damaged worker golem.",
+    "hp": 260,
+    "hpMax": 260,
+    "speed": 75,
+    "level": 291,
+    "armor": 16,
+    "mitigation": 0.33,
+    "maxBlock": 0,
+    "exp": 95,
+    "lootValue": 18.595134525536,
+    "aggro": true,
+    "resists": {
+        "physical": 10,
+        "fire": 0,
+        "ice": 10,
+        "energy": -5,
+        "earth": 50,
+        "holy": 50,
+        "death": 10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 74
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 74,
+            "target": false,
+            "shootEffect": "ani_smallstone"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 5,
+            "max": 11,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Construct",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 68810,
+            "maxCount": 88
+        },
+        {
+            "chance": 570,
+            "name": "sword ring"
+        },
+        {
+            "name": "iron ore",
+            "chance": 400
+        },
+        {
+            "name": "nail",
+            "chance": 1460
+        },
+        {
+            "name": "heavily rusted armor",
+            "chance": 790
+        },
+        {
+            "name": "gear crystal",
+            "chance": 200
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "solar_volcano_golem_slayer",
+    "threatDps": 21.275,
+    "burstDps": 21.275,
+    "avgHit": 37,
+    "maxHit": 74,
+    "manaCost": 0
+}

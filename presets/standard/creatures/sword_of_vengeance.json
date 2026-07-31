@@ -1,0 +1,133 @@
+{
+    "id": "sword_of_vengeance",
+    "label": "Sword Of Vengeance",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A sword of vengeance.",
+    "hp": 1,
+    "hpMax": 1,
+    "speed": 180,
+    "level": 537,
+    "armor": 0,
+    "mitigation": 0.7,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 242
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "manadrain",
+            "min": 40,
+            "max": 160,
+            "radius": 6,
+            "target": false,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "berserk_2",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 1,
+            "element": "physical",
+            "min": 40,
+            "max": 160,
+            "target": false
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "energy",
+            "min": 40,
+            "max": 100,
+            "length": 4,
+            "spread": 0,
+            "target": false,
+            "effect": "me_energyhit"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 20,
+            "min": 100,
+            "max": 225,
+            "hpBelow": 0.7,
+            "effect": "me_hitbyfire"
+        }
+    ],
+    "race": "fire",
+    "loot": [],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "twilight_desert_stalker",
+    "threatDps": 83.25,
+    "burstDps": 83.25,
+    "avgHit": 111,
+    "maxHit": 242,
+    "manaCost": 0
+}

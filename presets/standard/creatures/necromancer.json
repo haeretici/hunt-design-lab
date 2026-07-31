@@ -1,0 +1,209 @@
+{
+    "id": "necromancer",
+    "label": "Necromancer",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A necromancer.",
+    "hp": 580,
+    "hpMax": 580,
+    "speed": 94,
+    "level": 371,
+    "armor": 50,
+    "mitigation": 1.04,
+    "maxBlock": 0,
+    "exp": 580,
+    "lootValue": 113.26181390827,
+    "aggro": true,
+    "resists": {
+        "physical": -5,
+        "fire": -5,
+        "ice": 10,
+        "energy": 20,
+        "earth": 100,
+        "holy": -5,
+        "death": 50
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 22,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 45,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 1,
+            "element": "death",
+            "min": 17,
+            "max": 34,
+            "target": true,
+            "effect": "me_smallclouds",
+            "shootEffect": "ani_death"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "earth",
+            "min": 18,
+            "max": 34,
+            "target": false,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_poison"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 25,
+            "min": 50,
+            "max": 80,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Human",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 30050,
+            "maxCount": 90
+        },
+        {
+            "name": "boots of haste",
+            "chance": 210
+        },
+        {
+            "name": "clerical mace",
+            "chance": 390
+        },
+        {
+            "name": "Bone Skull Staff",
+            "chance": 100
+        },
+        {
+            "name": "poison arrow",
+            "chance": 15000,
+            "maxCount": 5
+        },
+        {
+            "name": "mystic turban",
+            "chance": 500
+        },
+        {
+            "name": "green mushroom",
+            "chance": 1470
+        },
+        {
+            "name": "noble axe",
+            "chance": 10
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 300
+        },
+        {
+            "name": "spellbook of warding",
+            "chance": 130
+        },
+        {
+            "name": "book of necromantic rituals",
+            "chance": 10130
+        },
+        {
+            "name": "necromantic robe",
+            "chance": 1001
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "infernal_merrow_necromancer",
+    "threatDps": 33.15,
+    "burstDps": 33.15,
+    "avgHit": 15.2143,
+    "maxHit": 34,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 3,
+        "summons": [
+            {
+                "name": "Ghoul",
+                "id": "ghoul",
+                "chance": 15,
+                "interval": 2000,
+                "count": 1
+            },
+            {
+                "name": "Ghost",
+                "id": "ghost",
+                "chance": 5,
+                "interval": 2000,
+                "count": 1
+            },
+            {
+                "name": "Mummy",
+                "id": "mummy",
+                "chance": 5,
+                "interval": 2000,
+                "count": 1
+            }
+        ]
+    }
+}

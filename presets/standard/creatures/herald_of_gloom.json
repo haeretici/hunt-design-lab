@@ -1,0 +1,146 @@
+{
+    "id": "herald_of_gloom",
+    "label": "Herald Of Gloom",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A herald of gloom.",
+    "hp": 340,
+    "hpMax": 340,
+    "speed": 85,
+    "level": 317,
+    "armor": 25,
+    "mitigation": 1.32,
+    "maxBlock": 0,
+    "exp": 450,
+    "lootValue": 50.247116968699,
+    "aggro": true,
+    "resists": {
+        "physical": -10,
+        "fire": 40,
+        "ice": 0,
+        "energy": 0,
+        "earth": 70,
+        "holy": -10,
+        "death": 10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 58
+        },
+        {
+            "id": "slow_1",
+            "kind": "status",
+            "intervalMs": 3000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -600,
+                "durationSec": 30
+            },
+            "effect": "me_magic_red",
+            "target": true
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 24,
+            "range": 4,
+            "element": "holy",
+            "min": 58,
+            "max": 110,
+            "target": false,
+            "shootEffect": "ani_smallholy"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 1000,
+            "chance": 15,
+            "speedChange": 200,
+            "durationSec": 20,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "invisible_1",
+            "kind": "invisible",
+            "intervalMs": 5000,
+            "chance": 20,
+            "durationSec": 2,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Demon",
+        "toKill": 5,
+        "firstUnlock": 2,
+        "secondUnlock": 3,
+        "charmsPoints": 50,
+        "stars": 3,
+        "occurrence": 3
+    },
+    "loot": [
+        {
+            "name": "midnight shard",
+            "chance": 1886
+        }
+    ],
+    "changeTarget": {
+        "interval": 0,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "umbral_ghoul",
+    "threatDps": 24.58,
+    "burstDps": 24.58,
+    "avgHit": 39.6452,
+    "maxHit": 110,
+    "manaCost": 0
+}

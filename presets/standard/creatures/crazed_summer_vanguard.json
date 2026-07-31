@@ -1,0 +1,218 @@
+{
+    "id": "crazed_summer_vanguard",
+    "label": "Crazed Summer Vanguard",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A crazed summer vanguard.",
+    "hp": 5500,
+    "hpMax": 5500,
+    "speed": 195,
+    "level": 595,
+    "armor": 77,
+    "mitigation": 2.05,
+    "maxBlock": 0,
+    "exp": 5000,
+    "lootValue": 988.31306134876,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 50,
+        "ice": -30,
+        "energy": 0,
+        "earth": 0,
+        "holy": 20,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 308
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2500,
+            "chance": 15,
+            "range": 4,
+            "element": "fire",
+            "min": 68,
+            "max": 205,
+            "length": 3,
+            "spread": 0,
+            "target": false,
+            "effect": "me_firearea"
+        },
+        {
+            "id": "melee_2",
+            "kind": "melee",
+            "intervalMs": 3000,
+            "chance": 15,
+            "range": 1,
+            "element": "fire",
+            "min": 68,
+            "max": 205,
+            "radius": 1,
+            "target": false,
+            "effect": "me_firearea"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 3500,
+            "chance": 20,
+            "range": 7,
+            "element": "fire",
+            "min": 171,
+            "max": 205,
+            "target": false,
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 4000,
+            "chance": 20,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 68,
+            "max": 205,
+            "radius": 3,
+            "target": true,
+            "effect": "me_explosionhit"
+        },
+        {
+            "id": "sparks_chain_5",
+            "kind": "ranged",
+            "intervalMs": 4500,
+            "chance": 20,
+            "range": 3,
+            "element": "physical",
+            "min": 68,
+            "max": 171,
+            "target": true
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 85000,
+            "maxCount": 13
+        },
+        {
+            "name": "elven astral observer",
+            "chance": 30000,
+            "maxCount": 2
+        },
+        {
+            "name": "dream essence egg",
+            "chance": 8600
+        },
+        {
+            "name": "belted cape",
+            "chance": 9500
+        },
+        {
+            "name": "two handed sword",
+            "chance": 7400
+        },
+        {
+            "name": "seeds",
+            "chance": 8600
+        },
+        {
+            "chance": 6800,
+            "name": "scimitar"
+        },
+        {
+            "name": "knife",
+            "chance": 6600
+        },
+        {
+            "name": "dragon necklace",
+            "chance": 7150
+        },
+        {
+            "name": "Emberbound Amulet",
+            "chance": 5500
+        },
+        {
+            "name": "wand of dragonbreath",
+            "chance": 4800
+        },
+        {
+            "name": "wand of draconia",
+            "chance": 4800
+        },
+        {
+            "name": "Emberbound Boots",
+            "chance": 2900
+        },
+        {
+            "name": "sun fruit",
+            "chance": 900
+        },
+        {
+            "name": "marksman potion",
+            "chance": 300
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "sun_orc_guard",
+    "threatDps": 114.894,
+    "burstDps": 141.875,
+    "avgHit": 150.8612,
+    "maxHit": 308,
+    "manaCost": 0
+}

@@ -1,0 +1,239 @@
+{
+    "id": "essence_of_malice",
+    "label": "Essence Of Malice",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An essence of malice.",
+    "hp": 250000,
+    "hpMax": 250000,
+    "speed": 160,
+    "level": 975,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 150000,
+    "lootValue": 18249.692307692,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -50,
+        "ice": 50,
+        "energy": -50,
+        "earth": -50,
+        "holy": -50,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 366,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 2668
+        },
+        {
+            "id": "ghastly_dragon_curse_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 5,
+            "element": "physical",
+            "target": false,
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "condition_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 5,
+            "element": "earth",
+            "min": 2301,
+            "max": 3451,
+            "target": true,
+            "effect": "me_smallclouds"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "lifedrain",
+            "min": 354,
+            "max": 1018,
+            "target": true,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "wave_4",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "death",
+            "min": 531,
+            "max": 1106,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_loseenergy"
+        },
+        {
+            "id": "area_5",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "death",
+            "min": 487,
+            "max": 796,
+            "radius": 4,
+            "target": false,
+            "effect": "me_mortarea"
+        },
+        {
+            "id": "slow_6",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -800,
+                "durationSec": 30
+            },
+            "effect": "me_smallclouds",
+            "target": true
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "name": "silver token",
+            "chance": 2732
+        },
+        {
+            "name": "gold token",
+            "chance": 1530
+        },
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 200
+        },
+        {
+            "name": "platinum coin",
+            "chance": 29840,
+            "maxCount": 57
+        },
+        {
+            "name": "Stormbound Legs",
+            "chance": 8723
+        },
+        {
+            "name": "yellow gem",
+            "chance": 29460
+        },
+        {
+            "name": "demon shield",
+            "chance": 2270
+        },
+        {
+            "name": "shockwave amulet",
+            "chance": 15100
+        },
+        {
+            "name": "witch hat",
+            "chance": 9510
+        },
+        {
+            "name": "mysterious remains",
+            "chance": 100000
+        },
+        {
+            "name": "small amethyst",
+            "chance": 14700,
+            "maxCount": 10
+        },
+        {
+            "name": "small amethyst",
+            "chance": 12259,
+            "maxCount": 10
+        },
+        {
+            "name": "odd organ",
+            "chance": 100000
+        },
+        {
+            "name": "energy bar",
+            "chance": 16872,
+            "maxCount": 3
+        },
+        {
+            "chance": 8762,
+            "name": "ring of blue plasma"
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 27652,
+            "maxCount": 10
+        },
+        {
+            "name": "blade of corruption",
+            "chance": 3775
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 5
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "glacier_mountain_phantom",
+    "threatDps": 951.2875,
+    "burstDps": 951.2875,
+    "avgHit": 1268.3833,
+    "maxHit": 3451,
+    "manaCost": 0
+}

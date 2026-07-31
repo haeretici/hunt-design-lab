@@ -1,0 +1,220 @@
+{
+    "id": "pharaoh_illusionist",
+    "label": "Pharaoh Illusionist",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A pharaoh illusionist.",
+    "hp": 3700,
+    "hpMax": 3700,
+    "speed": 220,
+    "level": 555,
+    "armor": 40,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 3100,
+    "lootValue": 229.35506465517,
+    "aggro": true,
+    "resists": {
+        "physical": -40,
+        "fire": 95,
+        "ice": 100,
+        "energy": 95,
+        "earth": 100,
+        "holy": -1,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 80,
+        "health": 10,
+        "damage": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 243,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 21,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 3000,
+            "chance": 7,
+            "range": 1,
+            "element": "lifedrain",
+            "min": 24,
+            "max": 243,
+            "target": false
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "energy",
+            "min": 19,
+            "max": 194,
+            "target": false,
+            "effect": "me_energyhit",
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 3000,
+            "chance": 20,
+            "range": 7,
+            "element": "physical",
+            "min": 19,
+            "max": 194,
+            "target": false,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "slow_4",
+            "kind": "status",
+            "intervalMs": 1000,
+            "chance": 12,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -650,
+                "durationSec": 60
+            },
+            "radius": 6,
+            "effect": "me_poisonarea",
+            "target": false
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 1000,
+            "chance": 20,
+            "min": 200,
+            "max": 500,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 90
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 80
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 60
+        },
+        {
+            "name": "small amethyst",
+            "chance": 7000,
+            "maxCount": 3
+        },
+        {
+            "name": "violet gem",
+            "chance": 500
+        },
+        {
+            "name": "orb",
+            "chance": 500
+        },
+        {
+            "name": "crystal wand",
+            "chance": 500
+        },
+        {
+            "chance": 7000,
+            "name": "ring of healing"
+        },
+        {
+            "name": "ancient rune",
+            "chance": 100000
+        },
+        {
+            "name": "twin axe",
+            "chance": 200
+        },
+        {
+            "name": "magician hat",
+            "chance": 300
+        },
+        {
+            "name": "great mana potion",
+            "chance": 7000
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "chaos_stone_revenant_archer",
+    "threatDps": 92.115,
+    "burstDps": 97.2225,
+    "avgHit": 118.2826,
+    "maxHit": 243,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 1,
+        "summons": [
+            {
+                "name": "Demon",
+                "id": "demon",
+                "chance": 12,
+                "interval": 1000,
+                "count": 1
+            }
+        ]
+    }
+}

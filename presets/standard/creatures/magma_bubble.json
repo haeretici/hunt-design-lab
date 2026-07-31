@@ -1,0 +1,253 @@
+{
+    "id": "magma_bubble",
+    "label": "Magma Bubble",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A magma bubble.",
+    "hp": 150000,
+    "hpMax": 150000,
+    "speed": 0,
+    "level": 924,
+    "armor": 0,
+    "mitigation": 2,
+    "maxBlock": 0,
+    "exp": 80000,
+    "lootValue": 343868.42105263,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 100,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 98,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 211,
+            "max": 576
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 75,
+            "range": 8,
+            "element": "fire",
+            "min": 557,
+            "max": 769,
+            "radius": 3,
+            "target": true,
+            "effect": "me_hitbyfire",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 3700,
+            "chance": 37,
+            "range": 4,
+            "element": "fire",
+            "min": 1307,
+            "max": 2114,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 3100,
+            "chance": 27,
+            "range": 8,
+            "element": "fire",
+            "min": 769,
+            "max": 1537,
+            "target": true,
+            "effect": "me_firearea",
+            "shootEffect": "ani_fire"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 3000,
+            "chance": 35,
+            "min": 400,
+            "max": 500,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 320,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "name": "crystal coin",
+            "chance": 100000,
+            "maxCount": 60
+        },
+        {
+            "name": "ultimate mana potion",
+            "chance": 32653,
+            "maxCount": 14
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 30612,
+            "maxCount": 14
+        },
+        {
+            "name": "marksman potion",
+            "chance": 24490,
+            "maxCount": 5
+        },
+        {
+            "name": "berserk potion",
+            "chance": 22449,
+            "maxCount": 5
+        },
+        {
+            "name": "savant potion",
+            "chance": 18367,
+            "maxCount": 5
+        },
+        {
+            "name": "giant amethyst",
+            "chance": 6122
+        },
+        {
+            "name": "giant ruby",
+            "chance": 4082
+        },
+        {
+            "name": "giant emerald",
+            "chance": 4082
+        },
+        {
+            "name": "giant sapphire",
+            "chance": 2041
+        },
+        {
+            "name": "giant topaz",
+            "chance": 2041
+        },
+        {
+            "name": "fiery tear",
+            "chance": 1000
+        },
+        {
+            "name": "arboreal tome",
+            "chance": 250
+        },
+        {
+            "name": "arboreal crown",
+            "chance": 250
+        },
+        {
+            "name": "spiritthorn armor",
+            "chance": 250
+        },
+        {
+            "name": "spiritthorn helmet",
+            "chance": 250
+        },
+        {
+            "name": "alicorn headguard",
+            "chance": 250
+        },
+        {
+            "name": "alicorn quiver",
+            "chance": 250
+        },
+        {
+            "name": "arcanomancer regalia",
+            "chance": 250
+        },
+        {
+            "name": "arcanomancer folio",
+            "chance": 250
+        },
+        {
+            "chance": 250,
+            "name": "charged arcanomancer sigil"
+        },
+        {
+            "chance": 250,
+            "name": "charged arboreal ring"
+        },
+        {
+            "chance": 250,
+            "name": "charged alicorn ring"
+        },
+        {
+            "chance": 250,
+            "name": "charged spiritthorn ring"
+        },
+        {
+            "name": "portable flame",
+            "chance": 250
+        },
+        {
+            "name": "firefighting axe",
+            "chance": 250
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ethereal_tomb_wolf_lord",
+    "threatDps": 716.8476,
+    "burstDps": 917.4725,
+    "avgHit": 674.9362,
+    "maxHit": 2114,
+    "manaCost": 0
+}

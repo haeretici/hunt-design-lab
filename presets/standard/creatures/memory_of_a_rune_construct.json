@@ -1,0 +1,190 @@
+{
+    "id": "memory_of_a_rune_construct",
+    "label": "Memory Of A Rune Construct",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A memory of a rune construct.",
+    "hp": 3710,
+    "hpMax": 3710,
+    "speed": 140,
+    "level": 555,
+    "armor": 0,
+    "mitigation": 1.3,
+    "maxBlock": 0,
+    "exp": 1750,
+    "lootValue": 311.67796610169,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 15,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 279
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "min": 70,
+            "max": 139,
+            "target": true,
+            "effect": "me_energyhit",
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 35,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 0,
+            "max": 139,
+            "length": 5,
+            "spread": 0,
+            "target": false,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "manadrain",
+            "min": 70,
+            "max": 139,
+            "radius": 7,
+            "target": false,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "slow_4",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 9,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -440,
+                "durationSec": 7
+            },
+            "effect": "me_giantice",
+            "target": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 400,
+            "max": 500,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 30000,
+            "maxCount": 171
+        },
+        {
+            "name": "vortex bolt",
+            "chance": 15000,
+            "maxCount": 3
+        },
+        {
+            "name": "gemmed figurine",
+            "chance": 7000
+        },
+        {
+            "name": "great health potion",
+            "chance": 7000
+        },
+        {
+            "name": "brown mushroom",
+            "chance": 7000
+        },
+        {
+            "name": "meat",
+            "chance": 12000
+        },
+        {
+            "name": "platinum coin",
+            "chance": 22000,
+            "maxCount": 2
+        },
+        {
+            "name": "small ruby",
+            "chance": 7000,
+            "maxCount": 2
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "cave_parrot",
+    "threatDps": 92.3625,
+    "burstDps": 92.3625,
+    "avgHit": 119.1774,
+    "maxHit": 279,
+    "manaCost": 0
+}

@@ -1,0 +1,112 @@
+{
+    "id": "minotaur_invader",
+    "label": "Minotaur Invader",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A minotaur invader.",
+    "hp": 1850,
+    "hpMax": 1850,
+    "speed": 120,
+    "level": 486,
+    "armor": 40,
+    "mitigation": 1.76,
+    "maxBlock": 0,
+    "exp": 1760,
+    "lootValue": 432.12822202092,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 20,
+        "ice": -10,
+        "energy": 0,
+        "earth": 0,
+        "holy": 10,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 251
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 2
+    },
+    "loot": [
+        {
+            "chance": 59640,
+            "maxCount": 160,
+            "name": "gold coin"
+        },
+        {
+            "chance": 8330,
+            "maxCount": 2,
+            "name": "minotaur horn"
+        },
+        {
+            "chance": 5040,
+            "name": "piece of warrior armor"
+        },
+        {
+            "chance": 1000,
+            "name": "minotaur leather"
+        },
+        {
+            "chance": 90,
+            "name": "minotaur trophy"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "lunar_minotaur_vanguard",
+    "threatDps": 62.75,
+    "burstDps": 62.75,
+    "avgHit": 125.5,
+    "maxHit": 251,
+    "manaCost": 0
+}

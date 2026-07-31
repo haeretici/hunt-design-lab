@@ -1,0 +1,198 @@
+{
+    "id": "gorgon",
+    "label": "Gorgon",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A gorgon.",
+    "hp": 4500,
+    "hpMax": 4500,
+    "speed": 125,
+    "level": 575,
+    "armor": 45,
+    "mitigation": 1.74,
+    "maxBlock": 0,
+    "exp": 4050,
+    "lootValue": 1090.763938067,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -10,
+        "ice": 20,
+        "energy": -10,
+        "earth": 100,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 600,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 80,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 149,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "lifedrain",
+            "min": 4,
+            "max": 62,
+            "target": true,
+            "effect": "me_carniphila",
+            "shootEffect": "ani_earth"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "earth",
+            "min": 44,
+            "max": 89,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_carniphila"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 25,
+            "min": 150,
+            "max": 300,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Magical",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 190
+        },
+        {
+            "name": "small emerald",
+            "chance": 3770,
+            "maxCount": 4
+        },
+        {
+            "name": "platinum coin",
+            "chance": 74810,
+            "maxCount": 6
+        },
+        {
+            "name": "knight armor",
+            "chance": 1840
+        },
+        {
+            "name": "Gorgon Shield",
+            "chance": 3040
+        },
+        {
+            "name": "titan axe",
+            "chance": 1160
+        },
+        {
+            "name": "great mana potion",
+            "chance": 10000,
+            "maxCount": 2
+        },
+        {
+            "name": "Earthbound Mantle",
+            "chance": 870
+        },
+        {
+            "name": "Earthbound Legs",
+            "chance": 420
+        },
+        {
+            "name": "Earthbound Amulet",
+            "chance": 4060
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 9290,
+            "maxCount": 2
+        },
+        {
+            "chance": 500,
+            "name": "slightly rusted armor"
+        },
+        {
+            "name": "sacred tree amulet",
+            "chance": 850
+        },
+        {
+            "name": "strand of medusa hair",
+            "chance": 9900
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "lava_gorgon",
+    "threatDps": 102.7875,
+    "burstDps": 102.7875,
+    "avgHit": 41.9074,
+    "maxHit": 89,
+    "manaCost": 0
+}

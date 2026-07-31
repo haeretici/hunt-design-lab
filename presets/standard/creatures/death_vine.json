@@ -1,0 +1,180 @@
+{
+    "id": "death_vine",
+    "label": "Death Vine",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A death vine.",
+    "hp": 525,
+    "hpMax": 525,
+    "speed": 120,
+    "level": 361,
+    "armor": 0,
+    "mitigation": 0.61,
+    "maxBlock": 0,
+    "exp": 340,
+    "lootValue": 5283.0177514793,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -20,
+        "ice": 35,
+        "energy": 10,
+        "earth": 100,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "condition": {
+                "type": "poison",
+                "totalDamage": 5,
+                "intervalMs": 4000
+            },
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 25,
+            "range": 7,
+            "element": "earth",
+            "min": 60,
+            "max": 90,
+            "target": false,
+            "effect": "me_hitbypoison",
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "slow_2",
+            "kind": "status",
+            "intervalMs": 1000,
+            "chance": 34,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -850,
+                "durationSec": 30
+            },
+            "effect": "me_hitbypoison",
+            "target": false
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 12,
+            "range": 4,
+            "element": "earth",
+            "min": 40,
+            "max": 130,
+            "radius": 3,
+            "target": false,
+            "effect": "me_poisonarea"
+        }
+    ],
+    "race": "venom",
+    "loot": [
+        {
+            "chance": 100000,
+            "name": "carniphila seeds"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 5,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 100000,
+            "name": "shadow herb"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 4,
+            "name": "small emerald"
+        },
+        {
+            "chance": 50000,
+            "name": "dark mushroom"
+        },
+        {
+            "chance": 50000,
+            "name": "seeds"
+        },
+        {
+            "chance": 50000,
+            "name": "Earthbound Amulet"
+        },
+        {
+            "chance": 50000,
+            "name": "Earthbound Boots"
+        },
+        {
+            "chance": 50000,
+            "name": "Bloomshoot Rod"
+        },
+        {
+            "chance": 5555,
+            "name": "mandrake"
+        },
+        {
+            "chance": 2854,
+            "name": "sweet smelling bait"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "skeletal_hill_giant",
+    "threatDps": 31.45,
+    "burstDps": 31.45,
+    "avgHit": 78.2432,
+    "maxHit": 130,
+    "manaCost": 0
+}

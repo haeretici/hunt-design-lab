@@ -1,0 +1,218 @@
+{
+    "id": "reptilian_chosen",
+    "label": "Reptilian Chosen",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A reptilian chosen.",
+    "hp": 3050,
+    "hpMax": 3050,
+    "speed": 136,
+    "level": 536,
+    "armor": 28,
+    "mitigation": 0.94,
+    "maxBlock": 0,
+    "exp": 2530,
+    "lootValue": 570.71534267913,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 10,
+        "ice": 10,
+        "energy": 20,
+        "earth": 100,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 50,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 217
+        },
+        {
+            "id": "condition_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "earth",
+            "min": 145,
+            "max": 193,
+            "length": 3,
+            "spread": 2,
+            "target": false,
+            "effect": "me_poisonarea"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "earth",
+            "min": 114,
+            "max": 205,
+            "radius": 3,
+            "target": false,
+            "effect": "me_hitbypoison"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "earth",
+            "min": 54,
+            "max": 108,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_green_rings"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 75,
+            "max": 125,
+            "hpBelow": 0.7,
+            "effect": "me_magic_green"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Reptile",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "small diamond",
+            "chance": 2550,
+            "maxCount": 5
+        },
+        {
+            "name": "gold coin",
+            "chance": 33000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 32000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 32000,
+            "maxCount": 36
+        },
+        {
+            "name": "platinum coin",
+            "chance": 2920,
+            "maxCount": 5
+        },
+        {
+            "name": "tower shield",
+            "chance": 1100
+        },
+        {
+            "name": "lizard leather",
+            "chance": 2000
+        },
+        {
+            "name": "lizard scale",
+            "chance": 980,
+            "maxCount": 3
+        },
+        {
+            "name": "great health potion",
+            "chance": 5350,
+            "maxCount": 3
+        },
+        {
+            "name": "zaoan armor",
+            "chance": 980
+        },
+        {
+            "name": "zaoan helmet",
+            "chance": 140
+        },
+        {
+            "name": "zaoan shoes",
+            "chance": 810
+        },
+        {
+            "name": "zaoan legs",
+            "chance": 940
+        },
+        {
+            "name": "spiked iron ball",
+            "chance": 9890
+        },
+        {
+            "name": "corrupted flag",
+            "chance": 3350
+        },
+        {
+            "name": "cursed shoulder spikes",
+            "chance": 5800
+        },
+        {
+            "name": "scale of corruption",
+            "chance": 2870
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "chaos_deep_sea_ogre",
+    "threatDps": 82.9375,
+    "burstDps": 82.9375,
+    "avgHit": 118.4821,
+    "maxHit": 217,
+    "manaCost": 0
+}

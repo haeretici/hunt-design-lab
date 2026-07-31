@@ -1,0 +1,268 @@
+{
+    "id": "vampire_knight_bloodblade",
+    "label": "Vampire Knight Bloodblade",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A vampire knight bloodblade.",
+    "hp": 1,
+    "hpMax": 1,
+    "speed": 125,
+    "level": 820,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 55000,
+    "lootValue": 50192,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -10,
+        "ice": 35,
+        "energy": 0,
+        "earth": 70,
+        "holy": -10,
+        "death": 200
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 900,
+            "effect": "me_drawblood"
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 3100,
+            "chance": 37,
+            "range": 4,
+            "element": "physical",
+            "min": 400,
+            "max": 1000,
+            "length": 7,
+            "spread": 0,
+            "target": false,
+            "effect": "me_drawblood"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2500,
+            "chance": 35,
+            "range": 5,
+            "element": "physical",
+            "min": 350,
+            "max": 625,
+            "target": true,
+            "effect": "me_drawblood",
+            "shootEffect": "ani_whirlwindaxe"
+        },
+        {
+            "id": "melee_3",
+            "kind": "melee",
+            "intervalMs": 2700,
+            "chance": 30,
+            "range": 1,
+            "element": "death",
+            "min": 180,
+            "max": 250,
+            "target": true,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_suddendeath"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 35,
+            "min": 350,
+            "max": 550,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "venom",
+    "loot": [
+        {
+            "name": "platinum coin",
+            "minCount": 1,
+            "maxCount": 5,
+            "chance": 100000
+        },
+        {
+            "name": "crystal coin",
+            "minCount": 0,
+            "maxCount": 2,
+            "chance": 50000
+        },
+        {
+            "name": "supreme health potion",
+            "minCount": 0,
+            "maxCount": 6,
+            "chance": 35000
+        },
+        {
+            "name": "ultimate mana potion",
+            "minCount": 0,
+            "maxCount": 20,
+            "chance": 32000
+        },
+        {
+            "name": "ultimate dual potion",
+            "minCount": 0,
+            "maxCount": 20,
+            "chance": 32000
+        },
+        {
+            "name": "savant potion",
+            "minCount": 0,
+            "maxCount": 10,
+            "chance": 12000
+        },
+        {
+            "name": "berserk potion",
+            "minCount": 0,
+            "maxCount": 10,
+            "chance": 12000
+        },
+        {
+            "name": "piece of draconian steel",
+            "minCount": 0,
+            "maxCount": 4,
+            "chance": 9000
+        },
+        {
+            "minCount": 0,
+            "maxCount": 1,
+            "chance": 12000,
+            "name": "red gem"
+        },
+        {
+            "name": "silver token",
+            "minCount": 0,
+            "maxCount": 2,
+            "chance": 9500
+        },
+        {
+            "chance": 5200,
+            "name": "collar of blue plasma"
+        },
+        {
+            "chance": 5200,
+            "name": "collar of red plasma"
+        },
+        {
+            "name": "knight legs",
+            "chance": 11000
+        },
+        {
+            "name": "gold ingot",
+            "minCount": 0,
+            "maxCount": 1,
+            "chance": 10000
+        },
+        {
+            "name": "violet gem",
+            "minCount": 0,
+            "maxCount": 1,
+            "chance": 10000
+        },
+        {
+            "name": "yellow gem",
+            "minCount": 0,
+            "maxCount": 1,
+            "chance": 10000
+        },
+        {
+            "chance": 5000,
+            "name": "ring of blue plasma"
+        },
+        {
+            "chance": 5000,
+            "name": "ring of red plasma"
+        },
+        {
+            "name": "Bone Skull Staff",
+            "chance": 9000
+        },
+        {
+            "name": "young lich worm",
+            "chance": 5800
+        },
+        {
+            "name": "embrace of nature",
+            "chance": 1400
+        },
+        {
+            "chance": 1800,
+            "name": "signet ring"
+        },
+        {
+            "name": "Earthbound Helmet",
+            "chance": 750
+        },
+        {
+            "name": "final judgement",
+            "chance": 450
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "hellfire_vampire_archer",
+    "threatDps": 400.6873,
+    "burstDps": 472.0625,
+    "avgHit": 460.3136,
+    "maxHit": 1000,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 3,
+        "summons": [
+            {
+                "name": "Vampire Retainer",
+                "id": "vampire_retainer",
+                "chance": 20,
+                "interval": 2000,
+                "count": 3
+            }
+        ]
+    }
+}

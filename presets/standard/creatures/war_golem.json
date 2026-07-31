@@ -1,0 +1,237 @@
+{
+    "id": "war_golem",
+    "label": "War Golem",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A war golem.",
+    "hp": 4300,
+    "hpMax": 4300,
+    "speed": 160,
+    "level": 570,
+    "armor": 35,
+    "mitigation": 1.18,
+    "maxBlock": 0,
+    "exp": 2680,
+    "lootValue": 1076.8371438621,
+    "aggro": true,
+    "resists": {
+        "physical": 10,
+        "fire": 15,
+        "ice": 30,
+        "energy": 5,
+        "earth": 50,
+        "holy": 50,
+        "death": 20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 363
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "energy",
+            "min": 109,
+            "max": 145,
+            "target": false,
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "war_golem_electrify_3",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 1,
+            "element": "physical",
+            "target": false,
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 300,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "heal_1",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 200,
+            "max": 250,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Construct",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 37500,
+            "maxCount": 90,
+            "name": "gold coin"
+        },
+        {
+            "chance": 375000,
+            "maxCount": 80,
+            "name": "gold coin"
+        },
+        {
+            "chance": 5260,
+            "maxCount": 5,
+            "name": "nail"
+        },
+        {
+            "chance": 5500,
+            "name": "two handed sword"
+        },
+        {
+            "chance": 9000,
+            "name": "plate shield"
+        },
+        {
+            "chance": 7000,
+            "name": "morning star"
+        },
+        {
+            "chance": 6500,
+            "name": "battle shield"
+        },
+        {
+            "chance": 10080,
+            "name": "ultimate health potion"
+        },
+        {
+            "chance": 8860,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 1920,
+            "name": "iron ore"
+        },
+        {
+            "chance": 900,
+            "name": "berserk potion"
+        },
+        {
+            "chance": 6400,
+            "name": "epee"
+        },
+        {
+            "chance": 260,
+            "name": "rusted armor"
+        },
+        {
+            "chance": 810,
+            "name": "club ring"
+        },
+        {
+            "chance": 1210,
+            "name": "dwarven ring"
+        },
+        {
+            "chance": 130,
+            "name": "crystal of power"
+        },
+        {
+            "chance": 1080,
+            "name": "crystal pedestal"
+        },
+        {
+            "chance": 90,
+            "name": "Stormbound Boots"
+        },
+        {
+            "chance": 620,
+            "name": "steel boots"
+        },
+        {
+            "chance": 50,
+            "name": "berserker"
+        },
+        {
+            "chance": 120,
+            "name": "jade hammer"
+        },
+        {
+            "chance": 770,
+            "name": "bonebreaker"
+        },
+        {
+            "chance": 1000,
+            "name": "life crystal"
+        },
+        {
+            "chance": 100,
+            "name": "tin key"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "solar_volcano_golem_slayer",
+    "threatDps": 100.275,
+    "burstDps": 100.275,
+    "avgHit": 174.3913,
+    "maxHit": 363,
+    "manaCost": 0
+}

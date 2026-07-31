@@ -1,0 +1,145 @@
+{
+    "id": "dawnfly",
+    "label": "Dawnfly",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A dawnfly.",
+    "hp": 90,
+    "hpMax": 90,
+    "speed": 100,
+    "level": 184,
+    "armor": 3,
+    "mitigation": 0.25,
+    "maxBlock": 0,
+    "exp": 35,
+    "lootValue": 6.172131147541,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -10,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "condition": {
+                "type": "poison",
+                "totalDamage": 22,
+                "intervalMs": 4000
+            },
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 9,
+            "range": 7,
+            "element": "earth",
+            "min": 11,
+            "max": 22,
+            "target": false,
+            "shootEffect": "ani_poisonarrow"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 11,
+            "speedChange": 238,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "venom",
+    "loot": [
+        {
+            "chance": 21360,
+            "maxCount": 16,
+            "name": "simple arrow"
+        },
+        {
+            "chance": 4140,
+            "name": "doublet"
+        },
+        {
+            "chance": 11940,
+            "name": "damselfly wing"
+        },
+        {
+            "chance": 10130,
+            "name": "damselfly eye"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 12,
+            "name": "gold coin"
+        },
+        {
+            "chance": 3630,
+            "name": "health potion"
+        },
+        {
+            "chance": 3800,
+            "name": "mana potion"
+        },
+        {
+            "chance": 14500,
+            "maxCount": 8,
+            "name": "poison arrow"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "dawnfly",
+    "threatDps": 11.7425,
+    "burstDps": 11.7425,
+    "avgHit": 16.5,
+    "maxHit": 22,
+    "manaCost": 0
+}

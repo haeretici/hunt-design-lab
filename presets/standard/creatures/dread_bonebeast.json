@@ -1,0 +1,175 @@
+{
+    "id": "dread_bonebeast",
+    "label": "Dread Bonebeast",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A dread bonebeast.",
+    "hp": 800,
+    "hpMax": 800,
+    "speed": 68,
+    "level": 402,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 250,
+    "lootValue": 22.729390681004,
+    "aggro": true,
+    "resists": {
+        "physical": 30,
+        "fire": 55,
+        "ice": 40,
+        "energy": 15,
+        "earth": 100,
+        "holy": -50,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 69
+        },
+        {
+            "id": "dreadbeast_skill_reducer_1",
+            "kind": "melee",
+            "intervalMs": 3000,
+            "chance": 15,
+            "range": 1,
+            "element": "physical",
+            "target": true,
+            "effect": "me_yellowenergy",
+            "shootEffect": "ani_suddendeath",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "melee_2",
+            "kind": "melee",
+            "intervalMs": 1000,
+            "chance": 15,
+            "range": 1,
+            "element": "physical",
+            "min": 49,
+            "max": 62,
+            "target": true,
+            "effect": "me_loseenergy",
+            "shootEffect": "ani_ice"
+        },
+        {
+            "id": "melee_3",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 1,
+            "element": "lifedrain",
+            "min": 104,
+            "max": 173,
+            "radius": 1,
+            "target": true,
+            "effect": "me_purpleenergy",
+            "shootEffect": "ani_suddendeath"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 5000,
+            "chance": 20,
+            "min": 35,
+            "max": 65,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 11690,
+            "maxCount": 88
+        },
+        {
+            "chance": 8230,
+            "name": "bone"
+        },
+        {
+            "name": "plate armor",
+            "chance": 2810
+        },
+        {
+            "chance": 2810,
+            "name": "skull"
+        },
+        {
+            "chance": 1950,
+            "name": "big bone"
+        },
+        {
+            "name": "bone club",
+            "chance": 1520
+        },
+        {
+            "name": "bone shield",
+            "chance": 1520
+        },
+        {
+            "name": "health potion",
+            "chance": 870
+        },
+        {
+            "name": "green mushroom",
+            "chance": 650
+        },
+        {
+            "name": "hardened bone",
+            "chance": 650
+        }
+    ],
+    "changeTarget": {
+        "interval": 60000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ethereal_storm_bear",
+    "threatDps": 39.425,
+    "burstDps": 39.425,
+    "avgHit": 52.5667,
+    "maxHit": 173,
+    "manaCost": 800
+}

@@ -1,0 +1,208 @@
+{
+    "id": "adept_of_the_cult",
+    "label": "Adept Of The Cult",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An adept of the cult.",
+    "hp": 430,
+    "hpMax": 430,
+    "speed": 95,
+    "level": 342,
+    "armor": 33,
+    "mitigation": 1.13,
+    "maxBlock": 0,
+    "exp": 400,
+    "lootValue": 109.47155273152,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 20,
+        "energy": -5,
+        "earth": 40,
+        "holy": 30,
+        "death": -5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 73,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 2,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "lifedrain",
+            "min": 57,
+            "max": 122,
+            "target": true,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_poison"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 3000,
+            "chance": 20,
+            "min": 45,
+            "max": 60,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "invisible_1",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 10,
+            "durationSec": 2,
+            "effect": "me_yellow_rings"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Human",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "id": 2828,
+            "chance": 940
+        },
+        {
+            "name": "small ruby",
+            "chance": 320
+        },
+        {
+            "name": "gold coin",
+            "chance": 65520,
+            "maxCount": 60
+        },
+        {
+            "chance": 420,
+            "name": "time ring"
+        },
+        {
+            "name": "silver amulet",
+            "chance": 1020
+        },
+        {
+            "name": "Hailburst Rod",
+            "chance": 220
+        },
+        {
+            "name": "clerical mace",
+            "chance": 1260
+        },
+        {
+            "name": "red robe",
+            "chance": 80
+        },
+        {
+            "name": "pirate voodoo doll",
+            "chance": 1730
+        },
+        {
+            "chance": 700,
+            "name": "music sheet"
+        },
+        {
+            "name": "lunar staff",
+            "chance": 120
+        },
+        {
+            "name": "amber staff",
+            "chance": 680
+        },
+        {
+            "name": "cultish robe",
+            "chance": 10080
+        },
+        {
+            "name": "cultish symbol",
+            "chance": 90
+        },
+        {
+            "name": "rope belt",
+            "chance": 10000
+        },
+        {
+            "name": "broken key ring",
+            "chance": 120
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "hellfire_kobold_cultist",
+    "threatDps": 28.2,
+    "burstDps": 28.2,
+    "avgHit": 45.3333,
+    "maxHit": 122,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 2,
+        "summons": [
+            {
+                "name": "Ghoul",
+                "id": "ghoul",
+                "chance": 10,
+                "interval": 2000,
+                "count": 2
+            }
+        ]
+    }
+}

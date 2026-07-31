@@ -1,0 +1,46 @@
+{
+    "id": "catalog_dwarves",
+    "biome": "cave",
+    "notes": "Stage 9 catalog content bar on generator-owned layout. Catalog creature ids only (combat defaults from catalog). Replaces retired floor07_catalog hand corridor spawns.",
+    "defaultRespawn": 0,
+    "groups": {
+        "normal": {
+            "weight": 70,
+            "creatureIds": [
+                "ashen_dwarf_priest",
+                "ashen_desert_dwarf_cultist"
+            ],
+            "packSize": [
+                1,
+                2
+            ]
+        },
+        "champion": {
+            "weight": 30,
+            "creatureIds": [
+                "obsidian_dwarf_warden"
+            ],
+            "packSize": [
+                1,
+                1
+            ],
+            "affixes": [
+                "champion"
+            ]
+        }
+    },
+    "limits": {
+        "totalPacks": [
+            3,
+            5
+        ],
+        "championPacks": [
+            1,
+            2
+        ],
+        "elitePacks": [
+            0,
+            0
+        ]
+    }
+}

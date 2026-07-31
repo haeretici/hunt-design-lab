@@ -1,0 +1,94 @@
+{
+    "id": "bonny_bunny",
+    "label": "Bonny Bunny",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A bonny bunny.",
+    "hp": 200,
+    "hpMax": 200,
+    "speed": 85,
+    "level": 263,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": 100,
+        "energy": 100,
+        "earth": 100,
+        "holy": 100,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 17,
+            "max": 35
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 50,
+            "range": 4,
+            "element": "fire",
+            "min": 16,
+            "max": 26,
+            "length": 4,
+            "spread": 0,
+            "target": false,
+            "effect": "me_hearts"
+        }
+    ],
+    "race": "blood",
+    "loot": [],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "storm_wolf_rager",
+    "threatDps": 18.25,
+    "burstDps": 18.25,
+    "avgHit": 24.3333,
+    "maxHit": 35,
+    "manaCost": 0
+}

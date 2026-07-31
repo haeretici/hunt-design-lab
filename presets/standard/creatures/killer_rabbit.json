@@ -1,0 +1,137 @@
+{
+    "id": "killer_rabbit",
+    "label": "Killer Rabbit",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A killer rabbit.",
+    "hp": 205,
+    "hpMax": 205,
+    "speed": 170,
+    "level": 267,
+    "armor": 17,
+    "mitigation": 0.51,
+    "maxBlock": 0,
+    "exp": 160,
+    "lootValue": 13.470631695604,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 1200,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 41
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 20,
+            "target": false
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 1000,
+            "chance": 40,
+            "speedChange": 380,
+            "durationSec": 8,
+            "effect": "me_energyhit"
+        },
+        {
+            "id": "invisible_1",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 30,
+            "durationSec": 2,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Mammal",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 1
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 90
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "thunder_cave_devil",
+    "threatDps": 18.5833,
+    "burstDps": 22,
+    "avgHit": 18.8983,
+    "maxHit": 41,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 2,
+        "summons": [
+            {
+                "name": "Killer Rabbit",
+                "id": "killer_rabbit",
+                "chance": 30,
+                "interval": 2000,
+                "count": 2
+            }
+        ]
+    }
+}

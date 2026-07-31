@@ -1,0 +1,192 @@
+{
+    "id": "floating_scholar",
+    "label": "Floating Scholar",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A floating scholar.",
+    "hp": 8000,
+    "hpMax": 8000,
+    "speed": 165,
+    "level": 632,
+    "armor": 74,
+    "mitigation": 1.96,
+    "maxBlock": 0,
+    "exp": 8000,
+    "lootValue": 2636.1609419529,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": -10,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 50
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 76,
+            "max": 151
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "fire",
+            "min": 295,
+            "max": 363,
+            "target": false,
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 14,
+            "range": 7,
+            "element": "energy",
+            "min": 295,
+            "max": 363,
+            "target": false,
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 12,
+            "range": 4,
+            "element": "fire",
+            "min": 227,
+            "max": 302,
+            "radius": 3,
+            "target": false,
+            "effect": "me_explosionarea"
+        },
+        {
+            "id": "wave_4",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "fire",
+            "min": 370,
+            "max": 476,
+            "length": 4,
+            "spread": 0,
+            "target": false,
+            "effect": "me_hitbyfire"
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Demon",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "small enchanted ruby",
+            "chance": 10000,
+            "maxCount": 5
+        },
+        {
+            "name": "red crystal fragment",
+            "chance": 10000,
+            "maxCount": 2
+        },
+        {
+            "chance": 10000,
+            "maxCount": 3,
+            "name": "red gem"
+        },
+        {
+            "name": "red piece of cloth",
+            "chance": 10000,
+            "maxCount": 3
+        },
+        {
+            "name": "flask of demonic blood",
+            "chance": 12000,
+            "maxCount": 5
+        },
+        {
+            "name": "demonic essence",
+            "chance": 10000,
+            "maxCount": 5
+        },
+        {
+            "chance": 10000,
+            "name": "pick"
+        },
+        {
+            "name": "sample of monster blood",
+            "chance": 10000,
+            "maxCount": 5
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "skeleton",
+    "threatDps": 141.475,
+    "burstDps": 141.475,
+    "avgHit": 187.3841,
+    "maxHit": 476,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 1,
+        "summons": [
+            {
+                "name": "Lava Ambusher Attendant",
+                "id": "lava_ambusher_attendant",
+                "chance": 70,
+                "interval": 2000,
+                "count": 1
+            }
+        ]
+    }
+}

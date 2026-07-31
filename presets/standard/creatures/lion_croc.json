@@ -1,0 +1,157 @@
+{
+    "id": "lion_croc",
+    "label": "Lion Croc",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A lion croc.",
+    "hp": 8600,
+    "hpMax": 8600,
+    "speed": 165,
+    "level": 639,
+    "armor": 71,
+    "mitigation": 2.02,
+    "maxBlock": 0,
+    "exp": 6310,
+    "lootValue": 1833.9448030563,
+    "aggro": true,
+    "resists": {
+        "physical": -10,
+        "fire": -10,
+        "ice": -5,
+        "energy": 25,
+        "earth": 30,
+        "holy": -14,
+        "death": 5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 267
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 50,
+            "range": 7,
+            "element": "earth",
+            "min": 174,
+            "max": 214,
+            "target": true,
+            "shootEffect": "ani_poisonarrow"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 34,
+            "range": 2,
+            "element": "physical",
+            "min": 160,
+            "max": 214,
+            "target": true,
+            "effect": "me_groundshaker"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 1
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 80540,
+            "maxCount": 23
+        },
+        {
+            "name": "small sapphire",
+            "chance": 9790,
+            "maxCount": 4
+        },
+        {
+            "name": "green crystal shard",
+            "chance": 5360
+        },
+        {
+            "name": "liodile fang",
+            "chance": 4030,
+            "maxCount": 3
+        },
+        {
+            "name": "yellow gem",
+            "chance": 3720
+        },
+        {
+            "name": "assassin dagger",
+            "chance": 2600
+        },
+        {
+            "name": "Earthbound Legs",
+            "chance": 2420
+        },
+        {
+            "name": "Bloomshoot Rod",
+            "chance": 1610
+        },
+        {
+            "name": "sacred tree amulet",
+            "chance": 830
+        },
+        {
+            "name": "leviathan's amulet",
+            "chance": 720
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "nether_tiger",
+    "threatDps": 147.04,
+    "burstDps": 147.04,
+    "avgHit": 159.8261,
+    "maxHit": 267,
+    "manaCost": 0
+}

@@ -1,0 +1,139 @@
+{
+    "id": "troll",
+    "label": "Troll",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A troll.",
+    "hp": 50,
+    "hpMax": 50,
+    "speed": 63,
+    "level": 126,
+    "armor": 6,
+    "mitigation": 0.2,
+    "maxBlock": 0,
+    "exp": 20,
+    "lootValue": 9.4904148334381,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 20,
+        "earth": -10,
+        "holy": 10,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 15,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": true,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 34
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 250,
+        "firstUnlock": 10,
+        "secondUnlock": 100,
+        "charmsPoints": 5,
+        "stars": 1,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 7950,
+            "name": "rope"
+        },
+        {
+            "name": "gold coin",
+            "chance": 65300,
+            "maxCount": 12
+        },
+        {
+            "name": "silver amulet",
+            "chance": 80
+        },
+        {
+            "name": "hand axe",
+            "chance": 18000
+        },
+        {
+            "name": "spear",
+            "chance": 13000
+        },
+        {
+            "name": "studded club",
+            "chance": 5000
+        },
+        {
+            "name": "leather helmet",
+            "chance": 12000
+        },
+        {
+            "chance": 4730,
+            "name": "wooden shield"
+        },
+        {
+            "name": "leather boots",
+            "chance": 10000
+        },
+        {
+            "name": "meat",
+            "chance": 15000
+        },
+        {
+            "name": "bunch of troll hair",
+            "chance": 1000
+        },
+        {
+            "chance": 1000,
+            "name": "heavy old tome"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "troll",
+    "threatDps": 8.5,
+    "burstDps": 8.5,
+    "avgHit": 17,
+    "maxHit": 34,
+    "manaCost": 290
+}

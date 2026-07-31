@@ -1,0 +1,152 @@
+{
+    "id": "reptilian_sentinel",
+    "label": "Reptilian Sentinel",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A reptilian sentinel.",
+    "hp": 265,
+    "hpMax": 265,
+    "speed": 90,
+    "level": 291,
+    "armor": 17,
+    "mitigation": 0.62,
+    "maxBlock": 0,
+    "exp": 160,
+    "lootValue": 50.902329236925,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -10,
+        "ice": 20,
+        "energy": 10,
+        "earth": 100,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 10,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 58
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 91,
+            "target": false,
+            "shootEffect": "ani_spear"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Reptile",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "small diamond",
+            "chance": 190
+        },
+        {
+            "name": "gold coin",
+            "chance": 89000,
+            "maxCount": 80
+        },
+        {
+            "name": "halberd",
+            "chance": 510
+        },
+        {
+            "name": "spear",
+            "chance": 8750,
+            "maxCount": 3
+        },
+        {
+            "name": "obsidian lance",
+            "chance": 1120
+        },
+        {
+            "name": "chain armor",
+            "chance": 8560
+        },
+        {
+            "name": "scale armor",
+            "chance": 7730
+        },
+        {
+            "name": "hunting spear",
+            "chance": 4700
+        },
+        {
+            "name": "sentinel shield",
+            "chance": 320
+        },
+        {
+            "name": "lizard leather",
+            "chance": 990
+        },
+        {
+            "name": "lizard scale",
+            "chance": 960
+        },
+        {
+            "name": "health potion",
+            "chance": 590
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "wild_nature_magic",
+    "threatDps": 21.325,
+    "burstDps": 21.325,
+    "avgHit": 32.8077,
+    "maxHit": 91,
+    "manaCost": 560
+}

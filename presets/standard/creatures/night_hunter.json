@@ -1,0 +1,162 @@
+{
+    "id": "night_hunter",
+    "label": "Night Hunter",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A night hunter.",
+    "hp": 19200,
+    "hpMax": 19200,
+    "speed": 205,
+    "level": 719,
+    "armor": 81,
+    "mitigation": 2.28,
+    "maxBlock": 0,
+    "exp": 12647,
+    "lootValue": 4446.1038961039,
+    "aggro": true,
+    "resists": {
+        "physical": -10,
+        "fire": 0,
+        "ice": 0,
+        "energy": -5,
+        "earth": 15,
+        "holy": -14,
+        "death": 20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 499
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 3500,
+            "chance": 35,
+            "range": 1,
+            "element": "earth",
+            "min": 678,
+            "max": 927,
+            "radius": 1,
+            "target": true,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "nighthunter_wave_2",
+            "kind": "melee",
+            "intervalMs": 5000,
+            "chance": 25,
+            "range": 1,
+            "element": "physical",
+            "min": 428,
+            "max": 553
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Mammal",
+        "toKill": 5000,
+        "firstUnlock": 200,
+        "secondUnlock": 2000,
+        "charmsPoints": 100,
+        "stars": 5,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "Crystal Coin",
+            "chance": 34190
+        },
+        {
+            "name": "Nighthunter Wing",
+            "chance": 24370,
+            "minCount": 1,
+            "maxCount": 2
+        },
+        {
+            "name": "Ultimate Health Potion",
+            "chance": 12640,
+            "minCount": 1,
+            "maxCount": 3
+        },
+        {
+            "name": "Red Crystal Fragment",
+            "chance": 3980
+        },
+        {
+            "name": "Green Crystal Shard",
+            "chance": 3670
+        },
+        {
+            "name": "Cyan Crystal Fragment",
+            "chance": 3080
+        },
+        {
+            "name": "Yellow Gem",
+            "chance": 2940
+        },
+        {
+            "name": "Crystal Sword",
+            "chance": 1590
+        },
+        {
+            "name": "Warrior's Axe",
+            "chance": 1400
+        },
+        {
+            "name": "Spellbook of Mind Control",
+            "chance": 960
+        },
+        {
+            "name": "Stonehide Amulet",
+            "chance": 850
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "feral_ice_spider_hunter",
+    "threatDps": 229.525,
+    "burstDps": 326.5,
+    "avgHit": 353.1154,
+    "maxHit": 927,
+    "manaCost": 0
+}

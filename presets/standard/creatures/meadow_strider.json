@@ -1,0 +1,142 @@
+{
+    "id": "meadow_strider",
+    "label": "Meadow Strider",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A meadow strider.",
+    "hp": 100,
+    "hpMax": 100,
+    "speed": 68,
+    "level": 195,
+    "armor": 1,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 50,
+    "lootValue": 13.729941291585,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 10,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 11,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 454,
+            "target": false,
+            "effect": "me_explosionarea",
+            "shootEffect": "ani_smallstone"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 13,
+            "speedChange": 192,
+            "durationSec": 5,
+            "effect": "me_hitarea"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 4530,
+            "name": "rope"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 10,
+            "name": "gold coin"
+        },
+        {
+            "chance": 14280,
+            "maxCount": 2,
+            "name": "worm"
+        },
+        {
+            "chance": 25180,
+            "maxCount": 2,
+            "name": "fish"
+        },
+        {
+            "chance": 25250,
+            "name": "meat"
+        },
+        {
+            "chance": 6060,
+            "name": "marsh stalker beak"
+        },
+        {
+            "chance": 160,
+            "name": "seeds"
+        },
+        {
+            "chance": 8980,
+            "name": "marsh stalker feather"
+        },
+        {
+            "chance": 7640,
+            "name": "longsword"
+        },
+        {
+            "chance": 8310,
+            "name": "mace"
+        },
+        {
+            "chance": 6660,
+            "name": "hatchet"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "meadow_strider",
+    "threatDps": 12.485,
+    "burstDps": 12.485,
+    "avgHit": 227,
+    "maxHit": 454,
+    "manaCost": 0
+}

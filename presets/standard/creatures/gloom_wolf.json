@@ -1,0 +1,116 @@
+{
+    "id": "gloom_wolf",
+    "label": "Gloom Wolf",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A gloom wolf.",
+    "hp": 200,
+    "hpMax": 200,
+    "speed": 125,
+    "level": 263,
+    "armor": 10,
+    "mitigation": 0.51,
+    "maxBlock": 0,
+    "exp": 70,
+    "lootValue": 22.529653552554,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -5,
+        "ice": -5,
+        "energy": 0,
+        "earth": 20,
+        "holy": -5,
+        "death": 10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 8,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 73
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Mammal",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 1
+    },
+    "loot": [
+        {
+            "name": "ham",
+            "chance": 20120
+        },
+        {
+            "chance": 2000,
+            "name": "wolf tooth chain"
+        },
+        {
+            "name": "gold coin",
+            "chance": 65000,
+            "maxCount": 48
+        },
+        {
+            "name": "meat",
+            "chance": 55000,
+            "maxCount": 2
+        },
+        {
+            "name": "wolf paw",
+            "chance": 980
+        },
+        {
+            "chance": 8000,
+            "name": "gloom wolf fur"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "umbral_ghoul",
+    "threatDps": 18.25,
+    "burstDps": 18.25,
+    "avgHit": 36.5,
+    "maxHit": 73,
+    "manaCost": 0
+}

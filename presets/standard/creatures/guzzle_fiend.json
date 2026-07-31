@@ -1,0 +1,166 @@
+{
+    "id": "guzzle_fiend",
+    "label": "Guzzle Fiend",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A guzzle fiend.",
+    "hp": 240,
+    "hpMax": 240,
+    "speed": 120,
+    "level": 282,
+    "armor": 25,
+    "mitigation": 1.37,
+    "maxBlock": 0,
+    "exp": 180,
+    "lootValue": 38.878289899846,
+    "aggro": true,
+    "resists": {
+        "physical": -5,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 50,
+        "death": 50
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": true,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 66
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 1,
+            "element": "lifedrain",
+            "min": 19,
+            "max": 81,
+            "target": false
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 30,
+            "max": 50,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 210,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Demon",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "brown flask",
+            "chance": 8750
+        },
+        {
+            "name": "small sapphire",
+            "chance": 360
+        },
+        {
+            "name": "gold coin",
+            "chance": 52500,
+            "maxCount": 70
+        },
+        {
+            "chance": 190,
+            "name": "dwarven ring"
+        },
+        {
+            "name": "battle axe",
+            "chance": 3100
+        },
+        {
+            "name": "sabre",
+            "chance": 8250
+        },
+        {
+            "name": "morning star",
+            "chance": 5000
+        },
+        {
+            "name": "serpent sword",
+            "chance": 250
+        },
+        {
+            "name": "clerical mace",
+            "chance": 900
+        },
+        {
+            "name": "plate shield",
+            "chance": 10000
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "celestial_fiend",
+    "threatDps": 20.25,
+    "burstDps": 20.25,
+    "avgHit": 35.2174,
+    "maxHit": 81,
+    "manaCost": 800
+}

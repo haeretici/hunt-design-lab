@@ -1,0 +1,262 @@
+{
+    "id": "abyss_jailer",
+    "label": "Abyss Jailer",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An abyss jailer.",
+    "hp": 40000,
+    "hpMax": 40000,
+    "speed": 220,
+    "level": 793,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 24000,
+    "lootValue": 31103.462427746,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 50,
+        "ice": 50,
+        "energy": 50,
+        "earth": 50,
+        "holy": 50,
+        "death": 50
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 4,
+            "element": "death",
+            "min": 1214,
+            "max": 2602,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_smallclouds"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 18,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 1301,
+            "radius": 1,
+            "target": true,
+            "shootEffect": "ani_whirlwindaxe"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 30,
+            "min": 300,
+            "max": 500,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 18,
+            "speedChange": 784,
+            "durationSec": 7,
+            "effect": "me_magic_green"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 100000,
+            "name": "cluster of solace"
+        },
+        {
+            "chance": 100000,
+            "name": "unrealized dream"
+        },
+        {
+            "chance": 100000,
+            "name": "dream matter"
+        },
+        {
+            "chance": 100000,
+            "name": "demonic essence"
+        },
+        {
+            "chance": 100000,
+            "name": "demon horn"
+        },
+        {
+            "chance": 3560,
+            "name": "dream warden mask"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 200,
+            "name": "gold coin"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 50,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 33330,
+            "maxCount": 10,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 3890,
+            "maxCount": 10,
+            "name": "ultimate health potion"
+        },
+        {
+            "chance": 2780,
+            "maxCount": 5,
+            "name": "great dual potion"
+        },
+        {
+            "chance": 22220,
+            "maxCount": 8,
+            "name": "blue crystal shard"
+        },
+        {
+            "chance": 33330,
+            "maxCount": 8,
+            "name": "violet crystal shard"
+        },
+        {
+            "chance": 44440,
+            "maxCount": 8,
+            "name": "green crystal shard"
+        },
+        {
+            "chance": 16670,
+            "name": "gold ingot"
+        },
+        {
+            "id": 281,
+            "chance": 38890
+        },
+        {
+            "id": 282,
+            "chance": 38890
+        },
+        {
+            "chance": 11110,
+            "name": "demon shield"
+        },
+        {
+            "chance": 22220,
+            "name": "guardian shield"
+        },
+        {
+            "chance": 11110,
+            "name": "crown shield"
+        },
+        {
+            "chance": 960,
+            "name": "mastermind shield"
+        },
+        {
+            "chance": 5560,
+            "name": "paladin armor"
+        },
+        {
+            "chance": 11110,
+            "name": "voltage armor"
+        },
+        {
+            "chance": 6110,
+            "name": "lavos armor"
+        },
+        {
+            "chance": 16670,
+            "name": "green gem"
+        },
+        {
+            "chance": 11110,
+            "name": "blue gem"
+        },
+        {
+            "chance": 410,
+            "name": "earthborn titan armor"
+        },
+        {
+            "chance": 610,
+            "name": "Arcane Plate Armor"
+        },
+        {
+            "chance": 910,
+            "name": "steel boots"
+        },
+        {
+            "chance": 910,
+            "name": "royal helmet"
+        },
+        {
+            "chance": 2910,
+            "name": "Earthbound Boots"
+        },
+        {
+            "chance": 1910,
+            "name": "boots of haste"
+        },
+        {
+            "chance": 1910,
+            "name": "skull helmet"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 25
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "frost_troll",
+    "threatDps": 344.745,
+    "burstDps": 344.745,
+    "avgHit": 1436.4375,
+    "maxHit": 2602,
+    "manaCost": 0
+}

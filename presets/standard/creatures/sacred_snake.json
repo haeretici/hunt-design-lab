@@ -1,0 +1,94 @@
+{
+    "id": "sacred_snake",
+    "label": "Sacred Snake",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A sacred snake.",
+    "hp": 10,
+    "hpMax": 10,
+    "speed": 60,
+    "level": 1,
+    "armor": 0,
+    "mitigation": 0.03,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -10,
+        "ice": -10,
+        "energy": 20,
+        "earth": 40,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 12,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 1,
+                "intervalMs": 4000
+            }
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "eggs of a sacred snake",
+            "chance": 100000,
+            "maxCount": 20
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "sacred_snake",
+    "threatDps": 3.5,
+    "burstDps": 3.5,
+    "avgHit": 6,
+    "maxHit": 12,
+    "manaCost": 0
+}

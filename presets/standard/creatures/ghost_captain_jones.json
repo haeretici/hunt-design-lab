@@ -1,0 +1,153 @@
+{
+    "id": "ghost_captain_jones",
+    "label": "Ghost Captain Jones",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A ghost captain jones.",
+    "hp": 555,
+    "hpMax": 555,
+    "speed": 85,
+    "level": 366,
+    "armor": 0,
+    "mitigation": 0.99,
+    "maxBlock": 0,
+    "exp": 620,
+    "lootValue": 54.857142857143,
+    "aggro": true,
+    "resists": {
+        "physical": 100,
+        "fire": 10,
+        "ice": 20,
+        "energy": 10,
+        "earth": 100,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 85,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 2,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 1,
+            "element": "lifedrain",
+            "min": 27,
+            "max": 72,
+            "radius": 1,
+            "target": false,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "melee_2",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 1,
+            "element": "death",
+            "min": 117,
+            "max": 135,
+            "radius": 1,
+            "target": true,
+            "effect": "me_smallclouds",
+            "shootEffect": "ani_death"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 5,
+            "min": 40,
+            "max": 70,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 150,
+            "name": "gold coin"
+        },
+        {
+            "chance": 33000,
+            "name": "stealth ring"
+        },
+        {
+            "chance": 5070,
+            "name": "crown legs"
+        },
+        {
+            "chance": 3070,
+            "name": "focus cape"
+        },
+        {
+            "chance": 1110,
+            "name": "red robe"
+        },
+        {
+            "chance": 1110,
+            "name": "spike sword"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "glacier_mountain_phantom",
+    "threatDps": 32.2625,
+    "burstDps": 32.2625,
+    "avgHit": 50.02,
+    "maxHit": 135,
+    "manaCost": 0
+}

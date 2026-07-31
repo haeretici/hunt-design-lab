@@ -1,0 +1,221 @@
+{
+    "id": "lovely_void_crawler",
+    "label": "Lovely Void Crawler",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A lovely void crawler.",
+    "hp": 1500,
+    "hpMax": 1500,
+    "speed": 150,
+    "level": 465,
+    "armor": 30,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 1250,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 100,
+        "fire": 100,
+        "ice": 100,
+        "energy": 100,
+        "earth": 100,
+        "holy": 100,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 18,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 128,
+            "max": 238,
+            "length": 4,
+            "spread": 0,
+            "target": false,
+            "effect": "me_energyarea"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "manadrain",
+            "min": 92,
+            "max": 275,
+            "length": 5,
+            "spread": 0,
+            "target": false,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "earth",
+            "min": 138,
+            "max": 220,
+            "radius": 3,
+            "target": true,
+            "effect": "me_hitbypoison",
+            "shootEffect": "ani_earth"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "earth",
+            "min": 220,
+            "max": 394,
+            "radius": 3,
+            "target": false,
+            "effect": "me_hitbypoison"
+        },
+        {
+            "id": "condition_5",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 13,
+            "range": 7,
+            "element": "earth",
+            "min": 92,
+            "max": 92,
+            "target": true,
+            "effect": "me_hitbypoison",
+            "shootEffect": "ani_poison"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 100,
+            "max": 150,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "venom",
+    "loot": [
+        {
+            "chance": 490,
+            "name": "savant potion"
+        },
+        {
+            "chance": 300,
+            "name": "yielowax"
+        },
+        {
+            "chance": 320,
+            "name": "yielocks"
+        },
+        {
+            "chance": 99800,
+            "maxCount": 227,
+            "name": "gold coin"
+        },
+        {
+            "chance": 9930,
+            "maxCount": 3,
+            "name": "brown mushroom"
+        },
+        {
+            "chance": 19910,
+            "name": "strong health potion"
+        },
+        {
+            "chance": 19920,
+            "name": "strong mana potion"
+        },
+        {
+            "chance": 4860,
+            "maxCount": 5,
+            "name": "small diamond"
+        },
+        {
+            "chance": 950,
+            "name": "talon"
+        },
+        {
+            "chance": 4020,
+            "name": "might ring"
+        },
+        {
+            "chance": 270,
+            "name": "broken ring of ending"
+        },
+        {
+            "chance": 510,
+            "name": "wand of cosmic energy"
+        },
+        {
+            "chance": 520,
+            "name": "epee"
+        },
+        {
+            "chance": 570,
+            "name": "shockwave amulet"
+        },
+        {
+            "chance": 830,
+            "name": "Stormbound Pendant"
+        },
+        {
+            "chance": 480,
+            "name": "Stormbound Legs"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "brimstone_ruins_crawler",
+    "threatDps": 55.925,
+    "burstDps": 55.925,
+    "avgHit": 183.3607,
+    "maxHit": 394,
+    "manaCost": 0
+}

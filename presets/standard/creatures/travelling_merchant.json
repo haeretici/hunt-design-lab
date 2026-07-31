@@ -1,0 +1,92 @@
+{
+    "id": "travelling_merchant",
+    "label": "Travelling Merchant",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A travelling merchant.",
+    "hp": 100,
+    "hpMax": 100,
+    "speed": 86,
+    "level": 195,
+    "armor": 11,
+    "mitigation": 0.28,
+    "maxBlock": 0,
+    "exp": 65,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": -10,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": -5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": true,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 44
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 5,
+            "element": "physical",
+            "min": 0,
+            "max": 39,
+            "target": false,
+            "shootEffect": "ani_throwingknife"
+        }
+    ],
+    "race": "blood",
+    "loot": [],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "travelling_merchant",
+    "threatDps": 12.4625,
+    "burstDps": 12.4625,
+    "avgHit": 21.6739,
+    "maxHit": 44,
+    "manaCost": 390
+}

@@ -1,0 +1,173 @@
+{
+    "id": "lucifuga_aranea",
+    "label": "Lucifuga Aranea",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A lucifuga aranea.",
+    "hp": 12000,
+    "hpMax": 12000,
+    "speed": 110,
+    "level": 673,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 10000,
+    "lootValue": 3051.6666666667,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 299,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 191,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "slow_1",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -800,
+                "durationSec": 15
+            },
+            "radius": 6,
+            "effect": "me_poff",
+            "target": false
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "ice",
+            "min": 60,
+            "max": 119,
+            "target": true,
+            "effect": "me_icearea",
+            "shootEffect": "ani_ice"
+        },
+        {
+            "id": "slow_3",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -600,
+                "durationSec": 10
+            },
+            "target": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 250,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 100000
+        },
+        {
+            "name": "cyan crystal fragment",
+            "chance": 55000
+        },
+        {
+            "name": "poison gland",
+            "chance": 54500
+        },
+        {
+            "name": "great mana potion",
+            "chance": 80000
+        },
+        {
+            "name": "plate armor",
+            "chance": 64000
+        },
+        {
+            "name": "green gem",
+            "chance": 35000
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 15
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "phantom_elf_raider",
+    "threatDps": 176.9625,
+    "burstDps": 176.9625,
+    "avgHit": 141.6739,
+    "maxHit": 299,
+    "manaCost": 0
+}

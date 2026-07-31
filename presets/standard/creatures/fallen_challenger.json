@@ -1,0 +1,110 @@
+{
+    "id": "fallen_challenger",
+    "label": "Fallen Challenger",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A fallen challenger.",
+    "hp": 9000,
+    "hpMax": 9000,
+    "speed": 150,
+    "level": 644,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 100,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 1000,
+            "chance": 13,
+            "range": 1,
+            "element": "lifedrain",
+            "min": 583,
+            "max": 875,
+            "radius": 1,
+            "target": true
+        },
+        {
+            "id": "melee_2",
+            "kind": "melee",
+            "intervalMs": 3000,
+            "chance": 34,
+            "range": 1,
+            "element": "death",
+            "min": 262,
+            "max": 729,
+            "radius": 1,
+            "target": true,
+            "shootEffect": "ani_death"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 5000,
+            "chance": 25,
+            "min": 60,
+            "max": 100,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "undead",
+    "loot": [],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "celestial_fiend",
+    "threatDps": 150.9267,
+    "burstDps": 179.005,
+    "avgHit": 620.2466,
+    "maxHit": 875,
+    "manaCost": 0
+}

@@ -1,0 +1,268 @@
+{
+    "id": "forest_titan_yselda",
+    "label": "Forest Titan Yselda",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A forest titan yselda.",
+    "hp": 32000,
+    "hpMax": 32000,
+    "speed": 0,
+    "level": 770,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 19900,
+    "lootValue": 28056.637168142,
+    "aggro": true,
+    "resists": {
+        "physical": 85,
+        "fire": 60,
+        "ice": 90,
+        "energy": 80,
+        "earth": 90,
+        "holy": 0,
+        "death": 70
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": false,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 115,
+            "max": 212
+        },
+        {
+            "id": "earth_beammy_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 50,
+            "range": 1,
+            "element": "physical",
+            "min": 170,
+            "max": 382,
+            "target": false
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 50,
+            "range": 5,
+            "element": "death",
+            "min": 170,
+            "max": 340,
+            "target": false,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 50,
+            "range": 4,
+            "element": "physical",
+            "min": 170,
+            "max": 340,
+            "radius": 5,
+            "target": false,
+            "effect": "me_groundshaker"
+        },
+        {
+            "id": "mana_leechmy_4",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 50,
+            "range": 1,
+            "element": "physical",
+            "min": 42,
+            "max": 170,
+            "target": false
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 100000,
+            "minCount": 1,
+            "maxCount": 9,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 100000,
+            "minCount": 1,
+            "maxCount": 5,
+            "name": "potato"
+        },
+        {
+            "chance": 57140,
+            "minCount": 1,
+            "maxCount": 33,
+            "name": "supreme health potion"
+        },
+        {
+            "chance": 57140,
+            "minCount": 1,
+            "maxCount": 31,
+            "name": "ultimate mana potion"
+        },
+        {
+            "chance": 30000,
+            "minCount": 1,
+            "maxCount": 11,
+            "name": "ultimate dual potion"
+        },
+        {
+            "chance": 22860,
+            "minCount": 4,
+            "maxCount": 19,
+            "name": "marksman potion"
+        },
+        {
+            "chance": 21430,
+            "minCount": 1,
+            "maxCount": 16,
+            "name": "berserk potion"
+        },
+        {
+            "chance": 18570,
+            "count": 1,
+            "name": "blue gem"
+        },
+        {
+            "chance": 17140,
+            "minCount": 4,
+            "maxCount": 19,
+            "name": "savant potion"
+        },
+        {
+            "chance": 17140,
+            "minCount": 1,
+            "maxCount": 2,
+            "name": "green gem"
+        },
+        {
+            "chance": 15710,
+            "minCount": 1,
+            "maxCount": 2,
+            "name": "violet gem"
+        },
+        {
+            "chance": 14290,
+            "minCount": 1,
+            "maxCount": 2,
+            "name": "red gem"
+        },
+        {
+            "chance": 11430,
+            "count": 1,
+            "name": "giant emerald"
+        },
+        {
+            "chance": 10000,
+            "count": 1,
+            "name": "yellow gem"
+        },
+        {
+            "chance": 8570,
+            "count": 1,
+            "name": "crystal coin"
+        },
+        {
+            "chance": 4290,
+            "name": "curl of hair"
+        },
+        {
+            "chance": 4290,
+            "name": "bar of gold"
+        },
+        {
+            "chance": 2860,
+            "name": "Earthbound Amulet"
+        },
+        {
+            "chance": 2860,
+            "name": "Earthbound Rod"
+        },
+        {
+            "chance": 2860,
+            "name": "Earthbound Hood"
+        },
+        {
+            "chance": 1430,
+            "name": "megasylvan sapling"
+        },
+        {
+            "chance": 1430,
+            "name": "old royal diary"
+        },
+        {
+            "chance": 1430,
+            "name": "Earthbound Legs"
+        },
+        {
+            "chance": 1430,
+            "name": "Earthbound Mantle"
+        },
+        {
+            "chance": 1200,
+            "count": 1,
+            "name": "giant topaz"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "blood_behemoth",
+    "threatDps": 304.75,
+    "burstDps": 304.75,
+    "avgHit": 203.1667,
+    "maxHit": 382,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 1,
+        "summons": [
+            {
+                "name": "Sylvan Horror Sapling",
+                "id": "sylvan_horror_sapling",
+                "chance": 70,
+                "interval": 2000,
+                "count": 1
+            }
+        ]
+    }
+}

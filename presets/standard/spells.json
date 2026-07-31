@@ -1,0 +1,2536 @@
+{
+    "version": 2,
+    "notes": "Standard mode spell book: combat fields from presets/legacy/spells.json; id and label from other/spell_map.csv (commercial-safe). Schema: id, element, mana, range, powerCurve, basePower, damageAmplitude (strikes; omit=0), cooldowns (auto/primary/secondary/spell/item), moveLock. Amplitudes via npm run populate:spell-amplitude (ref skill 50).",
+    "spells": [
+        {
+            "id": "melee_auto",
+            "label": "Melee Auto Attack",
+            "kind": "auto",
+            "element": "physical",
+            "powerCurve": "melee_auto",
+            "basePower": 0,
+            "range": 1,
+            "mana": 0,
+            "hitChance": 100,
+            "isMelee": true,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "auto": {
+                    "attack": 2
+                }
+            }
+        },
+        {
+            "id": "distance_auto",
+            "label": "Distance Auto Attack",
+            "kind": "auto",
+            "element": "physical",
+            "powerCurve": "melee_auto",
+            "basePower": 0,
+            "range": 6,
+            "mana": 0,
+            "hitChance": 100,
+            "isMelee": false,
+            "requiresAmmo": true,
+            "ammoPerShot": 1,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "auto": {
+                    "attack": 2
+                }
+            }
+        },
+        {
+            "id": "wand_auto",
+            "label": "Wand Auto Attack",
+            "kind": "auto",
+            "element": "energy",
+            "powerCurve": "magic_strike",
+            "basePower": 18,
+            "range": 4,
+            "mana": 5,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "auto": {
+                    "attack": 2
+                }
+            },
+            "damageAmplitude": 0.1579
+        },
+        {
+            "id": "flame_strike",
+            "label": "Flame Strike",
+            "kind": "spell",
+            "element": "fire",
+            "powerCurve": "magic_strike",
+            "basePower": 45,
+            "range": 3,
+            "mana": 20,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                }
+            },
+            "requiresTarget": true,
+            "level": 8,
+            "vocations": [
+                "adept",
+                "warden"
+            ],
+            "damageAmplitude": 0.1881
+        },
+        {
+            "id": "ice_strike",
+            "label": "Ice Strike",
+            "kind": "spell",
+            "element": "ice",
+            "powerCurve": "magic_strike",
+            "basePower": 45,
+            "range": 3,
+            "mana": 20,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                }
+            },
+            "requiresTarget": true,
+            "level": 8,
+            "vocations": [
+                "adept",
+                "warden"
+            ],
+            "damageAmplitude": 0.1881
+        },
+        {
+            "id": "energy_strike",
+            "label": "Energy Strike",
+            "kind": "spell",
+            "element": "energy",
+            "powerCurve": "magic_strike",
+            "basePower": 45,
+            "range": 3,
+            "mana": 20,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                }
+            },
+            "requiresTarget": true,
+            "level": 12,
+            "vocations": [
+                "adept",
+                "warden"
+            ],
+            "damageAmplitude": 0.1881
+        },
+        {
+            "id": "terra_strike",
+            "label": "Earth Strike",
+            "kind": "spell",
+            "element": "earth",
+            "powerCurve": "magic_strike",
+            "basePower": 45,
+            "range": 3,
+            "mana": 20,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                }
+            },
+            "requiresTarget": true,
+            "level": 13,
+            "vocations": [
+                "adept",
+                "warden"
+            ],
+            "damageAmplitude": 0.1881
+        },
+        {
+            "id": "death_strike",
+            "label": "Death Strike",
+            "kind": "spell",
+            "element": "death",
+            "powerCurve": "magic_strike",
+            "basePower": 45,
+            "range": 3,
+            "mana": 20,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                }
+            },
+            "requiresTarget": true,
+            "vocations": [
+                "adept"
+            ],
+            "level": 16,
+            "damageAmplitude": 0.1881
+        },
+        {
+            "id": "physical_strike",
+            "label": "Physical Strike",
+            "kind": "spell",
+            "element": "physical",
+            "powerCurve": "magic_strike",
+            "basePower": 50,
+            "range": 3,
+            "mana": 20,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                }
+            },
+            "requiresTarget": true,
+            "vocations": [
+                "adept",
+                "warden"
+            ],
+            "damageAmplitude": 0.1893
+        },
+        {
+            "id": "ember_bolt",
+            "label": "Ember Bolt",
+            "kind": "spell",
+            "element": "fire",
+            "powerCurve": "magic_strike",
+            "basePower": 30,
+            "range": 4,
+            "mana": 20,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                },
+                "spell": {
+                    "ember_bolt": 2
+                }
+            },
+            "notes": "Legacy alias of a weak fire bolt (kept for older presets).",
+            "vocations": [
+                "adept",
+                "warden"
+            ],
+            "damageAmplitude": 0.1839
+        },
+        {
+            "id": "strong_ice_strike",
+            "label": "Strong Ice Strike",
+            "kind": "spell",
+            "element": "ice",
+            "powerCurve": "magic_strike",
+            "basePower": 90,
+            "range": 3,
+            "mana": 60,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                },
+                "spell": {
+                    "strong_ice_strike": 8
+                }
+            },
+            "requiresTarget": true,
+            "level": 80,
+            "vocations": [
+                "warden"
+            ],
+            "damageAmplitude": 0.238
+        },
+        {
+            "id": "strong_terra_strike",
+            "label": "Strong Earth Strike",
+            "kind": "spell",
+            "element": "earth",
+            "powerCurve": "magic_strike",
+            "basePower": 90,
+            "range": 3,
+            "mana": 60,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                },
+                "spell": {
+                    "strong_terra_strike": 8
+                }
+            },
+            "requiresTarget": true,
+            "level": 70,
+            "vocations": [
+                "warden"
+            ],
+            "damageAmplitude": 0.238
+        },
+        {
+            "id": "strong_flame_strike",
+            "label": "Strong Flame Strike",
+            "kind": "spell",
+            "element": "fire",
+            "powerCurve": "magic_strike",
+            "basePower": 90,
+            "range": 3,
+            "mana": 60,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                },
+                "spell": {
+                    "strong_flame_strike": 8
+                }
+            },
+            "requiresTarget": true,
+            "level": 70,
+            "vocations": [
+                "adept"
+            ],
+            "damageAmplitude": 0.238
+        },
+        {
+            "id": "strong_energy_strike",
+            "label": "Strong Energy Strike",
+            "kind": "spell",
+            "element": "energy",
+            "powerCurve": "magic_strike",
+            "basePower": 90,
+            "range": 3,
+            "mana": 60,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                },
+                "spell": {
+                    "strong_energy_strike": 8
+                }
+            },
+            "requiresTarget": true,
+            "level": 80,
+            "vocations": [
+                "adept"
+            ],
+            "damageAmplitude": 0.238
+        },
+        {
+            "id": "mud_strike",
+            "label": "Mud Strike",
+            "kind": "spell",
+            "element": "earth",
+            "powerCurve": "magic_strike",
+            "basePower": 15,
+            "range": 3,
+            "mana": 6,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                }
+            },
+            "requiresTarget": true,
+            "vocations": [
+                "adept",
+                "warden"
+            ],
+            "damageAmplitude": 0.1639
+        },
+        {
+            "id": "buzz",
+            "label": "Buzz",
+            "kind": "spell",
+            "element": "energy",
+            "powerCurve": "magic_strike",
+            "basePower": 15,
+            "range": 3,
+            "mana": 6,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                }
+            },
+            "requiresTarget": true,
+            "vocations": [
+                "adept",
+                "warden"
+            ],
+            "damageAmplitude": 0.1639
+        },
+        {
+            "id": "apprentice_strike",
+            "label": "Apprentice's Strike",
+            "kind": "spell",
+            "element": "fire",
+            "powerCurve": "magic_strike",
+            "basePower": 15,
+            "range": 3,
+            "mana": 6,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                }
+            },
+            "requiresTarget": true,
+            "level": 6,
+            "vocations": [
+                "adept",
+                "warden"
+            ],
+            "damageAmplitude": 0.1639
+        },
+        {
+            "id": "ice_wave",
+            "label": "Ice Wave",
+            "kind": "spell",
+            "element": "ice",
+            "powerCurve": "magic_strike",
+            "basePower": 35,
+            "range": 4,
+            "mana": 25,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                },
+                "spell": {
+                    "ice_wave": 4
+                }
+            },
+            "requiresTarget": false,
+            "shape": {
+                "type": "wave",
+                "spread": 2,
+                "length": 4
+            },
+            "vocations": [
+                "warden"
+            ],
+            "level": 18,
+            "damageAmplitude": 0.1855
+        },
+        {
+            "id": "fire_wave",
+            "label": "Fire Wave",
+            "kind": "spell",
+            "element": "fire",
+            "powerCurve": "magic_strike",
+            "basePower": 40,
+            "range": 4,
+            "mana": 25,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                },
+                "spell": {
+                    "fire_wave": 4
+                }
+            },
+            "requiresTarget": false,
+            "shape": {
+                "type": "wave",
+                "spread": 2,
+                "length": 4
+            },
+            "vocations": [
+                "adept"
+            ],
+            "level": 18,
+            "damageAmplitude": 0.1874
+        },
+        {
+            "id": "energy_beam",
+            "label": "Energy Beam",
+            "kind": "spell",
+            "element": "energy",
+            "powerCurve": "magic_strike",
+            "basePower": 60,
+            "range": 5,
+            "mana": 40,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                },
+                "spell": {
+                    "energy_beam": 4
+                }
+            },
+            "requiresTarget": false,
+            "shape": {
+                "type": "wave",
+                "spread": 0,
+                "length": 5
+            },
+            "vocations": [
+                "adept"
+            ],
+            "level": 23,
+            "damageAmplitude": 0.1899
+        },
+        {
+            "id": "great_energy_beam",
+            "label": "Great Energy Beam",
+            "kind": "spell",
+            "element": "energy",
+            "powerCurve": "magic_strike",
+            "basePower": 170,
+            "range": 8,
+            "mana": 110,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                },
+                "spell": {
+                    "great_energy_beam": 6
+                }
+            },
+            "requiresTarget": false,
+            "shape": {
+                "type": "wave",
+                "spread": 0,
+                "length": 8
+            },
+            "vocations": [
+                "adept"
+            ],
+            "level": 29,
+            "damageAmplitude": 0.2888
+        },
+        {
+            "id": "terra_wave",
+            "label": "Earth Wave",
+            "kind": "spell",
+            "element": "earth",
+            "powerCurve": "magic_strike",
+            "basePower": 120,
+            "range": 5,
+            "mana": 170,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                },
+                "spell": {
+                    "terra_wave": 4
+                }
+            },
+            "requiresTarget": false,
+            "shape": {
+                "type": "wave",
+                "spread": "custom",
+                "length": 1
+            },
+            "vocations": [
+                "warden"
+            ],
+            "level": 38,
+            "damageAmplitude": 0.2693
+        },
+        {
+            "id": "energy_wave",
+            "label": "Energy Wave",
+            "kind": "spell",
+            "element": "energy",
+            "powerCurve": "magic_strike",
+            "basePower": 150,
+            "range": 5,
+            "mana": 170,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                },
+                "spell": {
+                    "energy_wave": 8
+                }
+            },
+            "requiresTarget": false,
+            "shape": {
+                "type": "wave",
+                "spread": "custom",
+                "length": 1
+            },
+            "vocations": [
+                "adept"
+            ],
+            "level": 38,
+            "damageAmplitude": 0.2864
+        },
+        {
+            "id": "strong_ice_wave",
+            "label": "Strong Ice Wave",
+            "kind": "spell",
+            "element": "ice",
+            "powerCurve": "magic_strike",
+            "basePower": 150,
+            "range": 3,
+            "mana": 170,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                },
+                "spell": {
+                    "strong_ice_wave": 8
+                }
+            },
+            "requiresTarget": false,
+            "shape": {
+                "type": "wave",
+                "spread": 1,
+                "length": 3
+            },
+            "vocations": [
+                "warden"
+            ],
+            "damageAmplitude": 0.2864
+        },
+        {
+            "id": "great_fire_wave",
+            "label": "Great Fire Wave",
+            "kind": "spell",
+            "element": "fire",
+            "powerCurve": "magic_strike",
+            "basePower": 100,
+            "range": 5,
+            "mana": 120,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                },
+                "spell": {
+                    "great_fire_wave": 4
+                }
+            },
+            "requiresTarget": false,
+            "shape": {
+                "type": "wave",
+                "spread": 2,
+                "length": 5
+            },
+            "vocations": [
+                "adept"
+            ],
+            "level": 38,
+            "damageAmplitude": 0.2497
+        },
+        {
+            "id": "scorch",
+            "label": "Scorch",
+            "kind": "spell",
+            "element": "fire",
+            "powerCurve": "magic_strike",
+            "basePower": 10,
+            "range": 4,
+            "mana": 8,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                },
+                "spell": {
+                    "scorch": 4
+                }
+            },
+            "requiresTarget": false,
+            "shape": {
+                "type": "wave",
+                "spread": 2,
+                "length": 4
+            },
+            "vocations": [
+                "adept"
+            ],
+            "damageAmplitude": 0.1508
+        },
+        {
+            "id": "chill_out",
+            "label": "Chill Out",
+            "kind": "spell",
+            "element": "ice",
+            "powerCurve": "magic_strike",
+            "basePower": 10,
+            "range": 4,
+            "mana": 8,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                },
+                "spell": {
+                    "chill_out": 4
+                }
+            },
+            "requiresTarget": false,
+            "shape": {
+                "type": "wave",
+                "spread": 2,
+                "length": 4
+            },
+            "vocations": [
+                "warden"
+            ],
+            "damageAmplitude": 0.1508
+        },
+        {
+            "id": "sky_rage",
+            "label": "Sky Rage",
+            "kind": "spell",
+            "element": "energy",
+            "powerCurve": "magic_strike",
+            "basePower": 200,
+            "range": 0,
+            "mana": 600,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 4
+                },
+                "secondary": {
+                    "focus": 40
+                }
+            },
+            "requiresTarget": false,
+            "shape": {
+                "type": "area",
+                "code": 9
+            },
+            "vocations": [
+                "adept"
+            ],
+            "level": 55,
+            "damageAmplitude": 0.2857
+        },
+        {
+            "id": "inferno_core",
+            "label": "Inferno Core",
+            "kind": "spell",
+            "element": "fire",
+            "powerCurve": "magic_strike",
+            "basePower": 250,
+            "range": 0,
+            "mana": 1100,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 4
+                },
+                "secondary": {
+                    "focus": 40
+                }
+            },
+            "requiresTarget": false,
+            "shape": {
+                "type": "area",
+                "code": 7
+            },
+            "vocations": [
+                "adept"
+            ],
+            "level": 60,
+            "damageAmplitude": 0.2629
+        },
+        {
+            "id": "nature_wrath",
+            "label": "Nature Wrath",
+            "kind": "spell",
+            "element": "earth",
+            "powerCurve": "magic_strike",
+            "basePower": 150,
+            "range": 0,
+            "mana": 700,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 4
+                },
+                "secondary": {
+                    "focus": 40
+                }
+            },
+            "requiresTarget": false,
+            "shape": {
+                "type": "area",
+                "code": 8
+            },
+            "vocations": [
+                "warden"
+            ],
+            "level": 55,
+            "damageAmplitude": 0.2864
+        },
+        {
+            "id": "eternal_winter",
+            "label": "Eternal Winter",
+            "kind": "spell",
+            "element": "ice",
+            "powerCurve": "magic_strike",
+            "basePower": 200,
+            "range": 0,
+            "mana": 1050,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 4
+                },
+                "secondary": {
+                    "focus": 40
+                }
+            },
+            "requiresTarget": false,
+            "shape": {
+                "type": "area",
+                "code": "eternal winter"
+            },
+            "vocations": [
+                "warden"
+            ],
+            "level": 60,
+            "damageAmplitude": 0.2857
+        },
+        {
+            "id": "lesser_arc_bolt",
+            "label": "Lesser Arc Bolt",
+            "kind": "spell",
+            "element": "energy",
+            "powerCurve": "magic_strike",
+            "basePower": 9,
+            "range": 6,
+            "mana": 0,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                }
+            },
+            "requiresTarget": true,
+            "rune": "light magic missile",
+            "source": "rune",
+            "level": 15,
+            "vocations": [
+                "guardian",
+                "scout",
+                "mystic",
+                "adept",
+                "warden"
+            ],
+            "damageAmplitude": 0.1462,
+            "runeItemId": "lesser_arc_bolt_rune",
+            "magicLevel": 0
+        },
+        {
+            "id": "greater_arc_bolt",
+            "label": "Greater Arc Bolt",
+            "kind": "spell",
+            "element": "energy",
+            "powerCurve": "magic_strike",
+            "basePower": 19,
+            "range": 6,
+            "mana": 0,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                }
+            },
+            "requiresTarget": true,
+            "rune": "heavy magic missile",
+            "source": "rune",
+            "level": 25,
+            "vocations": [
+                "guardian",
+                "scout",
+                "mystic",
+                "adept",
+                "warden"
+            ],
+            "damageAmplitude": 0.1723,
+            "runeItemId": "greater_arc_bolt_rune",
+            "magicLevel": 3
+        },
+        {
+            "id": "stone_spike",
+            "label": "Stone Spike",
+            "kind": "spell",
+            "element": "earth",
+            "powerCurve": "magic_strike",
+            "basePower": 19,
+            "range": 6,
+            "mana": 0,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                }
+            },
+            "requiresTarget": true,
+            "rune": "stalagmite",
+            "source": "rune",
+            "level": 24,
+            "vocations": [
+                "guardian",
+                "scout",
+                "mystic",
+                "adept",
+                "warden"
+            ],
+            "damageAmplitude": 0.1723,
+            "runeItemId": "stone_spike_rune",
+            "magicLevel": 3
+        },
+        {
+            "id": "fireburst",
+            "label": "Fireburst",
+            "kind": "spell",
+            "element": "fire",
+            "powerCurve": "magic_strike",
+            "basePower": 65,
+            "range": 6,
+            "mana": 0,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                }
+            },
+            "requiresTarget": true,
+            "rune": "fireball",
+            "source": "rune",
+            "level": 27,
+            "vocations": [
+                "guardian",
+                "scout",
+                "mystic",
+                "adept",
+                "warden"
+            ],
+            "damageAmplitude": 0.1921,
+            "runeItemId": "fireburst_rune",
+            "magicLevel": 4
+        },
+        {
+            "id": "frost_spike",
+            "label": "Frost Spike",
+            "kind": "spell",
+            "element": "ice",
+            "powerCurve": "magic_strike",
+            "basePower": 65,
+            "range": 6,
+            "mana": 0,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                }
+            },
+            "requiresTarget": true,
+            "rune": "icicle",
+            "source": "rune",
+            "level": 28,
+            "vocations": [
+                "guardian",
+                "scout",
+                "mystic",
+                "adept",
+                "warden"
+            ],
+            "damageAmplitude": 0.1921,
+            "runeItemId": "frost_spike_rune",
+            "magicLevel": 4
+        },
+        {
+            "id": "deathburst",
+            "label": "Deathburst",
+            "kind": "spell",
+            "element": "death",
+            "powerCurve": "magic_strike",
+            "basePower": 150,
+            "range": 6,
+            "mana": 0,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                }
+            },
+            "requiresTarget": true,
+            "rune": "sudden death",
+            "source": "rune",
+            "level": 45,
+            "vocations": [
+                "guardian",
+                "scout",
+                "mystic",
+                "adept",
+                "warden"
+            ],
+            "damageAmplitude": 0.2864,
+            "runeItemId": "deathburst_rune",
+            "magicLevel": 15
+        },
+        {
+            "id": "radiant_bolt",
+            "label": "Radiant Bolt",
+            "kind": "spell",
+            "element": "holy",
+            "powerCurve": "magic_strike",
+            "basePower": 75,
+            "range": 6,
+            "mana": 0,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                }
+            },
+            "requiresTarget": true,
+            "rune": "holy missile",
+            "source": "rune",
+            "vocations": [
+                "scout"
+            ],
+            "level": 27,
+            "damageAmplitude": 0.2127,
+            "runeItemId": "radiant_bolt_rune",
+            "magicLevel": 4
+        },
+        {
+            "id": "gravel_rain",
+            "label": "Gravel Rain",
+            "kind": "spell",
+            "element": "earth",
+            "powerCurve": "magic_strike",
+            "basePower": 47,
+            "range": 6,
+            "mana": 0,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                }
+            },
+            "requiresTarget": false,
+            "rune": "stone shower",
+            "source": "rune",
+            "shape": {
+                "type": "area",
+                "code": 5
+            },
+            "level": 28,
+            "vocations": [
+                "guardian",
+                "scout",
+                "mystic",
+                "adept",
+                "warden"
+            ],
+            "damageAmplitude": 0.1884,
+            "runeItemId": "gravel_rain_rune",
+            "magicLevel": 4
+        },
+        {
+            "id": "stormlash",
+            "label": "Stormlash",
+            "kind": "spell",
+            "element": "energy",
+            "powerCurve": "magic_strike",
+            "basePower": 47,
+            "range": 6,
+            "mana": 0,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                }
+            },
+            "requiresTarget": false,
+            "rune": "thunderstorm",
+            "source": "rune",
+            "shape": {
+                "type": "area",
+                "code": 5
+            },
+            "level": 28,
+            "vocations": [
+                "guardian",
+                "scout",
+                "mystic",
+                "adept",
+                "warden"
+            ],
+            "damageAmplitude": 0.1884,
+            "runeItemId": "stormlash_rune",
+            "magicLevel": 4
+        },
+        {
+            "id": "grand_fireburst",
+            "label": "Grand Fireburst",
+            "kind": "spell",
+            "element": "fire",
+            "powerCurve": "magic_strike",
+            "basePower": 50,
+            "range": 6,
+            "mana": 0,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                }
+            },
+            "requiresTarget": false,
+            "rune": "great fireball",
+            "source": "rune",
+            "shape": {
+                "type": "area",
+                "code": 5
+            },
+            "level": 30,
+            "vocations": [
+                "guardian",
+                "scout",
+                "mystic",
+                "adept",
+                "warden"
+            ],
+            "damageAmplitude": 0.1893,
+            "runeItemId": "grand_fireburst_rune",
+            "magicLevel": 4
+        },
+        {
+            "id": "rockfall",
+            "label": "Rockfall",
+            "kind": "spell",
+            "element": "ice",
+            "powerCurve": "magic_strike",
+            "basePower": 50,
+            "range": 6,
+            "mana": 0,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                }
+            },
+            "requiresTarget": false,
+            "rune": "avalanche",
+            "source": "rune",
+            "shape": {
+                "type": "area",
+                "code": 5
+            },
+            "level": 30,
+            "vocations": [
+                "guardian",
+                "scout",
+                "mystic",
+                "adept",
+                "warden"
+            ],
+            "damageAmplitude": 0.1893,
+            "runeItemId": "rockfall_rune",
+            "magicLevel": 4
+        },
+        {
+            "id": "blastwave",
+            "label": "Blastwave",
+            "kind": "spell",
+            "element": "physical",
+            "powerCurve": "magic_strike",
+            "basePower": 55,
+            "range": 6,
+            "mana": 0,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                }
+            },
+            "requiresTarget": false,
+            "rune": "explosion",
+            "source": "rune",
+            "shape": {
+                "type": "area",
+                "code": 2
+            },
+            "level": 31,
+            "vocations": [
+                "guardian",
+                "scout",
+                "mystic",
+                "adept",
+                "warden"
+            ],
+            "damageAmplitude": 0.1894,
+            "runeItemId": "blastwave_rune",
+            "magicLevel": 6
+        },
+        {
+            "id": "magic_patch",
+            "label": "Magic Patch",
+            "kind": "heal",
+            "element": "healing",
+            "powerCurve": "magic_strike",
+            "basePower": 20,
+            "range": 1,
+            "mana": 6,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "healing": 2
+                },
+                "spell": {
+                    "magic_patch": 1
+                }
+            },
+            "requiresTarget": false,
+            "level": 1,
+            "vocations": [
+                "adept",
+                "warden",
+                "scout",
+                "mystic"
+            ],
+            "damageAmplitude": 0.1702
+        },
+        {
+            "id": "heal_light",
+            "label": "Light Heal",
+            "kind": "heal",
+            "element": "healing",
+            "powerCurve": "magic_strike",
+            "basePower": 40,
+            "range": 1,
+            "mana": 20,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "healing": 2
+                },
+                "spell": {
+                    "heal_light": 4
+                }
+            },
+            "requiresTarget": false,
+            "level": 8,
+            "vocations": [
+                "adept",
+                "warden",
+                "scout",
+                "mystic"
+            ],
+            "damageAmplitude": 0.1874
+        },
+        {
+            "id": "heal_intense",
+            "label": "Intense Heal",
+            "kind": "heal",
+            "element": "healing",
+            "powerCurve": "magic_strike",
+            "basePower": 120,
+            "range": 1,
+            "mana": 70,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "healing": 2
+                },
+                "spell": {
+                    "heal_intense": 1
+                }
+            },
+            "requiresTarget": false,
+            "level": 20,
+            "vocations": [
+                "adept",
+                "warden",
+                "scout",
+                "mystic"
+            ],
+            "damageAmplitude": 0.2693
+        },
+        {
+            "id": "heal_ultimate",
+            "label": "Ultimate Heal",
+            "kind": "heal",
+            "element": "healing",
+            "powerCurve": "magic_strike",
+            "basePower": 250,
+            "range": 1,
+            "mana": 160,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "healing": 2
+                },
+                "spell": {
+                    "heal_ultimate": 1
+                }
+            },
+            "requiresTarget": false,
+            "level": 30,
+            "vocations": [
+                "adept",
+                "warden"
+            ],
+            "damageAmplitude": 0.2629
+        },
+        {
+            "id": "wound_cleanse",
+            "label": "Wound Cleanse",
+            "kind": "heal",
+            "element": "healing",
+            "powerCurve": "magic_strike",
+            "basePower": 150,
+            "range": 1,
+            "mana": 40,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "healing": 2
+                },
+                "spell": {
+                    "wound_cleanse": 1
+                }
+            },
+            "requiresTarget": false,
+            "vocations": [
+                "guardian"
+            ],
+            "level": 8,
+            "damageAmplitude": 0.2864
+        },
+        {
+            "id": "fair_wound_cleanse",
+            "label": "Fair Wound Cleanse",
+            "kind": "heal",
+            "element": "healing",
+            "powerCurve": "magic_strike",
+            "basePower": 450,
+            "range": 1,
+            "mana": 0,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "healing": 2
+                },
+                "spell": {
+                    "fair_wound_cleanse": 1
+                }
+            },
+            "requiresTarget": false,
+            "vocations": [
+                "guardian"
+            ],
+            "damageAmplitude": 0.1987
+        },
+        {
+            "id": "mass_heal",
+            "label": "Mass Heal",
+            "kind": "heal",
+            "element": "healing",
+            "powerCurve": "magic_strike",
+            "basePower": 200,
+            "range": 1,
+            "mana": 150,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "healing": 2
+                },
+                "spell": {
+                    "mass_heal": 1
+                }
+            },
+            "requiresTarget": false,
+            "vocations": [
+                "warden"
+            ],
+            "level": 36,
+            "damageAmplitude": 0.2857
+        },
+        {
+            "id": "heal_friend",
+            "label": "Heal Friend",
+            "kind": "heal",
+            "element": "healing",
+            "powerCurve": "magic_strike",
+            "basePower": 260,
+            "range": 1,
+            "mana": 120,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "healing": 2
+                },
+                "spell": {
+                    "heal_friend": 1
+                }
+            },
+            "requiresTarget": true,
+            "vocations": [
+                "warden"
+            ],
+            "level": 18,
+            "damageAmplitude": 0.2561
+        },
+        {
+            "id": "divine_heal",
+            "label": "Divine Heal",
+            "kind": "heal",
+            "element": "healing",
+            "powerCurve": "magic_strike",
+            "basePower": 250,
+            "range": 1,
+            "mana": 160,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "healing": 2
+                },
+                "spell": {
+                    "divine_heal": 1
+                }
+            },
+            "requiresTarget": false,
+            "vocations": [
+                "scout"
+            ],
+            "level": 35,
+            "damageAmplitude": 0.2629
+        },
+        {
+            "id": "salvation",
+            "label": "Salvation",
+            "kind": "heal",
+            "element": "healing",
+            "powerCurve": "magic_strike",
+            "basePower": 400,
+            "range": 1,
+            "mana": 210,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "healing": 2
+                },
+                "spell": {
+                    "salvation": 1
+                }
+            },
+            "requiresTarget": false,
+            "vocations": [
+                "scout"
+            ],
+            "level": 60,
+            "damageAmplitude": 0.198
+        },
+        {
+            "id": "divine_missile",
+            "label": "Divine Missile",
+            "kind": "spell",
+            "element": "holy",
+            "powerCurve": "magic_strike",
+            "basePower": 60,
+            "range": 4,
+            "mana": 20,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                }
+            },
+            "requiresTarget": true,
+            "vocations": [
+                "scout"
+            ],
+            "level": 40,
+            "damageAmplitude": 0.1899
+        },
+        {
+            "id": "divine_caldera",
+            "label": "Divine Caldera",
+            "kind": "spell",
+            "element": "holy",
+            "powerCurve": "magic_strike",
+            "basePower": 140,
+            "range": 0,
+            "mana": 160,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                },
+                "spell": {
+                    "divine_caldera": 4
+                }
+            },
+            "requiresTarget": false,
+            "shape": {
+                "type": "area",
+                "code": 5
+            },
+            "vocations": [
+                "scout"
+            ],
+            "level": 50,
+            "damageAmplitude": 0.2817
+        },
+        {
+            "id": "lesser_ethereal_spear",
+            "label": "Lesser Ethereal Spear",
+            "kind": "strike",
+            "element": "physical",
+            "powerCurve": "magic_strike",
+            "basePower": 9,
+            "range": 5,
+            "mana": 6,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                }
+            },
+            "requiresTarget": true,
+            "vocations": [
+                "scout"
+            ],
+            "damageAmplitude": 0.1462
+        },
+        {
+            "id": "ethereal_spear",
+            "label": "Ethereal Spear",
+            "kind": "strike",
+            "element": "physical",
+            "powerCurve": "magic_strike",
+            "basePower": 25,
+            "range": 5,
+            "mana": 25,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                }
+            },
+            "requiresTarget": true,
+            "vocations": [
+                "scout"
+            ],
+            "level": 23,
+            "damageAmplitude": 0.1746
+        },
+        {
+            "id": "strong_ethereal_spear",
+            "label": "Strong Ethereal Spear",
+            "kind": "strike",
+            "element": "physical",
+            "powerCurve": "magic_strike",
+            "basePower": 38,
+            "range": 5,
+            "mana": 55,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                }
+            },
+            "requiresTarget": true,
+            "vocations": [
+                "scout"
+            ],
+            "level": 90,
+            "damageAmplitude": 0.1886
+        },
+        {
+            "id": "piercing_shot",
+            "label": "Piercing Shot",
+            "kind": "strike",
+            "element": "physical",
+            "powerCurve": "melee_strike",
+            "basePower": 35,
+            "range": 5,
+            "mana": 15,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                },
+                "spell": {
+                    "piercing_shot": 4
+                }
+            },
+            "notes": "Generic distance strike (older presets). Prefer ethereal_spear family in legacy loadouts.",
+            "vocations": [
+                "scout"
+            ],
+            "damageAmplitude": 0.2493
+        },
+        {
+            "id": "lesser_front_sweep",
+            "label": "Lesser Front Sweep",
+            "kind": "strike",
+            "element": "physical",
+            "powerCurve": "melee_strike",
+            "basePower": 14,
+            "range": 1,
+            "mana": 6,
+            "hitChance": 100,
+            "isMelee": true,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                },
+                "spell": {
+                    "lesser_front_sweep": 6
+                }
+            },
+            "requiresTarget": false,
+            "shape": {
+                "type": "wave",
+                "spread": 1,
+                "length": 1
+            },
+            "vocations": [
+                "guardian"
+            ],
+            "damageAmplitude": 0.1853
+        },
+        {
+            "id": "front_sweep",
+            "label": "Front Sweep",
+            "kind": "strike",
+            "element": "physical",
+            "powerCurve": "melee_strike",
+            "basePower": 72,
+            "range": 1,
+            "mana": 200,
+            "hitChance": 100,
+            "isMelee": true,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                },
+                "spell": {
+                    "front_sweep": 6
+                }
+            },
+            "requiresTarget": false,
+            "shape": {
+                "type": "wave",
+                "spread": 1,
+                "length": 1
+            },
+            "vocations": [
+                "guardian"
+            ],
+            "level": 70,
+            "damageAmplitude": 0.2576
+        },
+        {
+            "id": "brutal_strike",
+            "label": "Brutal Strike",
+            "kind": "strike",
+            "element": "physical",
+            "powerCurve": "melee_strike",
+            "basePower": 39,
+            "range": 1,
+            "mana": 30,
+            "hitChance": 100,
+            "isMelee": true,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                },
+                "spell": {
+                    "brutal_strike": 6
+                }
+            },
+            "requiresTarget": true,
+            "vocations": [
+                "guardian"
+            ],
+            "level": 16,
+            "damageAmplitude": 0.2505
+        },
+        {
+            "id": "whirlwind_throw",
+            "label": "Whirlwind Throw",
+            "kind": "strike",
+            "element": "physical",
+            "powerCurve": "melee_strike",
+            "basePower": 32,
+            "range": 5,
+            "mana": 40,
+            "hitChance": 100,
+            "isMelee": true,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                },
+                "spell": {
+                    "whirlwind_throw": 6
+                }
+            },
+            "requiresTarget": true,
+            "vocations": [
+                "guardian"
+            ],
+            "level": 28,
+            "damageAmplitude": 0.2549
+        },
+        {
+            "id": "ground_shaker",
+            "label": "Ground Shaker",
+            "kind": "strike",
+            "element": "physical",
+            "powerCurve": "melee_strike",
+            "basePower": 32,
+            "range": 3,
+            "mana": 160,
+            "hitChance": 100,
+            "isMelee": true,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                },
+                "spell": {
+                    "ground_shaker": 8
+                }
+            },
+            "requiresTarget": false,
+            "shape": {
+                "type": "area",
+                "code": 4
+            },
+            "vocations": [
+                "guardian"
+            ],
+            "level": 33,
+            "damageAmplitude": 0.2549
+        },
+        {
+            "id": "berserk",
+            "label": "Berserk",
+            "kind": "strike",
+            "element": "physical",
+            "powerCurve": "melee_strike",
+            "basePower": 44,
+            "range": 1,
+            "mana": 115,
+            "hitChance": 100,
+            "isMelee": true,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                },
+                "spell": {
+                    "berserk": 4
+                }
+            },
+            "requiresTarget": false,
+            "shape": {
+                "type": "area",
+                "code": 3
+            },
+            "vocations": [
+                "guardian"
+            ],
+            "level": 35,
+            "damageAmplitude": 0.2478
+        },
+        {
+            "id": "fierce_berserk",
+            "label": "Fierce Berserk",
+            "kind": "strike",
+            "element": "physical",
+            "powerCurve": "melee_strike",
+            "basePower": 92,
+            "range": 1,
+            "mana": 340,
+            "hitChance": 100,
+            "isMelee": true,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                },
+                "spell": {
+                    "fierce_berserk": 6
+                }
+            },
+            "requiresTarget": false,
+            "shape": {
+                "type": "area",
+                "code": 3
+            },
+            "vocations": [
+                "guardian"
+            ],
+            "level": 90,
+            "damageAmplitude": 0.2616
+        },
+        {
+            "id": "swift_jab",
+            "label": "Swift Jab",
+            "kind": "strike",
+            "element": "physical",
+            "powerCurve": "melee_strike",
+            "basePower": 12,
+            "range": 1,
+            "mana": 3,
+            "hitChance": 100,
+            "isMelee": true,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                }
+            },
+            "requiresTarget": true,
+            "vocations": [
+                "mystic"
+            ],
+            "level": 1,
+            "damageAmplitude": 0.1726
+        },
+        {
+            "id": "tiger_clash",
+            "label": "Tiger Clash",
+            "kind": "strike",
+            "element": "physical",
+            "powerCurve": "melee_strike",
+            "basePower": 15,
+            "range": 1,
+            "mana": 18,
+            "hitChance": 100,
+            "isMelee": true,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                },
+                "spell": {
+                    "tiger_clash": 8
+                }
+            },
+            "requiresTarget": true,
+            "vocations": [
+                "mystic"
+            ],
+            "level": 1,
+            "damageAmplitude": 0.2012
+        },
+        {
+            "id": "double_jab",
+            "label": "Double Jab",
+            "kind": "strike",
+            "element": "physical",
+            "powerCurve": "melee_strike",
+            "basePower": 40,
+            "range": 1,
+            "mana": 35,
+            "hitChance": 100,
+            "isMelee": true,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                },
+                "spell": {
+                    "double_jab": 4
+                }
+            },
+            "requiresTarget": true,
+            "vocations": [
+                "mystic"
+            ],
+            "level": 14,
+            "damageAmplitude": 0.2516
+        },
+        {
+            "id": "greater_tiger_clash",
+            "label": "Greater Tiger Clash",
+            "kind": "strike",
+            "element": "physical",
+            "powerCurve": "melee_strike",
+            "basePower": 44,
+            "range": 1,
+            "mana": 50,
+            "hitChance": 100,
+            "isMelee": true,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                },
+                "spell": {
+                    "greater_tiger_clash": 8
+                }
+            },
+            "requiresTarget": true,
+            "vocations": [
+                "mystic"
+            ],
+            "level": 18,
+            "damageAmplitude": 0.2478
+        },
+        {
+            "id": "flurry_of_blows",
+            "label": "Flurry of Blows",
+            "kind": "strike",
+            "element": "physical",
+            "powerCurve": "melee_strike",
+            "basePower": 55,
+            "range": 3,
+            "mana": 125,
+            "hitChance": 100,
+            "isMelee": true,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                },
+                "spell": {
+                    "flurry_of_blows": 4
+                }
+            },
+            "requiresTarget": false,
+            "shape": {
+                "type": "wave",
+                "spread": "custom",
+                "length": "flurry of blows"
+            },
+            "vocations": [
+                "mystic"
+            ],
+            "level": 35,
+            "damageAmplitude": 0.2532
+        },
+        {
+            "id": "sweeping_takedown",
+            "label": "Sweeping Takedown",
+            "kind": "strike",
+            "element": "physical",
+            "powerCurve": "melee_strike",
+            "basePower": 48,
+            "range": 4,
+            "mana": 195,
+            "hitChance": 100,
+            "isMelee": true,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                },
+                "spell": {
+                    "sweeping_takedown": 8
+                }
+            },
+            "requiresTarget": false,
+            "shape": {
+                "type": "wave",
+                "spread": "custom",
+                "length": "sweeping takedown"
+            },
+            "vocations": [
+                "mystic"
+            ],
+            "level": 60,
+            "damageAmplitude": 0.253
+        },
+        {
+            "id": "chained_penance",
+            "label": "Chained Penance",
+            "kind": "strike",
+            "element": "physical",
+            "powerCurve": "melee_strike",
+            "basePower": 70,
+            "range": 3,
+            "mana": 180,
+            "hitChance": 100,
+            "isMelee": true,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                },
+                "spell": {
+                    "chained_penance": 4
+                }
+            },
+            "requiresTarget": true,
+            "chain": 4,
+            "vocations": [
+                "mystic"
+            ],
+            "level": 70,
+            "damageAmplitude": 0.2536
+        },
+        {
+            "id": "mystic_repulse",
+            "label": "Mystic Repulse",
+            "kind": "strike",
+            "element": "physical",
+            "powerCurve": "melee_strike",
+            "basePower": 72,
+            "range": 7,
+            "mana": 175,
+            "hitChance": 100,
+            "isMelee": true,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                },
+                "spell": {
+                    "mystic_repulse": 20
+                }
+            },
+            "requiresTarget": true,
+            "vocations": [
+                "mystic"
+            ],
+            "level": 30,
+            "damageAmplitude": 0.2576
+        },
+        {
+            "id": "greater_flurry_of_blows",
+            "label": "Greater Flurry of Blows",
+            "kind": "strike",
+            "element": "physical",
+            "powerCurve": "melee_strike",
+            "basePower": 86,
+            "range": 3,
+            "mana": 315,
+            "hitChance": 100,
+            "isMelee": true,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                },
+                "spell": {
+                    "greater_flurry_of_blows": 16
+                }
+            },
+            "requiresTarget": false,
+            "shape": {
+                "type": "wave",
+                "spread": "custom",
+                "length": "greater flurry of blows"
+            },
+            "vocations": [
+                "mystic"
+            ],
+            "level": 90,
+            "damageAmplitude": 0.2589
+        },
+        {
+            "id": "venom_field_rune",
+            "label": "Venom Field Rune",
+            "kind": "spell",
+            "element": "earth",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "range": 4,
+            "mana": 0,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                }
+            },
+            "requiresTarget": true,
+            "source": "rune",
+            "rune": "poison field",
+            "runeItemId": "venom_field_rune",
+            "level": 14,
+            "vocations": [
+                "guardian",
+                "scout",
+                "mystic",
+                "adept",
+                "warden"
+            ],
+            "shape": {
+                "type": "area",
+                "code": 1
+            },
+            "field": "poison",
+            "deploysField": "poison",
+            "magicLevel": 0
+        },
+        {
+            "id": "blaze_field_rune",
+            "label": "Blaze Field Rune",
+            "kind": "spell",
+            "element": "fire",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "range": 4,
+            "mana": 0,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                }
+            },
+            "requiresTarget": true,
+            "source": "rune",
+            "rune": "fire field",
+            "runeItemId": "blaze_field_rune",
+            "level": 15,
+            "vocations": [
+                "guardian",
+                "scout",
+                "mystic",
+                "adept",
+                "warden"
+            ],
+            "shape": {
+                "type": "area",
+                "code": 1
+            },
+            "field": "fire",
+            "deploysField": "fire",
+            "magicLevel": 1
+        },
+        {
+            "id": "purge_field_rune",
+            "label": "Purge Field Rune",
+            "kind": "spell",
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "range": 4,
+            "mana": 0,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                }
+            },
+            "requiresTarget": true,
+            "source": "rune",
+            "rune": "destroy field",
+            "runeItemId": "purge_field_rune",
+            "level": 17,
+            "vocations": [
+                "guardian",
+                "scout",
+                "mystic",
+                "adept",
+                "warden"
+            ],
+            "shape": {
+                "type": "area",
+                "code": 1
+            },
+            "destroysField": true,
+            "magicLevel": 3
+        },
+        {
+            "id": "spark_field_rune",
+            "label": "Spark Field Rune",
+            "kind": "spell",
+            "element": "energy",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "range": 4,
+            "mana": 0,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                }
+            },
+            "requiresTarget": true,
+            "source": "rune",
+            "rune": "energy field",
+            "runeItemId": "spark_field_rune",
+            "level": 18,
+            "vocations": [
+                "guardian",
+                "scout",
+                "mystic",
+                "adept",
+                "warden"
+            ],
+            "shape": {
+                "type": "area",
+                "code": 1
+            },
+            "field": "energy",
+            "deploysField": "energy",
+            "magicLevel": 3
+        },
+        {
+            "id": "venom_bomb_rune",
+            "label": "Venom Bomb Rune",
+            "kind": "spell",
+            "element": "earth",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "range": 4,
+            "mana": 0,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                }
+            },
+            "requiresTarget": false,
+            "source": "rune",
+            "rune": "poison bomb",
+            "runeItemId": "venom_bomb_rune",
+            "level": 25,
+            "vocations": [
+                "guardian",
+                "scout",
+                "mystic",
+                "adept",
+                "warden"
+            ],
+            "shape": {
+                "type": "area",
+                "code": 3
+            },
+            "field": "poison",
+            "deploysField": "poison",
+            "magicLevel": 4
+        },
+        {
+            "id": "blaze_bomb_rune",
+            "label": "Blaze Bomb Rune",
+            "kind": "spell",
+            "element": "fire",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "range": 4,
+            "mana": 0,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                }
+            },
+            "requiresTarget": false,
+            "source": "rune",
+            "rune": "fire bomb",
+            "runeItemId": "blaze_bomb_rune",
+            "level": 27,
+            "vocations": [
+                "guardian",
+                "scout",
+                "mystic",
+                "adept",
+                "warden"
+            ],
+            "shape": {
+                "type": "area",
+                "code": 3
+            },
+            "field": "fire",
+            "deploysField": "fire",
+            "magicLevel": 5
+        },
+        {
+            "id": "venom_wall_rune",
+            "label": "Venom Wall Rune",
+            "kind": "spell",
+            "element": "earth",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "range": 4,
+            "mana": 0,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                }
+            },
+            "requiresTarget": false,
+            "source": "rune",
+            "rune": "poison wall",
+            "runeItemId": "venom_wall_rune",
+            "level": 29,
+            "vocations": [
+                "guardian",
+                "scout",
+                "mystic",
+                "adept",
+                "warden"
+            ],
+            "shape": {
+                "type": "area",
+                "code": "wall_field"
+            },
+            "field": "poison",
+            "deploysField": "poison",
+            "magicLevel": 5
+        },
+        {
+            "id": "blaze_wall_rune",
+            "label": "Blaze Wall Rune",
+            "kind": "spell",
+            "element": "fire",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "range": 4,
+            "mana": 0,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                }
+            },
+            "requiresTarget": false,
+            "source": "rune",
+            "rune": "fire wall",
+            "runeItemId": "blaze_wall_rune",
+            "level": 33,
+            "vocations": [
+                "guardian",
+                "scout",
+                "mystic",
+                "adept",
+                "warden"
+            ],
+            "shape": {
+                "type": "area",
+                "code": "wall_field"
+            },
+            "field": "fire",
+            "deploysField": "fire",
+            "magicLevel": 6
+        },
+        {
+            "id": "spark_bomb_rune",
+            "label": "Spark Bomb Rune",
+            "kind": "spell",
+            "element": "energy",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "range": 4,
+            "mana": 0,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                }
+            },
+            "requiresTarget": false,
+            "source": "rune",
+            "rune": "energy bomb",
+            "runeItemId": "spark_bomb_rune",
+            "level": 37,
+            "vocations": [
+                "guardian",
+                "scout",
+                "mystic",
+                "adept",
+                "warden"
+            ],
+            "shape": {
+                "type": "area",
+                "code": 3
+            },
+            "field": "energy",
+            "deploysField": "energy",
+            "magicLevel": 10
+        },
+        {
+            "id": "spark_wall_rune",
+            "label": "Spark Wall Rune",
+            "kind": "spell",
+            "element": "energy",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "range": 4,
+            "mana": 0,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                }
+            },
+            "requiresTarget": false,
+            "source": "rune",
+            "rune": "energy wall",
+            "runeItemId": "spark_wall_rune",
+            "level": 41,
+            "vocations": [
+                "guardian",
+                "scout",
+                "mystic",
+                "adept",
+                "warden"
+            ],
+            "shape": {
+                "type": "area",
+                "code": "wall_field_energy"
+            },
+            "field": "energy",
+            "deploysField": "energy",
+            "magicLevel": 9
+        }
+    ]
+}

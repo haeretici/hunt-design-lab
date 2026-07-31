@@ -1,0 +1,181 @@
+{
+    "id": "novice_of_the_cult",
+    "label": "Novice Of The Cult",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A novice of the cult.",
+    "hp": 285,
+    "hpMax": 285,
+    "speed": 100,
+    "level": 300,
+    "armor": 15,
+    "mitigation": 0.62,
+    "maxBlock": 0,
+    "exp": 100,
+    "lootValue": 16.308544543937,
+    "aggro": true,
+    "resists": {
+        "physical": -10,
+        "fire": -5,
+        "ice": 10,
+        "energy": -8,
+        "earth": 10,
+        "holy": 10,
+        "death": -8
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 40,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 71,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 1,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "lifedrain",
+            "min": 22,
+            "max": 87,
+            "radius": 1,
+            "target": true,
+            "effect": "me_magic_red",
+            "shootEffect": "ani_poison"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 20,
+            "max": 40,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Human",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "id": 2828,
+            "chance": 700
+        },
+        {
+            "name": "small diamond",
+            "chance": 210
+        },
+        {
+            "name": "gold coin",
+            "chance": 43380,
+            "maxCount": 40
+        },
+        {
+            "name": "wand of vortex",
+            "chance": 450
+        },
+        {
+            "name": "garlic necklace",
+            "chance": 420
+        },
+        {
+            "chance": 500,
+            "name": "dwarven ring"
+        },
+        {
+            "name": "scarf",
+            "chance": 2900
+        },
+        {
+            "name": "pirate voodoo doll",
+            "chance": 520
+        },
+        {
+            "chance": 970,
+            "name": "music sheet"
+        },
+        {
+            "name": "cultish robe",
+            "chance": 1030
+        },
+        {
+            "name": "rope belt",
+            "chance": 5910
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "hellfire_kobold_cultist",
+    "threatDps": 22.3375,
+    "burstDps": 22.3375,
+    "avgHit": 37.9783,
+    "maxHit": 87,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 1,
+        "summons": [
+            {
+                "name": "Chicken",
+                "id": "chicken",
+                "chance": 10,
+                "interval": 2000,
+                "count": 1
+            }
+        ]
+    }
+}

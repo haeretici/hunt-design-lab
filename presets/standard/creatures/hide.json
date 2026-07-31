@@ -1,0 +1,136 @@
+{
+    "id": "hide",
+    "label": "Hide",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A hide.",
+    "hp": 500,
+    "hpMax": 500,
+    "speed": 140,
+    "level": 354,
+    "armor": 0,
+    "mitigation": 0.71,
+    "maxBlock": 0,
+    "exp": 240,
+    "lootValue": 2965.3762376238,
+    "aggro": true,
+    "resists": {
+        "physical": 40,
+        "fire": -14,
+        "ice": -14,
+        "energy": 10,
+        "earth": 100,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 57
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "condition": {
+                "type": "poison",
+                "totalDamage": 32,
+                "intervalMs": 4000
+            },
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 10,
+            "speedChange": 340,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "venom",
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 5,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 50000,
+            "name": "steel helmet"
+        },
+        {
+            "chance": 50000,
+            "name": "spider silk"
+        },
+        {
+            "chance": 50000,
+            "name": "Earthbound Hood"
+        },
+        {
+            "chance": 50000,
+            "name": "knight legs"
+        },
+        {
+            "chance": 33333,
+            "name": "time ring"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "goblin",
+    "threatDps": 30.25,
+    "burstDps": 30.25,
+    "avgHit": 28.5,
+    "maxHit": 57,
+    "manaCost": 0
+}

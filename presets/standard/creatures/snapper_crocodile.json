@@ -1,0 +1,115 @@
+{
+    "id": "snapper_crocodile",
+    "label": "Snapper Crocodile",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A snapper crocodile.",
+    "hp": 300,
+    "hpMax": 300,
+    "speed": 120,
+    "level": 305,
+    "armor": 0,
+    "mitigation": 0.28,
+    "maxBlock": 0,
+    "exp": 150,
+    "lootValue": 1123.5555555556,
+    "aggro": true,
+    "resists": {
+        "physical": -5,
+        "fire": -10,
+        "ice": 10,
+        "energy": -5,
+        "earth": 15,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 30,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 92
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 178,
+            "name": "gold coin"
+        },
+        {
+            "chance": 80000,
+            "maxCount": 5,
+            "name": "health potion"
+        },
+        {
+            "chance": 75000,
+            "maxCount": 4,
+            "name": "small emerald"
+        },
+        {
+            "chance": 44000,
+            "name": "plate legs"
+        },
+        {
+            "chance": 39800,
+            "name": "plate armor"
+        },
+        {
+            "chance": 6000,
+            "name": "crocodile boots"
+        },
+        {
+            "chance": 400,
+            "name": "knight armor"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "umbral_ghoul",
+    "threatDps": 23,
+    "burstDps": 23,
+    "avgHit": 46,
+    "maxHit": 92,
+    "manaCost": 0
+}

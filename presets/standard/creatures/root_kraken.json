@@ -1,0 +1,191 @@
+{
+    "id": "root_kraken",
+    "label": "Root Kraken",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A root kraken.",
+    "hp": 1,
+    "hpMax": 1,
+    "speed": 170,
+    "level": 913,
+    "armor": 0,
+    "mitigation": 2.02,
+    "maxBlock": 0,
+    "exp": 700000,
+    "lootValue": 99289.090909091,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -14,
+        "ice": 0,
+        "energy": 15,
+        "earth": -10,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 650,
+            "max": 1650
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2500,
+            "chance": 23,
+            "range": 5,
+            "element": "death",
+            "min": 700,
+            "max": 1390,
+            "target": true,
+            "effect": "me_reaper"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "crystal coin",
+            "chance": 100000,
+            "maxCount": 3
+        },
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 93
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 42590,
+            "maxCount": 19
+        },
+        {
+            "name": "great dual potion",
+            "chance": 42590,
+            "maxCount": 7
+        },
+        {
+            "name": "great mana potion",
+            "chance": 31480,
+            "maxCount": 14
+        },
+        {
+            "name": "supreme health potion",
+            "chance": 31480,
+            "maxCount": 4
+        },
+        {
+            "name": "ultimate dual potion",
+            "chance": 25930,
+            "maxCount": 14
+        },
+        {
+            "chance": 24070,
+            "name": "yellow gem"
+        },
+        {
+            "name": "amber with a bug",
+            "chance": 18520
+        },
+        {
+            "name": "giant topaz",
+            "chance": 7410
+        },
+        {
+            "name": "amber crusher",
+            "chance": 1850
+        },
+        {
+            "chance": 300,
+            "name": "amber axe"
+        },
+        {
+            "chance": 200,
+            "name": "amber greataxe"
+        },
+        {
+            "chance": 200,
+            "name": "amber slayer"
+        },
+        {
+            "chance": 300,
+            "name": "amber sabre"
+        },
+        {
+            "chance": 300,
+            "name": "amber cudgel"
+        },
+        {
+            "chance": 200,
+            "name": "amber bludgeon"
+        },
+        {
+            "chance": 200,
+            "name": "amber bow"
+        },
+        {
+            "chance": 300,
+            "name": "amber crossbow"
+        },
+        {
+            "chance": 300,
+            "name": "amber wand"
+        },
+        {
+            "chance": 300,
+            "name": "amber rod"
+        },
+        {
+            "chance": 250,
+            "name": "strange inedible fruit"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "plague_stone_troll_necromancer",
+    "threatDps": 671.14,
+    "burstDps": 695.175,
+    "avgHit": 1133.6824,
+    "maxHit": 1650,
+    "manaCost": 0
+}

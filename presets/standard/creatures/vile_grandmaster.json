@@ -1,0 +1,213 @@
+{
+    "id": "vile_grandmaster",
+    "label": "Vile Grandmaster",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A vile grandmaster.",
+    "hp": 1700,
+    "hpMax": 1700,
+    "speed": 140,
+    "level": 478,
+    "armor": 40,
+    "mitigation": 1.48,
+    "maxBlock": 0,
+    "exp": 1500,
+    "lootValue": 587.77715815302,
+    "aggro": true,
+    "resists": {
+        "physical": 20,
+        "fire": 25,
+        "ice": 10,
+        "energy": 25,
+        "earth": 25,
+        "holy": 50,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 7,
+            "max": 181
+        },
+        {
+            "id": "condition_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "physical",
+            "min": 104,
+            "max": 156,
+            "radius": 4,
+            "target": true,
+            "effect": "me_drawblood",
+            "shootEffect": "ani_throwingknife"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 4000,
+            "chance": 15,
+            "min": 220,
+            "max": 280,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Human",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 1210,
+            "maxCount": 4,
+            "name": "sniper arrow"
+        },
+        {
+            "chance": 75410,
+            "maxCount": 30,
+            "name": "gold coin"
+        },
+        {
+            "chance": 75410,
+            "maxCount": 2,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 1210,
+            "name": "grapes"
+        },
+        {
+            "chance": 1210,
+            "maxCount": 2,
+            "name": "meat"
+        },
+        {
+            "chance": 1210,
+            "name": "great health potion"
+        },
+        {
+            "chance": 1610,
+            "name": "halberd"
+        },
+        {
+            "chance": 510,
+            "name": "red rose"
+        },
+        {
+            "chance": 1510,
+            "name": "rope"
+        },
+        {
+            "chance": 910,
+            "name": "scroll of heroic deeds"
+        },
+        {
+            "chance": 910,
+            "name": "small notebook"
+        },
+        {
+            "chance": 810,
+            "maxCount": 2,
+            "name": "small ruby"
+        },
+        {
+            "chance": 810,
+            "maxCount": 2,
+            "name": "small sapphire"
+        },
+        {
+            "chance": 510,
+            "name": "wedding ring"
+        },
+        {
+            "chance": 210,
+            "name": "red piece of cloth"
+        },
+        {
+            "chance": 210,
+            "name": "war hammer"
+        },
+        {
+            "chance": 310,
+            "name": "Regal Crown Armor"
+        },
+        {
+            "chance": 210,
+            "name": "fire sword"
+        },
+        {
+            "chance": 310,
+            "name": "crown helmet"
+        },
+        {
+            "chance": 210,
+            "name": "crown shield"
+        },
+        {
+            "chance": 110,
+            "name": "crown legs"
+        },
+        {
+            "chance": 210,
+            "name": "platinum amulet"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "venomous_cloud_panther_ravager",
+    "threatDps": 60,
+    "burstDps": 60,
+    "avgHit": 100,
+    "maxHit": 181,
+    "manaCost": 0
+}

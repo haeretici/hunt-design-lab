@@ -1,0 +1,164 @@
+{
+    "id": "deep_terror_constrictor",
+    "label": "Deep Terror Constrictor",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A deep terror constrictor.",
+    "hp": 450,
+    "hpMax": 450,
+    "speed": 190,
+    "level": 346,
+    "armor": 14,
+    "mitigation": 0.94,
+    "maxBlock": 0,
+    "exp": 380,
+    "lootValue": 71.393320494628,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": 100,
+        "energy": -25,
+        "earth": -10,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 45,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 80,
+            "effect": "me_drawblood",
+            "condition": {
+                "type": "poison",
+                "totalDamage": 11,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 27,
+            "max": 48,
+            "radius": 3,
+            "target": false,
+            "effect": "me_hitarea"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "ice",
+            "min": 21,
+            "max": 37,
+            "radius": 4,
+            "target": false,
+            "effect": "me_iceattack"
+        },
+        {
+            "id": "quara_constrictor_electrify_4",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 1,
+            "element": "physical",
+            "target": false,
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Aquatic",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 87500,
+            "maxCount": 100
+        },
+        {
+            "name": "quara tentacle",
+            "chance": 14520
+        },
+        {
+            "name": "longsword",
+            "chance": 6931
+        },
+        {
+            "name": "shrimp",
+            "chance": 5140,
+            "maxCount": 5
+        },
+        {
+            "name": "brass armor",
+            "chance": 4810
+        },
+        {
+            "name": "small amethyst",
+            "chance": 3060
+        },
+        {
+            "name": "fish fin",
+            "chance": 490
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 5
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "plague_wyrmling_overlord",
+    "threatDps": 28.825,
+    "burstDps": 28.825,
+    "avgHit": 38.875,
+    "maxHit": 80,
+    "manaCost": 0
+}

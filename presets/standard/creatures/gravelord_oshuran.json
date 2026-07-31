@@ -1,0 +1,203 @@
+{
+    "id": "gravelord_oshuran",
+    "label": "Gravelord Oshuran",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A gravelord oshuran.",
+    "hp": 3100,
+    "hpMax": 3100,
+    "speed": 110,
+    "level": 538,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 2400,
+    "lootValue": 705,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 10,
+        "ice": 35,
+        "energy": 80,
+        "earth": 100,
+        "holy": -10,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 216
+        },
+        {
+            "id": "slow_1",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -300,
+                "durationSec": 30
+            },
+            "effect": "me_magic_red",
+            "target": false
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 155,
+            "max": 259,
+            "length": 7,
+            "spread": 0,
+            "target": false,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "earth",
+            "min": 86,
+            "max": 302,
+            "length": 7,
+            "spread": 0,
+            "target": false,
+            "effect": "me_hitbypoison"
+        },
+        {
+            "id": "melee_4",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 1,
+            "element": "lifedrain",
+            "min": 173,
+            "max": 212,
+            "target": true,
+            "effect": "me_magic_red"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 3000,
+            "chance": 15,
+            "min": 100,
+            "max": 120,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 115,
+            "name": "gold coin"
+        },
+        {
+            "chance": 17500,
+            "name": "strong mana potion"
+        },
+        {
+            "chance": 15960,
+            "name": "black pearl"
+        },
+        {
+            "chance": 15000,
+            "name": "white pearl"
+        },
+        {
+            "chance": 15040,
+            "name": "ring of healing"
+        },
+        {
+            "chance": 500,
+            "name": "blue robe"
+        },
+        {
+            "chance": 900,
+            "name": "Stormbound Boots"
+        },
+        {
+            "chance": 300,
+            "name": "spellscroll of prophecies"
+        },
+        {
+            "chance": 4650,
+            "name": "spellbook"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ember_ogre_ravager",
+    "threatDps": 83.675,
+    "burstDps": 83.675,
+    "avgHit": 128.7308,
+    "maxHit": 302,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 4,
+        "summons": [
+            {
+                "name": "Bone Beast",
+                "id": "bone_beast",
+                "chance": 10,
+                "interval": 2000,
+                "count": 3
+            }
+        ]
+    }
+}

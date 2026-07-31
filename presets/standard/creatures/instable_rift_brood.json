@@ -1,0 +1,173 @@
+{
+    "id": "instable_rift_brood",
+    "label": "Instable Rift Brood",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An instable rift brood.",
+    "hp": 2200,
+    "hpMax": 2200,
+    "speed": 135,
+    "level": 504,
+    "armor": 43,
+    "mitigation": 1.32,
+    "maxBlock": 0,
+    "exp": 1100,
+    "lootValue": 316.7845473111,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 40,
+        "ice": 30,
+        "energy": 75,
+        "earth": -14,
+        "holy": 0,
+        "death": 10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 167
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 6,
+            "element": "energy",
+            "min": 111,
+            "max": 174,
+            "target": true,
+            "effect": "me_stun",
+            "shootEffect": "ani_flasharrow"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 56,
+            "max": 139,
+            "radius": 5,
+            "target": false,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Extra Dimensional",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 100,
+            "name": "gold coin"
+        },
+        {
+            "chance": 20000,
+            "maxCount": 2,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 10200,
+            "name": "crystal bone"
+        },
+        {
+            "chance": 10100,
+            "name": "plasma pearls"
+        },
+        {
+            "chance": 4900,
+            "name": "energy drink"
+        },
+        {
+            "chance": 4800,
+            "name": "great dual potion"
+        },
+        {
+            "chance": 4400,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 4200,
+            "name": "energy bar"
+        },
+        {
+            "chance": 4200,
+            "name": "great health potion"
+        },
+        {
+            "chance": 3400,
+            "name": "green crystal shard"
+        },
+        {
+            "chance": 3300,
+            "name": "cyan crystal fragment"
+        },
+        {
+            "chance": 2600,
+            "name": "blue crystal splinter"
+        },
+        {
+            "chance": 2100,
+            "name": "blue crystal shard"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "rune_stone_bugbear",
+    "threatDps": 69.3125,
+    "burstDps": 69.3125,
+    "avgHit": 95.6034,
+    "maxHit": 174,
+    "manaCost": 0
+}

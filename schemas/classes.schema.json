@@ -1,0 +1,173 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://hunt-design-lab.local/schemas/classes.schema.json",
+  "title": "Classes catalog document",
+  "description": "Shape of presets/<mode>/classes.json. Loaded by presets.loadClasses / getClass. Storage: catalog document (array rows in one file). Spell ids reference spells.json.",
+  "type": "object",
+  "required": ["classes"],
+  "additionalProperties": true,
+  "properties": {
+    "version": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Document schema version (standard pack uses 2)."
+    },
+    "notes": {
+      "type": "string",
+      "maxLength": 4000
+    },
+    "vocationMap": {
+      "type": "object",
+      "description": "Optional commercial class id → legacy vocation name map.",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "classes": {
+      "type": "array",
+      "minItems": 0,
+      "items": { "$ref": "#/definitions/classDef" }
+    }
+  },
+  "definitions": {
+    "entityId": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]{0,79}$",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "skills": {
+      "type": "object",
+      "description": "Vocation skill floors (untrained). Mid-game combat ratings live on player profiles / party member skills, not mid-game class snapshots. See docs/27_exp_skill_progression_plan.md.",
+      "additionalProperties": {
+        "type": "number",
+        "minimum": 0
+      },
+      "properties": {
+        "melee": { "type": "number", "minimum": 0 },
+        "distance": { "type": "number", "minimum": 0 },
+        "shielding": { "type": "number", "minimum": 0 },
+        "magic": { "type": "number", "minimum": 0 },
+        "fist": { "type": "number", "minimum": 0 }
+      }
+    },
+    "skillRates": {
+      "type": "object",
+      "description": "Vocation training multipliers (Phase A). Used by progression math / derive tooling; not live combat inputs unless skillProgression is enabled later.",
+      "additionalProperties": {
+        "type": "number",
+        "exclusiveMinimum": 1
+      },
+      "properties": {
+        "melee": { "type": "number", "exclusiveMinimum": 1 },
+        "fist": { "type": "number", "exclusiveMinimum": 1 },
+        "distance": { "type": "number", "exclusiveMinimum": 1 },
+        "shielding": { "type": "number", "exclusiveMinimum": 1 },
+        "magic": { "type": "number", "exclusiveMinimum": 1, "description": "Mana multiplier for magic level steps." },
+        "fishing": { "type": "number", "exclusiveMinimum": 1 }
+      }
+    },
+    "classDef": {
+      "type": "object",
+      "required": ["id"],
+      "additionalProperties": true,
+      "properties": {
+        "id": {
+          "$ref": "#/definitions/entityId",
+          "description": "Class id used by party members / hunt presets."
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "role": {
+          "type": "string",
+          "description": "Designer role tag (melee_tank, ranged, caster, …).",
+          "minLength": 1,
+          "maxLength": 40
+        },
+        "legacyVocation": {
+          "type": "string",
+          "description": "Optional port mapping (knight, paladin, …)."
+        },
+        "defaultLevel": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 999
+        },
+        "baseHp": {
+          "type": "number",
+          "minimum": 1
+        },
+        "baseMp": {
+          "type": "number",
+          "minimum": 0
+        },
+        "hpPerLevel": {
+          "type": "number",
+          "minimum": 0
+        },
+        "mpPerLevel": {
+          "type": "number",
+          "minimum": 0
+        },
+        "baseRegenHp": {
+          "type": "number",
+          "minimum": 0
+        },
+        "baseRegenMp": {
+          "type": "number",
+          "minimum": 0
+        },
+        "promotedRegenHp": {
+          "type": "number",
+          "minimum": 0
+        },
+        "promotedRegenMp": {
+          "type": "number",
+          "minimum": 0
+        },
+        "baseSpeed": {
+          "type": "number",
+          "minimum": 0
+        },
+        "skillKey": {
+          "type": "string",
+          "enum": ["melee", "distance", "magic", "shielding"],
+          "description": "Primary skill for weapon power curves."
+        },
+        "weaponType": {
+          "type": "string",
+          "enum": ["melee", "distance", "magic"],
+          "description": "Default weapon family for auto attack curves."
+        },
+        "skills": {
+          "$ref": "#/definitions/skills"
+        },
+        "skillRates": {
+          "$ref": "#/definitions/skillRates"
+        },
+        "spells": {
+          "type": "array",
+          "description": "Spell ids from spells.json (relation: kind=spells).",
+          "items": { "$ref": "#/definitions/entityId" },
+          "uniqueItems": true
+        },
+        "autoAttack": {
+          "$ref": "#/definitions/entityId",
+          "description": "Fallback auto spell id when weapon family is unclear (melee_auto | distance_auto | wand_auto). Runtime prefers equipped weaponType."
+        },
+        "baseSpriteGenre": {
+          "type": "string",
+          "description": "Optional catalog genre for Base Sprite when different from the mode genre. Empty = mode genre. Controls the catalog list and runtime sprite path for baseSprite."
+        },
+        "baseSprite": {
+          "type": "string",
+          "format": "creature_sprite_id",
+          "description": "Optional genre creature catalog id used as the default watch-mode sprite for this vocation. Player profiles may override with customSprite. Designer: Select opens the creature catalog filtered by baseSpriteGenre (or mode genre). Alpha thumb preview."
+        }
+      }
+    }
+  }
+}

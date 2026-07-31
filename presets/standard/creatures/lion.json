@@ -1,0 +1,104 @@
+{
+    "id": "lion",
+    "label": "Lion",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A lion.",
+    "hp": 80,
+    "hpMax": 80,
+    "speed": 95,
+    "level": 172,
+    "armor": 6,
+    "mitigation": 0.33,
+    "maxBlock": 0,
+    "exp": 30,
+    "lootValue": 2.3716573500529,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": -14,
+        "energy": 0,
+        "earth": 20,
+        "holy": 20,
+        "death": -8
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 10,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": true,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 44
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Mammal",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "meat",
+            "chance": 45000,
+            "maxCount": 4
+        },
+        {
+            "name": "ham",
+            "chance": 18430,
+            "maxCount": 2
+        },
+        {
+            "name": "lion's mane",
+            "chance": 1400
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "lion",
+    "threatDps": 11,
+    "burstDps": 11,
+    "avgHit": 22,
+    "maxHit": 44,
+    "manaCost": 320
+}

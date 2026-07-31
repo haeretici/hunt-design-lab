@@ -1,0 +1,99 @@
+{
+    "id": "desert_crawler",
+    "label": "Desert Crawler",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A desert crawler.",
+    "hp": 30,
+    "hpMax": 30,
+    "speed": 80,
+    "level": 78,
+    "armor": 2,
+    "mitigation": 0.07,
+    "maxBlock": 0,
+    "exp": 20,
+    "lootValue": 1.6213535871511,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -10,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": true,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 26
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Vermin",
+        "toKill": 250,
+        "firstUnlock": 10,
+        "secondUnlock": 100,
+        "charmsPoints": 5,
+        "stars": 1,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 33333,
+            "maxCount": 6
+        },
+        {
+            "name": "sandcrawler shell",
+            "chance": 2173
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "desert_crawler",
+    "threatDps": 6.5,
+    "burstDps": 6.5,
+    "avgHit": 13,
+    "maxHit": 26,
+    "manaCost": 250
+}

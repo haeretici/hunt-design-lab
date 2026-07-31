@@ -1,0 +1,147 @@
+{
+    "id": "stalker",
+    "label": "Stalker",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A stalker.",
+    "hp": 120,
+    "hpMax": 120,
+    "speed": 130,
+    "level": 215,
+    "armor": 14,
+    "mitigation": 0.51,
+    "maxBlock": 0,
+    "exp": 90,
+    "lootValue": 11.953743924488,
+    "aggro": true,
+    "resists": {
+        "physical": -10,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": -10,
+        "death": 10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 60,
+        "random": 40
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 46
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 1000,
+            "chance": 15,
+            "range": 1,
+            "element": "lifedrain",
+            "min": 13,
+            "max": 20,
+            "target": false,
+            "effect": "me_magic_red"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "invisible_0",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 40,
+            "durationSec": 2,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Human",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 13000,
+            "maxCount": 8
+        },
+        {
+            "name": "blank rune",
+            "chance": 8670
+        },
+        {
+            "name": "throwing knife",
+            "chance": 11170,
+            "maxCount": 2
+        },
+        {
+            "name": "katana",
+            "chance": 530
+        },
+        {
+            "name": "obsidian lance",
+            "chance": 1210
+        },
+        {
+            "name": "brass legs",
+            "chance": 3500
+        },
+        {
+            "name": "brass shield",
+            "chance": 5510
+        },
+        {
+            "name": "miraculum",
+            "chance": 1550
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "stalker",
+    "threatDps": 13.975,
+    "burstDps": 13.975,
+    "avgHit": 21.5,
+    "maxHit": 46,
+    "manaCost": 0
+}

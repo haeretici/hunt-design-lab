@@ -1,0 +1,189 @@
+{
+    "id": "crazed_summer_rearguard",
+    "label": "Crazed Summer Rearguard",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A crazed summer rearguard.",
+    "hp": 5300,
+    "hpMax": 5300,
+    "speed": 200,
+    "level": 591,
+    "armor": 76,
+    "mitigation": 2.11,
+    "maxBlock": 0,
+    "exp": 4700,
+    "lootValue": 1139.1358695652,
+    "aggro": true,
+    "resists": {
+        "physical": -10,
+        "fire": 40,
+        "ice": -25,
+        "energy": 0,
+        "earth": 0,
+        "holy": 20,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 308
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2500,
+            "chance": 30,
+            "range": 6,
+            "element": "fire",
+            "min": 103,
+            "max": 205,
+            "target": true,
+            "effect": "me_fireattack"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 3000,
+            "chance": 30,
+            "range": 6,
+            "element": "fire",
+            "min": 137,
+            "max": 205,
+            "radius": 2,
+            "target": true,
+            "effect": "me_firearea"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "power bolt",
+            "chance": 1000000
+        },
+        {
+            "name": "small enchanted sapphire",
+            "chance": 790,
+            "maxCount": 2
+        },
+        {
+            "name": "platinum coin",
+            "chance": 85000,
+            "maxCount": 11
+        },
+        {
+            "chance": 10500,
+            "name": "heaven blossom"
+        },
+        {
+            "name": "dream essence egg",
+            "chance": 8500
+        },
+        {
+            "name": "elvish talisman",
+            "chance": 7200
+        },
+        {
+            "name": "violet crystal shard",
+            "chance": 4500
+        },
+        {
+            "name": "small enchanted ruby",
+            "chance": 6000
+        },
+        {
+            "name": "red crystal fragment",
+            "chance": 4500
+        },
+        {
+            "name": "leaf star",
+            "chance": 4000,
+            "maxCount": 8
+        },
+        {
+            "chance": 2500,
+            "name": "ring of blue plasma"
+        },
+        {
+            "name": "sun fruit",
+            "chance": 890
+        },
+        {
+            "chance": 900,
+            "name": "collar of blue plasma"
+        },
+        {
+            "name": "wood cape",
+            "chance": 1300
+        },
+        {
+            "name": "small diamond",
+            "chance": 600
+        },
+        {
+            "name": "yellow gem",
+            "chance": 1000
+        },
+        {
+            "name": "crystal crossbow",
+            "chance": 500
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "sun_orc_guard",
+    "threatDps": 112.58,
+    "burstDps": 125.75,
+    "avgHit": 156.3611,
+    "maxHit": 308,
+    "manaCost": 0
+}

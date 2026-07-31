@@ -1,0 +1,213 @@
+{
+    "id": "fiendish_warrior_demon",
+    "label": "Fiendish Warrior Demon",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A fiendish warrior demon.",
+    "hp": 1500,
+    "hpMax": 1500,
+    "speed": 115,
+    "level": 463,
+    "armor": 35,
+    "mitigation": 1.04,
+    "maxBlock": 0,
+    "exp": 900,
+    "lootValue": 268.77401129944,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -25,
+        "ice": 60,
+        "energy": 60,
+        "earth": 100,
+        "holy": 0,
+        "death": -5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 143
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "earth",
+            "min": 20,
+            "max": 60,
+            "radius": 6,
+            "target": false,
+            "effect": "me_green_rings",
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "askarak_wave_2",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 1,
+            "element": "physical",
+            "min": 75,
+            "max": 140,
+            "target": false
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "earth",
+            "min": 130,
+            "max": 170,
+            "length": 4,
+            "spread": 0,
+            "target": false,
+            "effect": "me_green_rings"
+        },
+        {
+            "id": "slow_4",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -600,
+                "durationSec": 15
+            },
+            "radius": 1,
+            "effect": "me_magic_red",
+            "target": true
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Demon",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "piggy bank",
+            "chance": 1052
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 40000,
+            "maxCount": 35
+        },
+        {
+            "name": "small emerald",
+            "chance": 6250,
+            "maxCount": 4
+        },
+        {
+            "chance": 961,
+            "name": "voltaic ring"
+        },
+        {
+            "name": "brown mushroom",
+            "chance": 3846,
+            "maxCount": 5
+        },
+        {
+            "name": "magic sulphur",
+            "chance": 102
+        },
+        {
+            "name": "assassin star",
+            "chance": 4761,
+            "maxCount": 5
+        },
+        {
+            "name": "savant potion",
+            "chance": 431
+        },
+        {
+            "name": "strong health potion",
+            "chance": 5263
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 5263
+        },
+        {
+            "name": "Earthbound Legs",
+            "chance": 123
+        },
+        {
+            "name": "Bloomshoot Rod",
+            "chance": 512
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "sun_orc_guard",
+    "threatDps": 55.3125,
+    "burstDps": 55.3125,
+    "avgHit": 76.2931,
+    "maxHit": 170,
+    "manaCost": 0
+}

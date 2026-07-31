@@ -1,0 +1,144 @@
+{
+    "id": "pirate_skeleton_dirtbeard",
+    "label": "Pirate Skeleton Dirtbeard",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A pirate skeleton dirtbeard.",
+    "hp": 630,
+    "hpMax": 630,
+    "speed": 150,
+    "level": 379,
+    "armor": 0,
+    "mitigation": 0.4,
+    "maxBlock": 0,
+    "exp": 375,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -10,
+        "ice": -5,
+        "energy": 0,
+        "earth": 20,
+        "holy": 10,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 50,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 112
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 89,
+            "target": false,
+            "shootEffect": "ani_throwingstar"
+        },
+        {
+            "id": "melee_2",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 0
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 2000,
+            "maxCount": 95,
+            "name": "gold coin"
+        },
+        {
+            "chance": 30000,
+            "maxCount": 9,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 1000,
+            "name": "pointed rabbitslayer"
+        },
+        {
+            "chance": 1000,
+            "name": "helmet of nature"
+        },
+        {
+            "chance": 1000,
+            "name": "odd hat"
+        },
+        {
+            "chance": 2000,
+            "name": "shield Nevermourn"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "skeletal_hill_giant",
+    "threatDps": 34.675,
+    "burstDps": 34.675,
+    "avgHit": 53.3462,
+    "maxHit": 112,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 2,
+        "summons": [
+            {
+                "name": "Pirate Marauder",
+                "id": "pirate_marauder",
+                "chance": 30,
+                "interval": 4000,
+                "count": 2
+            }
+        ]
+    }
+}

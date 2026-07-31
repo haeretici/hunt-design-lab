@@ -1,0 +1,326 @@
+{
+    "id": "midnight_maiden",
+    "label": "Midnight Maiden",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A midnight maiden.",
+    "hp": 3100,
+    "hpMax": 3100,
+    "speed": 120,
+    "level": 538,
+    "armor": 55,
+    "mitigation": 1.6,
+    "maxBlock": 0,
+    "exp": 3700,
+    "lootValue": 869.88782511569,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 10,
+        "ice": 10,
+        "energy": -10,
+        "earth": -10,
+        "holy": 30,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 247
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 3300,
+            "chance": 10,
+            "range": 7,
+            "element": "manadrain",
+            "min": 0,
+            "max": 45,
+            "target": true
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 3700,
+            "chance": 17,
+            "range": 4,
+            "element": "energy",
+            "min": 96,
+            "max": 127,
+            "length": 5,
+            "spread": 0,
+            "target": false,
+            "effect": "me_purpleenergy"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 4100,
+            "chance": 27,
+            "range": 4,
+            "element": "death",
+            "min": 96,
+            "max": 191,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_mortarea"
+        },
+        {
+            "id": "ranged_4",
+            "kind": "ranged",
+            "intervalMs": 2700,
+            "chance": 15,
+            "range": 5,
+            "element": "death",
+            "min": 32,
+            "max": 127,
+            "target": true,
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "melee_5",
+            "kind": "melee",
+            "intervalMs": 3100,
+            "chance": 15,
+            "range": 1,
+            "element": "energy",
+            "min": 32,
+            "max": 64,
+            "target": true,
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "slow_6",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -800,
+                "durationSec": 15
+            },
+            "radius": 1,
+            "effect": "me_sleep",
+            "target": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 50,
+            "max": 100,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 320,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Demon",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 70980,
+            "maxCount": 100,
+            "name": "gold coin"
+        },
+        {
+            "chance": 80500,
+            "maxCount": 6,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 6640,
+            "maxCount": 5,
+            "name": "assassin star"
+        },
+        {
+            "chance": 3670,
+            "maxCount": 2,
+            "name": "black pearl"
+        },
+        {
+            "chance": 440,
+            "name": "crystal ring"
+        },
+        {
+            "chance": 14110,
+            "name": "flask of demonic blood"
+        },
+        {
+            "chance": 9950,
+            "name": "demonic essence"
+        },
+        {
+            "chance": 5680,
+            "maxCount": 3,
+            "name": "small diamond"
+        },
+        {
+            "chance": 3240,
+            "maxCount": 1,
+            "name": "small emerald"
+        },
+        {
+            "chance": 3090,
+            "maxCount": 1,
+            "name": "small ruby"
+        },
+        {
+            "chance": 5550,
+            "maxCount": 3,
+            "name": "small sapphire"
+        },
+        {
+            "chance": 2910,
+            "maxCount": 1,
+            "name": "small topaz"
+        },
+        {
+            "chance": 8450,
+            "maxCount": 2,
+            "name": "great health potion"
+        },
+        {
+            "chance": 5660,
+            "name": "white pearl"
+        },
+        {
+            "chance": 350,
+            "name": "assassin dagger"
+        },
+        {
+            "chance": 290,
+            "name": "blue gem"
+        },
+        {
+            "chance": 530,
+            "name": "blue robe"
+        },
+        {
+            "chance": 140,
+            "name": "gold ingot"
+        },
+        {
+            "chance": 12700,
+            "name": "golden lotus brooch"
+        },
+        {
+            "chance": 2460,
+            "name": "Withering Rod"
+        },
+        {
+            "chance": 390,
+            "name": "oriental shoes"
+        },
+        {
+            "chance": 10740,
+            "name": "peacock feather fan"
+        },
+        {
+            "chance": 180,
+            "name": "skullcracker armor"
+        },
+        {
+            "chance": 3650,
+            "name": "silver brooch"
+        },
+        {
+            "chance": 1050,
+            "name": "silver amulet"
+        },
+        {
+            "chance": 14580,
+            "name": "soul orb"
+        },
+        {
+            "chance": 150,
+            "name": "spellbook of mind control"
+        },
+        {
+            "chance": 2030,
+            "name": "tribal mask"
+        },
+        {
+            "chance": 760,
+            "name": "Nether Rod"
+        },
+        {
+            "chance": 870,
+            "name": "yellow gem"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "cave_rat",
+    "threatDps": 83.744,
+    "burstDps": 101.2875,
+    "avgHit": 112.2506,
+    "maxHit": 247,
+    "manaCost": 0
+}

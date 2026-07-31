@@ -1,0 +1,115 @@
+{
+    "id": "ice_collector",
+    "label": "Ice Collector",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An ice collector.",
+    "hp": 340,
+    "hpMax": 340,
+    "speed": 97,
+    "level": 317,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 100,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 100,
+        "energy": -20,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 20,
+        "staticAttackChance": 50,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "slow_1",
+            "kind": "status",
+            "intervalMs": 1000,
+            "chance": 13,
+            "range": 8,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -800,
+                "durationSec": 20
+            },
+            "length": 8,
+            "spread": 0,
+            "effect": "me_energyhit",
+            "target": false
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 214,
+            "target": false,
+            "shootEffect": "ani_largerock"
+        },
+        {
+            "id": "melee_3",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 1,
+            "element": "physical",
+            "min": 25,
+            "max": 202
+        }
+    ],
+    "race": "undead",
+    "loot": [],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 5
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "glacier_mountain_phantom",
+    "threatDps": 24.5625,
+    "burstDps": 24.5625,
+    "avgHit": 109.1667,
+    "maxHit": 214,
+    "manaCost": 0
+}

@@ -1,0 +1,167 @@
+{
+    "id": "stalking_stalk",
+    "label": "Stalking Stalk",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A stalking stalk.",
+    "hp": 17100,
+    "hpMax": 17100,
+    "speed": 190,
+    "level": 708,
+    "armor": 76,
+    "mitigation": 2.11,
+    "maxBlock": 0,
+    "exp": 11569,
+    "lootValue": 4161.0714285714,
+    "aggro": true,
+    "resists": {
+        "physical": -10,
+        "fire": 25,
+        "ice": -10,
+        "energy": -14,
+        "earth": 25,
+        "holy": 0,
+        "death": 10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 2,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 310,
+            "effect": "me_carniphila"
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 4000,
+            "chance": 40,
+            "range": 7,
+            "element": "fire",
+            "min": 620,
+            "max": 814,
+            "target": true,
+            "effect": "me_hitbyfire",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2900,
+            "chance": 25,
+            "range": 4,
+            "element": "earth",
+            "min": 659,
+            "max": 876,
+            "radius": 4,
+            "target": false,
+            "effect": "me_plantattack"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Plant",
+        "toKill": 5000,
+        "firstUnlock": 200,
+        "secondUnlock": 2000,
+        "charmsPoints": 100,
+        "stars": 5,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "Stalking Seeds",
+            "chance": 21520
+        },
+        {
+            "name": "Crystal Coin",
+            "chance": 16570,
+            "minCount": 1,
+            "maxCount": 3
+        },
+        {
+            "name": "Small Diamond",
+            "chance": 7140,
+            "minCount": 1,
+            "maxCount": 3
+        },
+        {
+            "name": "Green Crystal Fragment",
+            "chance": 5030
+        },
+        {
+            "name": "Dragon Necklace",
+            "chance": 4540
+        },
+        {
+            "name": "Opal",
+            "chance": 3960,
+            "minCount": 1,
+            "maxCount": 2
+        },
+        {
+            "name": "Emberbound Coat",
+            "chance": 2160
+        },
+        {
+            "name": "Bow",
+            "chance": 2000
+        },
+        {
+            "name": "Green Gem",
+            "chance": 1780
+        },
+        {
+            "name": "Warrior's Axe",
+            "chance": 1700
+        },
+        {
+            "name": "Muck Rod",
+            "chance": 1310
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "party_skeleton",
+    "threatDps": 215.3638,
+    "burstDps": 316.8375,
+    "avgHit": 313.8467,
+    "maxHit": 876,
+    "manaCost": 0
+}

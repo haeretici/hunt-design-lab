@@ -1,0 +1,241 @@
+{
+    "id": "void_intruder",
+    "label": "Void Intruder",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A void intruder.",
+    "hp": 4500,
+    "hpMax": 4500,
+    "speed": 165,
+    "level": 575,
+    "armor": 50,
+    "mitigation": 1.54,
+    "maxBlock": 0,
+    "exp": 2400,
+    "lootValue": 931.04135338346,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 10,
+        "ice": 5,
+        "energy": 90,
+        "earth": 0,
+        "holy": -10,
+        "death": 80
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 189
+        },
+        {
+            "id": "condition_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "energy",
+            "min": 151,
+            "max": 227,
+            "radius": 5,
+            "target": false,
+            "effect": "me_energyhit"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 4,
+            "element": "death",
+            "min": 95,
+            "max": 151,
+            "radius": 4,
+            "target": true,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "dread_intruder_wave_3",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 1,
+            "element": "physical",
+            "min": 132,
+            "max": 208,
+            "target": false
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 5,
+            "min": 80,
+            "max": 250,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Extra Dimensional",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 100,
+            "name": "gold coin"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 89,
+            "name": "gold coin"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 8,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 15000,
+            "name": "energy drink"
+        },
+        {
+            "chance": 15000,
+            "name": "energy bar"
+        },
+        {
+            "chance": 15000,
+            "name": "frozen lightning"
+        },
+        {
+            "chance": 8000,
+            "name": "instable proto matter"
+        },
+        {
+            "chance": 14000,
+            "name": "great dual potion"
+        },
+        {
+            "chance": 13500,
+            "name": "ultimate health potion"
+        },
+        {
+            "chance": 12700,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 11800,
+            "name": "energy ball"
+        },
+        {
+            "chance": 9600,
+            "name": "odd organ"
+        },
+        {
+            "chance": 9500,
+            "name": "blue crystal splinter"
+        },
+        {
+            "chance": 6200,
+            "name": "cyan crystal fragment"
+        },
+        {
+            "chance": 5400,
+            "maxCount": 2,
+            "name": "small ruby"
+        },
+        {
+            "chance": 5400,
+            "maxCount": 2,
+            "name": "small sapphire"
+        },
+        {
+            "chance": 5000,
+            "maxCount": 2,
+            "name": "small amethyst"
+        },
+        {
+            "chance": 4500,
+            "name": "violet crystal shard"
+        },
+        {
+            "chance": 1000,
+            "name": "violet gem"
+        },
+        {
+            "chance": 450,
+            "name": "ring of red plasma"
+        },
+        {
+            "chance": 230,
+            "name": "collar of blue plasma"
+        },
+        {
+            "chance": 230,
+            "name": "collar of green plasma"
+        },
+        {
+            "chance": 230,
+            "name": "ring of blue plasma"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 25
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "skeletal_crypt_wight_overlord",
+    "threatDps": 102.775,
+    "burstDps": 102.775,
+    "avgHit": 120.9118,
+    "maxHit": 227,
+    "manaCost": 0
+}

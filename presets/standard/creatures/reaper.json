@@ -1,0 +1,237 @@
+{
+    "id": "reaper",
+    "label": "Reaper",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A reaper.",
+    "hp": 3900,
+    "hpMax": 3900,
+    "speed": 160,
+    "level": 560,
+    "armor": 30,
+    "mitigation": 0.64,
+    "maxBlock": 0,
+    "exp": 5500,
+    "lootValue": 476.72075055188,
+    "aggro": true,
+    "resists": {
+        "physical": 25,
+        "fire": -10,
+        "ice": 65,
+        "energy": -10,
+        "earth": 40,
+        "holy": -10,
+        "death": 80
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 80,
+        "health": 10,
+        "damage": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 219
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 113,
+            "target": false,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "death",
+            "min": 240,
+            "max": 493,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_mortarea"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 205,
+            "length": 7,
+            "spread": 0,
+            "target": false,
+            "effect": "me_explosionarea"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "death",
+            "min": 154,
+            "max": 188,
+            "radius": 4,
+            "target": false,
+            "effect": "me_mortarea"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 130,
+            "max": 205,
+            "hpBelow": 0.7
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 450,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 99000,
+            "maxCount": 263
+        },
+        {
+            "name": "platinum coin",
+            "chance": 5200,
+            "maxCount": 4
+        },
+        {
+            "chance": 4850,
+            "name": "magic light wand"
+        },
+        {
+            "name": "dark shield",
+            "chance": 3000
+        },
+        {
+            "name": "scythe",
+            "chance": 9000
+        },
+        {
+            "name": "orichalcum pearl",
+            "chance": 1400,
+            "maxCount": 4
+        },
+        {
+            "chance": 330,
+            "name": "death ring"
+        },
+        {
+            "name": "demonic essence",
+            "chance": 10600
+        },
+        {
+            "name": "flask of demonic blood",
+            "chance": 35000
+        },
+        {
+            "name": "nightmare blade",
+            "chance": 880
+        },
+        {
+            "name": "great mana potion",
+            "chance": 10000
+        },
+        {
+            "name": "Frostbound Kilt",
+            "chance": 330
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 9600
+        },
+        {
+            "name": "skullcracker armor",
+            "chance": 270
+        },
+        {
+            "name": "Nether Rod",
+            "chance": 910
+        },
+        {
+            "chance": 2500,
+            "name": "slightly rusted armor"
+        },
+        {
+            "name": "mystical hourglass",
+            "chance": 5300
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "muglex_clan_scavenger",
+    "threatDps": 94.9625,
+    "burstDps": 94.9625,
+    "avgHit": 122.5323,
+    "maxHit": 493,
+    "manaCost": 0
+}

@@ -1,0 +1,189 @@
+{
+    "id": "white_weretiger",
+    "label": "White Weretiger",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A white weretiger.",
+    "hp": 6100,
+    "hpMax": 6100,
+    "speed": 120,
+    "level": 605,
+    "armor": 83,
+    "mitigation": 2.25,
+    "maxBlock": 0,
+    "exp": 5200,
+    "lootValue": 2551.1216216216,
+    "aggro": true,
+    "resists": {
+        "physical": -5,
+        "fire": -14,
+        "ice": 40,
+        "energy": 60,
+        "earth": -20,
+        "holy": 25,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 50,
+            "max": 293
+        },
+        {
+            "id": "white_weretiger_ice_ring_1",
+            "kind": "melee",
+            "intervalMs": 3700,
+            "chance": 20,
+            "range": 1,
+            "element": "physical",
+            "min": 150,
+            "max": 213
+        },
+        {
+            "id": "energy_ring_2",
+            "kind": "melee",
+            "intervalMs": 4300,
+            "chance": 40,
+            "range": 1,
+            "element": "physical",
+            "min": 150,
+            "max": 213
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2300,
+            "chance": 15,
+            "range": 4,
+            "element": "ice",
+            "min": 100,
+            "max": 188,
+            "radius": 2,
+            "target": false,
+            "effect": "me_icearea"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 25,
+            "min": 50,
+            "max": 100,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Lycanthrope",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 100
+        },
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 20
+        },
+        {
+            "name": "weretiger tooth",
+            "chance": 13400
+        },
+        {
+            "name": "beastslayer axe",
+            "chance": 3970
+        },
+        {
+            "name": "ham",
+            "chance": 5500,
+            "maxCount": 2
+        },
+        {
+            "name": "moonlight crystals",
+            "chance": 7000
+        },
+        {
+            "name": "white gem",
+            "chance": 1650
+        },
+        {
+            "name": "silver moon coin",
+            "chance": 2000
+        },
+        {
+            "name": "blue robe",
+            "chance": 1160
+        },
+        {
+            "name": "moon pin",
+            "chance": 660
+        },
+        {
+            "name": "crystal mace",
+            "chance": 500
+        },
+        {
+            "chance": 610,
+            "name": "weretiger trophy"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "nether_tiger",
+    "threatDps": 121.8358,
+    "burstDps": 151,
+    "avgHit": 171.0469,
+    "maxHit": 293,
+    "manaCost": 0
+}

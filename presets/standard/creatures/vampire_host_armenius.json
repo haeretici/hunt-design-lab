@@ -1,0 +1,130 @@
+{
+    "id": "vampire_host_armenius",
+    "label": "Vampire Host Armenius",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A vampire host armenius.",
+    "hp": 550,
+    "hpMax": 550,
+    "speed": 110,
+    "level": 365,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 500,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 1,
+            "element": "lifedrain",
+            "min": 128,
+            "max": 514,
+            "radius": 1,
+            "target": true,
+            "effect": "me_smallclouds"
+        },
+        {
+            "id": "slow_2",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -400,
+                "durationSec": 60
+            },
+            "radius": 1,
+            "effect": "me_magic_red",
+            "target": false
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 300,
+            "durationSec": 3,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "heal_2",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 15,
+            "max": 25,
+            "hpBelow": 0.7
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "chance": 5230,
+            "name": "Bloodfang Shield"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "hellfire_vampire_archer",
+    "threatDps": 32.1,
+    "burstDps": 32.1,
+    "avgHit": 321,
+    "maxHit": 514,
+    "manaCost": 0
+}

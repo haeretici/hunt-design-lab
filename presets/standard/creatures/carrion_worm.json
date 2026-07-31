@@ -1,0 +1,124 @@
+{
+    "id": "carrion_worm",
+    "label": "Carrion Worm",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A carrion worm.",
+    "hp": 65,
+    "hpMax": 65,
+    "speed": 58,
+    "level": 151,
+    "armor": 8,
+    "mitigation": 0.28,
+    "maxBlock": 0,
+    "exp": 40,
+    "lootValue": 8.3408124801123,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 39
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Vermin",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 71760,
+            "maxCount": 17
+        },
+        {
+            "chance": 3000,
+            "name": "sword"
+        },
+        {
+            "name": "mace",
+            "chance": 4500
+        },
+        {
+            "name": "meat",
+            "chance": 20000
+        },
+        {
+            "name": "ham",
+            "chance": 20120
+        },
+        {
+            "name": "worm",
+            "chance": 3000,
+            "maxCount": 3
+        },
+        {
+            "name": "lump of dirt",
+            "chance": 10000
+        },
+        {
+            "name": "legion helmet",
+            "chance": 1890
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "carrion_worm",
+    "threatDps": 9.75,
+    "burstDps": 9.75,
+    "avgHit": 19.5,
+    "maxHit": 39,
+    "manaCost": 305
+}

@@ -1,0 +1,175 @@
+{
+    "id": "tribal_berserker",
+    "label": "Tribal Berserker",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A tribal berserker.",
+    "hp": 1240,
+    "hpMax": 1240,
+    "speed": 120,
+    "level": 446,
+    "armor": 29,
+    "mitigation": 0.99,
+    "maxBlock": 0,
+    "exp": 1310,
+    "lootValue": 600.73737373737,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 5,
+        "ice": 0,
+        "energy": -5,
+        "earth": 0,
+        "holy": -10,
+        "death": 15
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 3,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 92
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 40,
+            "range": 4,
+            "element": "physical",
+            "min": 52,
+            "max": 68,
+            "target": true,
+            "shootEffect": "ani_enchantedspear"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 4,
+            "element": "physical",
+            "min": 58,
+            "max": 92,
+            "radius": 2,
+            "target": false,
+            "effect": "me_explosionhit"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 5,
+            "element": "death",
+            "min": 51,
+            "max": 60,
+            "radius": 1,
+            "target": true,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_death"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 1
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 382
+        },
+        {
+            "name": "violet crystal shard",
+            "chance": 15870
+        },
+        {
+            "name": "green crystal splinter",
+            "chance": 12350
+        },
+        {
+            "name": "small sapphire",
+            "chance": 9940
+        },
+        {
+            "name": "royal spear",
+            "chance": 3960,
+            "maxCount": 1
+        },
+        {
+            "chance": 1760,
+            "name": "crystal ring"
+        },
+        {
+            "name": "rotten feather",
+            "chance": 1710
+        },
+        {
+            "name": "ritual tooth",
+            "chance": 1340
+        },
+        {
+            "name": "gold-brocaded cloth",
+            "chance": 960
+        },
+        {
+            "name": "broken iks spear",
+            "chance": 110
+        },
+        {
+            "name": "broken iks headpiece",
+            "chance": 50
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "wild_dog",
+    "threatDps": 50.4125,
+    "burstDps": 50.4125,
+    "avgHit": 54.5,
+    "maxHit": 92,
+    "manaCost": 0
+}

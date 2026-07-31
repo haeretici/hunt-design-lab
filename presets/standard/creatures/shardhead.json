@@ -1,0 +1,138 @@
+{
+    "id": "shardhead",
+    "label": "Shardhead",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A shardhead.",
+    "hp": 800,
+    "hpMax": 800,
+    "speed": 97,
+    "level": 403,
+    "armor": 0,
+    "mitigation": 0.9,
+    "maxBlock": 0,
+    "exp": 650,
+    "lootValue": 2276.2592592593,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 100,
+        "energy": -20,
+        "earth": 0,
+        "holy": 100,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 50,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 151
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "ice",
+            "min": 0,
+            "max": 50,
+            "target": true,
+            "effect": "me_iceattack",
+            "shootEffect": "ani_ice"
+        },
+        {
+            "id": "slow_2",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 12,
+            "range": 8,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -360,
+                "durationSec": 5
+            },
+            "length": 8,
+            "spread": 3,
+            "effect": "me_icearea",
+            "target": false
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "chance": 99700,
+            "maxCount": 87,
+            "name": "gold coin"
+        },
+        {
+            "chance": 40000,
+            "name": "shard"
+        },
+        {
+            "chance": 100000,
+            "name": "strong health potion"
+        },
+        {
+            "chance": 40000,
+            "name": "frosty heart"
+        },
+        {
+            "chance": 80000,
+            "name": "ice cube"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 5
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "storm_wolf_rager",
+    "threatDps": 39.625,
+    "burstDps": 39.625,
+    "avgHit": 68.913,
+    "maxHit": 151,
+    "manaCost": 0
+}

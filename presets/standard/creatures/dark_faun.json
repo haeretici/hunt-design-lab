@@ -1,0 +1,204 @@
+{
+    "id": "dark_faun",
+    "label": "Dark Faun",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A dark faun.",
+    "hp": 1100,
+    "hpMax": 1100,
+    "speed": 108,
+    "level": 434,
+    "armor": 50,
+    "mitigation": 1.21,
+    "maxBlock": 0,
+    "exp": 900,
+    "lootValue": 310.9349862259,
+    "aggro": true,
+    "resists": {
+        "physical": 10,
+        "fire": -5,
+        "ice": 0,
+        "energy": -10,
+        "earth": 70,
+        "holy": -10,
+        "death": 40
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 20,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 170
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "earth",
+            "min": 20,
+            "max": 38,
+            "target": true,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 33,
+            "target": false,
+            "shootEffect": "ani_leafstar"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 85,
+            "max": 105,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Fey",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 30000,
+            "maxCount": 112
+        },
+        {
+            "name": "wood cape",
+            "chance": 492
+        },
+        {
+            "name": "wooden spellbook",
+            "chance": 92
+        },
+        {
+            "name": "mandrake",
+            "chance": 50
+        },
+        {
+            "name": "leaf legs",
+            "chance": 492
+        },
+        {
+            "name": "small stone",
+            "chance": 492,
+            "maxCount": 4
+        },
+        {
+            "name": "small enchanted sapphire",
+            "chance": 492,
+            "maxCount": 2
+        },
+        {
+            "name": "shimmering beetles",
+            "chance": 492
+        },
+        {
+            "name": "cave turnip",
+            "chance": 55000,
+            "maxCount": 4
+        },
+        {
+            "name": "leaf legs",
+            "chance": 719
+        },
+        {
+            "name": "dark mushroom",
+            "chance": 719
+        },
+        {
+            "name": "panpipes",
+            "chance": 719
+        },
+        {
+            "name": "prismatic quartz",
+            "chance": 719
+        },
+        {
+            "name": "leaf star",
+            "chance": 10000,
+            "maxCount": 8
+        },
+        {
+            "name": "strong health potion",
+            "chance": 6800,
+            "maxCount": 2
+        },
+        {
+            "name": "goat grass",
+            "chance": 5155
+        },
+        {
+            "name": "great health potion",
+            "chance": 591
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "umbral_ghoul",
+    "threatDps": 47.15,
+    "burstDps": 47.15,
+    "avgHit": 65.0345,
+    "maxHit": 170,
+    "manaCost": 0
+}

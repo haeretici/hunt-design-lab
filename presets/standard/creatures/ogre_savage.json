@@ -1,0 +1,190 @@
+{
+    "id": "ogre_savage",
+    "label": "Ogre Savage",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An ogre savage.",
+    "hp": 1400,
+    "hpMax": 1400,
+    "speed": 110,
+    "level": 458,
+    "armor": 32,
+    "mitigation": 1.18,
+    "maxBlock": 0,
+    "exp": 950,
+    "lootValue": 272.86858159634,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 20,
+        "ice": 20,
+        "energy": -10,
+        "earth": 100,
+        "holy": 50,
+        "death": 10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 182,
+            "condition": {
+                "type": "fire",
+                "totalDamage": 4,
+                "intervalMs": 9000
+            }
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "fire",
+            "min": 47,
+            "max": 122,
+            "target": false,
+            "shootEffect": "ani_poison"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 80,
+            "max": 95,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Giant",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 92000,
+            "maxCount": 130,
+            "name": "gold coin"
+        },
+        {
+            "chance": 3200,
+            "maxCount": 2,
+            "name": "onyx chip"
+        },
+        {
+            "chance": 3200,
+            "maxCount": 3,
+            "name": "opal"
+        },
+        {
+            "chance": 2200,
+            "maxCount": 7,
+            "name": "cookie"
+        },
+        {
+            "chance": 1200,
+            "maxCount": 2,
+            "name": "jalapeno pepper"
+        },
+        {
+            "chance": 1200,
+            "maxCount": 2,
+            "name": "small topaz"
+        },
+        {
+            "chance": 1200,
+            "maxCount": 2,
+            "name": "small ruby"
+        },
+        {
+            "chance": 1200,
+            "name": "berserk potion"
+        },
+        {
+            "chance": 2200,
+            "name": "mysterious fetish"
+        },
+        {
+            "chance": 1200,
+            "name": "ogre ear stud"
+        },
+        {
+            "chance": 1200,
+            "name": "ogre nose ring"
+        },
+        {
+            "chance": 1200,
+            "name": "skull fetish"
+        },
+        {
+            "chance": 2200,
+            "maxCount": 3,
+            "name": "strong health potion"
+        },
+        {
+            "chance": 600,
+            "name": "war hammer"
+        },
+        {
+            "chance": 300,
+            "name": "shamanic mask"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ember_ogre_ravager",
+    "threatDps": 53.8375,
+    "burstDps": 53.8375,
+    "avgHit": 90.1522,
+    "maxHit": 182,
+    "manaCost": 0
+}

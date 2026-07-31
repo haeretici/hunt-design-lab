@@ -1,0 +1,66 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://hunt-design-lab.local/schemas/biomes.schema.json",
+  "title": "Biome pack",
+  "description": "Shape of presets/<mode>/biomes/<id>.json. Loaded by presets.loadBiomePack. Storage: folder entity. Engine: validateBiomeConsistency.",
+  "type": "object",
+  "required": ["id"],
+  "additionalProperties": true,
+  "definitions": {
+    "entityId": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]{0,79}$",
+      "minLength": 1,
+      "maxLength": 80
+    }
+  },
+  "properties": {
+    "id": { "$ref": "#/definitions/entityId" },
+    "label": { "type": "string", "minLength": 1, "maxLength": 120 },
+    "notes": { "type": "string", "maxLength": 4000 },
+    "piecePack": {
+      "type": "string",
+      "description": "Piece pack id under pieces/ (Phase 3 editor)."
+    },
+    "populationId": {
+      "$ref": "#/definitions/entityId",
+      "description": "Relation: kind=populations."
+    },
+    "markersId": {
+      "$ref": "#/definitions/entityId",
+      "description": "Relation: kind=markers."
+    },
+    "artSet": {
+      "$ref": "#/definitions/entityId",
+      "description": "Relation: kind=art_sets."
+    },
+    "profiles": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "procedural": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/entityId" },
+          "description": "Dungeon profile ids (relation: kind=dungeons)."
+        },
+        "fixed": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/entityId" },
+          "description": "Fixed dungeon profile ids (relation: kind=dungeons)."
+        }
+      }
+    },
+    "floors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "z": { "type": "integer" },
+          "profileId": { "$ref": "#/definitions/entityId" },
+          "role": { "type": "string" }
+        }
+      }
+    }
+  }
+}

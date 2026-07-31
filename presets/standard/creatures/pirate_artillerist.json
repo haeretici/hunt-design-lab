@@ -1,0 +1,178 @@
+{
+    "id": "pirate_artillerist",
+    "label": "Pirate Artillerist",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A pirate artillerist.",
+    "hp": 1,
+    "hpMax": 1,
+    "speed": 100,
+    "level": 649,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 100,
+        "fire": 100,
+        "ice": 100,
+        "energy": 100,
+        "earth": 100,
+        "holy": 100,
+        "death": 100
+    },
+    "canBlock": true,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 50,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 140,
+            "max": 450
+        },
+        {
+            "id": "corym_vanguard_wave_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 1,
+            "element": "physical",
+            "min": 50,
+            "max": 100,
+            "target": false
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "death",
+            "min": 40,
+            "max": 70,
+            "radius": 4,
+            "target": true,
+            "effect": "me_mortarea"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 30,
+            "max": 60,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 120,
+            "name": "gold coin"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 2,
+            "name": "great dual potion"
+        },
+        {
+            "chance": 10000,
+            "name": "pirate coin"
+        },
+        {
+            "chance": 4761,
+            "name": "Earthbound Boots"
+        },
+        {
+            "chance": 4761,
+            "name": "Earthbound Boots"
+        },
+        {
+            "chance": 5000,
+            "name": "ratana"
+        },
+        {
+            "chance": 5000,
+            "name": "life preserver"
+        },
+        {
+            "chance": 16666,
+            "name": "cheese cutter"
+        },
+        {
+            "chance": 3846,
+            "name": "cheesy figurine"
+        },
+        {
+            "chance": 11111,
+            "name": "mouldy powder"
+        },
+        {
+            "chance": 14285,
+            "name": "soft cheese"
+        },
+        {
+            "chance": 14285,
+            "name": "rat cheese"
+        },
+        {
+            "chance": 1612,
+            "name": "Stormbound Boots"
+        },
+        {
+            "chance": 3225,
+            "name": "Emberbound Boots"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "chaos_triton_assassin",
+    "threatDps": 155.375,
+    "burstDps": 155.375,
+    "avgHit": 248.6,
+    "maxHit": 450,
+    "manaCost": 0
+}

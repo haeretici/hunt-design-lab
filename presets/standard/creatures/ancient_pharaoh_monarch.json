@@ -1,0 +1,225 @@
+{
+    "id": "ancient_pharaoh_monarch",
+    "label": "Ancient Pharaoh Monarch",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An ancient pharaoh monarch.",
+    "hp": 5000,
+    "hpMax": 5000,
+    "speed": 215,
+    "level": 585,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 3100,
+    "lootValue": 192.32227221597,
+    "aggro": true,
+    "resists": {
+        "physical": 10,
+        "fire": -5,
+        "ice": 20,
+        "energy": 20,
+        "earth": 25,
+        "holy": -10,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "damage": 30
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 312,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 17,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 3000,
+            "chance": 7,
+            "range": 1,
+            "element": "lifedrain",
+            "min": 31,
+            "max": 218,
+            "target": false
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 12,
+            "range": 7,
+            "element": "earth",
+            "min": 31,
+            "max": 156,
+            "target": false,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 3000,
+            "chance": 12,
+            "range": 7,
+            "element": "physical",
+            "min": 37,
+            "max": 234,
+            "target": false,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "slow_4",
+            "kind": "status",
+            "intervalMs": 3000,
+            "chance": 25,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -650,
+                "durationSec": 50
+            },
+            "effect": "me_magic_red",
+            "target": false
+        },
+        {
+            "id": "wave_5",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 18,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 16,
+            "max": 172,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_yellow_rings"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 1000,
+            "chance": 20,
+            "min": 200,
+            "max": 400,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "invisible_1",
+            "kind": "invisible",
+            "intervalMs": 1000,
+            "chance": 7,
+            "durationSec": 2,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "name": "silver brooch",
+            "chance": 7000
+        },
+        {
+            "name": "holy scarab",
+            "chance": 400
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 80
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 60
+        },
+        {
+            "name": "might ring",
+            "chance": 1000
+        },
+        {
+            "name": "Regal Crown Armor",
+            "chance": 80000
+        },
+        {
+            "name": "great mana potion",
+            "chance": 1500
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "chaos_stone_revenant_archer",
+    "threatDps": 108.895,
+    "burstDps": 113.0575,
+    "avgHit": 140.7407,
+    "maxHit": 312,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 4,
+        "summons": [
+            {
+                "name": "Ancient Scarab",
+                "id": "ancient_scarab",
+                "chance": 100,
+                "interval": 1000,
+                "count": 2
+            },
+            {
+                "name": "Green Djinn",
+                "id": "green_djinn",
+                "chance": 100,
+                "interval": 1000,
+                "count": 2
+            }
+        ]
+    }
+}

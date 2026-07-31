@@ -1,0 +1,149 @@
+{
+    "id": "frostkin_toolshaper",
+    "label": "Frostkin Toolshaper",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A frostkin toolshaper.",
+    "hp": 80,
+    "hpMax": 80,
+    "speed": 68,
+    "level": 172,
+    "armor": 7,
+    "mitigation": 0.23,
+    "maxBlock": 0,
+    "exp": 40,
+    "lootValue": 9.1851730089587,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 40,
+        "ice": 100,
+        "energy": -14,
+        "earth": 0,
+        "holy": 10,
+        "death": -5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 39
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 50,
+            "radius": 1,
+            "target": true,
+            "shootEffect": "ani_smallstone"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 77810,
+            "maxCount": 20
+        },
+        {
+            "name": "mace",
+            "chance": 5300
+        },
+        {
+            "name": "bone shield",
+            "chance": 720
+        },
+        {
+            "chance": 1100,
+            "name": "pick"
+        },
+        {
+            "chance": 25060,
+            "maxCount": 2,
+            "name": "fish"
+        },
+        {
+            "name": "northern pike",
+            "chance": 70
+        },
+        {
+            "name": "rainbow trout",
+            "chance": 140
+        },
+        {
+            "name": "green perch",
+            "chance": 70
+        },
+        {
+            "name": "mammoth whopper",
+            "chance": 160
+        },
+        {
+            "chance": 450,
+            "name": "ice cube"
+        },
+        {
+            "name": "fireproof horn",
+            "chance": 390
+        }
+    ],
+    "changeTarget": {
+        "interval": 60000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "frostkin_toolshaper",
+    "threatDps": 11,
+    "burstDps": 11,
+    "avgHit": 20,
+    "maxHit": 50,
+    "manaCost": 305
+}

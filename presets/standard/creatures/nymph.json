@@ -1,0 +1,216 @@
+{
+    "id": "nymph",
+    "label": "Nymph",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A nymph.",
+    "hp": 900,
+    "hpMax": 900,
+    "speed": 114,
+    "level": 414,
+    "armor": 60,
+    "mitigation": 1.26,
+    "maxBlock": 0,
+    "exp": 850,
+    "lootValue": 361.84245255042,
+    "aggro": true,
+    "resists": {
+        "physical": -10,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 60,
+        "holy": 40,
+        "death": 40
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 20,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 114
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "energy",
+            "min": 47,
+            "max": 75,
+            "target": true,
+            "effect": "me_energyhit",
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "energy",
+            "min": 47,
+            "max": 75,
+            "target": true,
+            "effect": "me_hearts",
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "earth",
+            "min": 47,
+            "max": 75,
+            "target": true,
+            "effect": "me_hearts"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 75,
+            "max": 90,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Fey",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 400,
+            "name": "blue rose"
+        },
+        {
+            "chance": 150,
+            "name": "boots of haste"
+        },
+        {
+            "chance": 12000,
+            "name": "dandelion seeds"
+        },
+        {
+            "chance": 1800,
+            "name": "emerald bangle"
+        },
+        {
+            "chance": 500,
+            "name": "flower wreath"
+        },
+        {
+            "chance": 15000,
+            "maxCount": 2,
+            "name": "wild flowers"
+        },
+        {
+            "chance": 65000,
+            "maxCount": 110,
+            "name": "gold coin"
+        },
+        {
+            "chance": 3000,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 650,
+            "name": "hibiscus dress"
+        },
+        {
+            "chance": 1000,
+            "name": "sacred tree amulet"
+        },
+        {
+            "chance": 2000,
+            "maxCount": 2,
+            "name": "small enchanted amethyst"
+        },
+        {
+            "chance": 2500,
+            "maxCount": 2,
+            "name": "small topaz"
+        },
+        {
+            "chance": 12000,
+            "name": "colourful snail shell"
+        },
+        {
+            "chance": 720,
+            "name": "dream blossom staff"
+        },
+        {
+            "chance": 840,
+            "name": "butterfly ring"
+        },
+        {
+            "chance": 15000,
+            "maxCount": 2,
+            "name": "fresh fruit"
+        },
+        {
+            "chance": 1000,
+            "name": "strong mana potion"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "orchid_frog",
+    "threatDps": 42.225,
+    "burstDps": 42.225,
+    "avgHit": 58.2414,
+    "maxHit": 114,
+    "manaCost": 0
+}

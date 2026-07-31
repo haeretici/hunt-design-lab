@@ -1,0 +1,174 @@
+{
+    "id": "carnivorous_plant",
+    "label": "Carnivorous Plant",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A carnivorous plant.",
+    "hp": 255,
+    "hpMax": 255,
+    "speed": 55,
+    "level": 291,
+    "armor": 22,
+    "mitigation": 0.51,
+    "maxBlock": 0,
+    "exp": 150,
+    "lootValue": 25.621378865979,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -20,
+        "ice": 20,
+        "energy": 10,
+        "earth": 100,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "damage": 30
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 25,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 25,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "earth",
+            "min": 15,
+            "max": 23,
+            "target": false,
+            "effect": "me_green_rings",
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "slow_2",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -800,
+                "durationSec": 30
+            },
+            "effect": "me_green_rings",
+            "target": false
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "earth",
+            "min": 10,
+            "max": 32,
+            "radius": 3,
+            "target": false,
+            "effect": "me_poisonarea"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Plant",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 90000,
+            "maxCount": 40
+        },
+        {
+            "name": "corncob",
+            "chance": 890
+        },
+        {
+            "name": "dark mushroom",
+            "chance": 7692
+        },
+        {
+            "name": "sling herb",
+            "chance": 446,
+            "maxCount": 2
+        },
+        {
+            "name": "shadow herb",
+            "chance": 880
+        },
+        {
+            "name": "seeds",
+            "chance": 490
+        },
+        {
+            "name": "carniphila seeds",
+            "chance": 4166
+        },
+        {
+            "name": "carrot on a stick",
+            "chance": 170
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "glacier_forest_construct",
+    "threatDps": 21.225,
+    "burstDps": 21.225,
+    "avgHit": 13.96,
+    "maxHit": 32,
+    "manaCost": 0
+}

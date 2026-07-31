@@ -1,0 +1,90 @@
+{
+    "id": "mushroom_sniffer",
+    "label": "Mushroom Sniffer",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A mushroom sniffer.",
+    "hp": 250,
+    "hpMax": 250,
+    "speed": 55,
+    "level": 287,
+    "armor": 20,
+    "mitigation": 0.64,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": false,
+    "resists": {
+        "physical": 90,
+        "fire": 90,
+        "ice": 90,
+        "energy": 90,
+        "earth": 90,
+        "holy": 90,
+        "death": 90
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 25,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": false,
+        "convinceable": false,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "element": "physical",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "min": 15,
+            "max": 68,
+            "target": true
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Mammal",
+        "toKill": 25,
+        "firstUnlock": 5,
+        "secondUnlock": 10,
+        "charmsPoints": 1,
+        "stars": 0,
+        "occurrence": 0
+    },
+    "loot": [],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "desert_crawler",
+    "threatDps": 20.75,
+    "burstDps": 20.75,
+    "avgHit": 41.5,
+    "maxHit": 68,
+    "manaCost": 0
+}

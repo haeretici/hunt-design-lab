@@ -1,0 +1,97 @@
+{
+    "id": "possessed_tree",
+    "label": "Possessed Tree",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A possessed tree.",
+    "hp": 2500,
+    "hpMax": 2500,
+    "speed": 0,
+    "level": 516,
+    "armor": 0,
+    "mitigation": 0.91,
+    "maxBlock": 0,
+    "exp": 1300,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 283
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 9,
+            "range": 4,
+            "element": "earth",
+            "min": 0,
+            "max": 150,
+            "radius": 4,
+            "target": true,
+            "effect": "me_hitbypoison",
+            "shootEffect": "ani_poison"
+        }
+    ],
+    "race": "undead",
+    "loot": [],
+    "changeTarget": {
+        "interval": 0,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "glacier_forest_construct",
+    "threatDps": 74.125,
+    "burstDps": 74.125,
+    "avgHit": 136.0092,
+    "maxHit": 283,
+    "manaCost": 0
+}

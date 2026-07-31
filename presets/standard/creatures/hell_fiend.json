@@ -1,0 +1,219 @@
+{
+    "id": "hell_fiend",
+    "label": "Hell Fiend",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A hell fiend.",
+    "hp": 3500,
+    "hpMax": 3500,
+    "speed": 172,
+    "level": 550,
+    "armor": 44,
+    "mitigation": 1.32,
+    "maxBlock": 0,
+    "exp": 2550,
+    "lootValue": 486.7982051904,
+    "aggro": true,
+    "resists": {
+        "physical": 10,
+        "fire": 40,
+        "ice": -10,
+        "energy": 10,
+        "earth": 80,
+        "holy": 30,
+        "death": -5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 302
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 1,
+            "element": "fire",
+            "min": 129,
+            "max": 150,
+            "target": false,
+            "effect": "me_fireattack",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "hellspawn_soulfire_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 5,
+            "element": "physical",
+            "target": false,
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 120,
+            "max": 230,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 270,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "fire",
+    "bestiary": {
+        "class": "Demon",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 93000,
+            "maxCount": 236
+        },
+        {
+            "name": "morning star",
+            "chance": 10000
+        },
+        {
+            "name": "warrior helmet",
+            "chance": 1886
+        },
+        {
+            "name": "knight legs",
+            "chance": 3030
+        },
+        {
+            "name": "red mushroom",
+            "chance": 7692,
+            "maxCount": 2
+        },
+        {
+            "name": "demonic essence",
+            "chance": 9090
+        },
+        {
+            "name": "battle shield",
+            "chance": 7500
+        },
+        {
+            "name": "assassin star",
+            "chance": 9090,
+            "maxCount": 2
+        },
+        {
+            "name": "Obsidian Flail",
+            "chance": 103
+        },
+        {
+            "name": "berserk potion",
+            "chance": 934
+        },
+        {
+            "name": "spiked squelcher",
+            "chance": 970
+        },
+        {
+            "name": "great health potion",
+            "chance": 40333
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 9090
+        },
+        {
+            "chance": 3125,
+            "name": "rusted armor"
+        },
+        {
+            "chance": 3125,
+            "name": "slightly rusted armor"
+        },
+        {
+            "chance": 140,
+            "name": "dracoyle statue"
+        },
+        {
+            "chance": 151,
+            "name": "black skull"
+        },
+        {
+            "name": "small topaz",
+            "chance": 5882,
+            "maxCount": 3
+        },
+        {
+            "name": "hellspawn tail",
+            "chance": 20000
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 15
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "celestial_fiend",
+    "threatDps": 89.45,
+    "burstDps": 89.45,
+    "avgHit": 149.0833,
+    "maxHit": 302,
+    "manaCost": 0
+}

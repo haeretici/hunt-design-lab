@@ -1,0 +1,260 @@
+{
+    "id": "warzone_annihilator",
+    "label": "Warzone Annihilator",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A warzone annihilator.",
+    "hp": 290000,
+    "hpMax": 290000,
+    "speed": 225,
+    "level": 990,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 50000,
+    "lootValue": 29428.684210526,
+    "aggro": true,
+    "resists": {
+        "physical": 50,
+        "fire": 50,
+        "ice": 50,
+        "energy": 50,
+        "earth": 50,
+        "holy": 50,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 381,
+            "max": 2285
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "physical",
+            "min": 762,
+            "max": 1269,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_blockhit"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "physical",
+            "min": 571,
+            "max": 1142,
+            "radius": 8,
+            "target": false,
+            "effect": "me_blockhit"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 4,
+            "element": "holy",
+            "min": 381,
+            "max": 762,
+            "radius": 4,
+            "target": true,
+            "effect": "me_holydamage",
+            "shootEffect": "ani_smallholy"
+        },
+        {
+            "id": "big_lifedrain_wave_4",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 1,
+            "element": "physical",
+            "min": 888,
+            "max": 1269,
+            "target": false
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 100,
+            "min": 500,
+            "max": 1200,
+            "hpBelow": 0.7,
+            "effect": "me_magic_green"
+        }
+    ],
+    "race": "venom",
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 200,
+            "name": "gold coin"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 25,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 8000,
+            "maxCount": 3,
+            "name": "green crystal shard"
+        },
+        {
+            "chance": 8000,
+            "maxCount": 5,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 8000,
+            "maxCount": 5,
+            "name": "great dual potion"
+        },
+        {
+            "chance": 8000,
+            "maxCount": 5,
+            "name": "small amethyst"
+        },
+        {
+            "chance": 8000,
+            "maxCount": 5,
+            "name": "small ruby"
+        },
+        {
+            "chance": 8000,
+            "maxCount": 5,
+            "name": "small topaz"
+        },
+        {
+            "chance": 8000,
+            "maxCount": 10,
+            "name": "ultimate health potion"
+        },
+        {
+            "chance": 8000,
+            "maxCount": 3,
+            "name": "violet crystal shard"
+        },
+        {
+            "chance": 8000,
+            "name": "energy bar"
+        },
+        {
+            "chance": 8000,
+            "name": "plasmatic lightning"
+        },
+        {
+            "chance": 8000,
+            "name": "instable proto matter"
+        },
+        {
+            "chance": 100000,
+            "name": "gold token"
+        },
+        {
+            "chance": 100000,
+            "name": "mysterious remains"
+        },
+        {
+            "chance": 100000,
+            "name": "odd organ"
+        },
+        {
+            "chance": 6000,
+            "name": "blue gem"
+        },
+        {
+            "chance": 6000,
+            "name": "green gem"
+        },
+        {
+            "chance": 6000,
+            "name": "spellbook of warding"
+        },
+        {
+            "chance": 4000,
+            "name": "crystal mace"
+        },
+        {
+            "chance": 3500,
+            "name": "ring of blue plasma"
+        },
+        {
+            "chance": 3500,
+            "name": "ring of green plasma"
+        },
+        {
+            "chance": 3500,
+            "name": "ring of red plasma"
+        },
+        {
+            "chance": 5000,
+            "unique": true,
+            "name": "steel boots"
+        },
+        {
+            "chance": 3000,
+            "unique": true,
+            "name": "spellbook of lost souls"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 25
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "necromantic_focus",
+    "threatDps": 1032.9875,
+    "burstDps": 1032.9875,
+    "avgHit": 1116.7432,
+    "maxHit": 2285,
+    "manaCost": 0
+}

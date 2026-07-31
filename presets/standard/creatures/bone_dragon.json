@@ -1,0 +1,306 @@
+{
+    "id": "bone_dragon",
+    "label": "Bone Dragon",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A bone dragon.",
+    "hp": 8350,
+    "hpMax": 8350,
+    "speed": 165,
+    "level": 636,
+    "armor": 66,
+    "mitigation": 1.74,
+    "maxBlock": 0,
+    "exp": 7500,
+    "lootValue": 2667.3385650224,
+    "aggro": true,
+    "resists": {
+        "physical": 5,
+        "fire": 100,
+        "ice": 10,
+        "energy": 0,
+        "earth": 100,
+        "holy": -25,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 326
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 7,
+            "element": "physical",
+            "min": 204,
+            "max": 272,
+            "radius": 4,
+            "target": true,
+            "effect": "me_hitarea"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "death",
+            "min": 85,
+            "max": 407,
+            "target": false,
+            "effect": "me_smallclouds",
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 7,
+            "element": "earth",
+            "min": 68,
+            "max": 265,
+            "radius": 4,
+            "target": true,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "ranged_4",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "earth",
+            "min": 0,
+            "max": 122,
+            "target": true,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "wave_5",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "earth",
+            "min": 102,
+            "max": 469,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_poisonarea"
+        },
+        {
+            "id": "wave_6",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 204,
+            "max": 475,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "area_7",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 68,
+            "max": 136,
+            "radius": 3,
+            "target": false,
+            "effect": "me_magic_red"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 200,
+            "max": 250,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "golden mug",
+            "chance": 6002
+        },
+        {
+            "name": "black pearl",
+            "chance": 22780,
+            "maxCount": 2
+        },
+        {
+            "name": "small sapphire",
+            "chance": 28370,
+            "maxCount": 2
+        },
+        {
+            "name": "gold coin",
+            "chance": 35500,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 55500,
+            "maxCount": 98
+        },
+        {
+            "name": "platinum coin",
+            "chance": 52000,
+            "maxCount": 5
+        },
+        {
+            "name": "life crystal",
+            "chance": 2500
+        },
+        {
+            "name": "war axe",
+            "chance": 1290
+        },
+        {
+            "name": "golden armor",
+            "chance": 860
+        },
+        {
+            "name": "knight armor",
+            "chance": 5500
+        },
+        {
+            "name": "royal helmet",
+            "chance": 1720
+        },
+        {
+            "name": "power bolt",
+            "chance": 15190,
+            "maxCount": 15
+        },
+        {
+            "name": "hardened bone",
+            "chance": 14180
+        },
+        {
+            "chance": 1150,
+            "name": "death ring"
+        },
+        {
+            "name": "demonic essence",
+            "chance": 12460
+        },
+        {
+            "name": "assassin star",
+            "chance": 26650,
+            "maxCount": 5
+        },
+        {
+            "name": "dragon slayer",
+            "chance": 860
+        },
+        {
+            "name": "dragonbone staff",
+            "chance": 4000
+        },
+        {
+            "name": "great mana potion",
+            "chance": 21490
+        },
+        {
+            "name": "great health potion",
+            "chance": 21200
+        },
+        {
+            "name": "divine plate",
+            "chance": 430
+        },
+        {
+            "name": "skullcracker armor",
+            "chance": 290
+        },
+        {
+            "name": "gold ingot",
+            "chance": 570
+        },
+        {
+            "name": "unholy bone",
+            "chance": 33380
+        },
+        {
+            "name": "spellweaver's robe",
+            "chance": 860
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "wild_desert_dragon",
+    "threatDps": 144.8375,
+    "burstDps": 144.8375,
+    "avgHit": 175.5606,
+    "maxHit": 475,
+    "manaCost": 0
+}

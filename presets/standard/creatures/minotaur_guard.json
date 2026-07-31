@@ -1,0 +1,138 @@
+{
+    "id": "minotaur_guard",
+    "label": "Minotaur Guard",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A minotaur guard.",
+    "hp": 185,
+    "hpMax": 185,
+    "speed": 95,
+    "level": 256,
+    "armor": 15,
+    "mitigation": 0.83,
+    "maxBlock": 0,
+    "exp": 160,
+    "lootValue": 30.846164804526,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 20,
+        "ice": -10,
+        "energy": 0,
+        "earth": 0,
+        "holy": 10,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 20
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": true,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 70
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 59640,
+            "maxCount": 20
+        },
+        {
+            "name": "double axe",
+            "chance": 400
+        },
+        {
+            "name": "chain armor",
+            "chance": 2980
+        },
+        {
+            "name": "brass armor",
+            "chance": 4390
+        },
+        {
+            "name": "battle shield",
+            "chance": 2150
+        },
+        {
+            "name": "fishing rod",
+            "chance": 480
+        },
+        {
+            "name": "minotaur leather",
+            "chance": 1000
+        },
+        {
+            "chance": 80,
+            "name": "minotaur trophy"
+        },
+        {
+            "name": "health potion",
+            "chance": 400
+        },
+        {
+            "name": "minotaur horn",
+            "chance": 8330,
+            "maxCount": 2
+        },
+        {
+            "name": "piece of warrior armor",
+            "chance": 5040
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "lunar_minotaur_vanguard",
+    "threatDps": 17.5,
+    "burstDps": 17.5,
+    "avgHit": 35,
+    "maxHit": 70,
+    "manaCost": 550
+}

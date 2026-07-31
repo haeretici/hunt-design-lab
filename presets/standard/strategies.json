@@ -1,0 +1,173 @@
+{
+    "version": 2,
+    "notes": "Player AI strategy presets (Stage 5). aggression 0–1, spellPriority order, keepDistance for kiting. Vocations: guardian≈knight, scout≈paladin, mystic≈monk, adept≈sorcerer, warden≈druid. Auto-attack is a mode feature (features.autoAttack), not listed in spellPriority.",
+    "strategies": [
+        {
+            "id": "balanced",
+            "label": "Balanced",
+            "aggression": 0.75,
+            "engageRange": 7,
+            "keepDistance": 1,
+            "fleeHpPercent": 0.15,
+            "healHpPercent": 0.35,
+            "healSpellId": "heal_light",
+            "monstersToEngage": 1,
+            "returnToRoute": true,
+            "spellPriority": []
+        },
+        {
+            "id": "guardian_aggro",
+            "label": "Guardian Aggro",
+            "aggression": 0.95,
+            "engageRange": 7,
+            "keepDistance": 1,
+            "fleeHpPercent": 0.12,
+            "healHpPercent": 0.3,
+            "healSpellId": "wound_cleanse",
+            "monstersToEngage": 1,
+            "returnToRoute": true,
+            "spellPriority": [
+                "front_sweep",
+                "berserk",
+                "ground_shaker",
+                "fierce_berserk",
+                "brutal_strike"
+            ]
+        },
+        {
+            "id": "scout_kite",
+            "label": "Scout Kite",
+            "aggression": 0.7,
+            "engageRange": 8,
+            "keepDistance": 3,
+            "fleeHpPercent": 0.25,
+            "healHpPercent": 0.4,
+            "healSpellId": "heal_light",
+            "monstersToEngage": 1,
+            "returnToRoute": true,
+            "spellPriority": [
+                "divine_caldera",
+                "strong_ethereal_spear",
+                "ethereal_spear",
+                "divine_missile",
+                "piercing_shot"
+            ]
+        },
+        {
+            "id": "mystic_combo",
+            "label": "Mystic Combo",
+            "aggression": 0.85,
+            "engageRange": 7,
+            "keepDistance": 1,
+            "fleeHpPercent": 0.2,
+            "healHpPercent": 0.35,
+            "healSpellId": "heal_light",
+            "monstersToEngage": 1,
+            "returnToRoute": true,
+            "spellPriority": [
+                "greater_flurry_of_blows",
+                "sweeping_takedown",
+                "flurry_of_blows",
+                "chained_penance",
+                "greater_tiger_clash",
+                "double_jab",
+                "tiger_clash",
+                "swift_jab"
+            ]
+        },
+        {
+            "id": "adept_caster",
+            "label": "Adept Caster",
+            "aggression": 0.8,
+            "engageRange": 7,
+            "keepDistance": 3,
+            "fleeHpPercent": 0.3,
+            "healHpPercent": 0.45,
+            "healSpellId": "heal_light",
+            "monstersToEngage": 1,
+            "returnToRoute": true,
+            "spellPriority": [
+                "sky_rage",
+                "inferno_core",
+                "grand_fireburst",
+                "energy_wave",
+                "fire_wave",
+                "strong_flame_strike",
+                "flame_strike",
+                "ember_bolt"
+            ]
+        },
+        {
+            "id": "warden_support",
+            "label": "Warden Support",
+            "aggression": 0.75,
+            "engageRange": 7,
+            "keepDistance": 3,
+            "fleeHpPercent": 0.3,
+            "healHpPercent": 0.5,
+            "healSpellId": "heal_intense",
+            "monstersToEngage": 1,
+            "returnToRoute": true,
+            "spellPriority": [
+                "eternal_winter",
+                "nature_wrath",
+                "rockfall",
+                "strong_ice_wave",
+                "ice_wave",
+                "strong_ice_strike",
+                "ice_strike"
+            ]
+        },
+        {
+            "id": "adept_field_runes",
+            "label": "Adept Field Runes (demo)",
+            "aggression": 0.85,
+            "engageRange": 7,
+            "keepDistance": 3,
+            "fleeHpPercent": 0.25,
+            "healHpPercent": 0.4,
+            "healSpellId": "heal_light",
+            "monstersToEngage": 1,
+            "returnToRoute": true,
+            "spellPriority": [
+                "blaze_bomb_rune",
+                "spark_wall_rune",
+                "blaze_wall_rune",
+                "spark_bomb_rune",
+                "blaze_field_rune",
+                "spark_field_rune",
+                "grand_fireburst",
+                "flame_strike",
+                "ember_bolt"
+            ]
+        },
+        {
+            "id": "pacifist",
+            "label": "Pacifist",
+            "aggression": 0,
+            "engageRange": 7,
+            "keepDistance": 1,
+            "fleeHpPercent": 0.5,
+            "healHpPercent": 0.6,
+            "healSpellId": "heal_light",
+            "monstersToEngage": 99,
+            "returnToRoute": true,
+            "spellPriority": []
+        },
+        {
+            "id": "guardian_front_sweep",
+            "label": "Guardian Aggro (copy)",
+            "aggression": 0.95,
+            "engageRange": 7,
+            "keepDistance": 1,
+            "fleeHpPercent": 0.12,
+            "healHpPercent": 0.3,
+            "healSpellId": "heal_light",
+            "monstersToEngage": 1,
+            "returnToRoute": true,
+            "spellPriority": [
+                "front_sweep"
+            ]
+        }
+    ]
+}

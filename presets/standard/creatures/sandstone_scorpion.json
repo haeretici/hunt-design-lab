@@ -1,0 +1,139 @@
+{
+    "id": "sandstone_scorpion",
+    "label": "Sandstone Scorpion",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A sandstone scorpion.",
+    "hp": 900,
+    "hpMax": 900,
+    "speed": 110,
+    "level": 415,
+    "armor": 42,
+    "mitigation": 1.13,
+    "maxBlock": 0,
+    "exp": 680,
+    "lootValue": 136.36515283843,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 40,
+        "ice": -10,
+        "energy": -10,
+        "earth": 90,
+        "holy": -10,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 60,
+        "random": 40
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 15,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 77,
+                "intervalMs": 4000
+            }
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 60,
+            "max": 100,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Construct",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 2
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 92590,
+            "maxCount": 128
+        },
+        {
+            "name": "small emerald",
+            "chance": 1100,
+            "maxCount": 2
+        },
+        {
+            "name": "platinum coin",
+            "chance": 10750,
+            "maxCount": 2
+        },
+        {
+            "name": "daramian mace",
+            "chance": 5100
+        },
+        {
+            "name": "steel helmet",
+            "chance": 4620
+        },
+        {
+            "name": "black shield",
+            "chance": 1820
+        },
+        {
+            "name": "fist on a stick",
+            "chance": 220
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "venomous_ocean_scorpion_ravager",
+    "threatDps": 42.25,
+    "burstDps": 42.25,
+    "avgHit": 7.5,
+    "maxHit": 15,
+    "manaCost": 0
+}

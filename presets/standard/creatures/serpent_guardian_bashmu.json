@@ -1,0 +1,232 @@
+{
+    "id": "serpent_guardian_bashmu",
+    "label": "Serpent Guardian Bashmu",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A serpent guardian bashmu.",
+    "hp": 8200,
+    "hpMax": 8200,
+    "speed": 200,
+    "level": 634,
+    "armor": 72,
+    "mitigation": 2.16,
+    "maxBlock": 0,
+    "exp": 5000,
+    "lootValue": 2524.6383229997,
+    "aggro": true,
+    "resists": {
+        "physical": 5,
+        "fire": 0,
+        "ice": -5,
+        "energy": 5,
+        "earth": 20,
+        "holy": -10,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "damage": 30
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 191
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 50,
+            "range": 4,
+            "element": "energy",
+            "min": 127,
+            "max": 255,
+            "length": 4,
+            "spread": 0,
+            "target": false,
+            "effect": "me_energyarea"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 40,
+            "range": 3,
+            "element": "energy",
+            "min": 127,
+            "max": 159,
+            "radius": 3,
+            "target": false,
+            "effect": "me_energyhit"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "earth",
+            "min": 127,
+            "max": 255,
+            "target": true,
+            "shootEffect": "ani_eartharrow"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 250,
+            "max": 500,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 340,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Magical",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 69350,
+            "maxCount": 24
+        },
+        {
+            "name": "guardian halberd",
+            "chance": 9160
+        },
+        {
+            "name": "bashmu feather",
+            "chance": 5320
+        },
+        {
+            "name": "bashmu tongue",
+            "chance": 4950
+        },
+        {
+            "name": "sacred tree amulet",
+            "chance": 4280
+        },
+        {
+            "name": "great dual potion",
+            "chance": 3840,
+            "maxCount": 4
+        },
+        {
+            "name": "green crystal shard",
+            "chance": 3470,
+            "maxCount": 3
+        },
+        {
+            "name": "blue crystal shard",
+            "chance": 2950,
+            "maxCount": 3
+        },
+        {
+            "name": "small diamond",
+            "chance": 2950,
+            "maxCount": 6
+        },
+        {
+            "name": "violet gem",
+            "chance": 2730
+        },
+        {
+            "name": "bashmu fang",
+            "chance": 2070
+        },
+        {
+            "name": "rainbow quartz",
+            "chance": 1770
+        },
+        {
+            "name": "Earthbound Amulet",
+            "chance": 1770
+        },
+        {
+            "name": "Frostbound Amulet",
+            "chance": 960
+        },
+        {
+            "name": "glorious axe",
+            "chance": 810
+        },
+        {
+            "chance": 660,
+            "name": "collar of red plasma"
+        },
+        {
+            "name": "haunted blade",
+            "chance": 590
+        },
+        {
+            "name": "Emberbound Amulet",
+            "chance": 520
+        },
+        {
+            "chance": 440,
+            "name": "collar of blue plasma"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "tempest_serpent_berserker",
+    "threatDps": 143.2,
+    "burstDps": 143.2,
+    "avgHit": 136.381,
+    "maxHit": 255,
+    "manaCost": 0
+}

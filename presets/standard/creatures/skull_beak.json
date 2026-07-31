@@ -1,0 +1,178 @@
+{
+    "id": "skull_beak",
+    "label": "Skull Beak",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A skull beak.",
+    "hp": 16300,
+    "hpMax": 16300,
+    "speed": 217,
+    "level": 703,
+    "armor": 68,
+    "mitigation": 2.05,
+    "maxBlock": 0,
+    "exp": 12026,
+    "lootValue": 4500.9370340635,
+    "aggro": true,
+    "resists": {
+        "physical": -10,
+        "fire": -10,
+        "ice": -10,
+        "energy": 10,
+        "earth": 10,
+        "holy": 100,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 393
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2500,
+            "chance": 37,
+            "range": 1,
+            "element": "earth",
+            "min": 275,
+            "max": 432,
+            "target": true,
+            "effect": "me_blacksmoke"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 4200,
+            "chance": 35,
+            "range": 4,
+            "element": "physical",
+            "min": 275,
+            "max": 413,
+            "length": 4,
+            "spread": 3,
+            "target": false,
+            "effect": "me_slash"
+        },
+        {
+            "id": "headpecker_explosion_3",
+            "kind": "melee",
+            "intervalMs": 3500,
+            "chance": 35,
+            "range": 1,
+            "element": "physical",
+            "min": 275,
+            "max": 334
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Bird",
+        "toKill": 5000,
+        "firstUnlock": 200,
+        "secondUnlock": 2000,
+        "charmsPoints": 100,
+        "stars": 5,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "Crystal Coin",
+            "chance": 35160
+        },
+        {
+            "name": "Headpecker Beak",
+            "chance": 11360
+        },
+        {
+            "name": "Headpecker Feather",
+            "chance": 7620,
+            "minCount": 1,
+            "maxCount": 5
+        },
+        {
+            "name": "Furry Club",
+            "chance": 5560
+        },
+        {
+            "chance": 4950,
+            "minCount": 1,
+            "maxCount": 3,
+            "name": "carrot"
+        },
+        {
+            "name": "Knife",
+            "chance": 4260
+        },
+        {
+            "name": "Spike Sword",
+            "chance": 4040
+        },
+        {
+            "name": "War Hammer",
+            "chance": 2290
+        },
+        {
+            "name": "Titan Axe",
+            "chance": 1720
+        },
+        {
+            "name": "Blue Gem",
+            "chance": 1560
+        },
+        {
+            "name": "Wand of Starstorm",
+            "chance": 980
+        },
+        {
+            "name": "Gold Ingot",
+            "chance": 910
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 70
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "infernal_devil_archer",
+    "threatDps": 209.6847,
+    "burstDps": 277.135,
+    "avgHit": 252.2269,
+    "maxHit": 432,
+    "manaCost": 0
+}

@@ -1,0 +1,138 @@
+{
+    "id": "patchwork_monstor",
+    "label": "Patchwork Monstor",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A patchwork monstor.",
+    "hp": 960,
+    "hpMax": 960,
+    "speed": 175,
+    "level": 420,
+    "armor": 0,
+    "mitigation": 0.5,
+    "maxBlock": 0,
+    "exp": 575,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 20,
+        "fire": 50,
+        "ice": 10,
+        "energy": -7,
+        "earth": 30,
+        "holy": -3,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 1200,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 90
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 36,
+            "max": 46,
+            "length": 6,
+            "spread": 3,
+            "target": false,
+            "effect": "me_magic_green"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 30,
+            "min": 90,
+            "max": 200,
+            "hpBelow": 0.7,
+            "effect": "me_hitbyfire"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 1000,
+            "name": "helmet of ultimate terror"
+        },
+        {
+            "chance": 1000,
+            "name": "farmer's avenger"
+        },
+        {
+            "chance": 1000,
+            "name": "shield of care"
+        },
+        {
+            "chance": 1000,
+            "name": "incredible mumpiz slayer"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "bat",
+    "threatDps": 43.65,
+    "burstDps": 51.15,
+    "avgHit": 44.3898,
+    "maxHit": 90,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 3,
+        "summons": [
+            {
+                "name": "Acid Blob",
+                "id": "acid_blob",
+                "chance": 40,
+                "interval": 4000,
+                "count": 3
+            }
+        ]
+    }
+}

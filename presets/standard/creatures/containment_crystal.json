@@ -1,0 +1,86 @@
+{
+    "id": "containment_crystal",
+    "label": "Containment Crystal",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A containment crystal.",
+    "hp": 1,
+    "hpMax": 1,
+    "speed": 0,
+    "level": 365,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -10,
+        "ice": 0,
+        "energy": 95,
+        "earth": 0,
+        "holy": 0,
+        "death": 95
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "area_0",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 40,
+            "range": 4,
+            "element": "energy",
+            "min": 100,
+            "max": 220,
+            "radius": 3,
+            "target": false,
+            "effect": "me_purpleenergy"
+        }
+    ],
+    "race": "undead",
+    "loot": [],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "truffle_cook",
+    "threatDps": 32,
+    "burstDps": 32,
+    "avgHit": 160,
+    "maxHit": 220,
+    "manaCost": 0
+}

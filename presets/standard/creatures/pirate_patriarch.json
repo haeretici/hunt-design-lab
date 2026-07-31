@@ -1,0 +1,249 @@
+{
+    "id": "pirate_patriarch",
+    "label": "Pirate Patriarch",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A pirate patriarch.",
+    "hp": 1,
+    "hpMax": 1,
+    "speed": 40,
+    "level": 912,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 869250,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 5000,
+        "staticAttackChance": 98,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 200,
+            "chance": 20,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 950
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 1,
+            "element": "fire",
+            "min": 600,
+            "max": 1000,
+            "target": true
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 4,
+            "element": "fire",
+            "min": 500,
+            "max": 700,
+            "length": 5,
+            "spread": 2,
+            "target": false,
+            "effect": "me_firearea"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 3000,
+            "chance": 35,
+            "min": 400,
+            "max": 500,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 320,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "name": "primal bag",
+            "chance": 100000,
+            "unique": true
+        },
+        {
+            "name": "crystal coin",
+            "chance": 100000,
+            "maxCount": 60
+        },
+        {
+            "name": "ultimate mana potion",
+            "chance": 32653,
+            "maxCount": 14
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 30612,
+            "maxCount": 14
+        },
+        {
+            "name": "marksman potion",
+            "chance": 24490,
+            "maxCount": 5
+        },
+        {
+            "name": "berserk potion",
+            "chance": 22449,
+            "maxCount": 5
+        },
+        {
+            "name": "savant potion",
+            "chance": 18367,
+            "maxCount": 5
+        },
+        {
+            "name": "royal almandine",
+            "chance": 8322
+        },
+        {
+            "name": "raw watermelon tourmaline",
+            "chance": 7322
+        },
+        {
+            "name": "giant amethyst",
+            "chance": 6122
+        },
+        {
+            "name": "giant ruby",
+            "chance": 4082
+        },
+        {
+            "name": "giant emerald",
+            "chance": 4082
+        },
+        {
+            "name": "giant sapphire",
+            "chance": 2041
+        },
+        {
+            "name": "giant topaz",
+            "chance": 2041
+        },
+        {
+            "name": "amber with a bug",
+            "chance": 2450
+        },
+        {
+            "name": "amber with a dragonfly",
+            "chance": 2150
+        },
+        {
+            "name": "arboreal tome",
+            "chance": 100
+        },
+        {
+            "name": "arboreal crown",
+            "chance": 100
+        },
+        {
+            "name": "spiritthorn armor",
+            "chance": 100
+        },
+        {
+            "name": "spiritthorn helmet",
+            "chance": 100
+        },
+        {
+            "name": "alicorn headguard",
+            "chance": 100
+        },
+        {
+            "name": "alicorn quiver",
+            "chance": 100
+        },
+        {
+            "name": "arcanomancer regalia",
+            "chance": 100
+        },
+        {
+            "name": "arcanomancer folio",
+            "chance": 100
+        },
+        {
+            "chance": 100,
+            "name": "charged arcanomancer sigil"
+        },
+        {
+            "chance": 100,
+            "name": "charged arboreal ring"
+        },
+        {
+            "chance": 100,
+            "name": "charged alicorn ring"
+        },
+        {
+            "chance": 100,
+            "name": "charged spiritthorn ring"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "chaos_triton_assassin",
+    "threatDps": 670,
+    "burstDps": 670,
+    "avgHit": 525.4902,
+    "maxHit": 1000,
+    "manaCost": 0
+}

@@ -1,0 +1,44 @@
+{
+    "id": "leash_test",
+    "label": "Leash test",
+    "notes": "Single cave_rat near start; pacifist walks past so the rat aggroes, then hits a tight leash and returns home. Generator-owned fixed shell (outskirts_camp_fixed). settings.AI_CREATURE_LEASH is temporary (restored after runScenarioHunt).",
+    "baseHuntId": "outskirts_camp_fixed",
+    "seed": 5,
+    "frames": 600,
+    "maxTicks": 600,
+    "settings": {
+        "AI_CREATURE_LEASH": 2
+    },
+    "waypoints": [
+        {
+            "x": 0,
+            "y": 3,
+            "z": 0
+        },
+        {
+            "x": 6,
+            "y": 3,
+            "z": 0
+        },
+        {
+            "x": 12,
+            "y": 3,
+            "z": 0
+        },
+        {
+            "x": 18,
+            "y": 3,
+            "z": 0
+        }
+    ],
+    "spawns": [
+        {
+            "creatureId": "cave_rat",
+            "x": 3,
+            "y": 3,
+            "z": 0,
+            "respawn": 0
+        }
+    ],
+    "partyId": "test_leash_walker"
+}

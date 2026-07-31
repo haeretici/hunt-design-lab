@@ -1,0 +1,208 @@
+{
+    "id": "instable_spark_fiend",
+    "label": "Instable Spark Fiend",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An instable spark fiend.",
+    "hp": 1900,
+    "hpMax": 1900,
+    "speed": 140,
+    "level": 489,
+    "armor": 37,
+    "mitigation": 1.18,
+    "maxBlock": 0,
+    "exp": 1350,
+    "lootValue": 400.74351947014,
+    "aggro": true,
+    "resists": {
+        "physical": 5,
+        "fire": 20,
+        "ice": 60,
+        "energy": 80,
+        "earth": -14,
+        "holy": 5,
+        "death": 5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 100
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "physical",
+            "min": 100,
+            "max": 140,
+            "length": 6,
+            "spread": 0,
+            "target": false,
+            "effect": "me_groundshaker"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 5,
+            "element": "energy",
+            "min": 60,
+            "max": 80,
+            "target": true,
+            "effect": "me_energyhit",
+            "shootEffect": "ani_energyball"
+        },
+        {
+            "id": "condition_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 6,
+            "element": "energy",
+            "min": 120,
+            "max": 240,
+            "radius": 4,
+            "target": true,
+            "effect": "me_purpleenergy",
+            "shootEffect": "ani_energy"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 10,
+            "speedChange": 360,
+            "durationSec": 6,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "heal_1",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 5,
+            "min": 50,
+            "max": 80,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Extra Dimensional",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 100,
+            "name": "gold coin"
+        },
+        {
+            "chance": 20000,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 6000,
+            "name": "sparkion claw"
+        },
+        {
+            "chance": 4900,
+            "name": "energy drink"
+        },
+        {
+            "chance": 4800,
+            "name": "great dual potion"
+        },
+        {
+            "chance": 4400,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 4200,
+            "name": "great health potion"
+        },
+        {
+            "chance": 4200,
+            "name": "energy bar"
+        },
+        {
+            "chance": 4000,
+            "name": "sparkion tail"
+        },
+        {
+            "chance": 4000,
+            "name": "sparkion legs"
+        },
+        {
+            "chance": 3500,
+            "name": "sparkion stings"
+        },
+        {
+            "chance": 2600,
+            "name": "blue crystal splinter"
+        },
+        {
+            "chance": 2100,
+            "name": "blue crystal shard"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "celestial_fiend",
+    "threatDps": 63.75,
+    "burstDps": 63.75,
+    "avgHit": 77.2727,
+    "maxHit": 240,
+    "manaCost": 0
+}

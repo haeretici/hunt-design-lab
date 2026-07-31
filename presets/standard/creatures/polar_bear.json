@@ -1,0 +1,104 @@
+{
+    "id": "polar_bear",
+    "label": "Polar Bear",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A polar bear.",
+    "hp": 85,
+    "hpMax": 85,
+    "speed": 78,
+    "level": 180,
+    "armor": 7,
+    "mitigation": 0.25,
+    "maxBlock": 0,
+    "exp": 28,
+    "lootValue": 3.3133243327448,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 10,
+        "ice": 20,
+        "energy": -5,
+        "earth": 0,
+        "holy": 0,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 5,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": true,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 46
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Mammal",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "meat",
+            "chance": 50500,
+            "maxCount": 4
+        },
+        {
+            "name": "ham",
+            "chance": 50320,
+            "maxCount": 2
+        },
+        {
+            "name": "polar bear paw",
+            "chance": 980
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "polar_bear",
+    "threatDps": 11.5,
+    "burstDps": 11.5,
+    "avgHit": 23,
+    "maxHit": 46,
+    "manaCost": 315
+}

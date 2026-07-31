@@ -1,0 +1,200 @@
+{
+    "id": "knight_shade",
+    "label": "Knight Shade",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A knight shade.",
+    "hp": 25000,
+    "hpMax": 25000,
+    "speed": 235,
+    "level": 746,
+    "armor": 100,
+    "mitigation": 3.04,
+    "maxBlock": 0,
+    "exp": 18870,
+    "lootValue": 7758.2619339045,
+    "aggro": true,
+    "resists": {
+        "physical": 50,
+        "fire": -20,
+        "ice": 10,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": -20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 419
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 3000,
+            "chance": 26,
+            "range": 7,
+            "element": "ice",
+            "min": 391,
+            "max": 465,
+            "radius": 4,
+            "target": true,
+            "effect": "me_bigclouds",
+            "shootEffect": "ani_ice"
+        },
+        {
+            "id": "ice_chain_2",
+            "kind": "ranged",
+            "intervalMs": 9500,
+            "chance": 34,
+            "range": 7,
+            "element": "physical",
+            "min": 488,
+            "max": 605
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 5000,
+            "chance": 52,
+            "range": 7,
+            "element": "holy",
+            "min": 488,
+            "max": 605,
+            "target": true,
+            "effect": "me_holydamage",
+            "shootEffect": "ani_holy"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 4000,
+            "chance": 14,
+            "range": 4,
+            "element": "holy",
+            "min": 512,
+            "max": 651,
+            "radius": 4,
+            "target": false,
+            "effect": "me_holyarea"
+        },
+        {
+            "id": "area_5",
+            "kind": "area",
+            "intervalMs": 3000,
+            "chance": 19,
+            "range": 4,
+            "element": "physical",
+            "min": 395,
+            "max": 465,
+            "radius": 4,
+            "target": false,
+            "effect": "me_groundshaker"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 5000,
+        "firstUnlock": 200,
+        "secondUnlock": 2000,
+        "charmsPoints": 100,
+        "stars": 5,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "crystal coin",
+            "chance": 76610
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 9010
+        },
+        {
+            "name": "epee",
+            "chance": 6870
+        },
+        {
+            "name": "green gem",
+            "chance": 4940
+        },
+        {
+            "name": "violet gem",
+            "chance": 3860
+        },
+        {
+            "name": "Frostbound Amulet",
+            "chance": 3860
+        },
+        {
+            "name": "crystal mace",
+            "chance": 2360
+        },
+        {
+            "name": "giant sword",
+            "chance": 1720
+        },
+        {
+            "name": "Stonehide Amulet",
+            "chance": 1500
+        },
+        {
+            "name": "crown shield",
+            "chance": 640
+        },
+        {
+            "name": "bag you desire",
+            "chance": 15
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "crystal_fungal_knight_berserker",
+    "threatDps": 265.8241,
+    "burstDps": 476.94,
+    "avgHit": 322.2933,
+    "maxHit": 651,
+    "manaCost": 0
+}

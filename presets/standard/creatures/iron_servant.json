@@ -1,0 +1,127 @@
+{
+    "id": "iron_servant",
+    "label": "Iron Servant",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An iron servant.",
+    "hp": 350,
+    "hpMax": 350,
+    "speed": 95,
+    "level": 319,
+    "armor": 17,
+    "mitigation": 0.62,
+    "maxBlock": 0,
+    "exp": 210,
+    "lootValue": 42.69017411556,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 25,
+        "ice": 0,
+        "energy": 25,
+        "earth": -10,
+        "holy": 20,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 50,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 83
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 111,
+            "target": false,
+            "effect": "me_explosionarea",
+            "shootEffect": "ani_smallstone"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Construct",
+        "toKill": 5,
+        "firstUnlock": 2,
+        "secondUnlock": 3,
+        "charmsPoints": 30,
+        "stars": 2,
+        "occurrence": 3
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 82000,
+            "maxCount": 55
+        },
+        {
+            "name": "halberd",
+            "chance": 1000
+        },
+        {
+            "name": "gear wheel",
+            "chance": 4840
+        },
+        {
+            "chance": 200,
+            "name": "heavily rusted armor"
+        },
+        {
+            "name": "slime mould",
+            "chance": 310
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "lava_gorgon",
+    "threatDps": 24.9125,
+    "burstDps": 24.9125,
+    "avgHit": 43.3261,
+    "maxHit": 111,
+    "manaCost": 0
+}

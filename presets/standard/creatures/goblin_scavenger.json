@@ -1,0 +1,185 @@
+{
+    "id": "goblin_scavenger",
+    "label": "Goblin Scavenger",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A goblin scavenger.",
+    "hp": 60,
+    "hpMax": 60,
+    "speed": 66,
+    "level": 142,
+    "armor": 7,
+    "mitigation": 0.23,
+    "maxBlock": 0,
+    "exp": 37,
+    "lootValue": 5.7889447236181,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 20,
+        "earth": -10,
+        "holy": 20,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 10,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 25
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 51,
+            "target": false,
+            "shootEffect": "ani_spear"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 7,
+            "element": "lifedrain",
+            "min": 37,
+            "max": 51,
+            "target": false,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 7,
+            "element": "death",
+            "min": 2,
+            "max": 51,
+            "target": false,
+            "effect": "me_smallclouds",
+            "shootEffect": "ani_suddendeath"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 10,
+            "max": 16,
+            "hpBelow": 0.7,
+            "effect": "me_energyhit"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "small stone",
+            "chance": 25560,
+            "maxCount": 2
+        },
+        {
+            "name": "gold coin",
+            "chance": 50810,
+            "maxCount": 9
+        },
+        {
+            "chance": 12450,
+            "name": "bone"
+        },
+        {
+            "name": "mouldy cheese",
+            "chance": 7000
+        },
+        {
+            "name": "dagger",
+            "chance": 18280
+        },
+        {
+            "name": "short sword",
+            "chance": 8900
+        },
+        {
+            "name": "bone club",
+            "chance": 5000
+        },
+        {
+            "name": "leather helmet",
+            "chance": 10180
+        },
+        {
+            "name": "leather armor",
+            "chance": 7700
+        },
+        {
+            "name": "small axe",
+            "chance": 9790
+        },
+        {
+            "chance": 13640,
+            "name": "fish"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "goblin_scavenger",
+    "threatDps": 9.2875,
+    "burstDps": 9.2875,
+    "avgHit": 15.4792,
+    "maxHit": 51,
+    "manaCost": 310
+}

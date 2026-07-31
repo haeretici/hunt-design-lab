@@ -1,0 +1,205 @@
+{
+    "id": "doom_bringer",
+    "label": "Doom Bringer",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A doom bringer.",
+    "hp": 3700,
+    "hpMax": 3700,
+    "speed": 150,
+    "level": 555,
+    "armor": 35,
+    "mitigation": 1.74,
+    "maxBlock": 0,
+    "exp": 2500,
+    "lootValue": 772.05330123796,
+    "aggro": true,
+    "resists": {
+        "physical": 20,
+        "fire": 30,
+        "ice": -14,
+        "energy": 100,
+        "earth": 20,
+        "holy": -3,
+        "death": 20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 348
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 139,
+            "target": false,
+            "shootEffect": "ani_largerock"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 420,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Demon",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "crystal necklace",
+            "chance": 500
+        },
+        {
+            "name": "gold coin",
+            "chance": 92500,
+            "maxCount": 341
+        },
+        {
+            "name": "small amethyst",
+            "chance": 5850,
+            "maxCount": 2
+        },
+        {
+            "name": "platinum coin",
+            "chance": 2250,
+            "maxCount": 3
+        },
+        {
+            "name": "mind stone",
+            "chance": 70
+        },
+        {
+            "name": "giant sword",
+            "chance": 1250
+        },
+        {
+            "name": "crowbar",
+            "chance": 10500
+        },
+        {
+            "name": "plate armor",
+            "chance": 3400
+        },
+        {
+            "name": "dark armor",
+            "chance": 6250
+        },
+        {
+            "chance": 8350,
+            "maxCount": 12,
+            "name": "burst arrow"
+        },
+        {
+            "chance": 4850,
+            "name": "pick"
+        },
+        {
+            "name": "steel boots",
+            "chance": 300
+        },
+        {
+            "name": "meat",
+            "chance": 40000,
+            "maxCount": 6
+        },
+        {
+            "name": "skull helmet",
+            "chance": 10
+        },
+        {
+            "name": "soul orb",
+            "chance": 5350
+        },
+        {
+            "chance": 250,
+            "name": "death ring"
+        },
+        {
+            "name": "demonic essence",
+            "chance": 13850
+        },
+        {
+            "name": "dreaded cleaver",
+            "chance": 400
+        },
+        {
+            "name": "Maelstrom Mace",
+            "chance": 800
+        },
+        {
+            "name": "great health potion",
+            "chance": 1000
+        },
+        {
+            "name": "metal spike",
+            "chance": 4850
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "dummy",
+    "threatDps": 92.2125,
+    "burstDps": 92.2125,
+    "avgHit": 160.3696,
+    "maxHit": 348,
+    "manaCost": 0
+}

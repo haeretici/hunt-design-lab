@@ -1,0 +1,116 @@
+{
+    "id": "salamander_trainer",
+    "label": "Salamander Trainer",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A salamander trainer.",
+    "hp": 220,
+    "hpMax": 220,
+    "speed": 145,
+    "level": 273,
+    "armor": 7,
+    "mitigation": 0.38,
+    "maxBlock": 0,
+    "exp": 70,
+    "lootValue": 13.321428571429,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 15,
+        "ice": 0,
+        "energy": 15,
+        "earth": 15,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "element": "physical",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "min": 14,
+            "max": 63,
+            "target": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 25,
+            "min": 10,
+            "max": 25,
+            "hpBelow": 0.7,
+            "effect": "me_magic_green"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 1050,
+            "name": "bunch of troll hair"
+        },
+        {
+            "chance": 65300,
+            "maxCount": 12,
+            "name": "gold coin"
+        },
+        {
+            "chance": 15200,
+            "name": "meat"
+        },
+        {
+            "chance": 7960,
+            "name": "rope"
+        },
+        {
+            "chance": 12970,
+            "maxCount": 3,
+            "name": "spear"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "thunder_ettin_vanguard",
+    "threatDps": 19.25,
+    "burstDps": 19.25,
+    "avgHit": 38.5,
+    "maxHit": 63,
+    "manaCost": 0
+}

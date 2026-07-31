@@ -1,0 +1,142 @@
+{
+    "id": "tomb_servant",
+    "label": "Tomb Servant",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A tomb servant.",
+    "hp": 475,
+    "hpMax": 475,
+    "speed": 78,
+    "level": 350,
+    "armor": 22,
+    "mitigation": 0.46,
+    "maxBlock": 0,
+    "exp": 215,
+    "lootValue": 84.846153846154,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 100,
+        "holy": -25,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 80,
+        "health": 10,
+        "damage": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 103
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "lifedrain",
+            "min": 32,
+            "max": 44,
+            "target": true,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 2
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 82350,
+            "maxCount": 108
+        },
+        {
+            "name": "scarab coin",
+            "chance": 8210
+        },
+        {
+            "name": "rotten meat",
+            "chance": 2000
+        },
+        {
+            "chance": 49000,
+            "name": "bone"
+        },
+        {
+            "name": "longsword",
+            "chance": 6560
+        },
+        {
+            "name": "bone shield",
+            "chance": 5300
+        },
+        {
+            "name": "worm",
+            "chance": 25325,
+            "maxCount": 12
+        },
+        {
+            "name": "half-digested piece of meat",
+            "chance": 1000
+        },
+        {
+            "name": "fist on a stick",
+            "chance": 230
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "warp_tomb_drake",
+    "threatDps": 29.55,
+    "burstDps": 29.55,
+    "avgHit": 49.25,
+    "maxHit": 103,
+    "manaCost": 0
+}

@@ -1,0 +1,168 @@
+{
+    "id": "black_sphinx_acolyte",
+    "label": "Black Sphinx Acolyte",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A black sphinx acolyte.",
+    "hp": 8100,
+    "hpMax": 8100,
+    "speed": 155,
+    "level": 633,
+    "armor": 82,
+    "mitigation": 2.28,
+    "maxBlock": 0,
+    "exp": 7200,
+    "lootValue": 1263.1680440771,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 10,
+        "holy": -30,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 391
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "earth",
+            "min": 293,
+            "max": 391,
+            "radius": 3,
+            "target": false,
+            "effect": "me_smallplants"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 13,
+            "range": 4,
+            "element": "death",
+            "min": 391,
+            "max": 440,
+            "radius": 3,
+            "target": true,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_suddendeath"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Human",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 5
+        },
+        {
+            "name": "blue crystal shard",
+            "chance": 5000
+        },
+        {
+            "name": "Viperfang Rod",
+            "chance": 4700
+        },
+        {
+            "name": "Nether Rod",
+            "chance": 3400
+        },
+        {
+            "name": "violet gem",
+            "chance": 2600
+        },
+        {
+            "name": "opal",
+            "chance": 2200,
+            "maxCount": 2
+        },
+        {
+            "name": "wand of voodoo",
+            "chance": 2200
+        },
+        {
+            "chance": 3400,
+            "name": "empty honey glass"
+        },
+        {
+            "name": "small enchanted emerald",
+            "chance": 1500,
+            "maxCount": 3
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "dark_sphinx_scout",
+    "threatDps": 141.8575,
+    "burstDps": 141.8575,
+    "avgHit": 230.6626,
+    "maxHit": 440,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 1,
+        "summons": [
+            {
+                "name": "Skeleton Elite Warrior",
+                "id": "skeleton_elite_warrior",
+                "chance": 10,
+                "interval": 2000,
+                "count": 1
+            }
+        ]
+    }
+}

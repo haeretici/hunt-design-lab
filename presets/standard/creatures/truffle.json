@@ -1,0 +1,89 @@
+{
+    "id": "truffle",
+    "label": "Truffle",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A truffle.",
+    "hp": 70,
+    "hpMax": 70,
+    "speed": 145,
+    "level": 160,
+    "armor": 13,
+    "mitigation": 0.38,
+    "maxBlock": 0,
+    "exp": 15,
+    "lootValue": 0,
+    "aggro": false,
+    "resists": {
+        "physical": 0,
+        "fire": -10,
+        "ice": -5,
+        "energy": 0,
+        "earth": 30,
+        "holy": -5,
+        "death": 10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 70,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": false,
+        "convinceable": false,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 41
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Fey",
+        "toKill": 25,
+        "firstUnlock": 5,
+        "secondUnlock": 10,
+        "charmsPoints": 1,
+        "stars": 1,
+        "occurrence": 0
+    },
+    "loot": [],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "truffle",
+    "threatDps": 10.25,
+    "burstDps": 10.25,
+    "avgHit": 20.5,
+    "maxHit": 41,
+    "manaCost": 0
+}

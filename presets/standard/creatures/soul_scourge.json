@@ -1,0 +1,92 @@
+{
+    "id": "soul_scourge",
+    "label": "Soul Scourge",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A soul scourge.",
+    "hp": 6900,
+    "hpMax": 6900,
+    "speed": 90,
+    "level": 617,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 30,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 80,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 530
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 3500,
+            "chance": 20,
+            "range": 5,
+            "element": "death",
+            "min": 318,
+            "max": 530,
+            "target": true,
+            "shootEffect": "ani_suddendeath"
+        }
+    ],
+    "race": "undead",
+    "loot": [],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "glacier_mountain_phantom",
+    "threatDps": 130.2286,
+    "burstDps": 148.4,
+    "avgHit": 284.875,
+    "maxHit": 530,
+    "manaCost": 0
+}

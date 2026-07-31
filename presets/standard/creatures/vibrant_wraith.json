@@ -1,0 +1,222 @@
+{
+    "id": "vibrant_wraith",
+    "label": "Vibrant Wraith",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A vibrant wraith.",
+    "hp": 27000,
+    "hpMax": 27000,
+    "speed": 230,
+    "level": 754,
+    "armor": 100,
+    "mitigation": 2.45,
+    "maxBlock": 0,
+    "exp": 19700,
+    "lootValue": 7670,
+    "aggro": true,
+    "resists": {
+        "physical": -10,
+        "fire": 0,
+        "ice": 0,
+        "energy": 20,
+        "earth": -10,
+        "holy": 10,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 362
+        },
+        {
+            "id": "extended_energy_chain_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 226,
+            "max": 271
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 3000,
+            "chance": 20,
+            "range": 7,
+            "element": "energy",
+            "min": 362,
+            "max": 542,
+            "radius": 4,
+            "target": false,
+            "effect": "me_energyarea"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 3000,
+            "chance": 20,
+            "range": 7,
+            "element": "energy",
+            "min": 452,
+            "max": 542,
+            "radius": 4,
+            "target": true,
+            "effect": "me_energyarea",
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "ranged_4",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 7,
+            "element": "holy",
+            "min": 475,
+            "max": 588,
+            "target": true,
+            "effect": "me_holydamage",
+            "shootEffect": "ani_smallholy"
+        },
+        {
+            "id": "extended_holy_chain_5",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 466,
+            "max": 565
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 5000,
+        "firstUnlock": 200,
+        "secondUnlock": 2000,
+        "charmsPoints": 100,
+        "stars": 5,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "crystal coin",
+            "chance": 66670
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 27960,
+            "maxCount": 5
+        },
+        {
+            "name": "Earthbound Rod",
+            "chance": 13980
+        },
+        {
+            "name": "violet gem",
+            "chance": 8600
+        },
+        {
+            "name": "vibrant heart",
+            "chance": 6450
+        },
+        {
+            "id": 281,
+            "chance": 6450
+        },
+        {
+            "name": "gold ingot",
+            "chance": 4300
+        },
+        {
+            "name": "blue crystal shard",
+            "chance": 4300
+        },
+        {
+            "name": "vibrant robe",
+            "chance": 3230
+        },
+        {
+            "name": "Bloomshoot Rod",
+            "chance": 3230
+        },
+        {
+            "name": "blue gem",
+            "chance": 3230
+        },
+        {
+            "name": "Hailburst Rod",
+            "chance": 3230
+        },
+        {
+            "name": "Nether Rod",
+            "chance": 2150
+        },
+        {
+            "name": "violet crystal shard",
+            "chance": 1080
+        },
+        {
+            "chance": 1080,
+            "name": "ring of blue plasma"
+        },
+        {
+            "name": "green gem",
+            "chance": 1080
+        },
+        {
+            "name": "bag you desire",
+            "chance": 15
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "fox",
+    "threatDps": 277.5042,
+    "burstDps": 309.1375,
+    "avgHit": 305.5092,
+    "maxHit": 588,
+    "manaCost": 0
+}

@@ -1,0 +1,45 @@
+{
+    "schemaVersion": 1,
+    "kind": "batch",
+    "recipe": "golden_band_pressure",
+    "label": "Golden cave crawl — band pressure (I2)",
+    "notes": "docs/24 I2 baseline. Hunt golden_cave_crawl (cave_mid_mixed, cave_simple) + balance_quartet. Seeds 1–5. Session ends no_attack_timeout after combat stalls (4-member route_complete rare). 0 wipes. Champion mid-loop fires on seed 42 (see single run). Re-run: npm run sim:hunt -- --hunt golden_cave_crawl --party balance_quartet --seed 1 --batch 5 --out var/sim/golden_cave_crawl_i2",
+    "huntId": "golden_cave_crawl",
+    "partyId": "balance_quartet",
+    "seed": 1,
+    "iterations": 5,
+    "generatedAt": "2026-07-31T00:09:10.476Z",
+    "aggregate": {
+        "iterations": 5,
+        "means": {
+            "kills": 7.2,
+            "deaths": 0,
+            "damageDealt": 5329.8,
+            "damageTaken": 426.4,
+            "expGained": 2632.8,
+            "tickCount": 852,
+            "timeToClear": 42.6
+        },
+        "outcomes": {
+            "routeComplete": 0,
+            "partyWipe": 0,
+            "timeout": 0,
+            "noAttackTimeout": 5,
+            "killCap": 0,
+            "wavesComplete": 0
+        }
+    },
+    "seed42": {
+        "seed": 42,
+        "endReason": "no_attack_timeout",
+        "kills": 11,
+        "deaths": 0,
+        "midCounts": {
+            "champion": 4,
+            "elite": 0,
+            "boss": 0,
+            "well": 1
+        },
+        "notes": "Full pack clear + well; session ends on noAttackTimeoutSec (route stall after combat)"
+    }
+}

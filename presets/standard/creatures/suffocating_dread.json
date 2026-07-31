@@ -1,0 +1,279 @@
+{
+    "id": "suffocating_dread",
+    "label": "Suffocating Dread",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A suffocating dread.",
+    "hp": 5800,
+    "hpMax": 5800,
+    "speed": 190,
+    "level": 600,
+    "armor": 65,
+    "mitigation": 1.94,
+    "maxBlock": 0,
+    "exp": 4700,
+    "lootValue": 1204.7118226601,
+    "aggro": true,
+    "resists": {
+        "physical": 10,
+        "fire": 100,
+        "ice": 10,
+        "energy": 2,
+        "earth": 100,
+        "holy": 0,
+        "death": 55
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 113,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 136,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "condition_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "earth",
+            "min": 159,
+            "max": 205,
+            "length": 5,
+            "spread": 0,
+            "target": false,
+            "effect": "me_hitbypoison"
+        },
+        {
+            "id": "melee_2",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 68,
+            "radius": 1,
+            "target": true,
+            "effect": "me_sleep",
+            "shootEffect": "ani_explosion"
+        },
+        {
+            "id": "slow_3",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -800,
+                "durationSec": 15
+            },
+            "radius": 1,
+            "effect": "me_sleep",
+            "target": true
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "manadrain",
+            "min": 30,
+            "max": 68,
+            "radius": 4,
+            "target": false,
+            "effect": "me_sound_red"
+        },
+        {
+            "id": "area_6",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "death",
+            "min": 57,
+            "max": 114,
+            "radius": 4,
+            "target": true,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_suddendeath"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 80,
+            "max": 150,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Magical",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 100
+        },
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 8
+        },
+        {
+            "chance": 3000,
+            "name": "voltaic ring"
+        },
+        {
+            "chance": 4200,
+            "name": "life ring"
+        },
+        {
+            "chance": 3000,
+            "name": "ring of healing"
+        },
+        {
+            "name": "guardian shield",
+            "chance": 1540
+        },
+        {
+            "name": "beastslayer axe",
+            "chance": 3290
+        },
+        {
+            "name": "brown piece of cloth",
+            "chance": 6000
+        },
+        {
+            "name": "yellow piece of cloth",
+            "chance": 3500
+        },
+        {
+            "name": "great mana potion",
+            "chance": 20000,
+            "maxCount": 3
+        },
+        {
+            "name": "Earthbound Boots",
+            "chance": 720
+        },
+        {
+            "name": "great dual potion",
+            "chance": 20000,
+            "maxCount": 3
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 19000,
+            "maxCount": 3
+        },
+        {
+            "name": "spellbook of mind control",
+            "chance": 720
+        },
+        {
+            "name": "Nether Rod",
+            "chance": 720
+        },
+        {
+            "name": "Bloomshoot Rod",
+            "chance": 510
+        },
+        {
+            "name": "green crystal shard",
+            "chance": 1540
+        },
+        {
+            "name": "brown crystal splinter",
+            "chance": 52500,
+            "maxCount": 2
+        },
+        {
+            "name": "blue crystal splinter",
+            "chance": 10000,
+            "maxCount": 3
+        },
+        {
+            "name": "cluster of solace",
+            "chance": 4620
+        },
+        {
+            "name": "dead weight",
+            "chance": 14180
+        },
+        {
+            "name": "hemp rope",
+            "chance": 14180
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 5
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "nether_tiger",
+    "threatDps": 118.05,
+    "burstDps": 118.05,
+    "avgHit": 66.7333,
+    "maxHit": 205,
+    "manaCost": 0
+}

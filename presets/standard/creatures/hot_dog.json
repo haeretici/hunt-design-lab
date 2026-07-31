@@ -1,0 +1,118 @@
+{
+    "id": "hot_dog",
+    "label": "Hot Dog",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A hot dog.",
+    "hp": 505,
+    "hpMax": 505,
+    "speed": 75,
+    "level": 357,
+    "armor": 24,
+    "mitigation": 0.72,
+    "maxBlock": 0,
+    "exp": 190,
+    "lootValue": 26.922394678492,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 1200,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 38
+        },
+        {
+            "id": "hot_dog_wave_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 1,
+            "element": "physical",
+            "min": 21,
+            "max": 41,
+            "target": false
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 30,
+            "range": 7,
+            "element": "fire",
+            "min": 34,
+            "max": 34,
+            "target": true,
+            "effect": "me_fireattack"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Mammal",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 1
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 75
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "storm_wolf_rager",
+    "threatDps": 30.6833,
+    "burstDps": 33.85,
+    "avgHit": 23.9091,
+    "maxHit": 41,
+    "manaCost": 0
+}

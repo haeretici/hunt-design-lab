@@ -1,0 +1,154 @@
+{
+    "id": "sabertooth_parder",
+    "label": "Sabertooth Parder",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A sabertooth parder.",
+    "hp": 1200,
+    "hpMax": 1200,
+    "speed": 115,
+    "level": 443,
+    "armor": 33,
+    "mitigation": 1.15,
+    "maxBlock": 0,
+    "exp": 1100,
+    "lootValue": 285.45504316698,
+    "aggro": true,
+    "resists": {
+        "physical": 10,
+        "fire": -10,
+        "ice": 15,
+        "energy": 0,
+        "earth": 15,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 113
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2500,
+            "chance": 47,
+            "range": 1,
+            "element": "physical",
+            "min": 52,
+            "max": 108,
+            "target": true,
+            "effect": "me_big_scratch"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2850,
+            "chance": 15,
+            "range": 4,
+            "element": "physical",
+            "min": 107,
+            "max": 124,
+            "length": 5,
+            "spread": 3,
+            "target": false,
+            "effect": "me_groundshaker"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Mammal",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 1
+    },
+    "loot": [
+        {
+            "name": "Gold Coin",
+            "chance": 100000,
+            "minCount": 1,
+            "maxCount": 285
+        },
+        {
+            "name": "Ham",
+            "chance": 24670
+        },
+        {
+            "name": "Parder Fur",
+            "chance": 19070
+        },
+        {
+            "name": "Parder Tooth",
+            "chance": 14320,
+            "minCount": 1,
+            "maxCount": 2
+        },
+        {
+            "name": "Red Crystal Fragment",
+            "chance": 14030
+        },
+        {
+            "name": "Strong Health Potion",
+            "chance": 7560,
+            "minCount": 1,
+            "maxCount": 3
+        },
+        {
+            "name": "Barbarian Axe",
+            "chance": 4540
+        },
+        {
+            "chance": 1510,
+            "name": "crimson sword"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "venomous_triton_devourer",
+    "threatDps": 49.3689,
+    "burstDps": 55.7125,
+    "avgHit": 66.6579,
+    "maxHit": 124,
+    "manaCost": 0
+}

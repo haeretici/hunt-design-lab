@@ -1,0 +1,244 @@
+{
+    "id": "pharaoh_marksman",
+    "label": "Pharaoh Marksman",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A pharaoh marksman.",
+    "hp": 4300,
+    "hpMax": 4300,
+    "speed": 185,
+    "level": 571,
+    "armor": 60,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 2950,
+    "lootValue": 345.69014084507,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 20,
+        "ice": -5,
+        "energy": -5,
+        "earth": 20,
+        "holy": -10,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 20
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 66,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 36,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 5000,
+            "chance": 20,
+            "range": 1,
+            "element": "lifedrain",
+            "min": 55,
+            "max": 137,
+            "target": false
+        },
+        {
+            "id": "melee_2",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 1,
+            "element": "earth",
+            "min": 109,
+            "max": 274,
+            "target": false,
+            "shootEffect": "ani_poisonarrow"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 20,
+            "range": 3,
+            "element": "fire",
+            "min": 66,
+            "max": 246,
+            "target": false,
+            "effect": "me_explosionarea",
+            "shootEffect": "ani_burstarrow"
+        },
+        {
+            "id": "melee_4",
+            "kind": "melee",
+            "intervalMs": 3000,
+            "chance": 20,
+            "range": 1,
+            "element": "physical",
+            "min": 82,
+            "max": 274
+        },
+        {
+            "id": "slow_5",
+            "kind": "status",
+            "intervalMs": 1000,
+            "chance": 25,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -900,
+                "durationSec": 50
+            },
+            "effect": "me_magic_red",
+            "target": false
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 1000,
+            "chance": 17,
+            "min": 100,
+            "max": 200,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "invisible_1",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 14,
+            "durationSec": 2,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "name": "small diamond",
+            "chance": 7000,
+            "maxCount": 3
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 90
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 70
+        },
+        {
+            "name": "yellow gem",
+            "chance": 5000
+        },
+        {
+            "chance": 5000,
+            "name": "stealth ring"
+        },
+        {
+            "name": "boots of haste",
+            "chance": 1500
+        },
+        {
+            "name": "crystal arrow",
+            "chance": 100000
+        },
+        {
+            "name": "arrow",
+            "chance": 10000,
+            "maxCount": 21
+        },
+        {
+            "name": "poison arrow",
+            "chance": 10000,
+            "maxCount": 20
+        },
+        {
+            "chance": 10000,
+            "maxCount": 15,
+            "name": "burst arrow"
+        },
+        {
+            "name": "power bolt",
+            "chance": 10000,
+            "maxCount": 3
+        },
+        {
+            "name": "onyx arrow",
+            "chance": 10000,
+            "maxCount": 2
+        },
+        {
+            "name": "great health potion",
+            "chance": 7000
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "chaos_stone_revenant_archer",
+    "threatDps": 100.5567,
+    "burstDps": 112.25,
+    "avgHit": 91.0551,
+    "maxHit": 274,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 4,
+        "summons": [
+            {
+                "name": "Stalker",
+                "id": "stalker",
+                "chance": 100,
+                "interval": 2000,
+                "count": 4
+            }
+        ]
+    }
+}

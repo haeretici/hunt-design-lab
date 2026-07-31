@@ -1,0 +1,280 @@
+{
+    "id": "plague_forger",
+    "label": "Plague Forger",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A plague forger.",
+    "hp": 8250,
+    "hpMax": 8250,
+    "speed": 160,
+    "level": 635,
+    "armor": 30,
+    "mitigation": 1.32,
+    "maxBlock": 0,
+    "exp": 3800,
+    "lootValue": 1322.4172551034,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 30,
+        "ice": 20,
+        "energy": -10,
+        "earth": 100,
+        "holy": -10,
+        "death": 10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 500,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 1500,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 234,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 87,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "earth",
+            "min": 26,
+            "max": 50,
+            "radius": 4,
+            "target": false,
+            "effect": "me_poisonarea"
+        },
+        {
+            "id": "plaguesmith_wave_2",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 1,
+            "element": "physical",
+            "min": 43,
+            "max": 152,
+            "target": false
+        },
+        {
+            "id": "slow_3",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -800,
+                "durationSec": 30
+            },
+            "radius": 4,
+            "effect": "me_poisonarea",
+            "target": false
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 200,
+            "max": 280,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 440,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Demon",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "emerald bangle",
+            "chance": 341
+        },
+        {
+            "name": "silver brooch",
+            "chance": 2000
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 40000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 65
+        },
+        {
+            "name": "small amethyst",
+            "chance": 5000,
+            "maxCount": 3
+        },
+        {
+            "name": "platinum coin",
+            "chance": 7142,
+            "maxCount": 2
+        },
+        {
+            "chance": 4347,
+            "name": "axe ring"
+        },
+        {
+            "chance": 4761,
+            "name": "club ring"
+        },
+        {
+            "name": "piece of iron",
+            "chance": 20000
+        },
+        {
+            "name": "mouldy cheese",
+            "chance": 50000
+        },
+        {
+            "chance": 60000,
+            "name": "dirty cape"
+        },
+        {
+            "name": "two handed sword",
+            "chance": 20000
+        },
+        {
+            "name": "war hammer",
+            "chance": 2127
+        },
+        {
+            "name": "morning star",
+            "chance": 29000
+        },
+        {
+            "name": "battle hammer",
+            "chance": 20000
+        },
+        {
+            "name": "hammer of wrath",
+            "chance": 952
+        },
+        {
+            "name": "knight legs",
+            "chance": 6250
+        },
+        {
+            "name": "steel shield",
+            "chance": 20000
+        },
+        {
+            "name": "steel boots",
+            "chance": 1123
+        },
+        {
+            "name": "piece of royal steel",
+            "chance": 1234
+        },
+        {
+            "name": "piece of hell steel",
+            "chance": 1010
+        },
+        {
+            "name": "piece of draconian steel",
+            "chance": 1030
+        },
+        {
+            "name": "soul orb",
+            "chance": 11111
+        },
+        {
+            "name": "demonic essence",
+            "chance": 9033
+        },
+        {
+            "name": "onyx arrow",
+            "chance": 7692,
+            "maxCount": 4
+        },
+        {
+            "name": "great health potion",
+            "chance": 10000
+        },
+        {
+            "chance": 540,
+            "name": "slightly rusted armor"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "cave_spider",
+    "threatDps": 143.725,
+    "burstDps": 211.725,
+    "avgHit": 108.2842,
+    "maxHit": 234,
+    "manaCost": 0
+}

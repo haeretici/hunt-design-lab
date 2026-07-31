@@ -1,0 +1,193 @@
+{
+    "id": "gloomlight_matter",
+    "label": "Gloomlight Matter",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A gloomlight matter.",
+    "hp": 30150,
+    "hpMax": 30150,
+    "speed": 230,
+    "level": 764,
+    "armor": 98,
+    "mitigation": 3.28,
+    "maxBlock": 0,
+    "exp": 22250,
+    "lootValue": 5626.0646108664,
+    "aggro": true,
+    "resists": {
+        "physical": -10,
+        "fire": -25,
+        "ice": 20,
+        "energy": 40,
+        "earth": -10,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 85,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 442
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2500,
+            "chance": 15,
+            "range": 4,
+            "element": "energy",
+            "min": 563,
+            "max": 723,
+            "radius": 5,
+            "target": true,
+            "effect": "me_purplesmoke"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2500,
+            "chance": 20,
+            "range": 4,
+            "element": "physical",
+            "min": 603,
+            "max": 643,
+            "radius": 5,
+            "target": true,
+            "effect": "me_ghostly_bite"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "energy",
+            "min": 563,
+            "max": 663,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_electricalspark"
+        },
+        {
+            "id": "largeredring_4",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 1,
+            "element": "physical",
+            "min": 321,
+            "max": 603,
+            "target": false
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Slime",
+        "toKill": 5000,
+        "firstUnlock": 200,
+        "secondUnlock": 2000,
+        "charmsPoints": 100,
+        "stars": 5,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "crystal coin",
+            "chance": 11755,
+            "maxCount": 1
+        },
+        {
+            "name": "unstable darklight matter",
+            "chance": 9060,
+            "maxCount": 1
+        },
+        {
+            "name": "darklight core",
+            "chance": 12887,
+            "maxCount": 1
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 6553,
+            "maxCount": 6
+        },
+        {
+            "chance": 1430,
+            "name": "red gem"
+        },
+        {
+            "name": "darklight matter",
+            "chance": 8849,
+            "maxCount": 1
+        },
+        {
+            "name": "rubber cap",
+            "chance": 7180,
+            "maxCount": 1
+        },
+        {
+            "chance": 3500,
+            "maxCount": 1,
+            "name": "collar of red plasma"
+        },
+        {
+            "name": "green gem",
+            "chance": 3500,
+            "maxCount": 1
+        },
+        {
+            "name": "shadow sceptre",
+            "chance": 3500,
+            "maxCount": 1
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "celestial_fiend",
+    "threatDps": 294.87,
+    "burstDps": 316.975,
+    "avgHit": 361.8037,
+    "maxHit": 723,
+    "manaCost": 0
+}

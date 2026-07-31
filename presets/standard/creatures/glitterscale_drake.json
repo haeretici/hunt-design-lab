@@ -1,0 +1,101 @@
+{
+    "id": "glitterscale_drake",
+    "label": "Glitterscale Drake",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A glitterscale drake.",
+    "hp": 1111,
+    "hpMax": 1111,
+    "speed": 90,
+    "level": 435,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 700,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": -10,
+        "energy": 20,
+        "earth": 80,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 300,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 8,
+            "range": 4,
+            "element": "fire",
+            "min": 384,
+            "max": 768,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_firearea"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 12,
+            "range": 7,
+            "element": "fire",
+            "min": 299,
+            "max": 512,
+            "radius": 4,
+            "target": true,
+            "effect": "me_firearea",
+            "shootEffect": "ani_fire"
+        }
+    ],
+    "race": "blood",
+    "loot": [],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "sanguine_crypt_drake_vanguard",
+    "threatDps": 47.37,
+    "burstDps": 47.37,
+    "avgHit": 473.7,
+    "maxHit": 768,
+    "manaCost": 0
+}

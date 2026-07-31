@@ -1,0 +1,207 @@
+{
+    "id": "ripper_spectre",
+    "label": "Ripper Spectre",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A ripper spectre.",
+    "hp": 3800,
+    "hpMax": 3800,
+    "speed": 190,
+    "level": 558,
+    "armor": 69,
+    "mitigation": 1.91,
+    "maxBlock": 0,
+    "exp": 3500,
+    "lootValue": 991.98016685031,
+    "aggro": true,
+    "resists": {
+        "physical": 70,
+        "fire": -20,
+        "ice": 0,
+        "energy": -10,
+        "earth": 20,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 183
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 18,
+            "range": 4,
+            "element": "earth",
+            "min": 99,
+            "max": 210,
+            "radius": 4,
+            "target": false,
+            "effect": "me_green_rings"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2800,
+            "chance": 25,
+            "range": 4,
+            "element": "physical",
+            "min": 173,
+            "max": 222,
+            "radius": 3,
+            "target": false,
+            "effect": "me_drawblood"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 3500,
+            "chance": 37,
+            "range": 4,
+            "element": "physical",
+            "min": 124,
+            "max": 185,
+            "length": 3,
+            "spread": 2,
+            "target": false,
+            "effect": "me_groundshaker"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 150,
+            "max": 200,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 5
+        },
+        {
+            "name": "great dual potion",
+            "chance": 30910,
+            "maxCount": 2
+        },
+        {
+            "name": "two handed sword",
+            "chance": 16500
+        },
+        {
+            "name": "Earthbound Rod",
+            "chance": 4780
+        },
+        {
+            "name": "silver brooch",
+            "chance": 15190
+        },
+        {
+            "name": "emerald bangle",
+            "chance": 14740
+        },
+        {
+            "name": "twin hooks",
+            "chance": 1170
+        },
+        {
+            "name": "Bloomshoot Rod",
+            "chance": 1210
+        },
+        {
+            "chance": 1890,
+            "name": "green ectoplasm"
+        },
+        {
+            "name": "coral brooch",
+            "chance": 1330
+        },
+        {
+            "name": "serpent sword",
+            "chance": 1950
+        },
+        {
+            "name": "hexagonal ruby",
+            "chance": 800
+        },
+        {
+            "name": "assassin dagger",
+            "chance": 970
+        },
+        {
+            "name": "spike sword",
+            "chance": 530
+        },
+        {
+            "name": "wyvern fang",
+            "chance": 120
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "glacier_mountain_phantom",
+    "threatDps": 93.6218,
+    "burstDps": 112.925,
+    "avgHit": 119.2634,
+    "maxHit": 222,
+    "manaCost": 0
+}

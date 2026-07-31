@@ -1,0 +1,89 @@
+{
+    "id": "sugar_cube",
+    "label": "Sugar Cube",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A sugar cube.",
+    "hp": 28,
+    "hpMax": 28,
+    "speed": 240,
+    "level": 70,
+    "armor": 8,
+    "mitigation": 0.36,
+    "maxBlock": 0,
+    "exp": 19,
+    "lootValue": 0,
+    "aggro": false,
+    "resists": {
+        "physical": 0,
+        "fire": -10,
+        "ice": 5,
+        "energy": -10,
+        "earth": 20,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 28,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": false,
+        "convinceable": false,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 25
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Fey",
+        "toKill": 25,
+        "firstUnlock": 5,
+        "secondUnlock": 10,
+        "charmsPoints": 1,
+        "stars": 1,
+        "occurrence": 0
+    },
+    "loot": [],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "sugar_cube",
+    "threatDps": 6.25,
+    "burstDps": 6.25,
+    "avgHit": 12.5,
+    "maxHit": 25,
+    "manaCost": 0
+}

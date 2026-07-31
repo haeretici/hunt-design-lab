@@ -1,0 +1,173 @@
+{
+    "id": "frostkin_windcaller",
+    "label": "Frostkin Windcaller",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A frostkin windcaller.",
+    "hp": 84,
+    "hpMax": 84,
+    "speed": 71,
+    "level": 178,
+    "armor": 7,
+    "mitigation": 0.38,
+    "maxBlock": 0,
+    "exp": 48,
+    "lootValue": 9.2346459006759,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 50,
+        "ice": 100,
+        "energy": -14,
+        "earth": 0,
+        "holy": 20,
+        "death": -8
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 16
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "ice",
+            "min": 12,
+            "max": 23,
+            "target": false,
+            "shootEffect": "ani_ice"
+        },
+        {
+            "id": "condition_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "ice",
+            "min": 95,
+            "max": 117,
+            "radius": 3,
+            "target": false,
+            "effect": "me_icearea"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "ice",
+            "min": 7,
+            "max": 22,
+            "length": 5,
+            "spread": 2,
+            "target": false,
+            "effect": "me_icearea"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "invisible_0",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 15,
+            "durationSec": 2,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 71170,
+            "maxCount": 27
+        },
+        {
+            "name": "brass helmet",
+            "chance": 4390
+        },
+        {
+            "name": "bone shield",
+            "chance": 960
+        },
+        {
+            "chance": 30790,
+            "maxCount": 3,
+            "name": "fish"
+        },
+        {
+            "name": "northern pike",
+            "chance": 40
+        },
+        {
+            "name": "rainbow trout",
+            "chance": 40
+        },
+        {
+            "name": "green perch",
+            "chance": 110
+        },
+        {
+            "name": "fireproof horn",
+            "chance": 410
+        }
+    ],
+    "changeTarget": {
+        "interval": 60000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "frostkin_windcaller",
+    "threatDps": 11.3375,
+    "burstDps": 11.3375,
+    "avgHit": 16.7963,
+    "maxHit": 117,
+    "manaCost": 305
+}

@@ -1,0 +1,211 @@
+{
+    "id": "mind_squid_warden",
+    "label": "Mind Squid Warden",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A mind squid warden.",
+    "hp": 16500,
+    "hpMax": 16500,
+    "speed": 215,
+    "level": 704,
+    "armor": 78,
+    "mitigation": 2.16,
+    "maxBlock": 0,
+    "exp": 15300,
+    "lootValue": 4108.0828917487,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -14,
+        "ice": 100,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 125,
+            "max": 375
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "ice",
+            "min": 125,
+            "max": 250,
+            "target": false,
+            "shootEffect": "ani_ice"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "ice",
+            "min": 250,
+            "max": 850,
+            "target": false,
+            "effect": "me_iceattack",
+            "shootEffect": "ani_smallice"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "ice",
+            "min": 250,
+            "max": 469,
+            "length": 3,
+            "spread": 2,
+            "target": false,
+            "effect": "me_iceattack"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 12,
+            "range": 7,
+            "element": "ice",
+            "min": 287,
+            "max": 600,
+            "radius": 3,
+            "target": false,
+            "effect": "me_icetornado",
+            "shootEffect": "ani_smallice"
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Magical",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 11000,
+            "maxCount": 57
+        },
+        {
+            "name": "glowing rune",
+            "chance": 800,
+            "maxCount": 4
+        },
+        {
+            "name": "small sapphire",
+            "chance": 900,
+            "maxCount": 4
+        },
+        {
+            "name": "frosty heart",
+            "chance": 11000,
+            "maxCount": 4
+        },
+        {
+            "chance": 20000,
+            "name": "ice cube"
+        },
+        {
+            "chance": 20000,
+            "name": "inkwell"
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 10003,
+            "maxCount": 4
+        },
+        {
+            "name": "ultimate mana potion",
+            "chance": 10003,
+            "maxCount": 4
+        },
+        {
+            "name": "ice rapier",
+            "chance": 500
+        },
+        {
+            "name": "Frostbound Mask",
+            "chance": 400
+        },
+        {
+            "name": "piece of dead brain",
+            "chance": 10001,
+            "maxCount": 4
+        },
+        {
+            "name": "crystal sword",
+            "chance": 300
+        },
+        {
+            "name": "Frostbound Robe",
+            "chance": 150
+        },
+        {
+            "name": "Frostbound Kilt",
+            "chance": 150
+        },
+        {
+            "name": "slime heart",
+            "chance": 10002,
+            "maxCount": 4
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "rune_glacier_dwarf_archer",
+    "threatDps": 211.1475,
+    "burstDps": 211.1475,
+    "avgHit": 287.2755,
+    "maxHit": 850,
+    "manaCost": 0
+}

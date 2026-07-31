@@ -1,0 +1,86 @@
+{
+    "id": "time_waster",
+    "label": "Time Waster",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A time waster.",
+    "hp": 1,
+    "hpMax": 1,
+    "speed": 50,
+    "level": 1,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 100,
+        "fire": 100,
+        "ice": 100,
+        "energy": 100,
+        "earth": 100,
+        "holy": 100,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 17,
+            "range": 7,
+            "element": "lifedrain",
+            "min": 40,
+            "max": 60,
+            "target": false,
+            "effect": "me_yalaharighost",
+            "shootEffect": "ani_suddendeath"
+        }
+    ],
+    "race": "undead",
+    "loot": [],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "time_waster",
+    "threatDps": 4.25,
+    "burstDps": 4.25,
+    "avgHit": 50,
+    "maxHit": 60,
+    "manaCost": 0
+}

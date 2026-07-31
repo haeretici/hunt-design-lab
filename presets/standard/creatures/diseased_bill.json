@@ -1,0 +1,159 @@
+{
+    "id": "diseased_bill",
+    "label": "Diseased Bill",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A diseased bill.",
+    "hp": 1000,
+    "hpMax": 1000,
+    "speed": 75,
+    "level": 425,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 300,
+    "lootValue": 5.1157024793388,
+    "aggro": true,
+    "resists": {
+        "physical": 10,
+        "fire": 25,
+        "ice": 25,
+        "energy": 25,
+        "earth": 100,
+        "holy": 25,
+        "death": 75
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 1,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 56,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 1,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "lifedrain",
+            "min": 24,
+            "max": 38,
+            "target": true,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 40,
+            "range": 4,
+            "element": "physical",
+            "min": 27,
+            "max": 47,
+            "radius": 2,
+            "target": false,
+            "effect": "me_hitbypoison",
+            "shootEffect": "ani_smallearth"
+        },
+        {
+            "id": "slow_3",
+            "kind": "status",
+            "intervalMs": 3000,
+            "chance": 40,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -900,
+                "durationSec": 20
+            },
+            "effect": "me_magic_red",
+            "target": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 10000,
+            "chance": 40,
+            "speedChange": 310,
+            "durationSec": 20,
+            "effect": "me_magic_green"
+        },
+        {
+            "id": "heal_1",
+            "kind": "heal",
+            "intervalMs": 5000,
+            "chance": 60,
+            "min": 50,
+            "max": 80,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "venom",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 28000,
+            "maxCount": 20
+        }
+    ],
+    "changeTarget": {
+        "interval": 60000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "venomous_triton_devourer",
+    "threatDps": 44.8,
+    "burstDps": 44.8,
+    "avgHit": 31.6429,
+    "maxHit": 56,
+    "manaCost": 0
+}

@@ -1,0 +1,163 @@
+{
+    "id": "boogey",
+    "label": "Boogey",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A boogey.",
+    "hp": 930,
+    "hpMax": 930,
+    "speed": 200,
+    "level": 417,
+    "armor": 0,
+    "mitigation": 0.4,
+    "maxBlock": 0,
+    "exp": 475,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -10,
+        "ice": 25,
+        "energy": -10,
+        "earth": 40,
+        "holy": -10,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 1200,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 82
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 1500,
+            "chance": 30,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 20,
+            "target": false,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 1500,
+            "chance": 30,
+            "range": 7,
+            "element": "death",
+            "min": 8,
+            "max": 14,
+            "radius": 4,
+            "target": true,
+            "effect": "me_firearea",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "melee_3",
+            "kind": "melee",
+            "intervalMs": 1500,
+            "chance": 40,
+            "range": 1,
+            "element": "physical",
+            "min": 14,
+            "max": 20,
+            "target": false,
+            "effect": "me_mortarea"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 25,
+            "min": 80,
+            "max": 120,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "chance": 1000,
+            "name": "heavy metal t-shirt"
+        },
+        {
+            "chance": 1000,
+            "name": "club of the fury"
+        },
+        {
+            "chance": 1000,
+            "name": "scythe of the reaper"
+        },
+        {
+            "chance": 1000,
+            "name": "musician's bow"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "seagull",
+    "threatDps": 42.9,
+    "burstDps": 54.1,
+    "avgHit": 28.6,
+    "maxHit": 82,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 2,
+        "summons": [
+            {
+                "name": "Bone Fiend",
+                "id": "bone_fiend",
+                "chance": 40,
+                "interval": 4000,
+                "count": 2
+            }
+        ]
+    }
+}

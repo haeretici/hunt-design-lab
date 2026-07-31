@@ -1,0 +1,45 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://hunt-design-lab.local/schemas/defs/common.schema.json",
+  "title": "Shared preset id fragments",
+  "description": "Id patterns for Designer Rule UI and PHP PresetCrud. Aligns with HuntPresets::ID_RE and hunt-editor ID_RE.",
+  "definitions": {
+    "entityId": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]{0,79}$",
+      "minLength": 1,
+      "maxLength": 80,
+      "description": "Snake_case entity id (file stem or catalog row). Max 80 chars; starts with a letter."
+    },
+    "modeId": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]{0,79}$",
+      "minLength": 1,
+      "maxLength": 80,
+      "description": "Content mode folder name (presets/<mode>/). Allows hyphen; PHP hdl_sanitize_mode_id strips other chars."
+    },
+    "label": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120,
+      "description": "Human-readable display label."
+    },
+    "notes": {
+      "type": "string",
+      "maxLength": 4000,
+      "description": "Designer notes; optional."
+    },
+    "nonNegativeNumber": {
+      "type": "number",
+      "minimum": 0
+    },
+    "positiveInteger": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "nonNegativeInteger": {
+      "type": "integer",
+      "minimum": 0
+    }
+  }
+}

@@ -1,0 +1,198 @@
+{
+    "id": "vampire",
+    "label": "Vampire",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A vampire.",
+    "hp": 475,
+    "hpMax": 475,
+    "speed": 119,
+    "level": 351,
+    "armor": 28,
+    "mitigation": 1.04,
+    "maxBlock": 0,
+    "exp": 305,
+    "lootValue": 115.4406779661,
+    "aggro": true,
+    "resists": {
+        "physical": 25,
+        "fire": -10,
+        "ice": 0,
+        "energy": 0,
+        "earth": 100,
+        "holy": -25,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 30
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 30,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 89
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 1,
+            "element": "lifedrain",
+            "min": 30,
+            "max": 118,
+            "target": true,
+            "effect": "me_smallclouds"
+        },
+        {
+            "id": "slow_2",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -400,
+                "durationSec": 60
+            },
+            "effect": "me_magic_red",
+            "target": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 300,
+            "durationSec": 3,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "heal_2",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 15,
+            "max": 25,
+            "hpBelow": 0.7
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "emerald bangle",
+            "chance": 230
+        },
+        {
+            "name": "black pearl",
+            "chance": 1800
+        },
+        {
+            "name": "gold coin",
+            "chance": 90230,
+            "maxCount": 60
+        },
+        {
+            "name": "bronze amulet",
+            "chance": 220
+        },
+        {
+            "chance": 1000,
+            "name": "skull"
+        },
+        {
+            "name": "spike sword",
+            "chance": 1000
+        },
+        {
+            "name": "ice rapier",
+            "chance": 420
+        },
+        {
+            "name": "katana",
+            "chance": 1560
+        },
+        {
+            "name": "strange helmet",
+            "chance": 420
+        },
+        {
+            "name": "Bloodfang Shield",
+            "chance": 230
+        },
+        {
+            "name": "grave flower",
+            "chance": 1910
+        },
+        {
+            "name": "strong health potion",
+            "chance": 1500
+        },
+        {
+            "name": "vampire teeth",
+            "chance": 7600
+        },
+        {
+            "name": "blood preservation",
+            "chance": 5100
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "hellfire_vampire_archer",
+    "threatDps": 29.65,
+    "burstDps": 29.65,
+    "avgHit": 49.4167,
+    "maxHit": 118,
+    "manaCost": 0
+}

@@ -1,0 +1,52 @@
+{
+    "id": "adept_veteran",
+    "label": "Adept Veteran",
+    "vocation": "adept",
+    "level": 90,
+    "promoted": true,
+    "skills": {
+        "axe": 12,
+        "club": 12,
+        "distance": 15,
+        "fishing": 10,
+        "fist": 13,
+        "magicLevel": 80,
+        "shielding": 25,
+        "sword": 25
+    },
+    "stats": {
+        "lifeLeech": 0,
+        "manaLeech": 0,
+        "critChance": 8,
+        "critDamage": 15
+    },
+    "equipment": {
+        "head": "jade_hat",
+        "chest": "crystalline_armor",
+        "legs": "emberbound_legs",
+        "boots": "crystal_boots",
+        "weapon": "ember_wand",
+        "shield": "spellbook_of_lost_souls",
+        "amulet": "archmage_s_amulet",
+        "ring": "butterfly_ring",
+        "backpack": "backpack"
+    },
+    "inventory": {
+        "backpack": [
+            { "itemId": "grand_fireburst_rune", "count": 50 },
+            { "itemId": "deathburst_rune", "count": 30 },
+            { "itemId": "fireburst_rune", "count": 30 },
+            { "itemId": "blastwave_rune", "count": 25 },
+            { "itemId": "stormlash_rune", "count": 20 },
+            { "itemId": "blaze_field_rune", "count": 15 },
+            { "itemId": "blaze_bomb_rune", "count": 12 },
+            { "itemId": "blaze_wall_rune", "count": 12 },
+            { "itemId": "spark_field_rune", "count": 12 },
+            { "itemId": "spark_bomb_rune", "count": 10 },
+            { "itemId": "spark_wall_rune", "count": 10 },
+            { "itemId": "purge_field_rune", "count": 15 }
+        ]
+    },
+    "strategyId": "adept_caster",
+    "notes": "docs/24 I4 — L90 late tier. Unlocks strong_flame_strike (L70); sky_rage/inferno_core already at L55/60. Cloth/plate + spellbook level gear. Full fire/energy rune kit seeded for consumption-on demos. Skills from deriveSkills policy v1 (level anchors)."
+}

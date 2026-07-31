@@ -1,0 +1,157 @@
+{
+    "id": "lion_commander",
+    "label": "Lion Commander",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A lion commander.",
+    "hp": 8500,
+    "hpMax": 8500,
+    "speed": 125,
+    "level": 638,
+    "armor": 0,
+    "mitigation": 1,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 409,
+            "effect": "me_drawblood"
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 4000,
+            "chance": 17,
+            "range": 4,
+            "element": "holy",
+            "min": 297,
+            "max": 483,
+            "radius": 3,
+            "target": false,
+            "effect": "me_holyarea"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 4000,
+            "chance": 17,
+            "range": 4,
+            "element": "holy",
+            "min": 149,
+            "max": 483,
+            "radius": 4,
+            "target": false,
+            "effect": "me_holyarea"
+        },
+        {
+            "id": "singlecloudchain_3",
+            "kind": "ranged",
+            "intervalMs": 6000,
+            "chance": 17,
+            "range": 4,
+            "element": "physical",
+            "min": 149,
+            "max": 334,
+            "target": true,
+            "effect": "me_energyhit"
+        },
+        {
+            "id": "singledeathchain_4",
+            "kind": "ranged",
+            "intervalMs": 6000,
+            "chance": 15,
+            "range": 5,
+            "element": "physical",
+            "min": 186,
+            "max": 394,
+            "target": true,
+            "effect": "me_mortarea"
+        }
+    ],
+    "race": "blood",
+    "loot": [],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "nether_tiger",
+    "threatDps": 146.3475,
+    "burstDps": 204.5375,
+    "avgHit": 229.265,
+    "maxHit": 483,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 6,
+        "summons": [
+            {
+                "name": "Lion Archer",
+                "id": "lion_archer",
+                "chance": 0,
+                "interval": 600000,
+                "count": 2
+            },
+            {
+                "name": "Lion Knight",
+                "id": "lion_knight",
+                "chance": 0,
+                "interval": 600000,
+                "count": 2
+            },
+            {
+                "name": "Lion Warlock",
+                "id": "lion_warlock",
+                "chance": 0,
+                "interval": 600000,
+                "count": 2
+            }
+        ]
+    }
+}

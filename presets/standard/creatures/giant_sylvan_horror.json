@@ -1,0 +1,191 @@
+{
+    "id": "giant_sylvan_horror",
+    "label": "Giant Sylvan Horror",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A giant sylvan horror.",
+    "hp": 8600,
+    "hpMax": 8600,
+    "speed": 110,
+    "level": 639,
+    "armor": 51,
+    "mitigation": 1.32,
+    "maxBlock": 0,
+    "exp": 4700,
+    "lootValue": 2416.129718235,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -20,
+        "ice": -10,
+        "energy": 15,
+        "earth": 20,
+        "holy": 0,
+        "death": 10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 113
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 60,
+            "range": 5,
+            "element": "earth",
+            "min": 132,
+            "max": 169,
+            "target": true,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_smallearth"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 40,
+            "range": 4,
+            "element": "physical",
+            "min": 226,
+            "max": 301,
+            "radius": 4,
+            "target": false,
+            "effect": "me_explosionhit"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 4,
+            "element": "physical",
+            "min": 132,
+            "max": 150,
+            "length": 4,
+            "spread": 0,
+            "target": false,
+            "effect": "me_explosionhit"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Human",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 70000,
+            "maxCount": 30
+        },
+        {
+            "chance": 27670,
+            "maxCount": 1,
+            "name": "bone"
+        },
+        {
+            "name": "great health potion",
+            "chance": 14990,
+            "maxCount": 4
+        },
+        {
+            "name": "carnisylvan bark",
+            "chance": 12100,
+            "maxCount": 1
+        },
+        {
+            "name": "carnisylvan finger",
+            "chance": 10090,
+            "maxCount": 2
+        },
+        {
+            "name": "Earthbound Hood",
+            "chance": 7200
+        },
+        {
+            "name": "Earthbound Boots",
+            "chance": 4900
+        },
+        {
+            "name": "knight axe",
+            "chance": 3460
+        },
+        {
+            "name": "Stormbound Headband",
+            "chance": 3460
+        },
+        {
+            "name": "dragonbone staff",
+            "chance": 5190
+        },
+        {
+            "name": "diamond sceptre",
+            "chance": 4320
+        },
+        {
+            "name": "epee",
+            "chance": 2590
+        },
+        {
+            "name": "war hammer",
+            "chance": 3750
+        },
+        {
+            "name": "human teeth",
+            "chance": 580
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ember_ruins_horror",
+    "threatDps": 147.25,
+    "burstDps": 147.25,
+    "avgHit": 128.0435,
+    "maxHit": 301,
+    "manaCost": 0
+}

@@ -1,0 +1,152 @@
+{
+    "id": "eternal_guardian",
+    "label": "Eternal Guardian",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An eternal guardian.",
+    "hp": 2500,
+    "hpMax": 2500,
+    "speed": 102,
+    "level": 518,
+    "armor": 62,
+    "mitigation": 1.18,
+    "maxBlock": 0,
+    "exp": 1800,
+    "lootValue": 509.79210708288,
+    "aggro": true,
+    "resists": {
+        "physical": 20,
+        "fire": 70,
+        "ice": 10,
+        "energy": 10,
+        "earth": 100,
+        "holy": 20,
+        "death": 20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 300
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Construct",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "small stone",
+            "chance": 30230,
+            "maxCount": 10
+        },
+        {
+            "name": "gold coin",
+            "chance": 99930,
+            "maxCount": 100
+        },
+        {
+            "name": "platinum coin",
+            "chance": 99540,
+            "maxCount": 4
+        },
+        {
+            "name": "guardian halberd",
+            "chance": 560
+        },
+        {
+            "name": "tower shield",
+            "chance": 820
+        },
+        {
+            "name": "iron ore",
+            "chance": 1700
+        },
+        {
+            "name": "ancient stone",
+            "chance": 20020
+        },
+        {
+            "name": "shiny stone",
+            "chance": 800
+        },
+        {
+            "name": "zaoan sword",
+            "chance": 100
+        },
+        {
+            "name": "zaoan halberd",
+            "chance": 1860
+        },
+        {
+            "name": "spiked iron ball",
+            "chance": 9960
+        },
+        {
+            "name": "clay lump",
+            "chance": 720
+        },
+        {
+            "name": "piece of marble rock",
+            "chance": 430
+        },
+        {
+            "chance": 400,
+            "name": "coal"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "sun_orc_guard",
+    "threatDps": 75,
+    "burstDps": 75,
+    "avgHit": 150,
+    "maxHit": 300,
+    "manaCost": 0
+}

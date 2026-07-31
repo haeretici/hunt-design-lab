@@ -1,0 +1,238 @@
+{
+    "id": "insane_siren",
+    "label": "Insane Siren",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An insane siren.",
+    "hp": 6500,
+    "hpMax": 6500,
+    "speed": 210,
+    "level": 611,
+    "armor": 76,
+    "mitigation": 2.11,
+    "maxBlock": 0,
+    "exp": 6000,
+    "lootValue": 1260.7539398281,
+    "aggro": true,
+    "resists": {
+        "physical": -10,
+        "fire": 55,
+        "ice": -20,
+        "energy": 0,
+        "earth": 0,
+        "holy": 25,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 298
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2300,
+            "chance": 17,
+            "range": 4,
+            "element": "fire",
+            "min": 66,
+            "max": 199,
+            "length": 3,
+            "spread": 0,
+            "target": false,
+            "effect": "me_firearea"
+        },
+        {
+            "id": "melee_2",
+            "kind": "melee",
+            "intervalMs": 2600,
+            "chance": 15,
+            "range": 1,
+            "element": "fire",
+            "min": 66,
+            "max": 199,
+            "radius": 1,
+            "target": false,
+            "effect": "me_firearea"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2900,
+            "chance": 17,
+            "range": 7,
+            "element": "fire",
+            "min": 165,
+            "max": 199,
+            "target": false,
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 3200,
+            "chance": 15,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 66,
+            "max": 199,
+            "radius": 3,
+            "target": true,
+            "effect": "me_explosionhit"
+        },
+        {
+            "id": "ranged_5",
+            "kind": "ranged",
+            "intervalMs": 3500,
+            "chance": 17,
+            "range": 6,
+            "element": "fire",
+            "min": 99,
+            "max": 199,
+            "target": true,
+            "effect": "me_fireattack"
+        },
+        {
+            "id": "area_6",
+            "kind": "area",
+            "intervalMs": 3800,
+            "chance": 17,
+            "range": 6,
+            "element": "fire",
+            "min": 66,
+            "max": 199,
+            "radius": 2,
+            "target": true,
+            "effect": "me_firearea"
+        },
+        {
+            "id": "sparks_chain_7",
+            "kind": "ranged",
+            "intervalMs": 4100,
+            "chance": 17,
+            "range": 3,
+            "element": "physical",
+            "min": 66,
+            "max": 132,
+            "target": true
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 12
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 14970
+        },
+        {
+            "name": "miraculum",
+            "chance": 13090
+        },
+        {
+            "name": "dream essence egg",
+            "chance": 11980
+        },
+        {
+            "name": "wand of draconia",
+            "chance": 7700
+        },
+        {
+            "name": "holy orchid",
+            "chance": 5650
+        },
+        {
+            "name": "Emberbound Amulet",
+            "chance": 5130
+        },
+        {
+            "name": "wand of inferno",
+            "chance": 4360
+        },
+        {
+            "name": "fire axe",
+            "chance": 3590
+        },
+        {
+            "name": "Emberbound Coat",
+            "chance": 3340
+        },
+        {
+            "name": "wand of dragonbreath",
+            "chance": 2650
+        },
+        {
+            "name": "sun fruit",
+            "chance": 2570
+        },
+        {
+            "name": "Emberbound Legs",
+            "chance": 1200
+        },
+        {
+            "name": "Emberbound Monocle",
+            "chance": 260
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "radiant_cloud_giant_shaman",
+    "threatDps": 126.0873,
+    "burstDps": 153.45,
+    "avgHit": 144.6166,
+    "maxHit": 298,
+    "manaCost": 0
+}

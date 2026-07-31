@@ -1,0 +1,177 @@
+{
+    "id": "draconian_distorter",
+    "label": "Draconian Distorter",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A draconian distorter.",
+    "hp": 16000,
+    "hpMax": 16000,
+    "speed": 130,
+    "level": 701,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 4000,
+    "lootValue": 4084.0384615385,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 20,
+        "energy": 20,
+        "earth": 100,
+        "holy": 10,
+        "death": 30
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "earth",
+            "min": 0,
+            "max": 952,
+            "radius": 1,
+            "target": true,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "melee_2",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 1,
+            "element": "fire",
+            "min": 0,
+            "max": 1935,
+            "target": false,
+            "effect": "me_firearea",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "physical",
+            "min": 664,
+            "max": 1430,
+            "radius": 3,
+            "target": false,
+            "effect": "me_poff"
+        },
+        {
+            "id": "ranged_4",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "lifedrain",
+            "min": 328,
+            "max": 554,
+            "target": true,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 71550,
+            "maxCount": 2,
+            "name": "gold ingot"
+        },
+        {
+            "chance": 69825,
+            "maxCount": 100,
+            "name": "gold coin"
+        },
+        {
+            "chance": 69825,
+            "maxCount": 10,
+            "name": "gold coin"
+        },
+        {
+            "chance": 5750,
+            "name": "small emerald"
+        },
+        {
+            "chance": 100000,
+            "name": "lizard scale"
+        },
+        {
+            "chance": 16300,
+            "name": "green gem"
+        },
+        {
+            "chance": 11025,
+            "name": "time ring"
+        },
+        {
+            "chance": 5750,
+            "name": "great health potion"
+        },
+        {
+            "chance": 5750,
+            "name": "dragon scale mail"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "lovely_deer",
+    "threatDps": 207.575,
+    "burstDps": 207.575,
+    "avgHit": 691.9167,
+    "maxHit": 1935,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 2,
+        "summons": [
+            {
+                "name": "Reptilian Dragon Priest",
+                "id": "reptilian_dragon_priest",
+                "chance": 10,
+                "interval": 2000,
+                "count": 2
+            }
+        ]
+    }
+}

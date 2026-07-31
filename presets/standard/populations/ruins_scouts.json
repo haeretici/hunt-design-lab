@@ -1,0 +1,69 @@
+{
+    "id": "ruins_scouts",
+    "biome": "ruins",
+    "notes": "Stage 11.11 — standard ruins population. Mixed rats and spitters for open-ruin skirmishes.",
+    "defaultRespawn": 0,
+    "groups": {
+        "normal": {
+            "weight": 55,
+            "creatureIds": [
+                "cave_rat"
+            ],
+            "packSize": [
+                1,
+                3
+            ]
+        },
+        "skirmish": {
+            "weight": 25,
+            "creatureIds": [
+                "venom_spitter"
+            ],
+            "packSize": [
+                1,
+                2
+            ]
+        },
+        "champion": {
+            "weight": 15,
+            "creatureIds": [
+                "cave_rat",
+                "venom_spitter"
+            ],
+            "packSize": [
+                2,
+                4
+            ],
+            "affixes": [
+                "champion"
+            ]
+        },
+        "elite": {
+            "weight": 5,
+            "creatureIds": [
+                "venom_spitter"
+            ],
+            "packSize": [
+                1,
+                1
+            ],
+            "affixes": [
+                "elite"
+            ]
+        }
+    },
+    "limits": {
+        "totalPacks": [
+            4,
+            8
+        ],
+        "championPacks": [
+            1,
+            2
+        ],
+        "elitePacks": [
+            0,
+            1
+        ]
+    }
+}

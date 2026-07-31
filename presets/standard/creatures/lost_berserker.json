@@ -1,0 +1,266 @@
+{
+    "id": "lost_berserker",
+    "label": "Lost Berserker",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A lost berserker.",
+    "hp": 5900,
+    "hpMax": 5900,
+    "speed": 150,
+    "level": 602,
+    "armor": 80,
+    "mitigation": 2.4,
+    "maxBlock": 0,
+    "exp": 4800,
+    "lootValue": 1271.8576105993,
+    "aggro": true,
+    "resists": {
+        "physical": 20,
+        "fire": 10,
+        "ice": 10,
+        "energy": 0,
+        "earth": 100,
+        "holy": 0,
+        "death": 15
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 400
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 240,
+            "target": false,
+            "shootEffect": "ani_whirlwindaxe"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 200,
+            "radius": 3,
+            "target": true,
+            "effect": "me_explosionarea",
+            "shootEffect": "ani_explosion"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "manadrain",
+            "min": 40,
+            "max": 80,
+            "radius": 5,
+            "target": false,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "slow_4",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -800,
+                "durationSec": 20
+            },
+            "radius": 2,
+            "effect": "me_magic_red",
+            "target": false
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "piggy bank",
+            "chance": 3920
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 100
+        },
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 9
+        },
+        {
+            "chance": 2280,
+            "name": "dwarven ring"
+        },
+        {
+            "name": "knight axe",
+            "chance": 2070
+        },
+        {
+            "name": "fire axe",
+            "chance": 380
+        },
+        {
+            "name": "royal helmet",
+            "chance": 150
+        },
+        {
+            "name": "guardian shield",
+            "chance": 1400
+        },
+        {
+            "name": "tower shield",
+            "chance": 1002
+        },
+        {
+            "name": "black shield",
+            "chance": 640
+        },
+        {
+            "name": "brown mushroom",
+            "chance": 15190,
+            "maxCount": 2
+        },
+        {
+            "name": "iron ore",
+            "chance": 8490
+        },
+        {
+            "name": "magic sulphur",
+            "chance": 720
+        },
+        {
+            "name": "Maelstrom Mace",
+            "chance": 550
+        },
+        {
+            "name": "spiked squelcher",
+            "chance": 810
+        },
+        {
+            "name": "great mana potion",
+            "chance": 13650
+        },
+        {
+            "name": "great health potion",
+            "chance": 13650
+        },
+        {
+            "name": "Earthbound Boots",
+            "chance": 640
+        },
+        {
+            "name": "small topaz",
+            "chance": 7970,
+            "maxCount": 2
+        },
+        {
+            "name": "clay lump",
+            "chance": 930
+        },
+        {
+            "chance": 2050,
+            "name": "coal"
+        },
+        {
+            "name": "violet crystal shard",
+            "chance": 3500
+        },
+        {
+            "name": "brown crystal splinter",
+            "chance": 7540,
+            "maxCount": 2
+        },
+        {
+            "name": "blue crystal splinter",
+            "chance": 4610
+        },
+        {
+            "name": "green crystal fragment",
+            "chance": 6870
+        },
+        {
+            "name": "drill bolt",
+            "chance": 8210,
+            "maxCount": 10
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 15
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "dread_abomination",
+    "threatDps": 119.5,
+    "burstDps": 119.5,
+    "avgHit": 170.7143,
+    "maxHit": 400,
+    "manaCost": 0
+}

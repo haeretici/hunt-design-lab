@@ -1,0 +1,140 @@
+{
+    "id": "swamp_troll",
+    "label": "Swamp Troll",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A swamp troll.",
+    "hp": 55,
+    "hpMax": 55,
+    "speed": 64,
+    "level": 136,
+    "armor": 6,
+    "mitigation": 0.25,
+    "maxBlock": 0,
+    "exp": 25,
+    "lootValue": 4.027521297305,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -5,
+        "ice": 0,
+        "energy": 0,
+        "earth": 15,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 15,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": true,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 32,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 2,
+                "intervalMs": 4000
+            }
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 15000,
+            "name": "torch"
+        },
+        {
+            "name": "gold coin",
+            "chance": 50300,
+            "maxCount": 5
+        },
+        {
+            "name": "mouldy cheese",
+            "chance": 10000
+        },
+        {
+            "name": "spear",
+            "chance": 13000
+        },
+        {
+            "name": "fishing rod",
+            "chance": 60
+        },
+        {
+            "name": "leather boots",
+            "chance": 9500
+        },
+        {
+            "chance": 60000,
+            "name": "fish"
+        },
+        {
+            "name": "troll green",
+            "chance": 1200
+        },
+        {
+            "chance": 2140,
+            "name": "wood"
+        },
+        {
+            "name": "swamp grass",
+            "chance": 3100
+        },
+        {
+            "name": "medicine pouch",
+            "chance": 2160
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "swamp_troll",
+    "threatDps": 9,
+    "burstDps": 9,
+    "avgHit": 16,
+    "maxHit": 32,
+    "manaCost": 320
+}

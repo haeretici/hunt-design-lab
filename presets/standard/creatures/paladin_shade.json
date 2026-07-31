@@ -1,0 +1,213 @@
+{
+    "id": "paladin_shade",
+    "label": "Paladin Shade",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A paladin shade.",
+    "hp": 25000,
+    "hpMax": 25000,
+    "speed": 235,
+    "level": 746,
+    "armor": 100,
+    "mitigation": 3.04,
+    "maxBlock": 0,
+    "exp": 18870,
+    "lootValue": 8562.8140703518,
+    "aggro": true,
+    "resists": {
+        "physical": 20,
+        "fire": -11,
+        "ice": 30,
+        "energy": 0,
+        "earth": 0,
+        "holy": 40,
+        "death": -20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 416
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 4000,
+            "chance": 26,
+            "range": 7,
+            "element": "ice",
+            "min": 411,
+            "max": 489,
+            "radius": 4,
+            "target": true,
+            "effect": "me_bigclouds",
+            "shootEffect": "ani_ice"
+        },
+        {
+            "id": "ice_chain_2",
+            "kind": "ranged",
+            "intervalMs": 5000,
+            "chance": 20,
+            "range": 7,
+            "element": "physical",
+            "min": 513,
+            "max": 636
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 9500,
+            "chance": 52,
+            "range": 7,
+            "element": "holy",
+            "min": 513,
+            "max": 636,
+            "target": true,
+            "effect": "me_holydamage",
+            "shootEffect": "ani_holy"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 3000,
+            "chance": 22,
+            "range": 4,
+            "element": "holy",
+            "min": 587,
+            "max": 684,
+            "radius": 4,
+            "target": false,
+            "effect": "me_holyarea"
+        },
+        {
+            "id": "area_5",
+            "kind": "area",
+            "intervalMs": 4000,
+            "chance": 23,
+            "range": 7,
+            "element": "physical",
+            "min": 440,
+            "max": 660,
+            "radius": 4,
+            "target": true,
+            "effect": "me_explosionhit",
+            "shootEffect": "ani_explosion"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 5000,
+        "firstUnlock": 200,
+        "secondUnlock": 2000,
+        "charmsPoints": 100,
+        "stars": 5,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "crystal coin",
+            "chance": 81310
+        },
+        {
+            "name": "warrior helmet",
+            "chance": 6850
+        },
+        {
+            "name": "blue gem",
+            "chance": 6230
+        },
+        {
+            "name": "great dual potion",
+            "chance": 4980
+        },
+        {
+            "name": "violet gem",
+            "chance": 4670
+        },
+        {
+            "name": "Frostbound Mask",
+            "chance": 4670
+        },
+        {
+            "name": "Frostbound Amulet",
+            "chance": 4670
+        },
+        {
+            "name": "green gem",
+            "chance": 4670
+        },
+        {
+            "name": "wood cape",
+            "chance": 3120
+        },
+        {
+            "name": "skull helmet",
+            "chance": 1870
+        },
+        {
+            "name": "Stonehide Amulet",
+            "chance": 1560
+        },
+        {
+            "chance": 1250,
+            "name": "collar of blue plasma"
+        },
+        {
+            "chance": 1250,
+            "name": "ring of blue plasma"
+        },
+        {
+            "name": "bag you desire",
+            "chance": 15
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "freed_soul",
+    "threatDps": 265.9046,
+    "burstDps": 502.475,
+    "avgHit": 336.3454,
+    "maxHit": 684,
+    "manaCost": 0
+}

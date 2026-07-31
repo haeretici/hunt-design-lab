@@ -1,0 +1,196 @@
+{
+    "id": "melting_frozen_horror",
+    "label": "Melting Frozen Horror",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A melting frozen horror.",
+    "hp": 1,
+    "hpMax": 1,
+    "speed": 120,
+    "level": 654,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 24612.96,
+    "aggro": true,
+    "resists": {
+        "physical": 1,
+        "fire": -14,
+        "ice": 200,
+        "energy": -5,
+        "earth": 0,
+        "holy": 0,
+        "death": -1
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 70,
+            "max": 300
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "ice",
+            "min": 750,
+            "max": 1050,
+            "radius": 3,
+            "target": true,
+            "effect": "me_blockhit",
+            "shootEffect": "ani_ice"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 100,
+            "name": "gold coin"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 11,
+            "name": "gold coin"
+        },
+        {
+            "chance": 14111,
+            "name": "frosty heart"
+        },
+        {
+            "chance": 5100,
+            "name": "ice cube"
+        },
+        {
+            "chance": 320,
+            "name": "ice rapier"
+        },
+        {
+            "chance": 580,
+            "name": "crystal sword"
+        },
+        {
+            "chance": 730,
+            "name": "small diamond"
+        },
+        {
+            "chance": 9660,
+            "maxCount": 5,
+            "name": "violet crystal shard"
+        },
+        {
+            "chance": 5000,
+            "name": "blue gem"
+        },
+        {
+            "chance": 19500,
+            "maxCount": 3,
+            "name": "ultimate health potion"
+        },
+        {
+            "chance": 9660,
+            "maxCount": 5,
+            "name": "green crystal shard"
+        },
+        {
+            "chance": 9660,
+            "name": "pair of earmuffs"
+        },
+        {
+            "chance": 9660,
+            "name": "instable proto matter"
+        },
+        {
+            "chance": 9660,
+            "name": "crystal mace"
+        },
+        {
+            "chance": 9660,
+            "name": "crystalline sword"
+        },
+        {
+            "chance": 200,
+            "name": "shiny blade"
+        },
+        {
+            "chance": 200,
+            "name": "ornate crossbow"
+        },
+        {
+            "chance": 500,
+            "name": "frozen plate"
+        },
+        {
+            "id": 24958,
+            "chance": 500,
+            "unique": true
+        },
+        {
+            "chance": 200,
+            "name": "runic ice shield"
+        },
+        {
+            "chance": 100000,
+            "name": "gold token"
+        },
+        {
+            "chance": 100000,
+            "name": "silver token"
+        },
+        {
+            "name": "spark sphere",
+            "chance": 100000
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 5
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ember_ruins_horror",
+    "threatDps": 160,
+    "burstDps": 160,
+    "avgHit": 278.2609,
+    "maxHit": 1050,
+    "manaCost": 0
+}

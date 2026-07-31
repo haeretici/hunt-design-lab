@@ -1,0 +1,49 @@
+{
+    "id": "adept_starter",
+    "label": "Adept Starter",
+    "vocation": "adept",
+    "level": 50,
+    "promoted": false,
+    "skills": {
+        "axe": 13,
+        "club": 13,
+        "distance": 10,
+        "fishing": 10,
+        "fist": 15,
+        "magicLevel": 40,
+        "shielding": 20,
+        "sword": 30
+    },
+    "stats": {
+        "lifeLeech": 0,
+        "manaLeech": 0,
+        "critChance": 5,
+        "critDamage": 10
+    },
+    "equipment": {
+        "head": "",
+        "chest": "",
+        "legs": "",
+        "boots": "leather_boots",
+        "weapon": "iron_longsword",
+        "shield": "battle_shield",
+        "amulet": "",
+        "ring": "",
+        "backpack": "backpack"
+    },
+    "inventory": {
+        "backpack": [
+            { "itemId": "grand_fireburst_rune", "count": 30 },
+            { "itemId": "deathburst_rune", "count": 15 },
+            { "itemId": "fireburst_rune", "count": 20 },
+            { "itemId": "blastwave_rune", "count": 15 },
+            { "itemId": "blaze_field_rune", "count": 12 },
+            { "itemId": "blaze_bomb_rune", "count": 8 },
+            { "itemId": "blaze_wall_rune", "count": 8 },
+            { "itemId": "spark_field_rune", "count": 8 },
+            { "itemId": "purge_field_rune", "count": 8 }
+        ]
+    },
+    "strategyId": "adept_caster",
+    "notes": "Starter adept (L50). Backpack seeds missile + field runes so features.runeConsumption hunts can cast grand_fireburst and field kit (watch demos / balance_quartet). Skills from deriveSkills policy v1 (level anchors)."
+}

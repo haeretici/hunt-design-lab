@@ -1,0 +1,141 @@
+{
+    "id": "hellfire_mozradek",
+    "label": "Hellfire Mozradek",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A hellfire mozradek.",
+    "hp": 28000,
+    "hpMax": 28000,
+    "speed": 105,
+    "level": 754,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 21000,
+    "lootValue": 6804.979253112,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": -30,
+        "energy": 10,
+        "earth": 0,
+        "holy": 0,
+        "death": 25
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 10,
+        "staticAttackChance": 100,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 600
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "fire",
+            "min": 400,
+            "max": 550,
+            "radius": 4,
+            "target": false,
+            "effect": "me_firearea"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 16,
+            "range": 7,
+            "element": "death",
+            "min": 450,
+            "max": 666,
+            "radius": 3,
+            "target": true,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 14,
+            "range": 7,
+            "element": "fire",
+            "min": 450,
+            "max": 600,
+            "radius": 1,
+            "target": true,
+            "effect": "me_explosionhit",
+            "shootEffect": "ani_fire"
+        }
+    ],
+    "race": "fire",
+    "loot": [
+        {
+            "chance": 60000,
+            "name": "red gem"
+        },
+        {
+            "chance": 9000,
+            "name": "gryphon mask"
+        },
+        {
+            "name": "sea horse figurine",
+            "chance": 6000
+        },
+        {
+            "chance": 3500,
+            "name": "enchanted blister ring"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "radiant_fire_giant_priest",
+    "threatDps": 278.89,
+    "burstDps": 278.89,
+    "avgHit": 371.8533,
+    "maxHit": 666,
+    "manaCost": 0
+}

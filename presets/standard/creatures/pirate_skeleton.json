@@ -1,0 +1,123 @@
+{
+    "id": "pirate_skeleton",
+    "label": "Pirate Skeleton",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A pirate skeleton.",
+    "hp": 190,
+    "hpMax": 190,
+    "speed": 88,
+    "level": 258,
+    "armor": 12,
+    "mitigation": 0.36,
+    "maxBlock": 0,
+    "exp": 85,
+    "lootValue": 16.5,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": -25,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 20,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 71
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 48000,
+            "maxCount": 25
+        },
+        {
+            "chance": 4460,
+            "name": "skull"
+        },
+        {
+            "chance": 4250,
+            "name": "bone"
+        },
+        {
+            "chance": 5140,
+            "name": "big bone"
+        },
+        {
+            "chance": 550,
+            "name": "sword"
+        },
+        {
+            "name": "short sword",
+            "chance": 1003
+        },
+        {
+            "name": "bone club",
+            "chance": 960
+        },
+        {
+            "name": "spooky blue eye",
+            "chance": 4730
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "skeletal_hill_giant",
+    "threatDps": 17.75,
+    "burstDps": 17.75,
+    "avgHit": 35.5,
+    "maxHit": 71,
+    "manaCost": 0
+}

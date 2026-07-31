@@ -1,0 +1,242 @@
+{
+    "id": "marid_sage_fahim",
+    "label": "Marid Sage Fahim",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A marid sage fahim.",
+    "hp": 2000,
+    "hpMax": 2000,
+    "speed": 90,
+    "level": 494,
+    "armor": 0,
+    "mitigation": 1.29,
+    "maxBlock": 0,
+    "exp": 1500,
+    "lootValue": 1304.5614035088,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 1,
+        "ice": -14,
+        "energy": 0,
+        "earth": 0,
+        "holy": 1,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 166
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "energy",
+            "min": 127,
+            "max": 382,
+            "target": false,
+            "shootEffect": "ani_energyball"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "lifedrain",
+            "min": 38,
+            "max": 115,
+            "target": false,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "slow_3",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -650,
+                "durationSec": 1.5
+            },
+            "effect": "me_magic_red",
+            "target": false
+        },
+        {
+            "id": "djinn_electrify_6",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 5,
+            "element": "physical",
+            "target": false,
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "area_7",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "energy",
+            "min": 38,
+            "max": 115,
+            "radius": 3,
+            "target": false,
+            "effect": "me_energyhit"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 50,
+            "max": 80,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "blue piece of cloth",
+            "chance": 99990,
+            "maxCount": 4
+        },
+        {
+            "name": "jewelled belt",
+            "chance": 99990
+        },
+        {
+            "name": "gold coin",
+            "chance": 95240,
+            "maxCount": 118
+        },
+        {
+            "name": "noble turban",
+            "chance": 66670
+        },
+        {
+            "name": "royal spear",
+            "chance": 57140,
+            "maxCount": 3
+        },
+        {
+            "name": "shiny stone",
+            "chance": 47620
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 42860,
+            "maxCount": 3
+        },
+        {
+            "name": "blueberry",
+            "chance": 40480,
+            "maxCount": 22
+        },
+        {
+            "name": "mystic turban",
+            "chance": 33330
+        },
+        {
+            "name": "small sapphire",
+            "chance": 14290,
+            "maxCount": 2
+        },
+        {
+            "name": "seeds",
+            "chance": 7140
+        },
+        {
+            "name": "Emberbound Monocle",
+            "chance": 4760
+        },
+        {
+            "name": "blue gem",
+            "chance": 2380
+        },
+        {
+            "name": "small oil lamp",
+            "chance": 580
+        },
+        {
+            "chance": 480,
+            "name": "wooden flute"
+        },
+        {
+            "name": "heavy machete",
+            "chance": 380
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "twilight_forest_phantom_hunter",
+    "threatDps": 65.7,
+    "burstDps": 65.7,
+    "avgHit": 93.8571,
+    "maxHit": 382,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 3,
+        "summons": [
+            {
+                "name": "Blue Djinn",
+                "id": "blue_djinn",
+                "chance": 10,
+                "interval": 2000,
+                "count": 3
+            }
+        ]
+    }
+}

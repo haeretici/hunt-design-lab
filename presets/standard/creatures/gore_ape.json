@@ -1,0 +1,182 @@
+{
+    "id": "gore_ape",
+    "label": "Gore Ape",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A gore ape.",
+    "hp": 16850,
+    "hpMax": 16850,
+    "speed": 215,
+    "level": 706,
+    "armor": 76,
+    "mitigation": 1.99,
+    "maxBlock": 0,
+    "exp": 13172,
+    "lootValue": 1672.24,
+    "aggro": true,
+    "resists": {
+        "physical": 30,
+        "fire": 20,
+        "ice": -5,
+        "energy": 0,
+        "earth": 0,
+        "holy": -5,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 3,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 345
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2200,
+            "chance": 60,
+            "range": 7,
+            "element": "physical",
+            "min": 109,
+            "max": 273,
+            "target": true,
+            "shootEffect": "ani_largerock"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 3100,
+            "chance": 35,
+            "range": 7,
+            "element": "fire",
+            "min": 236,
+            "max": 309,
+            "radius": 3,
+            "target": true,
+            "effect": "me_fireattack",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "gorerilla_large_ring_3",
+            "kind": "melee",
+            "intervalMs": 3500,
+            "chance": 35,
+            "range": 1,
+            "element": "physical",
+            "min": 218,
+            "max": 364
+        },
+        {
+            "id": "gorerilla_small_ring_4",
+            "kind": "melee",
+            "intervalMs": 3800,
+            "chance": 20,
+            "range": 1,
+            "element": "physical",
+            "min": 218,
+            "max": 364
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Mammal",
+        "toKill": 5000,
+        "firstUnlock": 200,
+        "secondUnlock": 2000,
+        "charmsPoints": 100,
+        "stars": 5,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "Crystal Coin",
+            "chance": 20700,
+            "minCount": 1,
+            "maxCount": 2
+        },
+        {
+            "name": "Gorerilla Mane",
+            "chance": 19890
+        },
+        {
+            "name": "Gorerilla Tail",
+            "chance": 17060
+        },
+        {
+            "name": "Ultimate Mana Potion",
+            "chance": 11210,
+            "minCount": 1,
+            "maxCount": 3
+        },
+        {
+            "name": "Doublet",
+            "chance": 5880
+        },
+        {
+            "name": "Emberbound Coat",
+            "chance": 2440
+        },
+        {
+            "name": "Black Pearl",
+            "chance": 500,
+            "minCount": 1,
+            "maxCount": 2
+        },
+        {
+            "name": "Crystal Crossbow",
+            "chance": 110
+        },
+        {
+            "name": "Composite Hornbow",
+            "chance": 30
+        },
+        {
+            "name": "Ornate Crossbow",
+            "chance": 30
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "thunder_cave_devil",
+    "threatDps": 213.5228,
+    "burstDps": 271.2625,
+    "avgHit": 205.6541,
+    "maxHit": 364,
+    "manaCost": 0
+}

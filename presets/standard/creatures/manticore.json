@@ -1,0 +1,202 @@
+{
+    "id": "manticore",
+    "label": "Manticore",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A manticore.",
+    "hp": 6700,
+    "hpMax": 6700,
+    "speed": 150,
+    "level": 615,
+    "armor": 78,
+    "mitigation": 2.16,
+    "maxBlock": 0,
+    "exp": 4750,
+    "lootValue": 1203.5397619458,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 20,
+        "ice": -20,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 295
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 13,
+            "range": 4,
+            "element": "fire",
+            "min": 177,
+            "max": 265,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_hitbyfire"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 4000,
+            "chance": 15,
+            "range": 4,
+            "element": "earth",
+            "min": 177,
+            "max": 236,
+            "radius": 3,
+            "target": true,
+            "effect": "me_green_rings",
+            "shootEffect": "ani_envenomedarrow"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 22,
+            "range": 4,
+            "element": "fire",
+            "min": 265,
+            "max": 324,
+            "target": true,
+            "shootEffect": "ani_burstarrow"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Magical",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 3
+        },
+        {
+            "name": "manticore tail",
+            "chance": 10250
+        },
+        {
+            "name": "manticore ear",
+            "chance": 7390
+        },
+        {
+            "name": "small emerald",
+            "chance": 5880
+        },
+        {
+            "name": "green crystal fragment",
+            "chance": 5710
+        },
+        {
+            "name": "flaming arrow",
+            "chance": 4870,
+            "maxCount": 9
+        },
+        {
+            "name": "prismatic quartz",
+            "chance": 4370
+        },
+        {
+            "name": "rainbow quartz",
+            "chance": 3700,
+            "maxCount": 3
+        },
+        {
+            "name": "Emberbound Coat",
+            "chance": 3190
+        },
+        {
+            "name": "violet gem",
+            "chance": 3030
+        },
+        {
+            "name": "Emberbound Boots",
+            "chance": 2860
+        },
+        {
+            "name": "Emberbound Monocle",
+            "chance": 2020
+        },
+        {
+            "name": "wand of dragonbreath",
+            "chance": 1680
+        },
+        {
+            "name": "wand of draconia",
+            "chance": 1180
+        },
+        {
+            "name": "royal star",
+            "chance": 1010,
+            "maxCount": 3
+        },
+        {
+            "name": "wand of everblazing",
+            "chance": 1010
+        },
+        {
+            "name": "Emberbound Legs",
+            "chance": 340
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "warp_fungal_knight",
+    "threatDps": 128.2538,
+    "burstDps": 135.9975,
+    "avgHit": 180.0053,
+    "maxHit": 324,
+    "manaCost": 0
+}

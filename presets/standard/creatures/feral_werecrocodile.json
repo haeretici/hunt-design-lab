@@ -1,0 +1,216 @@
+{
+    "id": "feral_werecrocodile",
+    "label": "Feral Werecrocodile",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A feral werecrocodile.",
+    "hp": 6400,
+    "hpMax": 6400,
+    "speed": 110,
+    "level": 610,
+    "armor": 85,
+    "mitigation": 2.37,
+    "maxBlock": 0,
+    "exp": 5430,
+    "lootValue": 2803.4,
+    "aggro": true,
+    "resists": {
+        "physical": 25,
+        "fire": 35,
+        "ice": -14,
+        "energy": -5,
+        "earth": 20,
+        "holy": -20,
+        "death": 60
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 26,
+            "max": 252
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 3400,
+            "chance": 33,
+            "range": 4,
+            "element": "death",
+            "min": 156,
+            "max": 233,
+            "length": 7,
+            "spread": 3,
+            "target": false,
+            "effect": "me_mortarea"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2700,
+            "chance": 20,
+            "range": 4,
+            "element": "death",
+            "min": 156,
+            "max": 233,
+            "radius": 3,
+            "target": true,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_death"
+        },
+        {
+            "id": "melee_3",
+            "kind": "melee",
+            "intervalMs": 3300,
+            "chance": 30,
+            "range": 1,
+            "element": "lifedrain",
+            "min": 91,
+            "max": 182,
+            "radius": 1,
+            "target": true,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "werecrocodile_fire_ring_4",
+            "kind": "melee",
+            "intervalMs": 4100,
+            "chance": 25,
+            "range": 1,
+            "element": "physical",
+            "min": 143,
+            "max": 182,
+            "target": false
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 25,
+            "min": 50,
+            "max": 100,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Lycanthrope",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 100
+        },
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 21
+        },
+        {
+            "name": "werecrocodile tongue",
+            "chance": 10800
+        },
+        {
+            "name": "war hammer",
+            "chance": 5000
+        },
+        {
+            "name": "ham",
+            "chance": 5500,
+            "maxCount": 2
+        },
+        {
+            "name": "moonlight crystals",
+            "chance": 3000
+        },
+        {
+            "name": "violet gem",
+            "chance": 1370
+        },
+        {
+            "name": "green crystal shard",
+            "chance": 2800
+        },
+        {
+            "name": "ornate crossbow",
+            "chance": 680
+        },
+        {
+            "name": "Earthbound Mantle",
+            "chance": 2190
+        },
+        {
+            "name": "golden sun coin",
+            "chance": 1820
+        },
+        {
+            "name": "sun brooch",
+            "chance": 680
+        },
+        {
+            "name": "swamplair armor",
+            "chance": 230
+        },
+        {
+            "chance": 200,
+            "name": "werecrocodile trophy"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "venomous_triton_devourer",
+    "threatDps": 125.103,
+    "burstDps": 161.83,
+    "avgHit": 152.0052,
+    "maxHit": 252,
+    "manaCost": 0
+}

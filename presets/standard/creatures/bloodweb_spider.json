@@ -1,0 +1,187 @@
+{
+    "id": "bloodweb_spider",
+    "label": "Bloodweb Spider",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A bloodweb spider.",
+    "hp": 1750,
+    "hpMax": 1750,
+    "speed": 170,
+    "level": 480,
+    "armor": 0,
+    "mitigation": 1.8,
+    "maxBlock": 0,
+    "exp": 1450,
+    "lootValue": 5764.7727272727,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": 100,
+        "energy": -20,
+        "earth": 20,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 60,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 170
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "condition": {
+                "type": "poison",
+                "totalDamage": 5,
+                "intervalMs": 4000
+            },
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "slow_2",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -850,
+                "durationSec": 8
+            },
+            "radius": 7,
+            "effect": "me_poff",
+            "target": false
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 25,
+            "range": 7,
+            "element": "energy",
+            "min": 36,
+            "max": 91,
+            "target": true,
+            "effect": "me_energyhit",
+            "shootEffect": "ani_energy"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 3000,
+            "chance": 40,
+            "speedChange": 380,
+            "durationSec": 80,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "chance": 100000,
+            "name": "strong mana potion"
+        },
+        {
+            "chance": 50000,
+            "name": "spider silk"
+        },
+        {
+            "chance": 33333,
+            "name": "Frostbound Mask"
+        },
+        {
+            "chance": 33333,
+            "name": "Frostbound Kilt"
+        },
+        {
+            "chance": 20000,
+            "name": "sai"
+        },
+        {
+            "chance": 20000,
+            "name": "sapphire hammer"
+        },
+        {
+            "chance": 7692,
+            "name": "jewelled backpack"
+        },
+        {
+            "chance": 7692,
+            "name": "knight armor"
+        },
+        {
+            "chance": 5555,
+            "name": "knight legs"
+        },
+        {
+            "chance": 3703,
+            "name": "shard"
+        },
+        {
+            "chance": 3703,
+            "name": "time ring"
+        }
+    ],
+    "changeTarget": {
+        "interval": 20000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "bloodweb_spider",
+    "threatDps": 60.875,
+    "burstDps": 60.875,
+    "avgHit": 77.8333,
+    "maxHit": 170,
+    "manaCost": 0
+}

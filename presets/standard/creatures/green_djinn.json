@@ -1,0 +1,176 @@
+{
+    "id": "green_djinn",
+    "label": "Green Djinn",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A green djinn.",
+    "hp": 330,
+    "hpMax": 330,
+    "speed": 110,
+    "level": 315,
+    "armor": 20,
+    "mitigation": 0.78,
+    "maxBlock": 0,
+    "exp": 215,
+    "lootValue": 66.694616739413,
+    "aggro": true,
+    "resists": {
+        "physical": 20,
+        "fire": 80,
+        "ice": -10,
+        "energy": 50,
+        "earth": 0,
+        "holy": -12,
+        "death": 20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 74
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "fire",
+            "min": 30,
+            "max": 54,
+            "target": false,
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "death",
+            "min": 34,
+            "max": 70,
+            "radius": 1,
+            "target": true,
+            "effect": "me_smallclouds",
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "djinn_electrify_5",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 5,
+            "element": "physical",
+            "target": false,
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Magical",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "id": 2831,
+            "chance": 2280
+        },
+        {
+            "name": "gold coin",
+            "chance": 41000,
+            "maxCount": 70
+        },
+        {
+            "name": "gold coin",
+            "chance": 51000,
+            "maxCount": 45
+        },
+        {
+            "name": "small emerald",
+            "chance": 2960,
+            "maxCount": 4
+        },
+        {
+            "name": "mystic turban",
+            "chance": 140
+        },
+        {
+            "chance": 23500,
+            "name": "cheese"
+        },
+        {
+            "name": "grave flower",
+            "chance": 1000
+        },
+        {
+            "name": "green piece of cloth",
+            "chance": 2000
+        },
+        {
+            "name": "royal spear",
+            "chance": 4870,
+            "maxCount": 2
+        },
+        {
+            "name": "mana potion",
+            "chance": 490
+        },
+        {
+            "name": "dirty turban",
+            "chance": 2210
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "mist_demon_priest",
+    "threatDps": 24.25,
+    "burstDps": 24.25,
+    "avgHit": 38.8,
+    "maxHit": 74,
+    "manaCost": 0
+}

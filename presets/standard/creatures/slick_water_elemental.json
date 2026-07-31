@@ -1,0 +1,151 @@
+{
+    "id": "slick_water_elemental",
+    "label": "Slick Water Elemental",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A slick water elemental.",
+    "hp": 550,
+    "hpMax": 550,
+    "speed": 140,
+    "level": 365,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 450,
+    "lootValue": 138.50194250194,
+    "aggro": true,
+    "resists": {
+        "physical": 45,
+        "fire": 100,
+        "ice": 100,
+        "energy": 0,
+        "earth": 100,
+        "holy": 40,
+        "death": 1
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 1,
+        "staticAttackChance": 85,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 85
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "earth",
+            "min": 0,
+            "max": 63,
+            "target": true,
+            "shootEffect": "ani_earth"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 10,
+            "range": 6,
+            "element": "ice",
+            "min": 0,
+            "max": 107,
+            "target": true,
+            "shootEffect": "ani_snowball"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 18,
+            "range": 4,
+            "element": "ice",
+            "min": 0,
+            "max": 50,
+            "target": true,
+            "shootEffect": "ani_smallice"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 90,
+            "max": 150,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 22500,
+            "maxCount": 70
+        },
+        {
+            "name": "gold coin",
+            "chance": 22500,
+            "maxCount": 60
+        },
+        {
+            "name": "shiver arrow",
+            "chance": 2575,
+            "maxCount": 3
+        },
+        {
+            "name": "iced soil",
+            "chance": 6000
+        }
+    ],
+    "changeTarget": {
+        "interval": 20000,
+        "chance": 15
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "arcane_elemental_vanguard",
+    "threatDps": 32,
+    "burstDps": 32,
+    "avgHit": 40.5063,
+    "maxHit": 107,
+    "manaCost": 0
+}

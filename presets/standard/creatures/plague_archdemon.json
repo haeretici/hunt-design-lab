@@ -1,0 +1,283 @@
+{
+    "id": "plague_archdemon",
+    "label": "Plague Archdemon",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A plague archdemon.",
+    "hp": 290000,
+    "hpMax": 290000,
+    "speed": 160,
+    "level": 990,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 500000,
+    "lootValue": 36253.4,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -25,
+        "ice": 10,
+        "energy": -10,
+        "earth": 100,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 1027,
+            "max": 1777
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "earth",
+            "min": 395,
+            "max": 711,
+            "radius": 4,
+            "target": false,
+            "effect": "me_green_rings"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "death",
+            "min": 395,
+            "max": 711,
+            "radius": 4,
+            "target": true,
+            "effect": "me_poff"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "earth",
+            "min": 790,
+            "max": 948,
+            "length": 10,
+            "spread": 3,
+            "target": false,
+            "effect": "me_poff"
+        },
+        {
+            "id": "wave_4",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 1185,
+            "max": 1501,
+            "length": 10,
+            "spread": 3,
+            "target": false,
+            "effect": "me_poff"
+        },
+        {
+            "id": "slow_5",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -600,
+                "durationSec": 20
+            },
+            "radius": 7,
+            "effect": "me_magic_green",
+            "target": false
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 3000,
+            "max": 4000,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 30,
+            "speedChange": 440,
+            "durationSec": 6,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "venom",
+    "loot": [
+        {
+            "chance": 1000000,
+            "name": "silver token"
+        },
+        {
+            "chance": 3000,
+            "name": "sai"
+        },
+        {
+            "chance": 1820,
+            "name": "muck rod"
+        },
+        {
+            "chance": 23000,
+            "maxCount": 6,
+            "name": "cyan crystal fragment"
+        },
+        {
+            "chance": 23000,
+            "maxCount": 6,
+            "name": "red crystal fragment"
+        },
+        {
+            "chance": 23000,
+            "maxCount": 6,
+            "name": "green crystal fragment"
+        },
+        {
+            "chance": 12000,
+            "maxCount": 8,
+            "name": "white pearl"
+        },
+        {
+            "chance": 12000,
+            "maxCount": 9,
+            "name": "small sapphire"
+        },
+        {
+            "chance": 98000,
+            "maxCount": 200,
+            "name": "gold coin"
+        },
+        {
+            "chance": 10000,
+            "maxCount": 5,
+            "name": "small amethyst"
+        },
+        {
+            "chance": 8000,
+            "maxCount": 58,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 800,
+            "name": "rift lance"
+        },
+        {
+            "chance": 500,
+            "unique": true,
+            "name": "plague bite"
+        },
+        {
+            "chance": 800,
+            "name": "rift bow"
+        },
+        {
+            "chance": 800,
+            "name": "rift crossbow"
+        },
+        {
+            "chance": 11000,
+            "name": "demonic essence"
+        },
+        {
+            "chance": 5000,
+            "name": "mercenary sword"
+        },
+        {
+            "id": 281,
+            "chance": 14000,
+            "maxCount": 5
+        },
+        {
+            "id": 282,
+            "chance": 14000,
+            "maxCount": 5
+        },
+        {
+            "chance": 5000,
+            "name": "Earthbound Amulet"
+        },
+        {
+            "chance": 23000,
+            "maxCount": 15,
+            "name": "ultimate health potion"
+        },
+        {
+            "chance": 4000,
+            "name": "spellbook of warding"
+        },
+        {
+            "chance": 10000,
+            "maxCount": 8,
+            "name": "small topaz"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "mist_demon_priest",
+    "threatDps": 1032.8,
+    "burstDps": 1032.8,
+    "avgHit": 1147.5556,
+    "maxHit": 1777,
+    "manaCost": 0
+}

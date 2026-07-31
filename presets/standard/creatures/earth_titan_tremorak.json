@@ -1,0 +1,112 @@
+{
+    "id": "earth_titan_tremorak",
+    "label": "Earth Titan Tremorak",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An earth titan tremorak.",
+    "hp": 10000,
+    "hpMax": 10000,
+    "speed": 145,
+    "level": 654,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 1300,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 50,
+        "fire": -14,
+        "ice": 20,
+        "energy": 85,
+        "earth": 100,
+        "holy": 50,
+        "death": 35
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 1,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 16,
+            "range": 4,
+            "element": "earth",
+            "min": 0,
+            "max": 1545,
+            "radius": 7,
+            "target": false,
+            "effect": "me_groundshaker"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 16,
+            "range": 4,
+            "element": "earth",
+            "min": 0,
+            "max": 2455,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_groundshaker"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 16,
+            "min": 75,
+            "max": 200,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "undead",
+    "loot": [],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 5
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "chaos_stone_revenant_archer",
+    "threatDps": 160,
+    "burstDps": 160,
+    "avgHit": 1000,
+    "maxHit": 2455,
+    "manaCost": 0
+}

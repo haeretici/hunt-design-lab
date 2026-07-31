@@ -1,0 +1,194 @@
+{
+    "id": "tomb_beetle",
+    "label": "Tomb Beetle",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A tomb beetle.",
+    "hp": 20100,
+    "hpMax": 20100,
+    "speed": 205,
+    "level": 724,
+    "armor": 77,
+    "mitigation": 2.22,
+    "maxBlock": 0,
+    "exp": 13543,
+    "lootValue": 3199.2424242424,
+    "aggro": true,
+    "resists": {
+        "physical": -14,
+        "fire": 0,
+        "ice": 0,
+        "energy": -10,
+        "earth": 10,
+        "holy": -5,
+        "death": 40
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 419
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 4500,
+            "chance": 47,
+            "range": 4,
+            "element": "death",
+            "min": 279,
+            "max": 401,
+            "radius": 4,
+            "target": true,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 3650,
+            "chance": 30,
+            "range": 4,
+            "element": "earth",
+            "min": 209,
+            "max": 331,
+            "radius": 2,
+            "target": true,
+            "effect": "me_hitbypoison"
+        },
+        {
+            "id": "undertaker_square_explosion_3",
+            "kind": "ranged",
+            "intervalMs": 3000,
+            "chance": 25,
+            "range": 4,
+            "element": "physical",
+            "min": 270,
+            "max": 314,
+            "target": true
+        },
+        {
+            "id": "melee_4",
+            "kind": "melee",
+            "intervalMs": 5000,
+            "chance": 40,
+            "range": 1,
+            "element": "earth",
+            "min": 523,
+            "max": 698,
+            "radius": 1,
+            "target": true,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_poison"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Vermin",
+        "toKill": 5000,
+        "firstUnlock": 200,
+        "secondUnlock": 2000,
+        "charmsPoints": 100,
+        "stars": 5,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "Great Dual Potion",
+            "chance": 30660,
+            "minCount": 1,
+            "maxCount": 3
+        },
+        {
+            "name": "Undertaker Fangs",
+            "chance": 25740
+        },
+        {
+            "name": "Crystal Coin",
+            "chance": 15100,
+            "minCount": 1,
+            "maxCount": 3
+        },
+        {
+            "name": "Spider Silk",
+            "chance": 3520
+        },
+        {
+            "name": "Earthbound Boots",
+            "chance": 3390
+        },
+        {
+            "name": "Blue Crystal Shard",
+            "chance": 1840
+        },
+        {
+            "name": "Relic Sword",
+            "chance": 1650
+        },
+        {
+            "name": "Earthbound Legs",
+            "chance": 1640
+        },
+        {
+            "name": "Withering Rod",
+            "chance": 1400
+        },
+        {
+            "name": "Butterfly Ring",
+            "chance": 1240
+        },
+        {
+            "name": "Wand of Voodoo",
+            "chance": 960
+        },
+        {
+            "name": "Violet Gem",
+            "chance": 850
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "rune_stone_bugbear",
+    "threatDps": 235.6262,
+    "burstDps": 383.75,
+    "avgHit": 277.2173,
+    "maxHit": 698,
+    "manaCost": 0
+}

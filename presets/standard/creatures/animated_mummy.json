@@ -1,0 +1,177 @@
+{
+    "id": "animated_mummy",
+    "label": "Animated Mummy",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An animated mummy.",
+    "hp": 240,
+    "hpMax": 240,
+    "speed": 75,
+    "level": 281,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 150,
+    "lootValue": 39.040540540541,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 64,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 3,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 1,
+            "element": "death",
+            "min": 23,
+            "max": 30,
+            "target": true,
+            "effect": "me_smallclouds"
+        },
+        {
+            "id": "slow_2",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -226,
+                "durationSec": 10
+            },
+            "effect": "me_magic_red",
+            "target": true
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "chance": 1500,
+            "name": "crystal ring"
+        },
+        {
+            "name": "silver brooch",
+            "chance": 4000
+        },
+        {
+            "name": "black pearl",
+            "chance": 1000
+        },
+        {
+            "name": "gold coin",
+            "chance": 38000,
+            "maxCount": 80
+        },
+        {
+            "name": "strange talisman",
+            "chance": 5000
+        },
+        {
+            "chance": 5800,
+            "name": "magic light wand"
+        },
+        {
+            "name": "silver amulet",
+            "chance": 100
+        },
+        {
+            "name": "poison dagger",
+            "chance": 450
+        },
+        {
+            "name": "black shield",
+            "chance": 170
+        },
+        {
+            "name": "worm",
+            "chance": 19000,
+            "maxCount": 3
+        },
+        {
+            "name": "yellow piece of cloth",
+            "chance": 900
+        },
+        {
+            "name": "gauze bandage",
+            "chance": 10000
+        },
+        {
+            "name": "mini mummy",
+            "chance": 10
+        },
+        {
+            "name": "flask of embalming fluid",
+            "chance": 11690
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "warp_tomb_drake",
+    "threatDps": 20.15,
+    "burstDps": 20.15,
+    "avgHit": 31.0833,
+    "maxHit": 64,
+    "manaCost": 0
+}

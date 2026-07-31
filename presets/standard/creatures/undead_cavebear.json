@@ -1,0 +1,107 @@
+{
+    "id": "undead_cavebear",
+    "label": "Undead Cavebear",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An undead cavebear.",
+    "hp": 450,
+    "hpMax": 450,
+    "speed": 109,
+    "level": 345,
+    "armor": 28,
+    "mitigation": 0.72,
+    "maxBlock": 0,
+    "exp": 600,
+    "lootValue": 55.829896907216,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 100,
+        "holy": -25,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 115
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 5,
+        "firstUnlock": 2,
+        "secondUnlock": 3,
+        "charmsPoints": 50,
+        "stars": 3,
+        "occurrence": 3
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 31820,
+            "maxCount": 80
+        },
+        {
+            "name": "maxilla",
+            "chance": 13640
+        },
+        {
+            "name": "cavebear skull",
+            "chance": 2600
+        },
+        {
+            "name": "health potion",
+            "chance": 1300
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ethereal_storm_bear",
+    "threatDps": 28.75,
+    "burstDps": 28.75,
+    "avgHit": 57.5,
+    "maxHit": 115,
+    "manaCost": 0
+}

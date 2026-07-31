@@ -1,0 +1,108 @@
+{
+    "id": "troll_guard",
+    "label": "Troll Guard",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A troll guard.",
+    "hp": 60,
+    "hpMax": 60,
+    "speed": 63,
+    "level": 146,
+    "armor": 4,
+    "mitigation": 0.15,
+    "maxBlock": 0,
+    "exp": 25,
+    "lootValue": 6.5857843137255,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 20,
+        "earth": -10,
+        "holy": 10,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 17,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 38
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 5,
+        "firstUnlock": 1,
+        "secondUnlock": 3,
+        "charmsPoints": 30,
+        "stars": 2,
+        "occurrence": 3
+    },
+    "loot": [
+        {
+            "chance": 10000,
+            "name": "rope"
+        },
+        {
+            "name": "gold coin",
+            "chance": 58000,
+            "maxCount": 12
+        },
+        {
+            "name": "studded club",
+            "chance": 3000
+        },
+        {
+            "name": "meat",
+            "chance": 14000,
+            "maxCount": 2
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "troll_guard",
+    "threatDps": 9.5,
+    "burstDps": 9.5,
+    "avgHit": 19,
+    "maxHit": 38,
+    "manaCost": 0
+}

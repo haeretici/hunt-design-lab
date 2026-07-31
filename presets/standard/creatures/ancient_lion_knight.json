@@ -1,0 +1,281 @@
+{
+    "id": "ancient_lion_knight",
+    "label": "Ancient Lion Knight",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An ancient lion knight.",
+    "hp": 9100,
+    "hpMax": 9100,
+    "speed": 130,
+    "level": 645,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 8100,
+    "lootValue": 638.83512544803,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 10,
+        "ice": 20,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": -30
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 329,
+            "effect": "me_drawblood"
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 6000,
+            "chance": 30,
+            "range": 4,
+            "element": "holy",
+            "min": 198,
+            "max": 329,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_holyarea"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2750,
+            "chance": 20,
+            "range": 7,
+            "element": "death",
+            "min": 176,
+            "max": 351,
+            "target": false,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2500,
+            "chance": 22,
+            "range": 4,
+            "element": "death",
+            "min": 176,
+            "max": 220,
+            "radius": 3,
+            "target": false,
+            "effect": "me_mortarea"
+        },
+        {
+            "id": "wave_4",
+            "kind": "wave",
+            "intervalMs": 3300,
+            "chance": 24,
+            "range": 4,
+            "element": "ice",
+            "min": 110,
+            "max": 154,
+            "length": 4,
+            "spread": 0,
+            "target": false,
+            "effect": "me_iceattack"
+        },
+        {
+            "id": "area_5",
+            "kind": "area",
+            "intervalMs": 3000,
+            "chance": 20,
+            "range": 4,
+            "element": "energy",
+            "min": 88,
+            "max": 220,
+            "radius": 4,
+            "target": false,
+            "effect": "me_bigclouds"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 1000,
+            "chance": 10,
+            "speedChange": 160,
+            "durationSec": 4,
+            "effect": "me_poff"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 5
+        },
+        {
+            "name": "dirty fur",
+            "chance": 53750
+        },
+        {
+            "chance": 8300,
+            "name": "twigs"
+        },
+        {
+            "name": "fishbone",
+            "chance": 9500
+        },
+        {
+            "name": "dark shield",
+            "chance": 2000
+        },
+        {
+            "name": "ham",
+            "chance": 53750
+        },
+        {
+            "name": "dirty cape",
+            "chance": 47500
+        },
+        {
+            "chance": 28750,
+            "name": "skull"
+        },
+        {
+            "name": "knife",
+            "chance": 25000
+        },
+        {
+            "name": "broken helmet",
+            "chance": 23750
+        },
+        {
+            "name": "dark armor",
+            "chance": 18750
+        },
+        {
+            "name": "bug meat",
+            "chance": 12500
+        },
+        {
+            "name": "combat knife",
+            "chance": 8750
+        },
+        {
+            "name": "plate armor",
+            "chance": 7500
+        },
+        {
+            "name": "studded shield",
+            "chance": 7500
+        },
+        {
+            "name": "big bone",
+            "chance": 5000
+        },
+        {
+            "name": "cape",
+            "chance": 5000
+        },
+        {
+            "name": "life preserver",
+            "chance": 3750
+        },
+        {
+            "name": "dwarven shield",
+            "chance": 1250
+        },
+        {
+            "name": "lion spangenhelm",
+            "chance": 35
+        },
+        {
+            "name": "lion plate",
+            "chance": 35
+        },
+        {
+            "name": "lion shield",
+            "chance": 35
+        },
+        {
+            "name": "lion longsword",
+            "chance": 35
+        },
+        {
+            "name": "lion hammer",
+            "chance": 35
+        },
+        {
+            "name": "lion axe",
+            "chance": 35
+        },
+        {
+            "name": "lion longbow",
+            "chance": 35
+        },
+        {
+            "name": "lion spellbook",
+            "chance": 35
+        },
+        {
+            "name": "lion wand",
+            "chance": 35
+        },
+        {
+            "name": "lion amulet",
+            "chance": 35
+        },
+        {
+            "name": "lion rod",
+            "chance": 35
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "crystal_fungal_knight_berserker",
+    "threatDps": 151.8793,
+    "burstDps": 201.145,
+    "avgHit": 178.6561,
+    "maxHit": 351,
+    "manaCost": 0
+}

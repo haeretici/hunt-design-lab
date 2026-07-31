@@ -1,0 +1,166 @@
+{
+    "id": "hive_crawler",
+    "label": "Hive Crawler",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A hive crawler.",
+    "hp": 1450,
+    "hpMax": 1450,
+    "speed": 125,
+    "level": 463,
+    "armor": 38,
+    "mitigation": 1.26,
+    "maxBlock": 0,
+    "exp": 1000,
+    "lootValue": 297.64982109192,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -8,
+        "ice": -7,
+        "energy": 0,
+        "earth": 100,
+        "holy": -5,
+        "death": 5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "damage": 30
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 40,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 113,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 40,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "earth",
+            "min": 49,
+            "max": 89,
+            "target": false,
+            "shootEffect": "ani_smallearth"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 300,
+            "durationSec": 3,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Vermin",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 90
+        },
+        {
+            "name": "yellow gem",
+            "chance": 530
+        },
+        {
+            "name": "war hammer",
+            "chance": 2070
+        },
+        {
+            "name": "great mana potion",
+            "chance": 9300
+        },
+        {
+            "name": "great health potion",
+            "chance": 6200
+        },
+        {
+            "name": "Bloomshoot Rod",
+            "chance": 710
+        },
+        {
+            "name": "small topaz",
+            "chance": 10040,
+            "maxCount": 2
+        },
+        {
+            "name": "crawler head plating",
+            "chance": 18430
+        },
+        {
+            "name": "compound eye",
+            "chance": 14640
+        },
+        {
+            "name": "Hopper Legs",
+            "chance": 100
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "brimstone_ruins_crawler",
+    "threatDps": 55.15,
+    "burstDps": 55.15,
+    "avgHit": 58.5833,
+    "maxHit": 113,
+    "manaCost": 0
+}

@@ -1,0 +1,228 @@
+{
+    "id": "frozen_dragon_matriarch",
+    "label": "Frozen Dragon Matriarch",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A frozen dragon matriarch.",
+    "hp": 10000,
+    "hpMax": 10000,
+    "speed": 175,
+    "level": 654,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 9000,
+    "lootValue": 12869.052631579,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -20,
+        "ice": 100,
+        "energy": 0,
+        "earth": 100,
+        "holy": 0,
+        "death": 10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 400,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 5,
+            "element": "ice",
+            "min": 485,
+            "max": 774,
+            "radius": 5,
+            "target": true,
+            "effect": "me_icetornado"
+        },
+        {
+            "id": "slow_2",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 9,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -600,
+                "durationSec": 10
+            },
+            "length": 9,
+            "spread": 3,
+            "effect": "me_iceattack",
+            "target": false
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "ice",
+            "min": 485,
+            "max": 618,
+            "length": 9,
+            "spread": 3,
+            "target": false,
+            "effect": "me_iceattack"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "ice",
+            "min": 329,
+            "max": 618,
+            "radius": 3,
+            "target": false,
+            "effect": "me_icearea"
+        },
+        {
+            "id": "wave_5",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 12,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 235,
+            "max": 438,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_poff"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 150,
+            "max": 450,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 97000,
+            "maxCount": 56,
+            "name": "gold coin"
+        },
+        {
+            "chance": 97000,
+            "maxCount": 2,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 100000,
+            "name": "dragon tongue"
+        },
+        {
+            "chance": 25000,
+            "name": "shard"
+        },
+        {
+            "chance": 25000,
+            "name": "Frostbound Amulet"
+        },
+        {
+            "chance": 25000,
+            "name": "Frostbound Mask"
+        },
+        {
+            "chance": 25000,
+            "name": "ice cube"
+        },
+        {
+            "chance": 25000,
+            "maxCount": 5,
+            "name": "dragon ham"
+        },
+        {
+            "chance": 25000,
+            "name": "small sapphire"
+        },
+        {
+            "chance": 25000,
+            "name": "golden mug"
+        },
+        {
+            "chance": 80000,
+            "maxCount": 2,
+            "name": "dragon blood"
+        },
+        {
+            "chance": 500,
+            "name": "icicle bow"
+        },
+        {
+            "chance": 500,
+            "name": "runic ice shield"
+        },
+        {
+            "chance": 1500,
+            "name": "northern star"
+        },
+        {
+            "chance": 1500,
+            "name": "glacial rod"
+        },
+        {
+            "chance": 100000,
+            "name": "scale of Gelidrazah"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "wild_desert_dragon",
+    "threatDps": 160.015,
+    "burstDps": 160.015,
+    "avgHit": 516.1774,
+    "maxHit": 774,
+    "manaCost": 0
+}

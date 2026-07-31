@@ -1,0 +1,92 @@
+{
+    "id": "dwarf_guard_elvira",
+    "label": "Dwarf Guard Elvira",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A dwarf guard elvira.",
+    "hp": 245,
+    "hpMax": 245,
+    "speed": 103,
+    "level": 284,
+    "armor": 0,
+    "mitigation": 1.02,
+    "maxBlock": 0,
+    "exp": 165,
+    "lootValue": 6117.6470588235,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -5,
+        "ice": 0,
+        "energy": 0,
+        "earth": 20,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "damage": 20,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 82
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "bag with stolen gold",
+            "chance": 100000
+        },
+        {
+            "name": "platinum coin",
+            "chance": 75000,
+            "maxCount": 100
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "obsidian_dwarf_warden",
+    "threatDps": 20.5,
+    "burstDps": 20.5,
+    "avgHit": 41,
+    "maxHit": 82,
+    "manaCost": 0
+}

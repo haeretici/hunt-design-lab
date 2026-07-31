@@ -1,0 +1,226 @@
+{
+    "id": "elf_arcanist",
+    "label": "Elf Arcanist",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An elf arcanist.",
+    "hp": 220,
+    "hpMax": 220,
+    "speed": 110,
+    "level": 273,
+    "armor": 15,
+    "mitigation": 0.51,
+    "maxBlock": 0,
+    "exp": 175,
+    "lootValue": 46.642556487187,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 50,
+        "ice": 0,
+        "energy": 20,
+        "earth": 0,
+        "holy": -10,
+        "death": 20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 41
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 83,
+            "target": false,
+            "shootEffect": "ani_arrow"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "energy",
+            "min": 35,
+            "max": 59,
+            "target": false,
+            "effect": "me_energyhit",
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "death",
+            "min": 83,
+            "max": 100,
+            "target": false,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_suddendeath"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 40,
+            "max": 60,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 31000,
+            "name": "scroll"
+        },
+        {
+            "name": "candlestick",
+            "chance": 2100
+        },
+        {
+            "name": "gold coin",
+            "chance": 37000,
+            "maxCount": 47
+        },
+        {
+            "name": "yellow gem",
+            "chance": 50
+        },
+        {
+            "name": "life crystal",
+            "chance": 970
+        },
+        {
+            "name": "wand of cosmic energy",
+            "chance": 1160
+        },
+        {
+            "name": "elven amulet",
+            "chance": 1999
+        },
+        {
+            "name": "blank rune",
+            "chance": 18000
+        },
+        {
+            "name": "arrow",
+            "chance": 6000,
+            "maxCount": 3
+        },
+        {
+            "chance": 1000,
+            "name": "inkwell"
+        },
+        {
+            "name": "sandals",
+            "chance": 950
+        },
+        {
+            "name": "green tunic",
+            "chance": 7000
+        },
+        {
+            "name": "melon",
+            "chance": 22000
+        },
+        {
+            "name": "bread",
+            "chance": 14000
+        },
+        {
+            "name": "grave flower",
+            "chance": 880
+        },
+        {
+            "name": "sling herb",
+            "chance": 5000
+        },
+        {
+            "name": "holy orchid",
+            "chance": 2100
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 3000
+        },
+        {
+            "name": "health potion",
+            "chance": 4000
+        },
+        {
+            "name": "elvish talisman",
+            "chance": 10000
+        },
+        {
+            "name": "elven astral observer",
+            "chance": 7710
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "phantom_elf_raider",
+    "threatDps": 19.25,
+    "burstDps": 19.25,
+    "avgHit": 29.6154,
+    "maxHit": 100,
+    "manaCost": 0
+}

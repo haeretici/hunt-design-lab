@@ -1,0 +1,235 @@
+{
+    "id": "preceptor_lazare",
+    "label": "Preceptor Lazare",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A preceptor lazare.",
+    "hp": 16000,
+    "hpMax": 16000,
+    "speed": 105,
+    "level": 701,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 10000,
+    "lootValue": 214.72162740899,
+    "aggro": true,
+    "resists": {
+        "physical": 20,
+        "fire": 50,
+        "ice": 50,
+        "energy": 50,
+        "earth": 50,
+        "holy": 0,
+        "death": 50
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 484
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 3000,
+            "chance": 20,
+            "range": 7,
+            "element": "physical",
+            "min": 208,
+            "max": 761,
+            "target": true,
+            "shootEffect": "ani_powerbolt"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2400,
+            "chance": 20,
+            "range": 7,
+            "element": "energy",
+            "min": 277,
+            "max": 346,
+            "target": true,
+            "shootEffect": "ani_energyball"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2700,
+            "chance": 20,
+            "range": 7,
+            "element": "holy",
+            "min": 346,
+            "max": 415,
+            "radius": 4,
+            "target": false,
+            "effect": "me_holydamage"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 1500,
+            "chance": 20,
+            "min": 200,
+            "max": 800,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 90
+        },
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 45
+        },
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 3
+        },
+        {
+            "name": "great mana potion",
+            "chance": 100000,
+            "maxCount": 3
+        },
+        {
+            "name": "demonic essence",
+            "chance": 100000,
+            "maxCount": 5
+        },
+        {
+            "chance": 700,
+            "maxCount": 3,
+            "name": "red gem"
+        },
+        {
+            "name": "assassin star",
+            "chance": 100000,
+            "maxCount": 5
+        },
+        {
+            "name": "flask of demonic blood",
+            "chance": 100000,
+            "maxCount": 3
+        },
+        {
+            "name": "ham",
+            "chance": 100000,
+            "maxCount": 2
+        },
+        {
+            "name": "small emerald",
+            "chance": 100000,
+            "maxCount": 5
+        },
+        {
+            "name": "small diamond",
+            "chance": 100000,
+            "maxCount": 4
+        },
+        {
+            "name": "small amethyst",
+            "chance": 100000,
+            "maxCount": 3
+        },
+        {
+            "name": "knight armor",
+            "chance": 3100
+        },
+        {
+            "name": "golden armor",
+            "chance": 2200
+        },
+        {
+            "name": "patch of fine cloth",
+            "chance": 1800,
+            "maxCount": 3
+        },
+        {
+            "name": "violet gem",
+            "chance": 1800
+        },
+        {
+            "name": "titan axe",
+            "chance": 1600
+        },
+        {
+            "name": "war axe",
+            "chance": 1400
+        },
+        {
+            "name": "fiendbone amulet",
+            "chance": 800
+        },
+        {
+            "name": "heavy mace",
+            "chance": 600
+        },
+        {
+            "name": "mastermind shield",
+            "chance": 500
+        },
+        {
+            "name": "falcon rod",
+            "chance": 200
+        },
+        {
+            "name": "falcon greaves",
+            "chance": 110
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "storm_wolf_rager",
+    "threatDps": 207.4435,
+    "burstDps": 238.65,
+    "avgHit": 286.4949,
+    "maxHit": 761,
+    "manaCost": 0
+}

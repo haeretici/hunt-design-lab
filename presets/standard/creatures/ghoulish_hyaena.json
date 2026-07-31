@@ -1,0 +1,129 @@
+{
+    "id": "ghoulish_hyaena",
+    "label": "Ghoulish Hyaena",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A ghoulish hyaena.",
+    "hp": 400,
+    "hpMax": 400,
+    "speed": 102,
+    "level": 332,
+    "armor": 21,
+    "mitigation": 0.8,
+    "maxBlock": 0,
+    "exp": 195,
+    "lootValue": 14.375,
+    "aggro": true,
+    "resists": {
+        "physical": -5,
+        "fire": -14,
+        "ice": 0,
+        "energy": 0,
+        "earth": 60,
+        "holy": -10,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 30,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 91,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 8,
+                "intervalMs": 4000
+            }
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 3000,
+            "durationSec": 2
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 2
+    },
+    "loot": [
+        {
+            "name": "small ruby",
+            "chance": 2700,
+            "maxCount": 2
+        },
+        {
+            "name": "gold coin",
+            "chance": 89000,
+            "maxCount": 40
+        },
+        {
+            "name": "meat",
+            "chance": 51060,
+            "maxCount": 3
+        },
+        {
+            "name": "worm",
+            "chance": 65000,
+            "maxCount": 7
+        },
+        {
+            "name": "health potion",
+            "chance": 19840
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "umbral_ghoul",
+    "threatDps": 26.75,
+    "burstDps": 26.75,
+    "avgHit": 45.5,
+    "maxHit": 91,
+    "manaCost": 0
+}

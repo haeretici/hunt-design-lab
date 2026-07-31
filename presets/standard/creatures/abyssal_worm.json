@@ -1,0 +1,189 @@
+{
+    "id": "abyssal_worm",
+    "label": "Abyssal Worm",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An abyssal worm.",
+    "hp": 3500,
+    "hpMax": 3500,
+    "speed": 102,
+    "level": 550,
+    "armor": 73,
+    "mitigation": 1.88,
+    "maxBlock": 0,
+    "exp": 2520,
+    "lootValue": 638.53746938776,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -20,
+        "ice": 0,
+        "energy": 0,
+        "earth": 20,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 232
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "earth",
+            "min": 147,
+            "max": 232,
+            "length": 6,
+            "spread": 2,
+            "target": false,
+            "effect": "me_poisonarea"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "earth",
+            "min": 154,
+            "max": 309,
+            "length": 3,
+            "spread": 3,
+            "target": false,
+            "effect": "me_poisonarea"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Vermin",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "deepworm jaws",
+            "chance": 24010
+        },
+        {
+            "chance": 7320,
+            "name": "life ring"
+        },
+        {
+            "name": "meat",
+            "chance": 19660,
+            "maxCount": 4
+        },
+        {
+            "name": "ham",
+            "chance": 19660,
+            "maxCount": 4
+        },
+        {
+            "name": "wood mushroom",
+            "chance": 22280
+        },
+        {
+            "name": "dark mushroom",
+            "chance": 14960
+        },
+        {
+            "name": "green mushroom",
+            "chance": 18520
+        },
+        {
+            "name": "green crystal shard",
+            "chance": 5360
+        },
+        {
+            "chance": 13210,
+            "maxCount": 2,
+            "name": "deepworm spike roots"
+        },
+        {
+            "name": "deepworm spikes",
+            "chance": 9880
+        },
+        {
+            "name": "small enchanted amethyst",
+            "chance": 3430,
+            "maxCount": 2
+        },
+        {
+            "name": "Earthbound Amulet",
+            "chance": 5060
+        },
+        {
+            "name": "Bloomshoot Rod",
+            "chance": 1120
+        },
+        {
+            "name": "sacred tree amulet",
+            "chance": 2390
+        },
+        {
+            "id": 281,
+            "chance": 860
+        },
+        {
+            "name": "suspicious device",
+            "chance": 530
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "brimstone_ruins_crawler",
+    "threatDps": 89.575,
+    "burstDps": 89.575,
+    "avgHit": 137.8077,
+    "maxHit": 309,
+    "manaCost": 0
+}

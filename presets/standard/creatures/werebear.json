@@ -1,0 +1,206 @@
+{
+    "id": "werebear",
+    "label": "Werebear",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A werebear.",
+    "hp": 2400,
+    "hpMax": 2400,
+    "speed": 110,
+    "level": 512,
+    "armor": 38,
+    "mitigation": 0.91,
+    "maxBlock": 0,
+    "exp": 2100,
+    "lootValue": 598.78200483092,
+    "aggro": true,
+    "resists": {
+        "physical": 5,
+        "fire": -5,
+        "ice": 10,
+        "energy": 15,
+        "earth": 50,
+        "holy": -5,
+        "death": 45
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 275,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 24,
+            "max": 237
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 32,
+            "max": 163,
+            "radius": 4,
+            "target": false,
+            "effect": "me_magic_green"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 25,
+            "min": 50,
+            "max": 100,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Lycanthrope",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 97000,
+            "maxCount": 242,
+            "name": "gold coin"
+        },
+        {
+            "chance": 18200,
+            "maxCount": 5,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 1200,
+            "maxCount": 2,
+            "name": "great health potion"
+        },
+        {
+            "chance": 2210,
+            "name": "ultimate health potion"
+        },
+        {
+            "chance": 1200,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 800,
+            "name": "bear paw"
+        },
+        {
+            "chance": 1900,
+            "maxCount": 2,
+            "name": "ham"
+        },
+        {
+            "chance": 450,
+            "name": "honeycomb"
+        },
+        {
+            "chance": 580,
+            "name": "werebear fur"
+        },
+        {
+            "chance": 800,
+            "name": "berserk potion"
+        },
+        {
+            "chance": 560,
+            "name": "werebear skull"
+        },
+        {
+            "chance": 430,
+            "name": "Stonehide Amulet"
+        },
+        {
+            "chance": 120,
+            "name": "dreaded cleaver"
+        },
+        {
+            "chance": 300,
+            "name": "fur armor"
+        },
+        {
+            "chance": 400,
+            "name": "furry club"
+        },
+        {
+            "chance": 100,
+            "name": "werewolf amulet"
+        },
+        {
+            "chance": 200,
+            "name": "relic sword"
+        },
+        {
+            "chance": 300,
+            "name": "spiked squelcher"
+        },
+        {
+            "chance": 400,
+            "name": "time ring"
+        },
+        {
+            "chance": 200,
+            "name": "werebear trophy"
+        },
+        {
+            "chance": 200,
+            "name": "moonlight crystals"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ethereal_storm_bear",
+    "threatDps": 72.5625,
+    "burstDps": 72.5625,
+    "avgHit": 126.1957,
+    "maxHit": 237,
+    "manaCost": 0
+}

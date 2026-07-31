@@ -1,0 +1,263 @@
+{
+    "id": "scorpion_lycan_utua",
+    "label": "Scorpion Lycan Utua",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A scorpion lycan utua.",
+    "hp": 6400,
+    "hpMax": 6400,
+    "speed": 110,
+    "level": 610,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 5100,
+    "lootValue": 7500.9130434783,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 25,
+        "ice": 0,
+        "energy": 15,
+        "earth": 40,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 60,
+        "random": 40
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 55,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 184,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 1,
+            "element": "earth",
+            "min": 37,
+            "max": 55,
+            "target": true,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 4,
+            "element": "earth",
+            "min": 55,
+            "max": 83,
+            "radius": 3,
+            "length": 3,
+            "spread": 3,
+            "target": true,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_poisonarrow"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 4000,
+            "chance": 40,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 0,
+            "max": 74,
+            "length": 4,
+            "spread": 3,
+            "effect": "me_drawblood"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 60,
+            "max": 100,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "chance": 100000,
+            "minCount": 1,
+            "maxCount": 17,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 100000,
+            "minCount": 1,
+            "maxCount": 5,
+            "name": "ultimate health potion"
+        },
+        {
+            "chance": 54050,
+            "minCount": 1,
+            "maxCount": 5,
+            "name": "scorpion tail"
+        },
+        {
+            "chance": 10810,
+            "name": "emerald bangle"
+        },
+        {
+            "chance": 8650,
+            "name": "coral brooch"
+        },
+        {
+            "chance": 7570,
+            "name": "Stormbound Legs"
+        },
+        {
+            "chance": 4320,
+            "name": "Utua's poison"
+        },
+        {
+            "chance": 3240,
+            "name": "gemmed figurine"
+        },
+        {
+            "chance": 3240,
+            "name": "skull helmet"
+        },
+        {
+            "chance": 3240,
+            "name": "violet gem"
+        },
+        {
+            "chance": 2700,
+            "name": "Maelstrom Mace"
+        },
+        {
+            "chance": 2700,
+            "name": "gold ingot"
+        },
+        {
+            "chance": 2700,
+            "name": "green gem"
+        },
+        {
+            "chance": 2160,
+            "name": "crystal mace"
+        },
+        {
+            "chance": 2160,
+            "name": "Emberbound Legs"
+        },
+        {
+            "chance": 2160,
+            "name": "mercenary sword"
+        },
+        {
+            "chance": 2160,
+            "name": "warrior's axe"
+        },
+        {
+            "chance": 1620,
+            "name": "Frostbound Kilt"
+        },
+        {
+            "chance": 1620,
+            "name": "noble axe"
+        },
+        {
+            "chance": 1080,
+            "name": "savant potion"
+        },
+        {
+            "chance": 1080,
+            "name": "ring of green plasma"
+        },
+        {
+            "chance": 540,
+            "name": "fist on a stick"
+        },
+        {
+            "chance": 540,
+            "name": "guardian axe"
+        },
+        {
+            "chance": 540,
+            "name": "Arcane Plate Armor"
+        },
+        {
+            "chance": 540,
+            "name": "red silk flower"
+        },
+        {
+            "chance": 540,
+            "name": "spellweaver's robe"
+        },
+        {
+            "chance": 360,
+            "name": "demon shield"
+        },
+        {
+            "chance": 360,
+            "name": "Frostbound Robe"
+        },
+        {
+            "chance": 360,
+            "name": "raw watermelon tourmaline"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "venomous_ocean_scorpion_ravager",
+    "threatDps": 124.975,
+    "burstDps": 128.675,
+    "avgHit": 37.6857,
+    "maxHit": 83,
+    "manaCost": 0
+}

@@ -1,0 +1,227 @@
+{
+    "id": "rock_devourer",
+    "label": "Rock Devourer",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A rock devourer.",
+    "hp": 4200,
+    "hpMax": 4200,
+    "speed": 150,
+    "level": 568,
+    "armor": 75,
+    "mitigation": 2.31,
+    "maxBlock": 0,
+    "exp": 3650,
+    "lootValue": 1197.7182662539,
+    "aggro": true,
+    "resists": {
+        "physical": 10,
+        "fire": 5,
+        "ice": 30,
+        "energy": 30,
+        "earth": 100,
+        "holy": 30,
+        "death": 30
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 1,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 313
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "earth",
+            "min": 73,
+            "max": 145,
+            "target": true,
+            "effect": "me_stones",
+            "shootEffect": "ani_smallearth"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 205,
+            "target": true,
+            "shootEffect": "ani_largerock"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 47,
+            "max": 82,
+            "length": 5,
+            "spread": 0,
+            "target": false,
+            "effect": "me_stones"
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Construct",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 1
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 100
+        },
+        {
+            "name": "platinum coin",
+            "chance": 92000,
+            "maxCount": 7
+        },
+        {
+            "name": "Stonehide Amulet",
+            "chance": 2270
+        },
+        {
+            "chance": 2840,
+            "name": "dwarven ring"
+        },
+        {
+            "name": "giant sword",
+            "chance": 570
+        },
+        {
+            "name": "crystal mace",
+            "chance": 850
+        },
+        {
+            "name": "war axe",
+            "chance": 920
+        },
+        {
+            "name": "sapphire hammer",
+            "chance": 1490
+        },
+        {
+            "name": "spiked squelcher",
+            "chance": 1490
+        },
+        {
+            "name": "glorious axe",
+            "chance": 3340
+        },
+        {
+            "name": "strong health potion",
+            "chance": 13840,
+            "maxCount": 2
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 14900,
+            "maxCount": 2
+        },
+        {
+            "name": "great mana potion",
+            "chance": 15610,
+            "maxCount": 2
+        },
+        {
+            "name": "mana potion",
+            "chance": 15050,
+            "maxCount": 2
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 14410
+        },
+        {
+            "chance": 11360,
+            "name": "coal"
+        },
+        {
+            "name": "ancient stone",
+            "chance": 12850
+        },
+        {
+            "name": "crystalline arrow",
+            "chance": 9940,
+            "maxCount": 10
+        },
+        {
+            "name": "green crystal splinter",
+            "chance": 6960
+        },
+        {
+            "name": "cyan crystal fragment",
+            "chance": 6810
+        },
+        {
+            "name": "stone nose",
+            "chance": 18679
+        },
+        {
+            "name": "crystalline spikes",
+            "chance": 16320
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ashen_goblin_devourer",
+    "threatDps": 98.95,
+    "burstDps": 98.95,
+    "avgHit": 136.4828,
+    "maxHit": 313,
+    "manaCost": 0
+}

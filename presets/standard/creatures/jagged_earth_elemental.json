@@ -1,0 +1,149 @@
+{
+    "id": "jagged_earth_elemental",
+    "label": "Jagged Earth Elemental",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A jagged earth elemental.",
+    "hp": 1500,
+    "hpMax": 1500,
+    "speed": 140,
+    "level": 465,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 1300,
+    "lootValue": 289.92799352751,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -14,
+        "ice": 20,
+        "energy": 85,
+        "earth": 100,
+        "holy": 0,
+        "death": 45
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 1,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 162
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 1000,
+            "chance": 10,
+            "range": 4,
+            "element": "earth",
+            "min": 54,
+            "max": 135,
+            "length": 6,
+            "spread": 0,
+            "target": false,
+            "effect": "me_stones"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 11,
+            "range": 7,
+            "element": "earth",
+            "min": 0,
+            "max": 108,
+            "radius": 6,
+            "target": true,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_smallearth"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 27000,
+            "maxCount": 90
+        },
+        {
+            "name": "gold coin",
+            "chance": 27000,
+            "maxCount": 90
+        },
+        {
+            "name": "gold coin",
+            "chance": 1500,
+            "maxCount": 10
+        },
+        {
+            "name": "small emerald",
+            "chance": 3750,
+            "maxCount": 2
+        },
+        {
+            "chance": 18000,
+            "name": "twigs"
+        },
+        {
+            "name": "iron ore",
+            "chance": 800,
+            "maxCount": 2
+        },
+        {
+            "name": "seeds",
+            "chance": 1600
+        },
+        {
+            "name": "natural soil",
+            "chance": 9000
+        }
+    ],
+    "changeTarget": {
+        "interval": 20000,
+        "chance": 50
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "arcane_elemental_vanguard",
+    "threatDps": 55.89,
+    "burstDps": 55.89,
+    "avgHit": 78.7183,
+    "maxHit": 162,
+    "manaCost": 0
+}

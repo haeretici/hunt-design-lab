@@ -1,0 +1,263 @@
+{
+    "id": "shadow_weaver_lord",
+    "label": "Shadow Weaver Lord",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A shadow weaver lord.",
+    "hp": 1,
+    "hpMax": 1,
+    "speed": 250,
+    "level": 999,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 3250000,
+    "lootValue": 978368.42105263,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 35,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 98,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 3000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 1500,
+            "max": 2300
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 1000,
+            "chance": 10,
+            "range": 4,
+            "element": "physical",
+            "min": 700,
+            "max": 1000,
+            "length": 12,
+            "spread": 0,
+            "target": false,
+            "effect": "249"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "manadrain",
+            "min": 2300,
+            "max": 2600,
+            "length": 12,
+            "spread": 0,
+            "target": false,
+            "effect": "193"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "fire",
+            "min": 900,
+            "max": 1500,
+            "length": 6,
+            "spread": 0,
+            "target": false,
+            "effect": "me_firearea"
+        },
+        {
+            "id": "slow_4",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 35,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -600,
+                "durationSec": 15
+            },
+            "radius": 8,
+            "effect": "me_magic_red",
+            "target": false
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 3000,
+            "chance": 10,
+            "min": 800,
+            "max": 1200,
+            "hpBelow": 0.7,
+            "effect": "236"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "name": "crystal coin",
+            "chance": 14615,
+            "maxCount": 115
+        },
+        {
+            "name": "ultimate dual potion",
+            "chance": 7169,
+            "maxCount": 153
+        },
+        {
+            "name": "savant potion",
+            "chance": 14651,
+            "maxCount": 45
+        },
+        {
+            "name": "yellow gem",
+            "chance": 9243,
+            "maxCount": 5
+        },
+        {
+            "name": "amber with a bug",
+            "chance": 7224,
+            "maxCount": 2
+        },
+        {
+            "name": "ultimate mana potion",
+            "chance": 13137,
+            "maxCount": 179
+        },
+        {
+            "name": "violet gem",
+            "chance": 14447,
+            "maxCount": 4
+        },
+        {
+            "name": "raw watermelon tourmaline",
+            "chance": 6788,
+            "maxCount": 2
+        },
+        {
+            "chance": 9047,
+            "maxCount": 1,
+            "name": "red gem"
+        },
+        {
+            "name": "supreme health potion",
+            "chance": 14635,
+            "maxCount": 37
+        },
+        {
+            "name": "berserk potion",
+            "chance": 14973,
+            "maxCount": 45
+        },
+        {
+            "name": "amber with a dragonfly",
+            "chance": 6470,
+            "maxCount": 1
+        },
+        {
+            "name": "gold ingot",
+            "chance": 11421,
+            "maxCount": 1
+        },
+        {
+            "name": "blue gem",
+            "chance": 8394,
+            "maxCount": 1
+        },
+        {
+            "name": "marksman potion",
+            "chance": 13783,
+            "maxCount": 36
+        },
+        {
+            "name": "putrefactive figurine",
+            "chance": 11416,
+            "maxCount": 1
+        },
+        {
+            "name": "ichgahal's fungal infestation",
+            "chance": 7902,
+            "maxCount": 1
+        },
+        {
+            "name": "white gem",
+            "chance": 13559,
+            "maxCount": 3
+        },
+        {
+            "chance": 360,
+            "name": "bag you covet"
+        }
+    ],
+    "changeTarget": {
+        "interval": 10000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "umbral_ghoul",
+    "threatDps": 1083.3333,
+    "burstDps": 1400,
+    "avgHit": 1710.5263,
+    "maxHit": 2600,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 8,
+        "summons": [
+            {
+                "name": "Mushroom",
+                "id": "mushroom",
+                "chance": 30,
+                "interval": 5000,
+                "count": 8
+            }
+        ]
+    }
+}

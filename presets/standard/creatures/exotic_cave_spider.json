@@ -1,0 +1,153 @@
+{
+    "id": "exotic_cave_spider",
+    "label": "Exotic Cave Spider",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An exotic cave spider.",
+    "hp": 1900,
+    "hpMax": 1900,
+    "speed": 132,
+    "level": 489,
+    "armor": 40,
+    "mitigation": 1.6,
+    "maxBlock": 0,
+    "exp": 1400,
+    "lootValue": 318.5648574057,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -10,
+        "ice": 20,
+        "energy": 20,
+        "earth": 100,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 20,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 115,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 64,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "earth",
+            "radius": 1,
+            "target": true,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_poison",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "earth",
+            "min": 23,
+            "max": 38,
+            "radius": 3,
+            "target": true,
+            "effect": "me_poisonarea"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Vermin",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 100000
+        },
+        {
+            "name": "great health potion",
+            "chance": 9600
+        },
+        {
+            "name": "poison arrow",
+            "chance": 14600
+        },
+        {
+            "name": "Earthbound Boots",
+            "chance": 4400
+        },
+        {
+            "name": "silver amulet",
+            "chance": 4550
+        },
+        {
+            "name": "spider silk",
+            "chance": 2850
+        },
+        {
+            "name": "Earthbound Mantle",
+            "chance": 850
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "exotic_cave_spider",
+    "threatDps": 63.8,
+    "burstDps": 63.8,
+    "avgHit": 53,
+    "maxHit": 115,
+    "manaCost": 0
+}

@@ -1,0 +1,225 @@
+{
+    "id": "ancient_pharaoh",
+    "label": "Ancient Pharaoh",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An ancient pharaoh.",
+    "hp": 6000,
+    "hpMax": 6000,
+    "speed": 170,
+    "level": 603,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 3500,
+    "lootValue": 1436.375,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -14,
+        "ice": 30,
+        "energy": 5,
+        "earth": 0,
+        "holy": 0,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 271
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 12,
+            "range": 7,
+            "element": "death",
+            "min": 120,
+            "max": 452,
+            "target": false,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 3000,
+            "chance": 17,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 241,
+            "max": 301,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "slow_4",
+            "kind": "status",
+            "intervalMs": 1000,
+            "chance": 25,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -350,
+                "durationSec": 30
+            },
+            "length": 7,
+            "spread": 3,
+            "effect": "me_poisonarea",
+            "target": false
+        },
+        {
+            "id": "condition_5",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 4,
+            "element": "earth",
+            "min": 21,
+            "max": 21,
+            "radius": 5,
+            "target": false,
+            "effect": "me_hitbypoison"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 200,
+            "max": 400,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "chance": 100000,
+            "name": "scorpion sceptre"
+        },
+        {
+            "chance": 95000,
+            "maxCount": 243,
+            "name": "gold coin"
+        },
+        {
+            "chance": 36000,
+            "maxCount": 5,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 17000,
+            "name": "pharaoh banner"
+        },
+        {
+            "chance": 14000,
+            "maxCount": 5,
+            "name": "scarab coin"
+        },
+        {
+            "chance": 12000,
+            "name": "hieroglyph banner"
+        },
+        {
+            "chance": 12000,
+            "name": "silver brooch"
+        },
+        {
+            "chance": 10000,
+            "maxCount": 3,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 5000,
+            "maxCount": 4,
+            "name": "great health potion"
+        },
+        {
+            "chance": 5000,
+            "name": "pharaoh sword"
+        },
+        {
+            "chance": 2500,
+            "name": "mini mummy"
+        },
+        {
+            "chance": 2500,
+            "name": "heavily rusted legs"
+        },
+        {
+            "chance": 2500,
+            "name": "twin axe"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "chaos_stone_revenant_archer",
+    "threatDps": 120.5767,
+    "burstDps": 128.255,
+    "avgHit": 145.8589,
+    "maxHit": 452,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 2,
+        "summons": [
+            {
+                "name": "Sandstone Scorpion",
+                "id": "sandstone_scorpion",
+                "chance": 12,
+                "interval": 1000,
+                "count": 2
+            }
+        ]
+    }
+}

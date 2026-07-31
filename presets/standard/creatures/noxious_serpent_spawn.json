@@ -1,0 +1,222 @@
+{
+    "id": "noxious_serpent_spawn",
+    "label": "Noxious Serpent Spawn",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A noxious serpent spawn.",
+    "hp": 9500,
+    "hpMax": 9500,
+    "speed": 180,
+    "level": 649,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 6000,
+    "lootValue": 28404.487179487,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -10,
+        "ice": 0,
+        "energy": -10,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 275,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 416
+        },
+        {
+            "id": "slow_1",
+            "kind": "status",
+            "intervalMs": 4000,
+            "chance": 20,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -370,
+                "durationSec": 12
+            },
+            "target": true
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 7,
+            "range": 4,
+            "element": "earth",
+            "min": 0,
+            "max": 915,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_poisonarea"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 9,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 0,
+            "max": 915,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_sound_red"
+        },
+        {
+            "id": "melee_4",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 12,
+            "range": 1,
+            "element": "earth",
+            "min": 0,
+            "max": 499,
+            "target": false,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_poison"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 900,
+            "max": 1000,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "venom",
+    "loot": [
+        {
+            "chance": 100000,
+            "name": "snake skin"
+        },
+        {
+            "chance": 100000,
+            "name": "winged tail"
+        },
+        {
+            "chance": 80000,
+            "maxCount": 5,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 72000,
+            "maxCount": 4,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 68000,
+            "maxCount": 5,
+            "name": "small emerald"
+        },
+        {
+            "chance": 45000,
+            "name": "mercenary sword"
+        },
+        {
+            "chance": 43000,
+            "name": "tower shield"
+        },
+        {
+            "chance": 39000,
+            "name": "noble axe"
+        },
+        {
+            "chance": 35000,
+            "name": "golden mug"
+        },
+        {
+            "chance": 29000,
+            "name": "Regal Crown Armor"
+        },
+        {
+            "chance": 27000,
+            "maxCount": 78,
+            "name": "assassin star"
+        },
+        {
+            "chance": 19000,
+            "name": "green mushroom"
+        },
+        {
+            "chance": 13000,
+            "name": "life ring"
+        },
+        {
+            "chance": 13000,
+            "name": "spellbook of mind control"
+        },
+        {
+            "chance": 4000,
+            "name": "royal helmet"
+        },
+        {
+            "chance": 2000,
+            "name": "swamplair armor"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "tempest_serpent_berserker",
+    "threatDps": 155.57,
+    "burstDps": 155.57,
+    "avgHit": 243.0781,
+    "maxHit": 915,
+    "manaCost": 0
+}

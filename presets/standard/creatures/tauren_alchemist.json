@@ -1,0 +1,191 @@
+{
+    "id": "tauren_alchemist",
+    "label": "Tauren Alchemist",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A tauren alchemist.",
+    "hp": 5690,
+    "hpMax": 5690,
+    "speed": 160,
+    "level": 598,
+    "armor": 67,
+    "mitigation": 2.11,
+    "maxBlock": 0,
+    "exp": 4500,
+    "lootValue": 1723.8087031452,
+    "aggro": true,
+    "resists": {
+        "physical": 30,
+        "fire": 0,
+        "ice": 15,
+        "energy": 0,
+        "earth": -20,
+        "holy": -5,
+        "death": -5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 80,
+        "health": 10,
+        "damage": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 68,
+            "max": 152
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "energy",
+            "min": 169,
+            "max": 237,
+            "radius": 3,
+            "target": true,
+            "effect": "me_redsmoke"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "energy",
+            "min": 158,
+            "max": 226,
+            "radius": 4,
+            "target": true,
+            "effect": "me_purplesmoke",
+            "shootEffect": "ani_energyball"
+        },
+        {
+            "id": "bulltaur_avalanche_3",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 1,
+            "element": "physical",
+            "min": 197,
+            "max": 254
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 51528,
+            "maxCount": 30,
+            "name": "platinum coin"
+        },
+        {
+            "id": 44736,
+            "chance": 15234
+        },
+        {
+            "id": 44739,
+            "chance": 9169
+        },
+        {
+            "id": 44740,
+            "chance": 6256
+        },
+        {
+            "chance": 5540,
+            "name": "great health potion"
+        },
+        {
+            "chance": 3534,
+            "name": "gold ingot"
+        },
+        {
+            "chance": 2722,
+            "name": "ultimate health potion"
+        },
+        {
+            "chance": 2006,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 1862,
+            "name": "violet gem"
+        },
+        {
+            "chance": 1385,
+            "name": "ultimate mana potion"
+        },
+        {
+            "chance": 1003,
+            "name": "blue gem"
+        },
+        {
+            "chance": 1003,
+            "name": "gold ring"
+        },
+        {
+            "chance": 1003,
+            "name": "alloy legs"
+        },
+        {
+            "chance": 669,
+            "name": "white gem"
+        },
+        {
+            "chance": 621,
+            "name": "spellweaver's robe"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "drunk": true,
+        "bleed": false
+    },
+    "customSprite": "glacier_fire_giant_champion",
+    "threatDps": 117.05,
+    "burstDps": 117.05,
+    "avgHit": 146.3125,
+    "maxHit": 254,
+    "manaCost": 0
+}

@@ -1,0 +1,140 @@
+{
+    "id": "troll_legionnaire",
+    "label": "Troll Legionnaire",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A troll legionnaire.",
+    "hp": 210,
+    "hpMax": 210,
+    "speed": 100,
+    "level": 269,
+    "armor": 12,
+    "mitigation": 0.64,
+    "maxBlock": 0,
+    "exp": 140,
+    "lootValue": 64.769896193772,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 30,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 45
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 18,
+            "range": 6,
+            "element": "physical",
+            "min": 0,
+            "max": 168,
+            "target": true,
+            "shootEffect": "ani_throwingstar"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "invisible_0",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 18,
+            "durationSec": 2,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "heal_1",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 28,
+            "min": 17,
+            "max": 25,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 92000,
+            "maxCount": 155
+        },
+        {
+            "chance": 560,
+            "name": "stealth ring"
+        },
+        {
+            "name": "throwing star",
+            "chance": 28000,
+            "maxCount": 10
+        },
+        {
+            "name": "frosty ear of a troll",
+            "chance": 5120
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 5
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "chaos_troll_captain",
+    "threatDps": 18.81,
+    "burstDps": 18.81,
+    "avgHit": 31.8814,
+    "maxHit": 168,
+    "manaCost": 0
+}

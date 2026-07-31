@@ -1,0 +1,119 @@
+{
+    "id": "furious_troll",
+    "label": "Furious Troll",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A furious troll.",
+    "hp": 245,
+    "hpMax": 245,
+    "speed": 90,
+    "level": 284,
+    "armor": 15,
+    "mitigation": 1.02,
+    "maxBlock": 0,
+    "exp": 185,
+    "lootValue": 71.566365531619,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 82
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 1
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 93000,
+            "maxCount": 146
+        },
+        {
+            "name": "platinum coin",
+            "chance": 6000
+        },
+        {
+            "name": "war hammer",
+            "chance": 750
+        },
+        {
+            "name": "bunch of troll hair",
+            "chance": 4400
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 5
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "chaos_troll_captain",
+    "threatDps": 20.5,
+    "burstDps": 20.5,
+    "avgHit": 41,
+    "maxHit": 82,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 2,
+        "summons": [
+            {
+                "name": "Mechanical Fighter",
+                "id": "mechanical_fighter",
+                "chance": 90,
+                "interval": 2000,
+                "count": 2
+            }
+        ]
+    }
+}

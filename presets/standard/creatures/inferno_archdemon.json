@@ -1,0 +1,310 @@
+{
+    "id": "inferno_archdemon",
+    "label": "Inferno Archdemon",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An inferno archdemon.",
+    "hp": 290000,
+    "hpMax": 290000,
+    "speed": 200,
+    "level": 990,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 500000,
+    "lootValue": 32497.75,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 1,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 1273,
+            "max": 2121
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 3000,
+            "chance": 20,
+            "range": 4,
+            "element": "fire",
+            "min": 424,
+            "max": 848,
+            "length": 10,
+            "spread": 3,
+            "target": false,
+            "effect": "me_hitbyfire"
+        },
+        {
+            "id": "slow_2",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -600,
+                "durationSec": 15
+            },
+            "radius": 7,
+            "effect": "me_magic_red",
+            "target": false
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "fire",
+            "min": 255,
+            "max": 594,
+            "radius": 5,
+            "target": false,
+            "effect": "me_hitbyfire"
+        },
+        {
+            "id": "wave_4",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "death",
+            "min": 424,
+            "max": 679,
+            "length": 10,
+            "spread": 3,
+            "target": false,
+            "effect": "me_explosionhit"
+        },
+        {
+            "id": "wave_5",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "fire",
+            "min": 424,
+            "max": 679,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_fireattack"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 2090,
+            "max": 4500,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 35,
+            "speedChange": 700,
+            "durationSec": 6,
+            "effect": "me_magic_green"
+        }
+    ],
+    "race": "fire",
+    "loot": [
+        {
+            "chance": 1000000,
+            "name": "silver token"
+        },
+        {
+            "chance": 23000,
+            "maxCount": 5,
+            "name": "cyan crystal fragment"
+        },
+        {
+            "chance": 23000,
+            "maxCount": 5,
+            "name": "red crystal fragment"
+        },
+        {
+            "chance": 23000,
+            "maxCount": 5,
+            "name": "green crystal fragment"
+        },
+        {
+            "chance": 12000,
+            "maxCount": 8,
+            "name": "white pearl"
+        },
+        {
+            "chance": 12000,
+            "maxCount": 9,
+            "name": "small sapphire"
+        },
+        {
+            "chance": 98000,
+            "maxCount": 200,
+            "name": "gold coin"
+        },
+        {
+            "chance": 10000,
+            "maxCount": 5,
+            "name": "small amethyst"
+        },
+        {
+            "chance": 8000,
+            "maxCount": 58,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 1000,
+            "name": "green gem"
+        },
+        {
+            "chance": 1000,
+            "name": "blue gem"
+        },
+        {
+            "chance": 4000,
+            "name": "voltaic ring"
+        },
+        {
+            "chance": 3000,
+            "name": "fire axe"
+        },
+        {
+            "chance": 500,
+            "name": "Skewering Spear of the Igniter"
+        },
+        {
+            "chance": 500,
+            "unique": true,
+            "name": "tempest shield"
+        },
+        {
+            "chance": 500,
+            "name": "rift bow"
+        },
+        {
+            "chance": 500,
+            "name": "rift crossbow"
+        },
+        {
+            "chance": 11000,
+            "name": "demonic essence"
+        },
+        {
+            "chance": 1000,
+            "name": "demonrage sword"
+        },
+        {
+            "chance": 23000,
+            "maxCount": 5,
+            "name": "great mana potion"
+        },
+        {
+            "id": 281,
+            "chance": 14000,
+            "maxCount": 5
+        },
+        {
+            "id": 282,
+            "chance": 14000,
+            "maxCount": 5
+        },
+        {
+            "chance": 1000,
+            "name": "Emberbound Amulet"
+        },
+        {
+            "chance": 1000,
+            "name": "Emberbound Legs"
+        },
+        {
+            "chance": 1000,
+            "name": "Emberbound Coat"
+        },
+        {
+            "chance": 46100,
+            "maxCount": 5,
+            "name": "great dual potion"
+        },
+        {
+            "chance": 23000,
+            "maxCount": 5,
+            "name": "ultimate health potion"
+        },
+        {
+            "chance": 10000,
+            "maxCount": 8,
+            "name": "small topaz"
+        },
+        {
+            "chance": 3000,
+            "name": "gold ingot"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "mist_demon_priest",
+    "threatDps": 1033.0375,
+    "burstDps": 1054.2375,
+    "avgHit": 1227.3713,
+    "maxHit": 2121,
+    "manaCost": 0
+}

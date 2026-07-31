@@ -1,0 +1,315 @@
+{
+    "id": "fae_champion_of_summer",
+    "label": "Fae Champion Of Summer",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A fae champion of summer.",
+    "hp": 1,
+    "hpMax": 1,
+    "speed": 200,
+    "level": 892,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 42725,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 200,
+        "ice": -10,
+        "energy": 5,
+        "earth": 0,
+        "holy": 0,
+        "death": 10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 320,
+            "max": 750
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "ice",
+            "min": 500,
+            "max": 850,
+            "radius": 6,
+            "target": false
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "physical",
+            "min": 300,
+            "max": 850,
+            "length": 8,
+            "spread": 3,
+            "target": false
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "manadrain",
+            "min": 444,
+            "max": 850,
+            "radius": 4,
+            "target": true,
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "wave_4",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "death",
+            "min": 410,
+            "max": 850,
+            "length": 9,
+            "target": false
+        },
+        {
+            "id": "wave_5",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "fire",
+            "min": 410,
+            "max": 850,
+            "length": 9,
+            "target": false
+        },
+        {
+            "id": "wave_6",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "ice",
+            "min": 410,
+            "max": 850,
+            "length": 9,
+            "target": false
+        },
+        {
+            "id": "area_7",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "earth",
+            "min": 410,
+            "max": 850,
+            "radius": 3,
+            "target": false,
+            "shootEffect": "ani_earth"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 310,
+            "max": 640,
+            "hpBelow": 0.7,
+            "effect": "me_redspark"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "Energy Bar",
+            "chance": 100000
+        },
+        {
+            "name": "Gold Token",
+            "chance": 100000,
+            "maxCount": 2
+        },
+        {
+            "name": "Piggy Bank",
+            "chance": 100000
+        },
+        {
+            "name": "Platinum Coin",
+            "chance": 100000,
+            "maxCount": 5
+        },
+        {
+            "name": "Silver Token",
+            "chance": 100000,
+            "maxCount": 2
+        },
+        {
+            "name": "Mysterious Remains",
+            "chance": 100000
+        },
+        {
+            "name": "Yellow Gem",
+            "chance": 69230,
+            "maxCount": 2
+        },
+        {
+            "name": "Ultimate Dual Potion",
+            "chance": 61540,
+            "maxCount": 20
+        },
+        {
+            "name": "Supreme Health Potion",
+            "chance": 53850,
+            "maxCount": 20
+        },
+        {
+            "name": "Ultimate Mana Potion",
+            "chance": 53850,
+            "maxCount": 14
+        },
+        {
+            "chance": 46150,
+            "name": "red gem"
+        },
+        {
+            "chance": 38460,
+            "name": "ring of blue plasma"
+        },
+        {
+            "name": "Maelstrom Mace",
+            "chance": 23080
+        },
+        {
+            "name": "Huge Chunk of Crude Iron",
+            "chance": 30777
+        },
+        {
+            "name": "Marksman Potion",
+            "chance": 23080,
+            "maxCount": 10
+        },
+        {
+            "name": "Summerblade",
+            "chance": 100,
+            "unique": true
+        },
+        {
+            "id": 281,
+            "chance": 23080
+        },
+        {
+            "name": "Royal Star",
+            "chance": 23080,
+            "maxCount": 100
+        },
+        {
+            "name": "Blue Gem",
+            "chance": 15380
+        },
+        {
+            "name": "Savant Potion",
+            "chance": 15380,
+            "maxCount": 10
+        },
+        {
+            "name": "Bone Skull Staff",
+            "chance": 15380
+        },
+        {
+            "name": "Berserk Potion",
+            "chance": 7690,
+            "maxCount": 10
+        },
+        {
+            "chance": 7690,
+            "name": "collar of green plasma"
+        },
+        {
+            "chance": 7690,
+            "name": "collar of red plasma"
+        },
+        {
+            "name": "Crystal Coin",
+            "chance": 7690,
+            "maxCount": 2
+        },
+        {
+            "name": "Ornate Locket",
+            "chance": 7690
+        },
+        {
+            "name": "Pomegranate",
+            "chance": 7690
+        },
+        {
+            "chance": 7690,
+            "name": "incandescent crown"
+        },
+        {
+            "name": "Celestial Band",
+            "chance": 7690
+        },
+        {
+            "name": "Izcandar's Snow Globe",
+            "chance": 1500
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "invisible": true,
+        "fire": true
+    },
+    "customSprite": "celestial_fiend",
+    "threatDps": 597.65,
+    "burstDps": 597.65,
+    "avgHit": 583.0732,
+    "maxHit": 850,
+    "manaCost": 0
+}

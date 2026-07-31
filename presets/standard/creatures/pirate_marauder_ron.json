@@ -1,0 +1,150 @@
+{
+    "id": "pirate_marauder_ron",
+    "label": "Pirate Marauder Ron",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A pirate marauder ron.",
+    "hp": 1500,
+    "hpMax": 1500,
+    "speed": 120,
+    "level": 465,
+    "armor": 0,
+    "mitigation": 1.2,
+    "maxBlock": 0,
+    "exp": 500,
+    "lootValue": 858.05555555556,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 250,
+        "staticAttackChance": 50,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 188
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 4000,
+            "chance": 60,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 120,
+            "target": false,
+            "shootEffect": "ani_throwingknife"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 4000,
+            "chance": 25,
+            "min": 50,
+            "max": 150,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 100000,
+            "name": "Ron the Ripper's sabre"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 128,
+            "name": "gold coin"
+        },
+        {
+            "chance": 81000,
+            "maxCount": 2,
+            "name": "skull"
+        },
+        {
+            "chance": 63000,
+            "name": "plate armor"
+        },
+        {
+            "chance": 45000,
+            "name": "dagger"
+        },
+        {
+            "chance": 18000,
+            "name": "great health potion"
+        },
+        {
+            "chance": 18000,
+            "name": "knight armor"
+        },
+        {
+            "chance": 18000,
+            "name": "meat"
+        },
+        {
+            "chance": 18000,
+            "name": "pirate backpack"
+        },
+        {
+            "chance": 9000,
+            "name": "small diamond"
+        }
+    ],
+    "changeTarget": {
+        "interval": 60000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "chaos_triton_assassin",
+    "threatDps": 56,
+    "burstDps": 65,
+    "avgHit": 86.1538,
+    "maxHit": 188,
+    "manaCost": 0
+}

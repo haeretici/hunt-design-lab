@@ -1,0 +1,197 @@
+{
+    "id": "reptilian_snakecharmer",
+    "label": "Reptilian Snakecharmer",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A reptilian snakecharmer.",
+    "hp": 325,
+    "hpMax": 325,
+    "speed": 172,
+    "level": 313,
+    "armor": 22,
+    "mitigation": 0.38,
+    "maxBlock": 0,
+    "exp": 210,
+    "lootValue": 43.377300287203,
+    "aggro": true,
+    "resists": {
+        "physical": -10,
+        "fire": -10,
+        "ice": 20,
+        "energy": 20,
+        "earth": 100,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 15,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 29
+        },
+        {
+            "id": "condition_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "earth",
+            "min": 97,
+            "max": 194,
+            "target": false,
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "earth",
+            "min": 48,
+            "max": 107,
+            "radius": 1,
+            "target": true,
+            "effect": "me_green_rings",
+            "shootEffect": "ani_poison"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 50,
+            "min": 50,
+            "max": 100,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "invisible_1",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 10,
+            "durationSec": 2,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Reptile",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 83740,
+            "maxCount": 55
+        },
+        {
+            "name": "small amethyst",
+            "chance": 520
+        },
+        {
+            "name": "yellow gem",
+            "chance": 150
+        },
+        {
+            "chance": 340,
+            "name": "life ring"
+        },
+        {
+            "name": "life crystal",
+            "chance": 1430
+        },
+        {
+            "name": "Earthbound Rod",
+            "chance": 920
+        },
+        {
+            "name": "Viperfang Rod",
+            "chance": 230
+        },
+        {
+            "name": "cape",
+            "chance": 8640
+        },
+        {
+            "name": "charmer's tiara",
+            "chance": 230
+        },
+        {
+            "name": "lizard leather",
+            "chance": 1320
+        },
+        {
+            "name": "lizard scale",
+            "chance": 860
+        },
+        {
+            "name": "mana potion",
+            "chance": 860
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "tempest_serpent_berserker",
+    "threatDps": 23.975,
+    "burstDps": 23.975,
+    "avgHit": 36.8846,
+    "maxHit": 194,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 6,
+        "summons": [
+            {
+                "name": "Cobra",
+                "id": "cobra",
+                "chance": 20,
+                "interval": 2000,
+                "count": 6
+            }
+        ]
+    }
+}

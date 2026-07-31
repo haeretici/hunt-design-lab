@@ -1,0 +1,162 @@
+{
+    "id": "pirate_cutthroat_2",
+    "label": "Pirate Cutthroat",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A pirate cutthroat.",
+    "hp": 325,
+    "hpMax": 325,
+    "speed": 107,
+    "level": 314,
+    "armor": 15,
+    "mitigation": 0.72,
+    "maxBlock": 0,
+    "exp": 175,
+    "lootValue": 33.00802029802,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -5,
+        "ice": -5,
+        "energy": 0,
+        "earth": 10,
+        "holy": 20,
+        "death": -5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 78,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 5,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 3,
+            "element": "physical",
+            "min": 0,
+            "max": 44,
+            "radius": 1,
+            "target": true,
+            "effect": "me_explosionarea",
+            "shootEffect": "ani_explosion"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Human",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 78000,
+            "maxCount": 50
+        },
+        {
+            "name": "scale armor",
+            "chance": 3000
+        },
+        {
+            "name": "steel shield",
+            "chance": 2800
+        },
+        {
+            "chance": 1000,
+            "name": "treasure map"
+        },
+        {
+            "name": "rum flask",
+            "chance": 90
+        },
+        {
+            "name": "light shovel",
+            "chance": 2000
+        },
+        {
+            "id": 5792,
+            "chance": 110
+        },
+        {
+            "name": "pirate knee breeches",
+            "chance": 980
+        },
+        {
+            "name": "pirate bag",
+            "chance": 1000
+        },
+        {
+            "name": "hook",
+            "chance": 550
+        },
+        {
+            "name": "eye patch",
+            "chance": 450
+        },
+        {
+            "name": "peg leg",
+            "chance": 500
+        },
+        {
+            "name": "compass",
+            "chance": 10120
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 15
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "chaos_triton_assassin",
+    "threatDps": 24.2,
+    "burstDps": 24.2,
+    "avgHit": 36.1667,
+    "maxHit": 78,
+    "manaCost": 0
+}

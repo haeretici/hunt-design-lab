@@ -1,0 +1,128 @@
+{
+    "id": "juvenile_cyclops",
+    "label": "Juvenile Cyclops",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A juvenile cyclops.",
+    "hp": 260,
+    "hpMax": 260,
+    "speed": 80,
+    "level": 290,
+    "armor": 11,
+    "mitigation": 0.62,
+    "maxBlock": 0,
+    "exp": 130,
+    "lootValue": 41.101796407186,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 10,
+        "ice": 0,
+        "energy": 10,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": true,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 848,
+            "target": false,
+            "shootEffect": "ani_largerock"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 10810,
+            "name": "chain armor"
+        },
+        {
+            "chance": 12160,
+            "name": "chain helmet"
+        },
+        {
+            "chance": 4050,
+            "name": "cyclops toe"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 25,
+            "name": "gold coin"
+        },
+        {
+            "chance": 9460,
+            "name": "hatchet"
+        },
+        {
+            "chance": 18920,
+            "name": "mace"
+        },
+        {
+            "chance": 30070,
+            "name": "meat"
+        },
+        {
+            "chance": 1350,
+            "name": "plate shield"
+        },
+        {
+            "chance": 9460,
+            "name": "studded legs"
+        },
+        {
+            "chance": 21620,
+            "name": "sword"
+        },
+        {
+            "chance": 1350,
+            "name": "wolf tooth chain"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 5
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "obsidian_cyclops",
+    "threatDps": 21.2,
+    "burstDps": 21.2,
+    "avgHit": 424,
+    "maxHit": 848,
+    "manaCost": 490
+}

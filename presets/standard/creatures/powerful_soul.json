@@ -1,0 +1,91 @@
+{
+    "id": "powerful_soul",
+    "label": "Powerful Soul",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A powerful soul.",
+    "hp": 1,
+    "hpMax": 1,
+    "speed": 80,
+    "level": 1000,
+    "armor": 0,
+    "mitigation": 2,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 2000,
+            "max": 3000
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 1,
+            "element": "lifedrain",
+            "min": 2000,
+            "max": 3000,
+            "target": false,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "undead",
+    "changeTarget": {
+        "interval": 1000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "glacier_mountain_phantom",
+    "threatDps": 1437.5,
+    "burstDps": 1437.5,
+    "avgHit": 2500,
+    "maxHit": 3000,
+    "manaCost": 0
+}

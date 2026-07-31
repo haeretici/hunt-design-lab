@@ -1,0 +1,231 @@
+{
+    "id": "eyeless_devourer",
+    "label": "Eyeless Devourer",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An eyeless devourer.",
+    "hp": 10000,
+    "hpMax": 10000,
+    "speed": 165,
+    "level": 654,
+    "armor": 63,
+    "mitigation": 1.82,
+    "maxBlock": 0,
+    "exp": 6000,
+    "lootValue": 3996.3695299838,
+    "aggro": true,
+    "resists": {
+        "physical": -10,
+        "fire": 0,
+        "ice": 0,
+        "energy": 5,
+        "earth": 10,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 165,
+            "effect": "me_drawblood"
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2750,
+            "chance": 20,
+            "range": 5,
+            "element": "energy",
+            "min": 289,
+            "max": 330,
+            "target": true,
+            "effect": "me_energyarea",
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 60,
+            "range": 4,
+            "element": "energy",
+            "min": 206,
+            "max": 289,
+            "radius": 3,
+            "target": false,
+            "effect": "me_energyarea"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "earth",
+            "min": 206,
+            "max": 231,
+            "length": 5,
+            "spread": 0,
+            "target": false,
+            "effect": "me_green_rings"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Vermin",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 70000,
+            "maxCount": 22
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 29210,
+            "maxCount": 3
+        },
+        {
+            "name": "eyeless devourer maw",
+            "chance": 14680,
+            "maxCount": 1
+        },
+        {
+            "name": "blue crystal shard",
+            "chance": 6700,
+            "maxCount": 3
+        },
+        {
+            "name": "green crystal shard",
+            "chance": 6380,
+            "maxCount": 3
+        },
+        {
+            "name": "violet crystal shard",
+            "chance": 6230,
+            "maxCount": 3
+        },
+        {
+            "name": "eyeless devourer legs",
+            "chance": 7500,
+            "maxCount": 2
+        },
+        {
+            "name": "green gem",
+            "chance": 6300
+        },
+        {
+            "name": "eyeless devourer tongue",
+            "chance": 3590
+        },
+        {
+            "name": "sacred tree amulet",
+            "chance": 3190
+        },
+        {
+            "name": "crystal mace",
+            "chance": 1840
+        },
+        {
+            "name": "Frostbound Amulet",
+            "chance": 2790
+        },
+        {
+            "name": "noble axe",
+            "chance": 1840
+        },
+        {
+            "name": "warrior's axe",
+            "chance": 1440
+        },
+        {
+            "name": "relic sword",
+            "chance": 880
+        },
+        {
+            "name": "giant sword",
+            "chance": 880
+        },
+        {
+            "name": "mercenary sword",
+            "chance": 640
+        },
+        {
+            "name": "war axe",
+            "chance": 1360,
+            "maxCount": 1
+        },
+        {
+            "name": "execowtioner axe",
+            "chance": 640
+        },
+        {
+            "name": "ornate crossbow",
+            "chance": 1040
+        },
+        {
+            "name": "jade hammer",
+            "chance": 1200
+        },
+        {
+            "name": "shadow sceptre",
+            "chance": 400
+        },
+        {
+            "name": "metal bat",
+            "chance": 320
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ashen_goblin_devourer",
+    "threatDps": 159.8591,
+    "burstDps": 168.3,
+    "avgHit": 164.3411,
+    "maxHit": 330,
+    "manaCost": 0
+}

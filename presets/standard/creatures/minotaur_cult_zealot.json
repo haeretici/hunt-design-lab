@@ -1,0 +1,187 @@
+{
+    "id": "minotaur_cult_zealot",
+    "label": "Minotaur Cult Zealot",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A minotaur cult zealot.",
+    "hp": 1800,
+    "hpMax": 1800,
+    "speed": 125,
+    "level": 483,
+    "armor": 35,
+    "mitigation": 1.37,
+    "maxBlock": 0,
+    "exp": 1350,
+    "lootValue": 311.01156987296,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 20,
+        "ice": -10,
+        "energy": 0,
+        "earth": 0,
+        "holy": 10,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 199
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "physical",
+            "min": 53,
+            "max": 188,
+            "target": true,
+            "shootEffect": "ani_whirlwindaxe"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 150
+        },
+        {
+            "name": "Viperfang Rod",
+            "chance": 11670
+        },
+        {
+            "name": "taurus mace",
+            "chance": 5360
+        },
+        {
+            "name": "cultish robe",
+            "chance": 9200
+        },
+        {
+            "name": "purple robe",
+            "chance": 16230
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 10660,
+            "maxCount": 3
+        },
+        {
+            "name": "small ruby",
+            "chance": 2030,
+            "maxCount": 2
+        },
+        {
+            "name": "small topaz",
+            "chance": 2680,
+            "maxCount": 2
+        },
+        {
+            "name": "yellow gem",
+            "chance": 220
+        },
+        {
+            "name": "platinum coin",
+            "chance": 39350,
+            "maxCount": 3
+        },
+        {
+            "name": "small emerald",
+            "chance": 2540,
+            "maxCount": 2
+        },
+        {
+            "name": "small sapphire",
+            "chance": 2170,
+            "maxCount": 2
+        },
+        {
+            "name": "small diamond",
+            "chance": 2900,
+            "maxCount": 2
+        },
+        {
+            "name": "small amethyst",
+            "chance": 2610,
+            "maxCount": 2
+        },
+        {
+            "name": "red piece of cloth",
+            "chance": 2460
+        },
+        {
+            "chance": 70,
+            "name": "red gem"
+        },
+        {
+            "name": "minotaur leather",
+            "chance": 4780
+        },
+        {
+            "name": "minotaur horn",
+            "chance": 2320,
+            "maxCount": 2
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "lunar_minotaur_vanguard",
+    "threatDps": 61.8,
+    "burstDps": 61.8,
+    "avgHit": 103,
+    "maxHit": 199,
+    "manaCost": 0
+}

@@ -1,0 +1,94 @@
+{
+    "id": "cave_mid_mixed",
+    "label": "cave mid mixed (L200–400)",
+    "biome": "cave",
+    "notes": "Threat-banded population (docs/24). Auto-selected 16 of 265 eligible templates in level 200..400 threatDps [0.01..+∞]. seed=42 even-spread; excluded physical≥100 / multi-immune (≥5 full resists); excluded flags.attackable===false. Champion/elite ids = top threatDps in pool; affix mults still applied at resolve.",
+    "band": {
+        "levelMin": 200,
+        "levelMax": 400,
+        "threatMin": 0.01,
+        "threatMax": null,
+        "count": 16,
+        "seed": 42,
+        "selectedLevelRange": [
+            202,
+            399
+        ],
+        "selectedThreatRange": [
+            13,
+            38.7625
+        ]
+    },
+    "defaultRespawn": 0,
+    "groups": {
+        "normal": {
+            "weight": 80,
+            "creatureIds": [
+                "crazed_dwarf",
+                "husky",
+                "dire_penguin",
+                "boar",
+                "orc_marauder",
+                "redeemed_soul",
+                "hyaena_fleabringer",
+                "witch",
+                "crypt_shambler",
+                "dragon_hatchling",
+                "mechanical_fighter",
+                "mad_doctor_perhaps",
+                "hot_dog",
+                "necromancer",
+                "manta_ray",
+                "pixie"
+            ],
+            "packSize": [
+                1,
+                3
+            ]
+        },
+        "champion": {
+            "weight": 15,
+            "creatureIds": [
+                "necromancer",
+                "hot_dog",
+                "mad_doctor_perhaps",
+                "mechanical_fighter"
+            ],
+            "packSize": [
+                1,
+                2
+            ],
+            "affixes": [
+                "champion"
+            ]
+        },
+        "elite": {
+            "weight": 5,
+            "creatureIds": [
+                "pixie",
+                "manta_ray"
+            ],
+            "packSize": [
+                1,
+                1
+            ],
+            "affixes": [
+                "elite"
+            ]
+        }
+    },
+    "limits": {
+        "totalPacks": [
+            4,
+            8
+        ],
+        "championPacks": [
+            1,
+            2
+        ],
+        "elitePacks": [
+            0,
+            1
+        ]
+    }
+}

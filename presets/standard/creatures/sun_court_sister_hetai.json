@@ -1,0 +1,249 @@
+{
+    "id": "sun_court_sister_hetai",
+    "label": "Sun Court Sister Hetai",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A sun court sister hetai.",
+    "hp": 25000,
+    "hpMax": 25000,
+    "speed": 115,
+    "level": 746,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 20500,
+    "lootValue": 8809.817679558,
+    "aggro": true,
+    "resists": {
+        "physical": 5,
+        "fire": 10,
+        "ice": -25,
+        "energy": 15,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 130,
+            "max": 242
+        },
+        {
+            "id": "targetfirering_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 40,
+            "range": 1,
+            "element": "physical",
+            "min": 242,
+            "max": 314,
+            "target": true
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 70,
+            "range": 4,
+            "element": "fire",
+            "min": 169,
+            "max": 242,
+            "radius": 2,
+            "target": true,
+            "effect": "me_explosionhit",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 4,
+            "element": "energy",
+            "min": 242,
+            "max": 362,
+            "radius": 4,
+            "target": false,
+            "effect": "me_energyarea"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "dagger",
+            "chance": 5052
+        },
+        {
+            "name": "crystal coin",
+            "chance": 4323,
+            "maxCount": 1
+        },
+        {
+            "name": "sacred tree amulet",
+            "chance": 781
+        },
+        {
+            "name": "gold ingot",
+            "chance": 677,
+            "maxCount": 1
+        },
+        {
+            "name": "Stormbound Headband",
+            "chance": 469
+        },
+        {
+            "name": "Nether Rod",
+            "chance": 469
+        },
+        {
+            "name": "violet gem",
+            "chance": 469
+        },
+        {
+            "name": "wand of cosmic energy",
+            "chance": 469
+        },
+        {
+            "name": "onyx chip",
+            "chance": 417
+        },
+        {
+            "name": "rainbow quartz",
+            "chance": 417
+        },
+        {
+            "name": "small diamond",
+            "chance": 417
+        },
+        {
+            "name": "wand of inferno",
+            "chance": 417
+        },
+        {
+            "name": "knight armor",
+            "chance": 365
+        },
+        {
+            "name": "Stormbound Pendant",
+            "chance": 365
+        },
+        {
+            "name": "small emerald",
+            "chance": 365
+        },
+        {
+            "name": "focus cape",
+            "chance": 313
+        },
+        {
+            "name": "Emberbound Coat",
+            "chance": 313
+        },
+        {
+            "chance": 313,
+            "name": "ring of healing"
+        },
+        {
+            "name": "wand of starstorm",
+            "chance": 313
+        },
+        {
+            "name": "Emberbound Boots",
+            "chance": 260
+        },
+        {
+            "name": "metal spats",
+            "chance": 260
+        },
+        {
+            "name": "warrior's shield",
+            "chance": 260
+        },
+        {
+            "chance": 208,
+            "name": "dwarven ring"
+        },
+        {
+            "name": "golden mask",
+            "chance": 208
+        },
+        {
+            "name": "Earthbound Hood",
+            "chance": 208
+        },
+        {
+            "name": "eye-embroidered veil",
+            "chance": 156
+        },
+        {
+            "chance": 156,
+            "name": "ring of green plasma"
+        },
+        {
+            "name": "Earthbound Boots",
+            "chance": 156
+        },
+        {
+            "name": "yellow gem",
+            "chance": 156
+        },
+        {
+            "name": "Stormbound Legs",
+            "chance": 104
+        },
+        {
+            "name": "sea horse figurine",
+            "chance": 104
+        },
+        {
+            "name": "tagralt-inlaid scabbard",
+            "chance": 52
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "flamingo",
+    "threatDps": 265.825,
+    "burstDps": 265.825,
+    "avgHit": 221.5208,
+    "maxHit": 362,
+    "manaCost": 0
+}

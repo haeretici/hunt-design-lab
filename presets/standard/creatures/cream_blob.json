@@ -1,0 +1,89 @@
+{
+    "id": "cream_blob",
+    "label": "Cream Blob",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A cream blob.",
+    "hp": 76,
+    "hpMax": 76,
+    "speed": 140,
+    "level": 1,
+    "armor": 7,
+    "mitigation": 0.36,
+    "maxBlock": 0,
+    "exp": 21,
+    "lootValue": 0,
+    "aggro": false,
+    "resists": {
+        "physical": 0,
+        "fire": -14,
+        "ice": 15,
+        "energy": 0,
+        "earth": 25,
+        "holy": 10,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 76,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": false,
+        "convinceable": false,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 1
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Fey",
+        "toKill": 25,
+        "firstUnlock": 5,
+        "secondUnlock": 10,
+        "charmsPoints": 1,
+        "stars": 1,
+        "occurrence": 0
+    },
+    "loot": [],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "cream_blob",
+    "threatDps": 0.25,
+    "burstDps": 0.25,
+    "avgHit": 0.5,
+    "maxHit": 1,
+    "manaCost": 0
+}

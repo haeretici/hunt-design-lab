@@ -1,0 +1,156 @@
+{
+    "id": "thawing_elder_dragon",
+    "label": "Thawing Elder Dragon",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A thawing elder dragon.",
+    "hp": 25000,
+    "hpMax": 25000,
+    "speed": 115,
+    "level": 746,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 2100,
+    "lootValue": 7674.6268656716,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 247
+        },
+        {
+            "id": "ice_crystal_bomb_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 1,
+            "element": "physical",
+            "min": 494,
+            "max": 577,
+            "target": true
+        },
+        {
+            "id": "fire_wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 4,
+            "element": "physical",
+            "min": 659,
+            "max": 989,
+            "length": 1,
+            "spread": 1,
+            "target": true,
+            "effect": "me_firearea"
+        },
+        {
+            "id": "slow_3",
+            "kind": "status",
+            "intervalMs": 1000,
+            "chance": 12,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -250,
+                "durationSec": 60
+            },
+            "radius": 6,
+            "effect": "me_hitbyfire",
+            "target": false
+        },
+        {
+            "id": "firefield_4",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "radius": 4,
+            "target": true,
+            "shootEffect": "ani_fire",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "race": "fire",
+    "loot": [
+        {
+            "chance": 50000,
+            "maxCount": 4,
+            "name": "gold ingot"
+        },
+        {
+            "chance": 5560,
+            "name": "ice cube"
+        },
+        {
+            "chance": 5560,
+            "name": "ice cream cone"
+        },
+        {
+            "chance": 50,
+            "name": "bar of gold"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "wild_desert_dragon",
+    "threatDps": 265.675,
+    "burstDps": 265.675,
+    "avgHit": 332.0937,
+    "maxHit": 989,
+    "manaCost": 0
+}

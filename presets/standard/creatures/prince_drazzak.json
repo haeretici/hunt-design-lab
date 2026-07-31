@@ -1,0 +1,189 @@
+{
+    "id": "prince_drazzak",
+    "label": "Prince Drazzak",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A prince drazzak.",
+    "hp": 330000,
+    "hpMax": 330000,
+    "speed": 240,
+    "level": 1000,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 210000,
+    "lootValue": 21310,
+    "aggro": true,
+    "resists": {
+        "physical": 35,
+        "fire": 35,
+        "ice": 35,
+        "energy": 35,
+        "earth": 35,
+        "holy": 35,
+        "death": 35
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 2000,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 18,
+            "range": 4,
+            "element": "death",
+            "min": 6164,
+            "max": 18492,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_mortarea"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 1500,
+            "max": 3000,
+            "hpBelow": 0.7,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "fire",
+    "loot": [
+        {
+            "chance": 100000,
+            "name": "dream matter"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 2,
+            "name": "cluster of solace"
+        },
+        {
+            "chance": 93750,
+            "maxCount": 3,
+            "name": "unrealized dream"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 2,
+            "name": "demonic essence"
+        },
+        {
+            "chance": 50000,
+            "name": "demon horn"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 50,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 100,
+            "name": "ultimate health potion"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 100,
+            "name": "great dual potion"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 100,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 25000,
+            "name": "eye pod"
+        },
+        {
+            "chance": 2500,
+            "name": "nightmare horn"
+        },
+        {
+            "chance": 25000,
+            "name": "psychedelic tapestry"
+        },
+        {
+            "chance": 25000,
+            "name": "demonic tapestry"
+        },
+        {
+            "chance": 2500,
+            "name": "skull helmet"
+        },
+        {
+            "chance": 2500,
+            "unique": true,
+            "name": "runed sword"
+        },
+        {
+            "chance": 7000,
+            "unique": true,
+            "name": "dream warden mask"
+        },
+        {
+            "chance": 1000,
+            "name": "nightmare blade"
+        },
+        {
+            "chance": 1000,
+            "name": "Stormbound Boots"
+        },
+        {
+            "id": 281,
+            "chance": 5000
+        },
+        {
+            "id": 282,
+            "chance": 5000
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 25
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "crystal_demon_priest",
+    "threatDps": 1109.52,
+    "burstDps": 1109.52,
+    "avgHit": 12328,
+    "maxHit": 18492,
+    "manaCost": 0
+}

@@ -1,0 +1,102 @@
+{
+    "id": "doom_herald",
+    "label": "Doom Herald",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A doom herald.",
+    "hp": 2500,
+    "hpMax": 2500,
+    "speed": 115,
+    "level": 516,
+    "armor": 17,
+    "mitigation": 0.56,
+    "maxBlock": 0,
+    "exp": 400,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": -10,
+        "fire": 90,
+        "ice": 90,
+        "energy": 90,
+        "earth": 90,
+        "holy": 90,
+        "death": 90
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 297
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Plant",
+        "toKill": 5,
+        "firstUnlock": 2,
+        "secondUnlock": 3,
+        "charmsPoints": 50,
+        "stars": 3,
+        "occurrence": 3
+    },
+    "loot": [
+        {
+            "id": 3135,
+            "chance": 15220,
+            "maxCount": 96
+        },
+        {
+            "name": "dry piece of wood",
+            "chance": 100000
+        }
+    ],
+    "changeTarget": {
+        "interval": 0,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "orchid_frog",
+    "threatDps": 74.25,
+    "burstDps": 74.25,
+    "avgHit": 148.5,
+    "maxHit": 297,
+    "manaCost": 0
+}

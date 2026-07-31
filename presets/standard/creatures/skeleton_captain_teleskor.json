@@ -1,0 +1,117 @@
+{
+    "id": "skeleton_captain_teleskor",
+    "label": "Skeleton Captain Teleskor",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A skeleton captain teleskor.",
+    "hp": 80,
+    "hpMax": 80,
+    "speed": 75,
+    "level": 172,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 70,
+    "lootValue": 147.48275862069,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 44
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "chance": 100000,
+            "name": "pelvis bone"
+        },
+        {
+            "chance": 81000,
+            "maxCount": 79,
+            "name": "gold coin"
+        },
+        {
+            "chance": 72000,
+            "name": "mace"
+        },
+        {
+            "chance": 72000,
+            "name": "viking helmet"
+        },
+        {
+            "chance": 45000,
+            "name": "brass shield"
+        },
+        {
+            "chance": 36000,
+            "name": "torch"
+        },
+        {
+            "chance": 27000,
+            "name": "hatchet"
+        },
+        {
+            "chance": 27000,
+            "name": "sword"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 5
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "skeleton_captain_teleskor",
+    "threatDps": 11,
+    "burstDps": 11,
+    "avgHit": 22,
+    "maxHit": 44,
+    "manaCost": 0
+}

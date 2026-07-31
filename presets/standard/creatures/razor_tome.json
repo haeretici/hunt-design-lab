@@ -1,0 +1,141 @@
+{
+    "id": "razor_tome",
+    "label": "Razor Tome",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A razor tome.",
+    "hp": 6500,
+    "hpMax": 6500,
+    "speed": 240,
+    "level": 611,
+    "armor": 76,
+    "mitigation": 1.88,
+    "maxBlock": 0,
+    "exp": 9350,
+    "lootValue": 3517.2244897959,
+    "aggro": true,
+    "resists": {
+        "physical": 50,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 316
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 12,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 362,
+            "radius": 5,
+            "target": false,
+            "effect": "me_smoke"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 14,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 362,
+            "radius": 3,
+            "target": false,
+            "effect": "me_bats"
+        }
+    ],
+    "race": "ink",
+    "bestiary": {
+        "class": "Construct",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 500,
+            "maxCount": 2,
+            "name": "big bone"
+        },
+        {
+            "name": "book page",
+            "chance": 500,
+            "maxCount": 4
+        },
+        {
+            "name": "glowing rune",
+            "chance": 500,
+            "maxCount": 2
+        },
+        {
+            "name": "platinum coin",
+            "chance": 10000,
+            "maxCount": 5
+        },
+        {
+            "name": "silken bookmark",
+            "chance": 500,
+            "maxCount": 3
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "lunar_mountain_elemental_necromancer",
+    "threatDps": 126.06,
+    "burstDps": 126.06,
+    "avgHit": 165.8684,
+    "maxHit": 362,
+    "manaCost": 0
+}

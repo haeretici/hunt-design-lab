@@ -1,0 +1,218 @@
+{
+    "id": "afflicted_strider",
+    "label": "Afflicted Strider",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An afflicted strider.",
+    "hp": 10000,
+    "hpMax": 10000,
+    "speed": 135,
+    "level": 654,
+    "armor": 68,
+    "mitigation": 1.88,
+    "maxBlock": 0,
+    "exp": 6550,
+    "lootValue": 3881.3241545894,
+    "aggro": true,
+    "resists": {
+        "physical": 5,
+        "fire": -10,
+        "ice": 0,
+        "energy": 0,
+        "earth": 10,
+        "holy": 0,
+        "death": 15
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "damage": 30
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 249
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 3,
+            "element": "earth",
+            "min": 229,
+            "max": 270,
+            "target": true,
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 40,
+            "range": 4,
+            "element": "death",
+            "min": 270,
+            "max": 332,
+            "radius": 5,
+            "target": false,
+            "effect": "me_groundshaker"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 25,
+            "speedChange": 450,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Vermin",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 70000,
+            "maxCount": 16
+        },
+        {
+            "name": "afflicted strider worms",
+            "chance": 10940,
+            "maxCount": 3
+        },
+        {
+            "name": "guardian halberd",
+            "chance": 9410
+        },
+        {
+            "name": "crystal sword",
+            "chance": 8940
+        },
+        {
+            "name": "violet gem",
+            "chance": 6940,
+            "maxCount": 1
+        },
+        {
+            "name": "violet crystal shard",
+            "chance": 5410
+        },
+        {
+            "name": "doublet",
+            "chance": 5060
+        },
+        {
+            "name": "green crystal shard",
+            "chance": 6820
+        },
+        {
+            "name": "belted cape",
+            "chance": 3760
+        },
+        {
+            "name": "afflicted strider head",
+            "chance": 4820
+        },
+        {
+            "name": "knight armor",
+            "chance": 4590
+        },
+        {
+            "name": "spirit cloak",
+            "chance": 3060
+        },
+        {
+            "name": "Emberbound Coat",
+            "chance": 2470
+        },
+        {
+            "name": "serpent sword",
+            "chance": 2240
+        },
+        {
+            "name": "machete",
+            "chance": 3760
+        },
+        {
+            "name": "broadsword",
+            "chance": 1060
+        },
+        {
+            "name": "focus cape",
+            "chance": 2240
+        },
+        {
+            "name": "ice rapier",
+            "chance": 2240
+        },
+        {
+            "name": "titan axe",
+            "chance": 1880
+        },
+        {
+            "name": "haunted blade",
+            "chance": 1410
+        },
+        {
+            "name": "mercenary sword",
+            "chance": 1530
+        },
+        {
+            "name": "knight axe",
+            "chance": 1290
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "twilight_desert_stalker",
+    "threatDps": 159.875,
+    "burstDps": 159.875,
+    "avgHit": 188.0882,
+    "maxHit": 332,
+    "manaCost": 0
+}

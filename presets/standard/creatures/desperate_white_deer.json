@@ -1,0 +1,106 @@
+{
+    "id": "desperate_white_deer",
+    "label": "Desperate White Deer",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A desperate white deer.",
+    "hp": 55,
+    "hpMax": 55,
+    "speed": 112,
+    "level": 136,
+    "armor": 1,
+    "mitigation": 0.05,
+    "maxBlock": 0,
+    "exp": 35,
+    "lootValue": 135.8087865299,
+    "aggro": false,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 55,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": false,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "element": "physical",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "min": 4,
+            "max": 32,
+            "target": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 400,
+            "durationSec": 4,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "ham",
+            "chance": 20000,
+            "maxCount": 3
+        },
+        {
+            "name": "white deer antlers",
+            "chance": 20000
+        },
+        {
+            "name": "white deer skin",
+            "chance": 20000
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "desperate_white_deer",
+    "threatDps": 9,
+    "burstDps": 9,
+    "avgHit": 18,
+    "maxHit": 32,
+    "manaCost": 0
+}

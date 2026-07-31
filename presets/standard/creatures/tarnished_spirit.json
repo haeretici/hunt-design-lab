@@ -1,0 +1,138 @@
+{
+    "id": "tarnished_spirit",
+    "label": "Tarnished Spirit",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A tarnished spirit.",
+    "hp": 150,
+    "hpMax": 150,
+    "speed": 80,
+    "level": 236,
+    "armor": 10,
+    "mitigation": 0.51,
+    "maxBlock": 0,
+    "exp": 120,
+    "lootValue": 47.672131147541,
+    "aggro": true,
+    "resists": {
+        "physical": 100,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 100,
+        "holy": 0,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 56
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 1,
+            "element": "lifedrain",
+            "min": 14,
+            "max": 31,
+            "target": false,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "id": 2828,
+            "chance": 1310
+        },
+        {
+            "chance": 180,
+            "name": "stealth ring"
+        },
+        {
+            "name": "morning star",
+            "chance": 10610
+        },
+        {
+            "name": "combat knife",
+            "chance": 7002
+        },
+        {
+            "name": "ancient shield",
+            "chance": 860
+        },
+        {
+            "name": "cape",
+            "chance": 8800
+        },
+        {
+            "name": "shadow herb",
+            "chance": 14400
+        },
+        {
+            "name": "white piece of cloth",
+            "chance": 1940
+        },
+        {
+            "name": "ghostly tissue",
+            "chance": 1870
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "tarnished_spirit",
+    "threatDps": 15.6875,
+    "burstDps": 15.6875,
+    "avgHit": 27.2826,
+    "maxHit": 56,
+    "manaCost": 0
+}

@@ -1,0 +1,158 @@
+{
+    "id": "reptilian_noble",
+    "label": "Reptilian Noble",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A reptilian noble.",
+    "hp": 7000,
+    "hpMax": 7000,
+    "speed": 128,
+    "level": 619,
+    "armor": 27,
+    "mitigation": 1.02,
+    "maxBlock": 0,
+    "exp": 2000,
+    "lootValue": 276.21142520612,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 85,
+        "ice": 0,
+        "energy": 0,
+        "earth": 100,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 119
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 7,
+            "element": "earth",
+            "min": 476,
+            "max": 991,
+            "target": false,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "manadrain",
+            "min": 0,
+            "max": 396,
+            "target": false,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 50,
+            "min": 200,
+            "max": 250,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Reptile",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "small ruby",
+            "chance": 7100,
+            "maxCount": 5
+        },
+        {
+            "name": "gold coin",
+            "chance": 91300,
+            "maxCount": 100
+        },
+        {
+            "name": "platinum coin",
+            "chance": 10000,
+            "maxCount": 20
+        },
+        {
+            "name": "lizard leather",
+            "chance": 220
+        },
+        {
+            "name": "lizard scale",
+            "chance": 650
+        },
+        {
+            "name": "strong health potion",
+            "chance": 2550
+        },
+        {
+            "name": "great health potion",
+            "chance": 2900
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "wild_fire_magic",
+    "threatDps": 131.3375,
+    "burstDps": 131.3375,
+    "avgHit": 194.5741,
+    "maxHit": 991,
+    "manaCost": 0
+}

@@ -1,0 +1,120 @@
+{
+    "id": "druid_familiar",
+    "label": "Druid Familiar",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A druid familiar.",
+    "hp": 20000,
+    "hpMax": 20000,
+    "speed": 154,
+    "level": 723,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": false,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": false,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": false,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 615
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 5,
+            "element": "earth",
+            "min": 472,
+            "max": 533,
+            "target": true,
+            "effect": "me_stones",
+            "shootEffect": "ani_earth"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 4,
+            "element": "earth",
+            "min": 185,
+            "max": 308,
+            "length": 2,
+            "spread": 0,
+            "target": false,
+            "effect": "me_groundshaker"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 75,
+            "min": 600,
+            "max": 600,
+            "hpBelow": 0.7,
+            "effect": "me_magic_green"
+        }
+    ],
+    "race": "undead",
+    "loot": [],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": true,
+        "invisible": true
+    },
+    "customSprite": "enraged_squirrel",
+    "threatDps": 234.8125,
+    "burstDps": 234.8125,
+    "avgHit": 323.8793,
+    "maxHit": 615,
+    "manaCost": 3000
+}

@@ -1,0 +1,226 @@
+{
+    "id": "earth_elemental",
+    "label": "Earth Elemental",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An earth elemental.",
+    "hp": 650,
+    "hpMax": 650,
+    "speed": 115,
+    "level": 382,
+    "armor": 45,
+    "mitigation": 0.78,
+    "maxBlock": 0,
+    "exp": 550,
+    "lootValue": 74.711231476967,
+    "aggro": true,
+    "resists": {
+        "physical": 35,
+        "fire": -25,
+        "ice": 5,
+        "energy": 100,
+        "earth": 100,
+        "holy": 50,
+        "death": 40
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 80,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 61
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "earth",
+            "min": 40,
+            "max": 58,
+            "target": true,
+            "effect": "me_green_rings",
+            "shootEffect": "ani_smallearth"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 56,
+            "radius": 2,
+            "target": true,
+            "effect": "me_poff",
+            "shootEffect": "ani_largerock"
+        },
+        {
+            "id": "condition_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "earth",
+            "min": 111,
+            "max": 144,
+            "length": 6,
+            "spread": 0,
+            "target": false,
+            "effect": "me_bigplants"
+        },
+        {
+            "id": "condition_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "earth",
+            "min": 56,
+            "max": 78,
+            "radius": 5,
+            "target": false,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "slow_5",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 5,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -330,
+                "durationSec": 5
+            },
+            "effect": "me_smallplants",
+            "target": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 5,
+            "min": 60,
+            "max": 80,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Elemental",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "small stone",
+            "chance": 10000,
+            "maxCount": 10
+        },
+        {
+            "name": "gold coin",
+            "chance": 43000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 30
+        },
+        {
+            "name": "blank rune",
+            "chance": 10000
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 1910
+        },
+        {
+            "name": "earth arrow",
+            "chance": 20160,
+            "maxCount": 30
+        },
+        {
+            "chance": 350,
+            "name": "heavily rusted armor"
+        },
+        {
+            "name": "small topaz",
+            "chance": 620
+        },
+        {
+            "name": "lump of earth",
+            "chance": 20460
+        },
+        {
+            "name": "clay lump",
+            "chance": 570
+        },
+        {
+            "chance": 470,
+            "name": "coal"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "arcane_elemental_vanguard",
+    "threatDps": 35.2,
+    "burstDps": 35.2,
+    "avgHit": 46.9333,
+    "maxHit": 144,
+    "manaCost": 0
+}

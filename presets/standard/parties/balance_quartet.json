@@ -1,0 +1,27 @@
+{
+    "id": "balance_quartet",
+    "label": "Balance Quartet",
+    "notes": "Four-vocation mid tier (L50 starters) for arena / vocation balance. Progression ladder: balance_quartet_novice (L12) → this party → balance_quartet_veteran (L90). docs/24 I4.",
+    "members": [
+        {
+            "profileId": "guardian_starter",
+            "name": "Guardian",
+            "isLeader": true
+        },
+        {
+            "profileId": "scout_starter",
+            "name": "Scout",
+            "isLeader": false
+        },
+        {
+            "profileId": "adept_starter",
+            "name": "Adept",
+            "isLeader": false
+        },
+        {
+            "profileId": "warden_starter",
+            "name": "Warden",
+            "isLeader": false
+        }
+    ]
+}

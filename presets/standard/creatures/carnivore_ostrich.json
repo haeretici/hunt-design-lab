@@ -1,0 +1,213 @@
+{
+    "id": "carnivore_ostrich",
+    "label": "Carnivore Ostrich",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A carnivore ostrich.",
+    "hp": 8250,
+    "hpMax": 8250,
+    "speed": 168,
+    "level": 636,
+    "armor": 63,
+    "mitigation": 1.94,
+    "maxBlock": 0,
+    "exp": 6710,
+    "lootValue": 1852.5353456501,
+    "aggro": true,
+    "resists": {
+        "physical": -10,
+        "fire": -10,
+        "ice": -10,
+        "energy": 15,
+        "earth": 0,
+        "holy": -20,
+        "death": 5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 3,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 134,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 129,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2500,
+            "chance": 40,
+            "range": 7,
+            "element": "physical",
+            "min": 103,
+            "max": 129,
+            "target": true,
+            "shootEffect": "ani_largerock"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 3000,
+            "chance": 40,
+            "range": 7,
+            "element": "physical",
+            "min": 27,
+            "max": 36,
+            "target": true,
+            "shootEffect": "ani_smallstone"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 3500,
+            "chance": 30,
+            "range": 4,
+            "element": "death",
+            "min": 94,
+            "max": 133,
+            "length": 7,
+            "spread": 0,
+            "target": false,
+            "effect": "me_blacksmoke"
+        },
+        {
+            "id": "wave_4",
+            "kind": "wave",
+            "intervalMs": 4000,
+            "chance": 30,
+            "range": 4,
+            "element": "energy",
+            "min": 75,
+            "max": 86,
+            "length": 7,
+            "spread": 0,
+            "target": false,
+            "effect": "me_energyhit"
+        },
+        {
+            "id": "energy_chain_5",
+            "kind": "ranged",
+            "intervalMs": 4500,
+            "chance": 20,
+            "range": 3,
+            "element": "physical",
+            "min": 81,
+            "max": 83,
+            "target": true
+        },
+        {
+            "id": "thunderstorm_ring_6",
+            "kind": "melee",
+            "intervalMs": 5000,
+            "chance": 20,
+            "range": 1,
+            "element": "physical",
+            "min": 87,
+            "max": 111
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Bird",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 1
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 80450,
+            "maxCount": 28
+        },
+        {
+            "name": "small ruby",
+            "chance": 16390,
+            "maxCount": 8
+        },
+        {
+            "name": "small emerald",
+            "chance": 8330,
+            "maxCount": 8
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 4910,
+            "maxCount": 4
+        },
+        {
+            "name": "carnivostrich feather",
+            "chance": 3470,
+            "maxCount": 4
+        },
+        {
+            "name": "Nether Rod",
+            "chance": 2420
+        },
+        {
+            "name": "wand of voodoo",
+            "chance": 2110
+        },
+        {
+            "name": "blue gem",
+            "chance": 2090
+        },
+        {
+            "name": "spellbook of mind control",
+            "chance": 810
+        },
+        {
+            "name": "boots of haste",
+            "chance": 620
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "eldritch_bugbear_vanguard",
+    "threatDps": 144.1305,
+    "burstDps": 174.7,
+    "avgHit": 76.679,
+    "maxHit": 134,
+    "manaCost": 0
+}

@@ -1,0 +1,256 @@
+{
+    "id": "draconian_abomination",
+    "label": "Draconian Abomination",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A draconian abomination.",
+    "hp": 6250,
+    "hpMax": 6250,
+    "speed": 135,
+    "level": 607,
+    "armor": 45,
+    "mitigation": 1.6,
+    "maxBlock": 0,
+    "exp": 4500,
+    "lootValue": 1435.2039127576,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": 5,
+        "energy": -5,
+        "earth": 100,
+        "holy": -5,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 348
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "fire",
+            "min": 257,
+            "max": 522,
+            "length": 4,
+            "spread": 3,
+            "target": false,
+            "effect": "me_explosionhit"
+        },
+        {
+            "id": "draken_abomination_curse_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 5,
+            "element": "physical",
+            "target": false,
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "death",
+            "min": 141,
+            "max": 307,
+            "length": 4,
+            "spread": 3,
+            "target": false,
+            "effect": "me_mortarea"
+        },
+        {
+            "id": "area_5",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "radius": 3,
+            "target": false,
+            "effect": "me_hitbypoison",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 650,
+            "max": 700,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Dragon",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 47000,
+            "maxCount": 98
+        },
+        {
+            "name": "platinum coin",
+            "chance": 50590,
+            "maxCount": 8
+        },
+        {
+            "name": "meat",
+            "chance": 50450,
+            "maxCount": 4
+        },
+        {
+            "name": "great mana potion",
+            "chance": 9950,
+            "maxCount": 3
+        },
+        {
+            "name": "Earthbound Hood",
+            "chance": 8730
+        },
+        {
+            "name": "great dual potion",
+            "chance": 4905,
+            "maxCount": 3
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 9400,
+            "maxCount": 3
+        },
+        {
+            "name": "wand of voodoo",
+            "chance": 1020
+        },
+        {
+            "name": "small topaz",
+            "chance": 2900,
+            "maxCount": 4
+        },
+        {
+            "name": "zaoan armor",
+            "chance": 470
+        },
+        {
+            "name": "zaoan helmet",
+            "chance": 560
+        },
+        {
+            "name": "zaoan legs",
+            "chance": 780
+        },
+        {
+            "name": "eye of corruption",
+            "chance": 12110
+        },
+        {
+            "name": "tail of corruption",
+            "chance": 6240
+        },
+        {
+            "name": "scale of corruption",
+            "chance": 10940
+        },
+        {
+            "name": "shield of corruption",
+            "chance": 10
+        },
+        {
+            "name": "draken boots",
+            "chance": 540
+        },
+        {
+            "name": "snake god's wristguard",
+            "chance": 10
+        },
+        {
+            "name": "bamboo leaves",
+            "chance": 360
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "dread_abomination",
+    "threatDps": 123.275,
+    "burstDps": 123.275,
+    "avgHit": 197.24,
+    "maxHit": 522,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 2,
+        "summons": [
+            {
+                "name": "Death Blob",
+                "id": "death_blob",
+                "chance": 10,
+                "interval": 2000,
+                "count": 2
+            }
+        ]
+    }
+}

@@ -1,0 +1,116 @@
+{
+    "id": "deepsea_blood_crab",
+    "label": "Deepsea Blood Crab",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A deepsea blood crab.",
+    "hp": 320,
+    "hpMax": 320,
+    "speed": 190,
+    "level": 311,
+    "armor": 28,
+    "mitigation": 0.56,
+    "maxBlock": 0,
+    "exp": 180,
+    "lootValue": 18.700033534541,
+    "aggro": true,
+    "resists": {
+        "physical": 5,
+        "fire": -10,
+        "ice": 100,
+        "energy": -5,
+        "earth": 100,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 95,
+            "effect": "me_drawblood"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Aquatic",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 87000,
+            "maxCount": 20
+        },
+        {
+            "chance": 10450,
+            "name": "fish"
+        },
+        {
+            "name": "bloody pincers",
+            "chance": 6980
+        },
+        {
+            "name": "chain armor",
+            "chance": 5020
+        },
+        {
+            "name": "brass legs",
+            "chance": 2720
+        },
+        {
+            "name": "white pearl",
+            "chance": 620
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "blood_behemoth",
+    "threatDps": 23.75,
+    "burstDps": 23.75,
+    "avgHit": 47.5,
+    "maxHit": 95,
+    "manaCost": 0
+}

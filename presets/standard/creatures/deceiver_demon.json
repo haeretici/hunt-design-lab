@@ -1,0 +1,486 @@
+{
+    "id": "deceiver_demon",
+    "label": "Deceiver Demon",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A deceiver demon.",
+    "hp": 110000,
+    "hpMax": 110000,
+    "speed": 265,
+    "level": 894,
+    "armor": 160,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 30000,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": 0,
+        "energy": 100,
+        "earth": 100,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 3000,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 7,
+            "range": 7,
+            "element": "manadrain",
+            "min": 138,
+            "max": 1384,
+            "target": false,
+            "effect": "me_poff",
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "strength_3",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 9,
+            "range": 7,
+            "element": "physical",
+            "target": false,
+            "effect": "me_energyarea",
+            "shootEffect": "ani_largerock",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 13,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 554,
+            "max": 969,
+            "radius": 8,
+            "target": false,
+            "effect": "me_loseenergy"
+        },
+        {
+            "id": "area_5",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 10,
+            "range": 4,
+            "element": "manadrain",
+            "min": 554,
+            "max": 969,
+            "radius": 8,
+            "target": false,
+            "effect": "me_magic_green"
+        },
+        {
+            "id": "slow_6",
+            "kind": "status",
+            "intervalMs": 1000,
+            "chance": 12,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -1900,
+                "durationSec": 60
+            },
+            "radius": 6,
+            "effect": "me_poisonarea",
+            "target": false
+        },
+        {
+            "id": "strength_7",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 8,
+            "range": 4,
+            "element": "physical",
+            "radius": 5,
+            "target": false,
+            "effect": "me_hitarea",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "area_10",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 34,
+            "range": 7,
+            "element": "fire",
+            "min": 138,
+            "max": 1246,
+            "radius": 7,
+            "target": true,
+            "effect": "me_firearea",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "wave_11",
+            "kind": "wave",
+            "intervalMs": 1000,
+            "chance": 15,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 692,
+            "max": 1176,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_magic_red"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 1000,
+            "chance": 15,
+            "min": 5000,
+            "max": 10000,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "heal_1",
+            "kind": "heal",
+            "intervalMs": 1000,
+            "chance": 25,
+            "min": 2000,
+            "max": 3000,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_2",
+            "kind": "haste",
+            "intervalMs": 1000,
+            "chance": 8,
+            "speedChange": 1901,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "invisible_3",
+            "kind": "invisible",
+            "intervalMs": 1000,
+            "chance": 4,
+            "durationSec": 2,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "invisible_4",
+            "kind": "invisible",
+            "intervalMs": 1000,
+            "chance": 17,
+            "durationSec": 2,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "fire",
+    "loot": [
+        {
+            "chance": 3500,
+            "name": "ancient amulet"
+        },
+        {
+            "chance": 9000,
+            "name": "big bone"
+        },
+        {
+            "chance": 15000,
+            "maxCount": 15,
+            "name": "black pearl"
+        },
+        {
+            "chance": 1500,
+            "name": "blue gem"
+        },
+        {
+            "chance": 4000,
+            "name": "boots of haste"
+        },
+        {
+            "chance": 3500,
+            "name": "Lunar Rod"
+        },
+        {
+            "chance": 2500,
+            "name": "crystal ball"
+        },
+        {
+            "chance": 1500,
+            "name": "crystal necklace"
+        },
+        {
+            "chance": 5500,
+            "name": "crystal ring"
+        },
+        {
+            "chance": 15500,
+            "name": "demon shield"
+        },
+        {
+            "chance": 11000,
+            "name": "devil helmet"
+        },
+        {
+            "chance": 20000,
+            "name": "double axe"
+        },
+        {
+            "chance": 4500,
+            "name": "dragon hammer"
+        },
+        {
+            "chance": 13500,
+            "name": "voltaic ring"
+        },
+        {
+            "chance": 17000,
+            "name": "fire axe"
+        },
+        {
+            "chance": 12500,
+            "name": "giant sword"
+        },
+        {
+            "chance": 99900,
+            "maxCount": 100,
+            "name": "gold coin"
+        },
+        {
+            "chance": 88800,
+            "maxCount": 100,
+            "name": "gold coin"
+        },
+        {
+            "chance": 77700,
+            "maxCount": 100,
+            "name": "gold coin"
+        },
+        {
+            "chance": 66600,
+            "maxCount": 100,
+            "name": "gold coin"
+        },
+        {
+            "chance": 8000,
+            "name": "gold ring"
+        },
+        {
+            "chance": 5000,
+            "name": "golden legs"
+        },
+        {
+            "chance": 7500,
+            "name": "golden mug"
+        },
+        {
+            "chance": 4500,
+            "name": "golden sickle"
+        },
+        {
+            "chance": 3500,
+            "name": "Viperfang Rod"
+        },
+        {
+            "chance": 1500,
+            "name": "green gem"
+        },
+        {
+            "chance": 2500,
+            "name": "wand of decay"
+        },
+        {
+            "chance": 7500,
+            "name": "ice rapier"
+        },
+        {
+            "chance": 1000,
+            "name": "life crystal"
+        },
+        {
+            "chance": 11500,
+            "name": "magic light wand"
+        },
+        {
+            "chance": 3000,
+            "name": "Arcane Plate Armor"
+        },
+        {
+            "chance": 7500,
+            "name": "mastermind shield"
+        },
+        {
+            "chance": 5000,
+            "name": "might ring"
+        },
+        {
+            "chance": 4000,
+            "name": "mind stone"
+        },
+        {
+            "chance": 12000,
+            "name": "orb"
+        },
+        {
+            "chance": 4500,
+            "name": "platinum amulet"
+        },
+        {
+            "chance": 4500,
+            "name": "protection amulet"
+        },
+        {
+            "chance": 2600,
+            "name": "purple tome"
+        },
+        {
+            "chance": 13000,
+            "name": "ring of healing"
+        },
+        {
+            "chance": 3500,
+            "name": "Celestial Band"
+        },
+        {
+            "chance": 13000,
+            "name": "silver amulet"
+        },
+        {
+            "chance": 15500,
+            "name": "silver dagger"
+        },
+        {
+            "chance": 5000,
+            "name": "Bone Skull Staff"
+        },
+        {
+            "chance": 13500,
+            "maxCount": 20,
+            "name": "small amethyst"
+        },
+        {
+            "chance": 9500,
+            "maxCount": 5,
+            "name": "small diamond"
+        },
+        {
+            "chance": 15500,
+            "maxCount": 10,
+            "name": "small emerald"
+        },
+        {
+            "chance": 13500,
+            "maxCount": 10,
+            "name": "small sapphire"
+        },
+        {
+            "chance": 9500,
+            "name": "stealth ring"
+        },
+        {
+            "chance": 4000,
+            "name": "Stonehide Amulet"
+        },
+        {
+            "chance": 2500,
+            "name": "strange symbol"
+        },
+        {
+            "chance": 14000,
+            "maxCount": 7,
+            "name": "talon"
+        },
+        {
+            "chance": 14500,
+            "name": "teddy bear"
+        },
+        {
+            "chance": 13500,
+            "name": "thunder hammer"
+        },
+        {
+            "chance": 20000,
+            "name": "two handed sword"
+        },
+        {
+            "chance": 100,
+            "name": "voodoo doll"
+        },
+        {
+            "chance": 3500,
+            "name": "Withering Rod"
+        },
+        {
+            "chance": 12500,
+            "maxCount": 15,
+            "name": "white pearl"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "mist_demon_priest",
+    "threatDps": 603.795,
+    "burstDps": 603.795,
+    "avgHit": 764.2975,
+    "maxHit": 1384,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 1,
+        "summons": [
+            {
+                "name": "Deceiver Demon",
+                "id": "deceiver_demon",
+                "chance": 15,
+                "interval": 1000,
+                "count": 1
+            }
+        ]
+    }
+}

@@ -1,0 +1,266 @@
+{
+    "id": "mirror_archdemon",
+    "label": "Mirror Archdemon",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A mirror archdemon.",
+    "hp": 1,
+    "hpMax": 1,
+    "speed": 160,
+    "level": 1000,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 500000,
+    "lootValue": 31079.6,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 50,
+        "ice": 0,
+        "energy": 0,
+        "earth": -1,
+        "holy": -1,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 3000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 1500,
+            "max": 2300
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 1000,
+            "chance": 10,
+            "range": 4,
+            "element": "death",
+            "min": 700,
+            "max": 800,
+            "length": 12,
+            "spread": 3,
+            "target": false,
+            "effect": "me_mortarea"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "manadrain",
+            "min": 2600,
+            "max": 3300,
+            "length": 12,
+            "spread": 3,
+            "target": false,
+            "effect": "me_teleport"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "fire",
+            "min": 900,
+            "max": 1500,
+            "length": 6,
+            "spread": 2,
+            "target": false,
+            "effect": "me_firearea"
+        },
+        {
+            "id": "slow_4",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 35,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -600,
+                "durationSec": 15
+            },
+            "radius": 8,
+            "effect": "me_magic_red",
+            "target": false
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 25,
+            "min": 220,
+            "max": 535,
+            "hpBelow": 0.7,
+            "effect": "me_yellow_rings"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "chance": 1000000,
+            "name": "silver token"
+        },
+        {
+            "chance": 98000,
+            "maxCount": 200,
+            "name": "gold coin"
+        },
+        {
+            "id": 281,
+            "chance": 14000,
+            "maxCount": 5
+        },
+        {
+            "id": 282,
+            "chance": 14000,
+            "maxCount": 5
+        },
+        {
+            "chance": 12000,
+            "maxCount": 9,
+            "name": "small sapphire"
+        },
+        {
+            "chance": 12000,
+            "maxCount": 8,
+            "name": "white pearl"
+        },
+        {
+            "chance": 10000,
+            "maxCount": 5,
+            "name": "small amethyst"
+        },
+        {
+            "chance": 10000,
+            "maxCount": 8,
+            "name": "small topaz"
+        },
+        {
+            "chance": 8000,
+            "maxCount": 58,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 11000,
+            "name": "demonic essence"
+        },
+        {
+            "chance": 10000,
+            "maxCount": 6,
+            "name": "green crystal splinter"
+        },
+        {
+            "chance": 10000,
+            "maxCount": 6,
+            "name": "brown crystal splinter"
+        },
+        {
+            "chance": 10000,
+            "maxCount": 6,
+            "name": "blue crystal splinter"
+        },
+        {
+            "chance": 1000,
+            "name": "red gem"
+        },
+        {
+            "chance": 1000,
+            "name": "yellow gem"
+        },
+        {
+            "chance": 1000,
+            "name": "green gem"
+        },
+        {
+            "chance": 1000,
+            "name": "blue gem"
+        },
+        {
+            "chance": 6000,
+            "name": "time ring"
+        },
+        {
+            "chance": 6000,
+            "name": "ring of healing"
+        },
+        {
+            "chance": 770,
+            "name": "rift crossbow"
+        },
+        {
+            "chance": 770,
+            "name": "crystalline armor"
+        },
+        {
+            "chance": 670,
+            "name": "rift shield"
+        },
+        {
+            "chance": 500,
+            "unique": true,
+            "name": "maimer"
+        },
+        {
+            "id": 22555,
+            "chance": 500,
+            "unique": true
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "mist_demon_priest",
+    "threatDps": 1123.3333,
+    "burstDps": 1440,
+    "avgHit": 1773.6842,
+    "maxHit": 3300,
+    "manaCost": 0
+}

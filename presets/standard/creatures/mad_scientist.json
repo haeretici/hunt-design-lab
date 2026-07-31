@@ -1,0 +1,191 @@
+{
+    "id": "mad_scientist",
+    "label": "Mad Scientist",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A mad scientist.",
+    "hp": 325,
+    "hpMax": 325,
+    "speed": 90,
+    "level": 312,
+    "armor": 15,
+    "mitigation": 0.64,
+    "maxBlock": 0,
+    "exp": 205,
+    "lootValue": 25.61694517913,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 10,
+        "ice": 10,
+        "energy": 20,
+        "earth": 20,
+        "holy": 20,
+        "death": -5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 61
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 35,
+            "max": 98,
+            "radius": 3,
+            "target": true,
+            "effect": "me_poff",
+            "shootEffect": "ani_smallearth"
+        },
+        {
+            "id": "melee_2",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 1,
+            "element": "earth",
+            "min": 35,
+            "max": 63,
+            "target": false,
+            "effect": "me_energyhit",
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "slow_3",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -300,
+                "durationSec": 2
+            },
+            "effect": "me_smallplants",
+            "target": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 10,
+            "max": 30,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Human",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 30000,
+            "maxCount": 65
+        },
+        {
+            "name": "gold coin",
+            "chance": 30000,
+            "maxCount": 50
+        },
+        {
+            "chance": 2000,
+            "name": "magic light wand"
+        },
+        {
+            "name": "life crystal",
+            "chance": 2000
+        },
+        {
+            "name": "cookie",
+            "chance": 1200,
+            "maxCount": 5
+        },
+        {
+            "name": "white mushroom",
+            "chance": 8000,
+            "maxCount": 3
+        },
+        {
+            "name": "savant potion",
+            "chance": 130
+        },
+        {
+            "name": "health potion",
+            "chance": 19000
+        },
+        {
+            "name": "mana potion",
+            "chance": 19000
+        },
+        {
+            "name": "small enchanted amethyst",
+            "chance": 470
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "feral_ogre_weaver",
+    "threatDps": 23.9125,
+    "burstDps": 23.9125,
+    "avgHit": 36.7885,
+    "maxHit": 98,
+    "manaCost": 0
+}

@@ -1,0 +1,168 @@
+{
+    "id": "orc_cult_fanatic",
+    "label": "Orc Cult Fanatic",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An orc cult fanatic.",
+    "hp": 1300,
+    "hpMax": 1300,
+    "speed": 115,
+    "level": 451,
+    "armor": 22,
+    "mitigation": 0.99,
+    "maxBlock": 0,
+    "exp": 1100,
+    "lootValue": 743.74412357287,
+    "aggro": true,
+    "resists": {
+        "physical": -10,
+        "fire": 100,
+        "ice": 0,
+        "energy": 20,
+        "earth": -10,
+        "holy": 20,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 149
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "physical",
+            "min": 124,
+            "max": 164,
+            "target": false,
+            "shootEffect": "ani_throwingknife"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 1
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 135
+        },
+        {
+            "chance": 7770,
+            "name": "sword ring"
+        },
+        {
+            "name": "plate shield",
+            "chance": 16350
+        },
+        {
+            "name": "plate armor",
+            "chance": 5900
+        },
+        {
+            "name": "brass legs",
+            "chance": 2950
+        },
+        {
+            "name": "plate legs",
+            "chance": 4830
+        },
+        {
+            "chance": 29760,
+            "name": "fish"
+        },
+        {
+            "name": "great health potion",
+            "chance": 10190
+        },
+        {
+            "name": "orc tooth",
+            "chance": 1340
+        },
+        {
+            "name": "warrior helmet",
+            "chance": 10190
+        },
+        {
+            "name": "orc leather",
+            "chance": 22250
+        },
+        {
+            "name": "skull belt",
+            "chance": 13940
+        },
+        {
+            "name": "small ruby",
+            "chance": 10990,
+            "maxCount": 3
+        },
+        {
+            "name": "brown mushroom",
+            "chance": 15820,
+            "maxCount": 4
+        },
+        {
+            "name": "cultish robe",
+            "chance": 10460
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "hellfire_kobold_cultist",
+    "threatDps": 51.65,
+    "burstDps": 51.65,
+    "avgHit": 86.0833,
+    "maxHit": 164,
+    "manaCost": 0
+}

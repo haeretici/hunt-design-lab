@@ -1,0 +1,160 @@
+{
+    "id": "mad_doctor_perhaps",
+    "label": "Mad Doctor Perhaps",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A mad doctor perhaps.",
+    "hp": 475,
+    "hpMax": 475,
+    "speed": 100,
+    "level": 350,
+    "armor": 0,
+    "mitigation": 0.3,
+    "maxBlock": 0,
+    "exp": 325,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": -5,
+        "fire": 10,
+        "ice": 20,
+        "energy": 20,
+        "earth": 20,
+        "holy": 20,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 81
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 5,
+            "element": "physical",
+            "min": 32,
+            "max": 104,
+            "radius": 3,
+            "target": true,
+            "effect": "me_loseenergy",
+            "shootEffect": "ani_smallearth"
+        },
+        {
+            "id": "condition_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "earth",
+            "min": 38,
+            "max": 75,
+            "target": false,
+            "shootEffect": "ani_poison"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 10,
+            "max": 30,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 2000,
+            "maxCount": 95,
+            "name": "gold coin"
+        },
+        {
+            "chance": 30000,
+            "maxCount": 9,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 1000,
+            "name": "mighty helm of green sparks"
+        },
+        {
+            "chance": 1000,
+            "name": "meat shield"
+        },
+        {
+            "chance": 1000,
+            "name": "glutton's mace"
+        },
+        {
+            "chance": 1000,
+            "name": "trousers of the ancients"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "tempest_fungal_knight_sorcerer",
+    "threatDps": 29.5875,
+    "burstDps": 29.5875,
+    "avgHit": 45.5192,
+    "maxHit": 104,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 2,
+        "summons": [
+            {
+                "name": "Zombie",
+                "id": "zombie",
+                "chance": 10,
+                "interval": 2000,
+                "count": 2
+            }
+        ]
+    }
+}

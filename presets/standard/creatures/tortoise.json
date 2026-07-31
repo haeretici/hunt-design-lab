@@ -1,0 +1,120 @@
+{
+    "id": "tortoise",
+    "label": "Tortoise",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A tortoise.",
+    "hp": 185,
+    "hpMax": 185,
+    "speed": 65,
+    "level": 256,
+    "armor": 22,
+    "mitigation": 0.51,
+    "maxBlock": 0,
+    "exp": 90,
+    "lootValue": 12.644148319815,
+    "aggro": true,
+    "resists": {
+        "physical": 20,
+        "fire": -10,
+        "ice": 20,
+        "energy": 0,
+        "earth": 20,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 70
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Reptile",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 59000,
+            "maxCount": 30
+        },
+        {
+            "name": "battle hammer",
+            "chance": 730
+        },
+        {
+            "name": "plate shield",
+            "chance": 2850
+        },
+        {
+            "chance": 4600,
+            "name": "fish"
+        },
+        {
+            "name": "tortoise egg",
+            "chance": 770,
+            "maxCount": 2
+        },
+        {
+            "chance": 1300,
+            "name": "turtle shell"
+        },
+        {
+            "name": "tortoise shield",
+            "chance": 200
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "crystal_lizard_warrior",
+    "threatDps": 17.5,
+    "burstDps": 17.5,
+    "avgHit": 35,
+    "maxHit": 70,
+    "manaCost": 445
+}

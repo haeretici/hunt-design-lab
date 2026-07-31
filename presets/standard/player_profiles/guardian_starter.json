@@ -1,0 +1,41 @@
+{
+    "id": "guardian_starter",
+    "label": "Guardian Starter",
+    "vocation": "guardian",
+    "level": 50,
+    "promoted": false,
+    "skills": {
+        "axe": 13,
+        "club": 13,
+        "distance": 10,
+        "fishing": 10,
+        "fist": 20,
+        "magicLevel": 0,
+        "shielding": 50,
+        "sword": 60
+    },
+    "stats": {
+        "lifeLeech": 0,
+        "manaLeech": 0,
+        "critChance": 5,
+        "critDamage": 10
+    },
+    "equipment": {
+        "head": "steel_helm",
+        "chest": "steel_plate",
+        "legs": "steel_greaves",
+        "boots": "leather_boots",
+        "weapon": "iron_longsword",
+        "shield": "oak_shield",
+        "amulet": "",
+        "ring": "",
+        "backpack": "backpack"
+    },
+    "inventory": {
+        "backpack": [
+            { "itemId": "two_handed_sword", "count": 1 }
+        ]
+    },
+    "strategyId": "guardian_aggro",
+    "notes": "Mid-tier (L50) guardian for party combat — docs/24 I4 baseline between novice L12 and veteran L90. Skills from deriveSkills policy v1 (level anchors)."
+}

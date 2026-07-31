@@ -1,0 +1,200 @@
+{
+    "id": "gloomlight_construct",
+    "label": "Gloomlight Construct",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A gloomlight construct.",
+    "hp": 32200,
+    "hpMax": 32200,
+    "speed": 220,
+    "level": 771,
+    "armor": 117,
+    "mitigation": 2.98,
+    "maxBlock": 0,
+    "exp": 22050,
+    "lootValue": 6969.4805194805,
+    "aggro": true,
+    "resists": {
+        "physical": -14,
+        "fire": 55,
+        "ice": -5,
+        "energy": -5,
+        "earth": 10,
+        "holy": 40,
+        "death": -20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 369
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "fire",
+            "min": 456,
+            "max": 527,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_hitbyfire"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 4,
+            "element": "fire",
+            "min": 386,
+            "max": 492,
+            "radius": 5,
+            "target": false,
+            "effect": "me_hitbyfire"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "holy",
+            "min": 527,
+            "max": 562,
+            "radius": 5,
+            "target": true,
+            "effect": "me_holyarea"
+        },
+        {
+            "id": "extended_fire_chain_4",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 1,
+            "element": "physical",
+            "min": 281,
+            "max": 421,
+            "target": true
+        },
+        {
+            "id": "largefirering_5",
+            "kind": "melee",
+            "intervalMs": 2800,
+            "chance": 20,
+            "range": 1,
+            "element": "physical",
+            "min": 351,
+            "max": 456,
+            "target": false
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Magical",
+        "toKill": 5000,
+        "firstUnlock": 200,
+        "secondUnlock": 2000,
+        "charmsPoints": 100,
+        "stars": 5,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "crystal coin",
+            "chance": 11290,
+            "maxCount": 1
+        },
+        {
+            "name": "dark obsidian splinter",
+            "chance": 12735,
+            "maxCount": 1
+        },
+        {
+            "chance": 8781,
+            "maxCount": 1,
+            "name": "red gem"
+        },
+        {
+            "name": "small emerald",
+            "chance": 6646,
+            "maxCount": 3
+        },
+        {
+            "name": "zaoan shoes",
+            "chance": 8614,
+            "maxCount": 1
+        },
+        {
+            "name": "darklight core",
+            "chance": 5659,
+            "maxCount": 1
+        },
+        {
+            "name": "darklight obsidian axe",
+            "chance": 11129,
+            "maxCount": 1
+        },
+        {
+            "name": "Emberbound Amulet",
+            "chance": 13240,
+            "maxCount": 1
+        },
+        {
+            "name": "small ruby",
+            "chance": 12458,
+            "maxCount": 3
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "celestial_fiend",
+    "threatDps": 305.8714,
+    "burstDps": 317.4,
+    "avgHit": 314.8676,
+    "maxHit": 562,
+    "manaCost": 0
+}

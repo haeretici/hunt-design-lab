@@ -1,0 +1,100 @@
+{
+    "id": "wolf_sharptooth",
+    "label": "Wolf Sharptooth",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A wolf sharptooth.",
+    "hp": 3100,
+    "hpMax": 3100,
+    "speed": 145,
+    "level": 538,
+    "armor": 0,
+    "mitigation": 1.46,
+    "maxBlock": 0,
+    "exp": 3000,
+    "lootValue": 0.3,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": 0,
+        "energy": -5,
+        "earth": 80,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 335
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_1",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 12,
+            "min": 200,
+            "max": 240,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 50000,
+            "name": "fishbone"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "storm_wolf_rager",
+    "threatDps": 83.75,
+    "burstDps": 83.75,
+    "avgHit": 167.5,
+    "maxHit": 335,
+    "manaCost": 0
+}

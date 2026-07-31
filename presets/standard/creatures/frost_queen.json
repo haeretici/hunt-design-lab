@@ -1,0 +1,298 @@
+{
+    "id": "frost_queen",
+    "label": "Frost Queen",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A frost queen.",
+    "hp": 2300,
+    "hpMax": 2300,
+    "speed": 0,
+    "level": 508,
+    "armor": 0,
+    "mitigation": 1,
+    "maxBlock": 0,
+    "exp": 500,
+    "lootValue": 23060.377358491,
+    "aggro": true,
+    "resists": {
+        "physical": 90,
+        "fire": 70,
+        "ice": 200,
+        "energy": 80,
+        "earth": 80,
+        "holy": 80,
+        "death": 90
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": false,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 73,
+            "max": 145
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 15,
+            "range": 7,
+            "element": "ice",
+            "min": 73,
+            "max": 145,
+            "target": false,
+            "shootEffect": "ani_ice"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "name": "piggy bank",
+            "chance": 80000
+        },
+        {
+            "name": "royal star",
+            "chance": 80000,
+            "maxCount": 100
+        },
+        {
+            "name": "platinum coin",
+            "chance": 80000,
+            "maxCount": 5
+        },
+        {
+            "name": "energy bar",
+            "chance": 75000
+        },
+        {
+            "name": "supreme health potion",
+            "chance": 65000,
+            "maxCount": 20
+        },
+        {
+            "name": "huge chunk of crude iron",
+            "chance": 64000
+        },
+        {
+            "name": "mysterious remains",
+            "chance": 63000
+        },
+        {
+            "name": "ultimate dual potion",
+            "chance": 62000,
+            "maxCount": 20
+        },
+        {
+            "name": "ultimate mana potion",
+            "chance": 61000,
+            "maxCount": 20
+        },
+        {
+            "name": "marksman potion",
+            "chance": 25500,
+            "maxCount": 10
+        },
+        {
+            "name": "Maelstrom Mace",
+            "chance": 25000
+        },
+        {
+            "chance": 24500,
+            "name": "frozen claw"
+        },
+        {
+            "name": "berserk potion",
+            "chance": 23000,
+            "maxCount": 10
+        },
+        {
+            "chance": 22500,
+            "name": "red gem"
+        },
+        {
+            "name": "soul stone",
+            "chance": 224000
+        },
+        {
+            "chance": 25000,
+            "name": "crown of the percht queen"
+        },
+        {
+            "name": "flames of the percht queen",
+            "chance": 18000
+        },
+        {
+            "name": "small ladybug",
+            "chance": 24980
+        },
+        {
+            "name": "gold ingot",
+            "chance": 22480
+        },
+        {
+            "name": "crystal coin",
+            "chance": 24890,
+            "maxCount": 2
+        },
+        {
+            "id": 281,
+            "chance": 21580
+        },
+        {
+            "name": "Bone Skull Staff",
+            "chance": 19850
+        },
+        {
+            "name": "magic sulphur",
+            "chance": 25480
+        },
+        {
+            "name": "percht queen's frozen heart",
+            "chance": 26800
+        },
+        {
+            "name": "percht skull",
+            "chance": 25842
+        },
+        {
+            "chance": 25840,
+            "name": "icicle"
+        },
+        {
+            "name": "silver token",
+            "chance": 5480,
+            "maxCount": 5
+        },
+        {
+            "name": "percht handkerchief",
+            "chance": 5808
+        },
+        {
+            "name": "Celestial Band",
+            "chance": 5100
+        },
+        {
+            "chance": 8486,
+            "name": "ring of blue plasma"
+        },
+        {
+            "chance": 4848,
+            "name": "fly agaric"
+        },
+        {
+            "name": "percht broom",
+            "chance": 6485
+        },
+        {
+            "name": "ice hatchet",
+            "chance": 5485
+        },
+        {
+            "chance": 4858,
+            "name": "ring of red plasma"
+        },
+        {
+            "chance": 3485,
+            "name": "ring of green plasma"
+        },
+        {
+            "name": "yellow gem",
+            "chance": 5485
+        },
+        {
+            "name": "violet gem",
+            "chance": 6485
+        },
+        {
+            "chance": 7848,
+            "name": "collar of red plasma"
+        },
+        {
+            "chance": 5485,
+            "name": "collar of green plasma"
+        },
+        {
+            "name": "green gem",
+            "chance": 5485
+        },
+        {
+            "name": "blue gem",
+            "chance": 5845
+        },
+        {
+            "name": "frozen chain",
+            "chance": 5485
+        },
+        {
+            "chance": 5158,
+            "name": "collar of blue plasma"
+        },
+        {
+            "name": "horseshoe",
+            "chance": 1250
+        },
+        {
+            "name": "golden horseshoe",
+            "chance": 2510
+        },
+        {
+            "name": "abyss hammer",
+            "chance": 1480
+        },
+        {
+            "name": "golden bell",
+            "chance": 2548
+        },
+        {
+            "name": "golden cotton reel",
+            "chance": 1254
+        },
+        {
+            "name": "lucky pig",
+            "chance": 2540
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "infernal_merrow_necromancer",
+    "threatDps": 70.85,
+    "burstDps": 70.85,
+    "avgHit": 109,
+    "maxHit": 145,
+    "manaCost": 0
+}

@@ -1,0 +1,216 @@
+{
+    "id": "crazed_winter_rearguard",
+    "label": "Crazed Winter Rearguard",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A crazed winter rearguard.",
+    "hp": 5200,
+    "hpMax": 5200,
+    "speed": 200,
+    "level": 589,
+    "armor": 76,
+    "mitigation": 2.11,
+    "maxBlock": 0,
+    "exp": 4700,
+    "lootValue": 1126.5646955504,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -20,
+        "ice": 40,
+        "energy": -14,
+        "earth": -20,
+        "holy": 0,
+        "death": 20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 293
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2500,
+            "chance": 20,
+            "range": 5,
+            "element": "ice",
+            "min": 73,
+            "max": 219,
+            "radius": 1,
+            "target": true,
+            "effect": "me_icearea"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 3000,
+            "chance": 25,
+            "range": 4,
+            "element": "ice",
+            "min": 73,
+            "max": 219,
+            "length": 4,
+            "spread": 0,
+            "target": false,
+            "effect": "me_giantice"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 3500,
+            "chance": 25,
+            "range": 4,
+            "element": "ice",
+            "min": 183,
+            "max": 219,
+            "radius": 3,
+            "target": false,
+            "effect": "me_icearea"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 86000,
+            "maxCount": 5
+        },
+        {
+            "name": "red crystal fragment",
+            "chance": 2000
+        },
+        {
+            "chance": 330,
+            "name": "red gem"
+        },
+        {
+            "name": "ice rapier",
+            "chance": 17200
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 16850
+        },
+        {
+            "name": "great dual potion",
+            "chance": 15780
+        },
+        {
+            "chance": 9000,
+            "maxCount": 2,
+            "name": "ice flower"
+        },
+        {
+            "name": "life crystal",
+            "chance": 7900
+        },
+        {
+            "name": "dream essence egg",
+            "chance": 8750
+        },
+        {
+            "name": "elven astral observer",
+            "chance": 7600
+        },
+        {
+            "name": "Frostbound Mask",
+            "chance": 6000
+        },
+        {
+            "name": "Lunar Rod",
+            "chance": 5400
+        },
+        {
+            "name": "small enchanted sapphire",
+            "chance": 4700,
+            "maxCount": 7
+        },
+        {
+            "name": "Boreal Rod",
+            "chance": 2360
+        },
+        {
+            "name": "Frostbound Amulet",
+            "chance": 2930
+        },
+        {
+            "name": "Hailburst Rod",
+            "chance": 2660
+        },
+        {
+            "name": "Frostbound Robe",
+            "chance": 1930
+        },
+        {
+            "name": "cyan crystal fragment",
+            "chance": 2100
+        },
+        {
+            "name": "elven amulet",
+            "chance": 1260
+        },
+        {
+            "name": "blue gem",
+            "chance": 330
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "sun_orc_guard",
+    "threatDps": 111.4538,
+    "burstDps": 131.225,
+    "avgHit": 151.687,
+    "maxHit": 293,
+    "manaCost": 0
+}

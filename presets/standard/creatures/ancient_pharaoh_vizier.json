@@ -1,0 +1,209 @@
+{
+    "id": "ancient_pharaoh_vizier",
+    "label": "Ancient Pharaoh Vizier",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An ancient pharaoh vizier.",
+    "hp": 4200,
+    "hpMax": 4200,
+    "speed": 240,
+    "level": 567,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 2900,
+    "lootValue": 231.74711111111,
+    "aggro": true,
+    "resists": {
+        "physical": 100,
+        "fire": 5,
+        "ice": 0,
+        "energy": 20,
+        "earth": 20,
+        "holy": -10,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "damage": 30
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 120,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 39,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 4000,
+            "chance": 20,
+            "range": 1,
+            "element": "lifedrain",
+            "min": 60,
+            "max": 482,
+            "target": false
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "manadrain",
+            "min": 60,
+            "max": 301,
+            "target": false,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "slow_3",
+            "kind": "status",
+            "intervalMs": 1000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -650,
+                "durationSec": 50
+            },
+            "effect": "me_magic_red",
+            "target": false
+        },
+        {
+            "id": "melee_5",
+            "kind": "melee",
+            "intervalMs": 3000,
+            "chance": 34,
+            "range": 1,
+            "element": "physical",
+            "min": 30,
+            "max": 361
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 1000,
+            "chance": 25,
+            "min": 100,
+            "max": 200,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "name": "small sapphire",
+            "chance": 7000,
+            "maxCount": 3
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 80
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 80
+        },
+        {
+            "name": "blue gem",
+            "chance": 1500
+        },
+        {
+            "chance": 7000,
+            "name": "voltaic ring"
+        },
+        {
+            "name": "mind stone",
+            "chance": 1500
+        },
+        {
+            "name": "ankh",
+            "chance": 500
+        },
+        {
+            "name": "ornamented ankh",
+            "chance": 100000
+        },
+        {
+            "name": "Bone Skull Staff",
+            "chance": 500
+        },
+        {
+            "name": "pharaoh sword",
+            "chance": 300
+        },
+        {
+            "name": "great mana potion",
+            "chance": 7000
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "chaos_stone_revenant_archer",
+    "threatDps": 98.7442,
+    "burstDps": 123.3725,
+    "avgHit": 107.3284,
+    "maxHit": 482,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 4,
+        "summons": [
+            {
+                "name": "Priestess",
+                "id": "priestess",
+                "chance": 15,
+                "interval": 2000,
+                "count": 4
+            }
+        ]
+    }
+}

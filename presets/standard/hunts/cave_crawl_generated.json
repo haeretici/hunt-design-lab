@@ -1,0 +1,14 @@
+{
+    "id": "cave_crawl_generated",
+    "label": "Generated cave crawl (Stage 11.4)",
+    "notes": "Primary standard play + CI hunt (generator-owned). layout.procedural + small_crawl; population cave_rats + markers cave_clickies from sockets; artSet cave. Retires hand floor07_* hunts (sample / catalog / population / markers) once bars moved to this hunt and catalog_crawl_generated.",
+    "layout": {
+        "type": "procedural",
+        "profileId": "small_crawl"
+    },
+    "artSet": "cave",
+    "limits": {
+        "maxSeconds": 90,
+        "maxFrames": 1800
+    }
+}

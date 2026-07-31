@@ -1,0 +1,113 @@
+{
+    "id": "amazon_champion_xenia",
+    "label": "Amazon Champion Xenia",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An amazon champion xenia.",
+    "hp": 200,
+    "hpMax": 200,
+    "speed": 88,
+    "level": 263,
+    "armor": 0,
+    "mitigation": 0.71,
+    "maxBlock": 0,
+    "exp": 255,
+    "lootValue": 24.777777777778,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 10,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 73
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 320,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 2,
+            "name": "skull"
+        },
+        {
+            "name": "gold coin",
+            "chance": 66666,
+            "maxCount": 34
+        },
+        {
+            "name": "sabre",
+            "chance": 33000
+        },
+        {
+            "name": "studded shield",
+            "chance": 33000
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "radiant_desert_elf_champion",
+    "threatDps": 18.25,
+    "burstDps": 18.25,
+    "avgHit": 36.5,
+    "maxHit": 73,
+    "manaCost": 0
+}

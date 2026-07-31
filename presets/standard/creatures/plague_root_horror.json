@@ -1,0 +1,462 @@
+{
+    "id": "plague_root_horror",
+    "label": "Plague Root Horror",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A plague root horror.",
+    "hp": 1,
+    "hpMax": 1,
+    "speed": 85,
+    "level": 817,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 55000,
+    "lootValue": 36607.894736842,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -10,
+        "ice": 0,
+        "energy": 1,
+        "earth": 220,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "condition_1",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 7,
+            "range": 2,
+            "element": "fire",
+            "min": 200,
+            "max": 1000,
+            "target": false,
+            "effect": "me_blockhit",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 7,
+            "range": 4,
+            "element": "physical",
+            "min": 350,
+            "max": 1050,
+            "radius": 6,
+            "target": false,
+            "effect": "me_explosionhit"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 50,
+            "range": 4,
+            "element": "fire",
+            "min": 20,
+            "max": 100,
+            "radius": 5,
+            "target": false,
+            "effect": "me_blockhit"
+        },
+        {
+            "id": "firefield_4",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 4,
+            "range": 4,
+            "element": "physical",
+            "radius": 8,
+            "target": false,
+            "effect": "me_explosionhit",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "area_5",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 34,
+            "range": 7,
+            "element": "fire",
+            "min": 350,
+            "max": 650,
+            "radius": 7,
+            "target": true,
+            "effect": "me_firearea",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "wave_6",
+            "kind": "wave",
+            "intervalMs": 1000,
+            "chance": 13,
+            "range": 4,
+            "element": "fire",
+            "min": 250,
+            "max": 600,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_explosionhit"
+        },
+        {
+            "id": "wave_7",
+            "kind": "wave",
+            "intervalMs": 1000,
+            "chance": 10,
+            "range": 4,
+            "element": "fire",
+            "min": 350,
+            "max": 600,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_firearea"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 1000,
+            "chance": 15,
+            "min": 500,
+            "max": 1000,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "heal_1",
+            "kind": "heal",
+            "intervalMs": 1000,
+            "chance": 25,
+            "min": 200,
+            "max": 300,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_2",
+            "kind": "haste",
+            "intervalMs": 1000,
+            "chance": 10,
+            "speedChange": 1800,
+            "durationSec": 3,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "venom",
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 5
+        },
+        {
+            "name": "silver token",
+            "chance": 100000,
+            "maxCount": 3
+        },
+        {
+            "name": "mysterious remains",
+            "chance": 100000
+        },
+        {
+            "name": "huge chunk of crude iron",
+            "chance": 100000
+        },
+        {
+            "name": "piggy bank",
+            "chance": 100000
+        },
+        {
+            "name": "energy bar",
+            "chance": 100000
+        },
+        {
+            "name": "royal star",
+            "chance": 80000,
+            "maxCount": 184
+        },
+        {
+            "name": "ultimate mana potion",
+            "chance": 80000,
+            "maxCount": 22
+        },
+        {
+            "name": "supreme health potion",
+            "chance": 60000,
+            "maxCount": 13
+        },
+        {
+            "name": "gold token",
+            "chance": 60000,
+            "maxCount": 3
+        },
+        {
+            "chance": 60000,
+            "name": "red gem"
+        },
+        {
+            "name": "savant potion",
+            "chance": 40000,
+            "maxCount": 13
+        },
+        {
+            "name": "crunor idol",
+            "chance": 40000
+        },
+        {
+            "name": "marksman potion",
+            "chance": 20000
+        },
+        {
+            "name": "ultimate dual potion",
+            "chance": 20000
+        },
+        {
+            "name": "berserk potion",
+            "chance": 20000
+        },
+        {
+            "name": "gold ingot",
+            "chance": 20000
+        },
+        {
+            "name": "violet gem",
+            "chance": 20000
+        },
+        {
+            "name": "pomegranate",
+            "chance": 20000
+        },
+        {
+            "name": "blue gem",
+            "chance": 20000
+        },
+        {
+            "id": 282,
+            "chance": 20000
+        },
+        {
+            "name": "plagueroot offshoot",
+            "chance": 20000
+        },
+        {
+            "name": "Bone Skull Staff",
+            "chance": 20000
+        },
+        {
+            "name": "platinum coin",
+            "chance": 100000
+        },
+        {
+            "name": "silver token",
+            "chance": 95920,
+            "maxCount": 5
+        },
+        {
+            "name": "piggy bank",
+            "chance": 93880
+        },
+        {
+            "name": "mysterious remains",
+            "chance": 91840
+        },
+        {
+            "name": "energy bar",
+            "chance": 87760
+        },
+        {
+            "name": "gold token",
+            "chance": 61220
+        },
+        {
+            "name": "ultimate dual potion",
+            "chance": 59180,
+            "maxCount": 20
+        },
+        {
+            "name": "ultimate mana potion",
+            "chance": 57140,
+            "maxCount": 20
+        },
+        {
+            "name": "royal star",
+            "chance": 48980
+        },
+        {
+            "name": "supreme health potion",
+            "chance": 46940,
+            "maxCount": 20
+        },
+        {
+            "name": "yellow gem",
+            "chance": 40820,
+            "maxCount": 2
+        },
+        {
+            "name": "huge chunk of crude iron",
+            "chance": 38780
+        },
+        {
+            "name": "crystal coin",
+            "chance": 26530,
+            "maxCount": 3
+        },
+        {
+            "name": "savant potion",
+            "chance": 22450
+        },
+        {
+            "name": "gold ingot",
+            "chance": 22450
+        },
+        {
+            "name": "marksman potion",
+            "chance": 20410
+        },
+        {
+            "name": "berserk potion",
+            "chance": 16329
+        },
+        {
+            "name": "Bone Skull Staff",
+            "chance": 16329
+        },
+        {
+            "name": "pomegranate",
+            "chance": 16329
+        },
+        {
+            "chance": 14290,
+            "name": "collar of blue plasma"
+        },
+        {
+            "name": "blue gem",
+            "chance": 12240
+        },
+        {
+            "name": "green gem",
+            "chance": 12240
+        },
+        {
+            "chance": 10200,
+            "name": "ring of blue plasma"
+        },
+        {
+            "name": "violet gem",
+            "chance": 8160,
+            "maxCount": 2
+        },
+        {
+            "chance": 8160,
+            "name": "collar of green plasma"
+        },
+        {
+            "chance": 8160,
+            "name": "collar of red plasma"
+        },
+        {
+            "chance": 8160,
+            "name": "ring of green plasma"
+        },
+        {
+            "chance": 6120,
+            "name": "ring of red plasma"
+        },
+        {
+            "name": "Maelstrom Mace",
+            "chance": 6120
+        },
+        {
+            "name": "plagueroot offshoot",
+            "chance": 6120
+        },
+        {
+            "name": "magic sulphur",
+            "chance": 6120
+        },
+        {
+            "name": "living vine bow",
+            "chance": 4080
+        },
+        {
+            "name": "giant emerald",
+            "chance": 4080
+        },
+        {
+            "name": "soul stone",
+            "chance": 4080
+        },
+        {
+            "name": "living armor",
+            "chance": 4080
+        },
+        {
+            "name": "turquoise tendril lantern",
+            "chance": 2040
+        },
+        {
+            "name": "Celestial Band",
+            "chance": 2040
+        },
+        {
+            "name": "abyss hammer",
+            "chance": 2040
+        },
+        {
+            "chance": 3130,
+            "name": "arcane staff"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ember_ruins_horror",
+    "threatDps": 393.75,
+    "burstDps": 393.75,
+    "avgHit": 325.4132,
+    "maxHit": 1050,
+    "manaCost": 0
+}

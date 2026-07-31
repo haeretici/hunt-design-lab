@@ -1,0 +1,138 @@
+// Hunt Simulation Batch Builder (Stage 12I + I6 recipes)
+
+@use 'variables' as *;
+
+.sim-batch-pre {
+  font-family: $font-mono;
+  font-size: 0.72rem;
+  line-height: 1.45;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid $border-color;
+  border-radius: 4px;
+  padding: 0.65rem 0.75rem;
+  color: $text-main;
+  max-height: 22rem;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin: 0;
+
+  &--cli {
+    color: $accent-secondary;
+    max-height: 8rem;
+  }
+}
+
+.recipe-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.recipe-card {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: rgba(0, 0, 0, 0.28);
+  border: 1px solid $border-color;
+  border-radius: 4px;
+  padding: 0.45rem 0.55rem;
+  color: $text-main;
+  cursor: pointer;
+  transition: border-color 0.12s ease, background 0.12s ease;
+
+  &:hover {
+    border-color: $accent-secondary;
+    background: rgba(0, 242, 254, 0.06);
+  }
+
+  &.is-active {
+    border-color: $accent-secondary;
+    background: rgba(0, 242, 254, 0.1);
+    box-shadow: 0 0 0 1px rgba(0, 242, 254, 0.25);
+  }
+}
+
+.recipe-card-title {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  margin-bottom: 0.15rem;
+}
+
+.recipe-card-q {
+  display: block;
+  font-size: 0.68rem;
+  color: $text-muted;
+  line-height: 1.35;
+}
+
+.recipe-badge {
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.1rem 0.35rem;
+  border-radius: 3px;
+  border: 1px solid $border-color;
+
+  &--web {
+    color: #6dffb0;
+    border-color: rgba(109, 255, 176, 0.45);
+  }
+
+  &--cli {
+    color: #ffb700;
+    border-color: rgba(255, 183, 0, 0.45);
+  }
+}
+
+.recipe-detail {
+  font-size: 0.72rem;
+  line-height: 1.4;
+  padding: 0.45rem 0.55rem;
+  background: rgba(0, 0, 0, 0.22);
+  border-radius: 4px;
+  border: 1px solid $border-color;
+}
+
+.sim-batch-tutorial {
+  summary {
+    cursor: pointer;
+    list-style: none;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+  }
+}
+
+.sim-batch-tutorial-steps {
+  padding-left: 1.1rem;
+  color: $text-main;
+
+  li {
+    margin-bottom: 0.45rem;
+    color: $text-muted;
+
+    strong {
+      color: $text-main;
+      display: block;
+      margin-bottom: 0.1rem;
+    }
+  }
+}
+
+// Popup chrome: hide main nav when opened as multi-monitor tool
+body.sim-batch-popup {
+  .sim-batch-nav {
+    display: none !important;
+  }
+
+  .sim-batch-header .brand {
+    pointer-events: none;
+  }
+}

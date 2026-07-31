@@ -1,0 +1,99 @@
+{
+    "id": "rat",
+    "label": "Rat",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A rat.",
+    "hp": 20,
+    "hpMax": 20,
+    "speed": 67,
+    "level": 39,
+    "armor": 1,
+    "mitigation": 0.07,
+    "maxBlock": 0,
+    "exp": 5,
+    "lootValue": 1.2630526904933,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": -10,
+        "energy": 0,
+        "earth": 20,
+        "holy": 20,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 5,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": true,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 21
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Mammal",
+        "toKill": 250,
+        "firstUnlock": 10,
+        "secondUnlock": 100,
+        "charmsPoints": 5,
+        "stars": 1,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 4
+        },
+        {
+            "chance": 39410,
+            "name": "cheese"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "rat",
+    "threatDps": 5.25,
+    "burstDps": 5.25,
+    "avgHit": 10.5,
+    "maxHit": 21,
+    "manaCost": 200
+}

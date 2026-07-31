@@ -1,0 +1,138 @@
+{
+    "id": "spit_nettle",
+    "label": "Spit Nettle",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A spit nettle.",
+    "hp": 150,
+    "hpMax": 150,
+    "speed": 0,
+    "level": 235,
+    "armor": 12,
+    "mitigation": 0.86,
+    "maxBlock": 0,
+    "exp": 20,
+    "lootValue": 6.9652235628105,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -10,
+        "ice": 20,
+        "energy": 100,
+        "earth": 100,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "ranged_0",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 20,
+            "range": 7,
+            "element": "earth",
+            "min": 22,
+            "max": 58,
+            "target": true,
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "condition_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "earth",
+            "min": 58,
+            "max": 145,
+            "target": true,
+            "shootEffect": "ani_poison"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 8,
+            "max": 16,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Plant",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 10750,
+            "maxCount": 5
+        },
+        {
+            "name": "shadow herb",
+            "chance": 11080
+        },
+        {
+            "name": "nettle spit",
+            "chance": 9620
+        },
+        {
+            "name": "sling herb",
+            "chance": 5680,
+            "maxCount": 2
+        },
+        {
+            "name": "nettle blossom",
+            "chance": 970
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "spit_nettle",
+    "threatDps": 15.6125,
+    "burstDps": 15.6125,
+    "avgHit": 56.7727,
+    "maxHit": 145,
+    "manaCost": 0
+}

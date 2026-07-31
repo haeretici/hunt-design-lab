@@ -1,0 +1,134 @@
+{
+    "id": "rogue_naga",
+    "label": "Rogue Naga",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A rogue naga.",
+    "hp": 6200,
+    "hpMax": 6200,
+    "speed": 182,
+    "level": 607,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 4510,
+    "lootValue": 248.66369710468,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 10,
+        "ice": 0,
+        "energy": 30,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "ranged_0",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 50,
+            "range": 6,
+            "element": "physical",
+            "min": 72,
+            "max": 297,
+            "target": true,
+            "effect": "me_purpleenergy",
+            "shootEffect": "ani_explosion"
+        },
+        {
+            "id": "nagadeathattack_1",
+            "kind": "ranged",
+            "intervalMs": 2500,
+            "chance": 20,
+            "range": 6,
+            "element": "physical",
+            "min": 327,
+            "max": 385,
+            "target": true
+        },
+        {
+            "id": "nagadeath_2",
+            "kind": "melee",
+            "intervalMs": 3000,
+            "chance": 20,
+            "range": 1,
+            "element": "physical",
+            "min": 289,
+            "max": 358,
+            "target": false
+        },
+        {
+            "id": "death_chain_3",
+            "kind": "ranged",
+            "intervalMs": 3500,
+            "chance": 20,
+            "range": 6,
+            "element": "physical",
+            "min": 350,
+            "max": 396,
+            "target": true
+        },
+        {
+            "id": "ranged_4",
+            "kind": "ranged",
+            "intervalMs": 4000,
+            "chance": 20,
+            "range": 6,
+            "element": "physical",
+            "min": 65,
+            "max": 145,
+            "target": true,
+            "effect": "me_purpleenergy",
+            "shootEffect": "ani_explosion"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "rogue naga scales",
+            "chance": 15450
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "skunk",
+    "threatDps": 122.736,
+    "burstDps": 161.875,
+    "avgHit": 243.6158,
+    "maxHit": 396,
+    "manaCost": 0
+}

@@ -1,0 +1,199 @@
+{
+    "id": "thul",
+    "label": "Thul",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A thul.",
+    "hp": 2950,
+    "hpMax": 2950,
+    "speed": 260,
+    "level": 533,
+    "armor": 0,
+    "mitigation": 1.46,
+    "maxBlock": 0,
+    "exp": 2700,
+    "lootValue": 11672.115384615,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 100,
+        "energy": -14,
+        "earth": 100,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 40,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 269
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 7,
+            "range": 4,
+            "element": "ice",
+            "min": 102,
+            "max": 129,
+            "radius": 4,
+            "target": false,
+            "effect": "me_icearea"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 161,
+            "radius": 3,
+            "target": false,
+            "effect": "me_hitarea"
+        },
+        {
+            "id": "poisonfield_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 19,
+            "range": 4,
+            "element": "physical",
+            "radius": 3,
+            "target": false,
+            "shootEffect": "ani_poison",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "slow_4",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 18,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -360,
+                "durationSec": 5
+            },
+            "target": false
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 25,
+            "max": 75,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 100000,
+            "name": "fish fin"
+        },
+        {
+            "chance": 88000,
+            "maxCount": 10,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 67000,
+            "name": "marlin"
+        },
+        {
+            "chance": 46000,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 38000,
+            "maxCount": 4,
+            "name": "small amethyst"
+        },
+        {
+            "chance": 35000,
+            "name": "relic sword"
+        },
+        {
+            "chance": 16000,
+            "name": "crusader helmet"
+        },
+        {
+            "chance": 10000,
+            "name": "Regal Crown Armor"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "demon_goblin",
+    "threatDps": 81.355,
+    "burstDps": 81.355,
+    "avgHit": 123.2652,
+    "maxHit": 269,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 2,
+        "summons": [
+            {
+                "name": "Massive Water Elemental",
+                "id": "massive_water_elemental",
+                "chance": 10,
+                "interval": 2000,
+                "count": 2
+            }
+        ]
+    }
+}

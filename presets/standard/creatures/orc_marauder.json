@@ -1,0 +1,158 @@
+{
+    "id": "orc_marauder",
+    "label": "Orc Marauder",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An orc marauder.",
+    "hp": 235,
+    "hpMax": 235,
+    "speed": 195,
+    "level": 279,
+    "armor": 16,
+    "mitigation": 0.83,
+    "maxBlock": 0,
+    "exp": 205,
+    "lootValue": 43.813518260554,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 20,
+        "earth": -10,
+        "holy": 10,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 53
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 50,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 53,
+            "target": false,
+            "shootEffect": "ani_onyxarrow"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 350,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 55000,
+            "maxCount": 90
+        },
+        {
+            "name": "obsidian lance",
+            "chance": 1110
+        },
+        {
+            "name": "orcish axe",
+            "chance": 1320
+        },
+        {
+            "name": "crossbow",
+            "chance": 440
+        },
+        {
+            "name": "bow",
+            "chance": 5210
+        },
+        {
+            "name": "meat",
+            "chance": 24600
+        },
+        {
+            "name": "silkweaver bow",
+            "chance": 70
+        },
+        {
+            "name": "orc tooth",
+            "chance": 3890
+        },
+        {
+            "name": "shaggy tail",
+            "chance": 10090
+        },
+        {
+            "name": "broken crossbow",
+            "chance": 4830
+        },
+        {
+            "name": "orc leather",
+            "chance": 3800
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "sun_orc_guard",
+    "threatDps": 19.875,
+    "burstDps": 19.875,
+    "avgHit": 26.5,
+    "maxHit": 53,
+    "manaCost": 490
+}

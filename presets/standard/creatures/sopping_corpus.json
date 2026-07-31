@@ -1,0 +1,221 @@
+{
+    "id": "sopping_corpus",
+    "label": "Sopping Corpus",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A sopping corpus.",
+    "hp": 33400,
+    "hpMax": 33400,
+    "speed": 210,
+    "level": 775,
+    "armor": 112,
+    "mitigation": 3.25,
+    "maxBlock": 0,
+    "exp": 22465,
+    "lootValue": 6948.2638888889,
+    "aggro": true,
+    "resists": {
+        "physical": 40,
+        "fire": 30,
+        "ice": -10,
+        "energy": -20,
+        "earth": 50,
+        "holy": -5,
+        "death": 10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 528
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "physical",
+            "min": 429,
+            "max": 528,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_groundshaker"
+        },
+        {
+            "id": "melee_2",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 1,
+            "element": "physical",
+            "min": 396,
+            "max": 495,
+            "target": true,
+            "effect": "me_big_scratch"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "physical",
+            "min": 462,
+            "max": 528,
+            "radius": 5,
+            "target": true,
+            "effect": "me_groundshaker"
+        },
+        {
+            "id": "wave_4",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "earth",
+            "min": 396,
+            "max": 495,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_green_rings"
+        },
+        {
+            "id": "largepoisonring_5",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 1,
+            "element": "physical",
+            "min": 330,
+            "max": 396,
+            "target": false
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 5000,
+        "firstUnlock": 200,
+        "secondUnlock": 2000,
+        "charmsPoints": 100,
+        "stars": 5,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "crystal coin",
+            "chance": 42860
+        },
+        {
+            "name": "ultimate mana potion",
+            "chance": 42860,
+            "minCount": 2,
+            "maxCount": 3
+        },
+        {
+            "chance": 14290,
+            "name": "crimson sword"
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 14290,
+            "maxCount": 2
+        },
+        {
+            "name": "organic acid",
+            "chance": 7678,
+            "maxCount": 1
+        },
+        {
+            "name": "rotten roots",
+            "chance": 13133,
+            "maxCount": 1
+        },
+        {
+            "name": "emerald bangle",
+            "chance": 8558,
+            "maxCount": 1
+        },
+        {
+            "name": "Nether Rod",
+            "chance": 8380,
+            "maxCount": 1
+        },
+        {
+            "name": "violet gem",
+            "chance": 5084,
+            "maxCount": 1
+        },
+        {
+            "name": "blue gem",
+            "chance": 9808,
+            "maxCount": 1
+        },
+        {
+            "name": "relic sword",
+            "chance": 6964,
+            "maxCount": 1
+        },
+        {
+            "name": "skullcracker armor",
+            "chance": 7270,
+            "maxCount": 1
+        },
+        {
+            "chance": 3073,
+            "maxCount": 1,
+            "name": "ring of green plasma"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "running_elite_orc_guard",
+    "threatDps": 312.2625,
+    "burstDps": 312.2625,
+    "avgHit": 346.9583,
+    "maxHit": 528,
+    "manaCost": 0
+}

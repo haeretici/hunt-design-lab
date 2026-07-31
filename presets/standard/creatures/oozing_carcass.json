@@ -1,0 +1,215 @@
+{
+    "id": "oozing_carcass",
+    "label": "Oozing Carcass",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An oozing carcass.",
+    "hp": 27500,
+    "hpMax": 27500,
+    "speed": 215,
+    "level": 755,
+    "armor": 102,
+    "mitigation": 3.1,
+    "maxBlock": 0,
+    "exp": 20980,
+    "lootValue": 5790.1086956522,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -10,
+        "ice": 35,
+        "energy": 25,
+        "earth": -20,
+        "holy": -25,
+        "death": 40
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 213
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "death",
+            "min": 532,
+            "max": 568,
+            "radius": 5,
+            "target": false,
+            "effect": "me_blacksmoke"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "ice",
+            "min": 497,
+            "max": 532,
+            "radius": 5,
+            "target": false,
+            "effect": "me_icearea"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 4,
+            "element": "ice",
+            "min": 497,
+            "max": 550,
+            "length": 8,
+            "spread": 5,
+            "target": false,
+            "effect": "me_icearea"
+        },
+        {
+            "id": "largedeathring_4",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 1,
+            "element": "physical",
+            "min": 302,
+            "max": 497,
+            "target": false
+        },
+        {
+            "id": "energy_chain_5",
+            "kind": "melee",
+            "intervalMs": 3000,
+            "chance": 20,
+            "range": 1,
+            "element": "physical",
+            "min": 372,
+            "max": 497,
+            "target": false
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 5000,
+        "firstUnlock": 200,
+        "secondUnlock": 2000,
+        "charmsPoints": 100,
+        "stars": 5,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "crystal coin",
+            "chance": 9000,
+            "maxCount": 1
+        },
+        {
+            "name": "lichen gobbler",
+            "chance": 12369,
+            "maxCount": 1
+        },
+        {
+            "name": "small emerald",
+            "chance": 12859,
+            "maxCount": 1
+        },
+        {
+            "chance": 9808,
+            "maxCount": 1,
+            "name": "red gem"
+        },
+        {
+            "name": "Bone Skull Staff",
+            "chance": 12316,
+            "maxCount": 1
+        },
+        {
+            "name": "bone shield",
+            "chance": 6752,
+            "maxCount": 1
+        },
+        {
+            "name": "yellow gem",
+            "chance": 8634,
+            "maxCount": 1
+        },
+        {
+            "name": "rotten roots",
+            "chance": 13133,
+            "maxCount": 1
+        },
+        {
+            "name": "decayed finger bone",
+            "chance": 6964,
+            "maxCount": 1
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 10285,
+            "maxCount": 2
+        },
+        {
+            "name": "bloody edge",
+            "chance": 12270,
+            "maxCount": 1
+        },
+        {
+            "name": "spellbook of warding",
+            "chance": 5084,
+            "maxCount": 1
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "sanguine_jungle_ogre_assassin",
+    "threatDps": 280.3042,
+    "burstDps": 294.7875,
+    "avgHit": 289.9698,
+    "maxHit": 568,
+    "manaCost": 0
+}

@@ -1,0 +1,206 @@
+{
+  "id": "legacy_merged",
+  "label": "Open-source reference navmesh (multi-floor sample)",
+  "source": "bin/build_legacy_map_reference.py",
+  "notes": "Reduced hand graph for PNG-map / long-route demos. Not a full-world port. Edges stay inside local A* budget where possible.",
+  "points": [
+    {
+      "x": 260,
+      "y": 96,
+      "z": 7
+    },
+    {
+      "x": 271,
+      "y": 96,
+      "z": 7
+    },
+    {
+      "x": 282,
+      "y": 96,
+      "z": 7
+    },
+    {
+      "x": 293,
+      "y": 96,
+      "z": 7
+    },
+    {
+      "x": 304,
+      "y": 96,
+      "z": 7
+    },
+    {
+      "x": 320,
+      "y": 96,
+      "z": 7,
+      "properties": {
+        "icon": "flag",
+        "description": "corridor east exit"
+      }
+    },
+    {
+      "x": 320,
+      "y": 400,
+      "z": 7
+    },
+    {
+      "x": 320,
+      "y": 700,
+      "z": 7
+    },
+    {
+      "x": 320,
+      "y": 845,
+      "z": 7
+    },
+    {
+      "x": 420,
+      "y": 845,
+      "z": 7,
+      "properties": {
+        "icon": "sword",
+        "description": "dens west"
+      }
+    },
+    {
+      "x": 470,
+      "y": 845,
+      "z": 7,
+      "properties": {
+        "icon": "skull",
+        "description": "dens center"
+      }
+    },
+    {
+      "x": 520,
+      "y": 845,
+      "z": 7
+    },
+    {
+      "x": 470,
+      "y": 860,
+      "z": 7,
+      "properties": {
+        "icon": "down",
+        "description": "sample stair down"
+      }
+    },
+    {
+      "x": 470,
+      "y": 860,
+      "z": 6,
+      "properties": {
+        "icon": "up",
+        "description": "floor 06 pad"
+      }
+    },
+    {
+      "x": 480,
+      "y": 860,
+      "z": 6
+    },
+    {
+      "x": 282,
+      "y": 102,
+      "z": 7,
+      "properties": {
+        "icon": "up",
+        "description": "sample stair up"
+      }
+    },
+    {
+      "x": 282,
+      "y": 102,
+      "z": 8,
+      "properties": {
+        "icon": "down",
+        "description": "floor 08 pad"
+      }
+    },
+    {
+      "x": 290,
+      "y": 102,
+      "z": 8
+    }
+  ],
+  "connections": [
+    [
+      0,
+      1
+    ],
+    [
+      1,
+      2
+    ],
+    [
+      2,
+      3
+    ],
+    [
+      3,
+      4
+    ],
+    [
+      4,
+      5
+    ],
+    [
+      5,
+      6
+    ],
+    [
+      6,
+      7
+    ],
+    [
+      7,
+      8
+    ],
+    [
+      8,
+      9
+    ],
+    [
+      9,
+      10
+    ],
+    [
+      10,
+      11
+    ],
+    [
+      10,
+      12
+    ],
+    [
+      12,
+      13
+    ],
+    [
+      13,
+      14
+    ],
+    [
+      2,
+      15
+    ],
+    [
+      15,
+      16
+    ],
+    [
+      16,
+      17
+    ]
+  ],
+  "inferredStairEdges": [
+    [
+      12,
+      13
+    ],
+    [
+      15,
+      16
+    ]
+  ]
+}

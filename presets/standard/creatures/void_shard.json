@@ -1,0 +1,108 @@
+{
+    "id": "void_shard",
+    "label": "Void Shard",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A void shard.",
+    "hp": 1,
+    "hpMax": 1,
+    "speed": 100,
+    "level": 621,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 5,
+        "fire": 5,
+        "ice": 5,
+        "energy": 5,
+        "earth": 5,
+        "holy": 5,
+        "death": 5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 350
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 6,
+            "element": "energy",
+            "min": 168,
+            "max": 400,
+            "radius": 4,
+            "target": true,
+            "effect": "me_purpleenergy",
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "energy_strike_2",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 1,
+            "element": "physical",
+            "min": 50,
+            "max": 180,
+            "target": false
+        }
+    ],
+    "race": "venom",
+    "loot": [],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "hive_spore_vent",
+    "threatDps": 133.15,
+    "burstDps": 133.15,
+    "avgHit": 177.5333,
+    "maxHit": 400,
+    "manaCost": 0
+}

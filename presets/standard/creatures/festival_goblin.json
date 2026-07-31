@@ -1,0 +1,241 @@
+{
+    "id": "festival_goblin",
+    "label": "Festival Goblin",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A festival goblin.",
+    "hp": 80,
+    "hpMax": 80,
+    "speed": 100,
+    "level": 172,
+    "armor": 5,
+    "mitigation": 0.25,
+    "maxBlock": 0,
+    "exp": 4,
+    "lootValue": 10.255589194225,
+    "aggro": false,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 11,
+        "runHealth": 80,
+        "staticAttackChance": 0,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": false,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "element": "physical",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 11,
+            "min": 6,
+            "max": 38,
+            "target": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 1000,
+            "chance": 15,
+            "speedChange": 500,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 5,
+        "firstUnlock": 2,
+        "secondUnlock": 3,
+        "charmsPoints": 10,
+        "stars": 1,
+        "occurrence": 3
+    },
+    "loot": [
+        {
+            "id": 2639,
+            "chance": 4000
+        },
+        {
+            "chance": 5000,
+            "name": "lute"
+        },
+        {
+            "chance": 500,
+            "name": "flower bowl"
+        },
+        {
+            "chance": 7000,
+            "maxCount": 5,
+            "name": "snowball"
+        },
+        {
+            "name": "piggy bank",
+            "chance": 1000
+        },
+        {
+            "name": "gold coin",
+            "chance": 22500,
+            "maxCount": 22
+        },
+        {
+            "name": "scarab coin",
+            "chance": 500,
+            "maxCount": 2
+        },
+        {
+            "chance": 4000,
+            "name": "magic light wand"
+        },
+        {
+            "name": "blank rune",
+            "chance": 5000
+        },
+        {
+            "chance": 1500,
+            "name": "witchesbroom"
+        },
+        {
+            "chance": 1000,
+            "name": "mirror"
+        },
+        {
+            "name": "scarf",
+            "chance": 4000
+        },
+        {
+            "name": "red apple",
+            "chance": 700,
+            "maxCount": 3
+        },
+        {
+            "name": "orange",
+            "chance": 7000,
+            "maxCount": 3
+        },
+        {
+            "name": "cherry",
+            "chance": 7000,
+            "maxCount": 4
+        },
+        {
+            "name": "cookie",
+            "chance": 7000,
+            "maxCount": 5
+        },
+        {
+            "name": "candy cane",
+            "chance": 5000,
+            "maxCount": 3
+        },
+        {
+            "chance": 5000,
+            "maxCount": 2,
+            "name": "egg"
+        },
+        {
+            "name": "explorer brooch",
+            "chance": 4000
+        },
+        {
+            "name": "orichalcum pearl",
+            "chance": 500,
+            "maxCount": 2
+        },
+        {
+            "id": 5792,
+            "chance": 1000
+        },
+        {
+            "name": "chicken feather",
+            "chance": 4000,
+            "maxCount": 5
+        },
+        {
+            "name": "bat wing",
+            "chance": 4000,
+            "maxCount": 3
+        },
+        {
+            "name": "honeycomb",
+            "chance": 4000
+        },
+        {
+            "name": "lump of cake dough",
+            "chance": 7000,
+            "maxCount": 3
+        },
+        {
+            "name": "valentine's cake",
+            "chance": 1500
+        },
+        {
+            "name": "christmas present bag",
+            "chance": 7000
+        },
+        {
+            "name": "gingerbreadman",
+            "chance": 4000,
+            "maxCount": 2
+        },
+        {
+            "name": "walnut",
+            "chance": 3500,
+            "maxCount": 5
+        },
+        {
+            "name": "peanut",
+            "chance": 3500,
+            "maxCount": 100
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "festival_goblin",
+    "threatDps": 11,
+    "burstDps": 11,
+    "avgHit": 22,
+    "maxHit": 38,
+    "manaCost": 0
+}

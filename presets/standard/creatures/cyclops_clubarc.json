@@ -1,0 +1,156 @@
+{
+    "id": "cyclops_clubarc",
+    "label": "Cyclops Clubarc",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A cyclops clubarc.",
+    "hp": 400,
+    "hpMax": 400,
+    "speed": 105,
+    "level": 333,
+    "armor": 25,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 400,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": -30,
+        "fire": 0,
+        "ice": 0,
+        "energy": 5,
+        "earth": -5,
+        "holy": 10,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 80
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 50,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 53,
+            "target": false,
+            "shootEffect": "ani_onyxarrow"
+        },
+        {
+            "id": "condition_2",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 11,
+            "range": 1,
+            "element": "earth",
+            "min": 5,
+            "max": 5,
+            "target": false,
+            "effect": "me_poisonarea"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 350,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 53500,
+            "maxCount": 78
+        },
+        {
+            "name": "meat",
+            "chance": 23390
+        },
+        {
+            "name": "orcish axe",
+            "chance": 19350
+        },
+        {
+            "name": "shaggy tail",
+            "chance": 13700
+        },
+        {
+            "name": "disgusting trophy",
+            "chance": 4840
+        },
+        {
+            "name": "bow",
+            "chance": 3230
+        },
+        {
+            "name": "orc tooth",
+            "chance": 2420
+        },
+        {
+            "name": "silkweaver bow",
+            "chance": 2420
+        },
+        {
+            "name": "crossbow",
+            "chance": 1610
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "obsidian_cyclops",
+    "threatDps": 26.9,
+    "burstDps": 26.9,
+    "avgHit": 33.4161,
+    "maxHit": 80,
+    "manaCost": 0
+}

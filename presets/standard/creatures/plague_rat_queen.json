@@ -1,0 +1,200 @@
+{
+    "id": "plague_rat_queen",
+    "label": "Plague Rat Queen",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A plague rat queen.",
+    "hp": 800,
+    "hpMax": 800,
+    "speed": 122,
+    "level": 402,
+    "armor": 0,
+    "mitigation": 1.19,
+    "maxBlock": 0,
+    "exp": 600,
+    "lootValue": 10097.234567901,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -10,
+        "ice": 0,
+        "energy": 0,
+        "earth": 100,
+        "holy": 0,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 110,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 3,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 7,
+            "element": "earth",
+            "min": 0,
+            "max": 71,
+            "target": false,
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "condition_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 22,
+            "range": 4,
+            "element": "earth",
+            "min": 3,
+            "max": 3,
+            "length": 6,
+            "spread": 3,
+            "target": false,
+            "effect": "me_smallplants"
+        },
+        {
+            "id": "condition_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "earth",
+            "min": 3,
+            "max": 3,
+            "radius": 3,
+            "target": false,
+            "effect": "me_poisonarea"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 0,
+            "max": 71,
+            "radius": 3,
+            "target": false,
+            "effect": "me_magic_red"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 5,
+            "min": 30,
+            "max": 50,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 170,
+            "name": "gold coin"
+        },
+        {
+            "chance": 100000,
+            "name": "mutated rat tail"
+        },
+        {
+            "chance": 100000,
+            "name": "ring of healing"
+        },
+        {
+            "chance": 95000,
+            "maxCount": 4,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 68000,
+            "maxCount": 3,
+            "name": "small ruby"
+        },
+        {
+            "chance": 54000,
+            "name": "knight armor"
+        },
+        {
+            "chance": 34000,
+            "name": "tower shield"
+        },
+        {
+            "chance": 31050,
+            "name": "halberd"
+        },
+        {
+            "chance": 26000,
+            "name": "epee"
+        },
+        {
+            "chance": 8200,
+            "name": "Earthbound Mantle"
+        },
+        {
+            "chance": 6500,
+            "name": "stone herb"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "brimstone_ruins_crawler",
+    "threatDps": 39.3175,
+    "burstDps": 39.3175,
+    "avgHit": 39.3932,
+    "maxHit": 110,
+    "manaCost": 0
+}

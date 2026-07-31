@@ -1,0 +1,216 @@
+{
+    "id": "werebadger",
+    "label": "Werebadger",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A werebadger.",
+    "hp": 1700,
+    "hpMax": 1700,
+    "speed": 130,
+    "level": 478,
+    "armor": 31,
+    "mitigation": 0.75,
+    "maxBlock": 0,
+    "exp": 1600,
+    "lootValue": 409.19516044187,
+    "aggro": true,
+    "resists": {
+        "physical": 5,
+        "fire": -5,
+        "ice": -5,
+        "energy": 10,
+        "earth": 50,
+        "holy": -5,
+        "death": 40
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 275,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "condition": {
+                "type": "poison",
+                "totalDamage": 102,
+                "intervalMs": 4000
+            },
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "lifedrain",
+            "min": 15,
+            "max": 109,
+            "target": true,
+            "effect": "me_carniphila",
+            "shootEffect": "ani_earth"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "earth",
+            "min": 7,
+            "max": 73,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_carniphila"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 25,
+            "min": 50,
+            "max": 100,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "invisible_1",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 20,
+            "durationSec": 2,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Lycanthrope",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 97000,
+            "maxCount": 242,
+            "name": "gold coin"
+        },
+        {
+            "chance": 18200,
+            "maxCount": 5,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 2000,
+            "name": "beetroot"
+        },
+        {
+            "chance": 2000,
+            "name": "brown mushroom"
+        },
+        {
+            "chance": 2210,
+            "name": "mana potion"
+        },
+        {
+            "chance": 1200,
+            "name": "strong mana potion"
+        },
+        {
+            "chance": 1900,
+            "name": "troll green"
+        },
+        {
+            "chance": 950,
+            "name": "werebadger claws"
+        },
+        {
+            "chance": 780,
+            "name": "werebadger skull"
+        },
+        {
+            "chance": 200,
+            "name": "badger boots"
+        },
+        {
+            "chance": 160,
+            "name": "platinum amulet"
+        },
+        {
+            "chance": 430,
+            "name": "ring of healing"
+        },
+        {
+            "chance": 220,
+            "name": "Nether Rod"
+        },
+        {
+            "chance": 200,
+            "name": "wand of voodoo"
+        },
+        {
+            "chance": 150,
+            "name": "moonlight crystals"
+        },
+        {
+            "chance": 200,
+            "name": "werewolf amulet"
+        },
+        {
+            "chance": 100,
+            "name": "werebadger trophy"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "infernal_fire_giant_scout",
+    "threatDps": 60.2,
+    "burstDps": 60.2,
+    "avgHit": 52.5714,
+    "maxHit": 109,
+    "manaCost": 0
+}

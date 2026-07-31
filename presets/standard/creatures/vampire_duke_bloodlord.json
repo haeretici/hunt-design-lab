@@ -1,0 +1,262 @@
+{
+    "id": "vampire_duke_bloodlord",
+    "label": "Vampire Duke Bloodlord",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A vampire duke bloodlord.",
+    "hp": 290000,
+    "hpMax": 290000,
+    "speed": 125,
+    "level": 990,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 55000,
+    "lootValue": 31911.475409836,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -14,
+        "ice": 0,
+        "energy": 5,
+        "earth": 20,
+        "holy": 0,
+        "death": 160
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 2216
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 3500,
+            "chance": 37,
+            "range": 4,
+            "element": "physical",
+            "min": 1723,
+            "max": 2954,
+            "length": 7,
+            "spread": 0,
+            "target": false,
+            "effect": "me_blockhit"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2500,
+            "chance": 20,
+            "range": 4,
+            "element": "physical",
+            "min": 985,
+            "max": 2462,
+            "length": 7,
+            "spread": 0,
+            "target": false,
+            "effect": "me_blockhit"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 4200,
+            "chance": 40,
+            "range": 4,
+            "element": "fire",
+            "min": 739,
+            "max": 1231,
+            "radius": 9,
+            "target": false,
+            "effect": "me_hitbyfire"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 14,
+            "min": 150,
+            "max": 350,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "venom",
+    "loot": [
+        {
+            "name": "platinum coin",
+            "minCount": 1,
+            "maxCount": 5,
+            "chance": 100000
+        },
+        {
+            "name": "crystal coin",
+            "minCount": 0,
+            "maxCount": 2,
+            "chance": 50000
+        },
+        {
+            "name": "supreme health potion",
+            "minCount": 0,
+            "maxCount": 6,
+            "chance": 35000
+        },
+        {
+            "name": "ultimate mana potion",
+            "minCount": 0,
+            "maxCount": 20,
+            "chance": 32000
+        },
+        {
+            "name": "ultimate dual potion",
+            "minCount": 0,
+            "maxCount": 20,
+            "chance": 32000
+        },
+        {
+            "name": "marksman potion",
+            "minCount": 0,
+            "maxCount": 10,
+            "chance": 12000
+        },
+        {
+            "name": "savant potion",
+            "minCount": 0,
+            "maxCount": 10,
+            "chance": 12000
+        },
+        {
+            "name": "berserk potion",
+            "minCount": 0,
+            "maxCount": 10,
+            "chance": 12000
+        },
+        {
+            "name": "piece of draconian steel",
+            "minCount": 0,
+            "maxCount": 3,
+            "chance": 9000
+        },
+        {
+            "name": "green gem",
+            "minCount": 0,
+            "maxCount": 2,
+            "chance": 12000
+        },
+        {
+            "name": "silver token",
+            "minCount": 0,
+            "maxCount": 2,
+            "chance": 9500
+        },
+        {
+            "name": "blue gem",
+            "chance": 11000
+        },
+        {
+            "name": "crusader helmet",
+            "chance": 6400
+        },
+        {
+            "name": "gold ingot",
+            "minCount": 0,
+            "maxCount": 1,
+            "chance": 10000
+        },
+        {
+            "chance": 11000,
+            "name": "red gem"
+        },
+        {
+            "name": "Earthbound Hood",
+            "chance": 7800
+        },
+        {
+            "name": "yellow gem",
+            "chance": 9500
+        },
+        {
+            "name": "young lich worm",
+            "chance": 5800
+        },
+        {
+            "name": "bear skin",
+            "chance": 1800
+        },
+        {
+            "name": "noble amulet",
+            "chance": 1100
+        },
+        {
+            "name": "rotten heart",
+            "chance": 1700
+        },
+        {
+            "name": "Earthbound Helmet",
+            "chance": 700
+        },
+        {
+            "name": "final judgement",
+            "chance": 460
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "hellfire_vampire_archer",
+    "threatDps": 1032.9024,
+    "burstDps": 1355.9725,
+    "avgHit": 1322.6189,
+    "maxHit": 2954,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 4,
+        "summons": [
+            {
+                "name": "Soul Scourge",
+                "id": "soul_scourge",
+                "chance": 20,
+                "interval": 2000,
+                "count": 4
+            }
+        ]
+    }
+}

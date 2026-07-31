@@ -1,0 +1,103 @@
+{
+    "id": "eruption_of_destruction",
+    "label": "Eruption Of Destruction",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An eruption of destruction.",
+    "hp": 8500,
+    "hpMax": 8500,
+    "speed": 60,
+    "level": 638,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "slow_0",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -600,
+                "durationSec": 15
+            },
+            "radius": 7,
+            "effect": "me_loseenergy",
+            "target": false
+        },
+        {
+            "id": "eruption_of_destruction_explosion_1",
+            "kind": "melee",
+            "intervalMs": 10000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 1316,
+            "max": 1609,
+            "target": false
+        }
+    ],
+    "race": "undead",
+    "loot": [],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "thorn_steed",
+    "threatDps": 146.25,
+    "burstDps": 731.25,
+    "avgHit": 1462.5,
+    "maxHit": 1609,
+    "manaCost": 0
+}

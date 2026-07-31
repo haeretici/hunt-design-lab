@@ -1,0 +1,205 @@
+{
+    "id": "plagued_human",
+    "label": "Plagued Human",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A plagued human.",
+    "hp": 240,
+    "hpMax": 240,
+    "speed": 77,
+    "level": 282,
+    "armor": 14,
+    "mitigation": 0.59,
+    "maxBlock": 0,
+    "exp": 150,
+    "lootValue": 55.508830823487,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 20,
+        "energy": 0,
+        "earth": 100,
+        "holy": -25,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 23,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 15,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "death",
+            "min": 13,
+            "max": 15,
+            "length": 3,
+            "spread": 1,
+            "target": false,
+            "effect": "me_poisonarea"
+        },
+        {
+            "id": "condition_2",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 1,
+            "element": "earth",
+            "min": 48,
+            "max": 71,
+            "target": true,
+            "effect": "me_hitbypoison"
+        },
+        {
+            "id": "slow_3",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -600,
+                "durationSec": 30
+            },
+            "effect": "me_stun",
+            "target": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 220,
+            "durationSec": 5,
+            "effect": "me_green_rings"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Human",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 44000,
+            "maxCount": 80
+        },
+        {
+            "name": "gold coin",
+            "chance": 44000,
+            "maxCount": 50
+        },
+        {
+            "name": "strange talisman",
+            "chance": 4980
+        },
+        {
+            "name": "silver amulet",
+            "chance": 70
+        },
+        {
+            "name": "fishbone",
+            "chance": 10050
+        },
+        {
+            "chance": 5030,
+            "name": "sword"
+        },
+        {
+            "name": "scale armor",
+            "chance": 8080
+        },
+        {
+            "chance": 8000,
+            "name": "cheese"
+        },
+        {
+            "name": "fern",
+            "chance": 420
+        },
+        {
+            "name": "worm",
+            "chance": 7110,
+            "maxCount": 2
+        },
+        {
+            "name": "peanut",
+            "chance": 580
+        },
+        {
+            "chance": 190,
+            "name": "heavily rusted armor"
+        },
+        {
+            "name": "mutated flesh",
+            "chance": 19940
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "rune_stone_bugbear",
+    "threatDps": 20.25,
+    "burstDps": 20.25,
+    "avgHit": 18.8889,
+    "maxHit": 71,
+    "manaCost": 0
+}

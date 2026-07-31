@@ -1,0 +1,178 @@
+{
+    "id": "sulfur_spouter",
+    "label": "Sulfur Spouter",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A sulfur spouter.",
+    "hp": 19000,
+    "hpMax": 19000,
+    "speed": 180,
+    "level": 718,
+    "armor": 84,
+    "mitigation": 2.05,
+    "maxBlock": 0,
+    "exp": 11517,
+    "lootValue": 4425,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 25,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": -20,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 2,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 455
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 3500,
+            "chance": 35,
+            "range": 4,
+            "element": "physical",
+            "min": 454,
+            "max": 682,
+            "target": true,
+            "effect": "me_yellow_rings",
+            "shootEffect": "ani_holy"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 4000,
+            "chance": 20,
+            "range": 4,
+            "element": "fire",
+            "min": 454,
+            "max": 682,
+            "radius": 4,
+            "target": true,
+            "effect": "me_yellowsmoke"
+        },
+        {
+            "id": "sulphur_spouter_wave_3",
+            "kind": "melee",
+            "intervalMs": 4500,
+            "chance": 30,
+            "range": 1,
+            "element": "physical",
+            "min": 369,
+            "max": 511
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Elemental",
+        "toKill": 5000,
+        "firstUnlock": 200,
+        "secondUnlock": 2000,
+        "charmsPoints": 100,
+        "stars": 5,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "Sulphur Powder",
+            "chance": 39440
+        },
+        {
+            "name": "Crystal Coin",
+            "chance": 22310,
+            "minCount": 1,
+            "maxCount": 2
+        },
+        {
+            "name": "Ultimate Mana Potion",
+            "chance": 12890,
+            "minCount": 1,
+            "maxCount": 2
+        },
+        {
+            "name": "Yellow Gem",
+            "chance": 2820
+        },
+        {
+            "id": 282,
+            "chance": 2450
+        },
+        {
+            "name": "Slightly Rusted Legs",
+            "chance": 2420
+        },
+        {
+            "name": "Knight Legs",
+            "chance": 2360
+        },
+        {
+            "chance": 2190,
+            "name": "red gem"
+        },
+        {
+            "name": "Warrior's Shield",
+            "chance": 1760
+        },
+        {
+            "chance": 1110,
+            "name": "ring of red plasma"
+        },
+        {
+            "name": "Fire Sword",
+            "chance": 770
+        },
+        {
+            "name": "Crystal Crossbow",
+            "chance": 510
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "crystal_catacomb_construct_ranger",
+    "threatDps": 228.2833,
+    "burstDps": 335.95,
+    "avgHit": 318.5349,
+    "maxHit": 682,
+    "manaCost": 0
+}

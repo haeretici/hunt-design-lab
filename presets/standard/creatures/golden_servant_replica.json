@@ -1,0 +1,169 @@
+{
+    "id": "golden_servant_replica",
+    "label": "Golden Servant Replica",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A golden servant replica.",
+    "hp": 2000,
+    "hpMax": 2000,
+    "speed": 105,
+    "level": 494,
+    "armor": 29,
+    "mitigation": 0.88,
+    "maxBlock": 0,
+    "exp": 1250,
+    "lootValue": 82.845692883895,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 15,
+        "ice": -5,
+        "energy": 25,
+        "earth": 80,
+        "holy": 100,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 80,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 11,
+            "range": 4,
+            "element": "fire",
+            "min": 438,
+            "max": 603,
+            "length": 5,
+            "spread": 0,
+            "target": false,
+            "effect": "me_yellowenergy"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "energy",
+            "min": 384,
+            "max": 603,
+            "radius": 4,
+            "target": true,
+            "effect": "me_purpleenergy",
+            "shootEffect": "ani_energy"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 13,
+            "min": 40,
+            "max": 70,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Construct",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 2
+    },
+    "loot": [
+        {
+            "chance": 1450,
+            "name": "green mushroom"
+        },
+        {
+            "chance": 940,
+            "name": "gear wheel"
+        },
+        {
+            "chance": 85180,
+            "maxCount": 140,
+            "name": "gold coin"
+        },
+        {
+            "chance": 4930,
+            "name": "health potion"
+        },
+        {
+            "chance": 4950,
+            "name": "mana potion"
+        },
+        {
+            "chance": 3030,
+            "name": "halberd"
+        },
+        {
+            "chance": 520,
+            "name": "spellbook of enlightenment"
+        },
+        {
+            "chance": 450,
+            "name": "stealth ring"
+        },
+        {
+            "chance": 340,
+            "name": "slime mould"
+        },
+        {
+            "chance": 36,
+            "name": "golden can of oil"
+        },
+        {
+            "chance": 13,
+            "name": "golden armor"
+        },
+        {
+            "chance": 8,
+            "name": "gold ring"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "chaos_stone_revenant_archer",
+    "threatDps": 65.64,
+    "burstDps": 65.64,
+    "avgHit": 504.9231,
+    "maxHit": 603,
+    "manaCost": 0
+}

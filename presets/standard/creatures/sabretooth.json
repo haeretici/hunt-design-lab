@@ -1,0 +1,165 @@
+{
+    "id": "sabretooth",
+    "label": "Sabretooth",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A sabretooth.",
+    "hp": 17300,
+    "hpMax": 17300,
+    "speed": 225,
+    "level": 709,
+    "armor": 63,
+    "mitigation": 1.62,
+    "maxBlock": 0,
+    "exp": 11931,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": -10,
+        "fire": -10,
+        "ice": -10,
+        "energy": 10,
+        "earth": -10,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 414
+        },
+        {
+            "id": "sabretooth_wave_1",
+            "kind": "melee",
+            "intervalMs": 5000,
+            "chance": 35,
+            "range": 1,
+            "element": "physical",
+            "min": 226,
+            "max": 377
+        },
+        {
+            "id": "melee_2",
+            "kind": "melee",
+            "intervalMs": 3500,
+            "chance": 30,
+            "range": 1,
+            "element": "physical",
+            "min": 301,
+            "max": 565,
+            "target": true,
+            "effect": "me_big_scratch"
+        },
+        {
+            "id": "melee_3",
+            "kind": "melee",
+            "intervalMs": 2700,
+            "chance": 35,
+            "range": 1,
+            "element": "fire",
+            "min": 339,
+            "max": 509,
+            "target": true
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Mammal",
+        "toKill": 5000,
+        "firstUnlock": 200,
+        "secondUnlock": 2000,
+        "charmsPoints": 100,
+        "stars": 5,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "Sabretooth Fur",
+            "chance": 23640
+        },
+        {
+            "name": "Crystal Coin",
+            "chance": 23350,
+            "minCount": 1,
+            "maxCount": 2
+        },
+        {
+            "name": "Elven Amulet",
+            "chance": 5010
+        },
+        {
+            "name": "Wand of Inferno",
+            "chance": 4720
+        },
+        {
+            "name": "Dragon Necklace",
+            "chance": 3850
+        },
+        {
+            "name": "Emberbound Coat",
+            "chance": 3820
+        },
+        {
+            "name": "Sacred Tree Amulet",
+            "chance": 2730
+        },
+        {
+            "name": "Fire Sword",
+            "chance": 2650
+        },
+        {
+            "name": "Wand of Dragonbreath",
+            "chance": 2330
+        },
+        {
+            "name": "Metal Spats",
+            "chance": 2260
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "umbral_ice_orc_packleader",
+    "threatDps": 216.6822,
+    "burstDps": 295.4125,
+    "avgHit": 275.9075,
+    "maxHit": 565,
+    "manaCost": 0
+}

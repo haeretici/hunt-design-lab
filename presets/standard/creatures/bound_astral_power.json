@@ -1,0 +1,101 @@
+{
+    "id": "bound_astral_power",
+    "label": "Bound Astral Power",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A bound astral power.",
+    "hp": 1,
+    "hpMax": 1,
+    "speed": 175,
+    "level": 483,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 45,
+        "fire": 40,
+        "ice": 45,
+        "energy": 30,
+        "earth": 40,
+        "holy": 0,
+        "death": 35
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "energy",
+            "min": 400,
+            "max": 500,
+            "length": 6,
+            "spread": 2,
+            "target": false,
+            "effect": "me_energyhit"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "energy",
+            "min": 300,
+            "max": 450,
+            "radius": 5,
+            "target": true,
+            "effect": "me_energyarea",
+            "shootEffect": "ani_energy"
+        }
+    ],
+    "race": "venom",
+    "loot": [],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "wolf_frostfur",
+    "threatDps": 61.875,
+    "burstDps": 61.875,
+    "avgHit": 412.5,
+    "maxHit": 500,
+    "manaCost": 0
+}

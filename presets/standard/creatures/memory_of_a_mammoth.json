@@ -1,0 +1,124 @@
+{
+    "id": "memory_of_a_mammoth",
+    "label": "Memory Of A Mammoth",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A memory of a mammoth.",
+    "hp": 3850,
+    "hpMax": 3850,
+    "speed": 95,
+    "level": 559,
+    "armor": 0,
+    "mitigation": 1.6,
+    "maxBlock": 0,
+    "exp": 1830,
+    "lootValue": 430.41176470588,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 377
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 90000,
+            "maxCount": 40
+        },
+        {
+            "name": "meat",
+            "chance": 39000
+        },
+        {
+            "name": "ham",
+            "chance": 30000,
+            "maxCount": 3
+        },
+        {
+            "name": "tusk shield",
+            "chance": 500
+        },
+        {
+            "name": "mammoth whopper",
+            "chance": 2800
+        },
+        {
+            "name": "furry club",
+            "chance": 500
+        },
+        {
+            "name": "thick fur",
+            "chance": 7280
+        },
+        {
+            "chance": 5155,
+            "name": "candy floss"
+        },
+        {
+            "name": "bottle of champagne",
+            "chance": 7280
+        },
+        {
+            "name": "mammoth tusk",
+            "chance": 7500,
+            "maxCount": 2
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "feral_dune_orc_warden",
+    "threatDps": 94.25,
+    "burstDps": 94.25,
+    "avgHit": 188.5,
+    "maxHit": 377,
+    "manaCost": 0
+}

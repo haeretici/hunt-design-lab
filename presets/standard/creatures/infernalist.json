@@ -1,0 +1,279 @@
+{
+    "id": "infernalist",
+    "label": "Infernalist",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An infernalist.",
+    "hp": 3650,
+    "hpMax": 3650,
+    "speed": 115,
+    "level": 554,
+    "armor": 33,
+    "mitigation": 1.15,
+    "maxBlock": 0,
+    "exp": 4000,
+    "lootValue": 624.27655609392,
+    "aggro": true,
+    "resists": {
+        "physical": -5,
+        "fire": 100,
+        "ice": -5,
+        "energy": 100,
+        "earth": 95,
+        "holy": 20,
+        "death": 10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 900,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 108
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 40,
+            "range": 7,
+            "element": "fire",
+            "min": 70,
+            "max": 194,
+            "target": true,
+            "effect": "me_hitbyfire",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "fire",
+            "min": 97,
+            "max": 194,
+            "radius": 3,
+            "target": true,
+            "effect": "me_firearea",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "manadrain",
+            "min": 57,
+            "max": 130,
+            "radius": 3,
+            "target": true,
+            "effect": "me_teleport",
+            "shootEffect": "ani_energyball"
+        },
+        {
+            "id": "firefield_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "radius": 3,
+            "target": true,
+            "shootEffect": "ani_fire",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "wave_5",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "fire",
+            "min": 162,
+            "max": 270,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_fireattack"
+        },
+        {
+            "id": "area_6",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 4,
+            "element": "physical",
+            "min": 108,
+            "max": 162,
+            "radius": 2,
+            "target": false,
+            "effect": "me_explosionarea"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 60,
+            "max": 230,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "invisible_1",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 15,
+            "durationSec": 2,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Human",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "red tome",
+            "chance": 300
+        },
+        {
+            "name": "piggy bank",
+            "chance": 220
+        },
+        {
+            "name": "gold coin",
+            "chance": 56500,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 40000,
+            "maxCount": 47
+        },
+        {
+            "chance": 1800,
+            "name": "voltaic ring"
+        },
+        {
+            "name": "Bone Skull Staff",
+            "chance": 6500
+        },
+        {
+            "name": "magic sulphur",
+            "chance": 600
+        },
+        {
+            "name": "red piece of cloth",
+            "chance": 1420
+        },
+        {
+            "name": "great mana potion",
+            "chance": 19700
+        },
+        {
+            "name": "great health potion",
+            "chance": 1900
+        },
+        {
+            "name": "small enchanted ruby",
+            "chance": 4250
+        },
+        {
+            "name": "Emberbound Boots",
+            "chance": 300
+        },
+        {
+            "name": "raspberry",
+            "chance": 8500,
+            "maxCount": 5
+        },
+        {
+            "name": "spellbook of mind control",
+            "chance": 370
+        },
+        {
+            "name": "royal tapestry",
+            "chance": 520
+        },
+        {
+            "chance": 820,
+            "name": "black skull"
+        },
+        {
+            "name": "gold ingot",
+            "chance": 70
+        },
+        {
+            "name": "crystal of power",
+            "chance": 220
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "brimstone_ruins_crawler",
+    "threatDps": 91.475,
+    "burstDps": 91.475,
+    "avgHit": 93.8205,
+    "maxHit": 270,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 1,
+        "summons": [
+            {
+                "name": "Fire Elemental",
+                "id": "fire_elemental",
+                "chance": 20,
+                "interval": 2000,
+                "count": 1
+            }
+        ]
+    }
+}

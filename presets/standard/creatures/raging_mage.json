@@ -1,0 +1,228 @@
+{
+    "id": "raging_mage",
+    "label": "Raging Mage",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A raging mage.",
+    "hp": 3500,
+    "hpMax": 3500,
+    "speed": 100,
+    "level": 549,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 3250,
+    "lootValue": 4082.8571428571,
+    "aggro": true,
+    "resists": {
+        "physical": -25,
+        "fire": 100,
+        "ice": 0,
+        "energy": 100,
+        "earth": 0,
+        "holy": 0,
+        "death": 15
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 300,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 89
+        },
+        {
+            "id": "stormlash_rune_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 35,
+            "range": 7,
+            "element": "physical",
+            "min": 179,
+            "max": 358,
+            "target": true
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "manadrain",
+            "min": 179,
+            "max": 358,
+            "target": false
+        },
+        {
+            "id": "energyfield_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "radius": 2,
+            "target": true,
+            "shootEffect": "ani_energy",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 97000,
+            "maxCount": 169,
+            "name": "gold coin"
+        },
+        {
+            "chance": 77400,
+            "maxCount": 9,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 31100,
+            "name": "red piece of cloth"
+        },
+        {
+            "chance": 26830,
+            "maxCount": 5,
+            "name": "great health potion"
+        },
+        {
+            "chance": 23170,
+            "maxCount": 5,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 9760,
+            "name": "mind stone"
+        },
+        {
+            "chance": 6710,
+            "maxCount": 2,
+            "name": "marksman potion"
+        },
+        {
+            "chance": 4880,
+            "name": "focus cape"
+        },
+        {
+            "chance": 4880,
+            "name": "stealth ring"
+        },
+        {
+            "chance": 4270,
+            "name": "luminous orb"
+        },
+        {
+            "chance": 3600,
+            "maxCount": 4,
+            "name": "dark mushroom"
+        },
+        {
+            "chance": 1830,
+            "maxCount": 7,
+            "name": "assassin star"
+        },
+        {
+            "chance": 1830,
+            "name": "crystal ring"
+        },
+        {
+            "chance": 1830,
+            "name": "Celestial Band"
+        },
+        {
+            "chance": 1830,
+            "maxCount": 5,
+            "name": "small sapphire"
+        },
+        {
+            "chance": 1220,
+            "name": "elemental spikes"
+        },
+        {
+            "chance": 1220,
+            "name": "piggy bank"
+        },
+        {
+            "chance": 1220,
+            "name": "royal tapestry"
+        },
+        {
+            "chance": 610,
+            "name": "boots of haste"
+        },
+        {
+            "chance": 610,
+            "name": "crystal of power"
+        },
+        {
+            "chance": 610,
+            "name": "skull helmet"
+        },
+        {
+            "chance": 610,
+            "name": "spellbook of mind control"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "arcane_elemental_vanguard",
+    "threatDps": 89.375,
+    "burstDps": 89.375,
+    "avgHit": 119.1667,
+    "maxHit": 358,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 1,
+        "summons": [
+            {
+                "name": "Golden Servant",
+                "id": "golden_servant",
+                "chance": 50,
+                "interval": 2000,
+                "count": 1
+            }
+        ]
+    }
+}

@@ -1,0 +1,110 @@
+{
+    "id": "shiver_dreamer",
+    "label": "Shiver Dreamer",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A shiver dreamer.",
+    "hp": 4600,
+    "hpMax": 4600,
+    "speed": 135,
+    "level": 577,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 1900,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 35,
+        "ice": 0,
+        "energy": 0,
+        "earth": 100,
+        "holy": -10,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 295
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 1800,
+            "chance": 10,
+            "range": 4,
+            "element": "earth",
+            "min": 197,
+            "max": 449,
+            "length": 7,
+            "spread": 0,
+            "target": false,
+            "effect": "me_stones"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 9,
+            "range": 4,
+            "element": "earth",
+            "min": 164,
+            "max": 387,
+            "radius": 6,
+            "target": false,
+            "effect": "me_bigplants"
+        }
+    ],
+    "race": "blood",
+    "loot": [],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "brittle_skeleton",
+    "threatDps": 104.0919,
+    "burstDps": 118.4475,
+    "avgHit": 173.3261,
+    "maxHit": 449,
+    "manaCost": 0
+}

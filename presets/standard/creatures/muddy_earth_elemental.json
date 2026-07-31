@@ -1,0 +1,134 @@
+{
+    "id": "muddy_earth_elemental",
+    "label": "Muddy Earth Elemental",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A muddy earth elemental.",
+    "hp": 650,
+    "hpMax": 650,
+    "speed": 130,
+    "level": 381,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 450,
+    "lootValue": 137.09525899912,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -14,
+        "ice": 20,
+        "energy": 85,
+        "earth": 100,
+        "holy": 0,
+        "death": 40
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 1,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 117
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "earth",
+            "min": 18,
+            "max": 114,
+            "radius": 2,
+            "target": true,
+            "effect": "me_stones"
+        },
+        {
+            "id": "condition_2",
+            "kind": "wave",
+            "intervalMs": 1000,
+            "chance": 10,
+            "range": 4,
+            "element": "earth",
+            "min": 0,
+            "max": 19,
+            "length": 6,
+            "spread": 0,
+            "target": false,
+            "effect": "me_groundshaker"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "name": "small stone",
+            "chance": 40000,
+            "maxCount": 3
+        },
+        {
+            "name": "gold coin",
+            "chance": 24500,
+            "maxCount": 80
+        },
+        {
+            "name": "gold coin",
+            "chance": 24500,
+            "maxCount": 47
+        },
+        {
+            "chance": 22000,
+            "name": "some leaves"
+        },
+        {
+            "name": "natural soil",
+            "chance": 3750
+        }
+    ],
+    "changeTarget": {
+        "interval": 20000,
+        "chance": 50
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "arcane_elemental_vanguard",
+    "threatDps": 35.15,
+    "burstDps": 35.15,
+    "avgHit": 52.0741,
+    "maxHit": 117,
+    "manaCost": 0
+}

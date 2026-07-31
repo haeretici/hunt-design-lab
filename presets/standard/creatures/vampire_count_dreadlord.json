@@ -1,0 +1,284 @@
+{
+    "id": "vampire_count_dreadlord",
+    "label": "Vampire Count Dreadlord",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A vampire count dreadlord.",
+    "hp": 1,
+    "hpMax": 1,
+    "speed": 125,
+    "level": 778,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 35147.368421053,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 5,
+        "ice": 0,
+        "energy": 5,
+        "earth": 0,
+        "holy": 0,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 800,
+            "effect": "me_drawblood"
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2300,
+            "chance": 20,
+            "range": 1,
+            "element": "lifedrain",
+            "min": 250,
+            "max": 350,
+            "target": true,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "manadrain",
+            "min": 1,
+            "max": 250,
+            "length": 7,
+            "spread": 0,
+            "target": false,
+            "effect": "me_smallclouds"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2500,
+            "chance": 20,
+            "range": 4,
+            "element": "fire",
+            "min": 500,
+            "max": 1500,
+            "length": 7,
+            "spread": 0,
+            "target": false,
+            "effect": "me_hitbyfire"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 14,
+            "min": 150,
+            "max": 350,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "venom",
+    "loot": [
+        {
+            "name": "platinum coin",
+            "minCount": 1,
+            "maxCount": 5,
+            "chance": 100000
+        },
+        {
+            "name": "crystal coin",
+            "minCount": 0,
+            "maxCount": 2,
+            "chance": 50000
+        },
+        {
+            "name": "supreme health potion",
+            "minCount": 0,
+            "maxCount": 6,
+            "chance": 35000
+        },
+        {
+            "name": "ultimate mana potion",
+            "minCount": 0,
+            "maxCount": 20,
+            "chance": 32000
+        },
+        {
+            "name": "ultimate dual potion",
+            "minCount": 0,
+            "maxCount": 20,
+            "chance": 32000
+        },
+        {
+            "name": "marksman potion",
+            "minCount": 0,
+            "maxCount": 10,
+            "chance": 12000
+        },
+        {
+            "name": "savant potion",
+            "minCount": 0,
+            "maxCount": 10,
+            "chance": 12000
+        },
+        {
+            "name": "silver token",
+            "minCount": 0,
+            "maxCount": 2,
+            "chance": 8000
+        },
+        {
+            "name": "blue gem",
+            "chance": 9000
+        },
+        {
+            "chance": 5200,
+            "name": "collar of blue plasma"
+        },
+        {
+            "chance": 5200,
+            "name": "collar of red plasma"
+        },
+        {
+            "name": "blue gem",
+            "chance": 8500
+        },
+        {
+            "name": "gold ingot",
+            "minCount": 0,
+            "maxCount": 1,
+            "chance": 10000
+        },
+        {
+            "name": "green gem",
+            "chance": 8200
+        },
+        {
+            "name": "magic sulphur",
+            "chance": 6500
+        },
+        {
+            "chance": 8000,
+            "name": "red gem"
+        },
+        {
+            "chance": 5000,
+            "name": "ring of blue plasma"
+        },
+        {
+            "chance": 5000,
+            "name": "ring of red plasma"
+        },
+        {
+            "chance": 5000,
+            "name": "ring of green plasma"
+        },
+        {
+            "name": "Bone Skull Staff",
+            "chance": 7000
+        },
+        {
+            "name": "yellow gem",
+            "chance": 8500
+        },
+        {
+            "name": "young lich worm",
+            "chance": 5500
+        },
+        {
+            "name": "bear skin",
+            "chance": 1600
+        },
+        {
+            "name": "embrace of nature",
+            "chance": 1100
+        },
+        {
+            "name": "giant emerald",
+            "chance": 1700
+        },
+        {
+            "name": "giant ruby",
+            "chance": 1900
+        },
+        {
+            "name": "giant sapphire",
+            "chance": 1800
+        },
+        {
+            "name": "medal of valiance",
+            "chance": 1200
+        },
+        {
+            "name": "Earthbound Helmet",
+            "chance": 700
+        },
+        {
+            "name": "final judgement",
+            "chance": 400
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "hellfire_vampire_archer",
+    "threatDps": 318.637,
+    "burstDps": 342.55,
+    "avgHit": 415.4563,
+    "maxHit": 1500,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 4,
+        "summons": [
+            {
+                "name": "Soulless Minion",
+                "id": "soulless_minion",
+                "chance": 70,
+                "interval": 5500,
+                "count": 4
+            }
+        ]
+    }
+}

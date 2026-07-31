@@ -1,0 +1,108 @@
+{
+    "id": "vampiric_blood",
+    "label": "Vampiric Blood",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A vampiric blood.",
+    "hp": 3500,
+    "hpMax": 3500,
+    "speed": 75,
+    "level": 550,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 184
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 1000,
+            "chance": 15,
+            "range": 7,
+            "element": "fire",
+            "min": 230,
+            "max": 276,
+            "length": 3,
+            "spread": 0,
+            "target": false,
+            "effect": "me_hitbyfire"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 1000,
+            "chance": 12,
+            "range": 7,
+            "element": "fire",
+            "min": 0,
+            "max": 92,
+            "length": 6,
+            "spread": 0,
+            "target": false,
+            "effect": "me_hitbyfire"
+        }
+    ],
+    "race": "fire",
+    "loot": [],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "blood_behemoth",
+    "threatDps": 89.47,
+    "burstDps": 89.47,
+    "avgHit": 116.1948,
+    "maxHit": 276,
+    "manaCost": 0
+}

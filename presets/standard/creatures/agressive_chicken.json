@@ -1,0 +1,100 @@
+{
+    "id": "agressive_chicken",
+    "label": "Agressive Chicken",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An agressive chicken.",
+    "hp": 15000,
+    "hpMax": 15000,
+    "speed": 64,
+    "level": 695,
+    "armor": 1,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": false,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 15,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": false,
+        "convinceable": false,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "element": "physical",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "min": 279,
+            "max": 522,
+            "target": true
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "meat",
+            "chance": 2120,
+            "maxCount": 2
+        },
+        {
+            "chance": 950,
+            "name": "egg"
+        },
+        {
+            "name": "worm",
+            "chance": 10000,
+            "maxCount": 3
+        },
+        {
+            "name": "chicken feather",
+            "chance": 20000
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "magma_harpy",
+    "threatDps": 200.25,
+    "burstDps": 200.25,
+    "avgHit": 400.5,
+    "maxHit": 522,
+    "manaCost": 220
+}

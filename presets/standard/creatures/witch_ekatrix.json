@@ -1,0 +1,153 @@
+{
+    "id": "witch_ekatrix",
+    "label": "Witch Ekatrix",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A witch ekatrix.",
+    "hp": 500,
+    "hpMax": 500,
+    "speed": 51,
+    "level": 355,
+    "armor": 10,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 200,
+    "lootValue": 228.10769230769,
+    "aggro": true,
+    "resists": {
+        "physical": -5,
+        "fire": 0,
+        "ice": 0,
+        "energy": 100,
+        "earth": 20,
+        "holy": -5,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 30,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 64
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 5,
+            "element": "fire",
+            "min": 96,
+            "max": 192,
+            "target": false,
+            "effect": "me_hitbyfire",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "firefield_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 5,
+            "element": "physical",
+            "radius": 1,
+            "target": true,
+            "shootEffect": "ani_fire",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 60
+        },
+        {
+            "name": "witch broom",
+            "chance": 100000
+        },
+        {
+            "name": "cape",
+            "chance": 64500
+        },
+        {
+            "chance": 41670,
+            "name": "wolf tooth chain"
+        },
+        {
+            "name": "broom",
+            "chance": 37500
+        },
+        {
+            "name": "coat",
+            "chance": 37500
+        },
+        {
+            "name": "cookie",
+            "chance": 25000,
+            "maxCount": 10
+        },
+        {
+            "name": "star herb",
+            "chance": 11333
+        },
+        {
+            "name": "bag of apple slices",
+            "chance": 2940
+        },
+        {
+            "name": "Withering Rod",
+            "chance": 2940
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "infernal_merrow_necromancer",
+    "threatDps": 30.4,
+    "burstDps": 30.4,
+    "avgHit": 50.6667,
+    "maxHit": 192,
+    "manaCost": 0
+}

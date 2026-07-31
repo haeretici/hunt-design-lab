@@ -1,0 +1,109 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://hunt-design-lab.local/schemas/pieces.schema.json",
+  "title": "Piece pack",
+  "description": "Shape of presets/<mode>/pieces/<packId>.json. Nested pack: one file per pack, body.pieces[] entries. Loaded by presets.loadPiecePack + dungeon.normalizePiecePack. Designer Phase 3 uses format dungeon_piece for the grid widget.",
+  "type": "object",
+  "required": ["id", "pieces"],
+  "additionalProperties": true,
+  "definitions": {
+    "entityId": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]{0,79}$",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "exitMask": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "N": { "type": "boolean" },
+        "S": { "type": "boolean" },
+        "E": { "type": "boolean" },
+        "W": { "type": "boolean" }
+      }
+    },
+    "point": {
+      "type": "object",
+      "required": ["x", "y"],
+      "additionalProperties": true,
+      "properties": {
+        "x": { "type": "integer", "minimum": 0 },
+        "y": { "type": "integer", "minimum": 0 },
+        "id": { "type": "string" }
+      }
+    },
+    "stairPoint": {
+      "type": "object",
+      "required": ["x", "y"],
+      "additionalProperties": true,
+      "properties": {
+        "x": { "type": "integer", "minimum": 0 },
+        "y": { "type": "integer", "minimum": 0 },
+        "dir": { "type": "string", "enum": ["up", "down"] },
+        "id": { "type": "string" }
+      }
+    },
+    "dungeonPiece": {
+      "title": "Dungeon piece",
+      "format": "dungeon_piece",
+      "type": "object",
+      "required": ["id", "size", "friction"],
+      "additionalProperties": true,
+      "properties": {
+        "id": { "$ref": "#/definitions/entityId" },
+        "biome": { "type": "string" },
+        "size": {
+          "type": "object",
+          "required": ["w", "h"],
+          "additionalProperties": true,
+          "properties": {
+            "w": { "type": "integer", "minimum": 1, "maximum": 64 },
+            "h": { "type": "integer", "minimum": 1, "maximum": 64 }
+          }
+        },
+        "exits": { "$ref": "#/definitions/exitMask" },
+        "friction": {
+          "type": "array",
+          "description": "Row strings: # blocked, . walkable (default friction 100).",
+          "items": { "type": "string", "minLength": 1, "maxLength": 64 },
+          "minItems": 1,
+          "maxItems": 64
+        },
+        "sockets": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "spawns": { "type": "array", "items": { "$ref": "#/definitions/point" } },
+            "markers": { "type": "array", "items": { "$ref": "#/definitions/point" } },
+            "waypoints": { "type": "array", "items": { "$ref": "#/definitions/point" } },
+            "stairs": { "type": "array", "items": { "$ref": "#/definitions/stairPoint" } }
+          }
+        },
+        "tags": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "walkFriction": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 254,
+          "description": "Default walk friction for '.' cells (default 100)."
+        }
+      }
+    }
+  },
+  "properties": {
+    "id": { "$ref": "#/definitions/entityId" },
+    "biome": {
+      "type": "string",
+      "description": "Biome tag for pack (soft consistency with biomes/<id>)."
+    },
+    "notes": { "type": "string", "maxLength": 4000 },
+    "pieces": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/definitions/dungeonPiece" }
+    }
+  }
+}

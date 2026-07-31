@@ -1,0 +1,81 @@
+{
+    "id": "cold_frost_sleigh",
+    "label": "Cold Frost Sleigh",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A cold frost sleigh.",
+    "hp": 2300,
+    "hpMax": 2300,
+    "speed": 0,
+    "level": 508,
+    "armor": 79,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 500,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 100,
+        "fire": 100,
+        "ice": 100,
+        "energy": 100,
+        "earth": 100,
+        "holy": 100,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "element": "physical",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "min": 86,
+            "max": 198,
+            "target": true
+        }
+    ],
+    "race": "undead",
+    "loot": [],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "nightmare_spider_horror",
+    "threatDps": 71,
+    "burstDps": 71,
+    "avgHit": 142,
+    "maxHit": 198,
+    "manaCost": 0
+}

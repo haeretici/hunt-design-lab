@@ -1,0 +1,118 @@
+{
+    "id": "dungeon_jailer",
+    "label": "Dungeon Jailer",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A dungeon jailer.",
+    "hp": 65,
+    "hpMax": 65,
+    "speed": 75,
+    "level": 154,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 45,
+    "lootValue": 6.5461538461538,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": true,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 27
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 24,
+            "target": false,
+            "effect": "me_poff",
+            "shootEffect": "ani_snowball"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 1000,
+            "chance": 12,
+            "range": 4,
+            "element": "energy",
+            "min": 0,
+            "max": 23,
+            "length": 3,
+            "spread": 0,
+            "target": false,
+            "effect": "me_poff"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 60
+        },
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 40
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "dungeon_jailer",
+    "threatDps": 9.93,
+    "burstDps": 9.93,
+    "avgHit": 12.8961,
+    "maxHit": 27,
+    "manaCost": 0
+}

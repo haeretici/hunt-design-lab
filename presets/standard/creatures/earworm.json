@@ -1,0 +1,160 @@
+{
+    "id": "earworm",
+    "label": "Earworm",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An earworm.",
+    "hp": 4000,
+    "hpMax": 4000,
+    "speed": 77,
+    "level": 563,
+    "armor": 0,
+    "mitigation": 1.29,
+    "maxBlock": 0,
+    "exp": 2000,
+    "lootValue": 341.29587155963,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 192,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 20,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 5,
+            "element": "earth",
+            "min": 256,
+            "max": 360,
+            "target": true,
+            "effect": "me_sound_green",
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 12,
+            "range": 4,
+            "element": "earth",
+            "min": 224,
+            "max": 280,
+            "radius": 3,
+            "target": false,
+            "effect": "me_groundshaker"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 82000,
+            "maxCount": 2
+        },
+        {
+            "name": "envenomed arrow",
+            "chance": 68000,
+            "maxCount": 47
+        },
+        {
+            "name": "earth arrow",
+            "chance": 65000,
+            "maxCount": 21
+        },
+        {
+            "name": "worm",
+            "chance": 61500,
+            "maxCount": 3
+        },
+        {
+            "name": "lump of dirt",
+            "chance": 42000
+        },
+        {
+            "name": "green memory shard",
+            "chance": 35000
+        },
+        {
+            "name": "blue memory shard",
+            "chance": 35000
+        },
+        {
+            "name": "violet memory shard",
+            "chance": 32000
+        },
+        {
+            "name": "Earthbound Amulet",
+            "chance": 26000
+        },
+        {
+            "name": "Earthbound Hood",
+            "chance": 16500
+        },
+        {
+            "name": "sacred tree amulet",
+            "chance": 12300
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "brimstone_ruins_crawler",
+    "threatDps": 96.22,
+    "burstDps": 96.22,
+    "avgHit": 135.7795,
+    "maxHit": 360,
+    "manaCost": 0
+}

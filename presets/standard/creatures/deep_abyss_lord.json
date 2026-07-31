@@ -1,0 +1,248 @@
+{
+    "id": "deep_abyss_lord",
+    "label": "Deep Abyss Lord",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A deep abyss lord.",
+    "hp": 90000,
+    "hpMax": 90000,
+    "speed": 220,
+    "level": 874,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 30000,
+    "lootValue": 41411.764705882,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": 100,
+        "energy": 1,
+        "earth": 100,
+        "holy": 0,
+        "death": 15
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 60,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 861,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 375,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2200,
+            "chance": 19,
+            "range": 7,
+            "element": "fire",
+            "min": 0,
+            "max": 430,
+            "radius": 7,
+            "target": true,
+            "effect": "me_firearea",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 3000,
+            "chance": 32,
+            "range": 7,
+            "element": "manadrain",
+            "min": 86,
+            "max": 344,
+            "radius": 7,
+            "target": true,
+            "effect": "me_mortarea"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 1300,
+            "chance": 27,
+            "range": 4,
+            "element": "earth",
+            "min": 0,
+            "max": 258,
+            "radius": 3,
+            "target": false,
+            "effect": "me_explosionarea"
+        },
+        {
+            "id": "wave_4",
+            "kind": "wave",
+            "intervalMs": 1200,
+            "chance": 6,
+            "range": 4,
+            "element": "death",
+            "min": 129,
+            "max": 387,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_mortarea"
+        },
+        {
+            "id": "wave_5",
+            "kind": "wave",
+            "intervalMs": 1000,
+            "chance": 5,
+            "range": 4,
+            "element": "fire",
+            "min": 215,
+            "max": 430,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_hitbyfire"
+        },
+        {
+            "id": "wave_6",
+            "kind": "wave",
+            "intervalMs": 1000,
+            "chance": 5,
+            "range": 4,
+            "element": "ice",
+            "min": 430,
+            "max": 861,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_icearea"
+        },
+        {
+            "id": "wave_7",
+            "kind": "wave",
+            "intervalMs": 4000,
+            "chance": 10,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 215,
+            "max": 430,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_watersplash"
+        },
+        {
+            "id": "slow_8",
+            "kind": "status",
+            "intervalMs": 1900,
+            "chance": 14,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -700,
+                "durationSec": 15
+            },
+            "radius": 1,
+            "target": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 5000,
+            "chance": 7,
+            "min": 12000,
+            "max": 19000,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "deepling axe",
+            "chance": 1500
+        },
+        {
+            "name": "depth calcei",
+            "chance": 1100
+        },
+        {
+            "chance": 1400,
+            "name": "depth galea"
+        },
+        {
+            "name": "depth lorica",
+            "chance": 800
+        },
+        {
+            "name": "ornate chestplate",
+            "chance": 650,
+            "unique": true
+        },
+        {
+            "name": "ornate legs",
+            "chance": 740
+        },
+        {
+            "name": "ornate mace",
+            "chance": 1500
+        },
+        {
+            "name": "ornate shield",
+            "chance": 1400
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 50
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ember_ogre_ravager",
+    "threatDps": 540.4063,
+    "burstDps": 572.41,
+    "avgHit": 328.0644,
+    "maxHit": 861,
+    "manaCost": 0
+}

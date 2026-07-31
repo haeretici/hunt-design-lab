@@ -1,0 +1,129 @@
+{
+    "id": "smuggler_baron_silvertoe",
+    "label": "Smuggler Baron Silvertoe",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A smuggler baron silvertoe.",
+    "hp": 280,
+    "hpMax": 280,
+    "speed": 100,
+    "level": 298,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 170,
+    "lootValue": 518.16666666667,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 15,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 79
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 63,
+            "target": false,
+            "shootEffect": "ani_throwingknife"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 10,
+            "max": 50,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 80000,
+            "maxCount": 30,
+            "name": "gold coin"
+        },
+        {
+            "chance": 10000,
+            "name": "short sword"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "solar_volcano_golem_slayer",
+    "threatDps": 22.1125,
+    "burstDps": 22.1125,
+    "avgHit": 38.4565,
+    "maxHit": 79,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 3,
+        "summons": [
+            {
+                "name": "Wild Warrior",
+                "id": "wild_warrior",
+                "chance": 20,
+                "interval": 2000,
+                "count": 3
+            }
+        ]
+    }
+}

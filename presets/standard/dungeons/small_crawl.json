@@ -1,0 +1,81 @@
+{
+    "id": "small_crawl",
+    "biome": "cave",
+    "seeded": true,
+    "notes": "Stage 11.4 — small procedural cave crawl. Constrained growth: hub → rooms → exit. Population and markers from piece sockets. Stage 11.7: biome=cave + generator marker table.",
+    "piecePack": "cave_v1",
+    "populationId": "cave_rats",
+    "markersId": "cave_clickies",
+    "floor": 0,
+    "maxAttempts": 40,
+    "maxPieces": 28,
+    "capOpenExits": true,
+    "connectorTags": [
+        "corridor"
+    ],
+    "rules": [
+        {
+            "op": "AddHub",
+            "tags": [
+                "hub"
+            ],
+            "count": 1
+        },
+        {
+            "op": "AddRoom",
+            "tags": [
+                "room"
+            ],
+            "count": [
+                2,
+                4
+            ]
+        },
+        {
+            "op": "AddCorridor",
+            "tags": [
+                "corridor"
+            ],
+            "count": [
+                1,
+                3
+            ]
+        },
+        {
+            "op": "AddExit",
+            "count": 1
+        },
+        {
+            "op": "SelectEvent",
+            "events": [
+                "champion_room",
+                "rest_well"
+            ],
+            "count": [
+                1,
+                2
+            ]
+        }
+    ],
+    "pacingBudget": {
+        "id": "small_crawl_micro",
+        "micro": {
+            "targetGapSec": 20,
+            "minGapSec": 0,
+            "warnGapSec": 90,
+            "maxGapSec": 180
+        },
+        "mid": {
+            "minKills": 0,
+            "maxKills": 40,
+            "minChampions": 0,
+            "maxChampions": 12
+        },
+        "session": {
+            "minTimeSec": 0,
+            "maxTimeSec": 300,
+            "minKillsPerMin": 0,
+            "maxKillsPerMin": 120
+        }
+    }
+}

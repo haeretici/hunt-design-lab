@@ -1,0 +1,164 @@
+{
+    "id": "root_horror_nutshell",
+    "label": "Root Horror Nutshell",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A root horror nutshell.",
+    "hp": 13500,
+    "hpMax": 13500,
+    "speed": 190,
+    "level": 684,
+    "armor": 85,
+    "mitigation": 2.31,
+    "maxBlock": 0,
+    "exp": 9200,
+    "lootValue": 1996.4788732394,
+    "aggro": true,
+    "resists": {
+        "physical": 25,
+        "fire": -14,
+        "ice": -5,
+        "energy": 15,
+        "earth": 100,
+        "holy": 5,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 82,
+            "max": 368
+        },
+        {
+            "id": "rotthligulus_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 1,
+            "element": "physical",
+            "min": 412,
+            "max": 604
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 17,
+            "range": 6,
+            "element": "physical",
+            "min": 220,
+            "max": 384,
+            "target": true,
+            "effect": "me_bite"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Plant",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 88000,
+            "maxCount": 41
+        },
+        {
+            "name": "demon root",
+            "chance": 7160
+        },
+        {
+            "name": "resin parasite",
+            "chance": 3940
+        },
+        {
+            "name": "small emerald",
+            "chance": 3030
+        },
+        {
+            "name": "epee",
+            "chance": 830
+        },
+        {
+            "name": "green gem",
+            "chance": 730
+        },
+        {
+            "name": "swamplair armor",
+            "chance": 550
+        },
+        {
+            "name": "ruthless axe",
+            "chance": 90
+        },
+        {
+            "name": "Earthbound Helmet",
+            "chance": 30
+        },
+        {
+            "name": "Preserved Pink Seed",
+            "chance": 110
+        },
+        {
+            "name": "Preserved Red Seed",
+            "chance": 110
+        },
+        {
+            "name": "Preserved Yellow Seed",
+            "chance": 110
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ember_ruins_horror",
+    "threatDps": 188.97,
+    "burstDps": 188.97,
+    "avgHit": 275.8686,
+    "maxHit": 604,
+    "manaCost": 0
+}

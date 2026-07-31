@@ -1,0 +1,133 @@
+{
+    "id": "muglex_clan_footman",
+    "label": "Muglex Clan Footman",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A muglex clan footman.",
+    "hp": 50,
+    "hpMax": 50,
+    "speed": 60,
+    "level": 126,
+    "armor": 6,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 25,
+    "lootValue": 6.8823529411765,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 15,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 8,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 425,
+            "target": false,
+            "shootEffect": "ani_smallstone"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 1410,
+            "name": "bone"
+        },
+        {
+            "chance": 9440,
+            "name": "bone club"
+        },
+        {
+            "chance": 17040,
+            "name": "dagger"
+        },
+        {
+            "chance": 159200,
+            "maxCount": 2,
+            "name": "fish"
+        },
+        {
+            "chance": 1130,
+            "name": "goblin ear"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 6,
+            "name": "gold coin"
+        },
+        {
+            "chance": 6060,
+            "name": "leather armor"
+        },
+        {
+            "chance": 2680,
+            "name": "leather helmet"
+        },
+        {
+            "chance": 850,
+            "name": "mouldy cheese"
+        },
+        {
+            "chance": 9720,
+            "name": "short sword"
+        },
+        {
+            "chance": 7750,
+            "name": "small axe"
+        },
+        {
+            "chance": 15210,
+            "name": "small stone"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "muglex_clan_footman",
+    "threatDps": 8.5,
+    "burstDps": 8.5,
+    "avgHit": 212.5,
+    "maxHit": 425,
+    "manaCost": 0
+}

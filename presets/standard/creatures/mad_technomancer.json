@@ -1,0 +1,127 @@
+{
+    "id": "mad_technomancer",
+    "label": "Mad Technomancer",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A mad technomancer.",
+    "hp": 1800,
+    "hpMax": 1800,
+    "speed": 100,
+    "level": 484,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 55,
+    "lootValue": 12.19512195122,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": -1,
+        "energy": -5,
+        "earth": 100,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 150,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 10,
+            "range": 7,
+            "element": "fire",
+            "min": 60,
+            "max": 143,
+            "radius": 4,
+            "target": true,
+            "effect": "me_firearea",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 34,
+            "range": 7,
+            "element": "physical",
+            "min": 66,
+            "max": 125,
+            "target": false,
+            "shootEffect": "ani_largerock"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 25,
+            "range": 7,
+            "element": "manadrain",
+            "min": 60,
+            "max": 95,
+            "target": false
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 1000,
+            "chance": 50,
+            "min": 75,
+            "max": 325,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 1000000,
+            "name": "technomancer beard"
+        }
+    ],
+    "changeTarget": {
+        "interval": 500,
+        "chance": 25
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "carrion_worm",
+    "threatDps": 61.995,
+    "burstDps": 61.995,
+    "avgHit": 89.8478,
+    "maxHit": 143,
+    "manaCost": 0
+}

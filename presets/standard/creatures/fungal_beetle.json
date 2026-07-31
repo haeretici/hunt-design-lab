@@ -1,0 +1,216 @@
+{
+    "id": "fungal_beetle",
+    "label": "Fungal Beetle",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A fungal beetle.",
+    "hp": 30200,
+    "hpMax": 30200,
+    "speed": 230,
+    "level": 765,
+    "armor": 116,
+    "mitigation": 2.92,
+    "maxBlock": 0,
+    "exp": 21175,
+    "lootValue": 6380.9411764706,
+    "aggro": true,
+    "resists": {
+        "physical": 25,
+        "fire": 35,
+        "ice": -25,
+        "energy": -14,
+        "earth": 60,
+        "holy": -5,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 500
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2500,
+            "chance": 20,
+            "range": 4,
+            "element": "earth",
+            "min": 344,
+            "max": 437,
+            "radius": 5,
+            "target": true,
+            "effect": "me_green_rings"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "earth",
+            "min": 375,
+            "max": 500,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_green_rings"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "physical",
+            "min": 437,
+            "max": 531,
+            "radius": 5,
+            "target": false,
+            "effect": "me_explosionarea"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "earth",
+            "min": 375,
+            "max": 437,
+            "radius": 5,
+            "target": false,
+            "effect": "me_groundshaker"
+        },
+        {
+            "id": "largepoisonring_5",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 1,
+            "element": "physical",
+            "min": 281,
+            "max": 406
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Vermin",
+        "toKill": 5000,
+        "firstUnlock": 200,
+        "secondUnlock": 2000,
+        "charmsPoints": 100,
+        "stars": 5,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "crystal coin",
+            "chance": 15540
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 43253,
+            "maxCount": 5
+        },
+        {
+            "name": "serpent sword",
+            "chance": 32253
+        },
+        {
+            "name": "Frostbound Mask",
+            "chance": 21920
+        },
+        {
+            "name": "small sapphire",
+            "chance": 34560,
+            "maxCount": 3
+        },
+        {
+            "name": "organic acid",
+            "chance": 11678,
+            "maxCount": 1
+        },
+        {
+            "name": "rotten roots",
+            "chance": 25920,
+            "maxCount": 1
+        },
+        {
+            "name": "scarab coin",
+            "chance": 22920,
+            "maxCount": 3
+        },
+        {
+            "name": "buckle",
+            "chance": 22920,
+            "maxCount": 1
+        },
+        {
+            "name": "rotten vermin ichor",
+            "chance": 22920,
+            "maxCount": 1
+        },
+        {
+            "name": "violet gem",
+            "chance": 18920
+        },
+        {
+            "name": "blue gem",
+            "chance": 15920
+        },
+        {
+            "name": "small ruby",
+            "chance": 24560,
+            "maxCount": 3
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "rune_stone_bugbear",
+    "threatDps": 295.2275,
+    "burstDps": 303.0375,
+    "avgHit": 326.2182,
+    "maxHit": 531,
+    "manaCost": 0
+}

@@ -1,0 +1,157 @@
+{
+    "id": "lesser_hellfiend",
+    "label": "Lesser Hellfiend",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A lesser hellfiend.",
+    "hp": 8200,
+    "hpMax": 8200,
+    "speed": 120,
+    "level": 635,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 500,
+    "lootValue": 142.39285714286,
+    "aggro": true,
+    "resists": {
+        "physical": 30,
+        "fire": 100,
+        "ice": -5,
+        "energy": 55,
+        "earth": 60,
+        "holy": -5,
+        "death": 20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 13,
+            "range": 7,
+            "element": "manadrain",
+            "min": 0,
+            "max": 159,
+            "target": false,
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 14,
+            "range": 7,
+            "element": "fire",
+            "min": 216,
+            "max": 361,
+            "radius": 7,
+            "target": true,
+            "effect": "me_firearea",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "melee_3",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 18,
+            "range": 1,
+            "element": "energy",
+            "min": 289,
+            "max": 577,
+            "target": false,
+            "effect": "me_purpleenergy",
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "wave_4",
+            "kind": "wave",
+            "intervalMs": 1000,
+            "chance": 12,
+            "range": 4,
+            "element": "energy",
+            "min": 433,
+            "max": 548,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_purpleenergy"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 90,
+            "max": 150,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 21000,
+            "maxCount": 90,
+            "name": "gold coin"
+        },
+        {
+            "chance": 10000,
+            "maxCount": 6,
+            "name": "fire mushroom"
+        },
+        {
+            "chance": 20000,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 20000,
+            "name": "great health potion"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "celestial_fiend",
+    "threatDps": 143.3875,
+    "burstDps": 143.3875,
+    "avgHit": 345.512,
+    "maxHit": 577,
+    "manaCost": 0
+}

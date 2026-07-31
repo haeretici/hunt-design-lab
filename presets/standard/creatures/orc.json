@@ -1,0 +1,135 @@
+{
+    "id": "orc",
+    "label": "Orc",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An orc.",
+    "hp": 70,
+    "hpMax": 70,
+    "speed": 75,
+    "level": 160,
+    "armor": 4,
+    "mitigation": 0.2,
+    "maxBlock": 0,
+    "exp": 25,
+    "lootValue": 12.067039975113,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 20,
+        "earth": -10,
+        "holy": 10,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 15,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": true,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 41
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 84810,
+            "maxCount": 14
+        },
+        {
+            "name": "old and used backpack",
+            "chance": 100000
+        },
+        {
+            "name": "sabre",
+            "chance": 5850
+        },
+        {
+            "name": "axe",
+            "chance": 4960
+        },
+        {
+            "name": "studded helmet",
+            "chance": 2950
+        },
+        {
+            "name": "studded armor",
+            "chance": 7860
+        },
+        {
+            "name": "studded shield",
+            "chance": 7300
+        },
+        {
+            "name": "meat",
+            "chance": 10160
+        },
+        {
+            "name": "orc tooth",
+            "chance": 210
+        },
+        {
+            "name": "orc leather",
+            "chance": 590
+        },
+        {
+            "chance": 1000,
+            "name": "heavy old tome"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "orc",
+    "threatDps": 10.25,
+    "burstDps": 10.25,
+    "avgHit": 20.5,
+    "maxHit": 41,
+    "manaCost": 300,
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    }
+}

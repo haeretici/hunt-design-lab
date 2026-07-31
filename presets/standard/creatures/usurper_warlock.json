@@ -1,0 +1,194 @@
+{
+    "id": "usurper_warlock",
+    "label": "Usurper Warlock",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An usurper warlock.",
+    "hp": 7500,
+    "hpMax": 7500,
+    "speed": 165,
+    "level": 626,
+    "armor": 80,
+    "mitigation": 2.25,
+    "maxBlock": 0,
+    "exp": 7000,
+    "lootValue": 1765.5664197531,
+    "aggro": true,
+    "resists": {
+        "physical": 10,
+        "fire": 5,
+        "ice": 30,
+        "energy": 0,
+        "earth": 0,
+        "holy": 32,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 375,
+            "effect": "me_drawblood"
+        },
+        {
+            "id": "singledeathchain_1",
+            "kind": "ranged",
+            "intervalMs": 6000,
+            "chance": 15,
+            "range": 5,
+            "element": "physical",
+            "min": 375,
+            "max": 795,
+            "target": true,
+            "effect": "me_mortarea"
+        },
+        {
+            "id": "singleicechain_2",
+            "kind": "ranged",
+            "intervalMs": 6000,
+            "chance": 18,
+            "range": 5,
+            "element": "physical",
+            "min": 225,
+            "max": 675,
+            "target": true,
+            "effect": "me_iceattack"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 4000,
+            "chance": 12,
+            "range": 4,
+            "element": "ice",
+            "min": 300,
+            "max": 675,
+            "radius": 4,
+            "target": true,
+            "effect": "me_iceattack",
+            "shootEffect": "ani_ice"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Human",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 77111,
+            "maxCount": 4
+        },
+        {
+            "name": "gold ingot",
+            "chance": 11778
+        },
+        {
+            "name": "lion cloak patch",
+            "chance": 8444
+        },
+        {
+            "name": "lion crest",
+            "chance": 8222
+        },
+        {
+            "name": "black pearl",
+            "chance": 5778
+        },
+        {
+            "id": 281,
+            "chance": 5556
+        },
+        {
+            "name": "Earthbound Hood",
+            "chance": 4667
+        },
+        {
+            "name": "Stormbound Headband",
+            "chance": 3778
+        },
+        {
+            "name": "green gem",
+            "chance": 3556
+        },
+        {
+            "name": "Bloomshoot Rod",
+            "chance": 2667
+        },
+        {
+            "name": "ham",
+            "chance": 2444
+        },
+        {
+            "name": "Emberbound Monocle",
+            "chance": 1778
+        },
+        {
+            "name": "wand of cosmic energy",
+            "chance": 1778
+        },
+        {
+            "name": "Nether Rod",
+            "chance": 1333
+        },
+        {
+            "name": "knight legs",
+            "chance": 1111
+        },
+        {
+            "name": "wand of starstorm",
+            "chance": 667
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "iron_viper_warlock",
+    "threatDps": 136.5,
+    "burstDps": 207.375,
+    "avgHit": 233.3333,
+    "maxHit": 795,
+    "manaCost": 0
+}

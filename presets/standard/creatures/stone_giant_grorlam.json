@@ -1,0 +1,122 @@
+{
+    "id": "stone_giant_grorlam",
+    "label": "Stone Giant Grorlam",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A stone giant grorlam.",
+    "hp": 3000,
+    "hpMax": 3000,
+    "speed": 120,
+    "level": 534,
+    "armor": 0,
+    "mitigation": 1.6,
+    "maxBlock": 0,
+    "exp": 2400,
+    "lootValue": 4307.5208333333,
+    "aggro": true,
+    "resists": {
+        "physical": 30,
+        "fire": -10,
+        "ice": 0,
+        "energy": 20,
+        "earth": 100,
+        "holy": 20,
+        "death": -1
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 469,
+            "max": 626,
+            "target": false,
+            "shootEffect": "ani_largerock"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 1000,
+            "chance": 25,
+            "min": 100,
+            "max": 150,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 1000,
+            "chance": 6,
+            "speedChange": 270,
+            "durationSec": 6,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 20,
+            "name": "gold coin"
+        },
+        {
+            "chance": 10000,
+            "name": "scale armor"
+        },
+        {
+            "chance": 20000,
+            "maxCount": 5,
+            "name": "small stone"
+        },
+        {
+            "chance": 2500,
+            "name": "carlin sword"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 3
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "radiant_fire_giant_priest",
+    "threatDps": 82.125,
+    "burstDps": 82.125,
+    "avgHit": 547.5,
+    "maxHit": 626,
+    "manaCost": 0
+}

@@ -1,0 +1,200 @@
+{
+    "id": "cave_devourer",
+    "label": "Cave Devourer",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A cave devourer.",
+    "hp": 4500,
+    "hpMax": 4500,
+    "speed": 120,
+    "level": 575,
+    "armor": 70,
+    "mitigation": 2.02,
+    "maxBlock": 0,
+    "exp": 3380,
+    "lootValue": 657.90560471976,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -20,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 268
+        },
+        {
+            "id": "stalagmite_rune_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 127,
+            "max": 201,
+            "target": true,
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 3,
+            "element": "death",
+            "min": 47,
+            "max": 107,
+            "length": 6,
+            "spread": 3,
+            "target": false,
+            "effect": "me_mortarea"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 3,
+            "element": "fire",
+            "min": 60,
+            "max": 107,
+            "length": 6,
+            "spread": 3,
+            "target": false,
+            "effect": "me_hitbyfire"
+        },
+        {
+            "id": "stone_shower_rune_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "min": 154,
+            "max": 302,
+            "radius": 3,
+            "target": true,
+            "effect": "me_stones"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Vermin",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "cave devourer eyes",
+            "chance": 24580
+        },
+        {
+            "name": "cave devourer maw",
+            "chance": 27540
+        },
+        {
+            "name": "small enchanted sapphire",
+            "chance": 8050
+        },
+        {
+            "name": "small enchanted ruby",
+            "chance": 6780
+        },
+        {
+            "name": "crystalline arrow",
+            "chance": 23520,
+            "maxCount": 40
+        },
+        {
+            "name": "blue crystal shard",
+            "chance": 10590
+        },
+        {
+            "name": "violet crystal shard",
+            "chance": 7630
+        },
+        {
+            "name": "green crystal shard",
+            "chance": 8900
+        },
+        {
+            "name": "cyan crystal fragment",
+            "chance": 5720
+        },
+        {
+            "name": "slime heart",
+            "chance": 13770,
+            "maxCount": 4
+        },
+        {
+            "name": "cave devourer legs",
+            "chance": 17160
+        },
+        {
+            "chance": 2540,
+            "name": "stealth ring"
+        },
+        {
+            "name": "suspicious device",
+            "chance": 850
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ashen_goblin_devourer",
+    "threatDps": 102.7375,
+    "burstDps": 102.7375,
+    "avgHit": 132.5645,
+    "maxHit": 302,
+    "manaCost": 305
+}

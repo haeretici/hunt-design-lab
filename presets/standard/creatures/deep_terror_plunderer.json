@@ -1,0 +1,151 @@
+{
+    "id": "deep_terror_plunderer",
+    "label": "Deep Terror Plunderer",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A deep terror plunderer.",
+    "hp": 13500,
+    "hpMax": 13500,
+    "speed": 205,
+    "level": 684,
+    "armor": 90,
+    "mitigation": 2.45,
+    "maxBlock": 0,
+    "exp": 10800,
+    "lootValue": 1697.9667686926,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 20,
+        "ice": 100,
+        "energy": -10,
+        "earth": -10,
+        "holy": 15,
+        "death": 10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 116,
+            "max": 165
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 7,
+            "element": "ice",
+            "min": 265,
+            "max": 364,
+            "radius": 4,
+            "target": false,
+            "effect": "me_icearea",
+            "shootEffect": "ani_ice"
+        },
+        {
+            "id": "quaracrossdeath_2",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 1,
+            "element": "physical",
+            "min": 364,
+            "max": 562,
+            "target": false
+        },
+        {
+            "id": "quarasmokedeath_3",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 1,
+            "element": "physical",
+            "min": 281,
+            "max": 380,
+            "target": false
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Aquatic",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 1
+    },
+    "loot": [
+        {
+            "name": "Amber Souvenir",
+            "chance": 7040
+        },
+        {
+            "name": "Resinous Fish Fin",
+            "chance": 6460
+        },
+        {
+            "chance": 4940,
+            "name": "red gem"
+        },
+        {
+            "chance": 4900,
+            "name": "blue gem"
+        },
+        {
+            "name": "Haunted Blade",
+            "chance": 350
+        },
+        {
+            "name": "platinum coin",
+            "chance": 10000,
+            "maxCount": 25
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "chicken",
+    "threatDps": 188.9125,
+    "burstDps": 188.9125,
+    "avgHit": 228.9848,
+    "maxHit": 562,
+    "manaCost": 0
+}

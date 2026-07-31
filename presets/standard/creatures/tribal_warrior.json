@@ -1,0 +1,168 @@
+{
+    "id": "tribal_warrior",
+    "label": "Tribal Warrior",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A tribal warrior.",
+    "hp": 3125,
+    "hpMax": 3125,
+    "speed": 120,
+    "level": 538,
+    "armor": 45,
+    "mitigation": 2.02,
+    "maxBlock": 0,
+    "exp": 2340,
+    "lootValue": 1083.2230215827,
+    "aggro": true,
+    "resists": {
+        "physical": 15,
+        "fire": 10,
+        "ice": -5,
+        "energy": -10,
+        "earth": 10,
+        "holy": 15,
+        "death": -20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 203,
+            "effect": "me_purpleenergy"
+        },
+        {
+            "id": "iksyapunacwave_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 1,
+            "element": "physical",
+            "min": 142,
+            "max": 244
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 17,
+            "range": 5,
+            "element": "death",
+            "min": 114,
+            "max": 212,
+            "target": true,
+            "effect": "me_mortarea"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 500,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 1
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 10
+        },
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 50
+        },
+        {
+            "id": 281,
+            "chance": 14830
+        },
+        {
+            "name": "great health potion",
+            "chance": 14530
+        },
+        {
+            "name": "tiger eye",
+            "chance": 4820
+        },
+        {
+            "name": "green crystal splinter",
+            "chance": 4190
+        },
+        {
+            "name": "brown crystal splinter",
+            "chance": 4160
+        },
+        {
+            "name": "opal",
+            "chance": 3450,
+            "maxCount": 2
+        },
+        {
+            "name": "gearwheel chain",
+            "chance": 3150
+        },
+        {
+            "name": "onyx chip",
+            "chance": 2490
+        },
+        {
+            "name": "ritual tooth",
+            "chance": 2410
+        },
+        {
+            "name": "spiked squelcher",
+            "chance": 1700
+        },
+        {
+            "chance": 1500,
+            "name": "colourful feather"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "sun_orc_guard",
+    "threatDps": 83.905,
+    "burstDps": 83.905,
+    "avgHit": 122.4891,
+    "maxHit": 244,
+    "manaCost": 0
+}

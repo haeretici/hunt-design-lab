@@ -1,0 +1,90 @@
+{
+    "id": "fish",
+    "label": "Fish",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A fish.",
+    "hp": 25,
+    "hpMax": 25,
+    "speed": 70,
+    "level": 55,
+    "armor": 9,
+    "mitigation": 0.1,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": -5,
+        "fire": 100,
+        "ice": 0,
+        "energy": -5,
+        "earth": 100,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 25,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": false,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "element": "physical",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "min": 3,
+            "max": 20,
+            "target": true
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Aquatic",
+        "toKill": 250,
+        "firstUnlock": 10,
+        "secondUnlock": 100,
+        "charmsPoints": 5,
+        "stars": 1,
+        "occurrence": 0
+    },
+    "loot": [],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "fish",
+    "threatDps": 5.75,
+    "burstDps": 5.75,
+    "avgHit": 11.5,
+    "maxHit": 20,
+    "manaCost": 305
+}

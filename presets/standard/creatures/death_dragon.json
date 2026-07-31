@@ -1,0 +1,259 @@
+{
+    "id": "death_dragon",
+    "label": "Death Dragon",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A death dragon.",
+    "hp": 8350,
+    "hpMax": 8350,
+    "speed": 165,
+    "level": 636,
+    "armor": 0,
+    "mitigation": 2,
+    "maxBlock": 0,
+    "exp": 320,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 700,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 9,
+            "range": 7,
+            "element": "earth",
+            "min": 179,
+            "max": 715,
+            "radius": 4,
+            "target": true,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 9,
+            "range": 7,
+            "element": "lifedrain",
+            "min": 179,
+            "max": 715,
+            "radius": 4,
+            "target": true,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_death"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 11,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 1099,
+            "target": false,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_death"
+        },
+        {
+            "id": "wave_5",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 9,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 357,
+            "max": 1251,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "wave_6",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 9,
+            "range": 4,
+            "element": "death",
+            "min": 715,
+            "max": 983,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_smallclouds"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 200,
+            "max": 250,
+            "hpBelow": 0.7,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "chance": 14580,
+            "name": "demonic essence"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 198,
+            "name": "gold coin"
+        },
+        {
+            "chance": 23740,
+            "maxCount": 3,
+            "name": "great health potion"
+        },
+        {
+            "chance": 25660,
+            "maxCount": 3,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 14580,
+            "name": "hardened bone"
+        },
+        {
+            "chance": 49790,
+            "maxCount": 5,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 1630,
+            "name": "gold ingot"
+        },
+        {
+            "chance": 32260,
+            "name": "unholy bone"
+        },
+        {
+            "chance": 1140,
+            "name": "life crystal"
+        },
+        {
+            "chance": 4290,
+            "name": "dragonbone staff"
+        },
+        {
+            "chance": 1630,
+            "name": "war axe"
+        },
+        {
+            "chance": 24630,
+            "maxCount": 5,
+            "name": "assassin star"
+        },
+        {
+            "chance": 15720,
+            "maxCount": 15,
+            "name": "power bolt"
+        },
+        {
+            "chance": 850,
+            "name": "golden armor"
+        },
+        {
+            "chance": 850,
+            "name": "spellweaver's robe"
+        },
+        {
+            "chance": 4930,
+            "name": "knight armor"
+        },
+        {
+            "chance": 500,
+            "name": "divine plate"
+        },
+        {
+            "chance": 530,
+            "name": "skullcracker armor"
+        },
+        {
+            "chance": 21290,
+            "maxCount": 2,
+            "name": "black pearl"
+        },
+        {
+            "chance": 27610,
+            "maxCount": 2,
+            "name": "small sapphire"
+        },
+        {
+            "chance": 1170,
+            "name": "blue gem"
+        },
+        {
+            "chance": 920,
+            "name": "royal helmet"
+        },
+        {
+            "chance": 1950,
+            "name": "death ring"
+        },
+        {
+            "chance": 5040,
+            "name": "golden mug"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 5
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "wild_desert_dragon",
+    "threatDps": 144.8375,
+    "burstDps": 144.8375,
+    "avgHit": 616.3298,
+    "maxHit": 1251,
+    "manaCost": 0
+}

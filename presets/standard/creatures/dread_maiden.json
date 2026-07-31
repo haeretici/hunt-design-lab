@@ -1,0 +1,257 @@
+{
+    "id": "dread_maiden",
+    "label": "Dread Maiden",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A dread maiden.",
+    "hp": 300000,
+    "hpMax": 300000,
+    "speed": 125,
+    "level": 994,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 72000,
+    "lootValue": 65534.482758621,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -10,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 200
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 193,
+            "max": 1160,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 8,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 35,
+            "range": 4,
+            "element": "death",
+            "min": 677,
+            "max": 1450,
+            "radius": 4,
+            "target": true,
+            "effect": "me_smallclouds",
+            "shootEffect": "ani_death"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 4000,
+            "chance": 50,
+            "range": 4,
+            "element": "death",
+            "min": 1160,
+            "max": 2899,
+            "length": 7,
+            "target": false,
+            "effect": "me_poff"
+        },
+        {
+            "id": "dread_rcircle_3",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 40,
+            "range": 1,
+            "element": "physical",
+            "min": 773,
+            "max": 1933
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 10000,
+            "chance": 40,
+            "speedChange": 510,
+            "durationSec": 20,
+            "effect": "me_magic_green"
+        },
+        {
+            "id": "heal_1",
+            "kind": "heal",
+            "intervalMs": 5000,
+            "chance": 60,
+            "min": 1000,
+            "max": 2500,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "chance": 100000,
+            "minCount": 1,
+            "maxCount": 2,
+            "name": "crystal coin"
+        },
+        {
+            "chance": 48000,
+            "name": "diamond"
+        },
+        {
+            "chance": 48000,
+            "name": "white gem"
+        },
+        {
+            "chance": 44000,
+            "minCount": 3,
+            "maxCount": 11,
+            "name": "ultimate mana potion"
+        },
+        {
+            "chance": 40000,
+            "minCount": 1,
+            "maxCount": 2,
+            "name": "moonstone"
+        },
+        {
+            "chance": 36000,
+            "minCount": 2,
+            "maxCount": 9,
+            "name": "ultimate dual potion"
+        },
+        {
+            "chance": 20000,
+            "name": "silver hand mirror"
+        },
+        {
+            "chance": 20000,
+            "minCount": 4,
+            "maxCount": 9,
+            "name": "supreme health potion"
+        },
+        {
+            "chance": 16000,
+            "minCount": 2,
+            "maxCount": 16,
+            "name": "marksman potion"
+        },
+        {
+            "chance": 16000,
+            "name": "ivory comb"
+        },
+        {
+            "chance": 12000,
+            "name": "amber"
+        },
+        {
+            "chance": 12000,
+            "minCount": 6,
+            "maxCount": 15,
+            "name": "berserk potion"
+        },
+        {
+            "chance": 12000,
+            "minCount": 4,
+            "maxCount": 15,
+            "name": "savant potion"
+        },
+        {
+            "chance": 8000,
+            "minCount": 1,
+            "maxCount": 3,
+            "name": "death toll"
+        },
+        {
+            "chance": 4000,
+            "name": "angel figurine"
+        },
+        {
+            "chance": 4000,
+            "name": "cursed bone"
+        },
+        {
+            "chance": 4000,
+            "name": "dark bell"
+        },
+        {
+            "chance": 4000,
+            "name": "giant amethyst"
+        },
+        {
+            "chance": 4000,
+            "name": "jagged sickle"
+        },
+        {
+            "chance": 4000,
+            "name": "soulforged lantern"
+        },
+        {
+            "chance": 730,
+            "name": "pair of nightmare boots"
+        },
+        {
+            "chance": 730,
+            "name": "ghost claw"
+        },
+        {
+            "chance": 730,
+            "name": "spooky hood"
+        }
+    ],
+    "changeTarget": {
+        "interval": 60000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "goblin_leader",
+    "threatDps": 1052.65,
+    "burstDps": 1306.3375,
+    "avgHit": 1048.65,
+    "maxHit": 2899,
+    "manaCost": 0
+}

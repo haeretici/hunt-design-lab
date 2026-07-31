@@ -1,0 +1,235 @@
+{
+    "id": "deep_tide_lord",
+    "label": "Deep Tide Lord",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A deep tide lord.",
+    "hp": 30000,
+    "hpMax": 30000,
+    "speed": 280,
+    "level": 764,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 15000,
+    "lootValue": 29000,
+    "aggro": true,
+    "resists": {
+        "physical": -1,
+        "fire": 100,
+        "ice": 100,
+        "energy": 10,
+        "earth": -5,
+        "holy": 0,
+        "death": 50
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 60,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 541
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2500,
+            "chance": 20,
+            "range": 7,
+            "element": "manadrain",
+            "min": 180,
+            "max": 541,
+            "radius": 4,
+            "target": true,
+            "effect": "me_carniphila",
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 3500,
+            "chance": 27,
+            "range": 7,
+            "element": "ice",
+            "min": 180,
+            "max": 361,
+            "radius": 4,
+            "target": true,
+            "effect": "me_icearea",
+            "shootEffect": "ani_ice"
+        },
+        {
+            "id": "melee_3",
+            "kind": "melee",
+            "intervalMs": 3500,
+            "chance": 15,
+            "range": 1,
+            "element": "ice",
+            "min": 90,
+            "max": 361,
+            "radius": 1,
+            "target": true
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 2300,
+            "chance": 11,
+            "range": 7,
+            "element": "physical",
+            "min": 180,
+            "max": 451,
+            "radius": 4,
+            "target": true,
+            "effect": "me_watersplash",
+            "shootEffect": "ani_ice"
+        },
+        {
+            "id": "area_5",
+            "kind": "area",
+            "intervalMs": 2300,
+            "chance": 14,
+            "range": 7,
+            "element": "manadrain",
+            "min": 180,
+            "max": 541,
+            "radius": 7,
+            "target": false,
+            "effect": "me_bubbles"
+        },
+        {
+            "id": "ranged_6",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "min": 90,
+            "max": 361,
+            "radius": 1,
+            "target": true,
+            "shootEffect": "ani_largerock"
+        },
+        {
+            "id": "wave_7",
+            "kind": "wave",
+            "intervalMs": 1200,
+            "chance": 7,
+            "range": 4,
+            "element": "death",
+            "min": 271,
+            "max": 721,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_smallclouds"
+        },
+        {
+            "id": "wave_8",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 14,
+            "range": 4,
+            "element": "energy",
+            "min": 180,
+            "max": 451,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_purpleenergy"
+        },
+        {
+            "id": "slow_9",
+            "kind": "status",
+            "intervalMs": 2150,
+            "chance": 16,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -600,
+                "durationSec": 15
+            },
+            "radius": 1,
+            "target": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 3000,
+            "chance": 40,
+            "min": 800,
+            "max": 1100,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "depth ocrea",
+            "chance": 1200
+        },
+        {
+            "name": "ornate mace",
+            "chance": 1100,
+            "unique": true
+        },
+        {
+            "name": "ornate shield",
+            "chance": 1100
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 50
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ember_ogre_ravager",
+    "threatDps": 293.9474,
+    "burstDps": 335.3975,
+    "avgHit": 297.8103,
+    "maxHit": 721,
+    "manaCost": 0
+}

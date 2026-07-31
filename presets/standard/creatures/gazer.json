@@ -1,0 +1,206 @@
+{
+    "id": "gazer",
+    "label": "Gazer",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A gazer.",
+    "hp": 260,
+    "hpMax": 260,
+    "speed": 85,
+    "level": 291,
+    "armor": 10,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 170,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -10,
+        "ice": 20,
+        "energy": 0,
+        "earth": 100,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 17
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 7,
+            "element": "energy",
+            "min": 51,
+            "max": 153,
+            "target": false,
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 7,
+            "element": "fire",
+            "min": 85,
+            "max": 153,
+            "target": false,
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 7,
+            "element": "death",
+            "min": 102,
+            "max": 170,
+            "target": false,
+            "effect": "me_smallclouds",
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "ranged_4",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 7,
+            "element": "earth",
+            "min": 17,
+            "max": 153,
+            "target": false,
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "ranged_5",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 7,
+            "element": "death",
+            "min": 17,
+            "max": 170,
+            "target": false,
+            "shootEffect": "ani_death"
+        },
+        {
+            "id": "ranged_6",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 7,
+            "element": "lifedrain",
+            "min": 0,
+            "max": 153,
+            "target": false,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "ranged_7",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 7,
+            "element": "manadrain",
+            "min": 17,
+            "max": 119,
+            "target": false
+        }
+    ],
+    "race": "venom",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 65000,
+            "maxCount": 82
+        },
+        {
+            "chance": 4650,
+            "name": "spellbook"
+        },
+        {
+            "name": "two handed sword",
+            "chance": 3840
+        },
+        {
+            "name": "morning star",
+            "chance": 6950
+        },
+        {
+            "name": "longsword",
+            "chance": 8980
+        },
+        {
+            "name": "steel shield",
+            "chance": 4001
+        },
+        {
+            "name": "bonelord eye",
+            "chance": 940
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "desperate_soul",
+    "threatDps": 21.25,
+    "burstDps": 21.25,
+    "avgHit": 31.4815,
+    "maxHit": 170,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 6,
+        "summons": [
+            {
+                "name": "Skeleton",
+                "id": "skeleton",
+                "chance": 20,
+                "interval": 2000,
+                "count": 6
+            }
+        ]
+    }
+}

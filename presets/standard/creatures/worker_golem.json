@@ -1,0 +1,197 @@
+{
+    "id": "worker_golem",
+    "label": "Worker Golem",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A worker golem.",
+    "hp": 1470,
+    "hpMax": 1470,
+    "speed": 80,
+    "level": 463,
+    "armor": 35,
+    "mitigation": 1.32,
+    "maxBlock": 0,
+    "exp": 1250,
+    "lootValue": 137.74591254753,
+    "aggro": true,
+    "resists": {
+        "physical": 10,
+        "fire": 0,
+        "ice": 10,
+        "energy": -5,
+        "earth": 50,
+        "holy": 50,
+        "death": 10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 205
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 107,
+            "target": false,
+            "shootEffect": "ani_smallstone"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 200,
+            "max": 250,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Construct",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "small diamond",
+            "chance": 1000,
+            "maxCount": 2
+        },
+        {
+            "name": "gold coin",
+            "chance": 43000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 40
+        },
+        {
+            "name": "might ring",
+            "chance": 370
+        },
+        {
+            "name": "life crystal",
+            "chance": 890
+        },
+        {
+            "name": "war hammer",
+            "chance": 920
+        },
+        {
+            "name": "iron ore",
+            "chance": 1001
+        },
+        {
+            "name": "bonebreaker",
+            "chance": 130
+        },
+        {
+            "name": "berserk potion",
+            "chance": 820
+        },
+        {
+            "name": "spiked squelcher",
+            "chance": 1003
+        },
+        {
+            "name": "great mana potion",
+            "chance": 1470
+        },
+        {
+            "name": "great health potion",
+            "chance": 2100
+        },
+        {
+            "name": "nail",
+            "chance": 5000,
+            "maxCount": 5
+        },
+        {
+            "name": "great dual potion",
+            "chance": 830
+        },
+        {
+            "name": "gear wheel",
+            "chance": 1007
+        },
+        {
+            "chance": 200,
+            "name": "rusted armor"
+        },
+        {
+            "chance": 50,
+            "name": "rusted legs"
+        },
+        {
+            "chance": 2270,
+            "name": "crystal pedestal"
+        },
+        {
+            "name": "gear crystal",
+            "chance": 2270
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "solar_volcano_golem_slayer",
+    "threatDps": 55.2625,
+    "burstDps": 55.2625,
+    "avgHit": 96.1087,
+    "maxHit": 205,
+    "manaCost": 0
+}

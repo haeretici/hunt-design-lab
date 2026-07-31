@@ -1,0 +1,624 @@
+{
+    "id": "cave_v1",
+    "biome": "cave",
+    "notes": "Stage 11.3 logic-only friction pieces: corridors, corners, T-junctions, one hub, one room. 1 tile = 1 path-PNG pixel. Row strings: # blocked, . walk friction 100. Stage 11.7: cave biome pack root.",
+    "pieces": [
+        {
+            "id": "corr_ns_01",
+            "biome": "cave",
+            "size": {
+                "w": 5,
+                "h": 5
+            },
+            "exits": {
+                "N": true,
+                "S": true,
+                "E": false,
+                "W": false
+            },
+            "friction": [
+                "##.##",
+                "#...#",
+                "#...#",
+                "#...#",
+                "##.##"
+            ],
+            "sockets": {
+                "spawns": [
+                    {
+                        "x": 2,
+                        "y": 2
+                    }
+                ],
+                "markers": [
+                    {
+                        "id": "A",
+                        "x": 1,
+                        "y": 2
+                    }
+                ],
+                "waypoints": [
+                    {
+                        "x": 2,
+                        "y": 0
+                    },
+                    {
+                        "x": 2,
+                        "y": 4
+                    }
+                ]
+            },
+            "tags": [
+                "corridor",
+                "ns"
+            ]
+        },
+        {
+            "id": "corr_ew_01",
+            "biome": "cave",
+            "size": {
+                "w": 5,
+                "h": 5
+            },
+            "exits": {
+                "N": false,
+                "S": false,
+                "E": true,
+                "W": true
+            },
+            "friction": [
+                "#####",
+                ".....",
+                ".....",
+                ".....",
+                "#####"
+            ],
+            "sockets": {
+                "spawns": [
+                    {
+                        "x": 2,
+                        "y": 2
+                    }
+                ],
+                "markers": [
+                    {
+                        "id": "A",
+                        "x": 2,
+                        "y": 1
+                    }
+                ],
+                "waypoints": [
+                    {
+                        "x": 0,
+                        "y": 2
+                    },
+                    {
+                        "x": 4,
+                        "y": 2
+                    }
+                ]
+            },
+            "tags": [
+                "corridor",
+                "ew"
+            ]
+        },
+        {
+            "id": "corr_ne_01",
+            "biome": "cave",
+            "size": {
+                "w": 5,
+                "h": 5
+            },
+            "exits": {
+                "N": true,
+                "S": false,
+                "E": true,
+                "W": false
+            },
+            "friction": [
+                "##.##",
+                "#...#",
+                "#....",
+                "#...#",
+                "#####"
+            ],
+            "sockets": {
+                "spawns": [
+                    {
+                        "x": 2,
+                        "y": 2
+                    }
+                ],
+                "waypoints": [
+                    {
+                        "x": 2,
+                        "y": 0
+                    },
+                    {
+                        "x": 4,
+                        "y": 2
+                    }
+                ]
+            },
+            "tags": [
+                "corridor",
+                "corner",
+                "ne"
+            ]
+        },
+        {
+            "id": "corr_nw_01",
+            "biome": "cave",
+            "size": {
+                "w": 5,
+                "h": 5
+            },
+            "exits": {
+                "N": true,
+                "S": false,
+                "E": false,
+                "W": true
+            },
+            "friction": [
+                "##.##",
+                "#...#",
+                "....#",
+                "#...#",
+                "#####"
+            ],
+            "sockets": {
+                "spawns": [
+                    {
+                        "x": 2,
+                        "y": 2
+                    }
+                ],
+                "waypoints": [
+                    {
+                        "x": 2,
+                        "y": 0
+                    },
+                    {
+                        "x": 0,
+                        "y": 2
+                    }
+                ]
+            },
+            "tags": [
+                "corridor",
+                "corner",
+                "nw"
+            ]
+        },
+        {
+            "id": "corr_se_01",
+            "biome": "cave",
+            "size": {
+                "w": 5,
+                "h": 5
+            },
+            "exits": {
+                "N": false,
+                "S": true,
+                "E": true,
+                "W": false
+            },
+            "friction": [
+                "#####",
+                "#...#",
+                "#....",
+                "#...#",
+                "##.##"
+            ],
+            "sockets": {
+                "spawns": [
+                    {
+                        "x": 2,
+                        "y": 2
+                    }
+                ],
+                "waypoints": [
+                    {
+                        "x": 2,
+                        "y": 4
+                    },
+                    {
+                        "x": 4,
+                        "y": 2
+                    }
+                ]
+            },
+            "tags": [
+                "corridor",
+                "corner",
+                "se"
+            ]
+        },
+        {
+            "id": "corr_sw_01",
+            "biome": "cave",
+            "size": {
+                "w": 5,
+                "h": 5
+            },
+            "exits": {
+                "N": false,
+                "S": true,
+                "E": false,
+                "W": true
+            },
+            "friction": [
+                "#####",
+                "#...#",
+                "....#",
+                "#...#",
+                "##.##"
+            ],
+            "sockets": {
+                "spawns": [
+                    {
+                        "x": 2,
+                        "y": 2
+                    }
+                ],
+                "waypoints": [
+                    {
+                        "x": 2,
+                        "y": 4
+                    },
+                    {
+                        "x": 0,
+                        "y": 2
+                    }
+                ]
+            },
+            "tags": [
+                "corridor",
+                "corner",
+                "sw"
+            ]
+        },
+        {
+            "id": "corr_nse_01",
+            "biome": "cave",
+            "size": {
+                "w": 5,
+                "h": 5
+            },
+            "exits": {
+                "N": true,
+                "S": true,
+                "E": true,
+                "W": false
+            },
+            "friction": [
+                "##.##",
+                "#...#",
+                "#....",
+                "#...#",
+                "##.##"
+            ],
+            "sockets": {
+                "spawns": [
+                    {
+                        "x": 2,
+                        "y": 2
+                    }
+                ],
+                "markers": [
+                    {
+                        "id": "A",
+                        "x": 1,
+                        "y": 1
+                    }
+                ],
+                "waypoints": [
+                    {
+                        "x": 2,
+                        "y": 0
+                    },
+                    {
+                        "x": 2,
+                        "y": 4
+                    },
+                    {
+                        "x": 4,
+                        "y": 2
+                    }
+                ]
+            },
+            "tags": [
+                "corridor",
+                "junction",
+                "t"
+            ]
+        },
+        {
+            "id": "hub_cross_01",
+            "biome": "cave",
+            "size": {
+                "w": 7,
+                "h": 7
+            },
+            "exits": {
+                "N": true,
+                "S": true,
+                "E": true,
+                "W": true
+            },
+            "friction": [
+                "###.###",
+                "##...##",
+                "#.....#",
+                ".......",
+                "#.....#",
+                "##...##",
+                "###.###"
+            ],
+            "sockets": {
+                "spawns": [
+                    {
+                        "x": 3,
+                        "y": 3
+                    },
+                    {
+                        "x": 2,
+                        "y": 2
+                    },
+                    {
+                        "x": 4,
+                        "y": 4
+                    }
+                ],
+                "markers": [
+                    {
+                        "id": "A",
+                        "x": 1,
+                        "y": 3
+                    },
+                    {
+                        "id": "B",
+                        "x": 5,
+                        "y": 3
+                    }
+                ],
+                "waypoints": [
+                    {
+                        "x": 3,
+                        "y": 0
+                    },
+                    {
+                        "x": 3,
+                        "y": 6
+                    },
+                    {
+                        "x": 0,
+                        "y": 3
+                    },
+                    {
+                        "x": 6,
+                        "y": 3
+                    }
+                ]
+            },
+            "tags": [
+                "hub",
+                "cross",
+                "room"
+            ]
+        },
+        {
+            "id": "room_ns_01",
+            "biome": "cave",
+            "size": {
+                "w": 7,
+                "h": 7
+            },
+            "exits": {
+                "N": true,
+                "S": true,
+                "E": false,
+                "W": false
+            },
+            "friction": [
+                "###.###",
+                "#.....#",
+                "#.....#",
+                "#.....#",
+                "#.....#",
+                "#.....#",
+                "###.###"
+            ],
+            "sockets": {
+                "spawns": [
+                    {
+                        "x": 2,
+                        "y": 2
+                    },
+                    {
+                        "x": 4,
+                        "y": 3
+                    },
+                    {
+                        "x": 3,
+                        "y": 4
+                    }
+                ],
+                "markers": [
+                    {
+                        "id": "A",
+                        "x": 1,
+                        "y": 2
+                    },
+                    {
+                        "id": "A",
+                        "x": 5,
+                        "y": 4
+                    }
+                ],
+                "waypoints": [
+                    {
+                        "x": 3,
+                        "y": 0
+                    },
+                    {
+                        "x": 3,
+                        "y": 6
+                    }
+                ]
+            },
+            "tags": [
+                "room",
+                "ns"
+            ]
+        },
+        {
+            "id": "deadend_s_01",
+            "biome": "cave",
+            "size": {
+                "w": 5,
+                "h": 5
+            },
+            "exits": {
+                "N": false,
+                "S": true,
+                "E": false,
+                "W": false
+            },
+            "friction": [
+                "#####",
+                "#...#",
+                "#...#",
+                "#...#",
+                "##.##"
+            ],
+            "sockets": {
+                "spawns": [
+                    {
+                        "x": 2,
+                        "y": 2
+                    }
+                ],
+                "markers": [
+                    {
+                        "id": "B",
+                        "x": 2,
+                        "y": 1
+                    }
+                ],
+                "waypoints": [
+                    {
+                        "x": 2,
+                        "y": 4
+                    }
+                ]
+            },
+            "tags": [
+                "deadend",
+                "deadend-ok",
+                "room"
+            ]
+        },
+        {
+            "id": "stair_down_s_01",
+            "biome": "cave",
+            "size": {
+                "w": 5,
+                "h": 5
+            },
+            "exits": {
+                "N": false,
+                "S": true,
+                "E": false,
+                "W": false
+            },
+            "friction": [
+                "#####",
+                "#...#",
+                "#...#",
+                "#...#",
+                "##.##"
+            ],
+            "sockets": {
+                "spawns": [
+                    {
+                        "x": 2,
+                        "y": 2
+                    }
+                ],
+                "waypoints": [
+                    {
+                        "x": 2,
+                        "y": 4
+                    }
+                ],
+                "stairs": [
+                    {
+                        "x": 2,
+                        "y": 2,
+                        "dir": "down",
+                        "link": "main"
+                    }
+                ]
+            },
+            "tags": [
+                "stair",
+                "stair-down",
+                "deadend",
+                "deadend-ok",
+                "room"
+            ]
+        },
+        {
+            "id": "stair_up_s_01",
+            "biome": "cave",
+            "size": {
+                "w": 5,
+                "h": 5
+            },
+            "exits": {
+                "N": false,
+                "S": true,
+                "E": false,
+                "W": false
+            },
+            "friction": [
+                "#####",
+                "#...#",
+                "#...#",
+                "#...#",
+                "##.##"
+            ],
+            "sockets": {
+                "spawns": [
+                    {
+                        "x": 2,
+                        "y": 2
+                    }
+                ],
+                "waypoints": [
+                    {
+                        "x": 2,
+                        "y": 4
+                    }
+                ],
+                "stairs": [
+                    {
+                        "x": 2,
+                        "y": 2,
+                        "dir": "up",
+                        "link": "main"
+                    }
+                ]
+            },
+            "tags": [
+                "stair",
+                "stair-up",
+                "deadend",
+                "deadend-ok",
+                "room"
+            ]
+        }
+    ]
+}

@@ -1,0 +1,294 @@
+{
+    "id": "vile_leech",
+    "label": "Vile Leech",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A vile leech.",
+    "hp": 9500,
+    "hpMax": 9500,
+    "speed": 170,
+    "level": 649,
+    "armor": 65,
+    "mitigation": 1.74,
+    "maxBlock": 0,
+    "exp": 7216,
+    "lootValue": 2930.2220588235,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 20,
+        "ice": 0,
+        "energy": -5,
+        "earth": 40,
+        "holy": 0,
+        "death": 60
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 14,
+            "range": 7,
+            "element": "lifedrain",
+            "min": 257,
+            "max": 1449,
+            "target": true,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_death"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 12,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 385,
+            "max": 564,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_magic_green"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 13,
+            "range": 4,
+            "element": "death",
+            "min": 577,
+            "max": 962,
+            "radius": 4,
+            "target": false,
+            "effect": "me_mortarea"
+        },
+        {
+            "id": "wave_5",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 9,
+            "range": 4,
+            "element": "manadrain",
+            "min": 0,
+            "max": 770,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_magic_red"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 16,
+            "min": 130,
+            "max": 205,
+            "hpBelow": 0.7,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "haste_3",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 12,
+            "speedChange": 532,
+            "durationSec": 4,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Demon",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 197
+        },
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 8
+        },
+        {
+            "name": "great mana potion",
+            "chance": 34850,
+            "maxCount": 3
+        },
+        {
+            "name": "great health potion",
+            "chance": 34290,
+            "maxCount": 3
+        },
+        {
+            "name": "great dual potion",
+            "chance": 30860,
+            "maxCount": 3
+        },
+        {
+            "name": "flask of demonic blood",
+            "chance": 23400,
+            "maxCount": 3
+        },
+        {
+            "name": "demonic essence",
+            "chance": 19240
+        },
+        {
+            "name": "some grimeleech wings",
+            "chance": 19080
+        },
+        {
+            "name": "fire mushroom",
+            "chance": 15360,
+            "maxCount": 5
+        },
+        {
+            "name": "green mushroom",
+            "chance": 14800,
+            "maxCount": 5
+        },
+        {
+            "name": "small diamond",
+            "chance": 11290,
+            "maxCount": 5
+        },
+        {
+            "name": "small ruby",
+            "chance": 10750,
+            "maxCount": 5
+        },
+        {
+            "name": "small topaz",
+            "chance": 9660,
+            "maxCount": 5
+        },
+        {
+            "name": "small amethyst",
+            "chance": 9640,
+            "maxCount": 5
+        },
+        {
+            "name": "Nether Rod",
+            "chance": 6890
+        },
+        {
+            "name": "wand of voodoo",
+            "chance": 4810
+        },
+        {
+            "chance": 3930,
+            "name": "red gem"
+        },
+        {
+            "name": "yellow gem",
+            "chance": 2900
+        },
+        {
+            "name": "devil helmet",
+            "chance": 1360
+        },
+        {
+            "name": "Emberbound Legs",
+            "chance": 1150
+        },
+        {
+            "name": "demon shield",
+            "chance": 1010
+        },
+        {
+            "name": "nightmare blade",
+            "chance": 930
+        },
+        {
+            "name": "blue gem",
+            "chance": 780
+        },
+        {
+            "name": "rift crossbow",
+            "chance": 720
+        },
+        {
+            "name": "steel boots",
+            "chance": 640
+        },
+        {
+            "name": "rift shield",
+            "chance": 620
+        },
+        {
+            "name": "rift lance",
+            "chance": 580
+        },
+        {
+            "name": "rift bow",
+            "chance": 370
+        },
+        {
+            "name": "abyss hammer",
+            "chance": 210
+        },
+        {
+            "name": "vile axe",
+            "chance": 180
+        },
+        {
+            "name": "Arcane Plate Armor",
+            "chance": 60
+        }
+    ],
+    "changeTarget": {
+        "interval": 3000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "lovely_snake",
+    "threatDps": 155.5225,
+    "burstDps": 155.5225,
+    "avgHit": 648.0104,
+    "maxHit": 1449,
+    "manaCost": 0
+}

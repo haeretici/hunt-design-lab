@@ -1,0 +1,174 @@
+{
+    "id": "memory_of_a_faun",
+    "label": "Memory Of A Faun",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A memory of a faun.",
+    "hp": 3500,
+    "hpMax": 3500,
+    "speed": 105,
+    "level": 550,
+    "armor": 0,
+    "mitigation": 1.3,
+    "maxBlock": 0,
+    "exp": 1600,
+    "lootValue": 185.51327433628,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 20,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 231
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "earth",
+            "min": 116,
+            "max": 266,
+            "target": true,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 231,
+            "target": false,
+            "shootEffect": "ani_leafstar"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 75,
+            "max": 90,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 30000,
+            "maxCount": 140
+        },
+        {
+            "name": "prismatic quartz",
+            "chance": 719
+        },
+        {
+            "name": "strong health potion",
+            "chance": 6800,
+            "maxCount": 2
+        },
+        {
+            "name": "small stone",
+            "chance": 492,
+            "maxCount": 3
+        },
+        {
+            "name": "dark mushroom",
+            "chance": 719
+        },
+        {
+            "name": "small enchanted sapphire",
+            "chance": 492,
+            "maxCount": 2
+        },
+        {
+            "name": "goat grass",
+            "chance": 5155
+        },
+        {
+            "name": "panpipes",
+            "chance": 172
+        },
+        {
+            "name": "cave turnip",
+            "chance": 55000,
+            "maxCount": 4
+        },
+        {
+            "chance": 5155,
+            "name": "candy floss"
+        },
+        {
+            "name": "bottle of champagne",
+            "chance": 5155
+        },
+        {
+            "name": "mandrake",
+            "chance": 50
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ethereal_tomb_wolf_lord",
+    "threatDps": 89.4,
+    "burstDps": 89.4,
+    "avgHit": 123.3103,
+    "maxHit": 266,
+    "manaCost": 0
+}

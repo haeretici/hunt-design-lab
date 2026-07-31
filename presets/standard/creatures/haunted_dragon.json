@@ -1,0 +1,277 @@
+{
+    "id": "haunted_dragon",
+    "label": "Haunted Dragon",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A haunted dragon.",
+    "hp": 6500,
+    "hpMax": 6500,
+    "speed": 140,
+    "level": 612,
+    "armor": 58,
+    "mitigation": 1.6,
+    "maxBlock": 0,
+    "exp": 6500,
+    "lootValue": 1467.7782362042,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 20,
+        "ice": 50,
+        "energy": 0,
+        "earth": 100,
+        "holy": -40,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 284
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 7,
+            "element": "physical",
+            "min": 177,
+            "max": 236,
+            "radius": 4,
+            "target": true,
+            "effect": "me_hitarea"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "death",
+            "min": 74,
+            "max": 355,
+            "target": false,
+            "effect": "me_smallclouds",
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 7,
+            "element": "earth",
+            "min": 59,
+            "max": 231,
+            "radius": 4,
+            "target": true,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "ranged_4",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "earth",
+            "min": 0,
+            "max": 106,
+            "target": true,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "wave_5",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "earth",
+            "min": 89,
+            "max": 408,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_poisonarea"
+        },
+        {
+            "id": "wave_6",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 177,
+            "max": 414,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "area_7",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 59,
+            "max": 118,
+            "radius": 3,
+            "target": false,
+            "effect": "me_magic_red"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 200,
+            "max": 250,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Dragon",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 2
+    },
+    "loot": [
+        {
+            "name": "black pearl",
+            "chance": 22780,
+            "maxCount": 2
+        },
+        {
+            "name": "small sapphire",
+            "chance": 28370,
+            "maxCount": 2
+        },
+        {
+            "name": "gold coin",
+            "chance": 35500,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 55500,
+            "maxCount": 98
+        },
+        {
+            "name": "platinum coin",
+            "chance": 52000,
+            "maxCount": 5
+        },
+        {
+            "name": "life crystal",
+            "chance": 2500
+        },
+        {
+            "name": "hardened bone",
+            "chance": 14180
+        },
+        {
+            "chance": 1150,
+            "name": "death ring"
+        },
+        {
+            "name": "demonic essence",
+            "chance": 12460
+        },
+        {
+            "name": "assassin star",
+            "chance": 26650,
+            "maxCount": 5
+        },
+        {
+            "name": "dragon slayer",
+            "chance": 860
+        },
+        {
+            "name": "dragonbone staff",
+            "chance": 4000
+        },
+        {
+            "name": "great mana potion",
+            "chance": 21490
+        },
+        {
+            "name": "great health potion",
+            "chance": 21200
+        },
+        {
+            "name": "skullcracker armor",
+            "chance": 290
+        },
+        {
+            "name": "gold ingot",
+            "chance": 570
+        },
+        {
+            "name": "unholy bone",
+            "chance": 33380
+        },
+        {
+            "name": "spellweaver's robe",
+            "chance": 860
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "wild_desert_dragon",
+    "threatDps": 126.1125,
+    "burstDps": 126.1125,
+    "avgHit": 152.8636,
+    "maxHit": 414,
+    "manaCost": 0
+}

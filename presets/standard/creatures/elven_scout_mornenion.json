@@ -1,0 +1,114 @@
+{
+    "id": "elven_scout_mornenion",
+    "label": "Elven Scout Mornenion",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An elven scout mornenion.",
+    "hp": 190,
+    "hpMax": 190,
+    "speed": 110,
+    "level": 259,
+    "armor": 0,
+    "mitigation": 0.46,
+    "maxBlock": 0,
+    "exp": 115,
+    "lootValue": 5536.8421052632,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 51
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 136,
+            "target": false,
+            "shootEffect": "ani_arrow"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 5000,
+            "chance": 7,
+            "min": 25,
+            "max": 35,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "bag with stolen gold",
+            "chance": 100000
+        },
+        {
+            "name": "platinum coin",
+            "chance": 75000,
+            "maxCount": 100
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "wild_nature_magic",
+    "threatDps": 17.85,
+    "burstDps": 17.85,
+    "avgHit": 31.0435,
+    "maxHit": 136,
+    "manaCost": 0
+}

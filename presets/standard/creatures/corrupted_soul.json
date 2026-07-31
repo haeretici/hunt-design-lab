@@ -1,0 +1,128 @@
+{
+    "id": "corrupted_soul",
+    "label": "Corrupted Soul",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A corrupted soul.",
+    "hp": 1100,
+    "hpMax": 1100,
+    "speed": 105,
+    "level": 434,
+    "armor": 0,
+    "mitigation": 0.51,
+    "maxBlock": 0,
+    "exp": 1300,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 1,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_2",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 8,
+            "range": 1,
+            "element": "ice",
+            "min": 160,
+            "max": 319,
+            "radius": 1,
+            "target": true,
+            "effect": "me_iceattack",
+            "shootEffect": "ani_ice"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 14,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 32,
+            "max": 192,
+            "radius": 4,
+            "target": false,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "souleater_wave_4",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 12,
+            "range": 1,
+            "element": "physical",
+            "min": 319,
+            "max": 671,
+            "target": false
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "invisible_0",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 12,
+            "durationSec": 2,
+            "effect": "me_poff"
+        },
+        {
+            "id": "heal_1",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 16,
+            "min": 130,
+            "max": 205,
+            "hpBelow": 0.7,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "undead",
+    "loot": [],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 5
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ashen_goblin_devourer",
+    "threatDps": 47.12,
+    "burstDps": 47.12,
+    "avgHit": 277.1765,
+    "maxHit": 671,
+    "manaCost": 0
+}

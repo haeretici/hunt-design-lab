@@ -1,0 +1,143 @@
+{
+    "id": "memory_of_a_golem",
+    "label": "Memory Of A Golem",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A memory of a golem.",
+    "hp": 3660,
+    "hpMax": 3660,
+    "speed": 130,
+    "level": 554,
+    "armor": 0,
+    "mitigation": 1.4,
+    "maxBlock": 0,
+    "exp": 1620,
+    "lootValue": 590.42307692308,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 7,
+            "element": "energy",
+            "min": 367,
+            "max": 1100,
+            "target": false,
+            "shootEffect": "ani_energy"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 13,
+            "speedChange": 404,
+            "durationSec": 4,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "heal_1",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 20,
+            "min": 200,
+            "max": 250,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "venom",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 160
+        },
+        {
+            "name": "small topaz",
+            "chance": 7000,
+            "maxCount": 2
+        },
+        {
+            "name": "great mana potion",
+            "chance": 18830,
+            "maxCount": 2
+        },
+        {
+            "name": "bronze gear wheel",
+            "chance": 3000
+        },
+        {
+            "name": "small emerald",
+            "chance": 7430,
+            "maxCount": 2
+        },
+        {
+            "chance": 5155,
+            "name": "candy floss"
+        },
+        {
+            "name": "special fx box",
+            "chance": 1500
+        },
+        {
+            "name": "heat core",
+            "chance": 5155
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "solar_volcano_golem_slayer",
+    "threatDps": 91.6875,
+    "burstDps": 91.6875,
+    "avgHit": 733.5,
+    "maxHit": 1100,
+    "manaCost": 0
+}

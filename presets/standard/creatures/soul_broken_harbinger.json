@@ -1,0 +1,203 @@
+{
+    "id": "soul_broken_harbinger",
+    "label": "Soul-Broken Harbinger",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A soul-broken harbinger.",
+    "hp": 6300,
+    "hpMax": 6300,
+    "speed": 210,
+    "level": 608,
+    "armor": 76,
+    "mitigation": 2.08,
+    "maxBlock": 0,
+    "exp": 5800,
+    "lootValue": 2144.6076632488,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -30,
+        "ice": 55,
+        "energy": -5,
+        "earth": 0,
+        "holy": 0,
+        "death": 20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 277
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2100,
+            "chance": 40,
+            "range": 5,
+            "element": "ice",
+            "min": 69,
+            "max": 208,
+            "radius": 1,
+            "target": true,
+            "effect": "me_icearea"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2600,
+            "chance": 30,
+            "range": 4,
+            "element": "ice",
+            "min": 69,
+            "max": 208,
+            "length": 4,
+            "spread": 0,
+            "target": false,
+            "effect": "me_giantice"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 3100,
+            "chance": 20,
+            "range": 4,
+            "element": "ice",
+            "min": 173,
+            "max": 208,
+            "radius": 3,
+            "target": false,
+            "effect": "me_icearea"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 20,
+            "min": 200,
+            "max": 250,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 12
+        },
+        {
+            "chance": 15750,
+            "maxCount": 3,
+            "name": "ice flower"
+        },
+        {
+            "name": "dream essence egg",
+            "chance": 13700
+        },
+        {
+            "name": "elvish talisman",
+            "chance": 4790
+        },
+        {
+            "name": "knight legs",
+            "chance": 4450
+        },
+        {
+            "name": "Frostbound Kilt",
+            "chance": 4110
+        },
+        {
+            "name": "Frostbound Shoes",
+            "chance": 3770
+        },
+        {
+            "name": "ice rapier",
+            "chance": 3770
+        },
+        {
+            "name": "spellbook of mind control",
+            "chance": 2400
+        },
+        {
+            "name": "crown shield",
+            "chance": 1710
+        },
+        {
+            "name": "wood cape",
+            "chance": 1710
+        },
+        {
+            "chance": 1370,
+            "name": "ring of blue plasma"
+        },
+        {
+            "name": "tower shield",
+            "chance": 680
+        },
+        {
+            "chance": 680,
+            "name": "collar of green plasma"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "glacier_mountain_phantom",
+    "threatDps": 123.902,
+    "burstDps": 136.775,
+    "avgHit": 142.3545,
+    "maxHit": 277,
+    "manaCost": 0
+}

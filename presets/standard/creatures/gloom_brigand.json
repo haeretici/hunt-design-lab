@@ -1,0 +1,205 @@
+{
+    "id": "gloom_brigand",
+    "label": "Gloom Brigand",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A gloom brigand.",
+    "hp": 2400,
+    "hpMax": 2400,
+    "speed": 160,
+    "level": 512,
+    "armor": 51,
+    "mitigation": 1.74,
+    "maxBlock": 0,
+    "exp": 1900,
+    "lootValue": 613.91747707019,
+    "aggro": true,
+    "resists": {
+        "physical": 10,
+        "fire": 0,
+        "ice": 10,
+        "energy": 25,
+        "earth": 100,
+        "holy": -5,
+        "death": 15
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 50,
+            "range": 8,
+            "element": "physical",
+            "min": 97,
+            "max": 484,
+            "target": false,
+            "shootEffect": "ani_arrow"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 3000,
+            "chance": 35,
+            "min": 200,
+            "max": 245,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Human",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 100,
+            "name": "gold coin"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 3,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 9090,
+            "name": "glooth bag"
+        },
+        {
+            "chance": 7692,
+            "name": "tainted glooth capsule"
+        },
+        {
+            "chance": 5882,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 4000,
+            "name": "glooth sandwich"
+        },
+        {
+            "chance": 3030,
+            "name": "glooth capsule"
+        },
+        {
+            "chance": 2500,
+            "name": "great dual potion"
+        },
+        {
+            "chance": 2000,
+            "name": "glooth steak"
+        },
+        {
+            "chance": 2000,
+            "name": "ultimate health potion"
+        },
+        {
+            "chance": 1515,
+            "name": "glooth club"
+        },
+        {
+            "chance": 1515,
+            "name": "glooth amulet"
+        },
+        {
+            "chance": 1000,
+            "name": "mercenary sword"
+        },
+        {
+            "chance": 1000,
+            "name": "Earthbound Mantle"
+        },
+        {
+            "id": 281,
+            "chance": 1000
+        },
+        {
+            "chance": 1000,
+            "name": "Earthbound Amulet"
+        },
+        {
+            "chance": 1000,
+            "name": "butcher's axe"
+        },
+        {
+            "chance": 1000,
+            "name": "green gem"
+        },
+        {
+            "chance": 502,
+            "name": "Earthbound Boots"
+        },
+        {
+            "chance": 502,
+            "name": "dreaded cleaver"
+        },
+        {
+            "chance": 502,
+            "name": "heat core"
+        },
+        {
+            "chance": 502,
+            "name": "glooth spear"
+        },
+        {
+            "chance": 502,
+            "name": "rubber cap"
+        },
+        {
+            "chance": 502,
+            "name": "Earthbound Hood"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 5
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "umbral_ghoul",
+    "threatDps": 72.625,
+    "burstDps": 72.625,
+    "avgHit": 290.5,
+    "maxHit": 484,
+    "manaCost": 0
+}

@@ -1,0 +1,174 @@
+{
+    "id": "orc_warlock_chieftain",
+    "label": "Orc Warlock Chieftain",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An orc warlock chieftain.",
+    "hp": 80,
+    "hpMax": 80,
+    "speed": 90,
+    "level": 175,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 300,
+    "lootValue": 7.7727272727273,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 23,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 17,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 9,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "kraknaknork_ice_wave_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 1,
+            "element": "physical",
+            "min": 2,
+            "max": 26,
+            "target": false
+        },
+        {
+            "id": "kraknaknork_poison_wave_2",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 1,
+            "element": "physical",
+            "min": 2,
+            "max": 17,
+            "target": false
+        },
+        {
+            "id": "kraknaknork_explosion_wave_3",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 21,
+            "target": false
+        },
+        {
+            "id": "ranged_4",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 14,
+            "target": false,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "slow_5",
+            "kind": "status",
+            "intervalMs": 1000,
+            "chance": 6,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -100,
+                "durationSec": 20
+            },
+            "effect": "me_magic_red",
+            "target": false
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 95000,
+            "maxCount": 15
+        },
+        {
+            "name": "orc leather",
+            "chance": 4300
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "orc_warlock_chieftain",
+    "threatDps": 11.15,
+    "burstDps": 11.15,
+    "avgHit": 8.8667,
+    "maxHit": 26,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 1,
+        "summons": [
+            {
+                "name": "Weakened Demon",
+                "id": "weakened_demon",
+                "chance": 20,
+                "interval": 2000,
+                "count": 1
+            }
+        ]
+    }
+}

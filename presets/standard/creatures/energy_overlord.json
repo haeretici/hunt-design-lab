@@ -1,0 +1,149 @@
+{
+    "id": "energy_overlord",
+    "label": "Energy Overlord",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An energy overlord.",
+    "hp": 4000,
+    "hpMax": 4000,
+    "speed": 145,
+    "level": 563,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 2800,
+    "lootValue": 5125.6487804878,
+    "aggro": true,
+    "resists": {
+        "physical": 50,
+        "fire": 20,
+        "ice": 100,
+        "energy": 100,
+        "earth": -10,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 1,
+        "staticAttackChance": 85,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 158
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 4,
+            "element": "energy",
+            "min": 0,
+            "max": 630,
+            "length": 7,
+            "spread": 0,
+            "target": false,
+            "effect": "me_purpleenergy"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 11,
+            "range": 3,
+            "element": "energy",
+            "min": 0,
+            "max": 158,
+            "target": true,
+            "effect": "me_purpleenergy"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 9,
+            "range": 4,
+            "element": "earth",
+            "min": 39,
+            "max": 158,
+            "radius": 5,
+            "target": false,
+            "effect": "me_bigplants"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 90,
+            "max": 150,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 64
+        },
+        {
+            "name": "platinum coin",
+            "chance": 25000,
+            "maxCount": 2
+        },
+        {
+            "name": "pure energy",
+            "chance": 100000
+        }
+    ],
+    "changeTarget": {
+        "interval": 20000,
+        "chance": 15
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "arcane_elemental_vanguard",
+    "threatDps": 96.43,
+    "burstDps": 96.43,
+    "avgHit": 116.8848,
+    "maxHit": 630,
+    "manaCost": 0
+}

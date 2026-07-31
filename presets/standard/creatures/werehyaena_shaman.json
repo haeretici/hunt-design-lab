@@ -1,0 +1,207 @@
+{
+    "id": "werehyaena_shaman",
+    "label": "Werehyaena Shaman",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A werehyaena shaman.",
+    "hp": 2500,
+    "hpMax": 2500,
+    "speed": 110,
+    "level": 516,
+    "armor": 38,
+    "mitigation": 0.91,
+    "maxBlock": 0,
+    "exp": 2200,
+    "lootValue": 958.91488469602,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 25,
+        "ice": -20,
+        "energy": 0,
+        "earth": 40,
+        "holy": 5,
+        "death": -5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 30,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 124
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "death",
+            "min": 134,
+            "max": 156,
+            "radius": 3,
+            "effect": "me_hitbypoison"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 17,
+            "range": 5,
+            "element": "earth",
+            "min": 134,
+            "max": 151,
+            "radius": 4,
+            "target": true,
+            "effect": "me_green_rings",
+            "shootEffect": "ani_earth"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 5,
+            "element": "death",
+            "min": 177,
+            "max": 206,
+            "radius": 1,
+            "target": true,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_death"
+        },
+        {
+            "id": "wave_4",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 13,
+            "range": 4,
+            "element": "death",
+            "min": 134,
+            "max": 156,
+            "length": 3,
+            "spread": 0,
+            "effect": "me_mortarea"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Lycanthrope",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 100000
+        },
+        {
+            "name": "great mana potion",
+            "chance": 20070
+        },
+        {
+            "name": "werehyaena nose",
+            "chance": 15550
+        },
+        {
+            "name": "small amethyst",
+            "chance": 10840
+        },
+        {
+            "name": "green crystal splinter",
+            "chance": 9120
+        },
+        {
+            "name": "Hailburst Rod",
+            "chance": 6430
+        },
+        {
+            "name": "doublet",
+            "chance": 5390
+        },
+        {
+            "name": "brown crystal splinter",
+            "chance": 5030
+        },
+        {
+            "name": "wand of starstorm",
+            "chance": 4920
+        },
+        {
+            "name": "small enchanted emerald",
+            "chance": 4630
+        },
+        {
+            "chance": 4490,
+            "name": "sword ring"
+        },
+        {
+            "name": "wand of voodoo",
+            "chance": 3990
+        },
+        {
+            "name": "protection amulet",
+            "chance": 2660
+        },
+        {
+            "name": "werehyaena talisman",
+            "chance": 650
+        },
+        {
+            "name": "moonlight crystals",
+            "chance": 610
+        },
+        {
+            "name": "werehyaena trophy",
+            "chance": 140
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": true
+    },
+    "customSprite": "magma_cloud_giant_shaman",
+    "threatDps": 74.15,
+    "burstDps": 74.15,
+    "avgHit": 95.6774,
+    "maxHit": 206,
+    "manaCost": 0
+}

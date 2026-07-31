@@ -1,0 +1,148 @@
+{
+    "id": "stone_refiner",
+    "label": "Stone Refiner",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A stone refiner.",
+    "hp": 800,
+    "hpMax": 800,
+    "speed": 110,
+    "level": 402,
+    "armor": 20,
+    "mitigation": 0.72,
+    "maxBlock": 0,
+    "exp": 500,
+    "lootValue": 207.51830357143,
+    "aggro": true,
+    "resists": {
+        "physical": -20,
+        "fire": -10,
+        "ice": -20,
+        "energy": 0,
+        "earth": 20,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 129
+        },
+        {
+            "id": "berserk_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 90,
+            "target": false
+        },
+        {
+            "id": "stone_shower_rune_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "min": 52,
+            "max": 103,
+            "target": false
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Reptile",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 50930,
+            "maxCount": 4
+        },
+        {
+            "name": "rare earth",
+            "chance": 39750,
+            "maxCount": 2
+        },
+        {
+            "chance": 27980,
+            "maxCount": 5,
+            "name": "coal"
+        },
+        {
+            "name": "glob of acid slime",
+            "chance": 23680
+        },
+        {
+            "name": "stonerefiner's skull",
+            "chance": 20110
+        },
+        {
+            "name": "poisonous slime",
+            "chance": 20040,
+            "maxCount": 3
+        },
+        {
+            "name": "half-digested stones",
+            "chance": 15210,
+            "maxCount": 5
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "chaos_stone_revenant_archer",
+    "threatDps": 39.5,
+    "burstDps": 39.5,
+    "avgHit": 63.2,
+    "maxHit": 129,
+    "manaCost": 0
+}

@@ -1,0 +1,218 @@
+{
+    "id": "wandering_pillar",
+    "label": "Wandering Pillar",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A wandering pillar.",
+    "hp": 37000,
+    "hpMax": 37000,
+    "speed": 190,
+    "level": 785,
+    "armor": 120,
+    "mitigation": 2.6,
+    "maxBlock": 0,
+    "exp": 23200,
+    "lootValue": 6809.1504854369,
+    "aggro": true,
+    "resists": {
+        "physical": -14,
+        "fire": 60,
+        "ice": 0,
+        "energy": -10,
+        "earth": 0,
+        "holy": 50,
+        "death": -14
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 50,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 501
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "energy",
+            "min": 584,
+            "max": 689,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_blue_energy_spark"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "energy",
+            "min": 459,
+            "max": 626,
+            "radius": 5,
+            "target": false,
+            "effect": "me_pink_beam"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "fire",
+            "min": 584,
+            "max": 709,
+            "radius": 5,
+            "target": true,
+            "effect": "me_hitbyfire"
+        },
+        {
+            "id": "largeholyring_4",
+            "kind": "melee",
+            "intervalMs": 3000,
+            "chance": 15,
+            "range": 1,
+            "element": "physical",
+            "min": 376,
+            "max": 522
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Construct",
+        "toKill": 5000,
+        "firstUnlock": 200,
+        "secondUnlock": 2000,
+        "charmsPoints": 100,
+        "stars": 5,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "crystal coin",
+            "chance": 6629,
+            "maxCount": 1
+        },
+        {
+            "name": "darklight obsidian axe",
+            "chance": 14652,
+            "maxCount": 1
+        },
+        {
+            "name": "basalt crumbs",
+            "chance": 8184,
+            "maxCount": 1
+        },
+        {
+            "name": "sulphurous stone",
+            "chance": 5873,
+            "maxCount": 1
+        },
+        {
+            "name": "Emberbound Boots",
+            "chance": 5080,
+            "maxCount": 1
+        },
+        {
+            "chance": 9802,
+            "maxCount": 4,
+            "name": "coal"
+        },
+        {
+            "name": "dark helmet",
+            "chance": 7490,
+            "maxCount": 1
+        },
+        {
+            "name": "Emberbound Coat",
+            "chance": 11753,
+            "maxCount": 1
+        },
+        {
+            "name": "onyx chip",
+            "chance": 9311,
+            "maxCount": 2
+        },
+        {
+            "name": "darklight core",
+            "chance": 5957,
+            "maxCount": 1
+        },
+        {
+            "name": "fire sword",
+            "chance": 8319,
+            "maxCount": 1
+        },
+        {
+            "name": "magma clump",
+            "chance": 6260,
+            "maxCount": 1
+        },
+        {
+            "chance": 9915,
+            "maxCount": 1,
+            "name": "red gem"
+        },
+        {
+            "name": "green gem",
+            "chance": 12864,
+            "maxCount": 1
+        },
+        {
+            "name": "basalt core",
+            "chance": 9037,
+            "maxCount": 1
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "training_machine",
+    "threatDps": 330.25,
+    "burstDps": 341.475,
+    "avgHit": 388.5294,
+    "maxHit": 709,
+    "manaCost": 0
+}

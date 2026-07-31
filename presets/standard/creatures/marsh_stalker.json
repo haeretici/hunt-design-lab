@@ -1,0 +1,144 @@
+{
+    "id": "marsh_stalker",
+    "label": "Marsh Stalker",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A marsh stalker.",
+    "hp": 100,
+    "hpMax": 100,
+    "speed": 75,
+    "level": 195,
+    "armor": 3,
+    "mitigation": 0.23,
+    "maxBlock": 0,
+    "exp": 50,
+    "lootValue": 18.448394561759,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 5,
+        "energy": 0,
+        "earth": -5,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 10,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 43
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 34,
+            "radius": 1,
+            "target": true,
+            "effect": "me_explosionarea",
+            "shootEffect": "ani_explosion"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Bird",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 64090,
+            "maxCount": 23
+        },
+        {
+            "name": "meat",
+            "chance": 19950,
+            "maxCount": 2
+        },
+        {
+            "chance": 20320,
+            "maxCount": 2,
+            "name": "fish"
+        },
+        {
+            "name": "worm",
+            "chance": 14730,
+            "maxCount": 2
+        },
+        {
+            "name": "marsh stalker feather",
+            "chance": 8650
+        },
+        {
+            "name": "longsword",
+            "chance": 7560
+        },
+        {
+            "name": "marsh stalker beak",
+            "chance": 6080
+        },
+        {
+            "chance": 4830,
+            "name": "rope"
+        },
+        {
+            "name": "seeds",
+            "chance": 110
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "marsh_stalker",
+    "threatDps": 12.45,
+    "burstDps": 12.45,
+    "avgHit": 20.75,
+    "maxHit": 43,
+    "manaCost": 0
+}

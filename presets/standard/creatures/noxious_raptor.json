@@ -1,0 +1,156 @@
+{
+    "id": "noxious_raptor",
+    "label": "Noxious Raptor",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A noxious raptor.",
+    "hp": 22700,
+    "hpMax": 22700,
+    "speed": 180,
+    "level": 736,
+    "armor": 82,
+    "mitigation": 2.19,
+    "maxBlock": 0,
+    "exp": 13190,
+    "lootValue": 4749.7287165828,
+    "aggro": true,
+    "resists": {
+        "physical": 20,
+        "fire": 0,
+        "ice": -10,
+        "energy": 10,
+        "earth": 10,
+        "holy": -10,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 565
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2500,
+            "chance": 40,
+            "range": 1,
+            "element": "earth",
+            "min": 461,
+            "max": 712,
+            "radius": 1,
+            "target": true,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "noxious_ripptor_wave_2",
+            "kind": "melee",
+            "intervalMs": 4500,
+            "chance": 30,
+            "range": 1,
+            "element": "physical",
+            "min": 188,
+            "max": 314
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Reptile",
+        "toKill": 5000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 100,
+        "stars": 5,
+        "occurrence": 1
+    },
+    "loot": [
+        {
+            "name": "Crystal Coin",
+            "chance": 26770,
+            "minCount": 1,
+            "maxCount": 2
+        },
+        {
+            "name": "Ripptor Scales",
+            "chance": 12850
+        },
+        {
+            "name": "Ultimate Health Potion",
+            "chance": 10570,
+            "minCount": 1,
+            "maxCount": 2
+        },
+        {
+            "name": "Ripptor Claw",
+            "chance": 8280,
+            "minCount": 1,
+            "maxCount": 2
+        },
+        {
+            "name": "Serpent Sword",
+            "chance": 1440
+        },
+        {
+            "name": "Sacred Tree Amulet",
+            "chance": 1360
+        },
+        {
+            "name": "Muck Rod",
+            "chance": 1290
+        },
+        {
+            "name": "Earthbound Legs",
+            "chance": 750
+        },
+        {
+            "name": "Wooden Spellbook",
+            "chance": 450
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "symbol_of_hatred",
+    "threatDps": 251.8233,
+    "burstDps": 296.2,
+    "avgHit": 346.5459,
+    "maxHit": 712,
+    "manaCost": 0
+}

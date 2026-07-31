@@ -1,0 +1,84 @@
+{
+    "id": "death_thrower",
+    "label": "Death Thrower",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A death thrower.",
+    "hp": 100,
+    "hpMax": 100,
+    "speed": 0,
+    "level": 1,
+    "armor": 1,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 100,
+        "fire": 100,
+        "ice": 100,
+        "energy": 100,
+        "earth": 100,
+        "holy": 100,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": true,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "dark_torturer_skill_reducer_0",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 6,
+            "element": "physical",
+            "target": false,
+            "effect": "me_poff",
+            "shootEffect": "ani_suddendeath",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "race": "undead",
+    "loot": [],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 16
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "death_thrower",
+    "threatDps": 0,
+    "burstDps": 0,
+    "avgHit": 0,
+    "maxHit": 0,
+    "manaCost": 0
+}

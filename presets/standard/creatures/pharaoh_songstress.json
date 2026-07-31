@@ -1,0 +1,181 @@
+{
+    "id": "pharaoh_songstress",
+    "label": "Pharaoh Songstress",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A pharaoh songstress.",
+    "hp": 4000,
+    "hpMax": 4000,
+    "speed": 170,
+    "level": 563,
+    "armor": 40,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 2950,
+    "lootValue": 250.17940953823,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 20,
+        "ice": 20,
+        "energy": 20,
+        "earth": 20,
+        "holy": -10,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 80,
+        "health": 10,
+        "damage": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 125,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 41,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 125,
+            "max": 470,
+            "radius": 5,
+            "target": false,
+            "effect": "me_sound_purple"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 1000,
+            "chance": 20,
+            "min": 60,
+            "max": 450,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 1000,
+            "chance": 12,
+            "speedChange": 350,
+            "durationSec": 30,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "chance": 7000,
+            "name": "lute"
+        },
+        {
+            "chance": 1500,
+            "name": "panpipes"
+        },
+        {
+            "chance": 1500,
+            "name": "crystal ring"
+        },
+        {
+            "name": "ancient tiara",
+            "chance": 300
+        },
+        {
+            "name": "white pearl",
+            "chance": 7000
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 90
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 80
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 65
+        },
+        {
+            "name": "blue note",
+            "chance": 100000
+        },
+        {
+            "name": "crystal mace",
+            "chance": 500
+        },
+        {
+            "name": "blue robe",
+            "chance": 2500
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "chaos_stone_revenant_archer",
+    "threatDps": 96.375,
+    "burstDps": 96.375,
+    "avgHit": 116.7308,
+    "maxHit": 470,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 2,
+        "summons": [
+            {
+                "name": "Banshee",
+                "id": "banshee",
+                "chance": 20,
+                "interval": 2000,
+                "count": 2
+            }
+        ]
+    }
+}

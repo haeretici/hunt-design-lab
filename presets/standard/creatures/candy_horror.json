@@ -1,0 +1,189 @@
+{
+    "id": "candy_horror",
+    "label": "Candy Horror",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A candy horror.",
+    "hp": 3100,
+    "hpMax": 3100,
+    "speed": 115,
+    "level": 537,
+    "armor": 43,
+    "mitigation": 1.21,
+    "maxBlock": 0,
+    "exp": 3000,
+    "lootValue": 753.81551362683,
+    "aggro": true,
+    "resists": {
+        "physical": 5,
+        "fire": 5,
+        "ice": 0,
+        "energy": -10,
+        "earth": 10,
+        "holy": -14,
+        "death": 50
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 157
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 6,
+            "element": "earth",
+            "min": 94,
+            "max": 236,
+            "radius": 3,
+            "target": true,
+            "effect": "me_cake"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "death",
+            "min": 94,
+            "max": 276,
+            "radius": 6,
+            "target": false,
+            "effect": "me_cacao"
+        },
+        {
+            "id": "melee_3",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 1,
+            "element": "physical",
+            "min": 94,
+            "max": 276,
+            "target": false,
+            "effect": "me_big_scratch"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Magical",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 30
+        },
+        {
+            "name": "platinum coin",
+            "chance": 82000,
+            "maxCount": 6
+        },
+        {
+            "id": 281,
+            "chance": 6510
+        },
+        {
+            "chance": 1400,
+            "maxCount": 2,
+            "name": "strawberry"
+        },
+        {
+            "chance": 440,
+            "maxCount": 11,
+            "name": "dark chocolate coin"
+        },
+        {
+            "chance": 2490,
+            "maxCount": 2,
+            "name": "gummy rotworm"
+        },
+        {
+            "chance": 1550,
+            "name": "violet gem"
+        },
+        {
+            "chance": 1250,
+            "name": "brigadeiro"
+        },
+        {
+            "chance": 5550,
+            "name": "energy bar"
+        },
+        {
+            "chance": 1240,
+            "maxCount": 2,
+            "name": "raspberry"
+        },
+        {
+            "chance": 502,
+            "name": "dreaded cleaver"
+        },
+        {
+            "chance": 1840,
+            "name": "wand of decay"
+        },
+        {
+            "chance": 2830,
+            "name": "black shield"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ember_ruins_horror",
+    "threatDps": 83.5,
+    "burstDps": 83.5,
+    "avgHit": 111.3333,
+    "maxHit": 276,
+    "manaCost": 0
+}

@@ -1,0 +1,122 @@
+{
+    "id": "young_dragon_matron",
+    "label": "Young Dragon Matron",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A young dragon matron.",
+    "hp": 1260,
+    "hpMax": 1260,
+    "speed": 85,
+    "level": 448,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 700,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": -1,
+        "energy": 20,
+        "earth": 80,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 100,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 103
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 6000,
+            "chance": 60,
+            "range": 4,
+            "element": "fire",
+            "min": 86,
+            "max": 154,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_firearea"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 3000,
+            "chance": 50,
+            "range": 10,
+            "element": "fire",
+            "min": 60,
+            "max": 98,
+            "radius": 5,
+            "target": true,
+            "effect": "me_firearea"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 6000,
+            "chance": 65,
+            "min": 20,
+            "max": 50,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [],
+    "changeTarget": {
+        "interval": 0,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "wild_desert_dragon",
+    "threatDps": 50.9167,
+    "burstDps": 81.5,
+    "avgHit": 66.413,
+    "maxHit": 154,
+    "manaCost": 0
+}

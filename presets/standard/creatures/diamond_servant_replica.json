@@ -1,0 +1,198 @@
+{
+    "id": "diamond_servant_replica",
+    "label": "Diamond Servant Replica",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A diamond servant replica.",
+    "hp": 2000,
+    "hpMax": 2000,
+    "speed": 86,
+    "level": 494,
+    "armor": 25,
+    "mitigation": 0.83,
+    "maxBlock": 0,
+    "exp": 1400,
+    "lootValue": 199.40601237843,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 10,
+        "ice": 0,
+        "energy": 100,
+        "earth": 75,
+        "holy": -14,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 100,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 11,
+            "range": 4,
+            "element": "energy",
+            "min": 369,
+            "max": 774,
+            "radius": 3,
+            "target": false,
+            "effect": "me_yellowenergy"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "energy",
+            "min": 276,
+            "max": 461,
+            "target": true,
+            "effect": "me_energyhit",
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "wyrm_wave_3",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 9,
+            "range": 1,
+            "element": "physical",
+            "min": 258,
+            "max": 442,
+            "target": false
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 11,
+            "min": 50,
+            "max": 150,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Construct",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 2
+    },
+    "loot": [
+        {
+            "chance": 5040,
+            "name": "gear crystal"
+        },
+        {
+            "chance": 5070,
+            "name": "gear wheel"
+        },
+        {
+            "chance": 94130,
+            "maxCount": 179,
+            "name": "gold coin"
+        },
+        {
+            "chance": 44990,
+            "name": "soul orb"
+        },
+        {
+            "chance": 9150,
+            "name": "life crystal"
+        },
+        {
+            "chance": 5980,
+            "name": "strong mana potion"
+        },
+        {
+            "chance": 5790,
+            "name": "strong health potion"
+        },
+        {
+            "chance": 5320,
+            "name": "crystal pedestal"
+        },
+        {
+            "chance": 940,
+            "name": "might ring"
+        },
+        {
+            "chance": 710,
+            "name": "Stormbound Pendant"
+        },
+        {
+            "chance": 550,
+            "name": "yellow gem"
+        },
+        {
+            "chance": 530,
+            "name": "wand of cosmic energy"
+        },
+        {
+            "chance": 480,
+            "name": "slime mould"
+        },
+        {
+            "chance": 400,
+            "name": "savant potion"
+        },
+        {
+            "chance": 110,
+            "name": "shockwave amulet"
+        },
+        {
+            "chance": 20,
+            "name": "crystalline armor"
+        },
+        {
+            "chance": 13,
+            "name": "bonebreaker"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "umbral_ice_orc_packleader",
+    "threatDps": 65.6075,
+    "burstDps": 65.6075,
+    "avgHit": 437.3833,
+    "maxHit": 774,
+    "manaCost": 0
+}

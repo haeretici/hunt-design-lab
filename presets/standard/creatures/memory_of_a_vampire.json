@@ -1,0 +1,181 @@
+{
+    "id": "memory_of_a_vampire",
+    "label": "Memory Of A Vampire",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A memory of a vampire.",
+    "hp": 3650,
+    "hpMax": 3650,
+    "speed": 119,
+    "level": 554,
+    "armor": 0,
+    "mitigation": 1.2,
+    "maxBlock": 0,
+    "exp": 1550,
+    "lootValue": 102.02777777778,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 30
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 30,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 305
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 1,
+            "element": "lifedrain",
+            "min": 102,
+            "max": 203,
+            "target": true,
+            "effect": "me_smallclouds"
+        },
+        {
+            "id": "slow_2",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -400,
+                "durationSec": 60
+            },
+            "effect": "me_magic_red",
+            "target": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 300,
+            "durationSec": 3,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "heal_2",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 15,
+            "max": 25,
+            "hpBelow": 0.7
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "emerald bangle",
+            "chance": 230
+        },
+        {
+            "name": "black pearl",
+            "chance": 1800
+        },
+        {
+            "name": "gold coin",
+            "chance": 90230,
+            "maxCount": 60
+        },
+        {
+            "name": "bronze amulet",
+            "chance": 220
+        },
+        {
+            "name": "spike sword",
+            "chance": 1000
+        },
+        {
+            "name": "ice rapier",
+            "chance": 420
+        },
+        {
+            "name": "katana",
+            "chance": 1560
+        },
+        {
+            "name": "strange helmet",
+            "chance": 420
+        },
+        {
+            "name": "Bloodfang Shield",
+            "chance": 230
+        },
+        {
+            "name": "grave flower",
+            "chance": 1910
+        },
+        {
+            "name": "special fx box",
+            "chance": 1500
+        },
+        {
+            "name": "strong health potion",
+            "chance": 1500
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "hellfire_vampire_archer",
+    "threatDps": 91.5,
+    "burstDps": 91.5,
+    "avgHit": 152.5,
+    "maxHit": 305,
+    "manaCost": 0
+}

@@ -1,0 +1,121 @@
+{
+    "id": "stone_rhino",
+    "label": "Stone Rhino",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A stone rhino.",
+    "hp": 3000,
+    "hpMax": 3000,
+    "speed": 145,
+    "level": 535,
+    "armor": 72,
+    "mitigation": 1.88,
+    "maxBlock": 0,
+    "exp": 1800,
+    "lootValue": 47.415730337079,
+    "aggro": true,
+    "resists": {
+        "physical": 10,
+        "fire": 10,
+        "ice": 10,
+        "energy": 0,
+        "earth": 20,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 15,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 329
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 0,
+            "max": 250,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Mammal",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 1
+    },
+    "loot": [
+        {
+            "chance": 50320,
+            "name": "hardened bone"
+        },
+        {
+            "chance": 50320,
+            "name": "rhino hide"
+        },
+        {
+            "chance": 50320,
+            "name": "rhino horn"
+        },
+        {
+            "chance": 50320,
+            "name": "raw meat"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "chaos_stone_revenant_archer",
+    "threatDps": 82.25,
+    "burstDps": 82.25,
+    "avgHit": 164.5,
+    "maxHit": 329,
+    "manaCost": 0
+}

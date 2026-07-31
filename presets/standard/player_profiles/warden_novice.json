@@ -1,0 +1,36 @@
+{
+    "id": "warden_novice",
+    "label": "Warden Novice",
+    "vocation": "warden",
+    "level": 12,
+    "promoted": false,
+    "skills": {
+        "axe": 10,
+        "club": 10,
+        "distance": 10,
+        "fishing": 10,
+        "fist": 10,
+        "magicLevel": 15,
+        "shielding": 10,
+        "sword": 12
+    },
+    "stats": {
+        "lifeLeech": 0,
+        "manaLeech": 0,
+        "critChance": 3,
+        "critDamage": 8
+    },
+    "equipment": {
+        "head": "",
+        "chest": "",
+        "legs": "",
+        "boots": "leather_boots",
+        "weapon": "ember_wand",
+        "shield": "",
+        "amulet": "",
+        "ring": "",
+        "backpack": "backpack"
+    },
+    "strategyId": "warden_support",
+    "notes": "docs/24 I4 — L12 tutorial tier. Spell gate: ice_strike (L8) / heal_light; no ice_wave (L18) if level blocks, heal_intense (L20), eternal_winter (L60). Skills from deriveSkills policy v1 (level anchors)."
+}

@@ -1,0 +1,93 @@
+{
+    "id": "robby_the_reckless",
+    "label": "Robby The Reckless",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A robby the reckless.",
+    "hp": 155,
+    "hpMax": 155,
+    "speed": 110,
+    "level": 240,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 110,
+    "lootValue": 6275,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 64
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 85,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 100000,
+            "name": "bag with stolen gold"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 5
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "robby_the_reckless",
+    "threatDps": 16,
+    "burstDps": 16,
+    "avgHit": 32,
+    "maxHit": 64,
+    "manaCost": 0
+}

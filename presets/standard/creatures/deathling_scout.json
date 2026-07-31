@@ -1,0 +1,200 @@
+{
+    "id": "deathling_scout",
+    "label": "Deathling Scout",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A deathling scout.",
+    "hp": 7200,
+    "hpMax": 7200,
+    "speed": 155,
+    "level": 622,
+    "armor": 72,
+    "mitigation": 1.88,
+    "maxBlock": 0,
+    "exp": 6300,
+    "lootValue": 1237.1361846323,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": 100,
+        "energy": -10,
+        "earth": -10,
+        "holy": 0,
+        "death": 10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 378,
+            "effect": "me_drawblood"
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 4000,
+            "chance": 15,
+            "range": 5,
+            "element": "physical",
+            "min": 252,
+            "max": 504,
+            "target": false,
+            "shootEffect": "ani_huntingspear"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 4000,
+            "chance": 15,
+            "range": 5,
+            "element": "physical",
+            "min": 189,
+            "max": 378,
+            "target": false,
+            "shootEffect": "ani_largerock"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 4000,
+            "chance": 10,
+            "range": 4,
+            "element": "earth",
+            "min": 441,
+            "max": 693,
+            "radius": 3,
+            "target": false,
+            "effect": "me_poff"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Aquatic",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "crystalline arrow",
+            "chance": 25260,
+            "maxCount": 25
+        },
+        {
+            "name": "vortex bolt",
+            "chance": 21340,
+            "maxCount": 25
+        },
+        {
+            "name": "small emerald",
+            "chance": 20910,
+            "maxCount": 12
+        },
+        {
+            "name": "deepling warts",
+            "chance": 20280
+        },
+        {
+            "name": "deeptags",
+            "chance": 15100
+        },
+        {
+            "name": "deepling filet",
+            "chance": 14630
+        },
+        {
+            "name": "small enchanted sapphire",
+            "chance": 13000,
+            "maxCount": 8
+        },
+        {
+            "name": "deepling ridge",
+            "chance": 11240
+        },
+        {
+            "name": "great mana potion",
+            "chance": 10000
+        },
+        {
+            "name": "great health potion",
+            "chance": 10000
+        },
+        {
+            "name": "heavy trident",
+            "chance": 6620
+        },
+        {
+            "name": "eye of a deepling",
+            "chance": 6070
+        },
+        {
+            "name": "warrior's shield",
+            "chance": 3630
+        },
+        {
+            "name": "warrior's axe",
+            "chance": 3470
+        },
+        {
+            "chance": 3000,
+            "name": "life ring"
+        },
+        {
+            "name": "fish fin",
+            "chance": 920
+        },
+        {
+            "name": "necklace of the deep",
+            "chance": 440
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "skeletal_hill_giant",
+    "threatDps": 133.4813,
+    "burstDps": 172.4625,
+    "avgHit": 222.4688,
+    "maxHit": 693,
+    "manaCost": 0
+}

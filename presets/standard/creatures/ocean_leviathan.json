@@ -1,0 +1,179 @@
+{
+    "id": "ocean_leviathan",
+    "label": "Ocean Leviathan",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An ocean leviathan.",
+    "hp": 6000,
+    "hpMax": 6000,
+    "speed": 379,
+    "level": 603,
+    "armor": 0,
+    "mitigation": 1.24,
+    "maxBlock": 0,
+    "exp": 5000,
+    "lootValue": 19071.014492754,
+    "aggro": true,
+    "resists": {
+        "physical": -14,
+        "fire": 30,
+        "ice": 100,
+        "energy": -10,
+        "earth": 0,
+        "holy": 0,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 600,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 312
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 1000,
+            "chance": 8,
+            "range": 4,
+            "element": "earth",
+            "min": 81,
+            "max": 287,
+            "length": 9,
+            "spread": 3,
+            "target": false,
+            "effect": "me_bigplants"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 1000,
+            "chance": 10,
+            "range": 4,
+            "element": "ice",
+            "min": 228,
+            "max": 306,
+            "length": 9,
+            "spread": 3,
+            "target": false,
+            "effect": "me_icearea"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 11,
+            "range": 4,
+            "element": "physical",
+            "min": 9,
+            "max": 12,
+            "radius": 4,
+            "target": true,
+            "effect": "me_loseenergy"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 25,
+            "min": 100,
+            "max": 500,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 100000,
+            "name": "leviathan's amulet"
+        },
+        {
+            "chance": 100000,
+            "name": "sea serpent trophy"
+        },
+        {
+            "chance": 83000,
+            "name": "rusted armor"
+        },
+        {
+            "chance": 82000,
+            "maxCount": 7,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 77000,
+            "name": "rusted legs"
+        },
+        {
+            "chance": 58000,
+            "name": "bonebreaker"
+        },
+        {
+            "chance": 50000,
+            "maxCount": 5,
+            "name": "small sapphire"
+        },
+        {
+            "chance": 50000,
+            "name": "strong mana potion"
+        },
+        {
+            "chance": 14000,
+            "name": "moon backpack"
+        },
+        {
+            "chance": 1500,
+            "name": "frozen plate"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 50
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ember_leviathan",
+    "threatDps": 120.575,
+    "burstDps": 120.575,
+    "avgHit": 152.6266,
+    "maxHit": 312,
+    "manaCost": 0
+}

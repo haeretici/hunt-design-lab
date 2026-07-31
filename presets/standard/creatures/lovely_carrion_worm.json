@@ -1,0 +1,115 @@
+{
+    "id": "lovely_carrion_worm",
+    "label": "Lovely Carrion Worm",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A lovely carrion worm.",
+    "hp": 65,
+    "hpMax": 65,
+    "speed": 58,
+    "level": 151,
+    "armor": 8,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 40,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 100,
+        "fire": 100,
+        "ice": 100,
+        "energy": 100,
+        "earth": 100,
+        "holy": 100,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "element": "physical",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "min": 4,
+            "max": 35,
+            "target": true
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 71770,
+            "maxCount": 17,
+            "name": "gold coin"
+        },
+        {
+            "chance": 3010,
+            "maxCount": 3,
+            "name": "worm"
+        },
+        {
+            "chance": 19940,
+            "name": "meat"
+        },
+        {
+            "chance": 9990,
+            "name": "lump of dirt"
+        },
+        {
+            "chance": 20130,
+            "name": "ham"
+        },
+        {
+            "chance": 3110,
+            "name": "sword"
+        },
+        {
+            "chance": 4540,
+            "name": "mace"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "lovely_carrion_worm",
+    "threatDps": 9.75,
+    "burstDps": 9.75,
+    "avgHit": 19.5,
+    "maxHit": 35,
+    "manaCost": 305
+}

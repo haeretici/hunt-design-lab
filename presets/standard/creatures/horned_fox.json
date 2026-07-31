@@ -1,0 +1,207 @@
+{
+    "id": "horned_fox",
+    "label": "Horned Fox",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A horned fox.",
+    "hp": 265,
+    "hpMax": 265,
+    "speed": 105,
+    "level": 291,
+    "armor": 16,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 300,
+    "lootValue": 2324.1875,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": -1,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": -1
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 20
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 64
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 25,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 2,
+            "target": false,
+            "shootEffect": "ani_bolt"
+        },
+        {
+            "id": "condition_2",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 40,
+            "range": 10,
+            "element": "earth",
+            "min": 1,
+            "max": 24,
+            "target": false,
+            "shootEffect": "ani_poison"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 1000,
+            "chance": 15,
+            "min": 80,
+            "max": 100,
+            "hpBelow": 0.7,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "invisible_1",
+            "kind": "invisible",
+            "intervalMs": 1000,
+            "chance": 10,
+            "durationSec": 2,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 100000,
+            "name": "nose ring"
+        },
+        {
+            "chance": 96000,
+            "maxCount": 99,
+            "name": "gold coin"
+        },
+        {
+            "chance": 38890,
+            "maxCount": 3,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 100000,
+            "name": "minotaur leather"
+        },
+        {
+            "chance": 92590,
+            "maxCount": 2,
+            "name": "minotaur horn"
+        },
+        {
+            "chance": 85000,
+            "name": "piece of warrior armor"
+        },
+        {
+            "chance": 48000,
+            "maxCount": 14,
+            "name": "power bolt"
+        },
+        {
+            "chance": 18000,
+            "maxCount": 3,
+            "name": "meat"
+        },
+        {
+            "chance": 10000,
+            "name": "stealth ring"
+        },
+        {
+            "chance": 7410,
+            "name": "fishing rod"
+        },
+        {
+            "chance": 7410,
+            "name": "strong health potion"
+        },
+        {
+            "chance": 900,
+            "name": "minotaur trophy"
+        },
+        {
+            "chance": 12000,
+            "name": "mino lance"
+        },
+        {
+            "chance": 6000,
+            "name": "mino shield"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "necromantic_focus",
+    "threatDps": 21.25,
+    "burstDps": 21.25,
+    "avgHit": 18.4783,
+    "maxHit": 64,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 5,
+        "summons": [
+            {
+                "name": "Minotaur Hunter",
+                "id": "minotaur_hunter",
+                "chance": 15,
+                "interval": 1000,
+                "count": 2
+            },
+            {
+                "name": "Minotaur Amazon",
+                "id": "minotaur_amazon",
+                "chance": 15,
+                "interval": 1000,
+                "count": 1
+            }
+        ]
+    }
+}

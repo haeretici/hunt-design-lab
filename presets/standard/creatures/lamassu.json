@@ -1,0 +1,179 @@
+{
+    "id": "lamassu",
+    "label": "Lamassu",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A lamassu.",
+    "hp": 8700,
+    "hpMax": 8700,
+    "speed": 160,
+    "level": 641,
+    "armor": 82,
+    "mitigation": 2.16,
+    "maxBlock": 0,
+    "exp": 9000,
+    "lootValue": 1523.1386412542,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 20,
+        "holy": 20,
+        "death": -20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 302
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 1,
+            "element": "holy",
+            "min": 242,
+            "max": 302,
+            "radius": 1,
+            "target": false,
+            "effect": "me_holyarea"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "holy",
+            "min": 181,
+            "max": 302,
+            "radius": 3,
+            "target": false,
+            "effect": "me_holyarea"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 5,
+            "element": "earth",
+            "min": 181,
+            "max": 245,
+            "radius": 2,
+            "target": true,
+            "effect": "me_smallplants",
+            "shootEffect": "ani_smallearth"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Magical",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 100000
+        },
+        {
+            "name": "lamassu horn",
+            "chance": 13400,
+            "maxCount": 5
+        },
+        {
+            "name": "red crystal fragment",
+            "chance": 10500
+        },
+        {
+            "name": "Earthbound Amulet",
+            "chance": 10000
+        },
+        {
+            "name": "lamassu hoof",
+            "chance": 7700
+        },
+        {
+            "name": "violet crystal shard",
+            "chance": 6800
+        },
+        {
+            "name": "blue crystal shard",
+            "chance": 6500
+        },
+        {
+            "chance": 6200,
+            "name": "red gem"
+        },
+        {
+            "name": "Earthbound Hood",
+            "chance": 5900
+        },
+        {
+            "name": "sacred tree amulet",
+            "chance": 2300
+        },
+        {
+            "name": "elven amulet",
+            "chance": 2000
+        },
+        {
+            "name": "violet gem",
+            "chance": 1700
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "bad_dream",
+    "threatDps": 148.15,
+    "burstDps": 148.15,
+    "avgHit": 185.1875,
+    "maxHit": 302,
+    "manaCost": 0
+}

@@ -1,0 +1,144 @@
+{
+    "id": "bane_of_light",
+    "label": "Bane Of Light",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A bane of light.",
+    "hp": 1100,
+    "hpMax": 1100,
+    "speed": 115,
+    "level": 434,
+    "armor": 38,
+    "mitigation": 1.46,
+    "maxBlock": 0,
+    "exp": 750,
+    "lootValue": 67.82464846981,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": 100,
+        "energy": -20,
+        "earth": 20,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 30,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": false,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 162
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 1,
+            "element": "death",
+            "min": 22,
+            "max": 111,
+            "target": true,
+            "effect": "me_smallclouds"
+        },
+        {
+            "id": "slow_2",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -400,
+                "durationSec": 60
+            },
+            "effect": "me_magic_red",
+            "target": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 300,
+            "durationSec": 3,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "heal_2",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 15,
+            "max": 25,
+            "hpBelow": 0.7
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 5,
+        "firstUnlock": 2,
+        "secondUnlock": 3,
+        "charmsPoints": 50,
+        "stars": 3,
+        "occurrence": 3
+    },
+    "loot": [
+        {
+            "name": "midnight shard",
+            "chance": 6930
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "celestial_fiend",
+    "threatDps": 47.15,
+    "burstDps": 47.15,
+    "avgHit": 78.5833,
+    "maxHit": 162,
+    "manaCost": 0
+}

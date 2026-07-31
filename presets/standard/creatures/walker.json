@@ -1,0 +1,145 @@
+{
+    "id": "walker",
+    "label": "Walker",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A walker.",
+    "hp": 3000,
+    "hpMax": 3000,
+    "speed": 150,
+    "level": 534,
+    "armor": 47,
+    "mitigation": 1.62,
+    "maxBlock": 0,
+    "exp": 2200,
+    "lootValue": 773.73087525844,
+    "aggro": true,
+    "resists": {
+        "physical": 5,
+        "fire": 35,
+        "ice": 5,
+        "energy": 0,
+        "earth": 50,
+        "holy": 40,
+        "death": 15
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 17,
+            "range": 4,
+            "element": "fire",
+            "min": 653,
+            "max": 1280,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_explosionhit"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Construct",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 1
+    },
+    "loot": [
+        {
+            "chance": 3548,
+            "name": "metal toe"
+        },
+        {
+            "chance": 1490,
+            "name": "gearwheel chain"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 200,
+            "name": "gold coin"
+        },
+        {
+            "chance": 51610,
+            "maxCount": 3,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 16130,
+            "maxCount": 3,
+            "name": "small topaz"
+        },
+        {
+            "chance": 6450,
+            "maxCount": 2,
+            "name": "small emerald"
+        },
+        {
+            "chance": 3230,
+            "name": "great dual potion"
+        },
+        {
+            "chance": 3230,
+            "name": "great health potion"
+        },
+        {
+            "chance": 2300,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 1780,
+            "name": "metal spats"
+        },
+        {
+            "chance": 450,
+            "name": "steel boots"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 5
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "arcane_jungle_stalker_assassin",
+    "threatDps": 82.1525,
+    "burstDps": 82.1525,
+    "avgHit": 966.5,
+    "maxHit": 1280,
+    "manaCost": 0
+}

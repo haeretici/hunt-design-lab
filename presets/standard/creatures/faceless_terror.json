@@ -1,0 +1,302 @@
+{
+    "id": "faceless_terror",
+    "label": "Faceless Terror",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A faceless terror.",
+    "hp": 17000,
+    "hpMax": 17000,
+    "speed": 125,
+    "level": 707,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 14000,
+    "lootValue": 5992.7555555556,
+    "aggro": true,
+    "resists": {
+        "physical": 20,
+        "fire": -20,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 50
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 236
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 65,
+            "range": 4,
+            "element": "fire",
+            "min": 144,
+            "max": 205,
+            "radius": 3,
+            "target": false,
+            "effect": "me_firearea"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 45,
+            "range": 4,
+            "element": "death",
+            "min": 138,
+            "max": 185,
+            "radius": 4,
+            "target": false,
+            "effect": "me_mortarea"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 4,
+            "element": "physical",
+            "min": 136,
+            "max": 156,
+            "length": 7,
+            "target": false,
+            "effect": "me_explosionarea"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 35,
+            "range": 4,
+            "element": "fire",
+            "min": 123,
+            "max": 168,
+            "radius": 4,
+            "target": true,
+            "effect": "me_firearea",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "ranged_5",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "energy",
+            "min": 158,
+            "max": 220,
+            "radius": 1,
+            "target": true,
+            "effect": "me_energyarea",
+            "shootEffect": "ani_energy"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 16670,
+            "name": "red gem"
+        },
+        {
+            "name": "blue gem",
+            "chance": 2630
+        },
+        {
+            "name": "book backpack",
+            "chance": 880
+        },
+        {
+            "name": "crowbar",
+            "chance": 16670
+        },
+        {
+            "name": "cyan crystal fragment",
+            "chance": 13160
+        },
+        {
+            "name": "dagger",
+            "chance": 48250
+        },
+        {
+            "name": "dream blossom staff",
+            "chance": 1750
+        },
+        {
+            "name": "ectoplasmic shield",
+            "chance": 1750
+        },
+        {
+            "chance": 1750,
+            "name": "enchanted pendulet"
+        },
+        {
+            "id": 282,
+            "chance": 880
+        },
+        {
+            "name": "gold ingot",
+            "chance": 8330
+        },
+        {
+            "name": "green crystal shard",
+            "chance": 4390
+        },
+        {
+            "name": "green gem",
+            "chance": 8330
+        },
+        {
+            "name": "Hailburst Rod",
+            "chance": 9650
+        },
+        {
+            "name": "hexagonal ruby",
+            "chance": 880
+        },
+        {
+            "name": "ice rapier",
+            "chance": 18420
+        },
+        {
+            "name": "knife",
+            "chance": 12280
+        },
+        {
+            "name": "life crystal",
+            "chance": 10530
+        },
+        {
+            "name": "Stormbound Pendant",
+            "chance": 2630
+        },
+        {
+            "name": "Lunar Rod",
+            "chance": 5260
+        },
+        {
+            "name": "Withering Rod",
+            "chance": 2630
+        },
+        {
+            "name": "orb",
+            "chance": 2630
+        },
+        {
+            "name": "platinum coin",
+            "chance": 83330,
+            "maxCount": 19
+        },
+        {
+            "name": "red crystal fragment",
+            "chance": 16670
+        },
+        {
+            "name": "small sapphire",
+            "chance": 33330,
+            "maxCount": 4
+        },
+        {
+            "name": "Viperfang Rod",
+            "chance": 7020
+        },
+        {
+            "name": "spear",
+            "chance": 16670,
+            "maxCount": 3
+        },
+        {
+            "name": "spirit guide",
+            "chance": 1750
+        },
+        {
+            "name": "Bloomshoot Rod",
+            "chance": 880
+        },
+        {
+            "name": "strange talisman",
+            "chance": 2630
+        },
+        {
+            "name": "Earthbound Rod",
+            "chance": 22810
+        },
+        {
+            "name": "twin hooks",
+            "chance": 13160
+        },
+        {
+            "name": "Nether Rod",
+            "chance": 3510
+        },
+        {
+            "name": "violet crystal shard",
+            "chance": 2630
+        },
+        {
+            "name": "violet gem",
+            "chance": 1750
+        },
+        {
+            "name": "wand of everblazing",
+            "chance": 880
+        },
+        {
+            "name": "yellow gem",
+            "chance": 16670
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "storm_hill_ettin_overlord",
+    "threatDps": 214.6625,
+    "burstDps": 214.6625,
+    "avgHit": 148.0431,
+    "maxHit": 236,
+    "manaCost": 0
+}

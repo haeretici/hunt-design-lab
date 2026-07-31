@@ -1,0 +1,167 @@
+{
+    "id": "voice_of_ruin",
+    "label": "Voice Of Ruin",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A voice of ruin.",
+    "hp": 5500,
+    "hpMax": 5500,
+    "speed": 230,
+    "level": 595,
+    "armor": 0,
+    "mitigation": 1.86,
+    "maxBlock": 0,
+    "exp": 3500,
+    "lootValue": 935.375,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 50,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "condition_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "earth",
+            "min": 531,
+            "max": 990,
+            "length": 3,
+            "spread": 2,
+            "target": false,
+            "effect": "me_poisonarea"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "earth",
+            "min": 350,
+            "max": 652,
+            "radius": 3,
+            "target": false,
+            "effect": "me_hitbypoison"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "earth",
+            "min": 230,
+            "max": 580,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_green_rings"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 475,
+            "max": 625,
+            "hpBelow": 0.7,
+            "effect": "me_magic_green"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 33000,
+            "maxCount": 100,
+            "name": "gold coin"
+        },
+        {
+            "chance": 32000,
+            "maxCount": 100,
+            "name": "gold coin"
+        },
+        {
+            "chance": 32000,
+            "maxCount": 36,
+            "name": "gold coin"
+        },
+        {
+            "chance": 5800,
+            "name": "corrupted flag"
+        },
+        {
+            "chance": 2920,
+            "maxCount": 5,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 3800,
+            "name": "cursed shoulder spikes"
+        },
+        {
+            "chance": 3800,
+            "name": "gold ingot"
+        },
+        {
+            "chance": 3800,
+            "name": "spiked iron ball"
+        },
+        {
+            "chance": 3800,
+            "name": "Zaoan shoes"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 40
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "glacier_mountain_phantom",
+    "threatDps": 114.8625,
+    "burstDps": 114.8625,
+    "avgHit": 574.3125,
+    "maxHit": 990,
+    "manaCost": 0
+}

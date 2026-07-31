@@ -1,0 +1,104 @@
+{
+    "id": "panda",
+    "label": "Panda",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A panda.",
+    "hp": 80,
+    "hpMax": 80,
+    "speed": 78,
+    "level": 172,
+    "armor": 8,
+    "mitigation": 0.2,
+    "maxBlock": 0,
+    "exp": 23,
+    "lootValue": 5.8739977090493,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -10,
+        "ice": 0,
+        "energy": 0,
+        "earth": 100,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 15,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": true,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 44
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Mammal",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "meat",
+            "chance": 70500,
+            "maxCount": 4
+        },
+        {
+            "name": "ham",
+            "chance": 39000,
+            "maxCount": 2
+        },
+        {
+            "name": "bamboo stick",
+            "chance": 10000
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "panda",
+    "threatDps": 11,
+    "burstDps": 11,
+    "avgHit": 22,
+    "maxHit": 44,
+    "manaCost": 300
+}

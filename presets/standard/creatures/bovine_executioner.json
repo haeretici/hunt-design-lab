@@ -1,0 +1,184 @@
+{
+    "id": "bovine_executioner",
+    "label": "Bovine Executioner",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A bovine executioner.",
+    "hp": 3500,
+    "hpMax": 3500,
+    "speed": 135,
+    "level": 550,
+    "armor": 41,
+    "mitigation": 1.6,
+    "maxBlock": 0,
+    "exp": 2400,
+    "lootValue": 685.262231925,
+    "aggro": true,
+    "resists": {
+        "physical": 10,
+        "fire": 0,
+        "ice": 10,
+        "energy": 10,
+        "earth": 15,
+        "holy": 0,
+        "death": 15
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 8,
+            "range": 7,
+            "element": "lifedrain",
+            "min": 857,
+            "max": 1776,
+            "radius": 5,
+            "target": true,
+            "effect": "me_drawblood",
+            "shootEffect": "ani_whirlwindaxe"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 8,
+            "range": 7,
+            "element": "physical",
+            "min": 571,
+            "max": 1269,
+            "target": true,
+            "effect": "me_explosionarea",
+            "shootEffect": "ani_whirlwindaxe"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 198,
+            "name": "gold coin"
+        },
+        {
+            "chance": 67610,
+            "maxCount": 3,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 390,
+            "name": "gold ingot"
+        },
+        {
+            "chance": 3230,
+            "name": "red piece of cloth"
+        },
+        {
+            "chance": 14710,
+            "name": "minotaur leather"
+        },
+        {
+            "chance": 6580,
+            "maxCount": 2,
+            "name": "minotaur horn"
+        },
+        {
+            "chance": 13160,
+            "name": "execowtioner mask"
+        },
+        {
+            "chance": 11480,
+            "name": "great health potion"
+        },
+        {
+            "chance": 10060,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 7230,
+            "name": "meat"
+        },
+        {
+            "chance": 5810,
+            "maxCount": 2,
+            "name": "small topaz"
+        },
+        {
+            "chance": 4520,
+            "maxCount": 2,
+            "name": "small ruby"
+        },
+        {
+            "chance": 900,
+            "name": "butcher's axe"
+        },
+        {
+            "chance": 770,
+            "name": "Regal Crown Armor"
+        },
+        {
+            "chance": 1420,
+            "name": "execowtioner axe"
+        },
+        {
+            "chance": 770,
+            "name": "knight axe"
+        },
+        {
+            "chance": 390,
+            "name": "titan axe"
+        },
+        {
+            "chance": 520,
+            "name": "minotaur trophy"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 4
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ancient_widow_spider",
+    "threatDps": 89.46,
+    "burstDps": 89.46,
+    "avgHit": 1118.25,
+    "maxHit": 1776,
+    "manaCost": 0
+}

@@ -1,0 +1,217 @@
+{
+    "id": "poisonous_sylvan_horror",
+    "label": "Poisonous Sylvan Horror",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A poisonous sylvan horror.",
+    "hp": 8000,
+    "hpMax": 8000,
+    "speed": 105,
+    "level": 632,
+    "armor": 37,
+    "mitigation": 1.13,
+    "maxBlock": 0,
+    "exp": 4400,
+    "lootValue": 2774.7130523108,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -14,
+        "ice": -5,
+        "energy": 0,
+        "earth": 25,
+        "holy": 0,
+        "death": 5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 275
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 40,
+            "range": 5,
+            "element": "earth",
+            "min": 200,
+            "max": 298,
+            "radius": 4,
+            "target": true,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_smallearth"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 5,
+            "element": "earth",
+            "min": 200,
+            "max": 258,
+            "target": true,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_smallearth"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 8,
+            "speedChange": 250,
+            "durationSec": 5,
+            "effect": "me_magic_green"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Human",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 70000,
+            "maxCount": 17
+        },
+        {
+            "name": "carnisylvan bark",
+            "chance": 12040,
+            "maxCount": 2
+        },
+        {
+            "name": "mushroom pie",
+            "chance": 8640,
+            "maxCount": 1
+        },
+        {
+            "name": "carnisylvan finger",
+            "chance": 8640,
+            "maxCount": 4
+        },
+        {
+            "name": "emerald bangle",
+            "chance": 4970
+        },
+        {
+            "name": "great dual potion",
+            "chance": 6810,
+            "maxCount": 5
+        },
+        {
+            "name": "guardian halberd",
+            "chance": 4970
+        },
+        {
+            "chance": 4970,
+            "name": "collar of blue plasma"
+        },
+        {
+            "name": "Earthbound Rod",
+            "chance": 7330
+        },
+        {
+            "name": "Nether Rod",
+            "chance": 6280
+        },
+        {
+            "name": "diamond sceptre",
+            "chance": 4710
+        },
+        {
+            "name": "fire mushroom",
+            "chance": 3140
+        },
+        {
+            "name": "knight axe",
+            "chance": 5760
+        },
+        {
+            "name": "wand of starstorm",
+            "chance": 4710
+        },
+        {
+            "name": "sacred tree amulet",
+            "chance": 2880
+        },
+        {
+            "id": 281,
+            "chance": 2090
+        },
+        {
+            "name": "gemmed figurine",
+            "chance": 790
+        },
+        {
+            "name": "human teeth",
+            "chance": 520
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ember_ruins_horror",
+    "threatDps": 141.45,
+    "burstDps": 141.45,
+    "avgHit": 176.8125,
+    "maxHit": 298,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 1,
+        "summons": [
+            {
+                "name": "Sylvan Horror Sapling",
+                "id": "sylvan_horror_sapling",
+                "chance": 70,
+                "interval": 2000,
+                "count": 1
+            }
+        ]
+    }
+}

@@ -1,0 +1,159 @@
+{
+    "id": "tribal_chanter",
+    "label": "Tribal Chanter",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A tribal chanter.",
+    "hp": 1630,
+    "hpMax": 1630,
+    "speed": 110,
+    "level": 473,
+    "armor": 34,
+    "mitigation": 1.26,
+    "maxBlock": 0,
+    "exp": 1700,
+    "lootValue": 766.27777777778,
+    "aggro": true,
+    "resists": {
+        "physical": -5,
+        "fire": 5,
+        "ice": 0,
+        "energy": 0,
+        "earth": 25,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 178
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "ice",
+            "min": 91,
+            "max": 190,
+            "target": false,
+            "effect": "me_iceattack",
+            "shootEffect": "ani_ice"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 5,
+        "firstUnlock": 1,
+        "secondUnlock": 2,
+        "charmsPoints": 50,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 1000000,
+            "maxCount": 477
+        },
+        {
+            "id": 281,
+            "chance": 7100
+        },
+        {
+            "name": "tiger Eye",
+            "chance": 7100
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 6380,
+            "maxCount": 4
+        },
+        {
+            "name": "small sapphire",
+            "chance": 4370,
+            "maxCount": 5
+        },
+        {
+            "name": "daedal chisel",
+            "chance": 2910
+        },
+        {
+            "name": "opal",
+            "chance": 1640,
+            "maxCount": 2
+        },
+        {
+            "name": "ritual tooth",
+            "chance": 1460
+        },
+        {
+            "name": "spellbook of enlightenment",
+            "chance": 1090
+        },
+        {
+            "name": "gold ingot",
+            "chance": 730
+        },
+        {
+            "name": "rotten feather",
+            "chance": 730
+        },
+        {
+            "name": "broken iks faulds",
+            "chance": 360
+        },
+        {
+            "name": "gold-brocaded cloth",
+            "chance": 360
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "mountain_troll",
+    "threatDps": 58.55,
+    "burstDps": 58.55,
+    "avgHit": 97.5833,
+    "maxHit": 190,
+    "manaCost": 0
+}

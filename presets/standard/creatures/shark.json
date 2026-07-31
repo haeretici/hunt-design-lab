@@ -1,0 +1,126 @@
+{
+    "id": "shark",
+    "label": "Shark",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A shark.",
+    "hp": 1200,
+    "hpMax": 1200,
+    "speed": 145,
+    "level": 443,
+    "armor": 32,
+    "mitigation": 0.43,
+    "maxBlock": 0,
+    "exp": 700,
+    "lootValue": 75.31597520267,
+    "aggro": true,
+    "resists": {
+        "physical": 5,
+        "fire": 55,
+        "ice": 10,
+        "energy": -5,
+        "earth": 20,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": false,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 198,
+            "effect": "me_drawblood"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Aquatic",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 41000,
+            "maxCount": 38
+        },
+        {
+            "chance": 25430,
+            "maxCount": 4,
+            "name": "fish"
+        },
+        {
+            "name": "deepling scales",
+            "chance": 9620
+        },
+        {
+            "name": "eye of a deepling",
+            "chance": 1200
+        },
+        {
+            "name": "small sapphire",
+            "chance": 1090
+        },
+        {
+            "id": 281,
+            "chance": 390
+        },
+        {
+            "name": "fish fin",
+            "chance": 161
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "cat",
+    "threatDps": 49.5,
+    "burstDps": 49.5,
+    "avgHit": 99,
+    "maxHit": 198,
+    "manaCost": 0
+}

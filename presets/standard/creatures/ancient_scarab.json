@@ -1,0 +1,224 @@
+{
+    "id": "ancient_scarab",
+    "label": "Ancient Scarab",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An ancient scarab.",
+    "hp": 1000,
+    "hpMax": 1000,
+    "speed": 109,
+    "level": 425,
+    "armor": 36,
+    "mitigation": 0.86,
+    "maxBlock": 0,
+    "exp": 720,
+    "lootValue": 262.46310914968,
+    "aggro": true,
+    "resists": {
+        "physical": 10,
+        "fire": -20,
+        "ice": -5,
+        "energy": 20,
+        "earth": 100,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 20,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 41,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 18,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "earth",
+            "min": 5,
+            "max": 46,
+            "target": false,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "slow_2",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -700,
+                "durationSec": 25
+            },
+            "effect": "me_poisonarea",
+            "target": false
+        },
+        {
+            "id": "condition_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 4,
+            "element": "earth",
+            "min": 140,
+            "max": 165,
+            "radius": 5,
+            "target": false,
+            "effect": "me_poisonarea"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 380,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Vermin",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "scarab amulet",
+            "chance": 3410
+        },
+        {
+            "chance": 2500,
+            "name": "ancient amulet"
+        },
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 187
+        },
+        {
+            "name": "small emerald",
+            "chance": 6000,
+            "maxCount": 3
+        },
+        {
+            "name": "small amethyst",
+            "chance": 6000,
+            "maxCount": 4
+        },
+        {
+            "name": "scarab coin",
+            "chance": 8000,
+            "maxCount": 2
+        },
+        {
+            "chance": 11480,
+            "name": "magic light wand"
+        },
+        {
+            "name": "daramian waraxe",
+            "chance": 300
+        },
+        {
+            "name": "plate armor",
+            "chance": 5000
+        },
+        {
+            "name": "scarab shield",
+            "chance": 480
+        },
+        {
+            "name": "strong health potion",
+            "chance": 1500
+        },
+        {
+            "name": "Bloomshoot Rod",
+            "chance": 1000
+        },
+        {
+            "name": "Earthbound Hood",
+            "chance": 490
+        },
+        {
+            "name": "scarab pincers",
+            "chance": 7000
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "rune_stone_bugbear",
+    "threatDps": 44.675,
+    "burstDps": 44.675,
+    "avgHit": 47.5667,
+    "maxHit": 165,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 3,
+        "summons": [
+            {
+                "name": "Larva",
+                "id": "larva",
+                "chance": 10,
+                "interval": 2000,
+                "count": 3
+            }
+        ]
+    }
+}

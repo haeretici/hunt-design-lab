@@ -1,0 +1,199 @@
+{
+    "id": "gloomlight_striker",
+    "label": "Gloomlight Striker",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A gloomlight striker.",
+    "hp": 29700,
+    "hpMax": 29700,
+    "speed": 210,
+    "level": 763,
+    "armor": 112,
+    "mitigation": 3.1,
+    "maxBlock": 0,
+    "exp": 22200,
+    "lootValue": 5775.6143667297,
+    "aggro": true,
+    "resists": {
+        "physical": 10,
+        "fire": -25,
+        "ice": 30,
+        "energy": 35,
+        "earth": -14,
+        "holy": 10,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2500,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 544
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2500,
+            "chance": 15,
+            "range": 4,
+            "element": "energy",
+            "min": 692,
+            "max": 816,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_electricalspark"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2500,
+            "chance": 15,
+            "range": 4,
+            "element": "holy",
+            "min": 544,
+            "max": 791,
+            "radius": 5,
+            "target": false,
+            "effect": "me_ghostly_bite"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2500,
+            "chance": 10,
+            "range": 4,
+            "element": "energy",
+            "min": 643,
+            "max": 741,
+            "radius": 5,
+            "target": false,
+            "effect": "me_electricalspark"
+        },
+        {
+            "id": "extended_holy_chain_4",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 1,
+            "element": "physical",
+            "min": 395,
+            "max": 593
+        },
+        {
+            "id": "largepinkring_5",
+            "kind": "melee",
+            "intervalMs": 2500,
+            "chance": 10,
+            "range": 1,
+            "element": "physical",
+            "min": 741,
+            "max": 939,
+            "target": false
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Magical",
+        "toKill": 5000,
+        "firstUnlock": 200,
+        "secondUnlock": 2000,
+        "charmsPoints": 100,
+        "stars": 5,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "crystal coin",
+            "chance": 14380,
+            "maxCount": 1
+        },
+        {
+            "name": "unstable darklight matter",
+            "chance": 14492,
+            "maxCount": 1
+        },
+        {
+            "name": "darklight core",
+            "chance": 9783,
+            "maxCount": 1
+        },
+        {
+            "name": "small topaz",
+            "chance": 11140,
+            "maxCount": 3
+        },
+        {
+            "name": "ice rapier",
+            "chance": 5104,
+            "maxCount": 1
+        },
+        {
+            "name": "dark obsidian splinter",
+            "chance": 14185,
+            "maxCount": 1
+        },
+        {
+            "name": "blue gem",
+            "chance": 7355,
+            "maxCount": 1
+        },
+        {
+            "name": "crystal mace",
+            "chance": 8812,
+            "maxCount": 1
+        },
+        {
+            "name": "zaoan helmet",
+            "chance": 5572,
+            "maxCount": 1
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "celestial_fiend",
+    "threatDps": 292.42,
+    "burstDps": 356.2625,
+    "avgHit": 433.2148,
+    "maxHit": 939,
+    "manaCost": 0
+}

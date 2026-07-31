@@ -1,0 +1,148 @@
+{
+    "id": "orc_rider",
+    "label": "Orc Rider",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An orc rider.",
+    "hp": 180,
+    "hpMax": 180,
+    "speed": 130,
+    "level": 253,
+    "armor": 9,
+    "mitigation": 0.51,
+    "maxBlock": 0,
+    "exp": 110,
+    "lootValue": 53.450584913271,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 20,
+        "earth": -10,
+        "holy": 10,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 30
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 69
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 200,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 980,
+            "name": "torch"
+        },
+        {
+            "chance": 10210,
+            "name": "wolf tooth chain"
+        },
+        {
+            "name": "gold coin",
+            "chance": 46000,
+            "maxCount": 81
+        },
+        {
+            "name": "obsidian lance",
+            "chance": 1100
+        },
+        {
+            "name": "orcish axe",
+            "chance": 6880
+        },
+        {
+            "name": "scale armor",
+            "chance": 610
+        },
+        {
+            "name": "battle shield",
+            "chance": 9900
+        },
+        {
+            "name": "meat",
+            "chance": 24000,
+            "maxCount": 3
+        },
+        {
+            "name": "orc tooth",
+            "chance": 2000
+        },
+        {
+            "name": "warwolf fur",
+            "chance": 9410
+        },
+        {
+            "name": "orc leather",
+            "chance": 9760
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "sun_orc_guard",
+    "threatDps": 17.25,
+    "burstDps": 17.25,
+    "avgHit": 34.5,
+    "maxHit": 69,
+    "manaCost": 490
+}

@@ -1,0 +1,105 @@
+{
+    "id": "frost_giant_gnorre",
+    "label": "Frost Giant Gnorre",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A frost giant gnorre.",
+    "hp": 7150,
+    "hpMax": 7150,
+    "speed": 185,
+    "level": 621,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 4000,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": -1,
+        "fire": 100,
+        "ice": 100,
+        "energy": -10,
+        "earth": 100,
+        "holy": 1,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 242
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 3000,
+            "chance": 50,
+            "range": 1,
+            "element": "physical",
+            "min": 266,
+            "max": 425
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 15,
+            "range": 7,
+            "element": "ice",
+            "min": 90,
+            "max": 106,
+            "target": false,
+            "shootEffect": "ani_snowball"
+        }
+    ],
+    "race": "blood",
+    "loot": [],
+    "changeTarget": {
+        "interval": 0,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "radiant_fire_giant_priest",
+    "threatDps": 132.7833,
+    "burstDps": 161.575,
+    "avgHit": 162.5918,
+    "maxHit": 425,
+    "manaCost": 0
+}

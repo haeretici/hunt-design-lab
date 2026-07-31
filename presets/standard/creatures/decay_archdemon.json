@@ -1,0 +1,323 @@
+{
+    "id": "decay_archdemon",
+    "label": "Decay Archdemon",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A decay archdemon.",
+    "hp": 290000,
+    "hpMax": 290000,
+    "speed": 170,
+    "level": 990,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 500000,
+    "lootValue": 37008.444444444,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 90,
+        "holy": 0,
+        "death": 50
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 1075,
+            "max": 1766
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "death",
+            "min": 384,
+            "max": 691,
+            "radius": 4,
+            "target": false,
+            "effect": "me_smallclouds"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "death",
+            "min": 384,
+            "max": 691,
+            "radius": 4,
+            "target": true,
+            "effect": "me_poff",
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 768,
+            "max": 922,
+            "length": 10,
+            "spread": 3,
+            "target": false,
+            "effect": "me_magic_green"
+        },
+        {
+            "id": "wave_4",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "physical",
+            "min": 1152,
+            "max": 1459,
+            "length": 10,
+            "spread": 3,
+            "target": false,
+            "effect": "me_groundshaker"
+        },
+        {
+            "id": "slow_5",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -600,
+                "durationSec": 20
+            },
+            "radius": 7,
+            "effect": "me_poff",
+            "target": false
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 1000,
+            "max": 2000,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 20,
+            "speedChange": 600,
+            "durationSec": 4,
+            "effect": "me_magic_green"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "chance": 1000000,
+            "name": "silver token"
+        },
+        {
+            "chance": 10000,
+            "name": "flask of demonic blood"
+        },
+        {
+            "chance": 10000,
+            "name": "flask of demonic blood"
+        },
+        {
+            "chance": 10000,
+            "name": "flask of demonic blood"
+        },
+        {
+            "chance": 10000,
+            "name": "flask of demonic blood"
+        },
+        {
+            "chance": 10000,
+            "name": "flask of demonic blood"
+        },
+        {
+            "chance": 1000,
+            "name": "yellow gem"
+        },
+        {
+            "chance": 3000,
+            "maxCount": 5,
+            "name": "cyan crystal fragment"
+        },
+        {
+            "chance": 3000,
+            "maxCount": 5,
+            "name": "red crystal fragment"
+        },
+        {
+            "chance": 3000,
+            "maxCount": 5,
+            "name": "green crystal fragment"
+        },
+        {
+            "chance": 3000,
+            "maxCount": 8,
+            "name": "white pearl"
+        },
+        {
+            "chance": 3000,
+            "maxCount": 9,
+            "name": "small sapphire"
+        },
+        {
+            "chance": 98000,
+            "maxCount": 200,
+            "name": "gold coin"
+        },
+        {
+            "chance": 3000,
+            "maxCount": 5,
+            "name": "small amethyst"
+        },
+        {
+            "chance": 8000,
+            "maxCount": 58,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 1000,
+            "name": "green gem"
+        },
+        {
+            "chance": 1000,
+            "name": "red gem"
+        },
+        {
+            "chance": 1000,
+            "name": "blue gem"
+        },
+        {
+            "chance": 4000,
+            "name": "Bone Skull Staff"
+        },
+        {
+            "chance": 100,
+            "unique": true,
+            "name": "death gaze"
+        },
+        {
+            "chance": 700,
+            "name": "rift bow"
+        },
+        {
+            "chance": 700,
+            "name": "rift crossbow"
+        },
+        {
+            "chance": 11000,
+            "name": "demonic essence"
+        },
+        {
+            "chance": 500,
+            "name": "reaper's axe"
+        },
+        {
+            "chance": 4000,
+            "name": "amber staff"
+        },
+        {
+            "chance": 3000,
+            "maxCount": 5,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 3100,
+            "maxCount": 5,
+            "name": "great health potion"
+        },
+        {
+            "id": 281,
+            "chance": 3000,
+            "maxCount": 5
+        },
+        {
+            "id": 282,
+            "chance": 3000,
+            "maxCount": 5
+        },
+        {
+            "chance": 3100,
+            "maxCount": 5,
+            "name": "great dual potion"
+        },
+        {
+            "chance": 3000,
+            "maxCount": 5,
+            "name": "ultimate health potion"
+        },
+        {
+            "chance": 3000,
+            "maxCount": 8,
+            "name": "small topaz"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "mist_demon_priest",
+    "threatDps": 1032.8,
+    "burstDps": 1032.8,
+    "avgHit": 1147.5556,
+    "maxHit": 1766,
+    "manaCost": 0
+}

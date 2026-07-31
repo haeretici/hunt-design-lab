@@ -1,0 +1,141 @@
+{
+    "id": "killer_caiman",
+    "label": "Killer Caiman",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A killer caiman.",
+    "hp": 1500,
+    "hpMax": 1500,
+    "speed": 93,
+    "level": 465,
+    "armor": 40,
+    "mitigation": 0.38,
+    "maxBlock": 0,
+    "exp": 900,
+    "lootValue": 227.64403150381,
+    "aggro": true,
+    "resists": {
+        "physical": 10,
+        "fire": 0,
+        "ice": 10,
+        "energy": -5,
+        "earth": 20,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 10,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 224
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 700,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Reptile",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 80
+        },
+        {
+            "name": "small emerald",
+            "chance": 10150,
+            "maxCount": 5
+        },
+        {
+            "name": "obsidian lance",
+            "chance": 4975
+        },
+        {
+            "name": "ham",
+            "chance": 40100
+        },
+        {
+            "name": "crocodile boots",
+            "chance": 510
+        },
+        {
+            "id": 281,
+            "chance": 1130
+        },
+        {
+            "name": "piece of crocodile leather",
+            "chance": 25430
+        },
+        {
+            "name": "bunch of ripe rice",
+            "chance": 4800,
+            "maxCount": 2
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ethereal_storm_bear",
+    "threatDps": 56,
+    "burstDps": 56,
+    "avgHit": 112,
+    "maxHit": 224,
+    "manaCost": 0
+}

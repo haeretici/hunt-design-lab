@@ -1,0 +1,104 @@
+{
+    "id": "crab",
+    "label": "Crab",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A crab.",
+    "hp": 55,
+    "hpMax": 55,
+    "speed": 100,
+    "level": 136,
+    "armor": 28,
+    "mitigation": 0.78,
+    "maxBlock": 0,
+    "exp": 30,
+    "lootValue": 11.363869200071,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -10,
+        "ice": 20,
+        "energy": -10,
+        "earth": 100,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": true,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 36,
+            "effect": "me_drawblood"
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Aquatic",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 80000,
+            "maxCount": 10
+        },
+        {
+            "chance": 20000,
+            "name": "fish"
+        },
+        {
+            "name": "crab pincers",
+            "chance": 20000
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "crab",
+    "threatDps": 9,
+    "burstDps": 9,
+    "avgHit": 18,
+    "maxHit": 36,
+    "manaCost": 305
+}

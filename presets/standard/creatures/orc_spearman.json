@@ -1,0 +1,139 @@
+{
+    "id": "orc_spearman",
+    "label": "Orc Spearman",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An orc spearman.",
+    "hp": 105,
+    "hpMax": 105,
+    "speed": 88,
+    "level": 199,
+    "armor": 6,
+    "mitigation": 0.3,
+    "maxBlock": 0,
+    "exp": 38,
+    "lootValue": 7.3122869802318,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 20,
+        "earth": -10,
+        "holy": 20,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 10,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": true,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 41
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 50,
+            "target": false,
+            "shootEffect": "ani_spear"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 25050,
+            "maxCount": 11
+        },
+        {
+            "name": "spear",
+            "chance": 17440
+        },
+        {
+            "name": "machete",
+            "chance": 3000
+        },
+        {
+            "name": "studded legs",
+            "chance": 10000
+        },
+        {
+            "name": "studded helmet",
+            "chance": 9000
+        },
+        {
+            "name": "meat",
+            "chance": 30200
+        },
+        {
+            "name": "orc tooth",
+            "chance": 150
+        },
+        {
+            "name": "orc leather",
+            "chance": 2300
+        },
+        {
+            "chance": 1000,
+            "name": "heavy old tome"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "orc_spearman",
+    "threatDps": 12.75,
+    "burstDps": 12.75,
+    "avgHit": 21.25,
+    "maxHit": 50,
+    "manaCost": 310
+}

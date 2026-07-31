@@ -1,0 +1,193 @@
+{
+    "id": "shrieking_crystal",
+    "label": "Shrieking Crystal",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A shrieking crystal.",
+    "hp": 20650,
+    "hpMax": 20650,
+    "speed": 207,
+    "level": 727,
+    "armor": 95,
+    "mitigation": 2.45,
+    "maxBlock": 0,
+    "exp": 13560,
+    "lootValue": 4576.7454798331,
+    "aggro": true,
+    "resists": {
+        "physical": 20,
+        "fire": 5,
+        "ice": 5,
+        "energy": 10,
+        "earth": -5,
+        "holy": 100,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 3,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 267
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 5000,
+            "chance": 47,
+            "range": 6,
+            "element": "energy",
+            "min": 434,
+            "max": 601,
+            "shootEffect": "ani_energyball"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 3500,
+            "chance": 30,
+            "range": 4,
+            "element": "death",
+            "min": 334,
+            "max": 467,
+            "radius": 6,
+            "target": false,
+            "effect": "me_mortarea"
+        },
+        {
+            "id": "energy_chain_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 3,
+            "element": "physical",
+            "min": 284,
+            "max": 367,
+            "target": true
+        },
+        {
+            "id": "wave_4",
+            "kind": "wave",
+            "intervalMs": 3000,
+            "chance": 30,
+            "range": 4,
+            "element": "energy",
+            "min": 467,
+            "max": 668,
+            "length": 5,
+            "spread": 2,
+            "target": false,
+            "effect": "me_sound_purple"
+        }
+    ],
+    "race": "energy",
+    "bestiary": {
+        "class": "Construct",
+        "toKill": 5000,
+        "firstUnlock": 200,
+        "secondUnlock": 2000,
+        "charmsPoints": 100,
+        "stars": 5,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "Crystal Coin",
+            "chance": 23440,
+            "minCount": 1,
+            "maxCount": 2
+        },
+        {
+            "name": "Great Dual Potion",
+            "chance": 20760
+        },
+        {
+            "name": "Cry-Stal",
+            "chance": 12560,
+            "minCount": 1,
+            "maxCount": 2
+        },
+        {
+            "name": "Small Diamond",
+            "chance": 6020,
+            "minCount": 1,
+            "maxCount": 3
+        },
+        {
+            "name": "Rusted Armor",
+            "chance": 5580
+        },
+        {
+            "name": "Green Crystal Fragment",
+            "chance": 4290
+        },
+        {
+            "name": "Earthbound Boots",
+            "chance": 4290
+        },
+        {
+            "name": "Protection Amulet",
+            "chance": 2270
+        },
+        {
+            "name": "Violet Gem",
+            "chance": 1250
+        },
+        {
+            "name": "Gold Ring",
+            "chance": 600
+        },
+        {
+            "name": "Green Gem",
+            "chance": 420
+        },
+        {
+            "name": "Celestial Band",
+            "chance": 210
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "venomous_reef_gorgon",
+    "threatDps": 239.0236,
+    "burstDps": 366.1125,
+    "avgHit": 271.7059,
+    "maxHit": 668,
+    "manaCost": 0
+}

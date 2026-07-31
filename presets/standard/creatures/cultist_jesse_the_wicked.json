@@ -1,0 +1,93 @@
+{
+    "id": "cultist_jesse_the_wicked",
+    "label": "Cultist Jesse The Wicked",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A cultist jesse the wicked.",
+    "hp": 280,
+    "hpMax": 280,
+    "speed": 110,
+    "level": 297,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 180,
+    "lootValue": 5071.4285714286,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 88
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 99
+        },
+        {
+            "name": "bag with stolen gold",
+            "chance": 100000
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 5
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "hellfire_kobold_cultist",
+    "threatDps": 22,
+    "burstDps": 22,
+    "avgHit": 44,
+    "maxHit": 88,
+    "manaCost": 0
+}

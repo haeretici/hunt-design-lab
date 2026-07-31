@@ -1,0 +1,243 @@
+{
+    "id": "reality_ripper",
+    "label": "Reality Ripper",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A reality ripper.",
+    "hp": 3900,
+    "hpMax": 3900,
+    "speed": 170,
+    "level": 561,
+    "armor": 51,
+    "mitigation": 1.76,
+    "maxBlock": 0,
+    "exp": 2480,
+    "lootValue": 944.77272727273,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 10,
+        "ice": 20,
+        "energy": 85,
+        "earth": -10,
+        "holy": 0,
+        "death": 5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 191
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 5,
+            "element": "energy",
+            "min": 69,
+            "max": 153,
+            "radius": 5,
+            "target": true,
+            "effect": "me_purpleenergy",
+            "shootEffect": "ani_energyball"
+        },
+        {
+            "id": "reality_reaver_wave_2",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 1,
+            "element": "physical",
+            "min": 76,
+            "max": 191,
+            "target": false
+        },
+        {
+            "id": "condition_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "energy",
+            "min": 153,
+            "max": 305,
+            "radius": 5,
+            "target": false,
+            "effect": "me_stun"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "invisible_0",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 15,
+            "durationSec": 2,
+            "effect": "me_poff"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 10,
+            "speedChange": 380,
+            "durationSec": 8,
+            "effect": "me_hitarea"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Extra Dimensional",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 100,
+            "name": "gold coin"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 6,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 15000,
+            "name": "energy drink"
+        },
+        {
+            "chance": 15000,
+            "name": "energy bar"
+        },
+        {
+            "chance": 15000,
+            "name": "energy vein"
+        },
+        {
+            "chance": 14700,
+            "name": "plasmatic lightning"
+        },
+        {
+            "chance": 11400,
+            "maxCount": 2,
+            "name": "great dual potion"
+        },
+        {
+            "chance": 10300,
+            "maxCount": 2,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 9700,
+            "maxCount": 2,
+            "name": "great health potion"
+        },
+        {
+            "chance": 9700,
+            "name": "plasma pearls"
+        },
+        {
+            "chance": 9600,
+            "name": "dangerous proto matter"
+        },
+        {
+            "chance": 7900,
+            "name": "blue crystal splinter"
+        },
+        {
+            "chance": 6000,
+            "name": "red crystal fragment"
+        },
+        {
+            "chance": 4400,
+            "name": "violet crystal shard"
+        },
+        {
+            "chance": 4000,
+            "name": "blue crystal shard"
+        },
+        {
+            "chance": 2600,
+            "name": "red gem"
+        },
+        {
+            "chance": 630,
+            "name": "collar of green plasma"
+        },
+        {
+            "chance": 520,
+            "name": "Stormbound Headband"
+        },
+        {
+            "chance": 370,
+            "name": "violet gem"
+        },
+        {
+            "chance": 370,
+            "name": "ring of blue plasma"
+        },
+        {
+            "chance": 300,
+            "name": "collar of red plasma"
+        },
+        {
+            "chance": 220,
+            "name": "ring of green plasma"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 25
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "coral_frog",
+    "threatDps": 95.1,
+    "burstDps": 95.1,
+    "avgHit": 118.875,
+    "maxHit": 305,
+    "manaCost": 0
+}

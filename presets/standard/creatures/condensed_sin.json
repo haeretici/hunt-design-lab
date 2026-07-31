@@ -1,0 +1,130 @@
+{
+    "id": "condensed_sin",
+    "label": "Condensed Sin",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A condensed sin.",
+    "hp": 1,
+    "hpMax": 1,
+    "speed": 160,
+    "level": 811,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 100,
+            "max": 500
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 5000,
+            "chance": 40,
+            "range": 4,
+            "element": "manadrain",
+            "min": 450,
+            "max": 550,
+            "length": 3,
+            "target": false,
+            "effect": "me_sleep"
+        },
+        {
+            "id": "melee_2",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 1,
+            "element": "death",
+            "min": 250,
+            "max": 450,
+            "target": true,
+            "shootEffect": "ani_death"
+        },
+        {
+            "id": "melee_3",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 1,
+            "element": "earth",
+            "min": 250,
+            "max": 450,
+            "target": true,
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 4000,
+            "chance": 50,
+            "range": 3,
+            "element": "earth",
+            "min": 600,
+            "max": 800,
+            "radius": 2,
+            "target": false,
+            "effect": "me_hitbypoison"
+        }
+    ],
+    "race": "undead",
+    "loot": [],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "phantom_hill_giant",
+    "threatDps": 382.5,
+    "burstDps": 530,
+    "avgHit": 380.597,
+    "maxHit": 800,
+    "manaCost": 0
+}

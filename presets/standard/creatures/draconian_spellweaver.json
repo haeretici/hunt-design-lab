@@ -1,0 +1,254 @@
+{
+    "id": "draconian_spellweaver",
+    "label": "Draconian Spellweaver",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A draconian spellweaver.",
+    "hp": 5000,
+    "hpMax": 5000,
+    "speed": 168,
+    "level": 585,
+    "armor": 25,
+    "mitigation": 1.35,
+    "maxBlock": 0,
+    "exp": 3100,
+    "lootValue": 1018.5592405569,
+    "aggro": true,
+    "resists": {
+        "physical": -10,
+        "fire": 100,
+        "ice": -10,
+        "energy": -10,
+        "earth": 100,
+        "holy": -5,
+        "death": 80
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 209
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "fire",
+            "min": 199,
+            "max": 398,
+            "length": 4,
+            "spread": 3,
+            "target": false,
+            "effect": "me_explosionhit"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "fire",
+            "min": 83,
+            "max": 207,
+            "target": true,
+            "effect": "me_firearea",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "energy",
+            "min": 124,
+            "max": 249,
+            "target": true,
+            "effect": "me_energyhit",
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "earth",
+            "min": 166,
+            "max": 315,
+            "radius": 4,
+            "target": true,
+            "effect": "me_poff"
+        },
+        {
+            "id": "condition_6",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 1,
+            "element": "earth",
+            "min": 232,
+            "max": 298,
+            "target": true,
+            "shootEffect": "ani_poison"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "invisible_0",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 10,
+            "durationSec": 2,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "heal_1",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 270,
+            "max": 530,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Dragon",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 195
+        },
+        {
+            "name": "meat",
+            "chance": 26940
+        },
+        {
+            "name": "platinum coin",
+            "chance": 23800,
+            "maxCount": 5
+        },
+        {
+            "name": "weaver's wandtip",
+            "chance": 18450
+        },
+        {
+            "name": "small ruby",
+            "chance": 6640,
+            "maxCount": 5
+        },
+        {
+            "name": "great mana potion",
+            "chance": 5350
+        },
+        {
+            "name": "draken sulphur",
+            "chance": 4610
+        },
+        {
+            "name": "luminous orb",
+            "chance": 2580
+        },
+        {
+            "name": "green gem",
+            "chance": 1290
+        },
+        {
+            "name": "zaoan shoes",
+            "chance": 1290
+        },
+        {
+            "name": "wand of inferno",
+            "chance": 1110
+        },
+        {
+            "name": "focus cape",
+            "chance": 740
+        },
+        {
+            "name": "spellweaver's robe",
+            "chance": 740
+        },
+        {
+            "name": "zaoan legs",
+            "chance": 550
+        },
+        {
+            "name": "zaoan robe",
+            "chance": 370
+        },
+        {
+            "name": "Celestial Band",
+            "chance": 180
+        },
+        {
+            "name": "bamboo leaves",
+            "chance": 180
+        },
+        {
+            "name": "harness",
+            "chance": 30
+        },
+        {
+            "name": "draken trophy",
+            "chance": 10
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "crystal_wolf_raider",
+    "threatDps": 109.025,
+    "burstDps": 109.025,
+    "avgHit": 145.3667,
+    "maxHit": 398,
+    "manaCost": 0
+}

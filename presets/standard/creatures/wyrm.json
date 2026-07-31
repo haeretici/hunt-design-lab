@@ -1,0 +1,223 @@
+{
+    "id": "wyrm",
+    "label": "Wyrm",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A wyrm.",
+    "hp": 1825,
+    "hpMax": 1825,
+    "speed": 140,
+    "level": 485,
+    "armor": 34,
+    "mitigation": 0.83,
+    "maxBlock": 0,
+    "exp": 1550,
+    "lootValue": 301.39791619898,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 20,
+        "ice": -5,
+        "energy": 100,
+        "earth": 75,
+        "holy": 0,
+        "death": -5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 1,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 121
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "energy",
+            "min": 52,
+            "max": 113,
+            "radius": 3,
+            "target": false,
+            "effect": "me_yellowenergy"
+        },
+        {
+            "id": "wyrm_wave_2",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 40,
+            "range": 1,
+            "element": "physical",
+            "min": 67,
+            "max": 103,
+            "target": false
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "energy",
+            "min": 52,
+            "max": 64,
+            "target": false,
+            "effect": "me_energyhit",
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "wave_4",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 50,
+            "max": 75,
+            "length": 4,
+            "spread": 3,
+            "target": false,
+            "effect": "me_poff"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 100,
+            "max": 150,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Dragon",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 95730,
+            "maxCount": 192
+        },
+        {
+            "name": "dragon ham",
+            "chance": 43130
+        },
+        {
+            "name": "strong health potion",
+            "chance": 19910
+        },
+        {
+            "name": "wyrm scale",
+            "chance": 17540
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 15170
+        },
+        {
+            "chance": 5690,
+            "maxCount": 10,
+            "name": "burst arrow"
+        },
+        {
+            "name": "crossbow",
+            "chance": 5690
+        },
+        {
+            "name": "focus cape",
+            "chance": 2370
+        },
+        {
+            "name": "small diamond",
+            "chance": 1420,
+            "maxCount": 3
+        },
+        {
+            "name": "wand of starstorm",
+            "chance": 1420
+        },
+        {
+            "name": "wand of draconia",
+            "chance": 1420
+        },
+        {
+            "name": "composite hornbow",
+            "chance": 950
+        },
+        {
+            "name": "dragonbone staff",
+            "chance": 470
+        },
+        {
+            "name": "Stormbound Pendant",
+            "chance": 470
+        },
+        {
+            "name": "shockwave amulet",
+            "chance": 470
+        },
+        {
+            "name": "hibiscus dress",
+            "chance": 470
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "warp_crypt_wyrm",
+    "threatDps": 62.3625,
+    "burstDps": 62.3625,
+    "avgHit": 67.4189,
+    "maxHit": 121,
+    "manaCost": 0
+}

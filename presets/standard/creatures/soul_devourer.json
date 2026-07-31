@@ -1,0 +1,197 @@
+{
+    "id": "soul_devourer",
+    "label": "Soul Devourer",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A soul devourer.",
+    "hp": 1100,
+    "hpMax": 1100,
+    "speed": 105,
+    "level": 435,
+    "armor": 30,
+    "mitigation": 0.51,
+    "maxBlock": 0,
+    "exp": 1300,
+    "lootValue": 437.14819479429,
+    "aggro": true,
+    "resists": {
+        "physical": 60,
+        "fire": -10,
+        "ice": 50,
+        "energy": -10,
+        "earth": 0,
+        "holy": -10,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 96
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 7,
+            "element": "ice",
+            "min": 23,
+            "max": 46,
+            "target": true,
+            "shootEffect": "ani_smallice"
+        },
+        {
+            "id": "souleater_wave_3",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 1,
+            "element": "physical",
+            "min": 46,
+            "max": 91,
+            "target": false
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 14,
+            "max": 27,
+            "radius": 4,
+            "target": false,
+            "effect": "me_magic_red"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "invisible_0",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 5,
+            "durationSec": 2,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "heal_1",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 120,
+            "max": 125,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 33400,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 33400,
+            "maxCount": 100
+        },
+        {
+            "name": "platinum coin",
+            "chance": 49610,
+            "maxCount": 6
+        },
+        {
+            "name": "Withering Rod",
+            "chance": 980
+        },
+        {
+            "name": "wand of cosmic energy",
+            "chance": 910
+        },
+        {
+            "chance": 140,
+            "name": "spirit container"
+        },
+        {
+            "chance": 300,
+            "name": "death ring"
+        },
+        {
+            "name": "great mana potion",
+            "chance": 8000
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 9400
+        },
+        {
+            "name": "souleater trophy",
+            "chance": 20
+        },
+        {
+            "name": "lizard essence",
+            "chance": 15250
+        },
+        {
+            "name": "ectoplasmic sushi",
+            "chance": 2000
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ashen_goblin_devourer",
+    "threatDps": 47.2375,
+    "burstDps": 47.2375,
+    "avgHit": 40.2021,
+    "maxHit": 96,
+    "manaCost": 0
+}

@@ -1,0 +1,135 @@
+{
+    "id": "deep_terror_predator_scout",
+    "label": "Deep Terror Predator Scout",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A deep terror predator scout.",
+    "hp": 890,
+    "hpMax": 890,
+    "speed": 85,
+    "level": 414,
+    "armor": 30,
+    "mitigation": 1.04,
+    "maxBlock": 0,
+    "exp": 400,
+    "lootValue": 177.09682279286,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": 100,
+        "energy": -10,
+        "earth": -10,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 168,
+            "effect": "me_drawblood"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Aquatic",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 60
+        },
+        {
+            "name": "gold coin",
+            "chance": 48000,
+            "maxCount": 72
+        },
+        {
+            "name": "quara bone",
+            "chance": 10150
+        },
+        {
+            "name": "scale armor",
+            "chance": 8960
+        },
+        {
+            "name": "double axe",
+            "chance": 5770
+        },
+        {
+            "name": "shrimp",
+            "chance": 5050,
+            "maxCount": 5
+        },
+        {
+            "name": "small diamond",
+            "chance": 5020,
+            "maxCount": 2
+        },
+        {
+            "name": "two handed sword",
+            "chance": 3010
+        },
+        {
+            "name": "fish fin",
+            "chance": 1080
+        },
+        {
+            "name": "Boreal Rod",
+            "chance": 960
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "warp_fungal_knight",
+    "threatDps": 42,
+    "burstDps": 42,
+    "avgHit": 84,
+    "maxHit": 168,
+    "manaCost": 0
+}

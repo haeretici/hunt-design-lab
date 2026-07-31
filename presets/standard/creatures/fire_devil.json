@@ -1,0 +1,159 @@
+{
+    "id": "fire_devil",
+    "label": "Fire Devil",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A fire devil.",
+    "hp": 200,
+    "hpMax": 200,
+    "speed": 90,
+    "level": 264,
+    "armor": 13,
+    "mitigation": 0.38,
+    "maxBlock": 0,
+    "exp": 145,
+    "lootValue": 32.507042253521,
+    "aggro": true,
+    "resists": {
+        "physical": 10,
+        "fire": 100,
+        "ice": -20,
+        "energy": 30,
+        "earth": 20,
+        "holy": -10,
+        "death": 20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": true,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 34
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "fire",
+            "min": 58,
+            "max": 87,
+            "radius": 4,
+            "target": true,
+            "effect": "me_firearea",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "fire",
+            "min": 19,
+            "max": 49,
+            "radius": 2,
+            "target": true,
+            "effect": "me_firearea",
+            "shootEffect": "ani_fire"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Demon",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 10000,
+            "name": "torch"
+        },
+        {
+            "chance": 1420,
+            "maxCount": 2,
+            "name": "torch"
+        },
+        {
+            "name": "small amethyst",
+            "chance": 300
+        },
+        {
+            "name": "Withering Rod",
+            "chance": 460
+        },
+        {
+            "name": "blank rune",
+            "chance": 10950
+        },
+        {
+            "name": "double axe",
+            "chance": 1500
+        },
+        {
+            "chance": 3000,
+            "name": "scimitar"
+        },
+        {
+            "name": "guardian shield",
+            "chance": 210
+        },
+        {
+            "name": "cleaver",
+            "chance": 1100
+        },
+        {
+            "name": "small pitchfork",
+            "chance": 19770
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "ember_jungle_devil",
+    "threatDps": 18.3,
+    "burstDps": 18.3,
+    "avgHit": 27.1111,
+    "maxHit": 87,
+    "manaCost": 530
+}

@@ -1,0 +1,262 @@
+{
+    "id": "ravenous_pagefiend",
+    "label": "Ravenous Pagefiend",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A ravenous pagefiend.",
+    "hp": 1,
+    "hpMax": 1,
+    "speed": 50,
+    "level": 716,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 45000,
+    "lootValue": 105228.33333333,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 200,
+        "ice": 20,
+        "energy": 5,
+        "earth": -5,
+        "holy": -5,
+        "death": 10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 98,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 12,
+            "range": 4,
+            "element": "death",
+            "min": 900,
+            "max": 1500,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_mortarea"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 12,
+            "range": 4,
+            "element": "death",
+            "min": 210,
+            "max": 600,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_mortarea"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 12,
+            "range": 7,
+            "element": "death",
+            "min": 210,
+            "max": 600,
+            "radius": 3,
+            "target": false,
+            "effect": "me_mortarea"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 12,
+            "range": 7,
+            "element": "lifedrain",
+            "min": 1500,
+            "max": 2000,
+            "radius": 3,
+            "target": false,
+            "effect": "me_drawblood"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 90000,
+            "maxCount": 53
+        },
+        {
+            "name": "crystal coin",
+            "chance": 90000,
+            "maxCount": 12
+        },
+        {
+            "name": "great dual potion",
+            "chance": 90000,
+            "maxCount": 8
+        },
+        {
+            "name": "supreme health potion",
+            "chance": 90000,
+            "maxCount": 8
+        },
+        {
+            "name": "ultimate mana potion",
+            "chance": 90000,
+            "maxCount": 10
+        },
+        {
+            "name": "ultimate dual potion",
+            "chance": 90000,
+            "maxCount": 8
+        },
+        {
+            "name": "silver token",
+            "chance": 90000,
+            "maxCount": 6
+        },
+        {
+            "name": "marksman potion",
+            "chance": 90000
+        },
+        {
+            "name": "demon horn",
+            "chance": 90000
+        },
+        {
+            "name": "magic sulphur",
+            "chance": 90000
+        },
+        {
+            "chance": 90000,
+            "name": "red gem"
+        },
+        {
+            "name": "Stonehide Amulet",
+            "chance": 90000
+        },
+        {
+            "name": "yellow gem",
+            "chance": 90000
+        },
+        {
+            "name": "wand of voodoo",
+            "chance": 90000
+        },
+        {
+            "name": "savant potion",
+            "chance": 30000,
+            "maxCount": 2
+        },
+        {
+            "name": "onyx chip",
+            "chance": 30000,
+            "maxCount": 12
+        },
+        {
+            "name": "small diamond",
+            "chance": 30000,
+            "maxCount": 12
+        },
+        {
+            "name": "small emerald",
+            "chance": 30000,
+            "maxCount": 12
+        },
+        {
+            "name": "small ruby",
+            "chance": 30000,
+            "maxCount": 12
+        },
+        {
+            "name": "small topaz",
+            "chance": 30000,
+            "maxCount": 12
+        },
+        {
+            "name": "blue gem",
+            "chance": 30000
+        },
+        {
+            "name": "solid rage",
+            "chance": 30000
+        },
+        {
+            "name": "gold token",
+            "chance": 1000
+        },
+        {
+            "name": "butcher's axe",
+            "chance": 1000
+        },
+        {
+            "name": "dreaded cleaver",
+            "chance": 1000
+        },
+        {
+            "name": "mercenary sword",
+            "chance": 1000
+        },
+        {
+            "name": "slightly rusted shield",
+            "chance": 5880
+        },
+        {
+            "name": "slightly rusted helmet",
+            "chance": 35290
+        },
+        {
+            "name": "epaulette",
+            "chance": 500
+        },
+        {
+            "name": "giant emerald",
+            "chance": 500
+        },
+        {
+            "name": "unliving fiendbone",
+            "chance": 500
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 4
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "celestial_fiend",
+    "threatDps": 225.6,
+    "burstDps": 225.6,
+    "avgHit": 940,
+    "maxHit": 2000,
+    "manaCost": 0
+}

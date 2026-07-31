@@ -1,0 +1,164 @@
+{
+    "id": "muglex_clan_scavenger",
+    "label": "Muglex Clan Scavenger",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A muglex clan scavenger.",
+    "hp": 60,
+    "hpMax": 60,
+    "speed": 66,
+    "level": 144,
+    "armor": 7,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 37,
+    "lootValue": 9.2991452991453,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 15,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 13,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 190,
+            "target": false,
+            "shootEffect": "ani_spear"
+        },
+        {
+            "id": "melee_2",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 3,
+            "range": 1,
+            "element": "lifedrain",
+            "min": 173,
+            "max": 259,
+            "target": false,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_death"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 1,
+            "min": 10,
+            "max": 20,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 5,
+            "speedChange": 140,
+            "durationSec": 4,
+            "effect": "me_energyhit"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 10820,
+            "name": "bone"
+        },
+        {
+            "chance": 11860,
+            "name": "bone club"
+        },
+        {
+            "chance": 30410,
+            "name": "dagger"
+        },
+        {
+            "chance": 16750,
+            "maxCount": 3,
+            "name": "fish"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 12,
+            "name": "gold coin"
+        },
+        {
+            "chance": 7990,
+            "name": "leather armor"
+        },
+        {
+            "chance": 7990,
+            "name": "leather helmet"
+        },
+        {
+            "chance": 9020,
+            "name": "mouldy cheese"
+        },
+        {
+            "chance": 11860,
+            "name": "short sword"
+        },
+        {
+            "chance": 15210,
+            "name": "small axe"
+        },
+        {
+            "chance": 22420,
+            "maxCount": 2,
+            "name": "small stone"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "muglex_clan_scavenger",
+    "threatDps": 9.415,
+    "burstDps": 9.415,
+    "avgHit": 117.6875,
+    "maxHit": 259,
+    "manaCost": 0
+}

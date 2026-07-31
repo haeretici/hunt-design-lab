@@ -1,0 +1,193 @@
+{
+    "id": "arctic_faun",
+    "label": "Arctic Faun",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An arctic faun.",
+    "hp": 300,
+    "hpMax": 300,
+    "speed": 105,
+    "level": 305,
+    "armor": 30,
+    "mitigation": 0.83,
+    "maxBlock": 0,
+    "exp": 300,
+    "lootValue": 225.81195871396,
+    "aggro": true,
+    "resists": {
+        "physical": 10,
+        "fire": -14,
+        "ice": 80,
+        "energy": -10,
+        "earth": 70,
+        "holy": 30,
+        "death": 20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": false,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 62
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 56,
+            "target": false,
+            "effect": "me_poff",
+            "shootEffect": "ani_snowball"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 1000,
+            "chance": 12,
+            "range": 4,
+            "element": "energy",
+            "min": 0,
+            "max": 54,
+            "length": 3,
+            "spread": 0,
+            "target": false,
+            "effect": "me_poff"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Fey",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 1
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 105
+        },
+        {
+            "name": "dandelion seeds",
+            "chance": 14870
+        },
+        {
+            "name": "strong health potion",
+            "chance": 11760
+        },
+        {
+            "name": "fresh fruit",
+            "chance": 10290
+        },
+        {
+            "name": "shimmering beetles",
+            "chance": 9330
+        },
+        {
+            "name": "leaf star",
+            "chance": 8720,
+            "maxCount": 3
+        },
+        {
+            "name": "goat grass",
+            "chance": 7280
+        },
+        {
+            "name": "cookie",
+            "chance": 6150,
+            "maxCount": 5
+        },
+        {
+            "name": "grapes",
+            "chance": 5400
+        },
+        {
+            "name": "rainbow quartz",
+            "chance": 5260,
+            "maxCount": 2
+        },
+        {
+            "name": "small stone",
+            "chance": 5260,
+            "maxCount": 2
+        },
+        {
+            "name": "panpipes",
+            "chance": 4510
+        },
+        {
+            "name": "great health potion",
+            "chance": 3590
+        },
+        {
+            "name": "wood cape",
+            "chance": 820
+        },
+        {
+            "name": "leaf legs",
+            "chance": 340
+        },
+        {
+            "name": "wooden spellbook",
+            "chance": 210
+        },
+        {
+            "id": 5792,
+            "chance": 140
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "giant_spider",
+    "threatDps": 22.94,
+    "burstDps": 22.94,
+    "avgHit": 29.7922,
+    "maxHit": 62,
+    "manaCost": 0
+}

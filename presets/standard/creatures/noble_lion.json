@@ -1,0 +1,122 @@
+{
+    "id": "noble_lion",
+    "label": "Noble Lion",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A noble lion.",
+    "hp": 1000,
+    "hpMax": 1000,
+    "speed": 115,
+    "level": 425,
+    "armor": 27,
+    "mitigation": 1.02,
+    "maxBlock": 0,
+    "exp": 400,
+    "lootValue": 28.356720536066,
+    "aggro": true,
+    "resists": {
+        "physical": 5,
+        "fire": 20,
+        "ice": 0,
+        "energy": 0,
+        "earth": 20,
+        "holy": 50,
+        "death": 10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "element": "physical",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "min": 48,
+            "max": 131,
+            "target": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 250,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Mammal",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 1
+    },
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 68,
+            "name": "gold coin"
+        },
+        {
+            "chance": 25000,
+            "name": "meat"
+        },
+        {
+            "chance": 25000,
+            "name": "ham"
+        },
+        {
+            "chance": 20000,
+            "name": "lion's mane"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "nether_tiger",
+    "threatDps": 44.75,
+    "burstDps": 44.75,
+    "avgHit": 89.5,
+    "maxHit": 131,
+    "manaCost": 0
+}

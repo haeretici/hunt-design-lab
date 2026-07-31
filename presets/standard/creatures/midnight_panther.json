@@ -1,0 +1,154 @@
+{
+    "id": "midnight_panther",
+    "label": "Midnight Panther",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A midnight panther.",
+    "hp": 1200,
+    "hpMax": 1200,
+    "speed": 290,
+    "level": 443,
+    "armor": 30,
+    "mitigation": 0.99,
+    "maxBlock": 0,
+    "exp": 900,
+    "lootValue": 489.08823529412,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 20,
+        "ice": 0,
+        "energy": 100,
+        "earth": 0,
+        "holy": 0,
+        "death": -5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 1500,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 109
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "energy",
+            "min": 91,
+            "max": 260,
+            "target": false,
+            "effect": "me_energyarea",
+            "shootEffect": "ani_energy"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 370,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "heal_1",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 50,
+            "max": 125,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "invisible_2",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 15,
+            "durationSec": 2,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Magical",
+        "toKill": 5,
+        "firstUnlock": 2,
+        "secondUnlock": 3,
+        "charmsPoints": 50,
+        "stars": 3,
+        "occurrence": 3
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 57
+        },
+        {
+            "chance": 12500,
+            "name": "life ring"
+        },
+        {
+            "name": "meat",
+            "chance": 25000,
+            "maxCount": 4
+        },
+        {
+            "name": "panther head",
+            "chance": 12500
+        },
+        {
+            "name": "panther paw",
+            "chance": 100000
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "grave_ruins_panther_vanguard",
+    "threatDps": 49.4958,
+    "burstDps": 67.6625,
+    "avgHit": 66.736,
+    "maxHit": 260,
+    "manaCost": 0
+}

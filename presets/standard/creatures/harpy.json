@@ -1,0 +1,212 @@
+{
+    "id": "harpy",
+    "label": "Harpy",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A harpy.",
+    "hp": 7700,
+    "hpMax": 7700,
+    "speed": 175,
+    "level": 629,
+    "armor": 58,
+    "mitigation": 1.85,
+    "maxBlock": 0,
+    "exp": 5720,
+    "lootValue": 2257.5164835165,
+    "aggro": true,
+    "resists": {
+        "physical": -5,
+        "fire": -5,
+        "ice": -10,
+        "energy": 25,
+        "earth": 10,
+        "holy": 0,
+        "death": -5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 3,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 143
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 3,
+            "element": "physical",
+            "min": 122,
+            "max": 145,
+            "target": true,
+            "effect": "me_big_scratch"
+        },
+        {
+            "id": "energy_ring_2",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 1,
+            "element": "physical",
+            "min": 116,
+            "max": 145
+        },
+        {
+            "id": "energy_chain_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 3,
+            "element": "physical",
+            "min": 64,
+            "max": 103,
+            "target": true
+        },
+        {
+            "id": "wave_4",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 4,
+            "element": "energy",
+            "min": 128,
+            "max": 167,
+            "length": 5,
+            "spread": 3,
+            "target": false,
+            "effect": "me_sound_blue"
+        },
+        {
+            "id": "area_5",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 7,
+            "element": "energy",
+            "min": 132,
+            "max": 174,
+            "radius": 4,
+            "target": true,
+            "effect": "me_energyhit"
+        },
+        {
+            "id": "melee_6",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 1,
+            "element": "earth",
+            "min": 176,
+            "max": 225,
+            "target": true,
+            "effect": "me_poison"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Bird",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 1
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 73130,
+            "maxCount": 25
+        },
+        {
+            "name": "harpy feathers",
+            "chance": 6720
+        },
+        {
+            "name": "violet crystal shard",
+            "chance": 4690
+        },
+        {
+            "name": "blue crystal shard",
+            "chance": 4530
+        },
+        {
+            "name": "great dual potion",
+            "chance": 2970,
+            "maxCount": 3
+        },
+        {
+            "name": "gold ring",
+            "chance": 1720
+        },
+        {
+            "name": "wand of defiance",
+            "chance": 1720
+        },
+        {
+            "name": "focus cape",
+            "chance": 1560
+        },
+        {
+            "name": "violet gem",
+            "chance": 1200
+        },
+        {
+            "name": "ornate crossbow",
+            "chance": 500
+        },
+        {
+            "name": "shockwave amulet",
+            "chance": 470
+        },
+        {
+            "name": "Arcane Plate Armor",
+            "chance": 440
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "magma_harpy",
+    "threatDps": 138.6125,
+    "burstDps": 138.6125,
+    "avgHit": 113.1531,
+    "maxHit": 225,
+    "manaCost": 0
+}

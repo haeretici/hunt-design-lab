@@ -1,0 +1,216 @@
+{
+    "id": "nightmare",
+    "label": "Nightmare",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A nightmare.",
+    "hp": 2700,
+    "hpMax": 2700,
+    "speed": 232,
+    "level": 524,
+    "armor": 25,
+    "mitigation": 0.7,
+    "maxBlock": 0,
+    "exp": 1800,
+    "lootValue": 465.91732968672,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 20,
+        "ice": 10,
+        "energy": 20,
+        "earth": 100,
+        "holy": -25,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 300,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 167
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "death",
+            "min": 133,
+            "max": 189,
+            "radius": 1,
+            "target": true,
+            "effect": "me_smallclouds",
+            "shootEffect": "ani_death"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "earth",
+            "min": 167,
+            "max": 389,
+            "radius": 4,
+            "target": true,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_poison"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 60,
+            "max": 100,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 420,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Magical",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 55
+        },
+        {
+            "name": "platinum coin",
+            "chance": 2564,
+            "maxCount": 3
+        },
+        {
+            "name": "boots of haste",
+            "chance": 337
+        },
+        {
+            "name": "war axe",
+            "chance": 95
+        },
+        {
+            "name": "knight legs",
+            "chance": 961
+        },
+        {
+            "name": "ancient shield",
+            "chance": 990
+        },
+        {
+            "name": "power bolt",
+            "chance": 9090,
+            "maxCount": 4
+        },
+        {
+            "name": "ham",
+            "chance": 29000,
+            "maxCount": 2
+        },
+        {
+            "name": "mysterious voodoo skull",
+            "chance": 123
+        },
+        {
+            "name": "soul orb",
+            "chance": 20000
+        },
+        {
+            "chance": 1298,
+            "name": "death ring"
+        },
+        {
+            "name": "demonic essence",
+            "chance": 10000
+        },
+        {
+            "name": "skeleton decoration",
+            "chance": 337
+        },
+        {
+            "name": "flask of demonic blood",
+            "chance": 19666,
+            "maxCount": 2
+        },
+        {
+            "name": "essence of a bad dream",
+            "chance": 15240
+        },
+        {
+            "name": "scythe leg",
+            "chance": 9090
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "brimstone_ruins_crawler",
+    "threatDps": 77.6,
+    "burstDps": 77.6,
+    "avgHit": 119.3846,
+    "maxHit": 389,
+    "manaCost": 0
+}

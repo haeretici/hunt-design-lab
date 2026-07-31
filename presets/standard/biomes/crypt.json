@@ -1,0 +1,29 @@
+{
+    "id": "crypt",
+    "label": "Crypt",
+    "notes": "Stage 11.10 — standard crypt biome for macro 15-min multi-biome transitions. Reuses cave_v1 logic pieces (friction only); artSet crypt + crypt_spitters population provide the visual/monster change.",
+    "piecePack": "cave_v1",
+    "populationId": "crypt_spitters",
+    "markersId": "cave_clickies",
+    "profiles": {
+        "procedural": [
+            "small_crawl"
+        ],
+        "fixed": [
+            "outskirts_camp"
+        ]
+    },
+    "artSet": "crypt",
+    "floors": [
+        {
+            "z": 0,
+            "profileId": "small_crawl",
+            "role": "crypt_entrance"
+        },
+        {
+            "z": 1,
+            "profileId": "small_crawl",
+            "role": "crypt_deep"
+        }
+    ]
+}

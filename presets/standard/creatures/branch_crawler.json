@@ -1,0 +1,210 @@
+{
+    "id": "branch_crawler",
+    "label": "Branch Crawler",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A branch crawler.",
+    "hp": 27000,
+    "hpMax": 27000,
+    "speed": 235,
+    "level": 753,
+    "armor": 100,
+    "mitigation": 2.75,
+    "maxBlock": 0,
+    "exp": 17324,
+    "lootValue": 6602.8260869565,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -9,
+        "ice": 0,
+        "energy": -5,
+        "earth": 50,
+        "holy": 40,
+        "death": -14
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 390
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "earth",
+            "min": 451,
+            "max": 533,
+            "target": true,
+            "effect": "me_green_rings",
+            "shootEffect": "ani_piercingbolt"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 22,
+            "range": 4,
+            "element": "earth",
+            "min": 410,
+            "max": 525,
+            "radius": 4,
+            "target": true,
+            "effect": "me_smallplants"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 22,
+            "range": 4,
+            "element": "holy",
+            "min": 451,
+            "max": 513,
+            "radius": 4,
+            "target": false,
+            "effect": "me_holydamage"
+        },
+        {
+            "id": "ranged_4",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "holy",
+            "min": 451,
+            "max": 574,
+            "target": true,
+            "effect": "me_holyarea",
+            "shootEffect": "ani_smallholy"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Plant",
+        "toKill": 5000,
+        "firstUnlock": 200,
+        "secondUnlock": 2000,
+        "charmsPoints": 100,
+        "stars": 5,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "crystal coin",
+            "chance": 55480
+        },
+        {
+            "name": "gold ingot",
+            "chance": 9090
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 8810,
+            "maxCount": 8
+        },
+        {
+            "name": "roots",
+            "chance": 6000
+        },
+        {
+            "name": "blue gem",
+            "chance": 1900
+        },
+        {
+            "name": "crawler's essence",
+            "chance": 1450
+        },
+        {
+            "name": "Earthbound Legs",
+            "chance": 970
+        },
+        {
+            "name": "green gem",
+            "chance": 800
+        },
+        {
+            "name": "hammer of wrath",
+            "chance": 760
+        },
+        {
+            "name": "violet gem",
+            "chance": 650
+        },
+        {
+            "name": "crystal crossbow",
+            "chance": 630
+        },
+        {
+            "name": "nightmare blade",
+            "chance": 540
+        },
+        {
+            "name": "twiceslicer",
+            "chance": 420
+        },
+        {
+            "name": "crystalline sword",
+            "chance": 390
+        },
+        {
+            "name": "ruthless axe",
+            "chance": 330
+        },
+        {
+            "name": "bag you desire",
+            "chance": 15
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "brimstone_ruins_crawler",
+    "threatDps": 277.2825,
+    "burstDps": 277.2825,
+    "avgHit": 318.7155,
+    "maxHit": 574,
+    "manaCost": 0
+}

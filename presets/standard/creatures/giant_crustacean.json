@@ -1,0 +1,122 @@
+{
+    "id": "giant_crustacean",
+    "label": "Giant Crustacean",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A giant crustacean.",
+    "hp": 1600,
+    "hpMax": 1600,
+    "speed": 240,
+    "level": 472,
+    "armor": 40,
+    "mitigation": 0.91,
+    "maxBlock": 0,
+    "exp": 1800,
+    "lootValue": 129.86486486486,
+    "aggro": true,
+    "resists": {
+        "physical": 20,
+        "fire": 0,
+        "ice": 100,
+        "energy": -5,
+        "earth": 0,
+        "holy": 0,
+        "death": 10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 232,
+            "effect": "me_drawblood"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Aquatic",
+        "toKill": 5,
+        "firstUnlock": 2,
+        "secondUnlock": 3,
+        "charmsPoints": 50,
+        "stars": 3,
+        "occurrence": 3
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 96000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 56000,
+            "maxCount": 75
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 8885
+        },
+        {
+            "name": "strong health potion",
+            "chance": 3880
+        },
+        {
+            "name": "giant crab pincer",
+            "chance": 5000,
+            "maxCount": 2
+        },
+        {
+            "chance": 3000,
+            "name": "ring of healing"
+        },
+        {
+            "name": "great mana potion",
+            "chance": 1220
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "radiant_fire_giant_priest",
+    "threatDps": 58,
+    "burstDps": 58,
+    "avgHit": 116,
+    "maxHit": 232,
+    "manaCost": 0
+}

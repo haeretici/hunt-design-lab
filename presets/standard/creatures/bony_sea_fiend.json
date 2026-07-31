@@ -1,0 +1,235 @@
+{
+    "id": "bony_sea_fiend",
+    "label": "Bony Sea Fiend",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A bony sea fiend.",
+    "hp": 24000,
+    "hpMax": 24000,
+    "speed": 220,
+    "level": 742,
+    "armor": 100,
+    "mitigation": 3.34,
+    "maxBlock": 0,
+    "exp": 17328,
+    "lootValue": 5654.2857142857,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -5,
+        "ice": 60,
+        "energy": 0,
+        "earth": 40,
+        "holy": -10,
+        "death": 5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 344
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "earth",
+            "min": 344,
+            "max": 515,
+            "length": 5,
+            "spread": 3,
+            "target": false,
+            "effect": "me_groundshaker"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "energy",
+            "min": 267,
+            "max": 382,
+            "radius": 7,
+            "target": false,
+            "effect": "me_bigclouds"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "ice",
+            "min": 363,
+            "max": 481,
+            "target": true,
+            "effect": "me_iceattack",
+            "shootEffect": "ani_snowball"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 7,
+            "element": "ice",
+            "min": 363,
+            "max": 420,
+            "radius": 5,
+            "target": true,
+            "effect": "me_icearea",
+            "shootEffect": "ani_ice"
+        },
+        {
+            "id": "ice_chain_5",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 420,
+            "max": 496
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 5000,
+        "firstUnlock": 200,
+        "secondUnlock": 2000,
+        "charmsPoints": 100,
+        "stars": 5,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "crystal coin",
+            "chance": 59290
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 19470,
+            "maxCount": 6
+        },
+        {
+            "name": "gold ingot",
+            "chance": 15040
+        },
+        {
+            "id": 282,
+            "chance": 9730
+        },
+        {
+            "name": "Hailburst Rod",
+            "chance": 7960
+        },
+        {
+            "name": "onyx chip",
+            "chance": 6190
+        },
+        {
+            "name": "green crystal fragment",
+            "chance": 5310
+        },
+        {
+            "name": "wand of voodoo",
+            "chance": 4420
+        },
+        {
+            "name": "violet gem",
+            "chance": 4420
+        },
+        {
+            "name": "jaws",
+            "chance": 3540
+        },
+        {
+            "name": "rainbow quartz",
+            "chance": 2650,
+            "maxCount": 3
+        },
+        {
+            "name": "Boreal Rod",
+            "chance": 1770
+        },
+        {
+            "name": "Nether Rod",
+            "chance": 1770
+        },
+        {
+            "name": "skullcracker armor",
+            "chance": 1770
+        },
+        {
+            "chance": 880,
+            "name": "rod"
+        },
+        {
+            "name": "goblet of gloom",
+            "chance": 880
+        },
+        {
+            "name": "Frostbound Kilt",
+            "chance": 880
+        },
+        {
+            "name": "glacial rod",
+            "chance": 1210
+        },
+        {
+            "name": "bag you desire",
+            "chance": 15
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "celestial_fiend",
+    "threatDps": 259.925,
+    "burstDps": 259.925,
+    "avgHit": 281,
+    "maxHit": 515,
+    "manaCost": 0
+}

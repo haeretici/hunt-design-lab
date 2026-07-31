@@ -1,0 +1,58 @@
+{
+    "id": "ice_rats",
+    "biome": "ice",
+    "notes": "Stage 11.11 — standard ice population. Sparse cave_rat dens with occasional venom elite; cold floor density feel.",
+    "defaultRespawn": 0,
+    "groups": {
+        "normal": {
+            "weight": 70,
+            "creatureIds": [
+                "cave_rat"
+            ],
+            "packSize": [
+                1,
+                2
+            ]
+        },
+        "champion": {
+            "weight": 22,
+            "creatureIds": [
+                "cave_rat"
+            ],
+            "packSize": [
+                3,
+                5
+            ],
+            "affixes": [
+                "champion"
+            ]
+        },
+        "elite": {
+            "weight": 8,
+            "creatureIds": [
+                "venom_spitter"
+            ],
+            "packSize": [
+                1,
+                1
+            ],
+            "affixes": [
+                "elite"
+            ]
+        }
+    },
+    "limits": {
+        "totalPacks": [
+            3,
+            7
+        ],
+        "championPacks": [
+            1,
+            2
+        ],
+        "elitePacks": [
+            0,
+            1
+        ]
+    }
+}

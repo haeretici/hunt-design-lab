@@ -1,0 +1,112 @@
+{
+    "id": "willi_wasp",
+    "label": "Willi Wasp",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A willi wasp.",
+    "hp": 250,
+    "hpMax": 250,
+    "speed": 135,
+    "level": 286,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 250,
+    "lootValue": 121.15151515152,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -10,
+        "ice": 0,
+        "energy": 0,
+        "earth": 100,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": true,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 1500,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "condition": {
+                "type": "poison",
+                "totalDamage": 31,
+                "intervalMs": 4000
+            },
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "race": "venom",
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 20,
+            "name": "gold coin"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 3,
+            "name": "honeycomb"
+        },
+        {
+            "chance": 17650,
+            "name": "silver amulet"
+        },
+        {
+            "chance": 5880,
+            "name": "small emerald"
+        },
+        {
+            "chance": 5000,
+            "name": "silver raid token"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "rune_stone_bugbear",
+    "threatDps": 20.6667,
+    "burstDps": 31,
+    "avgHit": 0,
+    "maxHit": 0,
+    "manaCost": 0
+}

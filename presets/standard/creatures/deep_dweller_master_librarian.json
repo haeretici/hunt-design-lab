@@ -1,0 +1,225 @@
+{
+    "id": "deep_dweller_master_librarian",
+    "label": "Deep Dweller Master Librarian",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A deep dweller master librarian.",
+    "hp": 1700,
+    "hpMax": 1700,
+    "speed": 115,
+    "level": 478,
+    "armor": 45,
+    "mitigation": 1.37,
+    "maxBlock": 0,
+    "exp": 1900,
+    "lootValue": 627.32006920415,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": 100,
+        "energy": -10,
+        "earth": -10,
+        "holy": 0,
+        "death": 50
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 250,
+        "staticAttackChance": 60,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 120,
+            "effect": "me_drawblood"
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "ice",
+            "min": 148,
+            "max": 257,
+            "length": 10,
+            "spread": 3,
+            "target": false,
+            "effect": "me_icetornado"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "physical",
+            "min": 86,
+            "max": 160,
+            "radius": 4,
+            "target": true,
+            "effect": "me_bubbles"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "lifedrain",
+            "min": 46,
+            "max": 80,
+            "target": false,
+            "effect": "me_smallplants"
+        },
+        {
+            "id": "ranged_4",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "manadrain",
+            "min": 34,
+            "max": 80,
+            "target": false,
+            "effect": "me_smallplants"
+        },
+        {
+            "id": "deepling_spellsinger_skill_reducer_5",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 5,
+            "element": "physical",
+            "target": false,
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 40,
+            "max": 80,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Aquatic",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 2
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 100
+        },
+        {
+            "name": "platinum coin",
+            "chance": 89000,
+            "maxCount": 3
+        },
+        {
+            "name": "spellsinger's seal",
+            "chance": 25000
+        },
+        {
+            "name": "deepling filet",
+            "chance": 20000
+        },
+        {
+            "name": "key to the Drowned Library",
+            "chance": 20000
+        },
+        {
+            "name": "eye of a deepling",
+            "chance": 9380
+        },
+        {
+            "chance": 9090,
+            "maxCount": 2,
+            "name": "fish"
+        },
+        {
+            "name": "small sapphire",
+            "chance": 8440,
+            "maxCount": 3
+        },
+        {
+            "name": "deepling staff",
+            "chance": 3130
+        },
+        {
+            "chance": 3200,
+            "name": "life ring"
+        },
+        {
+            "name": "fish fin",
+            "chance": 1800
+        },
+        {
+            "name": "necklace of the deep",
+            "chance": 1250
+        },
+        {
+            "name": "ornate crossbow",
+            "chance": 35
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ashen_gorgon",
+    "threatDps": 60,
+    "burstDps": 60,
+    "avgHit": 77.4194,
+    "maxHit": 257,
+    "manaCost": 0
+}

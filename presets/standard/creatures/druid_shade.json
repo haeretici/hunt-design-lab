@@ -1,0 +1,212 @@
+{
+    "id": "druid_shade",
+    "label": "Druid Shade",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A druid shade.",
+    "hp": 25000,
+    "hpMax": 25000,
+    "speed": 235,
+    "level": 746,
+    "armor": 100,
+    "mitigation": 2.75,
+    "maxBlock": 0,
+    "exp": 18870,
+    "lootValue": 7042.8822495606,
+    "aggro": true,
+    "resists": {
+        "physical": -20,
+        "fire": -20,
+        "ice": 30,
+        "energy": 0,
+        "earth": 0,
+        "holy": 40,
+        "death": -20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 350
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 3000,
+            "chance": 31,
+            "range": 7,
+            "element": "ice",
+            "min": 445,
+            "max": 535,
+            "radius": 4,
+            "target": true,
+            "effect": "me_bigclouds",
+            "shootEffect": "ani_ice"
+        },
+        {
+            "id": "ice_chain_2",
+            "kind": "ranged",
+            "intervalMs": 9500,
+            "chance": 37,
+            "range": 7,
+            "element": "physical",
+            "min": 453,
+            "max": 535
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 4000,
+            "chance": 55,
+            "range": 7,
+            "element": "holy",
+            "min": 453,
+            "max": 515,
+            "target": true,
+            "effect": "me_holydamage",
+            "shootEffect": "ani_holy"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 3000,
+            "chance": 23,
+            "range": 4,
+            "element": "holy",
+            "min": 515,
+            "max": 577,
+            "radius": 4,
+            "target": false,
+            "effect": "me_holyarea"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 25,
+            "min": 1000,
+            "max": 1100,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 5000,
+        "firstUnlock": 200,
+        "secondUnlock": 2000,
+        "charmsPoints": 100,
+        "stars": 5,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "crystal coin",
+            "chance": 80700
+        },
+        {
+            "name": "Earthbound Rod",
+            "chance": 17540
+        },
+        {
+            "name": "great mana potion",
+            "chance": 17110,
+            "maxCount": 3
+        },
+        {
+            "name": "blue gem",
+            "chance": 12720
+        },
+        {
+            "name": "green gem",
+            "chance": 6580
+        },
+        {
+            "name": "Stonehide Amulet",
+            "chance": 4820
+        },
+        {
+            "name": "Frostbound Amulet",
+            "chance": 3510
+        },
+        {
+            "name": "sacred tree amulet",
+            "chance": 3070
+        },
+        {
+            "name": "Bloomshoot Rod",
+            "chance": 2190
+        },
+        {
+            "name": "Nether Rod",
+            "chance": 2190
+        },
+        {
+            "name": "platinum amulet",
+            "chance": 1750
+        },
+        {
+            "name": "Frostbound Robe",
+            "chance": 880
+        },
+        {
+            "chance": 440,
+            "name": "collar of red plasma"
+        },
+        {
+            "name": "bag you desire",
+            "chance": 15
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "thunder_ettin_vanguard",
+    "threatDps": 265.7833,
+    "burstDps": 450.73,
+    "avgHit": 310.3324,
+    "maxHit": 577,
+    "manaCost": 0
+}

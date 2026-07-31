@@ -1,0 +1,36 @@
+{
+    "id": "guardian_veteran",
+    "label": "Guardian Veteran",
+    "vocation": "guardian",
+    "level": 90,
+    "promoted": true,
+    "skills": {
+        "axe": 20,
+        "club": 20,
+        "distance": 15,
+        "fishing": 10,
+        "fist": 26,
+        "magicLevel": 5,
+        "shielding": 80,
+        "sword": 90
+    },
+    "stats": {
+        "lifeLeech": 0,
+        "manaLeech": 0,
+        "critChance": 8,
+        "critDamage": 15
+    },
+    "equipment": {
+        "head": "elite_draconic_helmet",
+        "chest": "royal_draconic_mail",
+        "legs": "frostbound_kilt",
+        "boots": "guardian_boots",
+        "weapon": "ruin_blade",
+        "shield": "",
+        "amulet": "onyx_pendant",
+        "ring": "butterfly_ring",
+        "backpack": "backpack"
+    },
+    "strategyId": "guardian_aggro",
+    "notes": "docs/24 I4 — L90 late tier. Unlocks front_sweep (L70) + fierce_berserk (L90). Gear uses catalog level ~60–100 items. Skills from deriveSkills policy v1 (level anchors)."
+}

@@ -1,0 +1,168 @@
+{
+    "id": "dark_apprentice",
+    "label": "Dark Apprentice",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A dark apprentice.",
+    "hp": 225,
+    "hpMax": 225,
+    "speed": 86,
+    "level": 276,
+    "armor": 16,
+    "mitigation": 0.3,
+    "maxBlock": 0,
+    "exp": 100,
+    "lootValue": 23.905022344384,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": -5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 69
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "fire",
+            "min": 2,
+            "max": 30,
+            "target": false,
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "energy",
+            "min": 11,
+            "max": 23,
+            "target": false,
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 28,
+            "target": false,
+            "shootEffect": "ani_smallstone"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 30,
+            "max": 40,
+            "hpBelow": 0.7,
+            "effect": "me_magic_green"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Human",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 7500,
+            "maxCount": 45
+        },
+        {
+            "name": "wand of decay",
+            "chance": 110
+        },
+        {
+            "name": "wand of dragonbreath",
+            "chance": 1980
+        },
+        {
+            "name": "blank rune",
+            "chance": 8125,
+            "maxCount": 3
+        },
+        {
+            "name": "health potion",
+            "chance": 2900
+        },
+        {
+            "name": "mana potion",
+            "chance": 2980
+        },
+        {
+            "name": "reins",
+            "chance": 10
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "umbral_ghoul",
+    "threatDps": 19.6,
+    "burstDps": 19.6,
+    "avgHit": 30.1538,
+    "maxHit": 69,
+    "manaCost": 0
+}

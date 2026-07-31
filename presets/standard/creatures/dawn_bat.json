@@ -1,0 +1,86 @@
+{
+    "id": "dawn_bat",
+    "label": "Dawn Bat",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A dawn bat.",
+    "hp": 30,
+    "hpMax": 30,
+    "speed": 100,
+    "level": 78,
+    "armor": 1,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 10,
+    "lootValue": 0.093546773386693,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": -10,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 3,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": true,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 26
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 5120,
+            "maxCount": 3
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "dawn_bat",
+    "threatDps": 6.5,
+    "burstDps": 6.5,
+    "avgHit": 13,
+    "maxHit": 26,
+    "manaCost": 250
+}

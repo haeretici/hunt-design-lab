@@ -1,0 +1,210 @@
+{
+    "id": "ember_tome",
+    "label": "Ember Tome",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An ember tome.",
+    "hp": 18000,
+    "hpMax": 18000,
+    "speed": 220,
+    "level": 713,
+    "armor": 82,
+    "mitigation": 2.16,
+    "maxBlock": 0,
+    "exp": 13200,
+    "lootValue": 3994.5331913383,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": -10,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 100,
+            "max": 350
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 15,
+            "range": 7,
+            "element": "fire",
+            "min": 250,
+            "max": 390,
+            "target": false,
+            "effect": "me_hitbyfire",
+            "shootEffect": "ani_flammingarrow"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 1500,
+            "chance": 12,
+            "range": 4,
+            "element": "physical",
+            "min": 250,
+            "max": 450,
+            "radius": 3,
+            "target": false,
+            "effect": "me_explosionarea"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 200,
+            "max": 425,
+            "length": 5,
+            "spread": 0,
+            "target": false,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 12,
+            "range": 4,
+            "element": "fire",
+            "min": 200,
+            "max": 387,
+            "radius": 3,
+            "target": false,
+            "effect": "me_hitbyfire"
+        }
+    ],
+    "race": "ink",
+    "bestiary": {
+        "class": "Magical",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 89960,
+            "maxCount": 28
+        },
+        {
+            "name": "book page",
+            "chance": 3000,
+            "maxCount": 7
+        },
+        {
+            "name": "demonic essence",
+            "chance": 3000,
+            "maxCount": 5
+        },
+        {
+            "name": "flask of demonic blood",
+            "chance": 3000,
+            "maxCount": 3
+        },
+        {
+            "name": "small amethyst",
+            "chance": 2000,
+            "maxCount": 4
+        },
+        {
+            "chance": 3000,
+            "name": "scimitar"
+        },
+        {
+            "name": "silken bookmark",
+            "chance": 2000,
+            "maxCount": 2
+        },
+        {
+            "name": "Emberbound Coat",
+            "chance": 2000
+        },
+        {
+            "name": "guardian shield",
+            "chance": 1500
+        },
+        {
+            "name": "soul orb",
+            "chance": 3000,
+            "maxCount": 4
+        },
+        {
+            "name": "Withering Rod",
+            "chance": 3000
+        },
+        {
+            "name": "Emberbound Monocle",
+            "chance": 1500
+        },
+        {
+            "chance": 1200,
+            "name": "death ring"
+        },
+        {
+            "chance": 1800,
+            "name": "stealth ring"
+        },
+        {
+            "name": "shadow sceptre",
+            "chance": 8990
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "troll",
+    "threatDps": 221.735,
+    "burstDps": 235.735,
+    "avgHit": 263.9702,
+    "maxHit": 450,
+    "manaCost": 0
+}

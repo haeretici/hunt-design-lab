@@ -1,0 +1,106 @@
+{
+    "id": "enraged_white_deer",
+    "label": "Enraged White Deer",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An enraged white deer.",
+    "hp": 255,
+    "hpMax": 255,
+    "speed": 105,
+    "level": 289,
+    "armor": 1,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 165,
+    "lootValue": 128.73347107438,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 84
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 4000,
+            "chance": 15,
+            "min": 10,
+            "max": 40,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "ham",
+            "chance": 19850,
+            "maxCount": 3
+        },
+        {
+            "name": "white deer antlers",
+            "chance": 19520
+        },
+        {
+            "name": "white deer skin",
+            "chance": 20280
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "ethereal_storm_bear",
+    "threatDps": 21,
+    "burstDps": 21,
+    "avgHit": 42,
+    "maxHit": 84,
+    "manaCost": 0
+}

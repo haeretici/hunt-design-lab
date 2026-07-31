@@ -1,0 +1,218 @@
+{
+    "id": "werepanther",
+    "label": "Werepanther",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A werepanther.",
+    "hp": 4200,
+    "hpMax": 4200,
+    "speed": 125,
+    "level": 568,
+    "armor": 72,
+    "mitigation": 2.05,
+    "maxBlock": 0,
+    "exp": 3550,
+    "lootValue": 918.83198476916,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 20,
+        "ice": -14,
+        "energy": -10,
+        "earth": 10,
+        "holy": -25,
+        "death": 20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 31,
+            "max": 217
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 3700,
+            "chance": 40,
+            "range": 4,
+            "element": "fire",
+            "min": 109,
+            "max": 165,
+            "radius": 3,
+            "target": false,
+            "effect": "me_fireattack"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2700,
+            "chance": 20,
+            "range": 4,
+            "element": "physical",
+            "min": 114,
+            "max": 155,
+            "radius": 3,
+            "target": true,
+            "effect": "me_groundshaker"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2300,
+            "chance": 15,
+            "range": 4,
+            "element": "physical",
+            "min": 83,
+            "max": 155,
+            "radius": 2,
+            "target": false,
+            "effect": "me_yellowsmoke"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 3300,
+            "chance": 15,
+            "range": 4,
+            "element": "death",
+            "min": 72,
+            "max": 124,
+            "radius": 2,
+            "target": true,
+            "effect": "me_mortarea"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 25,
+            "min": 50,
+            "max": 100,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Lycanthrope",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 80
+        },
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 11
+        },
+        {
+            "name": "werepanther claw",
+            "chance": 13820,
+            "maxCount": 2
+        },
+        {
+            "name": "golden sickle",
+            "chance": 6720
+        },
+        {
+            "name": "meat",
+            "chance": 5500,
+            "maxCount": 2
+        },
+        {
+            "name": "small ruby",
+            "chance": 8470,
+            "maxCount": 3
+        },
+        {
+            "name": "moonlight crystals",
+            "chance": 2550
+        },
+        {
+            "chance": 1240,
+            "name": "red gem"
+        },
+        {
+            "name": "Emberbound Monocle",
+            "chance": 3080
+        },
+        {
+            "name": "ripper lance",
+            "chance": 850
+        },
+        {
+            "name": "gemmed figurine",
+            "chance": 1770
+        },
+        {
+            "chance": 2770,
+            "name": "Emberbound Amulet"
+        },
+        {
+            "name": "fur armor",
+            "chance": 2620
+        },
+        {
+            "chance": 650,
+            "name": "werepanther trophy"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "grave_ruins_panther_vanguard",
+    "threatDps": 98.9892,
+    "burstDps": 119.125,
+    "avgHit": 124.8517,
+    "maxHit": 217,
+    "manaCost": 0
+}

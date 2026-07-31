@@ -1,0 +1,48 @@
+{
+    "id": "scout_starter",
+    "label": "Scout Starter",
+    "vocation": "scout",
+    "level": 50,
+    "promoted": false,
+    "skills": {
+        "axe": 13,
+        "club": 13,
+        "distance": 50,
+        "fishing": 10,
+        "fist": 15,
+        "magicLevel": 0,
+        "shielding": 20,
+        "sword": 30
+    },
+    "stats": {
+        "lifeLeech": 0,
+        "manaLeech": 0,
+        "critChance": 5,
+        "critDamage": 10
+    },
+    "equipment": {
+        "head": "",
+        "chest": "",
+        "legs": "",
+        "boots": "leather_boots",
+        "weapon": "hunter_bow",
+        "shield": "quiver",
+        "amulet": "",
+        "ring": "",
+        "backpack": "backpack"
+    },
+    "inventory": {
+        "shield": [
+            {
+                "itemId": "bolt",
+                "count": 100
+            },
+            {
+                "itemId": "arrow",
+                "count": 100
+            }
+        ]
+    },
+    "strategyId": "scout_kite",
+    "notes": "Starter scout profile for party combat. Skills from deriveSkills policy v1 (level anchors)."
+}

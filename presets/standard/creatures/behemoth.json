@@ -1,0 +1,215 @@
+{
+    "id": "behemoth",
+    "label": "Behemoth",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A behemoth.",
+    "hp": 4000,
+    "hpMax": 4000,
+    "speed": 170,
+    "level": 563,
+    "armor": 50,
+    "mitigation": 1.74,
+    "maxBlock": 0,
+    "exp": 2500,
+    "lootValue": 796.6408249497,
+    "aggro": true,
+    "resists": {
+        "physical": 10,
+        "fire": 30,
+        "ice": -10,
+        "energy": 10,
+        "earth": 80,
+        "holy": 30,
+        "death": -5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "damage": 30
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 361
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 161,
+            "target": false,
+            "shootEffect": "ani_largerock"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 300,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Giant",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 100,
+            "name": "amphora"
+        },
+        {
+            "name": "crystal necklace",
+            "chance": 2530
+        },
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 200
+        },
+        {
+            "name": "small amethyst",
+            "chance": 6380,
+            "maxCount": 5
+        },
+        {
+            "name": "platinum coin",
+            "chance": 59800,
+            "maxCount": 5
+        },
+        {
+            "name": "strange symbol",
+            "chance": 750
+        },
+        {
+            "chance": 670,
+            "name": "big bone"
+        },
+        {
+            "name": "two handed sword",
+            "chance": 5980
+        },
+        {
+            "name": "double axe",
+            "chance": 10510
+        },
+        {
+            "name": "giant sword",
+            "chance": 1006
+        },
+        {
+            "name": "crowbar",
+            "chance": 100
+        },
+        {
+            "name": "war axe",
+            "chance": 50
+        },
+        {
+            "name": "plate armor",
+            "chance": 3930
+        },
+        {
+            "name": "dark armor",
+            "chance": 4370
+        },
+        {
+            "chance": 650,
+            "name": "pick"
+        },
+        {
+            "name": "steel boots",
+            "chance": 380
+        },
+        {
+            "name": "meat",
+            "chance": 30000,
+            "maxCount": 6
+        },
+        {
+            "name": "perfect behemoth fang",
+            "chance": 1090
+        },
+        {
+            "name": "behemoth claw",
+            "chance": 860
+        },
+        {
+            "name": "assassin star",
+            "chance": 9750,
+            "maxCount": 5
+        },
+        {
+            "chance": 170,
+            "name": "behemoth trophy"
+        },
+        {
+            "name": "titan axe",
+            "chance": 90
+        },
+        {
+            "name": "great health potion",
+            "chance": 5120
+        },
+        {
+            "name": "battle stone",
+            "chance": 14000
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "blood_behemoth",
+    "threatDps": 96.2875,
+    "burstDps": 96.2875,
+    "avgHit": 167.4565,
+    "maxHit": 361,
+    "manaCost": 0
+}

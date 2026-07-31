@@ -1,0 +1,97 @@
+{
+    "id": "warzone_magma_titan",
+    "label": "Warzone Magma Titan",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A warzone magma titan.",
+    "hp": 100000,
+    "hpMax": 100000,
+    "speed": 0,
+    "level": 884,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 30000,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 90,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 1000,
+            "chance": 40,
+            "range": 5,
+            "element": "fire",
+            "min": 594,
+            "max": 1369,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_firearea"
+        },
+        {
+            "id": "melee_2",
+            "kind": "melee",
+            "intervalMs": 1000,
+            "chance": 25,
+            "range": 1,
+            "element": "physical",
+            "min": 636,
+            "max": 805
+        }
+    ],
+    "race": "venom",
+    "loot": [],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "blood_behemoth",
+    "threatDps": 572.725,
+    "burstDps": 572.725,
+    "avgHit": 881.1154,
+    "maxHit": 1369,
+    "manaCost": 0
+}

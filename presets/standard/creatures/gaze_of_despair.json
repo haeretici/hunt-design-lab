@@ -1,0 +1,251 @@
+{
+    "id": "gaze_of_despair",
+    "label": "Gaze Of Despair",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A gaze of despair.",
+    "hp": 28000,
+    "hpMax": 28000,
+    "speed": 170,
+    "level": 757,
+    "armor": 92,
+    "mitigation": 2.31,
+    "maxBlock": 0,
+    "exp": 17000,
+    "lootValue": 13503.630182057,
+    "aggro": true,
+    "resists": {
+        "physical": 30,
+        "fire": 35,
+        "ice": 40,
+        "energy": 10,
+        "earth": 20,
+        "holy": -5,
+        "death": 20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 893
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "energy",
+            "min": 406,
+            "max": 649,
+            "length": 8,
+            "spread": 0,
+            "target": true,
+            "effect": "me_yellowenergy"
+        },
+        {
+            "id": "melee_2",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 406,
+            "radius": 1,
+            "target": true,
+            "shootEffect": "ani_largerock"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 30,
+            "min": 550,
+            "max": 1100,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 520,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Magical",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 15
+        },
+        {
+            "name": "might ring",
+            "chance": 8000
+        },
+        {
+            "name": "Stonehide Amulet",
+            "chance": 18000
+        },
+        {
+            "name": "hammer of wrath",
+            "chance": 1380
+        },
+        {
+            "name": "crystal mace",
+            "chance": 5500
+        },
+        {
+            "name": "Arcane Plate Armor",
+            "chance": 1380
+        },
+        {
+            "name": "crown legs",
+            "chance": 920
+        },
+        {
+            "name": "crusader helmet",
+            "chance": 920
+        },
+        {
+            "name": "tower shield",
+            "chance": 1380
+        },
+        {
+            "name": "steel boots",
+            "chance": 920
+        },
+        {
+            "name": "Obsidian Flail",
+            "chance": 920
+        },
+        {
+            "name": "jade hammer",
+            "chance": 920
+        },
+        {
+            "name": "great mana potion",
+            "chance": 78000,
+            "maxCount": 5
+        },
+        {
+            "name": "great dual potion",
+            "chance": 72000,
+            "maxCount": 5
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 30000,
+            "maxCount": 5
+        },
+        {
+            "name": "blue crystal shard",
+            "chance": 23000,
+            "maxCount": 3
+        },
+        {
+            "name": "violet crystal shard",
+            "chance": 32000,
+            "maxCount": 3
+        },
+        {
+            "name": "green crystal shard",
+            "chance": 21600,
+            "maxCount": 3
+        },
+        {
+            "name": "green crystal splinter",
+            "chance": 30000,
+            "maxCount": 5
+        },
+        {
+            "name": "brown crystal splinter",
+            "chance": 30410,
+            "maxCount": 5
+        },
+        {
+            "name": "blue crystal splinter",
+            "chance": 40000,
+            "maxCount": 5
+        },
+        {
+            "name": "cluster of solace",
+            "chance": 11800
+        },
+        {
+            "name": "sight of surrender's eye",
+            "chance": 100000
+        },
+        {
+            "name": "broken visor",
+            "chance": 100000
+        },
+        {
+            "chance": 460,
+            "name": "string of mending"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "sun_orc_guard",
+    "threatDps": 283.1125,
+    "burstDps": 283.1125,
+    "avgHit": 419.4259,
+    "maxHit": 893,
+    "manaCost": 0
+}

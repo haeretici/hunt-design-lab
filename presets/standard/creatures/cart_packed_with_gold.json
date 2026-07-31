@@ -1,0 +1,86 @@
+{
+    "id": "cart_packed_with_gold",
+    "label": "Cart Packed With Gold",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A cart packed with gold.",
+    "hp": 10000,
+    "hpMax": 10000,
+    "speed": 0,
+    "level": 654,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 300,
+    "aggro": false,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": false,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "element": "physical",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "min": 223,
+            "max": 417,
+            "target": true
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "Small Diamond",
+            "chance": 100000
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "muglex_clan_scavenger",
+    "threatDps": 160,
+    "burstDps": 160,
+    "avgHit": 320,
+    "maxHit": 417,
+    "manaCost": 0
+}

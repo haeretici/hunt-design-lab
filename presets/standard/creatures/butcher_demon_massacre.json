@@ -1,0 +1,176 @@
+{
+    "id": "butcher_demon_massacre",
+    "label": "Butcher Demon Massacre",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A butcher demon massacre.",
+    "hp": 32000,
+    "hpMax": 32000,
+    "speed": 215,
+    "level": 770,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 20000,
+    "lootValue": 51331.413793103,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": 10,
+        "energy": -1,
+        "earth": 1,
+        "holy": 0,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 12,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 10157,
+            "target": false,
+            "effect": "me_explosionarea",
+            "shootEffect": "ani_largerock"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 8,
+            "speedChange": 790,
+            "durationSec": 10,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "heal_1",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 25,
+            "min": 600,
+            "max": 1090,
+            "hpBelow": 0.7,
+            "effect": "me_hitbyfire"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 5880,
+            "name": "big bone"
+        },
+        {
+            "chance": 100000,
+            "name": "demonic essence"
+        },
+        {
+            "chance": 5880,
+            "name": "great health potion"
+        },
+        {
+            "chance": 5880,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 94120,
+            "maxCount": 157,
+            "name": "gold coin"
+        },
+        {
+            "chance": 500,
+            "name": "great shield"
+        },
+        {
+            "chance": 88240,
+            "maxCount": 9,
+            "name": "meat"
+        },
+        {
+            "chance": 82350,
+            "maxCount": 7,
+            "name": "orichalcum pearl"
+        },
+        {
+            "chance": 64710,
+            "name": "old twig"
+        },
+        {
+            "chance": 58820,
+            "maxCount": 6,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 100000,
+            "name": "piece of Massacre's shell"
+        },
+        {
+            "chance": 100000,
+            "name": "soul orb"
+        },
+        {
+            "chance": 1000,
+            "name": "heavy mace"
+        },
+        {
+            "chance": 900,
+            "name": "berserker"
+        },
+        {
+            "chance": 3500,
+            "name": "golden armor"
+        },
+        {
+            "chance": 1200,
+            "name": "jewel case"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 5
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "mist_demon_priest",
+    "threatDps": 304.71,
+    "burstDps": 304.71,
+    "avgHit": 5078.5,
+    "maxHit": 10157,
+    "manaCost": 0
+}

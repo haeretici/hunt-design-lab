@@ -1,0 +1,158 @@
+{
+    "id": "ratkin_skirmisher",
+    "label": "Ratkin Skirmisher",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A ratkin skirmisher.",
+    "hp": 450,
+    "hpMax": 450,
+    "speed": 100,
+    "level": 346,
+    "armor": 25,
+    "mitigation": 0.96,
+    "maxBlock": 0,
+    "exp": 260,
+    "lootValue": 41.974302340398,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 15,
+        "earth": 25,
+        "holy": -5,
+        "death": 20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 99
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 81,
+            "target": false,
+            "shootEffect": "ani_whirlwindclub"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 45
+        },
+        {
+            "chance": 20000,
+            "name": "cheese"
+        },
+        {
+            "name": "bola",
+            "chance": 7692
+        },
+        {
+            "name": "spike shield",
+            "chance": 645
+        },
+        {
+            "name": "ratana",
+            "chance": 2702
+        },
+        {
+            "name": "life preserver",
+            "chance": 2941
+        },
+        {
+            "name": "cheese cutter",
+            "chance": 8333
+        },
+        {
+            "name": "cheesy figurine",
+            "chance": 854
+        },
+        {
+            "name": "earflap",
+            "chance": 9090
+        },
+        {
+            "name": "soft cheese",
+            "chance": 14285
+        },
+        {
+            "name": "rat cheese",
+            "chance": 16666
+        },
+        {
+            "name": "rat god doll",
+            "chance": 12
+        },
+        {
+            "name": "leather harness",
+            "chance": 561
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "brimstone_ruins_crawler",
+    "threatDps": 28.8,
+    "burstDps": 28.8,
+    "avgHit": 48,
+    "maxHit": 99,
+    "manaCost": 695
+}

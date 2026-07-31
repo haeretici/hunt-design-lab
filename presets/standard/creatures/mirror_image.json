@@ -1,0 +1,133 @@
+{
+    "id": "mirror_image",
+    "label": "Mirror Image",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A mirror image.",
+    "hp": 35000,
+    "hpMax": 35000,
+    "speed": 117,
+    "level": 779,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 27000,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 1,
+        "fire": -1,
+        "ice": 1,
+        "energy": 0,
+        "earth": 0,
+        "holy": 1,
+        "death": -1
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 391
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "ice",
+            "min": 446,
+            "max": 614,
+            "radius": 4,
+            "target": true,
+            "effect": "me_bigclouds",
+            "shootEffect": "ani_ice"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 17,
+            "range": 4,
+            "element": "holy",
+            "min": 530,
+            "max": 781,
+            "radius": 4,
+            "target": false,
+            "effect": "me_holyarea"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "holy",
+            "min": 603,
+            "max": 753,
+            "target": true,
+            "effect": "me_holydamage",
+            "shootEffect": "ani_holy"
+        },
+        {
+            "id": "ice_chain_4",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 502,
+            "max": 725
+        }
+    ],
+    "race": "blood",
+    "loot": [],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "arcane_elemental_vanguard",
+    "threatDps": 320.28,
+    "burstDps": 320.28,
+    "avgHit": 372.4186,
+    "maxHit": 781,
+    "manaCost": 0
+}

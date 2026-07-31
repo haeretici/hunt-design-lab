@@ -1,0 +1,214 @@
+{
+    "id": "two_headed_turtle",
+    "label": "Two-Headed Turtle",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A two-headed turtle.",
+    "hp": 5010,
+    "hpMax": 5010,
+    "speed": 170,
+    "level": 586,
+    "armor": 72,
+    "mitigation": 2.02,
+    "maxBlock": 0,
+    "exp": 3310,
+    "lootValue": 1733.6115702479,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 50,
+        "ice": 50,
+        "energy": 10,
+        "earth": -20,
+        "holy": 0,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 57,
+            "max": 170
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2500,
+            "chance": 35,
+            "range": 4,
+            "element": "energy",
+            "min": 57,
+            "max": 170,
+            "radius": 4,
+            "target": false,
+            "effect": "me_energyhit"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 35,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 57,
+            "max": 170,
+            "radius": 3,
+            "target": true,
+            "effect": "me_ghostly_bite"
+        },
+        {
+            "id": "melee_3",
+            "kind": "melee",
+            "intervalMs": 3000,
+            "chance": 45,
+            "range": 1,
+            "element": "physical",
+            "min": 57,
+            "max": 170,
+            "radius": 1,
+            "target": true,
+            "effect": "me_explosionarea"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Reptile",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 8
+        },
+        {
+            "name": "great health potion",
+            "chance": 15701
+        },
+        {
+            "name": "two-headed turtle heads",
+            "chance": 8700
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 13373
+        },
+        {
+            "name": "hydrophytes",
+            "chance": 11000
+        },
+        {
+            "chance": 6388,
+            "name": "bone"
+        },
+        {
+            "name": "Frostbound Shoes",
+            "chance": 4650
+        },
+        {
+            "id": 281,
+            "chance": 3582
+        },
+        {
+            "name": "small tropical fish",
+            "chance": 3582
+        },
+        {
+            "name": "coral brooch",
+            "chance": 2600
+        },
+        {
+            "name": "silver brooch",
+            "chance": 2507
+        },
+        {
+            "name": "Stormbound Headband",
+            "chance": 2110
+        },
+        {
+            "name": "knight legs",
+            "chance": 2000
+        },
+        {
+            "name": "gemmed figurine",
+            "chance": 2090
+        },
+        {
+            "name": "emerald bangle",
+            "chance": 1373
+        },
+        {
+            "name": "Earthbound Amulet",
+            "chance": 1373
+        },
+        {
+            "chance": 1313,
+            "name": "gold nugget"
+        },
+        {
+            "name": "spellbook of enlightenment",
+            "chance": 1300
+        },
+        {
+            "chance": 1015,
+            "name": "cape"
+        },
+        {
+            "chance": 657,
+            "name": "clay lump"
+        },
+        {
+            "name": "white gem",
+            "chance": 418
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "crystal_lizard_warrior",
+    "threatDps": 109.5275,
+    "burstDps": 122.0125,
+    "avgHit": 113.5,
+    "maxHit": 170,
+    "manaCost": 0
+}

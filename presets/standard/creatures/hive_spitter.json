@@ -1,0 +1,209 @@
+{
+    "id": "hive_spitter",
+    "label": "Hive Spitter",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A hive spitter.",
+    "hp": 1500,
+    "hpMax": 1500,
+    "speed": 135,
+    "level": 465,
+    "armor": 48,
+    "mitigation": 1.6,
+    "maxBlock": 0,
+    "exp": 1100,
+    "lootValue": 378.33185363688,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 5,
+        "ice": -5,
+        "energy": -11,
+        "earth": 100,
+        "holy": 0,
+        "death": 15
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 40,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 49,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 79,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "earth",
+            "min": 33,
+            "max": 53,
+            "radius": 3,
+            "target": true,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "slow_2",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -600,
+                "durationSec": 15
+            },
+            "target": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 400,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Vermin",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 90
+        },
+        {
+            "name": "small amethyst",
+            "chance": 8000,
+            "maxCount": 2
+        },
+        {
+            "name": "platinum coin",
+            "chance": 75250
+        },
+        {
+            "name": "green gem",
+            "chance": 210
+        },
+        {
+            "chance": 2400,
+            "name": "time ring"
+        },
+        {
+            "name": "platinum amulet",
+            "chance": 260
+        },
+        {
+            "name": "crusader helmet",
+            "chance": 230
+        },
+        {
+            "name": "brown mushroom",
+            "chance": 7500,
+            "maxCount": 3
+        },
+        {
+            "name": "savant potion",
+            "chance": 310
+        },
+        {
+            "name": "crystal sword",
+            "chance": 2000
+        },
+        {
+            "name": "great mana potion",
+            "chance": 8000
+        },
+        {
+            "name": "great health potion",
+            "chance": 5000
+        },
+        {
+            "name": "spitter nose",
+            "chance": 18000
+        },
+        {
+            "name": "compound eye",
+            "chance": 15000
+        },
+        {
+            "name": "calopteryx cape",
+            "chance": 240
+        },
+        {
+            "name": "Hopper Legs",
+            "chance": 130
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "hellfire_kobold_cultist",
+    "threatDps": 56.05,
+    "burstDps": 56.05,
+    "avgHit": 27.5833,
+    "maxHit": 53,
+    "manaCost": 0
+}

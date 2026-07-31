@@ -1,0 +1,250 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://hunt-design-lab.local/schemas/spells.schema.json",
+  "title": "Spells catalog document",
+  "description": "Shape of presets/<mode>/spells.json. Loaded by presets.loadSpells / getSpell. Storage: catalog document (array rows in one file).",
+  "type": "object",
+  "required": ["spells"],
+  "additionalProperties": true,
+  "properties": {
+    "version": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Document schema version (standard pack uses 2)."
+    },
+    "notes": {
+      "type": "string",
+      "maxLength": 4000
+    },
+    "spells": {
+      "type": "array",
+      "minItems": 0,
+      "items": { "$ref": "#/definitions/spell" }
+    }
+  },
+  "definitions": {
+    "entityId": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]{0,79}$",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "spell": {
+      "type": "object",
+      "required": ["id"],
+      "additionalProperties": true,
+      "properties": {
+        "id": {
+          "$ref": "#/definitions/entityId",
+          "description": "Spell id referenced by classes.spells, mode auto families, etc. Player auto is mode-gated (not strategy spellPriority). Monsters use kit attacks[], not spell auto ids."
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "kind": {
+          "type": "string",
+          "enum": ["auto", "strike", "spell", "heal"],
+          "description": "Combat kind (docs/09). AI and resolve treat heal/auto specially."
+        },
+        "element": {
+          "type": "string",
+          "enum": [
+            "physical",
+            "fire",
+            "ice",
+            "energy",
+            "earth",
+            "holy",
+            "death",
+            "healing"
+          ],
+          "description": "Damage/heal element for resist pipeline."
+        },
+        "powerCurve": {
+          "type": "string",
+          "enum": ["melee_auto", "melee_strike", "magic_strike"],
+          "description": "Power curve id (docs/09)."
+        },
+        "basePower": {
+          "type": "number",
+          "description": "Curve base power (0 for pure autos). Scales strike mean damage."
+        },
+        "damageAmplitude": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 0.95,
+          "description": "Half-width fraction around strike mean (0.2 → min/max = mean×0.8 / mean×1.2). Omitted → 0 (fixed damage at mean). Autos ignore this field."
+        },
+        "range": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 20,
+          "description": "Chebyshev range in tiles."
+        },
+        "mana": {
+          "type": "number",
+          "minimum": 0
+        },
+        "level": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 999,
+          "description": "Minimum character level required to cast (from spell_ref / Legacy rune:level when matched)."
+        },
+        "magicLevel": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 999,
+          "description": "Minimum magic skill required to cast (Legacy rune:magicLevel). Runtime checks combatStats.magic (profile magicLevel normalizes to magic)."
+        },
+        "hitChance": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Percent; default 100 in combat code if omitted."
+        },
+        "isMelee": {
+          "type": "boolean",
+          "description": "True for weapon-adjacent strikes / auto."
+        },
+        "requiresAmmo": {
+          "type": "boolean",
+          "description": "When true, distance auto needs ammo (null ammo = infinite)."
+        },
+        "ammoPerShot": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Ammo consumed on successful auto when requiresAmmo."
+        },
+        "moveLock": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Seconds of post-cast moveDelay (0 disables; omit uses Settings default)."
+        },
+        "cooldowns": {
+          "type": "object",
+          "description": "Buckets: auto | primary | secondary | spell | item → key → duration seconds.",
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          "properties": {
+            "auto": {
+              "type": "object",
+              "additionalProperties": { "type": "number", "minimum": 0 }
+            },
+            "primary": {
+              "type": "object",
+              "additionalProperties": { "type": "number", "minimum": 0 }
+            },
+            "secondary": {
+              "type": "object",
+              "additionalProperties": { "type": "number", "minimum": 0 }
+            },
+            "spell": {
+              "type": "object",
+              "additionalProperties": { "type": "number", "minimum": 0 }
+            },
+            "item": {
+              "type": "object",
+              "additionalProperties": { "type": "number", "minimum": 0 }
+            }
+          }
+        },
+        "shape": {
+          "type": "object",
+          "format": "spell_shape",
+          "description": "Optional AoE / wave shape. Area uses type+code; wave uses type+spread+length. Designer: Select opens shape catalog with matrix preview (kernel/core/lib/shapes.js).",
+          "additionalProperties": true,
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": ["area", "wave", "beam"],
+              "description": "area = radial matrix by code; wave/beam = directed pattern by spread×length."
+            },
+            "code": {
+              "description": "Area effect code (int or legacy name string). Used when type=area.",
+              "oneOf": [{ "type": "integer" }, { "type": "string", "minLength": 1, "maxLength": 120 }]
+            },
+            "length": {
+              "description": "Wave/beam length key (int or named custom key).",
+              "oneOf": [{ "type": "integer" }, { "type": "string", "minLength": 1, "maxLength": 120 }]
+            },
+            "spread": {
+              "description": "Wave spread (0=beam, 1–4, or custom).",
+              "oneOf": [{ "type": "integer" }, { "type": "string", "minLength": 1, "maxLength": 40 }]
+            }
+          }
+        },
+        "legacyName": {
+          "type": "string",
+          "description": "Optional legacy display name for ports."
+        },
+        "vocations": {
+          "type": "array",
+          "description": "Allowed class vocations for this spell (relation: kind=classes).",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": [
+              "guardian",
+              "scout",
+              "mystic",
+              "adept",
+              "warden",
+              "adventurer"
+            ]
+          }
+        },
+        "source": {
+          "type": "string",
+          "enum": ["rune", "spell", "auto"],
+          "description": "Cast origin. source=rune spells are inventory-linked (runeItemId); mana is typically 0."
+        },
+        "rune": {
+          "type": "string",
+          "description": "Legacy/display label for the rune (not used for inventory match)."
+        },
+        "runeItemId": {
+          "$ref": "#/definitions/entityId",
+          "description": "Stackable equipment template id consumed when rune consumption is on (category rune in equipment.json)."
+        },
+        "field": {
+          "type": "string",
+          "enum": ["fire", "poison", "energy"],
+          "description": "Elemental field kind deployed on the spell footprint (docs/26)."
+        },
+        "deploysField": {
+          "type": "string",
+          "enum": ["fire", "poison", "energy"],
+          "description": "Alias of field for deploy path (creature kits use the same keys)."
+        },
+        "destroysField": {
+          "type": "boolean",
+          "description": "When true, cast clears an active elemental field on the target tile instead of deploying."
+        },
+        "statusOnly": {
+          "type": "boolean",
+          "description": "No meaningful direct damage (use min/max 0). Field deploy / conditions are the effect."
+        },
+        "min": {
+          "type": "number",
+          "description": "Fixed damage floor when set (overrides power curve). Field runes use 0."
+        },
+        "max": {
+          "type": "number",
+          "description": "Fixed damage ceiling when set (overrides power curve). Field runes use 0."
+        },
+        "requiresTarget": {
+          "type": "boolean",
+          "description": "Whether cast needs a primary target for center/aim."
+        }
+      }
+    }
+  }
+}

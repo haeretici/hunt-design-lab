@@ -1,0 +1,112 @@
+{
+    "id": "insectoid_scout",
+    "label": "Insectoid Scout",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An insectoid scout.",
+    "hp": 230,
+    "hpMax": 230,
+    "speed": 101,
+    "level": 280,
+    "armor": 27,
+    "mitigation": 0.56,
+    "maxBlock": 0,
+    "exp": 150,
+    "lootValue": 22.382126348228,
+    "aggro": true,
+    "resists": {
+        "physical": 5,
+        "fire": -10,
+        "ice": -10,
+        "energy": -5,
+        "earth": 20,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 30,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 25,
+                "intervalMs": 4000
+            }
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Vermin",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 2
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 80000,
+            "maxCount": 80
+        },
+        {
+            "chance": 100,
+            "name": "club ring"
+        },
+        {
+            "name": "ripper lance",
+            "chance": 850
+        },
+        {
+            "name": "health potion",
+            "chance": 280
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "rune_stone_bugbear",
+    "threatDps": 20,
+    "burstDps": 20,
+    "avgHit": 15,
+    "maxHit": 30,
+    "manaCost": 0
+}

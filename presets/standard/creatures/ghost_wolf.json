@@ -1,0 +1,95 @@
+{
+    "id": "ghost_wolf",
+    "label": "Ghost Wolf",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A ghost wolf.",
+    "hp": 160,
+    "hpMax": 160,
+    "speed": 135,
+    "level": 243,
+    "armor": 12,
+    "mitigation": 0.51,
+    "maxBlock": 0,
+    "exp": 65,
+    "lootValue": 7.5882352941176,
+    "aggro": true,
+    "resists": {
+        "physical": 35,
+        "fire": -5,
+        "ice": 0,
+        "energy": 0,
+        "earth": 10,
+        "holy": -5,
+        "death": 20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 65
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 2
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 65000,
+            "maxCount": 20
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "ghost_wolf",
+    "threatDps": 16.25,
+    "burstDps": 16.25,
+    "avgHit": 32.5,
+    "maxHit": 65,
+    "manaCost": 0
+}

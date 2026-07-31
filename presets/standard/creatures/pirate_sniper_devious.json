@@ -1,0 +1,151 @@
+{
+    "id": "pirate_sniper_devious",
+    "label": "Pirate Sniper Devious",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A pirate sniper devious.",
+    "hp": 1450,
+    "hpMax": 1450,
+    "speed": 150,
+    "level": 461,
+    "armor": 0,
+    "mitigation": 1.2,
+    "maxBlock": 0,
+    "exp": 750,
+    "lootValue": 1773.4736842105,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 3,
+        "runHealth": 150,
+        "staticAttackChance": 50,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 129
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 4000,
+            "chance": 60,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 301,
+            "target": false,
+            "shootEffect": "ani_throwingknife"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 4000,
+            "chance": 25,
+            "min": 50,
+            "max": 150,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 100000,
+            "name": "Deadeye Devious' eye patch"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 140,
+            "name": "gold coin"
+        },
+        {
+            "chance": 85000,
+            "maxCount": 2,
+            "name": "skull"
+        },
+        {
+            "chance": 78000,
+            "name": "plate armor"
+        },
+        {
+            "chance": 42000,
+            "maxCount": 3,
+            "name": "meat"
+        },
+        {
+            "chance": 28000,
+            "name": "knight armor"
+        },
+        {
+            "chance": 21000,
+            "name": "dagger"
+        },
+        {
+            "chance": 14000,
+            "name": "small diamond"
+        },
+        {
+            "chance": 7000,
+            "name": "double axe"
+        },
+        {
+            "chance": 7000,
+            "name": "pirate backpack"
+        }
+    ],
+    "changeTarget": {
+        "interval": 60000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "chaos_triton_assassin",
+    "threatDps": 54.825,
+    "burstDps": 77.4,
+    "avgHit": 84.3462,
+    "maxHit": 301,
+    "manaCost": 0
+}

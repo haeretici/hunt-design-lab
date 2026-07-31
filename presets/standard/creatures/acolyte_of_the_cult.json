@@ -1,0 +1,189 @@
+{
+    "id": "acolyte_of_the_cult",
+    "label": "Acolyte Of The Cult",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An acolyte of the cult.",
+    "hp": 390,
+    "hpMax": 390,
+    "speed": 100,
+    "level": 333,
+    "armor": 30,
+    "mitigation": 1.13,
+    "maxBlock": 0,
+    "exp": 300,
+    "lootValue": 51.156647249562,
+    "aggro": true,
+    "resists": {
+        "physical": -10,
+        "fire": 0,
+        "ice": 20,
+        "energy": -10,
+        "earth": 20,
+        "holy": 20,
+        "death": -5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 76,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 2,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "lifedrain",
+            "min": 45,
+            "max": 91,
+            "radius": 1,
+            "target": true,
+            "effect": "me_magic_red",
+            "shootEffect": "ani_poison"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 40,
+            "max": 60,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Human",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "id": 2828,
+            "chance": 730
+        },
+        {
+            "name": "gold coin",
+            "chance": 66940,
+            "maxCount": 40
+        },
+        {
+            "name": "small emerald",
+            "chance": 550
+        },
+        {
+            "chance": 560,
+            "name": "life ring"
+        },
+        {
+            "name": "Earthbound Rod",
+            "chance": 250
+        },
+        {
+            "name": "dragon necklace",
+            "chance": 1050
+        },
+        {
+            "name": "morning star",
+            "chance": 4990
+        },
+        {
+            "name": "pirate voodoo doll",
+            "chance": 1060
+        },
+        {
+            "chance": 480,
+            "name": "music sheet"
+        },
+        {
+            "name": "cultish robe",
+            "chance": 8070
+        },
+        {
+            "name": "cultish symbol",
+            "chance": 40
+        },
+        {
+            "name": "rope belt",
+            "chance": 10420
+        },
+        {
+            "name": "broken key ring",
+            "chance": 60
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "hellfire_kobold_cultist",
+    "threatDps": 26.8,
+    "burstDps": 26.8,
+    "avgHit": 43,
+    "maxHit": 91,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 1,
+        "summons": [
+            {
+                "name": "Skeleton",
+                "id": "skeleton",
+                "chance": 10,
+                "interval": 2000,
+                "count": 1
+            }
+        ]
+    }
+}

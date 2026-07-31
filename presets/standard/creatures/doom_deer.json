@@ -1,0 +1,120 @@
+{
+    "id": "doom_deer",
+    "label": "Doom Deer",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A doom deer.",
+    "hp": 405,
+    "hpMax": 405,
+    "speed": 91,
+    "level": 334,
+    "armor": 19,
+    "mitigation": 0.7,
+    "maxBlock": 0,
+    "exp": 200,
+    "lootValue": 29.874895746455,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 100,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 25,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 95
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 4000,
+            "chance": 30,
+            "range": 4,
+            "element": "energy",
+            "min": 33,
+            "max": 53,
+            "length": 5,
+            "spread": 0,
+            "target": false,
+            "effect": "me_bigclouds"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 3000,
+            "chance": 30,
+            "speedChange": 400,
+            "durationSec": 8,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Mammal",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 1
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 100
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ethereal_storm_bear",
+    "threatDps": 26.975,
+    "burstDps": 30.2,
+    "avgHit": 46.913,
+    "maxHit": 95,
+    "manaCost": 0
+}

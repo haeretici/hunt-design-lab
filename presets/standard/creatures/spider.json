@@ -1,0 +1,90 @@
+{
+    "id": "spider",
+    "label": "Spider",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A spider.",
+    "hp": 20,
+    "hpMax": 20,
+    "speed": 76,
+    "level": 39,
+    "armor": 2,
+    "mitigation": 0.05,
+    "maxBlock": 0,
+    "exp": 12,
+    "lootValue": 2.0123597401502,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -20,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 6,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 21
+        }
+    ],
+    "race": "venom",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 65150,
+            "maxCount": 5
+        },
+        {
+            "name": "spider fangs",
+            "chance": 960
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "spider",
+    "threatDps": 5.25,
+    "burstDps": 5.25,
+    "avgHit": 10.5,
+    "maxHit": 21,
+    "manaCost": 0
+}

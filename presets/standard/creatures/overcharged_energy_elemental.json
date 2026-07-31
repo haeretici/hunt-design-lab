@@ -1,0 +1,162 @@
+{
+    "id": "overcharged_energy_elemental",
+    "label": "Overcharged Energy Elemental",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An overcharged energy elemental.",
+    "hp": 1200,
+    "hpMax": 1200,
+    "speed": 150,
+    "level": 442,
+    "armor": 35,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 1300,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": 100,
+        "energy": 100,
+        "earth": -20,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 1,
+        "staticAttackChance": 85,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 105
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 11,
+            "range": 4,
+            "element": "energy",
+            "min": 0,
+            "max": 132,
+            "radius": 4,
+            "target": false,
+            "effect": "me_purpleenergy",
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 12,
+            "range": 3,
+            "element": "energy",
+            "min": 0,
+            "max": 158,
+            "target": true,
+            "effect": "me_purpleenergy"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 12,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 105,
+            "radius": 4,
+            "target": false,
+            "effect": "me_poff"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 90,
+            "max": 150,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 56
+        },
+        {
+            "name": "small amethyst",
+            "chance": 10000,
+            "maxCount": 2
+        },
+        {
+            "name": "berserk potion",
+            "chance": 2173
+        },
+        {
+            "name": "great health potion",
+            "chance": 10000
+        },
+        {
+            "name": "energy soil",
+            "chance": 14285
+        }
+    ],
+    "changeTarget": {
+        "interval": 20000,
+        "chance": 15
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "arcane_elemental_vanguard",
+    "threatDps": 49.29,
+    "burstDps": 49.29,
+    "avgHit": 57.9882,
+    "maxHit": 158,
+    "manaCost": 0
+}

@@ -1,0 +1,58 @@
+{
+    "id": "cave_rats",
+    "biome": "cave",
+    "notes": "Cave biome population: mostly cave_rat packs, occasional champion rats, rare venom_spitter elite. Formerly floor07_rats (renamed to cave-native id with generator-owned cave packs).",
+    "defaultRespawn": 0,
+    "groups": {
+        "normal": {
+            "weight": 80,
+            "creatureIds": [
+                "cave_rat"
+            ],
+            "packSize": [
+                1,
+                3
+            ]
+        },
+        "champion": {
+            "weight": 15,
+            "creatureIds": [
+                "cave_rat"
+            ],
+            "packSize": [
+                3,
+                5
+            ],
+            "affixes": [
+                "champion"
+            ]
+        },
+        "elite": {
+            "weight": 5,
+            "creatureIds": [
+                "venom_spitter"
+            ],
+            "packSize": [
+                1,
+                1
+            ],
+            "affixes": [
+                "elite"
+            ]
+        }
+    },
+    "limits": {
+        "totalPacks": [
+            4,
+            8
+        ],
+        "championPacks": [
+            1,
+            2
+        ],
+        "elitePacks": [
+            0,
+            1
+        ]
+    }
+}

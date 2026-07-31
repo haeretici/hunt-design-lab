@@ -1,0 +1,261 @@
+{
+    "id": "young_goanna",
+    "label": "Young Goanna",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A young goanna.",
+    "hp": 6950,
+    "hpMax": 6950,
+    "speed": 190,
+    "level": 618,
+    "armor": 78,
+    "mitigation": 2.16,
+    "maxBlock": 0,
+    "exp": 5250,
+    "lootValue": 1362.842211733,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": -20,
+        "earth": 20,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 10,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 189,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 76,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2500,
+            "chance": 30,
+            "range": 3,
+            "element": "earth",
+            "min": 113,
+            "max": 185,
+            "target": true,
+            "effect": "me_hitbypoison",
+            "shootEffect": "ani_earth"
+        },
+        {
+            "id": "melee_2",
+            "kind": "melee",
+            "intervalMs": 3000,
+            "chance": 30,
+            "range": 1,
+            "element": "earth",
+            "min": 113,
+            "max": 189,
+            "radius": 1,
+            "target": false,
+            "effect": "me_groundshaker"
+        },
+        {
+            "id": "melee_3",
+            "kind": "melee",
+            "intervalMs": 3500,
+            "chance": 30,
+            "range": 1,
+            "element": "earth",
+            "min": 113,
+            "max": 185,
+            "spread": 0,
+            "target": false,
+            "effect": "me_green_rings"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 420,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Reptile",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 3
+        },
+        {
+            "name": "envenomed arrow",
+            "chance": 70400,
+            "maxCount": 35
+        },
+        {
+            "name": "Viperfang Rod",
+            "chance": 10620
+        },
+        {
+            "name": "goanna meat",
+            "chance": 10030
+        },
+        {
+            "name": "blue crystal shard",
+            "chance": 9110
+        },
+        {
+            "name": "Earthbound Rod",
+            "chance": 8940
+        },
+        {
+            "name": "blue goanna scale",
+            "chance": 8260
+        },
+        {
+            "name": "small enchanted emerald",
+            "chance": 4890
+        },
+        {
+            "name": "leaf star",
+            "chance": 4550,
+            "maxCount": 3
+        },
+        {
+            "name": "rainbow quartz",
+            "chance": 4050,
+            "maxCount": 3
+        },
+        {
+            "name": "onyx chip",
+            "chance": 4050
+        },
+        {
+            "name": "goanna claw",
+            "chance": 3880
+        },
+        {
+            "name": "violet gem",
+            "chance": 3540
+        },
+        {
+            "name": "serpent sword",
+            "chance": 3370
+        },
+        {
+            "name": "Bloomshoot Rod",
+            "chance": 3370
+        },
+        {
+            "name": "green crystal shard",
+            "chance": 2950
+        },
+        {
+            "name": "scared frog",
+            "chance": 2610
+        },
+        {
+            "name": "yellow gem",
+            "chance": 2530
+        },
+        {
+            "name": "silver amulet",
+            "chance": 2280
+        },
+        {
+            "name": "Earthbound Amulet",
+            "chance": 1430
+        },
+        {
+            "name": "blue gem",
+            "chance": 1180
+        },
+        {
+            "name": "Earthbound Hood",
+            "chance": 1100
+        },
+        {
+            "name": "blue crystal splinter",
+            "chance": 1010
+        },
+        {
+            "name": "sacred tree amulet",
+            "chance": 840
+        },
+        {
+            "name": "small tortoise",
+            "chance": 670
+        },
+        {
+            "name": "lizard heart",
+            "chance": 590
+        },
+        {
+            "name": "wooden spellbook",
+            "chance": 170
+        },
+        {
+            "name": "fur armor",
+            "chance": 80
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "warp_tomb_drake",
+    "threatDps": 131.0014,
+    "burstDps": 152.6,
+    "avgHit": 115.4273,
+    "maxHit": 189,
+    "manaCost": 0
+}

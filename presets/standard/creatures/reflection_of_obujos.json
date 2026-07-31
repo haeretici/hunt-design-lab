@@ -1,0 +1,184 @@
+{
+    "id": "reflection_of_obujos",
+    "label": "Reflection Of Obujos",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A reflection of obujos.",
+    "hp": 35000,
+    "hpMax": 35000,
+    "speed": 135,
+    "level": 779,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 20000,
+    "lootValue": 9800,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 522,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 157,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 3000,
+            "chance": 23,
+            "range": 7,
+            "element": "death",
+            "min": 87,
+            "max": 348,
+            "radius": 7,
+            "target": true,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 3500,
+            "chance": 20,
+            "range": 7,
+            "element": "manadrain",
+            "min": 87,
+            "max": 261,
+            "radius": 6,
+            "target": true,
+            "effect": "me_bigclouds",
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 7,
+            "element": "earth",
+            "min": 87,
+            "max": 348,
+            "radius": 1,
+            "target": true,
+            "effect": "me_green_rings",
+            "shootEffect": "ani_poisonarrow"
+        },
+        {
+            "id": "wave_4",
+            "kind": "wave",
+            "intervalMs": 1200,
+            "chance": 7,
+            "range": 4,
+            "element": "ice",
+            "min": 261,
+            "max": 566,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_giantice"
+        },
+        {
+            "id": "wave_5",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 14,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 261,
+            "max": 696,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_icetornado"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 1000,
+            "chance": 15,
+            "min": 1000,
+            "max": 2100,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 100000,
+            "name": "depth scutum"
+        },
+        {
+            "chance": 1285,
+            "name": "deepling axe"
+        },
+        {
+            "chance": 1285,
+            "unique": true,
+            "name": "ornate legs"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 4
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "vampire_lord_s_soul",
+    "threatDps": 320.4212,
+    "burstDps": 341.04,
+    "avgHit": 272.697,
+    "maxHit": 696,
+    "manaCost": 0
+}

@@ -1,0 +1,205 @@
+{
+    "id": "werecrocodile",
+    "label": "Werecrocodile",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A werecrocodile.",
+    "hp": 5280,
+    "hpMax": 5280,
+    "speed": 115,
+    "level": 590,
+    "armor": 82,
+    "mitigation": 2.28,
+    "maxBlock": 0,
+    "exp": 4140,
+    "lootValue": 1344.9608801956,
+    "aggro": true,
+    "resists": {
+        "physical": 10,
+        "fire": 25,
+        "ice": -25,
+        "energy": -5,
+        "earth": 5,
+        "holy": -14,
+        "death": 25
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 46,
+            "max": 266
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2700,
+            "chance": 37,
+            "range": 1,
+            "element": "physical",
+            "min": 81,
+            "max": 151,
+            "radius": 1,
+            "target": true,
+            "effect": "me_big_scratch"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 3300,
+            "chance": 20,
+            "range": 4,
+            "element": "death",
+            "min": 93,
+            "max": 174,
+            "length": 6,
+            "spread": 3,
+            "target": false,
+            "effect": "me_blacksmoke"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 3700,
+            "chance": 25,
+            "range": 4,
+            "element": "death",
+            "min": 116,
+            "max": 185,
+            "radius": 2,
+            "target": true,
+            "effect": "me_mortarea"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 25,
+            "min": 50,
+            "max": 100,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Lycanthrope",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 100
+        },
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 13
+        },
+        {
+            "name": "werecrocodile tongue",
+            "chance": 10800
+        },
+        {
+            "name": "serpent sword",
+            "chance": 5910
+        },
+        {
+            "name": "crocodile boots",
+            "chance": 8530
+        },
+        {
+            "name": "meat",
+            "chance": 5500,
+            "maxCount": 4
+        },
+        {
+            "name": "small topaz",
+            "chance": 9120,
+            "maxCount": 4
+        },
+        {
+            "name": "moonlight crystals",
+            "chance": 3000
+        },
+        {
+            "chance": 5120,
+            "name": "red gem"
+        },
+        {
+            "name": "green crystal shard",
+            "chance": 2800
+        },
+        {
+            "name": "bonebreaker",
+            "chance": 500
+        },
+        {
+            "name": "glorious axe",
+            "chance": 2190
+        },
+        {
+            "name": "golden sun coin",
+            "chance": 1770
+        },
+        {
+            "chance": 200,
+            "name": "werecrocodile trophy"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "black_sheep",
+    "threatDps": 112.1561,
+    "burstDps": 131.6225,
+    "avgHit": 146.569,
+    "maxHit": 266,
+    "manaCost": 0
+}

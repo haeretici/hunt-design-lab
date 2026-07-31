@@ -1,0 +1,29 @@
+{
+    "id": "ruins",
+    "label": "Ruins",
+    "notes": "Stage 11.11 — standard ruins biome. Shared cave_v1 logic pieces; ruins art set + ruins_scouts population.",
+    "piecePack": "cave_v1",
+    "populationId": "ruins_scouts",
+    "markersId": "cave_clickies",
+    "profiles": {
+        "procedural": [
+            "small_crawl"
+        ],
+        "fixed": [
+            "outskirts_camp"
+        ]
+    },
+    "artSet": "ruins",
+    "floors": [
+        {
+            "z": 0,
+            "profileId": "small_crawl",
+            "role": "ruins_yard"
+        },
+        {
+            "z": 1,
+            "profileId": "small_crawl",
+            "role": "ruins_inner"
+        }
+    ]
+}

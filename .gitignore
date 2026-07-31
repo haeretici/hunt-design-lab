@@ -1,0 +1,52 @@
+# Reference clone (not part of this project)
+soccer-oss/
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Node
+node_modules/
+
+# PHP job storage (logs + meta for web-triggered CLI runs)
+var/
+
+# Generated balance reports (npm run measure:threat)
+reports/
+
+# Generated spritesheets (per-genre)
+assets/sprites/*/*/sprites.png
+
+# Ignore transformed intermediates
+assets/sprites/*/*/alpha/
+assets/sprites/*/*/medium/
+assets/sprites/*/*/retro/
+assets/sprites/*/*/small/
+assets/sprites/*/*/icon/
+assets/sprites/super_heroes/
+assets/sprites/ultra_tech/
+assets/sprites/fantastic_ecology/
+assets/sprites/space_creatures/
+assets/sprites/steampunk/
+assets/data/super_heroes/
+assets/data/ultra_tech/
+assets/data/fantastic_ecology/
+assets/data/space_creatures/
+assets/data/steampunk/
+assets/legacy/monsters/
+/nbproject/
+package-lock.json
+build/
+legacy/
+DE.zip
+apply_patch.py
+AGENTS.md
+other/
+bugs/
+docs/
+pack.sh
+reset.sh
+SIMULATION.sh
+sprite-editor/
+scripts/sprite_mapping_review_v2.json
+bin/_draft_p2_renames.py

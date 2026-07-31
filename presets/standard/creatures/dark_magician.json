@@ -1,0 +1,163 @@
+{
+    "id": "dark_magician",
+    "label": "Dark Magician",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A dark magician.",
+    "hp": 325,
+    "hpMax": 325,
+    "speed": 90,
+    "level": 313,
+    "armor": 15,
+    "mitigation": 0.64,
+    "maxBlock": 0,
+    "exp": 185,
+    "lootValue": 25.934929377276,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 10,
+        "ice": 10,
+        "energy": 20,
+        "earth": 20,
+        "holy": 20,
+        "death": -5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 68
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "fire",
+            "min": 8,
+            "max": 68,
+            "target": false,
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "energy",
+            "min": 34,
+            "max": 51,
+            "target": false,
+            "shootEffect": "ani_energy"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 20,
+            "min": 60,
+            "max": 80,
+            "hpBelow": 0.7,
+            "effect": "me_magic_green"
+        },
+        {
+            "id": "invisible_1",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 10,
+            "durationSec": 2,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Human",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 75100,
+            "maxCount": 55
+        },
+        {
+            "name": "blank rune",
+            "chance": 10000
+        },
+        {
+            "name": "strong health potion",
+            "chance": 3000
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 2860
+        },
+        {
+            "name": "health potion",
+            "chance": 12000
+        },
+        {
+            "name": "mana potion",
+            "chance": 11900
+        },
+        {
+            "name": "reins",
+            "chance": 20
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "arcane_elemental_vanguard",
+    "threatDps": 23.9875,
+    "burstDps": 23.9875,
+    "avgHit": 35.537,
+    "maxHit": 68,
+    "manaCost": 0
+}

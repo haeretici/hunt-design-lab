@@ -1,0 +1,245 @@
+{
+    "id": "hyena_lycan_katex",
+    "label": "Hyena Lycan Katex",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A hyena lycan katex.",
+    "hp": 6300,
+    "hpMax": 6300,
+    "speed": 100,
+    "level": 608,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 5000,
+    "lootValue": 9910.9289617486,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 10,
+        "ice": 0,
+        "energy": 0,
+        "earth": 40,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 146
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 5,
+            "element": "earth",
+            "min": 171,
+            "max": 244,
+            "radius": 3,
+            "length": 3,
+            "spread": 3,
+            "target": true,
+            "effect": "me_poff",
+            "shootEffect": "ani_largerock"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 40,
+            "range": 4,
+            "element": "death",
+            "min": 146,
+            "max": 195,
+            "radius": 5,
+            "target": false,
+            "effect": "me_mortarea"
+        },
+        {
+            "id": "katex_deatht_3",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 1,
+            "element": "physical",
+            "min": 122,
+            "max": 171,
+            "target": false
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 100000,
+            "minCount": 1,
+            "maxCount": 17,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 100000,
+            "minCount": 1,
+            "maxCount": 5,
+            "name": "ultimate health potion"
+        },
+        {
+            "chance": 25000,
+            "name": "gold ingot"
+        },
+        {
+            "chance": 21110,
+            "name": "werehyaena nose"
+        },
+        {
+            "chance": 5000,
+            "name": "violet gem"
+        },
+        {
+            "chance": 4440,
+            "name": "Katex' blood"
+        },
+        {
+            "chance": 4440,
+            "name": "werehyaena talisman"
+        },
+        {
+            "chance": 3890,
+            "name": "werehyaena trophy"
+        },
+        {
+            "chance": 3330,
+            "name": "skull helmet"
+        },
+        {
+            "chance": 3330,
+            "name": "blue gem"
+        },
+        {
+            "chance": 1670,
+            "name": "demon shield"
+        },
+        {
+            "chance": 1670,
+            "name": "giant sword"
+        },
+        {
+            "chance": 1670,
+            "name": "ornate crossbow"
+        },
+        {
+            "chance": 1670,
+            "name": "gold ring"
+        },
+        {
+            "chance": 1110,
+            "name": "Arcane Plate Armor"
+        },
+        {
+            "chance": 1110,
+            "name": "assassin dagger"
+        },
+        {
+            "chance": 1110,
+            "name": "savant potion"
+        },
+        {
+            "chance": 1110,
+            "name": "moonlight crystals"
+        },
+        {
+            "chance": 1110,
+            "name": "ring of green plasma"
+        },
+        {
+            "chance": 1110,
+            "name": "jade hammer"
+        },
+        {
+            "chance": 1000,
+            "name": "war axe"
+        },
+        {
+            "chance": 1000,
+            "name": "alloy legs"
+        },
+        {
+            "chance": 560,
+            "name": "red silk flower"
+        },
+        {
+            "chance": 560,
+            "name": "demonrage sword"
+        },
+        {
+            "chance": 560,
+            "name": "golden armor"
+        },
+        {
+            "chance": 360,
+            "name": "raw watermelon tourmaline"
+        },
+        {
+            "id": 282,
+            "chance": 140
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": true
+    },
+    "customSprite": "lava_siren_scout",
+    "threatDps": 123.7,
+    "burstDps": 123.7,
+    "avgHit": 123.7,
+    "maxHit": 244,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 1,
+        "summons": [
+            {
+                "name": "Werehyaena",
+                "id": "werehyaena",
+                "chance": 50,
+                "interval": 5000,
+                "count": 1
+            }
+        ]
+    }
+}

@@ -1,0 +1,189 @@
+{
+    "id": "rustheap_golem",
+    "label": "Rustheap Golem",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A rustheap golem.",
+    "hp": 2800,
+    "hpMax": 2800,
+    "speed": 125,
+    "level": 527,
+    "armor": 46,
+    "mitigation": 1.26,
+    "maxBlock": 0,
+    "exp": 2350,
+    "lootValue": 621.54132094258,
+    "aggro": true,
+    "resists": {
+        "physical": -5,
+        "fire": 70,
+        "ice": 0,
+        "energy": -5,
+        "earth": 0,
+        "holy": 0,
+        "death": 10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "rustheap_golem_electrify_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 11,
+            "range": 7,
+            "element": "physical",
+            "target": false,
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "rustheap_golem_wave_3",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 9,
+            "range": 1,
+            "element": "physical",
+            "min": 1133,
+            "max": 2380,
+            "target": false
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 11,
+            "speedChange": 428,
+            "durationSec": 6,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Construct",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 1950,
+            "name": "nail"
+        },
+        {
+            "chance": 5860,
+            "name": "flask of rust remover"
+        },
+        {
+            "chance": 14980,
+            "name": "necromantic rust"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 290,
+            "name": "gold coin"
+        },
+        {
+            "chance": 330,
+            "name": "iron ore"
+        },
+        {
+            "chance": 1950,
+            "name": "bronze gear wheel"
+        },
+        {
+            "chance": 58310,
+            "maxCount": 3,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 1300,
+            "name": "white pearl"
+        },
+        {
+            "chance": 1630,
+            "name": "black pearl"
+        },
+        {
+            "chance": 10100,
+            "maxCount": 2,
+            "name": "strong health potion"
+        },
+        {
+            "chance": 7170,
+            "maxCount": 2,
+            "name": "strong mana potion"
+        },
+        {
+            "chance": 3580,
+            "name": "war hammer"
+        },
+        {
+            "chance": 330,
+            "name": "spiked squelcher"
+        },
+        {
+            "chance": 330,
+            "name": "metal bat"
+        },
+        {
+            "chance": 2930,
+            "name": "gearwheel chain"
+        },
+        {
+            "chance": 5860,
+            "name": "slightly rusted armor"
+        },
+        {
+            "chance": 4230,
+            "name": "slightly rusted legs"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 5
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "solar_volcano_golem_slayer",
+    "threatDps": 79.0425,
+    "burstDps": 79.0425,
+    "avgHit": 1756.5,
+    "maxHit": 2380,
+    "manaCost": 0
+}

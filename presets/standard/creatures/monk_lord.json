@@ -1,0 +1,219 @@
+{
+    "id": "monk_lord",
+    "label": "Monk Lord",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A monk lord.",
+    "hp": 400,
+    "hpMax": 400,
+    "speed": 120,
+    "level": 334,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 600,
+    "lootValue": 977.0612244898,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 70,
+        "energy": 0,
+        "earth": 50,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 50
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 37
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 13,
+            "range": 7,
+            "element": "holy",
+            "min": 48,
+            "max": 133,
+            "target": false,
+            "effect": "me_holydamage",
+            "shootEffect": "ani_smallholy"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 25,
+            "range": 7,
+            "element": "manadrain",
+            "min": 15,
+            "max": 33,
+            "target": false,
+            "effect": "me_magic_red"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 10,
+            "max": 200,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 1000,
+            "chance": 7,
+            "speedChange": 280,
+            "durationSec": 10,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 100000,
+            "name": "book of prayers"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 95,
+            "name": "gold coin"
+        },
+        {
+            "chance": 93000,
+            "maxCount": 3,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 86000,
+            "name": "star herb"
+        },
+        {
+            "chance": 53000,
+            "name": "rope belt"
+        },
+        {
+            "chance": 40000,
+            "name": "power ring"
+        },
+        {
+            "chance": 40000,
+            "name": "safety pin"
+        },
+        {
+            "chance": 33000,
+            "name": "yellow gem"
+        },
+        {
+            "chance": 20000,
+            "name": "brown flask"
+        },
+        {
+            "chance": 20000,
+            "name": "strong mana potion"
+        },
+        {
+            "chance": 13000,
+            "name": "lamp"
+        },
+        {
+            "chance": 13000,
+            "name": "staff"
+        },
+        {
+            "chance": 13000,
+            "name": "wooden whistle"
+        },
+        {
+            "chance": 7000,
+            "name": "blank rune"
+        },
+        {
+            "chance": 7000,
+            "name": "bread"
+        },
+        {
+            "chance": 7000,
+            "name": "green tunic"
+        },
+        {
+            "chance": 7000,
+            "name": "life crystal"
+        },
+        {
+            "chance": 7000,
+            "name": "sling herb"
+        },
+        {
+            "chance": 7000,
+            "name": "wolf tooth chain"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ember_ogre_ravager",
+    "threatDps": 27.015,
+    "burstDps": 27.015,
+    "avgHit": 30.6989,
+    "maxHit": 133,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 3,
+        "summons": [
+            {
+                "name": "War Wolf",
+                "id": "war_wolf",
+                "chance": 13,
+                "interval": 1000,
+                "count": 3
+            }
+        ]
+    }
+}

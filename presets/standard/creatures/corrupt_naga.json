@@ -1,0 +1,122 @@
+{
+    "id": "corrupt_naga",
+    "label": "Corrupt Naga",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A corrupt naga.",
+    "hp": 5990,
+    "hpMax": 5990,
+    "speed": 182,
+    "level": 604,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 4380,
+    "lootValue": 273.9190628328,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 25,
+        "ice": 0,
+        "energy": 10,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 60,
+            "max": 169,
+            "target": true
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2500,
+            "chance": 30,
+            "range": 3,
+            "element": "physical",
+            "min": 159,
+            "max": 214,
+            "target": true,
+            "effect": "me_yellowsmoke"
+        },
+        {
+            "id": "nagadeathattack_2",
+            "kind": "melee",
+            "intervalMs": 3000,
+            "chance": 35,
+            "range": 1,
+            "element": "physical",
+            "min": 179,
+            "max": 206,
+            "target": true
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 3500,
+            "chance": 35,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 179,
+            "max": 192,
+            "radius": 4,
+            "target": false,
+            "effect": "me_drawblood"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "corrupt naga scales",
+            "chance": 17720
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ashen_goblin_devourer",
+    "threatDps": 120.6383,
+    "burstDps": 151.375,
+    "avgHit": 144.1892,
+    "maxHit": 214,
+    "manaCost": 0
+}

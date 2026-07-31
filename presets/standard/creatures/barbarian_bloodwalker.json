@@ -1,0 +1,153 @@
+{
+    "id": "barbarian_bloodwalker",
+    "label": "Barbarian Bloodwalker",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A barbarian bloodwalker.",
+    "hp": 305,
+    "hpMax": 305,
+    "speed": 118,
+    "level": 307,
+    "armor": 9,
+    "mitigation": 0.25,
+    "maxBlock": 0,
+    "exp": 195,
+    "lootValue": 60.118272727273,
+    "aggro": true,
+    "resists": {
+        "physical": 10,
+        "fire": 0,
+        "ice": 50,
+        "energy": 10,
+        "earth": -5,
+        "holy": 20,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 93
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 240,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Human",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 8280,
+            "name": "lamp"
+        },
+        {
+            "name": "gold coin",
+            "chance": 55310,
+            "maxCount": 12
+        },
+        {
+            "name": "battle axe",
+            "chance": 5910
+        },
+        {
+            "name": "halberd",
+            "chance": 6740
+        },
+        {
+            "name": "chain helmet",
+            "chance": 10520
+        },
+        {
+            "name": "chain armor",
+            "chance": 10420
+        },
+        {
+            "name": "ham",
+            "chance": 4900
+        },
+        {
+            "name": "beastslayer axe",
+            "chance": 380
+        },
+        {
+            "name": "red piece of cloth",
+            "chance": 540
+        },
+        {
+            "name": "shard",
+            "chance": 300
+        },
+        {
+            "name": "fur boots",
+            "chance": 100
+        },
+        {
+            "name": "health potion",
+            "chance": 980
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "phantom_hill_giant",
+    "threatDps": 23.25,
+    "burstDps": 23.25,
+    "avgHit": 46.5,
+    "maxHit": 93,
+    "manaCost": 590
+}

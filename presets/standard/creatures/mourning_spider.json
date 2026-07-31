@@ -1,0 +1,184 @@
+{
+    "id": "mourning_spider",
+    "label": "Mourning Spider",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A mourning spider.",
+    "hp": 850,
+    "hpMax": 850,
+    "speed": 127,
+    "level": 409,
+    "armor": 31,
+    "mitigation": 0.86,
+    "maxBlock": 0,
+    "exp": 450,
+    "lootValue": 134.31324777028,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -10,
+        "ice": 0,
+        "energy": 0,
+        "earth": 100,
+        "holy": 10,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "damage": 30
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 41,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 55,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 14,
+            "max": 24,
+            "radius": 3,
+            "target": false,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "earth",
+            "min": 21,
+            "max": 38,
+            "target": false,
+            "shootEffect": "ani_poison"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 5,
+            "min": 70,
+            "max": 100,
+            "hpBelow": 0.7,
+            "effect": "me_sound_white"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 820,
+            "durationSec": 5,
+            "effect": "me_sound_yellow"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Vermin",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 37
+        },
+        {
+            "name": "halberd",
+            "chance": 4460
+        },
+        {
+            "name": "plate shield",
+            "chance": 2854
+        },
+        {
+            "name": "green mushroom",
+            "chance": 3208
+        },
+        {
+            "name": "health potion",
+            "chance": 4761
+        },
+        {
+            "name": "mana potion",
+            "chance": 4785
+        },
+        {
+            "name": "zaoan halberd",
+            "chance": 2210
+        },
+        {
+            "name": "widow's mandibles",
+            "chance": 20950
+        },
+        {
+            "name": "wailing widow's necklace",
+            "chance": 900
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "mourning_spider",
+    "threatDps": 40.9125,
+    "burstDps": 40.9125,
+    "avgHit": 21.46,
+    "maxHit": 41,
+    "manaCost": 0
+}

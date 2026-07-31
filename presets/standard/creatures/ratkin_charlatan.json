@@ -1,0 +1,142 @@
+{
+    "id": "ratkin_charlatan",
+    "label": "Ratkin Charlatan",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A ratkin charlatan.",
+    "hp": 250,
+    "hpMax": 250,
+    "speed": 95,
+    "level": 287,
+    "armor": 17,
+    "mitigation": 0.62,
+    "maxBlock": 0,
+    "exp": 150,
+    "lootValue": 27.521611489996,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 25,
+        "earth": 25,
+        "holy": -5,
+        "death": 15
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": true,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 83
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 35
+        },
+        {
+            "chance": 10000,
+            "name": "cheese"
+        },
+        {
+            "name": "bola",
+            "chance": 7692
+        },
+        {
+            "name": "spike shield",
+            "chance": 492
+        },
+        {
+            "name": "ratana",
+            "chance": 909
+        },
+        {
+            "name": "life preserver",
+            "chance": 854
+        },
+        {
+            "name": "cheese cutter",
+            "chance": 5882
+        },
+        {
+            "name": "cheesy figurine",
+            "chance": 518
+        },
+        {
+            "name": "earflap",
+            "chance": 7142
+        },
+        {
+            "name": "soft cheese",
+            "chance": 12500
+        },
+        {
+            "name": "rat cheese",
+            "chance": 14285
+        },
+        {
+            "name": "leather harness",
+            "chance": 537
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "brimstone_ruins_crawler",
+    "threatDps": 20.75,
+    "burstDps": 20.75,
+    "avgHit": 41.5,
+    "maxHit": 83,
+    "manaCost": 490
+}

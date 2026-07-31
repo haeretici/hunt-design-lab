@@ -1,0 +1,156 @@
+{
+    "id": "barbarian_headsplitter",
+    "label": "Barbarian Headsplitter",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A barbarian headsplitter.",
+    "hp": 100,
+    "hpMax": 100,
+    "speed": 84,
+    "level": 194,
+    "armor": 7,
+    "mitigation": 0.36,
+    "maxBlock": 0,
+    "exp": 85,
+    "lootValue": 27.313329184001,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 50,
+        "energy": 20,
+        "earth": -10,
+        "holy": 20,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 42
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 51,
+            "radius": 1,
+            "target": true,
+            "shootEffect": "ani_whirlwindaxe"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Human",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 60300,
+            "name": "torch"
+        },
+        {
+            "name": "gold coin",
+            "chance": 75600,
+            "maxCount": 30
+        },
+        {
+            "chance": 230,
+            "name": "life ring"
+        },
+        {
+            "name": "knife",
+            "chance": 14890
+        },
+        {
+            "name": "brass helmet",
+            "chance": 20140
+        },
+        {
+            "name": "viking helmet",
+            "chance": 5020
+        },
+        {
+            "chance": 8000,
+            "maxCount": 2,
+            "name": "skull"
+        },
+        {
+            "name": "scale armor",
+            "chance": 4060
+        },
+        {
+            "name": "brown piece of cloth",
+            "chance": 980
+        },
+        {
+            "name": "fur boots",
+            "chance": 90
+        },
+        {
+            "name": "krimhorn helmet",
+            "chance": 110
+        },
+        {
+            "name": "health potion",
+            "chance": 560
+        }
+    ],
+    "changeTarget": {
+        "interval": 60000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "barbarian_headsplitter",
+    "threatDps": 12.4125,
+    "burstDps": 12.4125,
+    "avgHit": 21.587,
+    "maxHit": 51,
+    "manaCost": 450
+}

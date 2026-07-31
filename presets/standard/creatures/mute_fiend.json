@@ -1,0 +1,212 @@
+{
+    "id": "mute_fiend",
+    "label": "Mute Fiend",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A mute fiend.",
+    "hp": 5400,
+    "hpMax": 5400,
+    "speed": 235,
+    "level": 593,
+    "armor": 71,
+    "mitigation": 1.82,
+    "maxBlock": 0,
+    "exp": 5100,
+    "lootValue": 1295.7554359526,
+    "aggro": true,
+    "resists": {
+        "physical": 5,
+        "fire": 30,
+        "ice": 15,
+        "energy": 15,
+        "earth": 100,
+        "holy": -25,
+        "death": 65
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 93,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 177,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "silencer_skill_reducer_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 3,
+            "element": "physical",
+            "target": false,
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "manadrain",
+            "min": 12,
+            "max": 44,
+            "radius": 4,
+            "target": true,
+            "effect": "me_magic_red",
+            "shootEffect": "ani_onyxarrow"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 450,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "heal_1",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 220,
+            "max": 425,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Magical",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 100
+        },
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 8
+        },
+        {
+            "chance": 1200,
+            "name": "stealth ring"
+        },
+        {
+            "name": "boots of haste",
+            "chance": 360
+        },
+        {
+            "name": "dark shield",
+            "chance": 2000
+        },
+        {
+            "name": "assassin star",
+            "chance": 7600,
+            "maxCount": 10
+        },
+        {
+            "name": "diamond sceptre",
+            "chance": 960
+        },
+        {
+            "name": "haunted blade",
+            "chance": 2000
+        },
+        {
+            "name": "titan axe",
+            "chance": 2200
+        },
+        {
+            "name": "shadow sceptre",
+            "chance": 640
+        },
+        {
+            "name": "glorious axe",
+            "chance": 2400
+        },
+        {
+            "name": "Earthbound Legs",
+            "chance": 960
+        },
+        {
+            "name": "Earthbound Boots",
+            "chance": 480
+        },
+        {
+            "name": "cluster of solace",
+            "chance": 4560
+        },
+        {
+            "name": "silencer claws",
+            "chance": 17000
+        },
+        {
+            "name": "silencer resonating chamber",
+            "chance": 8410
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 5
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "celestial_fiend",
+    "threatDps": 113.85,
+    "burstDps": 113.85,
+    "avgHit": 44.087,
+    "maxHit": 93,
+    "manaCost": 0
+}

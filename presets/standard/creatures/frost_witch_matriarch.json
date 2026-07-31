@@ -1,0 +1,227 @@
+{
+    "id": "frost_witch_matriarch",
+    "label": "Frost Witch Matriarch",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A frost witch matriarch.",
+    "hp": 5750,
+    "hpMax": 5750,
+    "speed": 110,
+    "level": 599,
+    "armor": 0,
+    "mitigation": 1.74,
+    "maxBlock": 0,
+    "exp": 4400,
+    "lootValue": 8814.0125786164,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": -5,
+        "earth": 80,
+        "holy": 50,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 100,
+        "staticAttackChance": 50,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 316
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 18,
+            "range": 4,
+            "element": "ice",
+            "min": 0,
+            "max": 349,
+            "radius": 4,
+            "target": true,
+            "effect": "me_icearea",
+            "shootEffect": "ani_smallice"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 3000,
+            "chance": 34,
+            "range": 7,
+            "element": "physical",
+            "min": 163,
+            "max": 244,
+            "radius": 3,
+            "target": true,
+            "effect": "me_hitarea",
+            "shootEffect": "ani_snowball"
+        },
+        {
+            "id": "slow_3",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -300,
+                "durationSec": 20
+            },
+            "effect": "me_magic_red",
+            "target": false
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 1000,
+            "chance": 25,
+            "min": 50,
+            "max": 100,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 100000,
+            "name": "shard"
+        },
+        {
+            "chance": 97000,
+            "maxCount": 283,
+            "name": "gold coin"
+        },
+        {
+            "chance": 74000,
+            "name": "blue piece of cloth"
+        },
+        {
+            "chance": 65000,
+            "name": "savant potion"
+        },
+        {
+            "chance": 33000,
+            "name": "gold ingot"
+        },
+        {
+            "chance": 22000,
+            "name": "crystal sword"
+        },
+        {
+            "chance": 15000,
+            "name": "dragon necklace"
+        },
+        {
+            "chance": 12000,
+            "name": "Frostbound Kilt"
+        },
+        {
+            "chance": 9500,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 8000,
+            "name": "marksman potion"
+        },
+        {
+            "chance": 8000,
+            "name": "Frostbound Robe"
+        },
+        {
+            "chance": 8000,
+            "name": "Bone Skull Staff"
+        },
+        {
+            "chance": 6350,
+            "name": "pair of earmuffs"
+        },
+        {
+            "chance": 4700,
+            "name": "berserk potion"
+        },
+        {
+            "chance": 4700,
+            "name": "life ring"
+        },
+        {
+            "chance": 4700,
+            "name": "queen's sceptre"
+        },
+        {
+            "chance": 1500,
+            "name": "boots of haste"
+        },
+        {
+            "chance": 1500,
+            "name": "green mushroom"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 5
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "infernal_merrow_necromancer",
+    "threatDps": 117.7683,
+    "burstDps": 129.3,
+    "avgHit": 167.4431,
+    "maxHit": 349,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 4,
+        "summons": [
+            {
+                "name": "Ice Golem",
+                "id": "ice_golem",
+                "chance": 13,
+                "interval": 1000,
+                "count": 4
+            }
+        ]
+    }
+}

@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://hunt-design-lab.local/schemas/art_sets.schema.json",
+  "title": "Art set",
+  "description": "Shape of presets/<mode>/art_sets/<id>.json. Loaded by presets.loadArtSet. Storage: folder entity. Tile ids are genre catalog ids.",
+  "type": "object",
+  "required": ["id"],
+  "additionalProperties": true,
+  "definitions": {
+    "entityId": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]{0,79}$",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "weightedTile": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "tile_id",
+          "description": "Genre tile catalog id. Designer: Select opens tile browser; alpha thumb preview sits left of the id field."
+        },
+        "weight": { "type": "number", "minimum": 0 }
+      }
+    }
+  },
+  "properties": {
+    "id": { "$ref": "#/definitions/entityId" },
+    "label": { "type": "string", "minLength": 1, "maxLength": 120 },
+    "notes": { "type": "string", "maxLength": 4000 },
+    "genre": { "type": "string" },
+    "kind": { "type": "string" },
+    "roles": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": { "$ref": "#/definitions/weightedTile" }
+      }
+    }
+  }
+}

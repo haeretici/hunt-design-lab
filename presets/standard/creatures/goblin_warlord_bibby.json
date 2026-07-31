@@ -1,0 +1,201 @@
+{
+    "id": "goblin_warlord_bibby",
+    "label": "Goblin Warlord Bibby",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A goblin warlord bibby.",
+    "hp": 1200,
+    "hpMax": 1200,
+    "speed": 120,
+    "level": 443,
+    "armor": 58,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 1500,
+    "lootValue": 1517.2133333333,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": 100,
+        "energy": 0,
+        "earth": -20,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 165
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 165,
+            "length": 5,
+            "spread": 3,
+            "target": false,
+            "effect": "me_blockhit"
+        },
+        {
+            "id": "slow_2",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -300,
+                "durationSec": 30
+            },
+            "radius": 3,
+            "effect": "me_blockhit",
+            "target": false
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "invisible_0",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 15,
+            "durationSec": 2,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 100
+        },
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 10
+        },
+        {
+            "name": "orcish axe",
+            "chance": 32910
+        },
+        {
+            "name": "two handed sword",
+            "chance": 24680
+        },
+        {
+            "name": "throwing star",
+            "chance": 19600,
+            "maxCount": 18
+        },
+        {
+            "name": "mana potion",
+            "chance": 15200,
+            "maxCount": 3
+        },
+        {
+            "name": "dark armor",
+            "chance": 14000
+        },
+        {
+            "name": "health potion",
+            "chance": 12000,
+            "maxCount": 3
+        },
+        {
+            "chance": 10300,
+            "maxCount": 1,
+            "name": "fish"
+        },
+        {
+            "name": "meat",
+            "chance": 10300
+        },
+        {
+            "name": "plate legs",
+            "chance": 8100
+        },
+        {
+            "chance": 6960,
+            "name": "stealth ring"
+        },
+        {
+            "name": "Emberbound Amulet",
+            "chance": 5700
+        },
+        {
+            "name": "giant sword",
+            "chance": 3160
+        },
+        {
+            "name": "crusader helmet",
+            "chance": 1900
+        },
+        {
+            "name": "butcher's axe",
+            "chance": 1270
+        },
+        {
+            "chance": 1270,
+            "name": "orc trophy"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "vampiric_goblin",
+    "threatDps": 49.5,
+    "burstDps": 49.5,
+    "avgHit": 82.5,
+    "maxHit": 165,
+    "manaCost": 0
+}

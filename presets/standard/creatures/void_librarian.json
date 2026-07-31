@@ -1,0 +1,232 @@
+{
+    "id": "void_librarian",
+    "label": "Void Librarian",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A void librarian.",
+    "hp": 1,
+    "hpMax": 1,
+    "speed": 115,
+    "level": 576,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 55000,
+    "lootValue": 71187.142857143,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 200,
+        "ice": 0,
+        "energy": 5,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 98,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "divine_missile_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 1,
+            "element": "physical",
+            "min": 135,
+            "max": 700,
+            "target": true
+        },
+        {
+            "id": "berserk_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "physical",
+            "min": 90,
+            "max": 500,
+            "target": true
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "lifedrain",
+            "min": 135,
+            "max": 280,
+            "radius": 5,
+            "target": true,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "wave_4",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "energy",
+            "min": 210,
+            "max": 600,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_energyarea"
+        },
+        {
+            "id": "wave_5",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "holy",
+            "min": 210,
+            "max": 700,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_holyarea"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 90000,
+            "maxCount": 38
+        },
+        {
+            "name": "crystal coin",
+            "chance": 70000,
+            "maxCount": 5
+        },
+        {
+            "name": "ultimate mana potion",
+            "chance": 70000,
+            "maxCount": 8
+        },
+        {
+            "name": "ultimate dual potion",
+            "chance": 70000,
+            "maxCount": 4
+        },
+        {
+            "name": "supreme health potion",
+            "chance": 70000,
+            "maxCount": 4
+        },
+        {
+            "name": "berserk potion",
+            "chance": 70000,
+            "maxCount": 2
+        },
+        {
+            "name": "savant potion",
+            "chance": 70000,
+            "maxCount": 2
+        },
+        {
+            "name": "onyx chip",
+            "chance": 70000,
+            "maxCount": 12
+        },
+        {
+            "name": "small emerald",
+            "chance": 70000,
+            "maxCount": 12
+        },
+        {
+            "name": "demon horn",
+            "chance": 70000
+        },
+        {
+            "name": "Stormbound Boots",
+            "chance": 70000
+        },
+        {
+            "chance": 70000,
+            "name": "red gem"
+        },
+        {
+            "name": "violet gem",
+            "chance": 70000
+        },
+        {
+            "name": "Stonehide Amulet",
+            "chance": 70000
+        },
+        {
+            "name": "wand of starstorm",
+            "chance": 70000
+        },
+        {
+            "name": "gold token",
+            "chance": 30000,
+            "maxCount": 4
+        },
+        {
+            "name": "assassin dagger",
+            "chance": 30000
+        },
+        {
+            "name": "crystalline armor",
+            "chance": 30000
+        },
+        {
+            "name": "dreaded cleaver",
+            "chance": 30000
+        },
+        {
+            "name": "frozen lightning",
+            "chance": 30000
+        },
+        {
+            "name": "sinister book",
+            "chance": 1000
+        },
+        {
+            "name": "wand of dimensions",
+            "chance": 10
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 4
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "radiant_gargoyle_ravager",
+    "threatDps": 103.75,
+    "burstDps": 103.75,
+    "avgHit": 345.8333,
+    "maxHit": 700,
+    "manaCost": 0
+}

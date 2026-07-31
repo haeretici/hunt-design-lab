@@ -1,0 +1,220 @@
+{
+    "id": "disgusting_ooze",
+    "label": "Disgusting Ooze",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A disgusting ooze.",
+    "hp": 1,
+    "hpMax": 1,
+    "speed": 130,
+    "level": 714,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 15,
+        "ice": 30,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 85,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "condition": {
+                "type": "poison",
+                "totalDamage": 300,
+                "intervalMs": 4000
+            },
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 13,
+            "range": 7,
+            "element": "lifedrain",
+            "min": 160,
+            "max": 295,
+            "target": true,
+            "effect": "me_hitbypoison",
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "condition_5",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "earth",
+            "min": 300,
+            "max": 500,
+            "radius": 8,
+            "target": false,
+            "effect": "me_hitbypoison"
+        },
+        {
+            "id": "condition_6",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "earth",
+            "min": 400,
+            "max": 725,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_smallplants"
+        },
+        {
+            "id": "area_7",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 14,
+            "range": 4,
+            "element": "earth",
+            "min": 120,
+            "max": 170,
+            "radius": 3,
+            "target": false,
+            "effect": "me_poisonarea"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 250,
+            "max": 450,
+            "hpBelow": 0.7,
+            "effect": "me_magic_green"
+        }
+    ],
+    "race": "venom",
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 272,
+            "name": "gold coin"
+        },
+        {
+            "chance": 95660,
+            "maxCount": 6,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 20340,
+            "name": "demonic essence"
+        },
+        {
+            "chance": 20130,
+            "name": "soul orb"
+        },
+        {
+            "chance": 14190,
+            "name": "glob of acid slime"
+        },
+        {
+            "chance": 11550,
+            "name": "glob of tar"
+        },
+        {
+            "chance": 5930,
+            "name": "talon"
+        },
+        {
+            "chance": 5400,
+            "maxCount": 3,
+            "name": "small emerald"
+        },
+        {
+            "chance": 2750,
+            "maxCount": 2,
+            "name": "small ruby"
+        },
+        {
+            "chance": 2650,
+            "maxCount": 2,
+            "name": "small diamond"
+        },
+        {
+            "chance": 2440,
+            "name": "death ring"
+        },
+        {
+            "chance": 1590,
+            "name": "red gem"
+        },
+        {
+            "chance": 1380,
+            "name": "yellow gem"
+        },
+        {
+            "chance": 640,
+            "name": "green gem"
+        },
+        {
+            "chance": 320,
+            "name": "blue gem"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "blood_stone_hydra_packleader",
+    "threatDps": 223.0625,
+    "burstDps": 223.0625,
+    "avgHit": 310.9043,
+    "maxHit": 725,
+    "manaCost": 0
+}

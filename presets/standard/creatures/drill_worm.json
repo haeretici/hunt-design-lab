@@ -1,0 +1,210 @@
+{
+    "id": "drill_worm",
+    "label": "Drill Worm",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A drill worm.",
+    "hp": 1500,
+    "hpMax": 1500,
+    "speed": 110,
+    "level": 464,
+    "armor": 41,
+    "mitigation": 1.26,
+    "maxBlock": 0,
+    "exp": 1200,
+    "lootValue": 327.73207941484,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -5,
+        "ice": 16,
+        "energy": 15,
+        "earth": 100,
+        "holy": 15,
+        "death": 15
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 115,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 38,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "slow_1",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 8,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -600,
+                "durationSec": 15
+            },
+            "length": 8,
+            "spread": 3,
+            "effect": "me_magic_red",
+            "target": false
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "earth",
+            "min": 58,
+            "max": 115,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_hitbypoison"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "earth",
+            "min": 38,
+            "max": 58,
+            "radius": 3,
+            "target": true,
+            "effect": "me_poisonarea"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Vermin",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 50
+        },
+        {
+            "chance": 5280,
+            "name": "pick"
+        },
+        {
+            "name": "worm",
+            "chance": 4580,
+            "maxCount": 5
+        },
+        {
+            "name": "iron ore",
+            "chance": 1750
+        },
+        {
+            "name": "spiked squelcher",
+            "chance": 540
+        },
+        {
+            "name": "Earthbound Amulet",
+            "chance": 2360
+        },
+        {
+            "name": "lump of earth",
+            "chance": 15000
+        },
+        {
+            "name": "clay lump",
+            "chance": 700
+        },
+        {
+            "chance": 12130,
+            "name": "coal"
+        },
+        {
+            "name": "green crystal splinter",
+            "chance": 9780
+        },
+        {
+            "name": "brown crystal splinter",
+            "chance": 9260
+        },
+        {
+            "name": "blue crystal splinter",
+            "chance": 9610
+        },
+        {
+            "name": "pulverized ore",
+            "chance": 5400
+        },
+        {
+            "name": "vein of ore",
+            "chance": 7280
+        },
+        {
+            "name": "drill bolt",
+            "chance": 4870,
+            "maxCount": 2
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "brimstone_ruins_crawler",
+    "threatDps": 55.675,
+    "burstDps": 55.675,
+    "avgHit": 58.68,
+    "maxHit": 115,
+    "manaCost": 0
+}

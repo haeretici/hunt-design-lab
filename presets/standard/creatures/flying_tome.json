@@ -1,0 +1,101 @@
+{
+    "id": "flying_tome",
+    "label": "Flying Tome",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A flying tome.",
+    "hp": 500,
+    "hpMax": 500,
+    "speed": 120,
+    "level": 355,
+    "armor": 45,
+    "mitigation": 1.46,
+    "maxBlock": 0,
+    "exp": 200,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 10,
+        "fire": 15,
+        "ice": 30,
+        "energy": 5,
+        "earth": 50,
+        "holy": 90,
+        "death": 20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 32,
+            "max": 63
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 15,
+            "range": 7,
+            "element": "ice",
+            "min": 32,
+            "max": 57,
+            "target": false,
+            "shootEffect": "ani_ice"
+        }
+    ],
+    "race": "ink",
+    "bestiary": {
+        "class": "Magical",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 1
+    },
+    "loot": [],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "party_skeleton",
+    "threatDps": 30.425,
+    "burstDps": 30.425,
+    "avgHit": 46.8077,
+    "maxHit": 63,
+    "manaCost": 0
+}

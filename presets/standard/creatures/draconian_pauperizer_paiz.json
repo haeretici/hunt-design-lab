@@ -1,0 +1,256 @@
+{
+    "id": "draconian_pauperizer_paiz",
+    "label": "Draconian Pauperizer Paiz",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A draconian pauperizer paiz.",
+    "hp": 8500,
+    "hpMax": 8500,
+    "speed": 140,
+    "level": 638,
+    "armor": 0,
+    "mitigation": 2,
+    "maxBlock": 0,
+    "exp": 6300,
+    "lootValue": 27778.681818182,
+    "aggro": true,
+    "resists": {
+        "physical": 10,
+        "fire": 100,
+        "ice": 0,
+        "energy": 40,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 383
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "fire",
+            "min": 204,
+            "max": 468,
+            "length": 5,
+            "spread": 3,
+            "target": false,
+            "effect": "me_explosionhit"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 12,
+            "range": 7,
+            "element": "fire",
+            "min": 170,
+            "max": 298,
+            "target": false,
+            "effect": "me_firearea",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 12,
+            "range": 4,
+            "element": "earth",
+            "min": 238,
+            "max": 383,
+            "radius": 4,
+            "target": true,
+            "effect": "me_poff",
+            "shootEffect": "ani_earth"
+        },
+        {
+            "id": "condition_5",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 11,
+            "range": 7,
+            "element": "earth",
+            "min": 17,
+            "max": 17,
+            "target": false,
+            "shootEffect": "ani_poison"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 25,
+            "min": 230,
+            "max": 330,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 100000,
+            "name": "broken draken mail"
+        },
+        {
+            "chance": 100000,
+            "name": "broken slicer"
+        },
+        {
+            "chance": 100000,
+            "name": "draken sulphur"
+        },
+        {
+            "chance": 100000,
+            "name": "draken wristbands"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 99,
+            "name": "gold coin"
+        },
+        {
+            "chance": 100000,
+            "name": "lizard scale"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 5,
+            "name": "meat"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 10,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 43000,
+            "name": "magic sulphur"
+        },
+        {
+            "chance": 36960,
+            "maxCount": 3,
+            "name": "great health potion"
+        },
+        {
+            "chance": 36960,
+            "name": "yellow gem"
+        },
+        {
+            "chance": 32610,
+            "maxCount": 3,
+            "name": "great dual potion"
+        },
+        {
+            "chance": 30430,
+            "maxCount": 3,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 23910,
+            "name": "red gem"
+        },
+        {
+            "chance": 23910,
+            "name": "sai"
+        },
+        {
+            "chance": 21740,
+            "name": "green gem"
+        },
+        {
+            "chance": 19570,
+            "name": "Zaoan sword"
+        },
+        {
+            "chance": 15220,
+            "name": "Zaoan armor"
+        },
+        {
+            "chance": 13040,
+            "name": "dragon scale mail"
+        },
+        {
+            "chance": 10870,
+            "name": "swamplair armor"
+        },
+        {
+            "chance": 10870,
+            "name": "twiceslicer"
+        },
+        {
+            "chance": 8700,
+            "name": "blue gem"
+        },
+        {
+            "chance": 8700,
+            "name": "elite draken mail"
+        },
+        {
+            "chance": 8700,
+            "maxCount": 8,
+            "name": "small emerald"
+        },
+        {
+            "chance": 4350,
+            "name": "harness"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "frost_troll",
+    "threatDps": 146.155,
+    "burstDps": 146.155,
+    "avgHit": 201.5931,
+    "maxHit": 468,
+    "manaCost": 0
+}

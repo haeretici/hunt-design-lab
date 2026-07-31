@@ -1,0 +1,145 @@
+{
+    "id": "grave_robber",
+    "label": "Grave Robber",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A grave robber.",
+    "hp": 165,
+    "hpMax": 165,
+    "speed": 95,
+    "level": 245,
+    "armor": 7,
+    "mitigation": 0.38,
+    "maxBlock": 0,
+    "exp": 65,
+    "lootValue": 18.940333024977,
+    "aggro": true,
+    "resists": {
+        "physical": -10,
+        "fire": 20,
+        "ice": -10,
+        "energy": 0,
+        "earth": 0,
+        "holy": 20,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 15,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 46
+        },
+        {
+            "id": "condition_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "earth",
+            "min": 51,
+            "max": 82,
+            "radius": 1,
+            "target": true,
+            "shootEffect": "ani_poison"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Human",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 2
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 54260,
+            "maxCount": 38
+        },
+        {
+            "name": "axe",
+            "chance": 2500
+        },
+        {
+            "name": "mace",
+            "chance": 1700
+        },
+        {
+            "name": "iron helmet",
+            "chance": 500
+        },
+        {
+            "name": "brass armor",
+            "chance": 1700
+        },
+        {
+            "name": "steel shield",
+            "chance": 500
+        },
+        {
+            "name": "nomad parchment",
+            "chance": 170
+        },
+        {
+            "name": "potato",
+            "chance": 5680,
+            "maxCount": 3
+        },
+        {
+            "name": "dirty turban",
+            "chance": 1700
+        },
+        {
+            "name": "rope belt",
+            "chance": 7510
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "grave_robber",
+    "threatDps": 16.4875,
+    "burstDps": 16.4875,
+    "avgHit": 28.6739,
+    "maxHit": 82,
+    "manaCost": 435
+}

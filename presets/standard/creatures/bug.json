@@ -1,0 +1,91 @@
+{
+    "id": "bug",
+    "label": "Bug",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A bug.",
+    "hp": 29,
+    "hpMax": 29,
+    "speed": 80,
+    "level": 70,
+    "armor": 2,
+    "mitigation": 0.07,
+    "maxBlock": 0,
+    "exp": 18,
+    "lootValue": 1.4990328820116,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -10,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 25
+        }
+    ],
+    "race": "venom",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 51170,
+            "maxCount": 6
+        },
+        {
+            "name": "cherry",
+            "chance": 2590,
+            "maxCount": 3
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "bug",
+    "threatDps": 6.25,
+    "burstDps": 6.25,
+    "avgHit": 12.5,
+    "maxHit": 25,
+    "manaCost": 0
+}

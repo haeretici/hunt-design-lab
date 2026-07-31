@@ -1,0 +1,107 @@
+{
+    "id": "gang_member",
+    "label": "Gang Member",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A gang member.",
+    "hp": 295,
+    "hpMax": 295,
+    "speed": 95,
+    "level": 303,
+    "armor": 8,
+    "mitigation": 0.38,
+    "maxBlock": 0,
+    "exp": 70,
+    "lootValue": 10.861695209191,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": -5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 35,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 91
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Human",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 50110,
+            "maxCount": 30
+        },
+        {
+            "chance": 740,
+            "name": "club ring"
+        },
+        {
+            "name": "studded legs",
+            "chance": 5220
+        },
+        {
+            "name": "leather legs",
+            "chance": 15330
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "symbol_of_hatred",
+    "threatDps": 22.75,
+    "burstDps": 22.75,
+    "avgHit": 45.5,
+    "maxHit": 91,
+    "manaCost": 450
+}

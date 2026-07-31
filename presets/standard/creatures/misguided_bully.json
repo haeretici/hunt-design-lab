@@ -1,0 +1,122 @@
+{
+    "id": "misguided_bully",
+    "label": "Misguided Bully",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A misguided bully.",
+    "hp": 2000,
+    "hpMax": 2000,
+    "speed": 90,
+    "level": 494,
+    "armor": 30,
+    "mitigation": 1.32,
+    "maxBlock": 0,
+    "exp": 1800,
+    "lootValue": 309.29400690304,
+    "aggro": true,
+    "resists": {
+        "physical": 20,
+        "fire": 0,
+        "ice": 10,
+        "energy": 0,
+        "earth": 30,
+        "holy": -30,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 209
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "physical",
+            "min": 118,
+            "max": 150,
+            "target": true,
+            "shootEffect": "ani_spear"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 153,
+            "name": "gold coin"
+        },
+        {
+            "chance": 5610,
+            "name": "rubbish amulet"
+        },
+        {
+            "chance": 4930,
+            "name": "gold ingot"
+        },
+        {
+            "chance": 4630,
+            "name": "blue gem"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "lunar_minotaur_vanguard",
+    "threatDps": 65.65,
+    "burstDps": 65.65,
+    "avgHit": 109.4167,
+    "maxHit": 209,
+    "manaCost": 0
+}

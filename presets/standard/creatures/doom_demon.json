@@ -1,0 +1,400 @@
+{
+    "id": "doom_demon",
+    "label": "Doom Demon",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A doom demon.",
+    "hp": 22500,
+    "hpMax": 22500,
+    "speed": 270,
+    "level": 735,
+    "armor": 90,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 10000,
+    "lootValue": 11273.827586207,
+    "aggro": true,
+    "resists": {
+        "physical": 20,
+        "fire": 100,
+        "ice": -1,
+        "energy": 80,
+        "earth": 100,
+        "holy": -1,
+        "death": 50
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 2500,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 603
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 13,
+            "range": 7,
+            "element": "manadrain",
+            "min": 91,
+            "max": 182,
+            "target": false
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 6,
+            "range": 4,
+            "element": "manadrain",
+            "min": 45,
+            "max": 106,
+            "radius": 5,
+            "target": false,
+            "effect": "me_poisonarea"
+        },
+        {
+            "id": "effect_3",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 6,
+            "range": 4,
+            "element": "physical",
+            "radius": 5,
+            "target": false,
+            "effect": "me_hitarea",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 34,
+            "range": 7,
+            "element": "fire",
+            "min": 94,
+            "max": 182,
+            "radius": 7,
+            "target": true,
+            "effect": "me_firearea",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "firefield_5",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "radius": 4,
+            "target": true,
+            "shootEffect": "ani_fire",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "wave_6",
+            "kind": "wave",
+            "intervalMs": 1000,
+            "chance": 15,
+            "range": 4,
+            "element": "energy",
+            "min": 152,
+            "max": 258,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_energyhit"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 1000,
+            "chance": 9,
+            "min": 1500,
+            "max": 2500,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "heal_1",
+            "kind": "heal",
+            "intervalMs": 1000,
+            "chance": 17,
+            "min": 600,
+            "max": 1000,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_2",
+            "kind": "haste",
+            "intervalMs": 1000,
+            "chance": 5,
+            "speedChange": 1901,
+            "durationSec": 7,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "fire",
+    "loot": [
+        {
+            "name": "purple tome",
+            "chance": 20000
+        },
+        {
+            "name": "golden mug",
+            "chance": 12500
+        },
+        {
+            "name": "crystal necklace",
+            "chance": 20000
+        },
+        {
+            "name": "white pearl",
+            "chance": 33333,
+            "maxCount": 15
+        },
+        {
+            "name": "black pearl",
+            "chance": 25000,
+            "maxCount": 8
+        },
+        {
+            "name": "small diamond",
+            "chance": 20000,
+            "maxCount": 5
+        },
+        {
+            "name": "small sapphire",
+            "chance": 33333,
+            "maxCount": 8
+        },
+        {
+            "name": "small emerald",
+            "chance": 25000,
+            "maxCount": 7
+        },
+        {
+            "name": "small amethyst",
+            "chance": 20000,
+            "maxCount": 17
+        },
+        {
+            "name": "talon",
+            "chance": 20000,
+            "maxCount": 3
+        },
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 69
+        },
+        {
+            "name": "green gem",
+            "chance": 6666
+        },
+        {
+            "name": "blue gem",
+            "chance": 20000
+        },
+        {
+            "chance": 6666,
+            "name": "magic light wand"
+        },
+        {
+            "name": "might ring",
+            "chance": 6666
+        },
+        {
+            "name": "silver amulet",
+            "chance": 20000
+        },
+        {
+            "name": "platinum amulet",
+            "chance": 12500
+        },
+        {
+            "name": "strange symbol",
+            "chance": 20000
+        },
+        {
+            "name": "orb",
+            "chance": 6666
+        },
+        {
+            "name": "life crystal",
+            "chance": 12500
+        },
+        {
+            "name": "mind stone",
+            "chance": 20000
+        },
+        {
+            "name": "boots of haste",
+            "chance": 12500
+        },
+        {
+            "name": "protection amulet",
+            "chance": 20000
+        },
+        {
+            "chance": 33333,
+            "name": "ring of healing"
+        },
+        {
+            "name": "two handed sword",
+            "chance": 12500
+        },
+        {
+            "name": "giant sword",
+            "chance": 25000
+        },
+        {
+            "name": "silver dagger",
+            "chance": 6666
+        },
+        {
+            "name": "golden sickle",
+            "chance": 6666
+        },
+        {
+            "name": "fire axe",
+            "chance": 12500
+        },
+        {
+            "name": "dragon hammer",
+            "chance": 6666
+        },
+        {
+            "name": "devil helmet",
+            "chance": 33333
+        },
+        {
+            "name": "golden legs",
+            "chance": 12500
+        },
+        {
+            "name": "Arcane Plate Armor",
+            "chance": 6666
+        },
+        {
+            "name": "mastermind shield",
+            "chance": 6666
+        },
+        {
+            "name": "demon shield",
+            "chance": 25000
+        },
+        {
+            "name": "Orshabaal's brain",
+            "chance": 6666
+        },
+        {
+            "name": "thunder hammer",
+            "chance": 6666
+        },
+        {
+            "name": "demon horn",
+            "chance": 50000
+        },
+        {
+            "chance": 50000,
+            "name": "death ring"
+        },
+        {
+            "name": "demonic essence",
+            "chance": 100000
+        },
+        {
+            "name": "assassin star",
+            "chance": 12500,
+            "maxCount": 42
+        },
+        {
+            "name": "great mana potion",
+            "chance": 33333
+        },
+        {
+            "name": "great health potion",
+            "chance": 20000
+        },
+        {
+            "name": "great dual potion",
+            "chance": 12500
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 33333
+        },
+        {
+            "name": "gold ingot",
+            "chance": 6666
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "mist_demon_priest",
+    "threatDps": 250.695,
+    "burstDps": 250.695,
+    "avgHit": 212.4534,
+    "maxHit": 603,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 4,
+        "summons": [
+            {
+                "name": "Demon",
+                "id": "demon",
+                "chance": 10,
+                "interval": 1000,
+                "count": 4
+            }
+        ]
+    }
+}

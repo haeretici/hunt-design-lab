@@ -1,0 +1,49 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://hunt-design-lab.local/schemas/markers.schema.json",
+  "title": "Marker / gizmo rules",
+  "description": "Shape of presets/<mode>/markers/<id>.json. Loaded by presets.loadMarkerRules. Storage: folder entity.",
+  "type": "object",
+  "required": ["id"],
+  "additionalProperties": true,
+  "definitions": {
+    "entityId": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]{0,79}$",
+      "minLength": 1,
+      "maxLength": 80
+    }
+  },
+  "properties": {
+    "id": { "$ref": "#/definitions/entityId" },
+    "label": { "type": "string", "maxLength": 120 },
+    "biome": { "type": "string" },
+    "notes": { "type": "string", "maxLength": 4000 },
+    "pools": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "objectIds": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "spawnCount": {
+            "type": "array",
+            "minItems": 2,
+            "maxItems": 2,
+            "items": { "type": "integer", "minimum": 0 }
+          },
+          "effect": { "type": "string" },
+          "blocking": { "type": "boolean" },
+          "lootValue": {
+            "type": "array",
+            "items": { "type": "number" }
+          },
+          "pacingTag": { "type": "string" }
+        }
+      }
+    }
+  }
+}

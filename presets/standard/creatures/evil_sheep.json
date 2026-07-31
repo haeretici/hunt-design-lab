@@ -1,0 +1,107 @@
+{
+    "id": "evil_sheep",
+    "label": "Evil Sheep",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An evil sheep.",
+    "hp": 350,
+    "hpMax": 350,
+    "speed": 78,
+    "level": 319,
+    "armor": 18,
+    "mitigation": 0.78,
+    "maxBlock": 0,
+    "exp": 240,
+    "lootValue": 16.326271186441,
+    "aggro": true,
+    "resists": {
+        "physical": 10,
+        "fire": -10,
+        "ice": 20,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 20,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 92
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 4000,
+            "chance": 30,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 51,
+            "target": true,
+            "shootEffect": "ani_snowball"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Mammal",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 50
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ethereal_storm_bear",
+    "threatDps": 24.9125,
+    "burstDps": 26.825,
+    "avgHit": 43.3261,
+    "maxHit": 92,
+    "manaCost": 0
+}

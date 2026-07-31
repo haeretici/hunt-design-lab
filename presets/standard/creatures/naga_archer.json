@@ -1,0 +1,203 @@
+{
+    "id": "naga_archer",
+    "label": "Naga Archer",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A naga archer.",
+    "hp": 4640,
+    "hpMax": 4640,
+    "speed": 182,
+    "level": 578,
+    "armor": 63,
+    "mitigation": 1.74,
+    "maxBlock": 0,
+    "exp": 5150,
+    "lootValue": 1023.0763790665,
+    "aggro": true,
+    "resists": {
+        "physical": -10,
+        "fire": 20,
+        "ice": 20,
+        "energy": -10,
+        "earth": -14,
+        "holy": -20,
+        "death": 10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 3,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "ranged_0",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 50,
+            "range": 6,
+            "element": "physical",
+            "min": 62,
+            "max": 253,
+            "target": true,
+            "effect": "me_purpleenergy",
+            "shootEffect": "ani_explosion"
+        },
+        {
+            "id": "nagadeathattack_1",
+            "kind": "ranged",
+            "intervalMs": 2500,
+            "chance": 20,
+            "range": 6,
+            "element": "physical",
+            "min": 279,
+            "max": 328,
+            "target": true
+        },
+        {
+            "id": "nagadeath_2",
+            "kind": "melee",
+            "intervalMs": 3000,
+            "chance": 20,
+            "range": 1,
+            "element": "physical",
+            "min": 246,
+            "max": 305,
+            "target": false
+        },
+        {
+            "id": "death_chain_3",
+            "kind": "ranged",
+            "intervalMs": 3500,
+            "chance": 20,
+            "range": 6,
+            "element": "physical",
+            "min": 298,
+            "max": 337,
+            "target": true
+        },
+        {
+            "id": "ranged_4",
+            "kind": "ranged",
+            "intervalMs": 4000,
+            "chance": 20,
+            "range": 6,
+            "element": "physical",
+            "min": 55,
+            "max": 123,
+            "target": true,
+            "effect": "me_purpleenergy",
+            "shootEffect": "ani_explosion"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Reptile",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 17
+        },
+        {
+            "name": "naga archer scales",
+            "chance": 15050,
+            "maxCount": 3
+        },
+        {
+            "name": "naga earring",
+            "chance": 12850,
+            "maxCount": 3
+        },
+        {
+            "name": "naga armring",
+            "chance": 5960,
+            "maxCount": 3
+        },
+        {
+            "chance": 5330,
+            "name": "crystal ring"
+        },
+        {
+            "name": "hunting spear",
+            "chance": 3760
+        },
+        {
+            "name": "crossbow",
+            "chance": 3130
+        },
+        {
+            "name": "blue crystal shard",
+            "chance": 1880
+        },
+        {
+            "name": "bow",
+            "chance": 1570
+        },
+        {
+            "name": "elvish bow",
+            "chance": 750
+        },
+        {
+            "name": "ornate crossbow",
+            "chance": 630
+        },
+        {
+            "name": "crystal crossbow",
+            "chance": 420
+        },
+        {
+            "chance": 630,
+            "name": "ice cube"
+        },
+        {
+            "name": "emerald bangle",
+            "chance": 930
+        },
+        {
+            "name": "silver brooch",
+            "chance": 310
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "obsidian_cyclops",
+    "threatDps": 104.6145,
+    "burstDps": 137.925,
+    "avgHit": 207.647,
+    "maxHit": 337,
+    "manaCost": 0
+}

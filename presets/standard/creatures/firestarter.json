@@ -1,0 +1,160 @@
+{
+    "id": "firestarter",
+    "label": "Firestarter",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A firestarter.",
+    "hp": 180,
+    "hpMax": 180,
+    "speed": 100,
+    "level": 253,
+    "armor": 15,
+    "mitigation": 0.51,
+    "maxBlock": 0,
+    "exp": 80,
+    "lootValue": 32.590570984036,
+    "aggro": true,
+    "resists": {
+        "physical": 20,
+        "fire": 100,
+        "ice": -10,
+        "energy": 0,
+        "earth": 5,
+        "holy": 20,
+        "death": -5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 57
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 1,
+            "element": "fire",
+            "min": 0,
+            "max": 80,
+            "radius": 1,
+            "target": true,
+            "effect": "me_explosionhit",
+            "shootEffect": "ani_burstarrow"
+        },
+        {
+            "id": "firefield_2",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 1,
+            "element": "physical",
+            "radius": 1,
+            "target": true,
+            "shootEffect": "ani_fire",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 2
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 79000,
+            "maxCount": 35
+        },
+        {
+            "name": "longsword",
+            "chance": 6000
+        },
+        {
+            "name": "bow",
+            "chance": 4000
+        },
+        {
+            "name": "grapes",
+            "chance": 20000
+        },
+        {
+            "chance": 930,
+            "name": "heaven blossom"
+        },
+        {
+            "name": "elvish bow",
+            "chance": 100
+        },
+        {
+            "name": "flaming arrow",
+            "chance": 30000,
+            "maxCount": 12
+        },
+        {
+            "name": "elvish talisman",
+            "chance": 5000
+        },
+        {
+            "chance": 15280,
+            "name": "coal"
+        },
+        {
+            "name": "flintstone",
+            "chance": 340
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "radiant_fire_giant_priest",
+    "threatDps": 17.25,
+    "burstDps": 17.25,
+    "avgHit": 30,
+    "maxHit": 80,
+    "manaCost": 0
+}

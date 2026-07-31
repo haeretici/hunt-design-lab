@@ -1,0 +1,207 @@
+{
+    "id": "plagued_bat",
+    "label": "Plagued Bat",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A plagued bat.",
+    "hp": 900,
+    "hpMax": 900,
+    "speed": 93,
+    "level": 414,
+    "armor": 19,
+    "mitigation": 1.74,
+    "maxBlock": 0,
+    "exp": 750,
+    "lootValue": 147.36716217727,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 100,
+        "holy": 0,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 300,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 54,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 38,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "earth",
+            "min": 22,
+            "max": 57,
+            "target": false,
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "physical",
+            "min": 10,
+            "max": 29,
+            "radius": 6,
+            "target": false,
+            "effect": "me_sound_white"
+        },
+        {
+            "id": "condition_4",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "earth",
+            "min": 61,
+            "max": 77,
+            "length": 4,
+            "spread": 3,
+            "target": false,
+            "effect": "me_poisonarea"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 80,
+            "max": 95,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Mammal",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "black pearl",
+            "chance": 720,
+            "maxCount": 3
+        },
+        {
+            "name": "gold coin",
+            "chance": 92500,
+            "maxCount": 130
+        },
+        {
+            "name": "small amethyst",
+            "chance": 500,
+            "maxCount": 2
+        },
+        {
+            "chance": 990,
+            "name": "voltaic ring"
+        },
+        {
+            "name": "battle shield",
+            "chance": 7760
+        },
+        {
+            "name": "black shield",
+            "chance": 70
+        },
+        {
+            "name": "obsidian lance",
+            "chance": 7260
+        },
+        {
+            "name": "star herb",
+            "chance": 5060
+        },
+        {
+            "name": "bat wing",
+            "chance": 4900,
+            "maxCount": 2
+        },
+        {
+            "name": "mercenary sword",
+            "chance": 110
+        },
+        {
+            "chance": 12530,
+            "name": "heavily rusted armor"
+        },
+        {
+            "chance": 12530,
+            "maxCount": 2,
+            "name": "rusted armor"
+        },
+        {
+            "name": "batwing hat",
+            "chance": 80
+        },
+        {
+            "name": "mutated bat ear",
+            "chance": 4900
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "storm_catacomb_devil_vanguard",
+    "threatDps": 42.1,
+    "burstDps": 42.1,
+    "avgHit": 31.8621,
+    "maxHit": 77,
+    "manaCost": 0
+}

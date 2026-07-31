@@ -1,0 +1,145 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://hunt-design-lab.local/schemas/dungeons.schema.json",
+  "title": "Dungeon profile",
+  "description": "Shape of presets/<mode>/dungeons/<id>.json. Loaded by presets.loadDungeonProfile. Designer uses format dungeon_profile for the visual editor (procedural rules + fixed placements).",
+  "format": "dungeon_profile",
+  "type": "object",
+  "required": ["id"],
+  "additionalProperties": true,
+  "definitions": {
+    "entityId": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]{0,79}$",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "point": {
+      "type": "object",
+      "required": ["x", "y"],
+      "additionalProperties": true,
+      "properties": {
+        "x": { "type": "integer" },
+        "y": { "type": "integer" }
+      }
+    },
+    "countRange": {
+      "description": "Scalar count or [min, max] inclusive range.",
+      "oneOf": [
+        { "type": "integer", "minimum": 0 },
+        {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 2,
+          "items": { "type": "integer", "minimum": 0 }
+        }
+      ]
+    },
+    "rule": {
+      "type": "object",
+      "required": ["op"],
+      "additionalProperties": true,
+      "properties": {
+        "op": {
+          "type": "string",
+          "enum": ["AddHub", "AddRoom", "AddCorridor", "AddExit", "SelectEvent"]
+        },
+        "tags": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "count": { "$ref": "#/definitions/countRange" },
+        "events": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "placement": {
+      "type": "object",
+      "required": ["pieceId", "x", "y"],
+      "additionalProperties": true,
+      "properties": {
+        "pieceId": { "type": "string" },
+        "x": { "type": "integer" },
+        "y": { "type": "integer" }
+      }
+    },
+    "cutout": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "id": { "type": "string" },
+        "bbox": {
+          "type": "object",
+          "properties": {
+            "x": { "type": "integer" },
+            "y": { "type": "integer" },
+            "w": { "type": "integer", "minimum": 1 },
+            "h": { "type": "integer", "minimum": 1 }
+          }
+        },
+        "events": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "maxPacks": { "$ref": "#/definitions/countRange" },
+        "useSockets": { "type": "boolean" }
+      }
+    }
+  },
+  "properties": {
+    "id": { "$ref": "#/definitions/entityId" },
+    "label": { "type": "string", "maxLength": 120 },
+    "type": {
+      "type": "string",
+      "enum": ["procedural", "fixed"],
+      "description": "Profile kind (fixed uses placements; procedural uses rules)."
+    },
+    "biome": { "type": "string" },
+    "seeded": { "type": "boolean" },
+    "notes": { "type": "string", "maxLength": 4000 },
+    "piecePack": {
+      "type": "string",
+      "description": "Piece pack id under pieces/."
+    },
+    "populationId": {
+      "$ref": "#/definitions/entityId",
+      "description": "Relation: kind=populations."
+    },
+    "markersId": {
+      "$ref": "#/definitions/entityId",
+      "description": "Relation: kind=markers."
+    },
+    "floor": { "type": "integer" },
+    "maxAttempts": { "type": "integer", "minimum": 1 },
+    "maxPieces": { "type": "integer", "minimum": 1 },
+    "capOpenExits": { "type": "boolean" },
+    "connectorTags": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "rules": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/rule" }
+    },
+    "placements": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/placement" }
+    },
+    "entrance": { "$ref": "#/definitions/point" },
+    "exit": { "$ref": "#/definitions/point" },
+    "waypoints": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/point" }
+    },
+    "cutouts": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/cutout" }
+    },
+    "pacingBudget": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  }
+}

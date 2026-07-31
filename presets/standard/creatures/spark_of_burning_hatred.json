@@ -1,0 +1,84 @@
+{
+    "id": "spark_of_burning_hatred",
+    "label": "Spark Of Burning Hatred",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A spark of burning hatred.",
+    "hp": 1,
+    "hpMax": 1,
+    "speed": 0,
+    "level": 526,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 100,
+        "fire": 100,
+        "ice": 100,
+        "energy": 100,
+        "earth": 100,
+        "holy": 100,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 0,
+        "health": 0,
+        "damage": 0,
+        "random": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "ranged_0",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 9,
+            "element": "fire",
+            "min": 555,
+            "max": 703,
+            "target": true,
+            "shootEffect": "ani_fire"
+        }
+    ],
+    "race": "undead",
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 40
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "magical_sphere",
+    "threatDps": 78.625,
+    "burstDps": 78.625,
+    "avgHit": 629,
+    "maxHit": 703,
+    "manaCost": 100
+}

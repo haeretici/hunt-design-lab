@@ -1,0 +1,161 @@
+{
+    "id": "deep_terror_mantassin",
+    "label": "Deep Terror Mantassin",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A deep terror mantassin.",
+    "hp": 800,
+    "hpMax": 800,
+    "speed": 295,
+    "level": 402,
+    "armor": 16,
+    "mitigation": 0.7,
+    "maxBlock": 0,
+    "exp": 600,
+    "lootValue": 113.33285397567,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": 100,
+        "energy": -25,
+        "earth": -10,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 40,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 158,
+            "effect": "me_drawblood"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "invisible_0",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 20,
+            "durationSec": 2,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 400,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Aquatic",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 5000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 29000,
+            "maxCount": 29
+        },
+        {
+            "name": "mantassin tail",
+            "chance": 12600
+        },
+        {
+            "name": "shrimp",
+            "chance": 5170,
+            "maxCount": 5
+        },
+        {
+            "name": "halberd",
+            "chance": 4970
+        },
+        {
+            "name": "small sapphire",
+            "chance": 1130
+        },
+        {
+            "name": "cape",
+            "chance": 1090
+        },
+        {
+            "chance": 1050,
+            "name": "stealth ring"
+        },
+        {
+            "name": "two handed sword",
+            "chance": 990
+        },
+        {
+            "name": "fish fin",
+            "chance": 610
+        },
+        {
+            "name": "strange helmet",
+            "chance": 100
+        },
+        {
+            "name": "blue robe",
+            "chance": 60
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "iron_revenant_warden",
+    "threatDps": 39.5,
+    "burstDps": 39.5,
+    "avgHit": 79,
+    "maxHit": 158,
+    "manaCost": 480
+}

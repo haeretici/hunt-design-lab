@@ -1,0 +1,172 @@
+{
+    "id": "pirate_corsair",
+    "label": "Pirate Corsair",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A pirate corsair.",
+    "hp": 675,
+    "hpMax": 675,
+    "speed": 119,
+    "level": 385,
+    "armor": 20,
+    "mitigation": 1.46,
+    "maxBlock": 0,
+    "exp": 350,
+    "lootValue": 55.621137393055,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -10,
+        "ice": -5,
+        "energy": 0,
+        "earth": 20,
+        "holy": 10,
+        "death": -5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 40,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": false,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 122
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 3,
+            "element": "physical",
+            "min": 0,
+            "max": 108,
+            "target": false,
+            "shootEffect": "ani_throwingstar"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Human",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "piggy bank",
+            "chance": 150
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 88
+        },
+        {
+            "name": "sabre",
+            "chance": 10000
+        },
+        {
+            "name": "throwing star",
+            "chance": 8400,
+            "maxCount": 12
+        },
+        {
+            "name": "dark armor",
+            "chance": 1650
+        },
+        {
+            "name": "dark shield",
+            "chance": 1000
+        },
+        {
+            "name": "pirate boots",
+            "chance": 220
+        },
+        {
+            "name": "rum flask",
+            "chance": 130
+        },
+        {
+            "chance": 130,
+            "name": "skull candle"
+        },
+        {
+            "name": "pirate backpack",
+            "chance": 930
+        },
+        {
+            "name": "pirate hat",
+            "chance": 1150
+        },
+        {
+            "name": "hook",
+            "chance": 600
+        },
+        {
+            "name": "eye patch",
+            "chance": 500
+        },
+        {
+            "name": "peg leg",
+            "chance": 600
+        },
+        {
+            "name": "strong health potion",
+            "chance": 820
+        },
+        {
+            "name": "compass",
+            "chance": 11050
+        },
+        {
+            "name": "compass",
+            "chance": 11020
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 15
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "chaos_triton_assassin",
+    "threatDps": 35.9,
+    "burstDps": 35.9,
+    "avgHit": 59.8333,
+    "maxHit": 122,
+    "manaCost": 775
+}

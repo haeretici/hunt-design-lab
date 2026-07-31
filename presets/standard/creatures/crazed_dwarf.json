@@ -1,0 +1,119 @@
+{
+    "id": "crazed_dwarf",
+    "label": "Crazed Dwarf",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A crazed dwarf.",
+    "hp": 105,
+    "hpMax": 105,
+    "speed": 78,
+    "level": 202,
+    "armor": 9,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 50,
+    "lootValue": 17.71875,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": true,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "element": "physical",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "min": 6,
+            "max": 46,
+            "target": true
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 12860,
+            "name": "axe"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 4,
+            "name": "gold coin"
+        },
+        {
+            "chance": 25710,
+            "name": "hatchet"
+        },
+        {
+            "chance": 8570,
+            "name": "leather legs"
+        },
+        {
+            "chance": 4290,
+            "name": "letter"
+        },
+        {
+            "chance": 8570,
+            "name": "pick"
+        },
+        {
+            "chance": 17140,
+            "name": "plate shield"
+        },
+        {
+            "chance": 8570,
+            "name": "studded armor"
+        },
+        {
+            "chance": 47140,
+            "name": "white mushroom"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "crazed_dwarf",
+    "threatDps": 13,
+    "burstDps": 13,
+    "avgHit": 26,
+    "maxHit": 46,
+    "manaCost": 320
+}

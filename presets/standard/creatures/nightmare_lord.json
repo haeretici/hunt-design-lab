@@ -1,0 +1,314 @@
+{
+    "id": "nightmare_lord",
+    "label": "Nightmare Lord",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A nightmare lord.",
+    "hp": 320000,
+    "hpMax": 320000,
+    "speed": 125,
+    "level": 1000,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 55000,
+    "lootValue": 38100,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 20,
+        "energy": 5,
+        "earth": 0,
+        "holy": 0,
+        "death": 200
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 449,
+            "max": 2246
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "death",
+            "min": 1572,
+            "max": 4491,
+            "length": 6,
+            "spread": 0,
+            "target": false,
+            "effect": "me_hitbypoison",
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 3,
+            "element": "death",
+            "min": 898,
+            "max": 1572,
+            "length": 6,
+            "spread": 0,
+            "target": false,
+            "effect": "me_mortarea"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 3,
+            "element": "fire",
+            "min": 449,
+            "max": 1123,
+            "length": 6,
+            "spread": 0,
+            "target": false,
+            "effect": "me_hitbyfire"
+        },
+        {
+            "id": "stone_shower_rune_4",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "min": 516,
+            "max": 1010,
+            "target": false
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 7500,
+            "name": "ring of blue plasma"
+        },
+        {
+            "chance": 8330,
+            "name": "ring of green plasma"
+        },
+        {
+            "chance": 7500,
+            "name": "ring of red plasma"
+        },
+        {
+            "chance": 10000,
+            "name": "collar of blue plasma"
+        },
+        {
+            "chance": 20000,
+            "name": "collar of blue plasma"
+        },
+        {
+            "chance": 15000,
+            "name": "collar of green plasma"
+        },
+        {
+            "chance": 27500,
+            "maxCount": 2,
+            "name": "red gem"
+        },
+        {
+            "name": "abyss hammer",
+            "chance": 2500
+        },
+        {
+            "name": "alptramun's toothbrush",
+            "chance": 7500
+        },
+        {
+            "name": "berserk potion",
+            "chance": 12500
+        },
+        {
+            "name": "blue gem",
+            "chance": 20000,
+            "maxCount": 2
+        },
+        {
+            "name": "marksman potion",
+            "chance": 12500
+        },
+        {
+            "name": "Maelstrom Mace",
+            "chance": 10000
+        },
+        {
+            "name": "crunor idol",
+            "chance": 7500
+        },
+        {
+            "name": "crystal coin",
+            "chance": 20000
+        },
+        {
+            "name": "dream shroud",
+            "chance": 10000
+        },
+        {
+            "name": "energy bar",
+            "chance": 92500
+        },
+        {
+            "name": "giant ruby",
+            "chance": 2500
+        },
+        {
+            "id": 282,
+            "chance": 7500
+        },
+        {
+            "name": "gold ingot",
+            "chance": 20000
+        },
+        {
+            "name": "gold token",
+            "chance": 75000,
+            "maxCount": 2
+        },
+        {
+            "name": "green gem",
+            "chance": 20000,
+            "maxCount": 2
+        },
+        {
+            "name": "huge chunk of crude iron",
+            "chance": 37500
+        },
+        {
+            "name": "magic sulphur",
+            "chance": 7500
+        },
+        {
+            "name": "savant potion",
+            "chance": 60000,
+            "maxCount": 11
+        },
+        {
+            "name": "mysterious remains",
+            "chance": 92500
+        },
+        {
+            "name": "pair of dreamwalkers",
+            "chance": 5000
+        },
+        {
+            "name": "piggy bank",
+            "chance": 92500
+        },
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 7
+        },
+        {
+            "name": "pomegranate",
+            "chance": 22500
+        },
+        {
+            "name": "purple tendril lantern",
+            "chance": 2500
+        },
+        {
+            "name": "Celestial Band",
+            "chance": 5000
+        },
+        {
+            "name": "royal star",
+            "chance": 60000,
+            "maxCount": 194
+        },
+        {
+            "name": "silver token",
+            "chance": 100000,
+            "maxCount": 5
+        },
+        {
+            "name": "Bone Skull Staff",
+            "chance": 32500
+        },
+        {
+            "name": "soul stone",
+            "chance": 5000
+        },
+        {
+            "name": "supreme health potion",
+            "chance": 60000,
+            "maxCount": 24
+        },
+        {
+            "name": "ultimate mana potion",
+            "chance": 52500,
+            "maxCount": 20
+        },
+        {
+            "name": "ultimate dual potion",
+            "chance": 80000,
+            "maxCount": 24
+        },
+        {
+            "name": "violet gem",
+            "chance": 17500
+        },
+        {
+            "name": "yellow gem",
+            "chance": 32500,
+            "maxCount": 2
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ember_ogre_ravager",
+    "threatDps": 1090.8375,
+    "burstDps": 1090.8375,
+    "avgHit": 1407.5323,
+    "maxHit": 4491,
+    "manaCost": 0
+}

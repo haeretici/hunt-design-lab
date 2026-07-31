@@ -1,0 +1,377 @@
+{
+    "id": "last_lore_keeper",
+    "label": "Last Lore Keeper",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A last lore keeper.",
+    "hp": 1,
+    "hpMax": 1,
+    "speed": 225,
+    "level": 817,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 45000,
+    "lootValue": 44626.265306122,
+    "aggro": true,
+    "resists": {
+        "physical": 25,
+        "fire": 15,
+        "ice": 35,
+        "energy": 15,
+        "earth": 20,
+        "holy": 0,
+        "death": 60
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 340,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 7,
+            "range": 4,
+            "element": "physical",
+            "min": 650,
+            "max": 900,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_explosionarea"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 850,
+            "max": 2260,
+            "length": 10,
+            "spread": 0,
+            "target": false,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 640,
+            "max": 800,
+            "radius": 5,
+            "target": false,
+            "effect": "me_smallclouds"
+        },
+        {
+            "id": "wave_4",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "energy",
+            "min": 420,
+            "max": 954,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_purpleenergy"
+        },
+        {
+            "id": "area_5",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "earth",
+            "min": 640,
+            "max": 800,
+            "radius": 5,
+            "target": true,
+            "effect": "me_stones"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 25,
+            "min": 1500,
+            "max": 3000,
+            "hpBelow": 0.7,
+            "effect": "me_magic_green"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "chance": 3000,
+            "maxCount": 3,
+            "name": "blue crystal shard"
+        },
+        {
+            "chance": 50320,
+            "maxCount": 200,
+            "name": "gold coin"
+        },
+        {
+            "chance": 50320,
+            "maxCount": 35,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 3000,
+            "maxCount": 3,
+            "name": "gold token"
+        },
+        {
+            "chance": 3000,
+            "maxCount": 4,
+            "name": "white piece of cloth"
+        },
+        {
+            "chance": 3000,
+            "maxCount": 3,
+            "name": "violet crystal shard"
+        },
+        {
+            "id": 281,
+            "chance": 500
+        },
+        {
+            "chance": 1000,
+            "name": "yellow gem"
+        },
+        {
+            "chance": 3000,
+            "maxCount": 20,
+            "name": "small emerald"
+        },
+        {
+            "chance": 150,
+            "unique": true,
+            "name": "hammer of prophecy"
+        },
+        {
+            "chance": 3000,
+            "maxCount": 2,
+            "name": "iron ore"
+        },
+        {
+            "chance": 1000,
+            "name": "ancient stone"
+        },
+        {
+            "chance": 1000,
+            "name": "golden armor"
+        },
+        {
+            "chance": 3000,
+            "maxCount": 10,
+            "name": "great dual potion"
+        },
+        {
+            "chance": 400,
+            "name": "Crude Gloomforged Hammer"
+        },
+        {
+            "chance": 3000,
+            "name": "onyx chip"
+        },
+        {
+            "chance": 1000,
+            "name": "mystical hourglass"
+        },
+        {
+            "chance": 1000,
+            "name": "piece of royal steel"
+        },
+        {
+            "chance": 3000,
+            "name": "ring of red plasma"
+        },
+        {
+            "chance": 3000,
+            "maxCount": 5,
+            "name": "ultimate health potion"
+        },
+        {
+            "chance": 10000,
+            "maxCount": 4,
+            "name": "silver token"
+        },
+        {
+            "chance": 70000,
+            "maxCount": 10,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 250,
+            "maxCount": 20,
+            "name": "small sapphire"
+        },
+        {
+            "chance": 9300,
+            "maxCount": 1,
+            "name": "red gem"
+        },
+        {
+            "chance": 7692,
+            "maxCount": 2,
+            "name": "gold ingot"
+        },
+        {
+            "chance": 2200,
+            "maxCount": 2,
+            "name": "opal"
+        },
+        {
+            "chance": 12800,
+            "maxCount": 2,
+            "name": "green gem"
+        },
+        {
+            "chance": 2680,
+            "maxCount": 20,
+            "name": "small topaz"
+        },
+        {
+            "chance": 2030,
+            "maxCount": 20,
+            "name": "small ruby"
+        },
+        {
+            "chance": 3000,
+            "name": "magic sulphur"
+        },
+        {
+            "chance": 14700,
+            "maxCount": 20,
+            "name": "small amethyst"
+        },
+        {
+            "chance": 7692,
+            "name": "enchanted chicken wing"
+        },
+        {
+            "chance": 8300,
+            "name": "Bone Skull Staff"
+        },
+        {
+            "chance": 2340,
+            "maxCount": 1,
+            "name": "violet gem"
+        },
+        {
+            "chance": 14000,
+            "name": "sapphire hammer"
+        },
+        {
+            "chance": 700,
+            "name": "silkweaver bow"
+        },
+        {
+            "chance": 200,
+            "name": "voltage armor"
+        },
+        {
+            "chance": 900,
+            "name": "bonelord shield"
+        },
+        {
+            "chance": 2500,
+            "name": "spellscroll of prophecies"
+        },
+        {
+            "chance": 380,
+            "name": "nightmare blade"
+        },
+        {
+            "chance": 620,
+            "name": "crystalline sword"
+        },
+        {
+            "chance": 820,
+            "name": "soul stone"
+        },
+        {
+            "chance": 500,
+            "name": "forbidden tome"
+        },
+        {
+            "chance": 800,
+            "name": "key to knowledge"
+        },
+        {
+            "chance": 400,
+            "name": "Gloomforged Hammer"
+        },
+        {
+            "id": 24954,
+            "chance": 400
+        },
+        {
+            "chance": 3000,
+            "maxCount": 5,
+            "name": "supreme health potion"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ashen_gorgon",
+    "threatDps": 395.325,
+    "burstDps": 395.325,
+    "avgHit": 908.7931,
+    "maxHit": 2260,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 6,
+        "summons": [
+            {
+                "name": "Sword Of Vengeance",
+                "id": "sword_of_vengeance",
+                "chance": 50,
+                "interval": 2000,
+                "count": 6
+            }
+        ]
+    }
+}

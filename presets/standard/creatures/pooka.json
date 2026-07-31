@@ -1,0 +1,174 @@
+{
+    "id": "pooka",
+    "label": "Pooka",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A pooka.",
+    "hp": 500,
+    "hpMax": 500,
+    "speed": 115,
+    "level": 356,
+    "armor": 38,
+    "mitigation": 0.99,
+    "maxBlock": 0,
+    "exp": 500,
+    "lootValue": 170.0668652764,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 20,
+        "ice": 20,
+        "energy": -10,
+        "earth": 70,
+        "holy": 20,
+        "death": 10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 20,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 115
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "earth",
+            "min": 0,
+            "max": 48,
+            "target": true,
+            "effect": "me_stones",
+            "shootEffect": "ani_smallstone"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 25,
+            "min": 40,
+            "max": 60,
+            "hpBelow": 0.7,
+            "effect": "me_magic_green"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Fey",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "carrot on a stick",
+            "chance": 20
+        },
+        {
+            "name": "dream blossom staff",
+            "chance": 20
+        },
+        {
+            "name": "small stone",
+            "chance": 200,
+            "maxCount": 5
+        },
+        {
+            "name": "gold coin",
+            "chance": 30000,
+            "maxCount": 100
+        },
+        {
+            "chance": 492,
+            "name": "stealth ring"
+        },
+        {
+            "chance": 55000,
+            "maxCount": 3,
+            "name": "carrot"
+        },
+        {
+            "name": "strong health potion",
+            "chance": 719
+        },
+        {
+            "name": "orange mushroom",
+            "chance": 10000
+        },
+        {
+            "name": "fern",
+            "chance": 30100
+        },
+        {
+            "name": "opal",
+            "chance": 5155
+        },
+        {
+            "name": "shimmering beetles",
+            "chance": 591
+        },
+        {
+            "name": "rainbow quartz",
+            "chance": 5800
+        },
+        {
+            "name": "small enchanted ruby",
+            "chance": 3400,
+            "maxCount": 2
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "cave_parrot",
+    "threatDps": 30.55,
+    "burstDps": 30.55,
+    "avgHit": 53.1304,
+    "maxHit": 115,
+    "manaCost": 0
+}

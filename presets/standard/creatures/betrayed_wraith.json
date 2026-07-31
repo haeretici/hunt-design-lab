@@ -1,0 +1,211 @@
+{
+    "id": "betrayed_wraith",
+    "label": "Betrayed Wraith",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A betrayed wraith.",
+    "hp": 4200,
+    "hpMax": 4200,
+    "speed": 173,
+    "level": 568,
+    "armor": 42,
+    "mitigation": 1.46,
+    "maxBlock": 0,
+    "exp": 3500,
+    "lootValue": 1013.0695652174,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": 50,
+        "energy": 10,
+        "earth": 100,
+        "holy": -20,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 300,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 396
+        },
+        {
+            "id": "slow_2",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -600,
+                "durationSec": 3
+            },
+            "effect": "me_smallclouds",
+            "target": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 30,
+            "min": 350,
+            "max": 600,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "invisible_1",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 10,
+            "durationSec": 2
+        },
+        {
+            "id": "haste_2",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 460,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "small diamond",
+            "chance": 11800,
+            "maxCount": 4
+        },
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 200
+        },
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 8
+        },
+        {
+            "name": "power bolt",
+            "chance": 50000,
+            "maxCount": 5
+        },
+        {
+            "name": "orichalcum pearl",
+            "chance": 8000,
+            "maxCount": 2
+        },
+        {
+            "name": "skull helmet",
+            "chance": 390
+        },
+        {
+            "name": "golden figurine",
+            "chance": 160
+        },
+        {
+            "name": "soul orb",
+            "chance": 10000
+        },
+        {
+            "chance": 390,
+            "name": "death ring"
+        },
+        {
+            "name": "demonic essence",
+            "chance": 19430
+        },
+        {
+            "name": "flask of demonic blood",
+            "chance": 65250
+        },
+        {
+            "name": "assassin star",
+            "chance": 10780,
+            "maxCount": 5
+        },
+        {
+            "name": "mercenary sword",
+            "chance": 1890
+        },
+        {
+            "name": "bloody edge",
+            "chance": 80
+        },
+        {
+            "name": "great mana potion",
+            "chance": 15000,
+            "maxCount": 3
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 15410
+        },
+        {
+            "name": "unholy bone",
+            "chance": 18410
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 15
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "cursed_basilisk_scout",
+    "threatDps": 99,
+    "burstDps": 99,
+    "avgHit": 198,
+    "maxHit": 396,
+    "manaCost": 0
+}

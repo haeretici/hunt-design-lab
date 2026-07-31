@@ -1,0 +1,170 @@
+{
+    "id": "wasp_warrior",
+    "label": "Wasp Warrior",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A wasp warrior.",
+    "hp": 1100,
+    "hpMax": 1100,
+    "speed": 155,
+    "level": 434,
+    "armor": 36,
+    "mitigation": 1.54,
+    "maxBlock": 0,
+    "exp": 830,
+    "lootValue": 381.12448910901,
+    "aggro": true,
+    "resists": {
+        "physical": -2,
+        "fire": -10,
+        "ice": 0,
+        "energy": 25,
+        "earth": 100,
+        "holy": -7,
+        "death": 5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 42,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 67,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "earth",
+            "min": 19,
+            "max": 30,
+            "radius": 3,
+            "target": true,
+            "effect": "me_poisonarea"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "earth",
+            "min": 13,
+            "max": 17,
+            "target": false,
+            "shootEffect": "ani_poison"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Vermin",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "emerald bangle",
+            "chance": 2040
+        },
+        {
+            "name": "black pearl",
+            "chance": 4230
+        },
+        {
+            "name": "gold coin",
+            "chance": 40000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 35
+        },
+        {
+            "name": "platinum coin",
+            "chance": 40430
+        },
+        {
+            "name": "yellow gem",
+            "chance": 1040
+        },
+        {
+            "name": "waspoid claw",
+            "chance": 9096
+        },
+        {
+            "name": "waspoid wing",
+            "chance": 13890
+        },
+        {
+            "name": "compound eye",
+            "chance": 6060
+        },
+        {
+            "name": "Hopper Legs",
+            "chance": 230
+        },
+        {
+            "name": "carapace shield",
+            "chance": 120
+        },
+        {
+            "name": "hive scythe",
+            "chance": 330
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "sun_orc_guard",
+    "threatDps": 46.9625,
+    "burstDps": 46.9625,
+    "avgHit": 20.7115,
+    "maxHit": 42,
+    "manaCost": 0
+}

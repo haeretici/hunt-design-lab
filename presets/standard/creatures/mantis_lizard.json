@@ -1,0 +1,175 @@
+{
+    "id": "mantis_lizard",
+    "label": "Mantis Lizard",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A mantis lizard.",
+    "hp": 19400,
+    "hpMax": 19400,
+    "speed": 205,
+    "level": 720,
+    "armor": 65,
+    "mitigation": 1.79,
+    "maxBlock": 0,
+    "exp": 11569,
+    "lootValue": 4702.6249515692,
+    "aggro": true,
+    "resists": {
+        "physical": -10,
+        "fire": 0,
+        "ice": -14,
+        "energy": 10,
+        "earth": 5,
+        "holy": -14,
+        "death": 5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 466
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 3500,
+            "chance": 47,
+            "range": 4,
+            "element": "physical",
+            "min": 350,
+            "max": 513,
+            "radius": 4,
+            "target": false,
+            "effect": "me_yellowsmoke"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2500,
+            "chance": 31,
+            "range": 4,
+            "element": "earth",
+            "min": 256,
+            "max": 373,
+            "radius": 4,
+            "target": true,
+            "effect": "me_hitbypoison"
+        },
+        {
+            "id": "mantosaurus_ring_3",
+            "kind": "ranged",
+            "intervalMs": 4000,
+            "chance": 25,
+            "range": 4,
+            "element": "physical",
+            "min": 233,
+            "max": 326,
+            "target": true
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Reptile",
+        "toKill": 5000,
+        "firstUnlock": 200,
+        "secondUnlock": 2000,
+        "charmsPoints": 100,
+        "stars": 5,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "Crystal Coin",
+            "chance": 25640,
+            "minCount": 1,
+            "maxCount": 2
+        },
+        {
+            "name": "Mantosaurus Jaw",
+            "chance": 19120
+        },
+        {
+            "name": "Ultimate Mana Potion",
+            "chance": 9660,
+            "minCount": 1,
+            "maxCount": 3
+        },
+        {
+            "name": "Silver Brooch",
+            "chance": 3920
+        },
+        {
+            "name": "Red Crystal Fragment",
+            "chance": 3570
+        },
+        {
+            "name": "Cyan Crystal Fragment",
+            "chance": 3010
+        },
+        {
+            "name": "Green Crystal Shard",
+            "chance": 3010
+        },
+        {
+            "name": "Coral Brooch",
+            "chance": 2420
+        },
+        {
+            "chance": 1430,
+            "name": "crystal ring"
+        },
+        {
+            "name": "Gold Ring",
+            "chance": 1370
+        },
+        {
+            "name": "Amulet of Safekeeping",
+            "chance": 170
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "crystal_lizard_warrior",
+    "threatDps": 230.911,
+    "burstDps": 301.5875,
+    "avgHit": 281.3293,
+    "maxHit": 513,
+    "manaCost": 0
+}

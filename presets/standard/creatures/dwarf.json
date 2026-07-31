@@ -1,0 +1,135 @@
+{
+    "id": "dwarf",
+    "label": "Dwarf",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A dwarf.",
+    "hp": 90,
+    "hpMax": 90,
+    "speed": 85,
+    "level": 184,
+    "armor": 8,
+    "mitigation": 0.36,
+    "maxBlock": 0,
+    "exp": 45,
+    "lootValue": 18.750957943925,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -5,
+        "ice": 0,
+        "energy": 0,
+        "earth": 10,
+        "holy": 0,
+        "death": -5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": true,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 47
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 35000,
+            "maxCount": 8
+        },
+        {
+            "chance": 100,
+            "name": "dwarven ring"
+        },
+        {
+            "name": "axe",
+            "chance": 15000
+        },
+        {
+            "name": "hatchet",
+            "chance": 25000
+        },
+        {
+            "name": "studded armor",
+            "chance": 8000
+        },
+        {
+            "name": "copper shield",
+            "chance": 10000
+        },
+        {
+            "chance": 10000,
+            "name": "pick"
+        },
+        {
+            "chance": 8000,
+            "name": "letter"
+        },
+        {
+            "name": "leather legs",
+            "chance": 10000
+        },
+        {
+            "name": "white mushroom",
+            "chance": 50000
+        },
+        {
+            "name": "iron ore",
+            "chance": 700
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "dwarf",
+    "threatDps": 11.75,
+    "burstDps": 11.75,
+    "avgHit": 23.5,
+    "maxHit": 47,
+    "manaCost": 320
+}

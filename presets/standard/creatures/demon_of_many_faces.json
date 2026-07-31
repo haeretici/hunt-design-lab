@@ -1,0 +1,212 @@
+{
+    "id": "demon_of_many_faces",
+    "label": "Demon Of Many Faces",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A demon of many faces.",
+    "hp": 55000,
+    "hpMax": 55000,
+    "speed": 200,
+    "level": 824,
+    "armor": 55,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 30000,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 60,
+        "fire": 100,
+        "ice": 50,
+        "energy": 60,
+        "earth": 80,
+        "holy": 40,
+        "death": 90
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 98,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 767
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 12,
+            "range": 4,
+            "element": "energy",
+            "min": 454,
+            "max": 682,
+            "radius": 7,
+            "target": false,
+            "effect": "me_energyhit"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 12,
+            "range": 4,
+            "element": "earth",
+            "min": 303,
+            "max": 606,
+            "radius": 7,
+            "target": false,
+            "effect": "me_smallplants"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 7,
+            "element": "manadrain",
+            "min": 379,
+            "max": 606,
+            "target": false,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 3000,
+            "chance": 35,
+            "range": 7,
+            "element": "fire",
+            "min": 151,
+            "max": 454,
+            "radius": 7,
+            "target": true,
+            "effect": "me_firearea",
+            "shootEffect": "ani_fire"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 35,
+            "min": 300,
+            "max": 800,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 4000,
+            "chance": 80,
+            "speedChange": 440,
+            "durationSec": 6,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "name": "white pearl",
+            "chance": 10000,
+            "maxCount": 5
+        },
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 90
+        },
+        {
+            "name": "boots of haste",
+            "chance": 16033
+        },
+        {
+            "name": "giant sword",
+            "chance": 60000
+        },
+        {
+            "name": "bright sword",
+            "chance": 20000
+        },
+        {
+            "name": "bright sword",
+            "chance": 20000
+        },
+        {
+            "name": "warlord sword",
+            "chance": 6000
+        },
+        {
+            "name": "patched boots",
+            "chance": 7000
+        },
+        {
+            "chance": 16000,
+            "name": "worn leather boots"
+        }
+    ],
+    "changeTarget": {
+        "interval": 10000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "mist_demon_priest",
+    "threatDps": 411.3042,
+    "burstDps": 428.95,
+    "avgHit": 418.9856,
+    "maxHit": 767,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 2,
+        "summons": [
+            {
+                "name": "Demon",
+                "id": "demon",
+                "chance": 50,
+                "interval": 4000,
+                "count": 2
+            }
+        ]
+    }
+}

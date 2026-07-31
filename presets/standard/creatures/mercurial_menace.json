@@ -1,0 +1,174 @@
+{
+    "id": "mercurial_menace",
+    "label": "Mercurial Menace",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A mercurial menace.",
+    "hp": 18500,
+    "hpMax": 18500,
+    "speed": 190,
+    "level": 716,
+    "armor": 91,
+    "mitigation": 2.54,
+    "maxBlock": 0,
+    "exp": 12095,
+    "lootValue": 4630.951746201,
+    "aggro": true,
+    "resists": {
+        "physical": 5,
+        "fire": 20,
+        "ice": 10,
+        "energy": -20,
+        "earth": -10,
+        "holy": 100,
+        "death": -5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 3,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 356
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 75,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 297,
+            "target": true,
+            "shootEffect": "ani_smallstone"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 3000,
+            "chance": 40,
+            "range": 3,
+            "element": "energy",
+            "min": 317,
+            "max": 594,
+            "target": true,
+            "effect": "me_blue_energy_spark"
+        },
+        {
+            "id": "mercurial_menace_ring_3",
+            "kind": "melee",
+            "intervalMs": 4500,
+            "chance": 37,
+            "range": 1,
+            "element": "physical",
+            "min": 198,
+            "max": 277
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Reptile",
+        "toKill": 5000,
+        "firstUnlock": 200,
+        "secondUnlock": 2000,
+        "charmsPoints": 100,
+        "stars": 5,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "Crystal Coin",
+            "chance": 24890,
+            "minCount": 1,
+            "maxCount": 2
+        },
+        {
+            "name": "Mercurial Wing",
+            "chance": 21500
+        },
+        {
+            "name": "Earthbound Boots",
+            "chance": 4250
+        },
+        {
+            "name": "Silver Brooch",
+            "chance": 2700
+        },
+        {
+            "name": "Earthbound Rod",
+            "chance": 1660
+        },
+        {
+            "name": "Wand of Defiance",
+            "chance": 1230
+        },
+        {
+            "name": "Dream Blossom Staff",
+            "chance": 1090
+        },
+        {
+            "name": "Coral Brooch",
+            "chance": 1030
+        },
+        {
+            "name": "Stormbound Boots",
+            "chance": 1000
+        },
+        {
+            "name": "Wand of Cosmic Energy",
+            "chance": 860
+        },
+        {
+            "name": "Gemmed Figurine",
+            "chance": 830
+        },
+        {
+            "name": "Butterfly Ring",
+            "chance": 800
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "bone_capsule",
+    "threatDps": 224.9486,
+    "burstDps": 279.725,
+    "avgHit": 206.2697,
+    "maxHit": 594,
+    "manaCost": 0
+}

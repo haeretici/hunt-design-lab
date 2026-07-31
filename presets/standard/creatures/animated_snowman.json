@@ -1,0 +1,150 @@
+{
+    "id": "animated_snowman",
+    "label": "Animated Snowman",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An animated snowman.",
+    "hp": 450,
+    "hpMax": 450,
+    "speed": 115,
+    "level": 345,
+    "armor": 25,
+    "mitigation": 0.78,
+    "maxBlock": 0,
+    "exp": 400,
+    "lootValue": 423.56081081081,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -20,
+        "ice": 20,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 92
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "energy",
+            "min": 46,
+            "max": 184,
+            "radius": 2,
+            "target": true,
+            "effect": "me_energyhit",
+            "shootEffect": "ani_energy"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Construct",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 2
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 50
+        },
+        {
+            "name": "twig arms",
+            "chance": 91770
+        },
+        {
+            "name": "shiver arrow",
+            "chance": 7310
+        },
+        {
+            "name": "ice rapier",
+            "chance": 4750
+        },
+        {
+            "name": "Frostbound Mask",
+            "chance": 4570
+        },
+        {
+            "chance": 4000,
+            "maxCount": 5,
+            "name": "snowball"
+        },
+        {
+            "name": "Hailburst Rod",
+            "chance": 3470
+        },
+        {
+            "name": "Frostbound Mask",
+            "chance": 250
+        },
+        {
+            "name": "Frostbound Amulet",
+            "chance": 3290
+        },
+        {
+            "name": "Lunar Rod",
+            "chance": 1830
+        },
+        {
+            "name": "Frostbound Kilt",
+            "chance": 1100
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "cat",
+    "threatDps": 28.75,
+    "burstDps": 28.75,
+    "avgHit": 52.2727,
+    "maxHit": 184,
+    "manaCost": 0
+}

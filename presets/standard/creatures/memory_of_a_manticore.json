@@ -1,0 +1,148 @@
+{
+    "id": "memory_of_a_manticore",
+    "label": "Memory Of A Manticore",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A memory of a manticore.",
+    "hp": 3730,
+    "hpMax": 3730,
+    "speed": 150,
+    "level": 556,
+    "armor": 0,
+    "mitigation": 1.2,
+    "maxBlock": 0,
+    "exp": 1590,
+    "lootValue": 301.61475409836,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 20,
+        "ice": -20,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 224
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 13,
+            "range": 4,
+            "element": "fire",
+            "min": 112,
+            "max": 337,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_hitbyfire"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 4000,
+            "chance": 15,
+            "range": 4,
+            "element": "earth",
+            "min": 112,
+            "max": 337,
+            "radius": 3,
+            "target": true,
+            "effect": "me_green_rings",
+            "shootEffect": "ani_envenomedarrow"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 22,
+            "range": 4,
+            "element": "fire",
+            "min": 22,
+            "max": 224,
+            "target": true,
+            "shootEffect": "ani_burstarrow"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 63
+        },
+        {
+            "name": "flaming arrow",
+            "chance": 4090,
+            "maxCount": 3
+        },
+        {
+            "name": "green crystal fragment",
+            "chance": 7000
+        },
+        {
+            "name": "small emerald",
+            "chance": 6890,
+            "maxCount": 2
+        },
+        {
+            "name": "prismatic quartz",
+            "chance": 719
+        },
+        {
+            "name": "violet gem",
+            "chance": 1700
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "scorpion",
+    "threatDps": 92.5413,
+    "burstDps": 100.96,
+    "avgHit": 129.8825,
+    "maxHit": 337,
+    "manaCost": 0
+}

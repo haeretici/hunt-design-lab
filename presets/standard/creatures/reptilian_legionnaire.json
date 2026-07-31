@@ -1,0 +1,166 @@
+{
+    "id": "reptilian_legionnaire",
+    "label": "Reptilian Legionnaire",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A reptilian legionnaire.",
+    "hp": 1400,
+    "hpMax": 1400,
+    "speed": 133,
+    "level": 458,
+    "armor": 30,
+    "mitigation": 1.07,
+    "maxBlock": 0,
+    "exp": 1100,
+    "lootValue": 205.00794989822,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 45,
+        "ice": -10,
+        "energy": 0,
+        "earth": 100,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 10,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 149
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 40,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 166,
+            "target": true,
+            "shootEffect": "ani_spear"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Reptile",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "small diamond",
+            "chance": 1001,
+            "maxCount": 2
+        },
+        {
+            "name": "gold coin",
+            "chance": 44000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 54000,
+            "maxCount": 65
+        },
+        {
+            "name": "lizard leather",
+            "chance": 970
+        },
+        {
+            "name": "lizard scale",
+            "chance": 980,
+            "maxCount": 3
+        },
+        {
+            "name": "strong health potion",
+            "chance": 3880
+        },
+        {
+            "name": "red lantern",
+            "chance": 530
+        },
+        {
+            "name": "bunch of ripe rice",
+            "chance": 1950
+        },
+        {
+            "name": "zaoan armor",
+            "chance": 70
+        },
+        {
+            "name": "zaoan shoes",
+            "chance": 460
+        },
+        {
+            "name": "drakinata",
+            "chance": 710
+        },
+        {
+            "name": "zaoan halberd",
+            "chance": 960
+        },
+        {
+            "name": "legionnaire flags",
+            "chance": 1940
+        },
+        {
+            "name": "broken halberd",
+            "chance": 14940
+        },
+        {
+            "name": "lizard trophy",
+            "chance": 20
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ashen_dwarf_priest",
+    "threatDps": 53.85,
+    "burstDps": 53.85,
+    "avgHit": 76.9286,
+    "maxHit": 166,
+    "manaCost": 0
+}

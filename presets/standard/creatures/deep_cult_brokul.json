@@ -1,0 +1,236 @@
+{
+    "id": "deep_cult_brokul",
+    "label": "Deep Cult Brokul",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A deep cult brokul.",
+    "hp": 50000,
+    "hpMax": 50000,
+    "speed": 105,
+    "level": 815,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 23000,
+    "lootValue": 906.66666666667,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": 100,
+        "energy": -14,
+        "earth": 100,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 60,
+        "staticAttackChance": 60,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 549
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 14,
+            "range": 4,
+            "element": "holy",
+            "min": 110,
+            "max": 768,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_mortarea"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 18,
+            "range": 4,
+            "element": "physical",
+            "min": 329,
+            "max": 768,
+            "radius": 4,
+            "target": false,
+            "effect": "me_explosionarea"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 14,
+            "range": 4,
+            "element": "fire",
+            "min": 329,
+            "max": 922,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_hitbyfire"
+        },
+        {
+            "id": "wave_4",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 14,
+            "range": 4,
+            "element": "holy",
+            "min": 329,
+            "max": 768,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_holyarea"
+        },
+        {
+            "id": "area_5",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 29,
+            "range": 7,
+            "element": "ice",
+            "min": 329,
+            "max": 922,
+            "radius": 4,
+            "target": true,
+            "effect": "me_firearea"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 1000,
+            "chance": 20,
+            "min": 200,
+            "max": 500,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "heal_1",
+            "kind": "heal",
+            "intervalMs": 3000,
+            "chance": 20,
+            "min": 500,
+            "max": 1000,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "small sapphire",
+            "chance": 2854,
+            "maxCount": 10
+        },
+        {
+            "name": "gold coin",
+            "chance": 70000,
+            "maxCount": 60
+        },
+        {
+            "name": "platinum coin",
+            "chance": 80000,
+            "maxCount": 10
+        },
+        {
+            "name": "gold ingot",
+            "chance": 3448,
+            "maxCount": 10
+        },
+        {
+            "name": "broccoli",
+            "chance": 2439,
+            "maxCount": 10
+        },
+        {
+            "name": "small diamond",
+            "chance": 498,
+            "maxCount": 10
+        },
+        {
+            "name": "blue gem",
+            "chance": 2500
+        },
+        {
+            "chance": 2000,
+            "name": "red gem"
+        },
+        {
+            "name": "deepling ceremonial dagger",
+            "chance": 200
+        },
+        {
+            "name": "deepling fork",
+            "chance": 200
+        },
+        {
+            "name": "true book of death",
+            "chance": 70000
+        }
+    ],
+    "changeTarget": {
+        "interval": 1000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "hellfire_kobold_cultist",
+    "threatDps": 390.2225,
+    "burstDps": 390.2225,
+    "avgHit": 412.9339,
+    "maxHit": 922,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 5,
+        "summons": [
+            {
+                "name": "Neutral Deep Dweller Warrior",
+                "id": "neutral_deep_dweller_warrior",
+                "chance": 70,
+                "interval": 1000,
+                "count": 5
+            }
+        ]
+    }
+}

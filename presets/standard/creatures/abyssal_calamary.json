@@ -1,0 +1,124 @@
+{
+    "id": "abyssal_calamary",
+    "label": "Abyssal Calamary",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An abyssal calamary.",
+    "hp": 300,
+    "hpMax": 300,
+    "speed": 140,
+    "level": 305,
+    "armor": 12,
+    "mitigation": 0.36,
+    "maxBlock": 0,
+    "exp": 200,
+    "lootValue": 10.79901659496,
+    "aggro": true,
+    "resists": {
+        "physical": -5,
+        "fire": 100,
+        "ice": 0,
+        "energy": -5,
+        "earth": 100,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 89,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "element": "physical",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "min": 20,
+            "max": 72,
+            "target": true
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Aquatic",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 9680,
+            "name": "shrimp"
+        },
+        {
+            "chance": 10770,
+            "name": "fish"
+        },
+        {
+            "name": "black pearl",
+            "chance": 1500,
+            "maxCount": 1
+        },
+        {
+            "name": "white pearl",
+            "chance": 830,
+            "maxCount": 1
+        },
+        {
+            "name": "small sapphire",
+            "chance": 250,
+            "maxCount": 3
+        },
+        {
+            "name": "small ruby",
+            "chance": 500,
+            "maxCount": 3
+        },
+        {
+            "name": "small amethyst",
+            "chance": 750,
+            "maxCount": 3
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "troll_guard",
+    "threatDps": 23,
+    "burstDps": 23,
+    "avgHit": 46,
+    "maxHit": 72,
+    "manaCost": 0
+}

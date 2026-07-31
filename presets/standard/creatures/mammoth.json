@@ -1,0 +1,125 @@
+{
+    "id": "mammoth",
+    "label": "Mammoth",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A mammoth.",
+    "hp": 320,
+    "hpMax": 320,
+    "speed": 95,
+    "level": 311,
+    "armor": 20,
+    "mitigation": 0.41,
+    "maxBlock": 0,
+    "exp": 160,
+    "lootValue": 59.947258695732,
+    "aggro": true,
+    "resists": {
+        "physical": 10,
+        "fire": -10,
+        "ice": 20,
+        "energy": 0,
+        "earth": 20,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 95
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Mammal",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 90000,
+            "maxCount": 40
+        },
+        {
+            "name": "meat",
+            "chance": 39000
+        },
+        {
+            "name": "ham",
+            "chance": 30000,
+            "maxCount": 3
+        },
+        {
+            "name": "tusk shield",
+            "chance": 500
+        },
+        {
+            "name": "mammoth whopper",
+            "chance": 2800
+        },
+        {
+            "name": "furry club",
+            "chance": 500
+        },
+        {
+            "name": "thick fur",
+            "chance": 7280
+        },
+        {
+            "name": "mammoth tusk",
+            "chance": 7500,
+            "maxCount": 2
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "chicken",
+    "threatDps": 23.75,
+    "burstDps": 23.75,
+    "avgHit": 47.5,
+    "maxHit": 95,
+    "manaCost": 500
+}

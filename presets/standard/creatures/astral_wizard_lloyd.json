@@ -1,0 +1,302 @@
+{
+    "id": "astral_wizard_lloyd",
+    "label": "Astral Wizard Lloyd",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An astral wizard lloyd.",
+    "hp": 1,
+    "hpMax": 1,
+    "speed": 200,
+    "level": 864,
+    "armor": 0,
+    "mitigation": 2.35,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 31368.058823529,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 5,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 10,
+        "death": 50
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 1,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 200,
+            "max": 1400
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 12,
+            "range": 4,
+            "element": "energy",
+            "min": 330,
+            "max": 660,
+            "length": 6,
+            "spread": 0,
+            "target": false,
+            "effect": "me_purpleenergy"
+        },
+        {
+            "id": "lloyd_wave_2",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 12,
+            "range": 1,
+            "element": "physical",
+            "min": 430,
+            "max": 560,
+            "target": false
+        },
+        {
+            "id": "lloyd_wave2_3",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 12,
+            "range": 1,
+            "element": "physical",
+            "min": 230,
+            "max": 460,
+            "target": false
+        },
+        {
+            "id": "lloyd_wave3_4",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 12,
+            "range": 1,
+            "element": "physical",
+            "min": 430,
+            "max": 660,
+            "target": false
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 180,
+            "max": 250,
+            "hpBelow": 0.7
+        }
+    ],
+    "race": "venom",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 329
+        },
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 35
+        },
+        {
+            "chance": 100000,
+            "name": "ring of healing"
+        },
+        {
+            "name": "wand of starstorm",
+            "chance": 100000
+        },
+        {
+            "name": "savant potion",
+            "chance": 100000
+        },
+        {
+            "name": "violet crystal shard",
+            "chance": 71790,
+            "maxCount": 5
+        },
+        {
+            "name": "blue crystal shard",
+            "chance": 69230,
+            "maxCount": 5
+        },
+        {
+            "name": "great dual potion",
+            "chance": 61540,
+            "maxCount": 10
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 56410,
+            "maxCount": 10
+        },
+        {
+            "name": "green crystal shard",
+            "chance": 56410,
+            "maxCount": 5
+        },
+        {
+            "name": "great mana potion",
+            "chance": 46150,
+            "maxCount": 10
+        },
+        {
+            "name": "luminous orb",
+            "chance": 41030
+        },
+        {
+            "chance": 38460,
+            "name": "collar of blue plasma"
+        },
+        {
+            "name": "gold token",
+            "chance": 30770
+        },
+        {
+            "id": 282,
+            "chance": 30770
+        },
+        {
+            "name": "rusted armor",
+            "chance": 28210
+        },
+        {
+            "chance": 28210,
+            "name": "red gem"
+        },
+        {
+            "name": "small emerald",
+            "chance": 25640,
+            "maxCount": 10
+        },
+        {
+            "name": "small amethyst",
+            "chance": 25640,
+            "maxCount": 12
+        },
+        {
+            "name": "silver token",
+            "chance": 25640
+        },
+        {
+            "name": "small topaz",
+            "chance": 20510,
+            "maxCount": 10
+        },
+        {
+            "name": "small ruby",
+            "chance": 17950,
+            "maxCount": 18
+        },
+        {
+            "name": "spellbook of warding",
+            "chance": 15380
+        },
+        {
+            "name": "yellow gem",
+            "chance": 12820
+        },
+        {
+            "name": "small diamond",
+            "chance": 10260,
+            "maxCount": 10
+        },
+        {
+            "name": "white piece of cloth",
+            "chance": 10260,
+            "maxCount": 3
+        },
+        {
+            "name": "piece of hell steel",
+            "chance": 10260,
+            "maxCount": 3
+        },
+        {
+            "name": "blue gem",
+            "chance": 10260
+        },
+        {
+            "name": "green gem",
+            "chance": 10260
+        },
+        {
+            "name": "Stormbound Legs",
+            "chance": 7690
+        },
+        {
+            "name": "violet gem",
+            "chance": 7690
+        },
+        {
+            "name": "spellweaver's robe",
+            "chance": 5130
+        },
+        {
+            "name": "demon helmet",
+            "chance": 5130
+        },
+        {
+            "name": "boots of haste",
+            "chance": 2560
+        },
+        {
+            "id": 24959,
+            "chance": 500,
+            "unique": true
+        },
+        {
+            "name": "pillow backpack",
+            "chance": 256
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "spider_queen",
+    "threatDps": 512.8,
+    "burstDps": 512.8,
+    "avgHit": 692.973,
+    "maxHit": 1400,
+    "manaCost": 0
+}

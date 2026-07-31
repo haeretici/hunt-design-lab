@@ -1,0 +1,542 @@
+// Hunt Editor page
+
+@use 'variables' as *;
+
+.he-sidebar {
+  min-width: 260px;
+}
+
+.he-hunt-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: calc(100vh - 280px);
+  overflow: auto;
+  padding-right: 2px;
+}
+
+.he-list-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto;
+  gap: 2px 8px;
+  text-align: left;
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid $border-color;
+  border-radius: 4px;
+  background: $bg-dark;
+  color: $text-main;
+  cursor: pointer;
+  font-family: $font-ui;
+  transition: border-color 0.12s ease, background 0.12s ease;
+
+  &:hover {
+    border-color: $accent-primary;
+    background: $bg-selected;
+  }
+
+  &.is-active {
+    border-color: $accent-secondary;
+    background: $bg-selected;
+    box-shadow: inset 0 0 0 1px rgba($accent-secondary, 0.35);
+  }
+}
+
+.he-list-id {
+  grid-column: 1;
+  font-family: $font-mono;
+  font-size: 0.8rem;
+  color: $accent-secondary;
+}
+
+.he-list-label {
+  grid-column: 1;
+  font-size: 0.78rem;
+  color: $text-muted;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.he-list-badges {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 3px;
+}
+
+.he-badge {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 1px 5px;
+  border-radius: 3px;
+  border: 1px solid $border-color;
+  color: $text-muted;
+
+  &--browser {
+    color: $accent-secondary;
+    border-color: rgba($accent-secondary, 0.45);
+  }
+
+  &--default {
+    color: $accent-gold;
+    border-color: rgba($accent-gold, 0.45);
+  }
+}
+
+.he-main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+  padding: 0;
+  overflow: hidden;
+}
+
+.he-scroll {
+  flex: 1 1 0;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 12px 16px 24px;
+}
+
+.he-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 0;
+  padding: 12px 16px;
+  border-bottom: 1px solid $border-color;
+}
+
+.he-editing-id {
+  font-family: $font-mono;
+  color: $accent-primary;
+  margin-left: 6px;
+}
+
+.he-form {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 1.5rem;
+}
+
+.he-editor-holder {
+  overflow: visible;
+  margin-top: 10px;
+  color: $text-main;
+
+  // json-editor bootstrap5 theme paints light cards — keep dark shell parity
+  // with Designer UI (see _designer-ui.scss .du-editor-holder).
+  .bg-light,
+  .bg-white,
+  .bg-body-tertiary,
+  .bg-body-secondary {
+    background-color: $bg-dark !important;
+    color: $text-main !important;
+  }
+
+  .text-bg-light,
+  .text-dark {
+    color: $text-main !important;
+  }
+
+  .je-object__container,
+  .je-header,
+  .je-panel,
+  .je-panel-top,
+  .card,
+  .card-body,
+  .card-header {
+    background-color: $bg-dark !important;
+    color: $text-main !important;
+  }
+
+  .card,
+  .card-body,
+  .card-header {
+    border-color: $border-color !important;
+  }
+
+  .card {
+    margin-bottom: 0.75rem;
+  }
+
+  .card-title,
+  .je-object__title,
+  .je-header,
+  label,
+  .form-check-label,
+  .form-text,
+  legend {
+    color: $text-main !important;
+    font-size: 0.85rem;
+  }
+
+  .text-muted {
+    color: $text-muted !important;
+  }
+
+  .form-control,
+  .form-select,
+  textarea.form-control,
+  select.form-select,
+  input.form-control {
+    color: $text-main !important;
+    border-color: $border-color !important;
+    background-color: $bg-input !important;
+    color-scheme: dark;
+
+    &:focus {
+      background-color: #000 !important;
+      border-color: $accent-secondary !important;
+      color: #fff !important;
+      box-shadow: 0 0 6px rgba(0, 242, 254, 0.3);
+    }
+
+    option {
+      background-color: $bg-dark;
+      color: $text-main;
+
+      &:checked {
+        background-color: $bg-selected !important;
+      }
+    }
+  }
+
+  .form-check-input {
+    background-color: $bg-input;
+    border-color: $border-color;
+
+    &:checked {
+      background-color: $accent-secondary;
+      border-color: $accent-secondary;
+    }
+  }
+
+  .btn-secondary,
+  .btn-light,
+  .btn-outline-secondary {
+    background: $bg-selected !important;
+    border-color: $border-color !important;
+    color: $text-main !important;
+
+    &:hover {
+      background: #343b4d !important;
+      color: #fff !important;
+    }
+  }
+
+  .je-indented-panel {
+    border-left: 2px solid rgba($accent-primary, 0.35);
+    padding-left: 0.75rem;
+    margin-left: 0.25rem;
+    background: transparent;
+  }
+
+  .invalid-feedback,
+  .alert-danger,
+  .errmsg {
+    color: #f88 !important;
+  }
+
+  .je-switcher {
+    color: $accent-secondary;
+  }
+}
+
+// Properties picker is appended under the editor root; keep it dark on hunt editor.
+// (Designer has the same rules under #designer-ui-app — product is dark-only.)
+#hunt-editor-app .je-modal,
+.he-editor-holder .je-modal {
+  background-color: $bg-dark !important;
+  color: $text-main !important;
+  border: 1px solid $border-color !important;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.55) !important;
+  padding: 0.65rem 0.75rem;
+  border-radius: 6px;
+  max-width: min(420px, 92vw);
+
+  label,
+  .form-check-label,
+  .card-title,
+  h1, h2, h3, h4, h5, h6,
+  p, span, div {
+    color: $text-main;
+  }
+
+  .form-control,
+  .form-select,
+  textarea,
+  input[type='text'],
+  input[type='number'],
+  input[type='search'] {
+    background-color: $bg-input !important;
+    border-color: $border-color !important;
+    color: $text-main !important;
+    color-scheme: dark;
+
+    &:focus {
+      background-color: #000 !important;
+      border-color: $accent-secondary !important;
+      color: #fff !important;
+      box-shadow: 0 0 6px rgba(0, 242, 254, 0.3);
+    }
+  }
+
+  .btn,
+  button {
+    color: $text-main;
+  }
+
+  .btn-secondary,
+  .btn-light {
+    background: $bg-selected !important;
+    border-color: $border-color !important;
+    color: $text-main !important;
+  }
+
+  .btn-primary {
+    color: #fff;
+  }
+
+  .list-group-item {
+    background-color: $bg-dark;
+    border-color: $border-color;
+    color: $text-main;
+  }
+
+  .form-check-input {
+    background-color: $bg-input;
+    border-color: $border-color;
+
+    &:checked {
+      background-color: $accent-secondary;
+      border-color: $accent-secondary;
+    }
+  }
+}
+
+.he-json {
+  min-height: 360px;
+  height: calc(100vh - 360px);
+  resize: vertical;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  tab-size: 2;
+  white-space: pre;
+}
+
+.he-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  min-height: 240px;
+  padding: 24px 8px;
+}
+
+// Wave spawn regions (visual multi-box editor)
+.he-wave-regions {
+  margin-top: 0.35rem;
+}
+
+.he-wave-regions-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(220px, 0.9fr);
+  gap: 12px;
+  align-items: start;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.he-wave-regions-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.he-wave-regions-tool.is-active {
+  border-color: $accent-secondary;
+  color: $accent-secondary;
+  box-shadow: inset 0 0 0 1px rgba($accent-secondary, 0.35);
+}
+
+.he-wave-regions-floor-status {
+  margin: 0 0 6px;
+  min-height: 1.1em;
+}
+
+.he-wave-regions-map-wrap {
+  overflow: auto;
+  max-height: 560px;
+  border: 1px solid $border-color;
+  border-radius: 4px;
+  background: $bg-dark;
+  padding: 6px;
+}
+
+.he-wave-regions-grid {
+  display: grid;
+  gap: 0;
+  width: max-content;
+  background: #0e0e14;
+  user-select: none;
+  cursor: crosshair;
+
+  &:not(.has-dungeon) {
+    gap: 1px;
+    background: rgba(0, 0, 0, 0.35);
+  }
+}
+
+.he-wave-regions-cell {
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+  min-height: 16px;
+  background: rgba(255, 255, 255, 0.04);
+  box-sizing: border-box;
+  font-size: 0.55rem;
+  line-height: 16px;
+  text-align: center;
+  font-family: $font-mono;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.85);
+  position: relative;
+
+  &.is-empty {
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  &.is-void {
+    background: #121218;
+  }
+
+  &.is-wall {
+    background: #2a2a34;
+  }
+
+  &.is-floor {
+    background: #8b929c;
+  }
+
+  &.is-entrance {
+    color: #7dffb3;
+    z-index: 2;
+  }
+
+  &.is-exit {
+    color: #ff9b7d;
+    z-index: 2;
+  }
+
+  &.is-waypoint {
+    color: #7ec8ff;
+    z-index: 2;
+  }
+
+  // Region overlays keep dungeon terrain visible underneath.
+  &.is-region {
+    box-shadow: inset 0 0 0 1px rgba($accent-primary, 0.75);
+    background-image: linear-gradient(
+      0deg,
+      rgba($accent-primary, 0.38),
+      rgba($accent-primary, 0.38)
+    );
+  }
+
+  &.is-selected {
+    box-shadow: inset 0 0 0 2px rgba($accent-secondary, 0.95);
+    background-image: linear-gradient(
+      0deg,
+      rgba($accent-secondary, 0.45),
+      rgba($accent-secondary, 0.45)
+    );
+  }
+
+  &.is-preview {
+    box-shadow: inset 0 0 0 1px rgba($accent-gold, 0.95);
+    background-image: linear-gradient(
+      0deg,
+      rgba($accent-gold, 0.42),
+      rgba($accent-gold, 0.42)
+    );
+    outline: 1px dashed rgba($accent-gold, 0.9);
+    outline-offset: -1px;
+    z-index: 3;
+  }
+}
+
+.he-wave-regions-subhead {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: $text-muted;
+  margin-bottom: 6px;
+}
+
+.he-wave-regions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 420px;
+  overflow: auto;
+}
+
+.he-wave-region-card {
+  padding: 8px;
+  border: 1px solid $border-color;
+  border-radius: 4px;
+  background: $bg-dark;
+  cursor: pointer;
+
+  &.is-active {
+    border-color: $accent-secondary;
+    box-shadow: inset 0 0 0 1px rgba($accent-secondary, 0.3);
+  }
+}
+
+.he-wave-region-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: flex-end;
+  margin-bottom: 4px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.he-wave-region-field {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 0.7rem;
+  color: $text-muted;
+  min-width: 3.2rem;
+
+  input {
+    min-width: 0;
+  }
+
+  &--grow {
+    flex: 1 1 auto;
+    min-width: 6rem;
+  }
+}
+

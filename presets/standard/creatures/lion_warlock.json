@@ -1,0 +1,119 @@
+{
+    "id": "lion_warlock",
+    "label": "Lion Warlock",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A lion warlock.",
+    "hp": 7500,
+    "hpMax": 7500,
+    "speed": 165,
+    "level": 626,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 415,
+            "effect": "me_drawblood"
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 6000,
+            "chance": 22,
+            "range": 7,
+            "element": "holy",
+            "min": 207,
+            "max": 518,
+            "radius": 4,
+            "target": true,
+            "effect": "me_holyarea"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 6000,
+            "chance": 12,
+            "range": 7,
+            "element": "holy",
+            "min": 415,
+            "max": 518,
+            "target": true,
+            "effect": "me_holydamage"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 4000,
+            "chance": 12,
+            "range": 4,
+            "element": "ice",
+            "min": 207,
+            "max": 467,
+            "radius": 4,
+            "target": true,
+            "effect": "me_iceattack",
+            "shootEffect": "ani_ice"
+        }
+    ],
+    "race": "blood",
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "iron_viper_warlock",
+    "threatDps": 136.4817,
+    "burstDps": 191.835,
+    "avgHit": 232.6392,
+    "maxHit": 518,
+    "manaCost": 0
+}

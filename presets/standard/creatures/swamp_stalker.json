@@ -1,0 +1,202 @@
+{
+    "id": "swamp_stalker",
+    "label": "Swamp Stalker",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A swamp stalker.",
+    "hp": 1300,
+    "hpMax": 1300,
+    "speed": 125,
+    "level": 451,
+    "armor": 20,
+    "mitigation": 0.78,
+    "maxBlock": 0,
+    "exp": 800,
+    "lootValue": 119.40732966942,
+    "aggro": true,
+    "resists": {
+        "physical": -5,
+        "fire": 85,
+        "ice": -5,
+        "energy": -10,
+        "earth": 30,
+        "holy": -5,
+        "death": 5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 60,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 89,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 39,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "lifedrain",
+            "min": 44,
+            "max": 68,
+            "target": true,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "earth",
+            "min": 49,
+            "max": 85,
+            "radius": 3,
+            "target": false,
+            "effect": "me_bubbles"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "earth",
+            "min": 47,
+            "max": 54,
+            "target": true,
+            "shootEffect": "ani_smallearth"
+        },
+        {
+            "id": "slow_4",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -600,
+                "durationSec": 15
+            },
+            "effect": "me_smallplants",
+            "target": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 65,
+            "max": 95,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Magical",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 92090,
+            "maxCount": 105
+        },
+        {
+            "name": "plate legs",
+            "chance": 200
+        },
+        {
+            "name": "great health potion",
+            "chance": 2030
+        },
+        {
+            "name": "great dual potion",
+            "chance": 2010
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 750
+        },
+        {
+            "name": "belted cape",
+            "chance": 580
+        },
+        {
+            "name": "paladin armor",
+            "chance": 140
+        },
+        {
+            "name": "Bloomshoot Rod",
+            "chance": 1020
+        },
+        {
+            "name": "boggy dreads",
+            "chance": 9870
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "twilight_desert_stalker",
+    "threatDps": 51.6875,
+    "burstDps": 51.6875,
+    "avgHit": 47.6852,
+    "maxHit": 89,
+    "manaCost": 0
+}

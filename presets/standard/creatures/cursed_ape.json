@@ -1,0 +1,147 @@
+{
+    "id": "cursed_ape",
+    "label": "Cursed Ape",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A cursed ape.",
+    "hp": 1700,
+    "hpMax": 1700,
+    "speed": 108,
+    "level": 478,
+    "armor": 38,
+    "mitigation": 1.37,
+    "maxBlock": 0,
+    "exp": 2000,
+    "lootValue": 154.06266318538,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 20,
+        "ice": -5,
+        "energy": 5,
+        "earth": 10,
+        "holy": -25,
+        "death": 40
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 190
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 4,
+            "element": "death",
+            "min": 80,
+            "max": 86,
+            "radius": 2,
+            "target": false,
+            "effect": "me_mortarea"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 96120,
+            "maxCount": 257
+        },
+        {
+            "name": "gold coin",
+            "chance": 38670,
+            "maxCount": 11
+        },
+        {
+            "name": "kongra's shoulderpad",
+            "chance": 13890
+        },
+        {
+            "name": "small amethyst",
+            "chance": 8140,
+            "maxCount": 1
+        },
+        {
+            "name": "protection amulet",
+            "chance": 2750
+        },
+        {
+            "name": "plate armor",
+            "chance": 1630
+        },
+        {
+            "name": "ape fur",
+            "chance": 1250
+        },
+        {
+            "name": "health potion",
+            "chance": 500,
+            "maxCount": 1
+        },
+        {
+            "chance": 380,
+            "name": "power ring"
+        },
+        {
+            "chance": 250,
+            "name": "club ring"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "dummy",
+    "threatDps": 59.95,
+    "burstDps": 59.95,
+    "avgHit": 92.2308,
+    "maxHit": 190,
+    "manaCost": 0
+}

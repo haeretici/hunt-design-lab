@@ -1,0 +1,341 @@
+{
+    "id": "angry_demon",
+    "label": "Angry Demon",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An angry demon.",
+    "hp": 8200,
+    "hpMax": 8200,
+    "speed": 128,
+    "level": 635,
+    "armor": 40,
+    "mitigation": 1.74,
+    "maxBlock": 0,
+    "exp": 6000,
+    "lootValue": 6018.1818181818,
+    "aggro": true,
+    "resists": {
+        "physical": 25,
+        "fire": 100,
+        "ice": -12,
+        "energy": 50,
+        "earth": 40,
+        "holy": -12,
+        "death": 20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 406
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "manadrain",
+            "min": 0,
+            "max": 31,
+            "target": false
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "fire",
+            "min": 136,
+            "max": 188,
+            "radius": 7,
+            "target": true,
+            "effect": "me_firearea",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "firefield_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "radius": 1,
+            "target": true,
+            "shootEffect": "ani_fire",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "wave_4",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 63,
+            "max": 167,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_purpleenergy"
+        },
+        {
+            "id": "melee_5",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 1,
+            "element": "energy",
+            "min": 220,
+            "max": 314,
+            "target": true,
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "slow_6",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -700,
+                "durationSec": 30
+            },
+            "radius": 1,
+            "effect": "me_magic_red",
+            "target": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 900,
+            "max": 1250,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 320,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "fire",
+    "loot": [
+        {
+            "name": "purple tome",
+            "chance": 1180
+        },
+        {
+            "name": "gold coin",
+            "chance": 60000,
+            "maxCount": 100
+        },
+        {
+            "name": "platinum coin",
+            "chance": 60000,
+            "maxCount": 6
+        },
+        {
+            "name": "small emerald",
+            "chance": 9690,
+            "maxCount": 5
+        },
+        {
+            "name": "small amethyst",
+            "chance": 7250,
+            "maxCount": 5
+        },
+        {
+            "name": "small ruby",
+            "chance": 7430,
+            "maxCount": 5
+        },
+        {
+            "name": "small topaz",
+            "chance": 7470,
+            "maxCount": 5
+        },
+        {
+            "chance": 2220,
+            "name": "red gem"
+        },
+        {
+            "name": "demonic essence",
+            "chance": 14630
+        },
+        {
+            "name": "talon",
+            "chance": 3430
+        },
+        {
+            "name": "might ring",
+            "chance": 1890
+        },
+        {
+            "chance": 2170,
+            "name": "stealth ring"
+        },
+        {
+            "name": "platinum amulet",
+            "chance": 680
+        },
+        {
+            "name": "orb",
+            "chance": 2854
+        },
+        {
+            "name": "gold ring",
+            "chance": 1050
+        },
+        {
+            "chance": 1990,
+            "name": "ring of healing"
+        },
+        {
+            "name": "giant sword",
+            "chance": 1980
+        },
+        {
+            "name": "ice rapier",
+            "chance": 1550
+        },
+        {
+            "name": "golden sickle",
+            "chance": 1440
+        },
+        {
+            "name": "fire axe",
+            "chance": 4030
+        },
+        {
+            "name": "devil helmet",
+            "chance": 1180
+        },
+        {
+            "name": "golden legs",
+            "chance": 440
+        },
+        {
+            "name": "Arcane Plate Armor",
+            "chance": 130
+        },
+        {
+            "name": "mastermind shield",
+            "chance": 480
+        },
+        {
+            "name": "demon shield",
+            "chance": 740
+        },
+        {
+            "name": "fire mushroom",
+            "chance": 19660,
+            "maxCount": 6
+        },
+        {
+            "name": "demon horn",
+            "chance": 14920
+        },
+        {
+            "name": "assassin star",
+            "chance": 12550,
+            "maxCount": 10
+        },
+        {
+            "name": "demonrage sword",
+            "chance": 70
+        },
+        {
+            "chance": 90,
+            "name": "demon trophy"
+        },
+        {
+            "name": "great mana potion",
+            "chance": 22220,
+            "maxCount": 3
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 19540,
+            "maxCount": 3
+        },
+        {
+            "name": "great dual potion",
+            "chance": 18510,
+            "maxCount": 3
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "mist_demon_priest",
+    "threatDps": 143.325,
+    "burstDps": 143.325,
+    "avgHit": 179.1563,
+    "maxHit": 406,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 1,
+        "summons": [
+            {
+                "name": "Fire Elemental",
+                "id": "fire_elemental",
+                "chance": 10,
+                "interval": 2000,
+                "count": 1
+            }
+        ]
+    }
+}

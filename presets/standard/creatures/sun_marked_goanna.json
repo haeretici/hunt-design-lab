@@ -1,0 +1,157 @@
+{
+    "id": "sun_marked_goanna",
+    "label": "Sun-Marked Goanna",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A sun-marked goanna.",
+    "hp": 7800,
+    "hpMax": 7800,
+    "speed": 95,
+    "level": 629,
+    "armor": 0,
+    "mitigation": 2.6,
+    "maxBlock": 0,
+    "exp": 7600,
+    "lootValue": 730,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 1,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 10,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": false,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 301,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 16,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "wave_t_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 1,
+            "element": "physical",
+            "min": 215,
+            "max": 327,
+            "target": false
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 12,
+            "range": 3,
+            "element": "earth",
+            "min": 388,
+            "max": 474,
+            "radius": 1,
+            "target": true,
+            "effect": "me_explosionhit",
+            "shootEffect": "ani_earth"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "earth",
+            "min": 181,
+            "max": 258,
+            "radius": 5,
+            "target": false,
+            "effect": "me_groundshaker"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 5,
+            "speedChange": 500,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "goanna hide with sun symbol",
+            "chance": 100000
+        },
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 3
+        },
+        {
+            "name": "envenomed arrow",
+            "chance": 50000,
+            "maxCount": 29
+        },
+        {
+            "name": "poison dagger",
+            "chance": 50000
+        },
+        {
+            "name": "scared frog",
+            "chance": 50000
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "tempest_fungal_knight_sorcerer",
+    "threatDps": 139.1225,
+    "burstDps": 139.1225,
+    "avgHit": 191.4197,
+    "maxHit": 474,
+    "manaCost": 0
+}

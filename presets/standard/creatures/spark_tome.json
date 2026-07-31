@@ -1,0 +1,196 @@
+{
+    "id": "spark_tome",
+    "label": "Spark Tome",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A spark tome.",
+    "hp": 18500,
+    "hpMax": 18500,
+    "speed": 220,
+    "level": 716,
+    "armor": 82,
+    "mitigation": 2.16,
+    "maxBlock": 0,
+    "exp": 12034,
+    "lootValue": 4392.5,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 100,
+        "earth": -10,
+        "holy": 100,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 84,
+            "max": 169
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 14,
+            "range": 7,
+            "element": "energy",
+            "min": 169,
+            "max": 574,
+            "target": false,
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 40,
+            "range": 4,
+            "element": "energy",
+            "min": 169,
+            "max": 427,
+            "radius": 3,
+            "target": false,
+            "effect": "me_energyarea"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 1500,
+            "chance": 30,
+            "range": 4,
+            "element": "physical",
+            "min": 169,
+            "max": 591,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_stun"
+        }
+    ],
+    "race": "ink",
+    "bestiary": {
+        "class": "Magical",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 28
+        },
+        {
+            "chance": 900,
+            "maxCount": 8,
+            "name": "book page"
+        },
+        {
+            "chance": 900,
+            "maxCount": 7,
+            "name": "glowing rune"
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 10000,
+            "maxCount": 7
+        },
+        {
+            "name": "ultimate mana potion",
+            "chance": 10000,
+            "maxCount": 7
+        },
+        {
+            "name": "energy ball",
+            "chance": 900,
+            "maxCount": 7
+        },
+        {
+            "chance": 800,
+            "maxCount": 7,
+            "name": "silken bookmark"
+        },
+        {
+            "name": "Stormbound Pendant",
+            "chance": 500
+        },
+        {
+            "name": "Stormbound Boots",
+            "chance": 500
+        },
+        {
+            "name": "Stormbound Headband",
+            "chance": 500
+        },
+        {
+            "name": "might ring",
+            "chance": 500
+        },
+        {
+            "name": "spellweaver's robe",
+            "chance": 350
+        },
+        {
+            "name": "wand of defiance",
+            "chance": 350
+        },
+        {
+            "name": "haunted blade",
+            "chance": 550
+        },
+        {
+            "name": "Stormbound Legs",
+            "chance": 350
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "demon_goblin",
+    "threatDps": 224.855,
+    "burstDps": 262.855,
+    "avgHit": 231.8093,
+    "maxHit": 591,
+    "manaCost": 0
+}

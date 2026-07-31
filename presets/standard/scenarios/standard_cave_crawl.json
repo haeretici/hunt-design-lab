@@ -1,0 +1,9 @@
+{
+    "id": "standard_cave_crawl",
+    "label": "Standard generated cave crawl",
+    "notes": "CI fixture: full headless combat on generator-owned layout (cave_crawl_generated). Replaces retired floor07 hand-map scenarios as the default standard combat path. Same seed ⇒ same layout, population, and combat path.",
+    "baseHuntId": "cave_crawl_generated",
+    "seed": 42,
+    "frames": 1500,
+    "maxTicks": 1500
+}

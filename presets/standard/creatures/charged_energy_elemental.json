@@ -1,0 +1,129 @@
+{
+    "id": "charged_energy_elemental",
+    "label": "Charged Energy Elemental",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A charged energy elemental.",
+    "hp": 500,
+    "hpMax": 500,
+    "speed": 135,
+    "level": 355,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 450,
+    "lootValue": 168.4437596302,
+    "aggro": true,
+    "resists": {
+        "physical": -5,
+        "fire": 100,
+        "ice": 100,
+        "energy": 100,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 1,
+        "staticAttackChance": 85,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 79
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 6,
+            "element": "energy",
+            "min": 79,
+            "max": 133,
+            "radius": 4,
+            "target": true,
+            "effect": "me_purpleenergy",
+            "shootEffect": "ani_energy"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 90,
+            "max": 150,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 22
+        },
+        {
+            "name": "flash arrow",
+            "chance": 6250,
+            "maxCount": 3
+        },
+        {
+            "name": "energy soil",
+            "chance": 2063
+        }
+    ],
+    "changeTarget": {
+        "interval": 20000,
+        "chance": 15
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "arcane_elemental_vanguard",
+    "threatDps": 30.35,
+    "burstDps": 30.35,
+    "avgHit": 50.5833,
+    "maxHit": 133,
+    "manaCost": 0
+}

@@ -1,0 +1,218 @@
+{
+    "id": "rune_construct_matriarch",
+    "label": "Rune Construct Matriarch",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A rune construct matriarch.",
+    "hp": 2000,
+    "hpMax": 2000,
+    "speed": 130,
+    "level": 494,
+    "armor": 40,
+    "mitigation": 1.18,
+    "maxBlock": 0,
+    "exp": 1650,
+    "lootValue": 581.57713305257,
+    "aggro": true,
+    "resists": {
+        "physical": -5,
+        "fire": 0,
+        "ice": 20,
+        "energy": -5,
+        "earth": 40,
+        "holy": 30,
+        "death": 15
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 15,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 35,
+            "range": 7,
+            "element": "physical",
+            "min": 33,
+            "max": 152,
+            "target": false,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_earth"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 35,
+            "range": 4,
+            "element": "physical",
+            "min": 33,
+            "max": 152,
+            "radius": 3,
+            "target": false,
+            "effect": "me_energyhit"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 35,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 380,
+            "length": 6,
+            "spread": 3,
+            "target": false,
+            "effect": "me_mortarea"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 400,
+            "max": 500,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 6000,
+            "name": "ancient coin"
+        },
+        {
+            "chance": 2500,
+            "name": "black pearl"
+        },
+        {
+            "chance": 18000,
+            "maxCount": 2,
+            "name": "cave turnip"
+        },
+        {
+            "chance": 15000,
+            "name": "cracked alabaster vase"
+        },
+        {
+            "chance": 6800,
+            "name": "dark mushroom"
+        },
+        {
+            "chance": 4300,
+            "name": "gemmed figurine"
+        },
+        {
+            "chance": 50320,
+            "maxCount": 150,
+            "name": "gold coin"
+        },
+        {
+            "chance": 80000,
+            "maxCount": 2,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 2800,
+            "name": "prismatic quartz"
+        },
+        {
+            "chance": 20000,
+            "name": "rhino horn carving"
+        },
+        {
+            "chance": 1300,
+            "name": "ring of healing"
+        },
+        {
+            "chance": 4500,
+            "name": "slightly rusted helmet"
+        },
+        {
+            "chance": 10000,
+            "name": "skull"
+        },
+        {
+            "chance": 4000,
+            "name": "small ruby"
+        },
+        {
+            "chance": 1500,
+            "name": "Stonehide Amulet"
+        },
+        {
+            "chance": 15000,
+            "name": "strong mana potion"
+        },
+        {
+            "chance": 15000,
+            "name": "tarnished rhino figurine"
+        },
+        {
+            "chance": 2000,
+            "name": "wand of decay"
+        },
+        {
+            "chance": 800,
+            "name": "wand of voodoo"
+        },
+        {
+            "chance": 2000,
+            "name": "waterskin"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "sugar_cube",
+    "threatDps": 65.625,
+    "burstDps": 65.625,
+    "avgHit": 125,
+    "maxHit": 380,
+    "manaCost": 0
+}

@@ -1,0 +1,116 @@
+{
+    "id": "pit_lord",
+    "label": "Pit Lord",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A pit lord.",
+    "hp": 5270,
+    "hpMax": 5270,
+    "speed": 135,
+    "level": 590,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 2500,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": -1,
+        "energy": 0,
+        "earth": 1,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 360
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 7500,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 95,
+            "max": 237,
+            "target": false,
+            "shootEffect": "ani_largerock"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 5000,
+            "chance": 100,
+            "speedChange": 500,
+            "durationSec": 2.5,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "heal_1",
+            "kind": "heal",
+            "intervalMs": 6000,
+            "chance": 65,
+            "min": 20,
+            "max": 50,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [],
+    "changeTarget": {
+        "interval": 0,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ember_ogre_ravager",
+    "threatDps": 112.1333,
+    "burstDps": 173,
+    "avgHit": 177.0526,
+    "maxHit": 360,
+    "manaCost": 0
+}

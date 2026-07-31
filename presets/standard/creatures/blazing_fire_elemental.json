@@ -1,0 +1,141 @@
+{
+    "id": "blazing_fire_elemental",
+    "label": "Blazing Fire Elemental",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A blazing fire elemental.",
+    "hp": 650,
+    "hpMax": 650,
+    "speed": 110,
+    "level": 382,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 450,
+    "lootValue": 136.09085475194,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": -25,
+        "energy": 20,
+        "earth": 0,
+        "holy": 0,
+        "death": 30
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 80,
+        "random": 20
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 61
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 13,
+            "range": 4,
+            "element": "fire",
+            "min": 39,
+            "max": 124,
+            "radius": 5,
+            "target": false,
+            "effect": "me_firearea"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 12,
+            "range": 7,
+            "element": "fire",
+            "min": 67,
+            "max": 91,
+            "radius": 5,
+            "target": true,
+            "effect": "me_firearea",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "firefield_3",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "radius": 1,
+            "target": true,
+            "shootEffect": "ani_fire",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "race": "fire",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 10000,
+            "maxCount": 40
+        },
+        {
+            "name": "flaming arrow",
+            "chance": 5000,
+            "maxCount": 4
+        },
+        {
+            "name": "glimmering soil",
+            "chance": 2500
+        },
+        {
+            "name": "fiery heart",
+            "chance": 5475
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "arcane_elemental_vanguard",
+    "threatDps": 35.325,
+    "burstDps": 35.325,
+    "avgHit": 47.1,
+    "maxHit": 124,
+    "manaCost": 0
+}

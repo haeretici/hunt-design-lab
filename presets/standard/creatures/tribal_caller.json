@@ -1,0 +1,186 @@
+{
+    "id": "tribal_caller",
+    "label": "Tribal Caller",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A tribal caller.",
+    "hp": 1310,
+    "hpMax": 1310,
+    "speed": 110,
+    "level": 452,
+    "armor": 32,
+    "mitigation": 1.18,
+    "maxBlock": 0,
+    "exp": 1390,
+    "lootValue": 499.56020942408,
+    "aggro": true,
+    "resists": {
+        "physical": -5,
+        "fire": 5,
+        "ice": 0,
+        "energy": 0,
+        "earth": 25,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 125
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 4,
+            "element": "fire",
+            "min": 66,
+            "max": 75,
+            "radius": 2,
+            "target": false,
+            "effect": "me_firearea"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "earth",
+            "min": 62,
+            "max": 79,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_stone_storm"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "earth",
+            "min": 81,
+            "max": 95,
+            "radius": 1,
+            "target": true,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_poison"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 51,
+            "max": 71,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 1
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 389
+        },
+        {
+            "id": 281,
+            "chance": 7100
+        },
+        {
+            "name": "tiger eye",
+            "chance": 6910
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 6360,
+            "maxCount": 2
+        },
+        {
+            "name": "small sapphire",
+            "chance": 5810,
+            "maxCount": 3
+        },
+        {
+            "name": "spellbook of enlightenment",
+            "chance": 1920
+        },
+        {
+            "name": "opal",
+            "chance": 1850
+        },
+        {
+            "name": "gold-brocaded cloth",
+            "chance": 1780
+        },
+        {
+            "name": "gold ingot",
+            "chance": 960
+        },
+        {
+            "name": "broken iks headpiece",
+            "chance": 70
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "cave_spider",
+    "threatDps": 51.95,
+    "burstDps": 51.95,
+    "avgHit": 67.0323,
+    "maxHit": 125,
+    "manaCost": 0
+}

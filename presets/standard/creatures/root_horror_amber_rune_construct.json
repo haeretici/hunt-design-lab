@@ -1,0 +1,210 @@
+{
+    "id": "root_horror_amber_rune_construct",
+    "label": "Root Horror Amber Rune Construct",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A root horror amber rune construct.",
+    "hp": 15000,
+    "hpMax": 15000,
+    "speed": 185,
+    "level": 695,
+    "armor": 100,
+    "mitigation": 2.75,
+    "maxBlock": 0,
+    "exp": 12400,
+    "lootValue": 2417.0542635659,
+    "aggro": true,
+    "resists": {
+        "physical": 5,
+        "fire": -5,
+        "ice": -5,
+        "energy": 25,
+        "earth": 100,
+        "holy": -5,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 320
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 1,
+            "element": "earth",
+            "min": 392,
+            "max": 534,
+            "target": true,
+            "effect": "me_smallplants"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2500,
+            "chance": 17,
+            "range": 4,
+            "element": "physical",
+            "min": 427,
+            "max": 570,
+            "radius": 2,
+            "target": true,
+            "effect": "me_stones"
+        },
+        {
+            "id": "poison_chain_4",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 1,
+            "element": "physical",
+            "min": 427,
+            "max": 641
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 500,
+            "max": 800,
+            "hpBelow": 0.7,
+            "effect": "me_magic_green"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Plant",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 200
+        },
+        {
+            "name": "platinum coin",
+            "chance": 88010,
+            "maxCount": 37
+        },
+        {
+            "name": "demon root",
+            "chance": 6840
+        },
+        {
+            "name": "amber sickle",
+            "chance": 5980
+        },
+        {
+            "name": "resin parasite",
+            "chance": 5980
+        },
+        {
+            "name": "crystal coin",
+            "chance": 2560
+        },
+        {
+            "name": "wooden spellbook",
+            "chance": 2560
+        },
+        {
+            "name": "amber",
+            "chance": 1710
+        },
+        {
+            "name": "amber staff",
+            "chance": 850
+        },
+        {
+            "name": "jade hammer",
+            "chance": 850
+        },
+        {
+            "name": "skull helmet",
+            "chance": 1310
+        },
+        {
+            "name": "amber with a bug",
+            "chance": 1110
+        },
+        {
+            "name": "amber with a dragonfly",
+            "chance": 1110
+        },
+        {
+            "name": "Preserved Pink Seed",
+            "chance": 110
+        },
+        {
+            "name": "Preserved Red Seed",
+            "chance": 110
+        },
+        {
+            "name": "Preserved Yellow Seed",
+            "chance": 110
+        },
+        {
+            "name": "Preserved Dark Seed",
+            "chance": 110
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ember_ruins_horror",
+    "threatDps": 200.248,
+    "burstDps": 208.7225,
+    "avgHit": 269.5128,
+    "maxHit": 641,
+    "manaCost": 0
+}

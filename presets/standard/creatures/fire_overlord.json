@@ -1,0 +1,152 @@
+{
+    "id": "fire_overlord",
+    "label": "Fire Overlord",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A fire overlord.",
+    "hp": 4000,
+    "hpMax": 4000,
+    "speed": 150,
+    "level": 563,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 2800,
+    "lootValue": 5557.33632287,
+    "aggro": true,
+    "resists": {
+        "physical": 1,
+        "fire": 100,
+        "ice": -25,
+        "energy": 20,
+        "earth": 80,
+        "holy": 0,
+        "death": 20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 77,
+            "condition": {
+                "type": "fire",
+                "totalDamage": 111,
+                "intervalMs": 9000
+            }
+        },
+        {
+            "id": "firefield_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "radius": 4,
+            "target": true,
+            "shootEffect": "ani_fire",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 1000,
+            "chance": 15,
+            "range": 4,
+            "element": "fire",
+            "min": 51,
+            "max": 154,
+            "length": 1,
+            "spread": 0,
+            "target": false,
+            "effect": "me_fireattack"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 13,
+            "range": 4,
+            "element": "fire",
+            "min": 34,
+            "max": 60,
+            "radius": 4,
+            "target": true,
+            "effect": "me_firearea"
+        }
+    ],
+    "race": "fire",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 75
+        },
+        {
+            "name": "platinum coin",
+            "chance": 50000,
+            "maxCount": 3
+        },
+        {
+            "name": "Emberbound Coat",
+            "chance": 819
+        },
+        {
+            "name": "eternal flames",
+            "chance": 100000
+        },
+        {
+            "name": "fiery heart",
+            "chance": 100000
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "radiant_fire_giant_priest",
+    "threatDps": 96.235,
+    "burstDps": 96.235,
+    "avgHit": 52.2244,
+    "maxHit": 154,
+    "manaCost": 0
+}

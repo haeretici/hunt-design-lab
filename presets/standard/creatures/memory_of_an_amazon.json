@@ -1,0 +1,111 @@
+{
+    "id": "memory_of_an_amazon",
+    "label": "Memory Of An Amazon",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A memory of an amazon.",
+    "hp": 3600,
+    "hpMax": 3600,
+    "speed": 86,
+    "level": 553,
+    "armor": 0,
+    "mitigation": 1.1,
+    "maxBlock": 0,
+    "exp": 1480,
+    "lootValue": 42.285714285714,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 321
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 5,
+            "element": "physical",
+            "min": 0,
+            "max": 285,
+            "target": false,
+            "shootEffect": "ani_throwingknife"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "dagger",
+            "chance": 80000
+        },
+        {
+            "chance": 80000,
+            "maxCount": 2,
+            "name": "skull"
+        },
+        {
+            "name": "gold coin",
+            "chance": 40000,
+            "maxCount": 20
+        },
+        {
+            "name": "brown bread",
+            "chance": 30000
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "radiant_desert_elf_champion",
+    "threatDps": 90.9375,
+    "burstDps": 90.9375,
+    "avgHit": 158.1522,
+    "maxHit": 321,
+    "manaCost": 0
+}

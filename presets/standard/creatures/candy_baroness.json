@@ -1,0 +1,172 @@
+{
+    "id": "candy_baroness",
+    "label": "Candy Baroness",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A candy baroness.",
+    "hp": 6000,
+    "hpMax": 6000,
+    "speed": 250,
+    "level": 603,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 6800,
+    "lootValue": 2112.3931623932,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -5,
+        "ice": 15,
+        "energy": 10,
+        "earth": -5,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 3,
+        "runHealth": 0,
+        "staticAttackChance": 98,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 377
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 50,
+            "range": 6,
+            "element": "energy",
+            "min": 75,
+            "max": 194,
+            "target": true,
+            "shootEffect": "ani_cherrybomb"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 4,
+            "element": "energy",
+            "min": 183,
+            "max": 302,
+            "radius": 6,
+            "target": false,
+            "effect": "me_purpleenergy"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 4,
+            "element": "energy",
+            "min": 269,
+            "max": 334,
+            "radius": 4,
+            "target": false,
+            "effect": "me_powerful_hearts"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 3000,
+            "chance": 25,
+            "min": 400,
+            "max": 600,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 11
+        },
+        {
+            "name": "cherry",
+            "chance": 100000,
+            "maxCount": 2
+        },
+        {
+            "chance": 11465,
+            "maxCount": 1,
+            "name": "red gem"
+        },
+        {
+            "chance": 9500,
+            "name": "yellow gem"
+        },
+        {
+            "chance": 4760,
+            "name": "green gem"
+        },
+        {
+            "chance": 28555,
+            "maxCount": 11,
+            "name": "dark chocolate coin"
+        },
+        {
+            "chance": 26465,
+            "maxCount": 12,
+            "name": "milk chocolate coin"
+        },
+        {
+            "chance": 16465,
+            "maxCount": 1,
+            "name": "taiyaki ice cream"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "warp_crypt_wyrm",
+    "threatDps": 120.475,
+    "burstDps": 120.475,
+    "avgHit": 200.7917,
+    "maxHit": 377,
+    "manaCost": 0
+}

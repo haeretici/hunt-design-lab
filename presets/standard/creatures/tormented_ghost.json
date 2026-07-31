@@ -1,0 +1,91 @@
+{
+    "id": "tormented_ghost",
+    "label": "Tormented Ghost",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A tormented ghost.",
+    "hp": 210,
+    "hpMax": 210,
+    "speed": 80,
+    "level": 269,
+    "armor": 0,
+    "mitigation": 0.51,
+    "maxBlock": 0,
+    "exp": 5,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 100,
+        "fire": 0,
+        "ice": 1,
+        "energy": 0,
+        "earth": 100,
+        "holy": 0,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 71
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 3000,
+            "chance": 15,
+            "range": 1,
+            "element": "lifedrain",
+            "min": 14,
+            "max": 27,
+            "target": false
+        }
+    ],
+    "race": "undead",
+    "loot": [],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "glacier_mountain_phantom",
+    "threatDps": 18.775,
+    "burstDps": 19.2875,
+    "avgHit": 34.1364,
+    "maxHit": 71,
+    "manaCost": 0
+}

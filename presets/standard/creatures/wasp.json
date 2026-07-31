@@ -1,0 +1,90 @@
+{
+    "id": "wasp",
+    "label": "Wasp",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A wasp.",
+    "hp": 35,
+    "hpMax": 35,
+    "speed": 160,
+    "level": 91,
+    "armor": 4,
+    "mitigation": 0.2,
+    "maxBlock": 0,
+    "exp": 24,
+    "lootValue": 1.1906514925216,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -10,
+        "ice": 0,
+        "energy": 0,
+        "earth": 100,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 1500,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 7,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 7,
+                "intervalMs": 4000
+            }
+        }
+    ],
+    "race": "venom",
+    "loot": [
+        {
+            "name": "honeycomb",
+            "chance": 3000
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "wasp",
+    "threatDps": 7,
+    "burstDps": 10.5,
+    "avgHit": 3.5,
+    "maxHit": 7,
+    "manaCost": 0
+}

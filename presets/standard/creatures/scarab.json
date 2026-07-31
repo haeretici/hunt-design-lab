@@ -1,0 +1,156 @@
+{
+    "id": "scarab",
+    "label": "Scarab",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A scarab.",
+    "hp": 320,
+    "hpMax": 320,
+    "speed": 80,
+    "level": 311,
+    "armor": 21,
+    "mitigation": 0.67,
+    "maxBlock": 0,
+    "exp": 120,
+    "lootValue": 20.50169032442,
+    "aggro": true,
+    "resists": {
+        "physical": 5,
+        "fire": -18,
+        "ice": 20,
+        "energy": 10,
+        "earth": 100,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 80,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": true,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 91
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 1,
+            "element": "earth",
+            "min": 0,
+            "max": 42,
+            "target": false,
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "poisonfield_2",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 1,
+            "element": "physical",
+            "radius": 1,
+            "target": false,
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 200,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Vermin",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 86800,
+            "maxCount": 52
+        },
+        {
+            "name": "small emerald",
+            "chance": 413
+        },
+        {
+            "name": "small amethyst",
+            "chance": 540
+        },
+        {
+            "name": "scarab coin",
+            "chance": 1098
+        },
+        {
+            "name": "daramian mace",
+            "chance": 245
+        },
+        {
+            "name": "meat",
+            "chance": 40000,
+            "maxCount": 2
+        },
+        {
+            "name": "piece of scarab shell",
+            "chance": 4950
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "rune_stone_bugbear",
+    "threatDps": 23.8,
+    "burstDps": 23.8,
+    "avgHit": 43.2727,
+    "maxHit": 91,
+    "manaCost": 395
+}

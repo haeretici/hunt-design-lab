@@ -1,0 +1,102 @@
+{
+    "id": "badger",
+    "label": "Badger",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A badger.",
+    "hp": 23,
+    "hpMax": 23,
+    "speed": 70,
+    "level": 47,
+    "armor": 1,
+    "mitigation": 0.07,
+    "maxBlock": 0,
+    "exp": 5,
+    "lootValue": 2.0123579899569,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 10,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": true,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 22
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Mammal",
+        "toKill": 250,
+        "firstUnlock": 10,
+        "secondUnlock": 100,
+        "charmsPoints": 5,
+        "stars": 1,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 10230,
+            "name": "badger fur"
+        },
+        {
+            "name": "beetroot",
+            "chance": 40710
+        },
+        {
+            "name": "acorn",
+            "chance": 5130
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "badger",
+    "threatDps": 5.5,
+    "burstDps": 5.5,
+    "avgHit": 11,
+    "maxHit": 22,
+    "manaCost": 200
+}

@@ -1,0 +1,118 @@
+{
+    "id": "demon_parrot",
+    "label": "Demon Parrot",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A demon parrot.",
+    "hp": 360,
+    "hpMax": 360,
+    "speed": 160,
+    "level": 321,
+    "armor": 18,
+    "mitigation": 0.48,
+    "maxBlock": 0,
+    "exp": 225,
+    "lootValue": 40.844827586207,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 1200,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 41
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 30,
+            "range": 5,
+            "element": "lifedrain",
+            "min": 10,
+            "max": 19,
+            "target": false,
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "melee_3",
+            "kind": "melee",
+            "intervalMs": 1000,
+            "chance": 30,
+            "range": 1,
+            "element": "lifedrain",
+            "min": 6,
+            "max": 19,
+            "target": false
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Bird",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 1
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 81630,
+            "maxCount": 99
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "mist_demon_priest",
+    "threatDps": 25.1833,
+    "burstDps": 28.6,
+    "avgHit": 17.5698,
+    "maxHit": 41,
+    "manaCost": 0
+}

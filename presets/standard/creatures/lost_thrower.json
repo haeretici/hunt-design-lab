@@ -1,0 +1,219 @@
+{
+    "id": "lost_thrower",
+    "label": "Lost Thrower",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A lost thrower.",
+    "hp": 1700,
+    "hpMax": 1700,
+    "speed": 120,
+    "level": 477,
+    "armor": 50,
+    "mitigation": 1.4,
+    "maxBlock": 0,
+    "exp": 1500,
+    "lootValue": 371.32887899035,
+    "aggro": true,
+    "resists": {
+        "physical": 10,
+        "fire": 15,
+        "ice": -5,
+        "energy": 10,
+        "earth": 100,
+        "holy": 0,
+        "death": 10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 182
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 151,
+            "radius": 1,
+            "target": true,
+            "effect": "me_explosionarea",
+            "shootEffect": "ani_throwingstar"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 7,
+            "element": "physical",
+            "radius": 2,
+            "target": false,
+            "effect": "me_magic_red",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "min": 91,
+            "max": 182,
+            "radius": 2,
+            "target": true,
+            "effect": "me_stun",
+            "shootEffect": "ani_whirlwindclub"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 5,
+            "min": 100,
+            "max": 500,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "invisible_1",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 10,
+            "durationSec": 2,
+            "effect": "me_teleport"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 37
+        },
+        {
+            "name": "platinum coin",
+            "chance": 70000,
+            "maxCount": 2
+        },
+        {
+            "name": "brown mushroom",
+            "chance": 14500,
+            "maxCount": 2
+        },
+        {
+            "name": "iron ore",
+            "chance": 9470
+        },
+        {
+            "name": "great mana potion",
+            "chance": 13470
+        },
+        {
+            "name": "great health potion",
+            "chance": 14730
+        },
+        {
+            "chance": 12180,
+            "name": "coal"
+        },
+        {
+            "name": "buckle",
+            "chance": 850
+        },
+        {
+            "name": "broken throwing axe",
+            "chance": 1390
+        },
+        {
+            "name": "helmet of the lost",
+            "chance": 13560
+        },
+        {
+            "name": "lost bracers",
+            "chance": 14860
+        },
+        {
+            "name": "mad froth",
+            "chance": 11810
+        },
+        {
+            "name": "basalt fetish",
+            "chance": 6150
+        },
+        {
+            "name": "basalt figurine",
+            "chance": 7900
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "arcane_elemental_vanguard",
+    "threatDps": 59.875,
+    "burstDps": 59.875,
+    "avgHit": 92.1154,
+    "maxHit": 182,
+    "manaCost": 0
+}

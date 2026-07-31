@@ -1,0 +1,294 @@
+{
+    "id": "depths_duke",
+    "label": "Depths Duke",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A depths duke.",
+    "hp": 1,
+    "hpMax": 1,
+    "speed": 135,
+    "level": 804,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 300000,
+    "lootValue": 37269.5,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 200,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 800
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 3,
+            "element": "fire",
+            "min": 0,
+            "max": 1000,
+            "length": 6,
+            "spread": 8,
+            "target": false,
+            "effect": "me_firearea"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 3,
+            "element": "fire",
+            "min": 0,
+            "max": 1000,
+            "length": 9,
+            "spread": 4,
+            "target": false,
+            "effect": "me_hitbyfire"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "physical",
+            "min": 135,
+            "max": 1000,
+            "radius": 2,
+            "target": false,
+            "effect": "me_explosionarea"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 1000,
+            "radius": 8,
+            "target": false,
+            "effect": "me_hitarea"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 63
+        },
+        {
+            "name": "savant potion",
+            "chance": 100000
+        },
+        {
+            "name": "Stonehide Amulet",
+            "chance": 100000
+        },
+        {
+            "chance": 100000,
+            "name": "heavy crystal fragment"
+        },
+        {
+            "name": "wand of inferno",
+            "chance": 75000
+        },
+        {
+            "name": "great mana potion",
+            "chance": 64580,
+            "maxCount": 18
+        },
+        {
+            "name": "blue crystal shard",
+            "chance": 60420
+        },
+        {
+            "name": "fire axe",
+            "chance": 58330
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 52080,
+            "maxCount": 18
+        },
+        {
+            "name": "fire sword",
+            "chance": 52080
+        },
+        {
+            "name": "great dual potion",
+            "chance": 45830,
+            "maxCount": 18
+        },
+        {
+            "name": "luminous orb",
+            "chance": 37500
+        },
+        {
+            "name": "damaged worm head",
+            "chance": 27080
+        },
+        {
+            "name": "small amethyst",
+            "chance": 25000
+        },
+        {
+            "name": "small diamond",
+            "chance": 20830
+        },
+        {
+            "name": "slightly rusted helmet",
+            "chance": 20830
+        },
+        {
+            "name": "green gem",
+            "chance": 18750
+        },
+        {
+            "name": "slightly rusted shield",
+            "chance": 18750
+        },
+        {
+            "name": "silver token",
+            "chance": 16670
+        },
+        {
+            "name": "giant tentacle",
+            "chance": 16670
+        },
+        {
+            "name": "yellow gem",
+            "chance": 16670
+        },
+        {
+            "name": "blue gem",
+            "chance": 16670
+        },
+        {
+            "name": "small ruby",
+            "chance": 14580
+        },
+        {
+            "id": 281,
+            "chance": 14580
+        },
+        {
+            "name": "magic sulphur",
+            "chance": 14580
+        },
+        {
+            "name": "huge chunk of crude iron",
+            "chance": 12500
+        },
+        {
+            "chance": 12500,
+            "name": "red gem"
+        },
+        {
+            "name": "small topaz",
+            "chance": 10420
+        },
+        {
+            "name": "small emerald",
+            "chance": 10420
+        },
+        {
+            "name": "muck rod",
+            "chance": 10420
+        },
+        {
+            "name": "gold token",
+            "chance": 10420
+        },
+        {
+            "name": "crystal coin",
+            "chance": 6250
+        },
+        {
+            "name": "gnome shield",
+            "chance": 4170
+        },
+        {
+            "name": "crystalline armor",
+            "chance": 4170
+        },
+        {
+            "name": "gnome sword",
+            "chance": 4170
+        },
+        {
+            "name": "Earthbound Mantle",
+            "chance": 2080
+        },
+        {
+            "name": "violet gem",
+            "chance": 2080
+        },
+        {
+            "name": "gnome legs",
+            "chance": 3390
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 50
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "crystal_dune_viper",
+    "threatDps": 367.5625,
+    "burstDps": 367.5625,
+    "avgHit": 445.5303,
+    "maxHit": 1000,
+    "manaCost": 0
+}

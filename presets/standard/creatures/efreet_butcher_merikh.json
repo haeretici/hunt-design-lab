@@ -1,0 +1,171 @@
+{
+    "id": "efreet_butcher_merikh",
+    "label": "Efreet Butcher Merikh",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An efreet butcher merikh.",
+    "hp": 2000,
+    "hpMax": 2000,
+    "speed": 90,
+    "level": 494,
+    "armor": 0,
+    "mitigation": 1.29,
+    "maxBlock": 0,
+    "exp": 1500,
+    "lootValue": 1526.3888888889,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 1,
+        "ice": -1,
+        "energy": 0,
+        "earth": 0,
+        "holy": -1,
+        "death": 1
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 262
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 50,
+            "max": 100,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 97250,
+            "maxCount": 120
+        },
+        {
+            "name": "green piece of cloth",
+            "chance": 100000,
+            "maxCount": 4
+        },
+        {
+            "name": "noble turban",
+            "chance": 63900
+        },
+        {
+            "name": "heavy machete",
+            "chance": 41650
+        },
+        {
+            "name": "Emberbound Monocle",
+            "chance": 8400
+        },
+        {
+            "name": "seeds",
+            "chance": 100
+        },
+        {
+            "name": "jewelled belt",
+            "chance": 100000
+        },
+        {
+            "name": "shiny stone",
+            "chance": 58300
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 41650,
+            "maxCount": 3
+        },
+        {
+            "name": "small emerald",
+            "chance": 2800,
+            "maxCount": 2
+        },
+        {
+            "name": "small oil lamp",
+            "chance": 100
+        },
+        {
+            "name": "royal spear",
+            "chance": 55550,
+            "maxCount": 3
+        },
+        {
+            "name": "mystic turban",
+            "chance": 36100
+        },
+        {
+            "name": "green gem",
+            "chance": 2800
+        },
+        {
+            "name": "pear",
+            "chance": 100,
+            "maxCount": 8
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "skeletal_hill_giant",
+    "threatDps": 65.5,
+    "burstDps": 65.5,
+    "avgHit": 131,
+    "maxHit": 262,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 2,
+        "summons": [
+            {
+                "name": "Green Djinn",
+                "id": "green_djinn",
+                "chance": 10,
+                "interval": 2000,
+                "count": 1
+            }
+        ]
+    }
+}

@@ -1,0 +1,200 @@
+{
+    "id": "wereboar",
+    "label": "Wereboar",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A wereboar.",
+    "hp": 2200,
+    "hpMax": 2200,
+    "speed": 150,
+    "level": 503,
+    "armor": 32,
+    "mitigation": 0.78,
+    "maxBlock": 0,
+    "exp": 2000,
+    "lootValue": 379.68168168168,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -5,
+        "ice": 5,
+        "energy": 15,
+        "earth": 50,
+        "holy": -5,
+        "death": 50
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 275,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "condition": {
+                "type": "poison",
+                "totalDamage": 58,
+                "intervalMs": 4000
+            },
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 160
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 25,
+            "min": 50,
+            "max": 100,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "invisible_1",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 20,
+            "durationSec": 2,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Lycanthrope",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 97000,
+            "maxCount": 242,
+            "name": "gold coin"
+        },
+        {
+            "chance": 18200,
+            "maxCount": 5,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 5000,
+            "maxCount": 2,
+            "name": "small enchanted ruby"
+        },
+        {
+            "chance": 2000,
+            "name": "brown mushroom"
+        },
+        {
+            "chance": 2210,
+            "name": "ultimate health potion"
+        },
+        {
+            "chance": 1200,
+            "name": "strong health potion"
+        },
+        {
+            "chance": 1900,
+            "name": "wereboar hooves"
+        },
+        {
+            "chance": 950,
+            "name": "wereboar loincloth"
+        },
+        {
+            "chance": 780,
+            "name": "wereboar tusks"
+        },
+        {
+            "chance": 700,
+            "name": "berserk potion"
+        },
+        {
+            "chance": 360,
+            "name": "furry club"
+        },
+        {
+            "chance": 430,
+            "name": "Stonehide Amulet"
+        },
+        {
+            "chance": 320,
+            "name": "dreaded cleaver"
+        },
+        {
+            "chance": 200,
+            "name": "fur armor"
+        },
+        {
+            "chance": 200,
+            "name": "wereboar trophy"
+        },
+        {
+            "chance": 200,
+            "name": "werewolf amulet"
+        },
+        {
+            "chance": 200,
+            "name": "moonlight crystals"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ember_ogre_ravager",
+    "threatDps": 69,
+    "burstDps": 69,
+    "avgHit": 80,
+    "maxHit": 160,
+    "manaCost": 0
+}

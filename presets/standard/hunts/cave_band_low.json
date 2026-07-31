@@ -1,0 +1,15 @@
+{
+    "id": "cave_band_low",
+    "label": "Cave band: low threat (L1–150)",
+    "notes": "docs/24 I1 — generator-owned small_crawl with cave_trash_low population (diverse level-banded ids). artSet cave_simple for walkable/wall clarity. Compare with cave_band_mid.",
+    "layout": {
+        "type": "procedural",
+        "profileId": "small_crawl"
+    },
+    "populationId": "cave_trash_low",
+    "artSet": "cave_simple",
+    "limits": {
+        "maxSeconds": 90,
+        "maxFrames": 1800
+    }
+}

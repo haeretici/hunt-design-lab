@@ -1,0 +1,227 @@
+{
+    "id": "kraken_tentacle_head",
+    "label": "Kraken Tentacle Head",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A kraken tentacle head.",
+    "hp": 75000,
+    "hpMax": 75000,
+    "speed": 0,
+    "level": 855,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 40000,
+    "lootValue": 26931.842105263,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -20,
+        "ice": 0,
+        "energy": 30,
+        "earth": -30,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": false,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 893
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 40,
+            "range": 5,
+            "element": "energy",
+            "min": 223,
+            "max": 893,
+            "radius": 4,
+            "target": true,
+            "effect": "me_ghostly_bite",
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "energy_wavet_2",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 558
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 50,
+            "range": 4,
+            "element": "energy",
+            "min": 223,
+            "max": 670,
+            "radius": 5,
+            "effect": "me_loseenergy"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 59860,
+            "minCount": 1,
+            "maxCount": 3,
+            "name": "crystal coin"
+        },
+        {
+            "chance": 59860,
+            "minCount": 1,
+            "maxCount": 34,
+            "name": "ultimate mana potion"
+        },
+        {
+            "chance": 47890,
+            "minCount": 1,
+            "maxCount": 33,
+            "name": "ultimate health potion"
+        },
+        {
+            "chance": 28870,
+            "minCount": 2,
+            "maxCount": 19,
+            "name": "ultimate dual potion"
+        },
+        {
+            "chance": 23940,
+            "minCount": 1,
+            "maxCount": 9,
+            "name": "berserk potion"
+        },
+        {
+            "chance": 23240,
+            "minCount": 2,
+            "maxCount": 19,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 20420,
+            "minCount": 1,
+            "maxCount": 9,
+            "name": "marksman potion"
+        },
+        {
+            "chance": 16900,
+            "minCount": 2,
+            "maxCount": 9,
+            "name": "savant potion"
+        },
+        {
+            "chance": 13380,
+            "minCount": 3,
+            "maxCount": 86,
+            "name": "pirate coin"
+        },
+        {
+            "chance": 7750,
+            "name": "cheesy key"
+        },
+        {
+            "chance": 4930,
+            "name": "giant topaz"
+        },
+        {
+            "chance": 4230,
+            "name": "small treasure chest"
+        },
+        {
+            "chance": 3520,
+            "name": "golden cheese wedge"
+        },
+        {
+            "chance": 3520,
+            "name": "golden skull"
+        },
+        {
+            "chance": 2820,
+            "name": "giant amethyst"
+        },
+        {
+            "chance": 2820,
+            "name": "golden sea horse figurine"
+        },
+        {
+            "chance": 2110,
+            "name": "giant ruby"
+        },
+        {
+            "chance": 2110,
+            "name": "golden dustbin"
+        },
+        {
+            "chance": 2110,
+            "name": "plushie of Tentugly"
+        },
+        {
+            "chance": 2110,
+            "name": "tentacle of Tentugly"
+        },
+        {
+            "chance": 1410,
+            "name": "tiara"
+        },
+        {
+            "chance": 700,
+            "name": "Tentugly's eye"
+        },
+        {
+            "chance": 700,
+            "name": "Tentugly's jaws"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "cave_spider",
+    "threatDps": 488.325,
+    "burstDps": 488.325,
+    "avgHit": 443.9318,
+    "maxHit": 893,
+    "manaCost": 0
+}

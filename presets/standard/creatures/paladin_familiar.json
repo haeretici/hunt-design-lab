@@ -1,0 +1,149 @@
+{
+    "id": "paladin_familiar",
+    "label": "Paladin Familiar",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A paladin familiar.",
+    "hp": 15000,
+    "hpMax": 15000,
+    "speed": 154,
+    "level": 695,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": false,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 2,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": false,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": false,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 312
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 18,
+            "range": 5,
+            "element": "holy",
+            "min": 312,
+            "max": 421,
+            "radius": 3,
+            "target": true,
+            "effect": "me_holyarea",
+            "shootEffect": "ani_holy"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 18,
+            "range": 5,
+            "element": "fire",
+            "min": 312,
+            "max": 421,
+            "radius": 3,
+            "target": true,
+            "effect": "me_fireattack",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 18,
+            "range": 5,
+            "element": "fire",
+            "min": 265,
+            "max": 359,
+            "radius": 5,
+            "target": true,
+            "effect": "me_fireattack",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 18,
+            "range": 5,
+            "element": "holy",
+            "min": 265,
+            "max": 359,
+            "radius": 5,
+            "target": true,
+            "effect": "me_holyarea",
+            "shootEffect": "ani_holy"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 75,
+            "min": 450,
+            "max": 450,
+            "hpBelow": 0.7,
+            "effect": "me_magic_green"
+        }
+    ],
+    "race": "undead",
+    "loot": [],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": true,
+        "invisible": true
+    },
+    "customSprite": "bug",
+    "threatDps": 200.13,
+    "burstDps": 200.13,
+    "avgHit": 232.7093,
+    "maxHit": 421,
+    "manaCost": 2000
+}

@@ -1,0 +1,261 @@
+{
+    "id": "tome_devourer",
+    "label": "Tome Devourer",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A tome devourer.",
+    "hp": 1,
+    "hpMax": 1,
+    "speed": 115,
+    "level": 811,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 55000,
+    "lootValue": 66328.571428571,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 30,
+        "ice": 10,
+        "energy": -5,
+        "earth": -14,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 98,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 8,
+            "range": 7,
+            "element": "lifedrain",
+            "min": 1100,
+            "max": 2800,
+            "radius": 5,
+            "target": true,
+            "effect": "me_drawblood",
+            "shootEffect": "ani_whirlwindaxe"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 8,
+            "range": 4,
+            "element": "death",
+            "min": 800,
+            "max": 1900,
+            "radius": 9,
+            "target": false,
+            "effect": "me_mortarea"
+        },
+        {
+            "id": "condition_3",
+            "kind": "melee",
+            "intervalMs": 5000,
+            "chance": 18,
+            "range": 1,
+            "element": "earth",
+            "min": 1100,
+            "max": 2500,
+            "target": false,
+            "effect": "me_hitbypoison"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 20,
+            "range": 7,
+            "element": "earth",
+            "min": 255,
+            "max": 1000,
+            "radius": 6,
+            "target": false,
+            "effect": "me_loseenergy"
+        },
+        {
+            "id": "ranged_5",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 8,
+            "range": 7,
+            "element": "physical",
+            "min": 90,
+            "max": 200,
+            "target": true,
+            "effect": "me_explosionarea",
+            "shootEffect": "ani_whirlwindaxe"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 90000,
+            "maxCount": 63
+        },
+        {
+            "name": "crystal coin",
+            "chance": 70000,
+            "maxCount": 4
+        },
+        {
+            "name": "great mana potion",
+            "chance": 70000,
+            "maxCount": 18
+        },
+        {
+            "name": "great dual potion",
+            "chance": 70000,
+            "maxCount": 18
+        },
+        {
+            "name": "ultimate mana potion",
+            "chance": 70000,
+            "maxCount": 12
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 70000,
+            "maxCount": 18
+        },
+        {
+            "name": "savant potion",
+            "chance": 70000,
+            "maxCount": 2
+        },
+        {
+            "name": "onyx chip",
+            "chance": 70000,
+            "maxCount": 12
+        },
+        {
+            "name": "small emerald",
+            "chance": 70000,
+            "maxCount": 12
+        },
+        {
+            "name": "small amethyst",
+            "chance": 70000,
+            "maxCount": 12
+        },
+        {
+            "name": "small diamond",
+            "chance": 70000,
+            "maxCount": 12
+        },
+        {
+            "name": "small ruby",
+            "chance": 70000,
+            "maxCount": 12
+        },
+        {
+            "name": "blue gem",
+            "chance": 70000
+        },
+        {
+            "name": "demon horn",
+            "chance": 70000
+        },
+        {
+            "name": "demonic essence",
+            "chance": 70000
+        },
+        {
+            "id": 281,
+            "chance": 70000
+        },
+        {
+            "name": "green gem",
+            "chance": 70000
+        },
+        {
+            "name": "magic sulphur",
+            "chance": 70000
+        },
+        {
+            "name": "Stonehide Amulet",
+            "chance": 70000
+        },
+        {
+            "name": "silver token",
+            "chance": 30000,
+            "maxCount": 4
+        },
+        {
+            "name": "blue robe",
+            "chance": 30000
+        },
+        {
+            "name": "dreaded cleaver",
+            "chance": 30000
+        },
+        {
+            "name": "slightly rusted shield",
+            "chance": 26670
+        },
+        {
+            "name": "wand of inferno",
+            "chance": 30000
+        },
+        {
+            "name": "sturdy book",
+            "chance": 1000
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 4
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ashen_goblin_devourer",
+    "threatDps": 382.1,
+    "burstDps": 479.3,
+    "avgHit": 964.899,
+    "maxHit": 2800,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 5,
+        "summons": [
+            {
+                "name": "Demon Blood",
+                "id": "demon_blood",
+                "chance": 10,
+                "interval": 2000,
+                "count": 5
+            }
+        ]
+    }
+}

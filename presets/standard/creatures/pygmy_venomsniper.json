@@ -1,0 +1,145 @@
+{
+    "id": "pygmy_venomsniper",
+    "label": "Pygmy Venomsniper",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A pygmy venomsniper.",
+    "hp": 80,
+    "hpMax": 80,
+    "speed": 76,
+    "level": 175,
+    "armor": 3,
+    "mitigation": 0.38,
+    "maxBlock": 0,
+    "exp": 35,
+    "lootValue": 9.8042958956034,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -12,
+        "ice": -12,
+        "energy": 0,
+        "earth": 100,
+        "holy": 15,
+        "death": -8
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 15,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 28
+        },
+        {
+            "id": "condition_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 5,
+            "element": "earth",
+            "min": 37,
+            "max": 74,
+            "target": false,
+            "shootEffect": "ani_poison"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 6000,
+            "name": "torch"
+        },
+        {
+            "name": "gold coin",
+            "chance": 75000,
+            "maxCount": 13
+        },
+        {
+            "name": "bronze amulet",
+            "chance": 110
+        },
+        {
+            "chance": 1000,
+            "maxCount": 2,
+            "name": "skull"
+        },
+        {
+            "name": "poison dagger",
+            "chance": 1500
+        },
+        {
+            "name": "leather armor",
+            "chance": 10000
+        },
+        {
+            "name": "poison arrow",
+            "chance": 5000,
+            "maxCount": 3
+        },
+        {
+            "name": "tribal mask",
+            "chance": 510
+        },
+        {
+            "name": "bast skirt",
+            "chance": 100
+        },
+        {
+            "name": "seeds",
+            "chance": 200
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "pygmy_venomsniper",
+    "threatDps": 11.1625,
+    "burstDps": 11.1625,
+    "avgHit": 19.413,
+    "maxHit": 74,
+    "manaCost": 0
+}

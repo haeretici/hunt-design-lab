@@ -1,0 +1,290 @@
+{
+    "id": "demon_outcast",
+    "label": "Demon Outcast",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A demon outcast.",
+    "hp": 6900,
+    "hpMax": 6900,
+    "speed": 148,
+    "level": 617,
+    "armor": 49,
+    "mitigation": 1.6,
+    "maxBlock": 0,
+    "exp": 6200,
+    "lootValue": 1601.1745164671,
+    "aggro": true,
+    "resists": {
+        "physical": 15,
+        "fire": 100,
+        "ice": 5,
+        "energy": -8,
+        "earth": 40,
+        "holy": -6,
+        "death": 30
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 319
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "energy",
+            "min": 200,
+            "max": 359,
+            "length": 6,
+            "spread": 0,
+            "target": true,
+            "effect": "me_purpleenergy"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "energy",
+            "min": 279,
+            "max": 439,
+            "length": 8,
+            "spread": 0,
+            "target": true,
+            "effect": "me_yellowenergy"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "energy",
+            "min": 80,
+            "max": 200,
+            "radius": 3,
+            "target": true,
+            "effect": "me_energyhit"
+        },
+        {
+            "id": "demon_outcast_skill_reducer_4",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 5,
+            "element": "physical",
+            "target": false,
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "area_5",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "manadrain",
+            "min": 64,
+            "max": 120,
+            "radius": 4,
+            "target": false,
+            "effect": "me_magic_green"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 250,
+            "max": 425,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Demon",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "small diamond",
+            "chance": 10000,
+            "maxCount": 5
+        },
+        {
+            "name": "small sapphire",
+            "chance": 10000,
+            "maxCount": 5
+        },
+        {
+            "name": "small ruby",
+            "chance": 12000,
+            "maxCount": 5
+        },
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 100
+        },
+        {
+            "name": "small emerald",
+            "chance": 10000,
+            "maxCount": 5
+        },
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 6
+        },
+        {
+            "name": "might ring",
+            "chance": 910
+        },
+        {
+            "chance": 1300,
+            "name": "stealth ring"
+        },
+        {
+            "name": "platinum amulet",
+            "chance": 1000
+        },
+        {
+            "chance": 3000,
+            "name": "ring of healing"
+        },
+        {
+            "name": "giant sword",
+            "chance": 2000
+        },
+        {
+            "name": "ice rapier",
+            "chance": 660
+        },
+        {
+            "name": "devil helmet",
+            "chance": 910
+        },
+        {
+            "name": "crusader helmet",
+            "chance": 740
+        },
+        {
+            "name": "crown shield",
+            "chance": 740
+        },
+        {
+            "name": "demon shield",
+            "chance": 170
+        },
+        {
+            "name": "fire mushroom",
+            "chance": 20600,
+            "maxCount": 6
+        },
+        {
+            "chance": 1000,
+            "name": "demon dust"
+        },
+        {
+            "name": "assassin star",
+            "chance": 8340,
+            "maxCount": 10
+        },
+        {
+            "name": "demonrage sword",
+            "chance": 350
+        },
+        {
+            "name": "great mana potion",
+            "chance": 18000,
+            "maxCount": 2
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 20500,
+            "maxCount": 3
+        },
+        {
+            "name": "small topaz",
+            "chance": 9300,
+            "maxCount": 5
+        },
+        {
+            "name": "cluster of solace",
+            "chance": 4550
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "mist_demon_priest",
+    "threatDps": 130.275,
+    "burstDps": 130.275,
+    "avgHit": 173.7,
+    "maxHit": 439,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 2,
+        "summons": [
+            {
+                "name": "Energy Elemental",
+                "id": "energy_elemental",
+                "chance": 10,
+                "interval": 2000,
+                "count": 2
+            }
+        ]
+    }
+}

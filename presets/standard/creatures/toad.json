@@ -1,0 +1,141 @@
+{
+    "id": "toad",
+    "label": "Toad",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A toad.",
+    "hp": 135,
+    "hpMax": 135,
+    "speed": 105,
+    "level": 227,
+    "armor": 6,
+    "mitigation": 0.36,
+    "maxBlock": 0,
+    "exp": 60,
+    "lootValue": 9.6408140472793,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -10,
+        "ice": 20,
+        "energy": 0,
+        "earth": 20,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 10,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": true,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 24,
+            "effect": "me_drawblood",
+            "condition": {
+                "type": "poison",
+                "totalDamage": 16,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "earth",
+            "min": 6,
+            "max": 13,
+            "target": false,
+            "effect": "me_green_rings",
+            "shootEffect": "ani_poison"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 200,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Amphibic",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 80000,
+            "maxCount": 20
+        },
+        {
+            "name": "war hammer",
+            "chance": 148
+        },
+        {
+            "name": "mace",
+            "chance": 2854
+        },
+        {
+            "chance": 20000,
+            "name": "fish"
+        },
+        {
+            "name": "poisonous slime",
+            "chance": 4761
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "toad",
+    "threatDps": 14.95,
+    "burstDps": 14.95,
+    "avgHit": 11.5833,
+    "maxHit": 24,
+    "manaCost": 400
+}

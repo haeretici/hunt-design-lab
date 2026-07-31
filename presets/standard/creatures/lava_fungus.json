@@ -1,0 +1,261 @@
+{
+    "id": "lava_fungus",
+    "label": "Lava Fungus",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A lava fungus.",
+    "hp": 7200,
+    "hpMax": 7200,
+    "speed": 115,
+    "level": 622,
+    "armor": 70,
+    "mitigation": 1.6,
+    "maxBlock": 0,
+    "exp": 6200,
+    "lootValue": 3893.325,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 10,
+        "ice": -20,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 176
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 50,
+            "range": 4,
+            "element": "death",
+            "min": 122,
+            "max": 142,
+            "length": 6,
+            "spread": 0,
+            "target": false,
+            "effect": "me_mortarea"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2750,
+            "chance": 40,
+            "range": 5,
+            "element": "fire",
+            "min": 107,
+            "max": 157,
+            "target": true,
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2750,
+            "chance": 30,
+            "range": 5,
+            "element": "death",
+            "min": 157,
+            "max": 176,
+            "target": true,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "lavafungus_ring_4",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 1,
+            "element": "physical",
+            "min": 98,
+            "max": 133
+        },
+        {
+            "id": "lavafungus_x_wave_5",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 1,
+            "element": "physical",
+            "min": 139,
+            "max": 159
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 270,
+            "max": 530,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Plant",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 70000,
+            "maxCount": 22
+        },
+        {
+            "name": "Earthbound Rod",
+            "chance": 41860,
+            "maxCount": 1
+        },
+        {
+            "name": "lavafungus ring",
+            "chance": 9300,
+            "maxCount": 4
+        },
+        {
+            "chance": 9300,
+            "maxCount": 1,
+            "name": "red gem"
+        },
+        {
+            "name": "Hailburst Rod",
+            "chance": 4650
+        },
+        {
+            "name": "blue crystal shard",
+            "chance": 4000
+        },
+        {
+            "name": "violet gem",
+            "chance": 4650
+        },
+        {
+            "name": "wand of inferno",
+            "chance": 4650
+        },
+        {
+            "name": "green gem",
+            "chance": 9300
+        },
+        {
+            "name": "lavafungus head",
+            "chance": 4650
+        },
+        {
+            "name": "cyan crystal fragment",
+            "chance": 4650
+        },
+        {
+            "name": "violet crystal shard",
+            "chance": 3650
+        },
+        {
+            "name": "red crystal fragment",
+            "chance": 4650
+        },
+        {
+            "name": "rainbow quartz",
+            "chance": 6980
+        },
+        {
+            "name": "onyx chip",
+            "chance": 4650
+        },
+        {
+            "name": "yellow gem",
+            "chance": 2330
+        },
+        {
+            "name": "green crystal fragment",
+            "chance": 9300
+        },
+        {
+            "name": "metal spats",
+            "chance": 6980
+        },
+        {
+            "name": "spellbook of warding",
+            "chance": 2500
+        },
+        {
+            "name": "Emberbound Amulet",
+            "chance": 2330
+        },
+        {
+            "name": "focus cape",
+            "chance": 2330
+        },
+        {
+            "name": "wand of starstorm",
+            "chance": 2330
+        },
+        {
+            "name": "crystal mace",
+            "chance": 1700
+        },
+        {
+            "chance": 2330,
+            "name": "dwarven ring"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "venomous_cloud_panther_ravager",
+    "threatDps": 133.3636,
+    "burstDps": 147.375,
+    "avgHit": 115.5118,
+    "maxHit": 176,
+    "manaCost": 0
+}

@@ -1,0 +1,237 @@
+{
+    "id": "sea_serpent",
+    "label": "Sea Serpent",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A sea serpent.",
+    "hp": 1950,
+    "hpMax": 1950,
+    "speed": 240,
+    "level": 492,
+    "armor": 25,
+    "mitigation": 1.04,
+    "maxBlock": 0,
+    "exp": 2300,
+    "lootValue": 399.02776406159,
+    "aggro": true,
+    "resists": {
+        "physical": -10,
+        "fire": 30,
+        "ice": 100,
+        "energy": -5,
+        "earth": 0,
+        "holy": 0,
+        "death": 10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 178
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "earth",
+            "min": 43,
+            "max": 213,
+            "length": 7,
+            "spread": 2,
+            "target": false,
+            "effect": "me_smallplants"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "ice",
+            "min": 72,
+            "max": 213,
+            "length": 7,
+            "spread": 2,
+            "target": false,
+            "effect": "me_iceattack"
+        },
+        {
+            "id": "sea_serpent_drown_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 5,
+            "element": "physical",
+            "target": false,
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 30,
+            "min": 70,
+            "max": 273,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 400,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Reptile",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "small sapphire",
+            "chance": 5600,
+            "maxCount": 3
+        },
+        {
+            "name": "gold coin",
+            "chance": 38000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 30000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 30000,
+            "maxCount": 36
+        },
+        {
+            "name": "platinum coin",
+            "chance": 25000,
+            "maxCount": 3
+        },
+        {
+            "chance": 400,
+            "name": "stealth ring"
+        },
+        {
+            "chance": 1100,
+            "name": "ring of healing"
+        },
+        {
+            "name": "serpent sword",
+            "chance": 4200
+        },
+        {
+            "name": "plate legs",
+            "chance": 7150
+        },
+        {
+            "name": "dragon ham",
+            "chance": 60000,
+            "maxCount": 2
+        },
+        {
+            "name": "strong health potion",
+            "chance": 5500
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 3850
+        },
+        {
+            "name": "great mana potion",
+            "chance": 920
+        },
+        {
+            "name": "Frostbound Amulet",
+            "chance": 880
+        },
+        {
+            "name": "Frostbound Kilt",
+            "chance": 430
+        },
+        {
+            "name": "spirit cloak",
+            "chance": 2900
+        },
+        {
+            "name": "focus cape",
+            "chance": 370
+        },
+        {
+            "name": "crystalline armor",
+            "chance": 90
+        },
+        {
+            "name": "Boreal Rod",
+            "chance": 930
+        },
+        {
+            "name": "sea serpent scale",
+            "chance": 10200
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "tempest_serpent_berserker",
+    "threatDps": 64.7875,
+    "burstDps": 64.7875,
+    "avgHit": 99.6731,
+    "maxHit": 213,
+    "manaCost": 0
+}

@@ -1,0 +1,225 @@
+{
+    "id": "bovine_brute",
+    "label": "Bovine Brute",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A bovine brute.",
+    "hp": 3200,
+    "hpMax": 3200,
+    "speed": 130,
+    "level": 541,
+    "armor": 42,
+    "mitigation": 1.1,
+    "maxBlock": 0,
+    "exp": 2600,
+    "lootValue": 547.93291353839,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 5,
+        "ice": 15,
+        "energy": 15,
+        "earth": 100,
+        "holy": 0,
+        "death": 10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 13,
+            "range": 4,
+            "element": "physical",
+            "min": 201,
+            "max": 462,
+            "length": 3,
+            "spread": 0,
+            "target": false,
+            "effect": "me_groundshaker"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 12,
+            "range": 4,
+            "element": "physical",
+            "min": 201,
+            "max": 401,
+            "radius": 3,
+            "target": false,
+            "effect": "me_groundshaker"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 19,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 100,
+            "max": 452,
+            "radius": 5,
+            "target": false,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "lifedrain",
+            "min": 301,
+            "max": 472,
+            "radius": 4,
+            "target": true,
+            "effect": "me_explosionarea",
+            "shootEffect": "ani_largerock"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 9,
+            "min": 50,
+            "max": 150,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 195,
+            "name": "gold coin"
+        },
+        {
+            "chance": 58160,
+            "maxCount": 2,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 2740,
+            "maxCount": 2,
+            "name": "moohtant horn"
+        },
+        {
+            "chance": 1770,
+            "name": "giant pacifier"
+        },
+        {
+            "chance": 7380,
+            "maxCount": 3,
+            "name": "great health potion"
+        },
+        {
+            "chance": 7230,
+            "maxCount": 3,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 6520,
+            "name": "meat"
+        },
+        {
+            "chance": 4680,
+            "maxCount": 2,
+            "name": "small ruby"
+        },
+        {
+            "chance": 4110,
+            "name": "minotaur leather"
+        },
+        {
+            "chance": 4400,
+            "maxCount": 2,
+            "name": "small diamond"
+        },
+        {
+            "chance": 2410,
+            "name": "ring of healing"
+        },
+        {
+            "chance": 900,
+            "name": "red piece of cloth"
+        },
+        {
+            "chance": 860,
+            "name": "moohtant cudgel"
+        },
+        {
+            "chance": 710,
+            "name": "yellow gem"
+        },
+        {
+            "chance": 430,
+            "name": "spiked squelcher"
+        },
+        {
+            "chance": 280,
+            "name": "Maelstrom Mace"
+        },
+        {
+            "chance": 280,
+            "name": "gold ingot"
+        },
+        {
+            "chance": 280,
+            "name": "minotaur trophy"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 3
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "frost_troll",
+    "threatDps": 85.1525,
+    "burstDps": 85.1525,
+    "avgHit": 315.3796,
+    "maxHit": 472,
+    "manaCost": 0
+}

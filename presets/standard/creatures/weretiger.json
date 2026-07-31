@@ -1,0 +1,202 @@
+{
+    "id": "weretiger",
+    "label": "Weretiger",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A weretiger.",
+    "hp": 5000,
+    "hpMax": 5000,
+    "speed": 125,
+    "level": 585,
+    "armor": 76,
+    "mitigation": 2.16,
+    "maxBlock": 0,
+    "exp": 3920,
+    "lootValue": 1331.5164674311,
+    "aggro": true,
+    "resists": {
+        "physical": -5,
+        "fire": -25,
+        "ice": 30,
+        "energy": 25,
+        "earth": -14,
+        "holy": 10,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 23,
+            "max": 287
+        },
+        {
+            "id": "energy_chain_1",
+            "kind": "ranged",
+            "intervalMs": 3300,
+            "chance": 20,
+            "range": 3,
+            "element": "physical",
+            "min": 80,
+            "max": 172,
+            "target": true
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 3300,
+            "chance": 20,
+            "range": 4,
+            "element": "energy",
+            "min": 92,
+            "max": 172,
+            "length": 5,
+            "spread": 2,
+            "target": false,
+            "effect": "me_blue_energy_spark"
+        },
+        {
+            "id": "melee_3",
+            "kind": "melee",
+            "intervalMs": 2700,
+            "chance": 37,
+            "range": 1,
+            "element": "physical",
+            "min": 80,
+            "max": 149,
+            "radius": 1,
+            "target": true,
+            "effect": "me_big_scratch"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 25,
+            "min": 50,
+            "max": 100,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Lycanthrope",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 100
+        },
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 13
+        },
+        {
+            "name": "weretiger tooth",
+            "chance": 10800
+        },
+        {
+            "name": "furry club",
+            "chance": 6230
+        },
+        {
+            "name": "meat",
+            "chance": 5500,
+            "maxCount": 4
+        },
+        {
+            "name": "violet crystal shard",
+            "chance": 3370
+        },
+        {
+            "name": "moonlight crystals",
+            "chance": 2550
+        },
+        {
+            "chance": 1200,
+            "name": "blue gem"
+        },
+        {
+            "name": "knight armor",
+            "chance": 3000
+        },
+        {
+            "name": "angelic axe",
+            "chance": 1430
+        },
+        {
+            "name": "gemmed figurine",
+            "chance": 1770
+        },
+        {
+            "chance": 1770,
+            "name": "Emberbound Amulet"
+        },
+        {
+            "name": "silver moon coin",
+            "chance": 510
+        },
+        {
+            "chance": 610,
+            "name": "weretiger trophy"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "nether_tiger",
+    "threatDps": 108.8271,
+    "burstDps": 124.4825,
+    "avgHit": 143.5242,
+    "maxHit": 287,
+    "manaCost": 0
+}

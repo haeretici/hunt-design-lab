@@ -1,0 +1,102 @@
+{
+    "id": "animated_stone_rhino",
+    "label": "Animated Stone Rhino",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An animated stone rhino.",
+    "hp": 3000,
+    "hpMax": 3000,
+    "speed": 75,
+    "level": 534,
+    "armor": 10,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 1800,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 20,
+        "earth": -12,
+        "holy": 1,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 15,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 3285,
+            "target": false,
+            "shootEffect": "ani_smallstone"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 50320,
+            "name": "hardened bone"
+        },
+        {
+            "chance": 50320,
+            "name": "rhino hide"
+        },
+        {
+            "chance": 50320,
+            "name": "rhino horn"
+        },
+        {
+            "chance": 50320,
+            "name": "raw meat"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "chaos_stone_revenant_archer",
+    "threatDps": 82.125,
+    "burstDps": 82.125,
+    "avgHit": 1642.5,
+    "maxHit": 3285,
+    "manaCost": 290
+}

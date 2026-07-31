@@ -1,0 +1,146 @@
+{
+    "id": "nomad",
+    "label": "Nomad",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A nomad.",
+    "hp": 160,
+    "hpMax": 160,
+    "speed": 95,
+    "level": 243,
+    "armor": 6,
+    "mitigation": 0.41,
+    "maxBlock": 0,
+    "exp": 60,
+    "lootValue": 20.433573279585,
+    "aggro": true,
+    "resists": {
+        "physical": -10,
+        "fire": 20,
+        "ice": -10,
+        "energy": 0,
+        "earth": 0,
+        "holy": 20,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 15,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 65
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 1,
+            "element": "physical",
+            "radius": 1,
+            "target": false,
+            "effect": "me_sound_white",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Human",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 1
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 56250,
+            "maxCount": 40
+        },
+        {
+            "name": "axe",
+            "chance": 2730
+        },
+        {
+            "name": "mace",
+            "chance": 2120
+        },
+        {
+            "name": "iron helmet",
+            "chance": 650
+        },
+        {
+            "name": "brass armor",
+            "chance": 2350
+        },
+        {
+            "name": "steel shield",
+            "chance": 920
+        },
+        {
+            "name": "nomad parchment",
+            "chance": 200
+        },
+        {
+            "name": "potato",
+            "chance": 4840,
+            "maxCount": 3
+        },
+        {
+            "name": "dirty turban",
+            "chance": 2160
+        },
+        {
+            "name": "rope belt",
+            "chance": 6420
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "nomad",
+    "threatDps": 16.25,
+    "burstDps": 16.25,
+    "avgHit": 32.5,
+    "maxHit": 65,
+    "manaCost": 0
+}

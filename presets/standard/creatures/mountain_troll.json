@@ -1,0 +1,119 @@
+{
+    "id": "mountain_troll",
+    "label": "Mountain Troll",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A mountain troll.",
+    "hp": 30,
+    "hpMax": 30,
+    "speed": 55,
+    "level": 78,
+    "armor": 0,
+    "mitigation": 0.1,
+    "maxBlock": 0,
+    "exp": 12,
+    "lootValue": 8.6119162640902,
+    "aggro": true,
+    "resists": {
+        "physical": -14,
+        "fire": 15,
+        "ice": 15,
+        "energy": 0,
+        "earth": -10,
+        "holy": 0,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "element": "physical",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "min": 1,
+            "max": 25,
+            "target": true
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 920,
+            "name": "bunch of troll hair"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 8,
+            "name": "gold coin"
+        },
+        {
+            "chance": 3590,
+            "name": "hand axe"
+        },
+        {
+            "chance": 4060,
+            "name": "leather armor"
+        },
+        {
+            "chance": 27980,
+            "name": "meat"
+        },
+        {
+            "chance": 3470,
+            "name": "rapier"
+        },
+        {
+            "chance": 7870,
+            "name": "rope"
+        },
+        {
+            "chance": 6800,
+            "name": "spear"
+        },
+        {
+            "chance": 3510,
+            "name": "studded club"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "mountain_troll",
+    "threatDps": 6.5,
+    "burstDps": 6.5,
+    "avgHit": 13,
+    "maxHit": 25,
+    "manaCost": 0
+}

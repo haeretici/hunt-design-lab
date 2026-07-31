@@ -1,0 +1,238 @@
+{
+    "id": "ink_ooze",
+    "label": "Ink Ooze",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An ink ooze.",
+    "hp": 9500,
+    "hpMax": 9500,
+    "speed": 190,
+    "level": 649,
+    "armor": 70,
+    "mitigation": 2.02,
+    "maxBlock": 0,
+    "exp": 14450,
+    "lootValue": 4278.3476923077,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": -8,
+        "earth": 100,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 85,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "condition": {
+                "type": "poison",
+                "totalDamage": 205,
+                "intervalMs": 4000
+            },
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "condition_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 13,
+            "range": 4,
+            "element": "earth",
+            "min": 293,
+            "max": 425,
+            "radius": 4,
+            "target": false,
+            "effect": "me_poisonarea"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 11,
+            "range": 4,
+            "element": "earth",
+            "min": 209,
+            "max": 352,
+            "radius": 3,
+            "target": true,
+            "effect": "me_green_rings",
+            "shootEffect": "ani_envenomedarrow"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "earth",
+            "min": 191,
+            "max": 370,
+            "target": true,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_poison"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 5,
+            "min": 20,
+            "max": 30,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "ink",
+    "bestiary": {
+        "class": "Slime",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 120000,
+            "maxCount": 4
+        },
+        {
+            "name": "envenomed arrow",
+            "chance": 1200,
+            "maxCount": 14
+        },
+        {
+            "chance": 1200,
+            "maxCount": 4,
+            "name": "inkwell"
+        },
+        {
+            "name": "poisonous slime",
+            "chance": 1200,
+            "maxCount": 4
+        },
+        {
+            "name": "small diamond",
+            "chance": 1200,
+            "maxCount": 4
+        },
+        {
+            "name": "small topaz",
+            "chance": 1200,
+            "maxCount": 4
+        },
+        {
+            "id": 282,
+            "chance": 900,
+            "maxCount": 4
+        },
+        {
+            "name": "blue gem",
+            "chance": 950,
+            "maxCount": 4
+        },
+        {
+            "name": "Earthbound Boots",
+            "chance": 850,
+            "maxCount": 4
+        },
+        {
+            "name": "Earthbound Hood",
+            "chance": 980,
+            "maxCount": 4
+        },
+        {
+            "name": "protection amulet",
+            "chance": 1200,
+            "maxCount": 4
+        },
+        {
+            "name": "sacred tree amulet",
+            "chance": 1200,
+            "maxCount": 4
+        },
+        {
+            "name": "Bloomshoot Rod",
+            "chance": 790,
+            "maxCount": 4
+        },
+        {
+            "name": "Stonehide Amulet",
+            "chance": 1200,
+            "maxCount": 4
+        },
+        {
+            "name": "Earthbound Legs",
+            "chance": 650,
+            "maxCount": 4
+        },
+        {
+            "name": "Earthbound Mantle",
+            "chance": 550,
+            "maxCount": 4
+        },
+        {
+            "name": "clay lump",
+            "chance": 1200,
+            "maxCount": 4
+        },
+        {
+            "name": "Earthbound Amulet",
+            "chance": 1200,
+            "maxCount": 4
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "crystal_horror_berserker",
+    "threatDps": 155.2875,
+    "burstDps": 155.2875,
+    "avgHit": 310.5147,
+    "maxHit": 425,
+    "manaCost": 0
+}

@@ -1,0 +1,186 @@
+{
+    "id": "crazed_winter_vanguard",
+    "label": "Crazed Winter Vanguard",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A crazed winter vanguard.",
+    "hp": 5800,
+    "hpMax": 5800,
+    "speed": 190,
+    "level": 600,
+    "armor": 77,
+    "mitigation": 2.16,
+    "maxBlock": 0,
+    "exp": 5400,
+    "lootValue": 1230.8095148552,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -30,
+        "ice": 50,
+        "energy": -20,
+        "earth": -14,
+        "holy": 0,
+        "death": 15
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 309
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2500,
+            "chance": 30,
+            "range": 5,
+            "element": "ice",
+            "min": 77,
+            "max": 232,
+            "radius": 1,
+            "target": true,
+            "effect": "me_icearea"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 3000,
+            "chance": 20,
+            "range": 4,
+            "element": "ice",
+            "min": 77,
+            "max": 232,
+            "length": 4,
+            "spread": 0,
+            "target": false,
+            "effect": "me_giantice"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 3500,
+            "chance": 20,
+            "range": 4,
+            "element": "ice",
+            "min": 193,
+            "max": 232,
+            "radius": 3,
+            "target": false,
+            "effect": "me_icearea"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 85000,
+            "maxCount": 13
+        },
+        {
+            "chance": 13000,
+            "name": "ice flower"
+        },
+        {
+            "name": "small enchanted ruby",
+            "chance": 13300
+        },
+        {
+            "name": "miraculum",
+            "chance": 10100
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 9300
+        },
+        {
+            "name": "dream essence egg",
+            "chance": 8500
+        },
+        {
+            "name": "tiger eye",
+            "chance": 6900
+        },
+        {
+            "name": "Boreal Rod",
+            "chance": 6000
+        },
+        {
+            "name": "Frostbound Amulet",
+            "chance": 5000
+        },
+        {
+            "name": "ice rapier",
+            "chance": 6250
+        },
+        {
+            "name": "Frostbound Robe",
+            "chance": 2500
+        },
+        {
+            "name": "elven amulet",
+            "chance": 720
+        },
+        {
+            "name": "blue gem",
+            "chance": 200
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "sun_orc_guard",
+    "threatDps": 118.2329,
+    "burstDps": 137.125,
+    "avgHit": 158.9558,
+    "maxHit": 309,
+    "manaCost": 0
+}

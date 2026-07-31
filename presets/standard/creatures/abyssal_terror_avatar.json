@@ -1,0 +1,132 @@
+{
+    "id": "abyssal_terror_avatar",
+    "label": "Abyssal Terror Avatar",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An abyssal terror avatar.",
+    "hp": 100000,
+    "hpMax": 100000,
+    "speed": 100,
+    "level": 884,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 35000,
+    "lootValue": 326.34426229508,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 32,
+            "range": 4,
+            "element": "physical",
+            "min": 605,
+            "max": 1211,
+            "radius": 8,
+            "target": false,
+            "effect": "me_carniphila"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 19,
+            "range": 7,
+            "element": "earth",
+            "min": 908,
+            "max": 2118,
+            "radius": 3,
+            "target": true,
+            "effect": "me_carniphila",
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 4,
+            "element": "physical",
+            "min": 1513,
+            "max": 3026,
+            "length": 7,
+            "spread": 0,
+            "target": false,
+            "effect": "me_groundshaker"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 11,
+            "min": 500,
+            "max": 1000,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 10000,
+            "unique": true,
+            "name": "glooth glider tubes and wires"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "magical_sphere",
+    "threatDps": 572.7025,
+    "burstDps": 572.7025,
+    "avgHit": 1507.1118,
+    "maxHit": 3026,
+    "manaCost": 0
+}

@@ -1,0 +1,90 @@
+{
+    "id": "observer_eye",
+    "label": "Observer Eye",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An observer eye.",
+    "hp": 30000,
+    "hpMax": 30000,
+    "speed": 0,
+    "level": 764,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 50,
+        "ice": 0,
+        "energy": 0,
+        "earth": -10,
+        "holy": 0,
+        "death": 50
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 98,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "ranged_0",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 4,
+            "range": 3,
+            "element": "energy",
+            "min": 11026,
+            "max": 18376,
+            "target": false,
+            "shootEffect": "ani_energy"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "lightsphere",
+            "chance": 99990
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "celestial_fiend",
+    "threatDps": 294.02,
+    "burstDps": 294.02,
+    "avgHit": 14701,
+    "maxHit": 18376,
+    "manaCost": 0
+}

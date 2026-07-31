@@ -1,0 +1,112 @@
+{
+    "id": "slug",
+    "label": "Slug",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A slug.",
+    "hp": 255,
+    "hpMax": 255,
+    "speed": 52,
+    "level": 288,
+    "armor": 8,
+    "mitigation": 0.64,
+    "maxBlock": 0,
+    "exp": 70,
+    "lootValue": 7.9459459459459,
+    "aggro": true,
+    "resists": {
+        "physical": -10,
+        "fire": -14,
+        "ice": -5,
+        "energy": 0,
+        "earth": 50,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 64
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 15,
+            "range": 7,
+            "element": "earth",
+            "min": 7,
+            "max": 58,
+            "target": true,
+            "shootEffect": "ani_poison"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Vermin",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 62000,
+            "maxCount": 40
+        },
+        {
+            "name": "worm",
+            "chance": 5000,
+            "maxCount": 3
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "chaos_deep_sea_ogre",
+    "threatDps": 20.875,
+    "burstDps": 20.875,
+    "avgHit": 32.1154,
+    "maxHit": 64,
+    "manaCost": 0
+}

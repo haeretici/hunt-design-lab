@@ -1,0 +1,114 @@
+{
+    "id": "iron_servant_replica",
+    "label": "Iron Servant Replica",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An iron servant replica.",
+    "hp": 1000,
+    "hpMax": 1000,
+    "speed": 95,
+    "level": 425,
+    "armor": 17,
+    "mitigation": 0.62,
+    "maxBlock": 0,
+    "exp": 600,
+    "lootValue": 48.09319037299,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 25,
+        "ice": 0,
+        "energy": 25,
+        "earth": -10,
+        "holy": 20,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 12,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 1490,
+            "target": false,
+            "effect": "me_explosionarea",
+            "shootEffect": "ani_explosion"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Construct",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 4840,
+            "name": "gear wheel"
+        },
+        {
+            "chance": 82190,
+            "maxCount": 55,
+            "name": "gold coin"
+        },
+        {
+            "chance": 1980,
+            "name": "health potion"
+        },
+        {
+            "chance": 1000,
+            "name": "halberd"
+        },
+        {
+            "chance": 310,
+            "name": "slime mould"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "training_dummy",
+    "threatDps": 44.7,
+    "burstDps": 44.7,
+    "avgHit": 745,
+    "maxHit": 1490,
+    "manaCost": 0
+}

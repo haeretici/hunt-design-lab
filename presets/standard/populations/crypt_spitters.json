@@ -1,0 +1,68 @@
+{
+    "id": "crypt_spitters",
+    "biome": "crypt",
+    "notes": "Stage 11.10 — standard crypt population for macro multi-biome. Heavier venom_spitter mix than cave rats; same creature catalog, different density feel.",
+    "defaultRespawn": 0,
+    "groups": {
+        "normal": {
+            "weight": 55,
+            "creatureIds": [
+                "venom_spitter"
+            ],
+            "packSize": [
+                1,
+                2
+            ]
+        },
+        "swarm": {
+            "weight": 25,
+            "creatureIds": [
+                "cave_rat"
+            ],
+            "packSize": [
+                2,
+                4
+            ]
+        },
+        "champion": {
+            "weight": 15,
+            "creatureIds": [
+                "venom_spitter"
+            ],
+            "packSize": [
+                2,
+                3
+            ],
+            "affixes": [
+                "champion"
+            ]
+        },
+        "elite": {
+            "weight": 5,
+            "creatureIds": [
+                "venom_spitter"
+            ],
+            "packSize": [
+                1,
+                1
+            ],
+            "affixes": [
+                "elite"
+            ]
+        }
+    },
+    "limits": {
+        "totalPacks": [
+            4,
+            8
+        ],
+        "championPacks": [
+            1,
+            2
+        ],
+        "elitePacks": [
+            0,
+            1
+        ]
+    }
+}

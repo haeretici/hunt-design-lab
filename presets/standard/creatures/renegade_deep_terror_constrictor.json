@@ -1,0 +1,169 @@
+{
+    "id": "renegade_deep_terror_constrictor",
+    "label": "Renegade Deep Terror Constrictor",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A renegade deep terror constrictor.",
+    "hp": 1500,
+    "hpMax": 1500,
+    "speed": 190,
+    "level": 464,
+    "armor": 35,
+    "mitigation": 1.04,
+    "maxBlock": 0,
+    "exp": 1250,
+    "lootValue": 257.99078341014,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": 100,
+        "energy": -25,
+        "earth": -10,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 20,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "quara_constrictor_electrify_2",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 1,
+            "element": "physical",
+            "target": false,
+            "min": 0,
+            "max": 2229
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 3000,
+            "chance": 35,
+            "min": 150,
+            "max": 300,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Aquatic",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 2
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 79280,
+            "maxCount": 3
+        },
+        {
+            "name": "quara tentacle",
+            "chance": 15240
+        },
+        {
+            "name": "mind stone",
+            "chance": 6880
+        },
+        {
+            "chance": 5580,
+            "name": "ring of healing"
+        },
+        {
+            "name": "great mana potion",
+            "chance": 5390,
+            "maxCount": 5
+        },
+        {
+            "name": "shrimp",
+            "chance": 5300,
+            "maxCount": 4
+        },
+        {
+            "name": "small amethyst",
+            "chance": 5200,
+            "maxCount": 2
+        },
+        {
+            "name": "small ruby",
+            "chance": 4650,
+            "maxCount": 2
+        },
+        {
+            "name": "assassin star",
+            "chance": 4460,
+            "maxCount": 7
+        },
+        {
+            "name": "vortex bolt",
+            "chance": 3720,
+            "maxCount": 10
+        },
+        {
+            "name": "violet crystal shard",
+            "chance": 1210
+        },
+        {
+            "name": "Boreal Rod",
+            "chance": 740
+        },
+        {
+            "name": "fish fin",
+            "chance": 370
+        },
+        {
+            "name": "piggy bank",
+            "chance": 190
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "parrot",
+    "threatDps": 55.725,
+    "burstDps": 55.725,
+    "avgHit": 1114.5,
+    "maxHit": 2229,
+    "manaCost": 0
+}

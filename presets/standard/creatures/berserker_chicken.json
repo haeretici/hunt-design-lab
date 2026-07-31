@@ -1,0 +1,129 @@
+{
+    "id": "berserker_chicken",
+    "label": "Berserker Chicken",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A berserker chicken.",
+    "hp": 465,
+    "hpMax": 465,
+    "speed": 83,
+    "level": 350,
+    "armor": 12,
+    "mitigation": 0.28,
+    "maxBlock": 0,
+    "exp": 220,
+    "lootValue": 16.761797026503,
+    "aggro": true,
+    "resists": {
+        "physical": -10,
+        "fire": 10,
+        "ice": 10,
+        "energy": 10,
+        "earth": 10,
+        "holy": 10,
+        "death": 10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": false,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 1200,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 62
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 31,
+            "target": false
+        },
+        {
+            "id": "melee_2",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 1,
+            "element": "physical",
+            "min": 13,
+            "max": 22,
+            "target": false,
+            "effect": "me_explosionarea"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 1000,
+            "chance": 40,
+            "speedChange": 400,
+            "durationSec": 8,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Bird",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 1
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 100
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "magma_harpy",
+    "threatDps": 29.4708,
+    "burstDps": 34.6375,
+    "avgHit": 27.8465,
+    "maxHit": 62,
+    "manaCost": 0
+}

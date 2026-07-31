@@ -1,0 +1,103 @@
+{
+    "id": "penguin",
+    "label": "Penguin",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A penguin.",
+    "hp": 33,
+    "hpMax": 33,
+    "speed": 58,
+    "level": 84,
+    "armor": 2,
+    "mitigation": 0.07,
+    "maxBlock": 0,
+    "exp": 1,
+    "lootValue": 0.18777177493741,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 20,
+        "energy": -10,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 32,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": true,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 27
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Bird",
+        "toKill": 250,
+        "firstUnlock": 10,
+        "secondUnlock": 100,
+        "charmsPoints": 5,
+        "stars": 1,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 7830,
+            "maxCount": 2,
+            "name": "fish"
+        },
+        {
+            "name": "rainbow trout",
+            "chance": 70
+        },
+        {
+            "name": "green perch",
+            "chance": 130
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "penguin",
+    "threatDps": 6.75,
+    "burstDps": 6.75,
+    "avgHit": 13.5,
+    "maxHit": 27,
+    "manaCost": 290
+}

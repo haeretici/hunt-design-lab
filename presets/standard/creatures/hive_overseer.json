@@ -1,0 +1,207 @@
+{
+    "id": "hive_overseer",
+    "label": "Hive Overseer",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A hive overseer.",
+    "hp": 7500,
+    "hpMax": 7500,
+    "speed": 115,
+    "level": 626,
+    "armor": 57,
+    "mitigation": 2.4,
+    "maxBlock": 0,
+    "exp": 5500,
+    "lootValue": 3313.5568493151,
+    "aggro": true,
+    "resists": {
+        "physical": 30,
+        "fire": 40,
+        "ice": 5,
+        "energy": 20,
+        "earth": 100,
+        "holy": 10,
+        "death": 15
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 308
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "earth",
+            "min": 41,
+            "max": 55,
+            "radius": 4,
+            "target": false,
+            "effect": "me_poisonarea"
+        },
+        {
+            "id": "condition_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "earth",
+            "min": 410,
+            "max": 684,
+            "radius": 4,
+            "target": false,
+            "effect": "me_green_rings"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 50,
+            "min": 50,
+            "max": 100,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "heal_1",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 500,
+            "max": 700,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Vermin",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 2
+    },
+    "loot": [
+        {
+            "name": "small ruby",
+            "chance": 16000,
+            "maxCount": 2
+        },
+        {
+            "name": "gold coin",
+            "chance": 40000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 58000,
+            "maxCount": 98
+        },
+        {
+            "name": "platinum coin",
+            "chance": 84000,
+            "maxCount": 6
+        },
+        {
+            "name": "steel boots",
+            "chance": 550
+        },
+        {
+            "name": "great mana potion",
+            "chance": 18000
+        },
+        {
+            "id": 281,
+            "chance": 6000
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 12000
+        },
+        {
+            "name": "gold ingot",
+            "chance": 29000
+        },
+        {
+            "name": "kollos shell",
+            "chance": 28000
+        },
+        {
+            "name": "compound eye",
+            "chance": 16000
+        },
+        {
+            "name": "calopteryx cape",
+            "chance": 830
+        },
+        {
+            "name": "carapace shield",
+            "chance": 920
+        },
+        {
+            "name": "hive scythe",
+            "chance": 1650
+        },
+        {
+            "name": "gooey mass",
+            "chance": 13000,
+            "maxCount": 2
+        },
+        {
+            "name": "hive bow",
+            "chance": 830
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "storm_wolf_rager",
+    "threatDps": 136.5,
+    "burstDps": 136.5,
+    "avgHit": 195,
+    "maxHit": 684,
+    "manaCost": 0
+}

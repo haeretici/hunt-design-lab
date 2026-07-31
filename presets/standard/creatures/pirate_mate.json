@@ -1,0 +1,192 @@
+{
+    "id": "pirate_mate",
+    "label": "Pirate Mate",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A pirate mate.",
+    "hp": 3200,
+    "hpMax": 3200,
+    "speed": 175,
+    "level": 541,
+    "armor": 75,
+    "mitigation": 1.94,
+    "maxBlock": 0,
+    "exp": 2400,
+    "lootValue": 833.60012172855,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 30,
+        "earth": -30,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": true,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 50,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 297
+        },
+        {
+            "id": "energy_beam_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 1,
+            "element": "physical",
+            "min": 112,
+            "max": 156,
+            "target": false,
+            "effect": "me_energyarea",
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "energy_wave_2",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 1,
+            "element": "physical",
+            "min": 59,
+            "max": 104,
+            "target": false,
+            "effect": "me_energyarea",
+            "shootEffect": "ani_energy"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 30,
+            "max": 60,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "pirate coin",
+            "chance": 10000,
+            "maxCount": 10
+        },
+        {
+            "name": "cyan crystal fragment",
+            "chance": 10000
+        },
+        {
+            "name": "small diamond",
+            "chance": 10000
+        },
+        {
+            "name": "red crystal fragment",
+            "chance": 10000
+        },
+        {
+            "name": "mouldy powder",
+            "chance": 9000
+        },
+        {
+            "name": "pirat's tail",
+            "chance": 7000
+        },
+        {
+            "chance": 6000,
+            "name": "red gem"
+        },
+        {
+            "name": "fire sword",
+            "chance": 5000
+        },
+        {
+            "name": "small emerald",
+            "chance": 5000
+        },
+        {
+            "name": "onyx chip",
+            "chance": 4000
+        },
+        {
+            "name": "shark fins",
+            "chance": 4000
+        },
+        {
+            "name": "yellow gem",
+            "chance": 3000
+        },
+        {
+            "name": "ice rapier",
+            "chance": 3000
+        },
+        {
+            "name": "green crystal shard",
+            "chance": 2000
+        },
+        {
+            "name": "small treasure chest",
+            "chance": 2000
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "chaos_triton_assassin",
+    "threatDps": 85.025,
+    "burstDps": 85.025,
+    "avgHit": 141.7083,
+    "maxHit": 297,
+    "manaCost": 0
+}

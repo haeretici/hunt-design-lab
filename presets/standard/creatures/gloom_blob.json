@@ -1,0 +1,186 @@
+{
+    "id": "gloom_blob",
+    "label": "Gloom Blob",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A gloom blob.",
+    "hp": 750,
+    "hpMax": 750,
+    "speed": 80,
+    "level": 395,
+    "armor": 30,
+    "mitigation": 1.04,
+    "maxBlock": 0,
+    "exp": 700,
+    "lootValue": 108.73552123552,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -10,
+        "ice": 20,
+        "energy": -10,
+        "earth": 100,
+        "holy": 0,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "condition": {
+                "type": "poison",
+                "totalDamage": 59,
+                "intervalMs": 4000
+            },
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "condition_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 13,
+            "range": 4,
+            "element": "earth",
+            "min": 85,
+            "max": 102,
+            "radius": 4,
+            "target": false,
+            "effect": "me_poisonarea"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 11,
+            "range": 4,
+            "element": "earth",
+            "min": 18,
+            "max": 38,
+            "radius": 3,
+            "target": true,
+            "effect": "me_green_rings",
+            "shootEffect": "ani_envenomedarrow"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "earth",
+            "min": 13,
+            "max": 22,
+            "target": true,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_poison"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Slime",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 70,
+            "name": "gold coin"
+        },
+        {
+            "chance": 15410,
+            "name": "glob of glooth"
+        },
+        {
+            "chance": 3310,
+            "maxCount": 2,
+            "name": "small sapphire"
+        },
+        {
+            "chance": 3420,
+            "maxCount": 2,
+            "name": "small topaz"
+        },
+        {
+            "chance": 400,
+            "name": "glooth amulet"
+        },
+        {
+            "chance": 510,
+            "name": "glooth blade"
+        },
+        {
+            "chance": 580,
+            "name": "glooth club"
+        },
+        {
+            "chance": 560,
+            "name": "glooth axe"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "umbral_ghoul",
+    "threatDps": 37.9925,
+    "burstDps": 37.9925,
+    "avgHit": 49.9559,
+    "maxHit": 102,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 2,
+        "summons": [
+            {
+                "name": "Gloom Blob",
+                "id": "gloom_blob",
+                "chance": 6,
+                "interval": 2000,
+                "count": 2
+            }
+        ]
+    }
+}

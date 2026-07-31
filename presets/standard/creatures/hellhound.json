@@ -1,0 +1,361 @@
+{
+    "id": "hellhound",
+    "label": "Hellhound",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A hellhound.",
+    "hp": 7500,
+    "hpMax": 7500,
+    "speed": 180,
+    "level": 625,
+    "armor": 60,
+    "mitigation": 2.75,
+    "maxBlock": 0,
+    "exp": 5440,
+    "lootValue": 2730.202247191,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": -5,
+        "energy": 10,
+        "earth": 20,
+        "holy": -5,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 109,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 168,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 4,
+            "element": "earth",
+            "min": 63,
+            "max": 147,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_carniphila"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "death",
+            "min": 83,
+            "max": 105,
+            "target": false,
+            "effect": "me_smallclouds",
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "fire",
+            "min": 74,
+            "max": 139,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_firearea"
+        },
+        {
+            "id": "wave_4",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 74,
+            "max": 205,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "melee_5",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 1,
+            "element": "fire",
+            "min": 42,
+            "max": 85,
+            "radius": 1,
+            "target": true,
+            "effect": "me_hitbyfire"
+        },
+        {
+            "id": "ranged_6",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 7,
+            "element": "earth",
+            "min": 63,
+            "max": 115,
+            "target": false,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_poison"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 320,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "heal_1",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 20,
+            "min": 220,
+            "max": 425,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Demon",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 2000,
+            "name": "amber staff"
+        },
+        {
+            "chance": 25000,
+            "maxCount": 10,
+            "name": "assassin star"
+        },
+        {
+            "chance": 900,
+            "name": "big bone"
+        },
+        {
+            "chance": 9200,
+            "maxCount": 4,
+            "name": "black pearl"
+        },
+        {
+            "chance": 12500,
+            "name": "blazing bone"
+        },
+        {
+            "chance": 20000,
+            "maxCount": 2,
+            "name": "flask of demonic blood"
+        },
+        {
+            "chance": 20000,
+            "name": "demonic essence"
+        },
+        {
+            "chance": 400,
+            "name": "explorer brooch"
+        },
+        {
+            "chance": 10000,
+            "name": "fiery heart"
+        },
+        {
+            "chance": 7000,
+            "name": "fire sword"
+        },
+        {
+            "chance": 1000,
+            "name": "giant sword"
+        },
+        {
+            "chance": 1500,
+            "name": "gold ingot"
+        },
+        {
+            "chance": 30000,
+            "maxCount": 3,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 20000,
+            "name": "great dual potion"
+        },
+        {
+            "chance": 1000,
+            "name": "green gem"
+        },
+        {
+            "chance": 30000,
+            "maxCount": 14,
+            "name": "ham"
+        },
+        {
+            "chance": 10000,
+            "name": "hardened bone"
+        },
+        {
+            "chance": 20000,
+            "name": "hellhound slobber"
+        },
+        {
+            "chance": 7500,
+            "name": "knight axe"
+        },
+        {
+            "chance": 3000,
+            "name": "Emberbound Amulet"
+        },
+        {
+            "chance": 1500,
+            "name": "Emberbound Boots"
+        },
+        {
+            "chance": 800,
+            "name": "Emberbound Coat"
+        },
+        {
+            "chance": 1000,
+            "name": "Emberbound Legs"
+        },
+        {
+            "chance": 900,
+            "name": "Emberbound Monocle"
+        },
+        {
+            "chance": 1000,
+            "name": "Obsidian Flail"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 7,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 4500,
+            "name": "red gem"
+        },
+        {
+            "chance": 1000,
+            "name": "ruthless axe"
+        },
+        {
+            "chance": 10000,
+            "maxCount": 3,
+            "name": "small emerald"
+        },
+        {
+            "chance": 10000,
+            "maxCount": 3,
+            "name": "small ruby"
+        },
+        {
+            "chance": 10000,
+            "maxCount": 3,
+            "name": "small topaz"
+        },
+        {
+            "chance": 20000,
+            "name": "soul orb"
+        },
+        {
+            "chance": 16000,
+            "name": "ultimate health potion"
+        },
+        {
+            "chance": 7000,
+            "name": "wand of inferno"
+        },
+        {
+            "chance": 4500,
+            "name": "yellow gem"
+        },
+        {
+            "chance": 3000,
+            "name": "red piece of cloth"
+        },
+        {
+            "chance": 5000,
+            "name": "green piece of cloth"
+        },
+        {
+            "chance": 6000,
+            "name": "yellow piece of cloth"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "storm_wolf_rager",
+    "threatDps": 136.275,
+    "burstDps": 136.275,
+    "avgHit": 69.7,
+    "maxHit": 205,
+    "manaCost": 0
+}

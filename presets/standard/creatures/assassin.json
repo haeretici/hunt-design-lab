@@ -1,0 +1,183 @@
+{
+    "id": "assassin",
+    "label": "Assassin",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An assassin.",
+    "hp": 175,
+    "hpMax": 175,
+    "speed": 112,
+    "level": 251,
+    "armor": 17,
+    "mitigation": 1.04,
+    "maxBlock": 0,
+    "exp": 105,
+    "lootValue": 36.366015913735,
+    "aggro": true,
+    "resists": {
+        "physical": -10,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": -5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 20,
+        "damage": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 53
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 18,
+            "target": false,
+            "shootEffect": "ani_throwingstar"
+        },
+        {
+            "id": "condition_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "earth",
+            "min": 53,
+            "max": 71,
+            "target": false,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_poison"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "invisible_0",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 10,
+            "durationSec": 2,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Human",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 29980,
+            "maxCount": 2,
+            "name": "torch"
+        },
+        {
+            "name": "small diamond",
+            "chance": 220
+        },
+        {
+            "name": "gold coin",
+            "chance": 83210,
+            "maxCount": 50
+        },
+        {
+            "name": "gold coin",
+            "chance": 7250,
+            "maxCount": 14
+        },
+        {
+            "name": "knife",
+            "chance": 9500
+        },
+        {
+            "name": "combat knife",
+            "chance": 4000
+        },
+        {
+            "name": "steel helmet",
+            "chance": 3230
+        },
+        {
+            "name": "steel shield",
+            "chance": 970
+        },
+        {
+            "name": "plate shield",
+            "chance": 1900
+        },
+        {
+            "name": "battle shield",
+            "chance": 1600
+        },
+        {
+            "name": "leopard armor",
+            "chance": 480
+        },
+        {
+            "name": "horseman helmet",
+            "chance": 230
+        },
+        {
+            "name": "viper star",
+            "chance": 4200,
+            "maxCount": 7
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "assassin",
+    "threatDps": 17.025,
+    "burstDps": 17.025,
+    "avgHit": 27.24,
+    "maxHit": 71,
+    "manaCost": 450
+}

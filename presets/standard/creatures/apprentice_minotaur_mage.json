@@ -1,0 +1,182 @@
+{
+    "id": "apprentice_minotaur_mage",
+    "label": "Apprentice Minotaur Mage",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An apprentice minotaur mage.",
+    "hp": 95,
+    "hpMax": 95,
+    "speed": 85,
+    "level": 191,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 150,
+    "lootValue": 114.57746478873,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 100,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 20,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 23
+        },
+        {
+            "id": "energyfield_1",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 8,
+            "range": 7,
+            "element": "physical",
+            "radius": 1,
+            "target": true,
+            "shootEffect": "ani_energy",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 14,
+            "range": 7,
+            "element": "energy",
+            "min": 0,
+            "max": 56,
+            "target": false,
+            "effect": "me_energyarea",
+            "shootEffect": "ani_energyball"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "fire",
+            "min": 0,
+            "max": 102,
+            "target": false,
+            "effect": "me_firearea",
+            "shootEffect": "ani_fire"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 4000,
+            "chance": 15,
+            "min": 10,
+            "max": 20,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "minotaur leather",
+            "chance": 100000
+        },
+        {
+            "chance": 76000,
+            "name": "magic light wand"
+        },
+        {
+            "name": "gold coin",
+            "chance": 38000,
+            "maxCount": 10
+        },
+        {
+            "chance": 30000,
+            "maxCount": 2,
+            "name": "torch"
+        },
+        {
+            "name": "leather legs",
+            "chance": 23000
+        },
+        {
+            "chance": 7690,
+            "name": "carrot"
+        },
+        {
+            "name": "leather helmet",
+            "chance": 7690
+        },
+        {
+            "name": "knife",
+            "chance": 7690
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "apprentice_minotaur_mage",
+    "threatDps": 12.22,
+    "burstDps": 12.22,
+    "avgHit": 17.7101,
+    "maxHit": 102,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 2,
+        "summons": [
+            {
+                "name": "Hyaena",
+                "id": "hyaena",
+                "chance": 30,
+                "interval": 5000,
+                "count": 2
+            }
+        ]
+    }
+}

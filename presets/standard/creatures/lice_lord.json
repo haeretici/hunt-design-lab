@@ -1,0 +1,208 @@
+{
+    "id": "lice_lord",
+    "label": "Lice Lord",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A lice lord.",
+    "hp": 80000,
+    "hpMax": 80000,
+    "speed": 115,
+    "level": 862,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 3772.5721784777,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "condition": {
+                "type": "poison",
+                "totalDamage": 176,
+                "intervalMs": 4000
+            },
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 7,
+            "element": "earth",
+            "min": 211,
+            "max": 546,
+            "target": false,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "condition_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 22,
+            "range": 4,
+            "element": "earth",
+            "min": 1762,
+            "max": 3172,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_poisonarea"
+        },
+        {
+            "id": "condition_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "earth",
+            "min": 141,
+            "max": 141,
+            "radius": 3,
+            "target": false,
+            "effect": "me_poisonarea"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 7,
+            "element": "lifedrain",
+            "min": 529,
+            "max": 740,
+            "radius": 7,
+            "target": false,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "mutated_rat_paralyze_5",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "physical",
+            "target": false,
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 9,
+            "min": 250,
+            "max": 550,
+            "hpBelow": 0.7,
+            "effect": "me_hitbypoison"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 170,
+            "name": "gold coin"
+        },
+        {
+            "chance": 100000,
+            "name": "mutated rat tail"
+        },
+        {
+            "chance": 94830,
+            "maxCount": 10,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 94830,
+            "maxCount": 10,
+            "name": "ultimate health potion"
+        },
+        {
+            "chance": 94830,
+            "maxCount": 10,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 94830,
+            "maxCount": 10,
+            "name": "great health potion"
+        },
+        {
+            "chance": 100000,
+            "name": "ring of healing"
+        },
+        {
+            "chance": 25860,
+            "name": "epee"
+        },
+        {
+            "chance": 86200,
+            "name": "Earthbound Mantle"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ember_ogre_ravager",
+    "threatDps": 506.0325,
+    "burstDps": 506.0325,
+    "avgHit": 908.7663,
+    "maxHit": 3172,
+    "manaCost": 0
+}

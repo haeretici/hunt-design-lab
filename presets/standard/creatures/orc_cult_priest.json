@@ -1,0 +1,170 @@
+{
+    "id": "orc_cult_priest",
+    "label": "Orc Cult Priest",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An orc cult priest.",
+    "hp": 1300,
+    "hpMax": 1300,
+    "speed": 70,
+    "level": 451,
+    "armor": 27,
+    "mitigation": 1.18,
+    "maxBlock": 0,
+    "exp": 1000,
+    "lootValue": 269.0742074928,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 50,
+        "earth": -10,
+        "holy": 10,
+        "death": -5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 138
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "energy",
+            "min": 138,
+            "max": 214,
+            "target": false,
+            "shootEffect": "ani_energyball"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 7,
+            "element": "fire",
+            "min": 138,
+            "max": 173,
+            "radius": 1,
+            "target": true,
+            "shootEffect": "ani_fire"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 1
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 176
+        },
+        {
+            "name": "strong health potion",
+            "chance": 16340
+        },
+        {
+            "name": "small ruby",
+            "chance": 12870,
+            "maxCount": 6
+        },
+        {
+            "name": "black pearl",
+            "chance": 1980
+        },
+        {
+            "name": "cultish robe",
+            "chance": 18870
+        },
+        {
+            "name": "orc leather",
+            "chance": 8420,
+            "maxCount": 3
+        },
+        {
+            "name": "orc tooth",
+            "chance": 5940,
+            "maxCount": 2
+        },
+        {
+            "name": "green piece of cloth",
+            "chance": 12380
+        },
+        {
+            "name": "mysterious fetish",
+            "chance": 8910
+        },
+        {
+            "name": "shamanic hood",
+            "chance": 14360
+        },
+        {
+            "name": "broken shamanic staff",
+            "chance": 5940
+        },
+        {
+            "name": "heavy old tome",
+            "chance": 99
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "crystal_demon_priest",
+    "threatDps": 51.5875,
+    "burstDps": 51.5875,
+    "avgHit": 85.9792,
+    "maxHit": 214,
+    "manaCost": 0
+}

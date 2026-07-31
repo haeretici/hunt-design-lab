@@ -1,0 +1,220 @@
+{
+    "id": "werewolf_hemming",
+    "label": "Werewolf Hemming",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A werewolf hemming.",
+    "hp": 3000,
+    "hpMax": 3000,
+    "speed": 105,
+    "level": 534,
+    "armor": 0,
+    "mitigation": 1.03,
+    "maxBlock": 0,
+    "exp": 2850,
+    "lootValue": 4741.2972972973,
+    "aggro": true,
+    "resists": {
+        "physical": 30,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 50
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 300,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 299
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 120,
+            "max": 176,
+            "radius": 3,
+            "target": false,
+            "effect": "me_sound_red"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 40,
+            "range": 4,
+            "element": "physical",
+            "radius": 3,
+            "target": false,
+            "effect": "me_sound_white",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "werewolf_skill_reducer_4",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 1,
+            "element": "physical",
+            "target": false,
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 50,
+            "max": 200,
+            "hpBelow": 0.7,
+            "effect": "me_magic_green"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 300,
+            "durationSec": 5,
+            "effect": "me_sound_purple"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 99,
+            "name": "gold coin"
+        },
+        {
+            "chance": 100000,
+            "name": "werewolf fur"
+        },
+        {
+            "chance": 100000,
+            "name": "wolf paw"
+        },
+        {
+            "chance": 98000,
+            "name": "ultimate health potion"
+        },
+        {
+            "chance": 94000,
+            "maxCount": 5,
+            "name": "brown mushroom"
+        },
+        {
+            "chance": 94000,
+            "maxCount": 10,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 82000,
+            "name": "berserk potion"
+        },
+        {
+            "chance": 70000,
+            "name": "Stonehide Amulet"
+        },
+        {
+            "chance": 62000,
+            "maxCount": 5,
+            "name": "black pearl"
+        },
+        {
+            "chance": 31000,
+            "name": "cat's paw"
+        },
+        {
+            "chance": 21000,
+            "name": "troll green"
+        },
+        {
+            "chance": 15000,
+            "name": "sai"
+        },
+        {
+            "chance": 9800,
+            "name": "dreaded cleaver"
+        },
+        {
+            "chance": 6000,
+            "name": "time ring"
+        },
+        {
+            "chance": 2000,
+            "name": "bonebreaker"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "storm_wolf_rager",
+    "threatDps": 82.15,
+    "burstDps": 82.15,
+    "avgHit": 149.3636,
+    "maxHit": 299,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 2,
+        "summons": [
+            {
+                "name": "War Wolf",
+                "id": "war_wolf",
+                "chance": 100,
+                "interval": 2000,
+                "count": 2
+            }
+        ]
+    }
+}

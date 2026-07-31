@@ -1,0 +1,214 @@
+{
+    "id": "orc_colossus_hauler",
+    "label": "Orc Colossus Hauler",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An orc colossus hauler.",
+    "hp": 1700,
+    "hpMax": 1700,
+    "speed": 120,
+    "level": 478,
+    "armor": 35,
+    "mitigation": 1.32,
+    "maxBlock": 0,
+    "exp": 1450,
+    "lootValue": 365.51708382996,
+    "aggro": true,
+    "resists": {
+        "physical": 10,
+        "fire": 15,
+        "ice": -10,
+        "energy": -10,
+        "earth": 30,
+        "holy": 0,
+        "death": 10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 15,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 127
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 35,
+            "range": 7,
+            "element": "physical",
+            "min": 49,
+            "max": 93,
+            "target": true,
+            "shootEffect": "ani_largerock"
+        },
+        {
+            "id": "condition_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 50,
+            "range": 4,
+            "element": "physical",
+            "min": 42,
+            "max": 84,
+            "radius": 4,
+            "target": true,
+            "effect": "me_explosionarea",
+            "shootEffect": "ani_whirlwindclub"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 10,
+            "speedChange": 336,
+            "durationSec": 2,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Giant",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 50320,
+            "maxCount": 185,
+            "name": "gold coin"
+        },
+        {
+            "chance": 50320,
+            "maxCount": 3,
+            "name": "red mushroom"
+        },
+        {
+            "chance": 50320,
+            "name": "strong health potion"
+        },
+        {
+            "chance": 20000,
+            "name": "mysterious fetish"
+        },
+        {
+            "chance": 50320,
+            "name": "orcish axe"
+        },
+        {
+            "chance": 20000,
+            "name": "bone toothpick"
+        },
+        {
+            "chance": 4900,
+            "name": "beetle carapace"
+        },
+        {
+            "chance": 1800,
+            "maxCount": 2,
+            "name": "bug meat"
+        },
+        {
+            "chance": 12750,
+            "maxCount": 2,
+            "name": "black pearl"
+        },
+        {
+            "chance": 2510,
+            "maxCount": 3,
+            "name": "small ruby"
+        },
+        {
+            "chance": 1940,
+            "name": "spiked squelcher"
+        },
+        {
+            "chance": 1000,
+            "maxCount": 2,
+            "name": "onion"
+        },
+        {
+            "chance": 8870,
+            "maxCount": 3,
+            "name": "small topaz"
+        },
+        {
+            "chance": 9700,
+            "name": "brown crystal splinter"
+        },
+        {
+            "chance": 15290,
+            "maxCount": 3,
+            "name": "pair of iron fists"
+        },
+        {
+            "chance": 910,
+            "name": "war drum"
+        },
+        {
+            "chance": 910,
+            "name": "berserk potion"
+        },
+        {
+            "chance": 910,
+            "name": "beetle necklace"
+        },
+        {
+            "chance": 300,
+            "name": "reinvigorating seeds"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "sun_orc_guard",
+    "threatDps": 59.925,
+    "burstDps": 59.925,
+    "avgHit": 64.7838,
+    "maxHit": 127,
+    "manaCost": 0
+}

@@ -1,0 +1,262 @@
+{
+    "id": "demonic_brute",
+    "label": "Demonic Brute",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A demonic brute.",
+    "hp": 18000,
+    "hpMax": 18000,
+    "speed": 170,
+    "level": 713,
+    "armor": 70,
+    "mitigation": 1.74,
+    "maxBlock": 0,
+    "exp": 11200,
+    "lootValue": 3543.9190538765,
+    "aggro": true,
+    "resists": {
+        "physical": 30,
+        "fire": 30,
+        "ice": 10,
+        "energy": -10,
+        "earth": 20,
+        "holy": -5,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 60,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 821
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 436,
+            "target": false,
+            "shootEffect": "ani_largerock"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 520,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "heal_1",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 400,
+            "max": 900,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Demon",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 550,
+            "name": "fiendbone amulet"
+        },
+        {
+            "name": "small ruby",
+            "chance": 20000,
+            "maxCount": 4
+        },
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 100
+        },
+        {
+            "name": "small emerald",
+            "chance": 20000,
+            "maxCount": 5
+        },
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 15
+        },
+        {
+            "name": "violet gem",
+            "chance": 830
+        },
+        {
+            "name": "green gem",
+            "chance": 869
+        },
+        {
+            "chance": 13850,
+            "name": "red gem"
+        },
+        {
+            "name": "dragon hammer",
+            "chance": 9000
+        },
+        {
+            "name": "heavy mace",
+            "chance": 400
+        },
+        {
+            "name": "war axe",
+            "chance": 400
+        },
+        {
+            "name": "golden armor",
+            "chance": 550
+        },
+        {
+            "name": "golden legs",
+            "chance": 500
+        },
+        {
+            "name": "knight armor",
+            "chance": 4990
+        },
+        {
+            "name": "mastermind shield",
+            "chance": 800
+        },
+        {
+            "chance": 280,
+            "name": "closed trap"
+        },
+        {
+            "name": "ham",
+            "chance": 60000,
+            "maxCount": 8
+        },
+        {
+            "name": "soul orb",
+            "chance": 33333
+        },
+        {
+            "name": "demonic essence",
+            "chance": 45333
+        },
+        {
+            "name": "flask of demonic blood",
+            "chance": 25000,
+            "maxCount": 4
+        },
+        {
+            "name": "onyx arrow",
+            "chance": 11111,
+            "maxCount": 15
+        },
+        {
+            "name": "assassin star",
+            "chance": 25000,
+            "maxCount": 10
+        },
+        {
+            "name": "titan axe",
+            "chance": 4430
+        },
+        {
+            "name": "spiked squelcher",
+            "chance": 7761
+        },
+        {
+            "name": "great mana potion",
+            "chance": 35000
+        },
+        {
+            "name": "great health potion",
+            "chance": 32000
+        },
+        {
+            "name": "skullcracker armor",
+            "chance": 400
+        },
+        {
+            "name": "gold ingot",
+            "chance": 7692,
+            "maxCount": 2
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "mist_demon_priest",
+    "threatDps": 221.6,
+    "burstDps": 221.6,
+    "avgHit": 385.3913,
+    "maxHit": 821,
+    "manaCost": 0
+}

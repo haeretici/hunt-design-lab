@@ -1,0 +1,210 @@
+{
+    "id": "sin_devourer",
+    "label": "Sin Devourer",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A sin devourer.",
+    "hp": 1,
+    "hpMax": 1,
+    "speed": 180,
+    "level": 524,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 100,
+        "fire": 100,
+        "ice": 100,
+        "energy": 100,
+        "earth": 100,
+        "holy": 100,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "condition": {
+                "type": "poison",
+                "totalDamage": 80,
+                "intervalMs": 4000
+            },
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "nightstalker_paralyze_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 19,
+            "range": 7,
+            "element": "physical",
+            "target": false,
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "melee_2",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 50,
+            "range": 1,
+            "element": "manadrain",
+            "min": 100,
+            "max": 200,
+            "target": true,
+            "effect": "me_holyarea"
+        },
+        {
+            "id": "slow_3",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 40,
+            "range": 6,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -600,
+                "durationSec": 20
+            },
+            "effect": "me_icearea",
+            "target": true
+        },
+        {
+            "id": "silencer_skill_reducer_4",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 4,
+            "element": "physical",
+            "target": false,
+            "effect": "me_poff",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 13,
+            "min": 60,
+            "max": 130,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "invisible_1",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 10,
+            "durationSec": 2,
+            "effect": "me_yellow_rings"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "chance": 4830,
+            "name": "shadow herb"
+        },
+        {
+            "chance": 850,
+            "name": "protection amulet"
+        },
+        {
+            "chance": 120,
+            "name": "platinum amulet"
+        },
+        {
+            "chance": 120,
+            "name": "boots of haste"
+        },
+        {
+            "chance": 1600,
+            "name": "strong mana potion"
+        },
+        {
+            "chance": 89840,
+            "maxCount": 110,
+            "name": "gold coin"
+        },
+        {
+            "chance": 320,
+            "name": "haunted blade"
+        },
+        {
+            "chance": 120,
+            "name": "Maelstrom Mace"
+        },
+        {
+            "chance": 130,
+            "name": "crystal of balance"
+        },
+        {
+            "chance": 1030,
+            "name": "crystal ring"
+        },
+        {
+            "chance": 520,
+            "name": "spirit cloak"
+        }
+    ],
+    "changeTarget": {
+        "interval": 10,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ashen_goblin_devourer",
+    "threatDps": 77.5,
+    "burstDps": 77.5,
+    "avgHit": 150,
+    "maxHit": 200,
+    "manaCost": 0
+}

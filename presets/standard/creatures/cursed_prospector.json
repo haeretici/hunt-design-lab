@@ -1,0 +1,208 @@
+{
+    "id": "cursed_prospector",
+    "label": "Cursed Prospector",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A cursed prospector.",
+    "hp": 3900,
+    "hpMax": 3900,
+    "speed": 210,
+    "level": 561,
+    "armor": 85,
+    "mitigation": 2.4,
+    "maxBlock": 0,
+    "exp": 5250,
+    "lootValue": 796.62447257384,
+    "aggro": true,
+    "resists": {
+        "physical": 60,
+        "fire": -5,
+        "ice": -5,
+        "energy": 0,
+        "earth": 0,
+        "holy": 50,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 3,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 27,
+            "max": 54
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 1700,
+            "chance": 15,
+            "range": 4,
+            "element": "earth",
+            "min": 82,
+            "max": 150,
+            "radius": 3,
+            "target": true,
+            "effect": "me_hitbypoison",
+            "shootEffect": "ani_envenomedarrow"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 1700,
+            "chance": 25,
+            "range": 4,
+            "element": "energy",
+            "min": 41,
+            "max": 150,
+            "length": 4,
+            "spread": 0,
+            "target": false,
+            "effect": "me_energyhit"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 1700,
+            "chance": 35,
+            "range": 4,
+            "element": "death",
+            "min": 41,
+            "max": 150,
+            "radius": 3,
+            "target": false,
+            "effect": "me_mortarea"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 1700,
+            "chance": 35,
+            "range": 4,
+            "element": "holy",
+            "min": 68,
+            "max": 150,
+            "radius": 3,
+            "target": false,
+            "effect": "me_holyarea"
+        },
+        {
+            "id": "area_5",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 13,
+            "range": 4,
+            "element": "energy",
+            "min": 109,
+            "max": 150,
+            "radius": 4,
+            "target": true,
+            "effect": "me_energyarea"
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 5
+        },
+        {
+            "name": "flash arrow",
+            "chance": 17700,
+            "maxCount": 10
+        },
+        {
+            "name": "great dual potion",
+            "chance": 15190,
+            "maxCount": 2
+        },
+        {
+            "name": "spectral silver nugget",
+            "chance": 11520
+        },
+        {
+            "name": "spectral gold nugget",
+            "chance": 5680
+        },
+        {
+            "name": "emerald bangle",
+            "chance": 1340
+        },
+        {
+            "name": "Stormbound Boots",
+            "chance": 1340
+        },
+        {
+            "name": "diamond",
+            "chance": 1000
+        },
+        {
+            "name": "Stormbound Robe",
+            "chance": 1000
+        },
+        {
+            "name": "elven amulet",
+            "chance": 1000
+        },
+        {
+            "name": "Stormbound Legs",
+            "chance": 830
+        },
+        {
+            "name": "shockwave amulet",
+            "chance": 500
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "parrot",
+    "threatDps": 95.0499,
+    "burstDps": 141.5175,
+    "avgHit": 78.4202,
+    "maxHit": 150,
+    "manaCost": 0
+}

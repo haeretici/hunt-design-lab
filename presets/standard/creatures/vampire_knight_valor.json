@@ -1,0 +1,158 @@
+{
+    "id": "vampire_knight_valor",
+    "label": "Vampire Knight Valor",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A vampire knight valor.",
+    "hp": 1600,
+    "hpMax": 1600,
+    "speed": 135,
+    "level": 472,
+    "armor": 0,
+    "mitigation": 1.04,
+    "maxBlock": 0,
+    "exp": 1800,
+    "lootValue": 1866.7547169811,
+    "aggro": true,
+    "resists": {
+        "physical": 55,
+        "fire": -5,
+        "ice": 0,
+        "energy": -5,
+        "earth": 100,
+        "holy": -5,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 12,
+            "range": 4,
+            "element": "death",
+            "min": 0,
+            "max": 966,
+            "radius": 4,
+            "target": true,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_suddendeath"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 1000,
+            "chance": 12,
+            "min": 100,
+            "max": 235,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "invisible_1",
+            "kind": "invisible",
+            "intervalMs": 3000,
+            "chance": 25,
+            "durationSec": 2,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "chance": 250,
+            "name": "Maelstrom Mace"
+        },
+        {
+            "chance": 100000,
+            "name": "vampire lord token"
+        },
+        {
+            "chance": 1500,
+            "name": "strong health potion"
+        },
+        {
+            "chance": 1400,
+            "name": "sword ring"
+        },
+        {
+            "chance": 15000,
+            "name": "skull"
+        },
+        {
+            "chance": 100000,
+            "name": "vampire lord token"
+        },
+        {
+            "chance": 50000,
+            "maxCount": 5,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 93,
+            "name": "gold coin"
+        },
+        {
+            "chance": 6300,
+            "name": "Bloodfang Shield"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "hellfire_vampire_archer",
+    "threatDps": 57.96,
+    "burstDps": 57.96,
+    "avgHit": 483,
+    "maxHit": 966,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 4,
+        "summons": [
+            {
+                "name": "Vampire",
+                "id": "vampire",
+                "chance": 30,
+                "interval": 2000,
+                "count": 4
+            }
+        ]
+    }
+}

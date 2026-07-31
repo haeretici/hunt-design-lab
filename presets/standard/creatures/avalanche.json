@@ -1,0 +1,129 @@
+{
+    "id": "avalanche",
+    "label": "Avalanche",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An avalanche.",
+    "hp": 550,
+    "hpMax": 550,
+    "speed": 104,
+    "level": 364,
+    "armor": 26,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 305,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 30,
+        "ice": 100,
+        "energy": -10,
+        "earth": 100,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 74
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 1000,
+            "chance": 100,
+            "range": 4,
+            "element": "physical",
+            "min": 4,
+            "max": 20,
+            "length": 5,
+            "spread": 6,
+            "target": false,
+            "effect": "me_energyarea"
+        },
+        {
+            "id": "slow_2",
+            "kind": "status",
+            "intervalMs": 4000,
+            "chance": 100,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -400,
+                "durationSec": 10
+            },
+            "radius": 3,
+            "effect": "me_poff",
+            "target": false
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 6000,
+            "chance": 100,
+            "range": 5,
+            "element": "physical",
+            "min": 0,
+            "max": 16,
+            "radius": 1,
+            "target": true,
+            "shootEffect": "ani_largerock"
+        }
+    ],
+    "race": "undead",
+    "loot": [],
+    "changeTarget": {
+        "interval": 0,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ashen_goblin_devourer",
+    "threatDps": 31.8333,
+    "burstDps": 34.5,
+    "avgHit": 19.1,
+    "maxHit": 74,
+    "manaCost": 0
+}

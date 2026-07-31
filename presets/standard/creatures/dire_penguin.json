@@ -1,0 +1,156 @@
+{
+    "id": "dire_penguin",
+    "label": "Dire Penguin",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A dire penguin.",
+    "hp": 173,
+    "hpMax": 173,
+    "speed": 87,
+    "level": 249,
+    "armor": 16,
+    "mitigation": 0.59,
+    "maxBlock": 0,
+    "exp": 119,
+    "lootValue": 3.4509803921569,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 50,
+        "ice": 30,
+        "energy": -5,
+        "earth": 50,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 63
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 28,
+            "radius": 1,
+            "target": true,
+            "effect": "me_explosionarea",
+            "shootEffect": "ani_smallstone"
+        },
+        {
+            "id": "slow_2",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -600,
+                "durationSec": 9
+            },
+            "radius": 4,
+            "effect": "me_poff",
+            "target": false
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 310,
+            "durationSec": 3,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Bird",
+        "toKill": 5,
+        "firstUnlock": 1,
+        "secondUnlock": 3,
+        "charmsPoints": 30,
+        "stars": 2,
+        "occurrence": 3
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 78260,
+            "maxCount": 10
+        },
+        {
+            "chance": 11040,
+            "maxCount": 3,
+            "name": "fish"
+        },
+        {
+            "name": "rainbow trout",
+            "chance": 4800
+        },
+        {
+            "chance": 5900,
+            "name": "northern pike"
+        },
+        {
+            "name": "green perch",
+            "chance": 6200
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "dire_penguin",
+    "threatDps": 16.8,
+    "burstDps": 16.8,
+    "avgHit": 29.2174,
+    "maxHit": 63,
+    "manaCost": 0
+}

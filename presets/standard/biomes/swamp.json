@@ -1,0 +1,29 @@
+{
+    "id": "swamp",
+    "label": "Swamp",
+    "notes": "Stage 11.11 — standard swamp biome. Shared cave_v1 logic pieces; swamp art set + swamp_spitters population for visual/monster change in macro chains.",
+    "piecePack": "cave_v1",
+    "populationId": "swamp_spitters",
+    "markersId": "cave_clickies",
+    "profiles": {
+        "procedural": [
+            "small_crawl"
+        ],
+        "fixed": [
+            "outskirts_camp"
+        ]
+    },
+    "artSet": "swamp",
+    "floors": [
+        {
+            "z": 0,
+            "profileId": "small_crawl",
+            "role": "swamp_edge"
+        },
+        {
+            "z": 1,
+            "profileId": "small_crawl",
+            "role": "swamp_deep"
+        }
+    ]
+}

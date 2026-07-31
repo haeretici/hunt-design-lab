@@ -1,0 +1,94 @@
+{
+    "id": "young_troll",
+    "label": "Young Troll",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A young troll.",
+    "hp": 30,
+    "hpMax": 30,
+    "speed": 58,
+    "level": 78,
+    "armor": 2,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 12,
+    "lootValue": 4.6388140161725,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 20,
+        "earth": -10,
+        "holy": 10,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 15,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 26
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 10000,
+            "name": "rope"
+        },
+        {
+            "name": "gold coin",
+            "chance": 58000,
+            "maxCount": 12
+        },
+        {
+            "name": "meat",
+            "chance": 14000
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "young_troll",
+    "threatDps": 6.5,
+    "burstDps": 6.5,
+    "avgHit": 13,
+    "maxHit": 26,
+    "manaCost": 0
+}

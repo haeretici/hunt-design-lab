@@ -1,0 +1,149 @@
+{
+    "id": "cyclops_drone",
+    "label": "Cyclops Drone",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A cyclops drone.",
+    "hp": 325,
+    "hpMax": 325,
+    "speed": 99,
+    "level": 313,
+    "armor": 25,
+    "mitigation": 0.72,
+    "maxBlock": 0,
+    "exp": 200,
+    "lootValue": 19.990446247959,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 20,
+        "energy": 10,
+        "earth": -10,
+        "holy": 20,
+        "death": -5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "damage": 30
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 76
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 35,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 58,
+            "target": false,
+            "shootEffect": "ani_largerock"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Giant",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 82000,
+            "maxCount": 30
+        },
+        {
+            "chance": 90,
+            "name": "club ring"
+        },
+        {
+            "name": "halberd",
+            "chance": 680
+        },
+        {
+            "name": "short sword",
+            "chance": 8000
+        },
+        {
+            "name": "dark helmet",
+            "chance": 190
+        },
+        {
+            "name": "plate shield",
+            "chance": 2000
+        },
+        {
+            "name": "battle shield",
+            "chance": 1600
+        },
+        {
+            "name": "meat",
+            "chance": 50430,
+            "maxCount": 2
+        },
+        {
+            "chance": 120,
+            "name": "cyclops trophy"
+        },
+        {
+            "name": "strong health potion",
+            "chance": 520
+        },
+        {
+            "name": "cyclops toe",
+            "chance": 6750
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "obsidian_cyclops",
+    "threatDps": 24.075,
+    "burstDps": 24.075,
+    "avgHit": 35.6667,
+    "maxHit": 76,
+    "manaCost": 525
+}

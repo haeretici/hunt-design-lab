@@ -1,0 +1,141 @@
+{
+    "id": "orc_cult_minion",
+    "label": "Orc Cult Minion",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An orc cult minion.",
+    "hp": 1000,
+    "hpMax": 1000,
+    "speed": 105,
+    "level": 425,
+    "armor": 30,
+    "mitigation": 1.18,
+    "maxBlock": 0,
+    "exp": 850,
+    "lootValue": 206.67467079783,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 20,
+        "earth": -10,
+        "holy": 20,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 143
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "physical",
+            "min": 74,
+            "max": 106,
+            "target": false,
+            "shootEffect": "ani_spear"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 166
+        },
+        {
+            "name": "strong health potion",
+            "chance": 15930
+        },
+        {
+            "name": "small topaz",
+            "chance": 1238,
+            "maxCount": 3
+        },
+        {
+            "name": "orcish axe",
+            "chance": 9190
+        },
+        {
+            "name": "cultish robe",
+            "chance": 19360
+        },
+        {
+            "name": "red mushroom",
+            "chance": 6250,
+            "maxCount": 3
+        },
+        {
+            "name": "berserk potion",
+            "chance": 860,
+            "maxCount": 2
+        },
+        {
+            "name": "meat",
+            "chance": 4780
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "hellfire_kobold_cultist",
+    "threatDps": 44.75,
+    "burstDps": 44.75,
+    "avgHit": 74.5833,
+    "maxHit": 143,
+    "manaCost": 0
+}

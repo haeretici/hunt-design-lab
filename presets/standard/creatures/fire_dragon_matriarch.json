@@ -1,0 +1,214 @@
+{
+    "id": "fire_dragon_matriarch",
+    "label": "Fire Dragon Matriarch",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A fire dragon matriarch.",
+    "hp": 10000,
+    "hpMax": 10000,
+    "speed": 175,
+    "level": 654,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 9000,
+    "lootValue": 14337.642857143,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": 0,
+        "energy": 30,
+        "earth": 50,
+        "holy": -5,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 800,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "fire",
+            "min": 146,
+            "max": 657,
+            "radius": 5,
+            "target": true,
+            "effect": "me_firearea",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "fire",
+            "min": 411,
+            "max": 657,
+            "length": 9,
+            "spread": 4,
+            "target": false,
+            "effect": "me_firearea"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "fire",
+            "min": 942,
+            "max": 1187,
+            "length": 9,
+            "spread": 3,
+            "target": false,
+            "effect": "me_firearea"
+        },
+        {
+            "id": "firefield_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "radius": 7,
+            "target": true,
+            "shootEffect": "ani_fire",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 25,
+            "min": 400,
+            "max": 700,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 100000,
+            "name": "horn of Kalyassa"
+        },
+        {
+            "chance": 75230,
+            "maxCount": 9,
+            "name": "dragon ham"
+        },
+        {
+            "chance": 99080,
+            "maxCount": 9,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 80000,
+            "maxCount": 2,
+            "name": "dragon blood"
+        },
+        {
+            "chance": 8260,
+            "name": "great health potion"
+        },
+        {
+            "chance": 9170,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 25000,
+            "name": "royal helmet"
+        },
+        {
+            "chance": 25000,
+            "name": "dragon scale mail"
+        },
+        {
+            "chance": 100000,
+            "name": "dragon tongue"
+        },
+        {
+            "chance": 17430,
+            "name": "power bolt"
+        },
+        {
+            "chance": 26610,
+            "maxCount": 10,
+            "name": "onyx arrow"
+        },
+        {
+            "chance": 25000,
+            "name": "fire sword"
+        },
+        {
+            "chance": 25000,
+            "name": "voltaic ring"
+        },
+        {
+            "chance": 25000,
+            "name": "red dragon leather"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 5
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "wild_desert_dragon",
+    "threatDps": 160.0375,
+    "burstDps": 160.0375,
+    "avgHit": 640.15,
+    "maxHit": 1187,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 2,
+        "summons": [
+            {
+                "name": "Elder Dragon",
+                "id": "elder_dragon",
+                "chance": 20,
+                "interval": 2000,
+                "count": 2
+            }
+        ]
+    }
+}

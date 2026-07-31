@@ -1,0 +1,149 @@
+{
+    "id": "emerald_damselfly",
+    "label": "Emerald Damselfly",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An emerald damselfly.",
+    "hp": 90,
+    "hpMax": 90,
+    "speed": 100,
+    "level": 181,
+    "armor": 6,
+    "mitigation": 0.2,
+    "maxBlock": 0,
+    "exp": 35,
+    "lootValue": 12.108372683673,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 7,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 18,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "earth",
+            "min": 0,
+            "max": 22,
+            "target": false,
+            "shootEffect": "ani_poison"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 4,
+            "max": 10,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Vermin",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 4300,
+            "name": "rope"
+        },
+        {
+            "name": "gold coin",
+            "chance": 90000,
+            "maxCount": 18
+        },
+        {
+            "name": "arrow",
+            "chance": 7570,
+            "maxCount": 5
+        },
+        {
+            "name": "health potion",
+            "chance": 3580
+        },
+        {
+            "name": "mana potion",
+            "chance": 3550
+        },
+        {
+            "chance": 11830,
+            "name": "damselfly wing"
+        },
+        {
+            "chance": 9970,
+            "name": "damselfly eye"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "emerald_damselfly",
+    "threatDps": 11.575,
+    "burstDps": 11.575,
+    "avgHit": 4.4783,
+    "maxHit": 22,
+    "manaCost": 0
+}

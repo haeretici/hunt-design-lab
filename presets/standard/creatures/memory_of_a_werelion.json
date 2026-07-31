@@ -1,0 +1,161 @@
+{
+    "id": "memory_of_a_werelion",
+    "label": "Memory Of A Werelion",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A memory of a werelion.",
+    "hp": 3880,
+    "hpMax": 3880,
+    "speed": 105,
+    "level": 560,
+    "armor": 0,
+    "mitigation": 1.4,
+    "maxBlock": 0,
+    "exp": 1800,
+    "lootValue": 147.63876651982,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 25,
+        "ice": -25,
+        "energy": 0,
+        "earth": 50,
+        "holy": 0,
+        "death": 45
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 5,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 216
+        },
+        {
+            "id": "werelion_wave_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 1,
+            "element": "physical",
+            "min": 108,
+            "max": 325,
+            "target": false
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 3,
+            "element": "holy",
+            "min": 108,
+            "max": 325,
+            "target": true,
+            "effect": "me_holyarea"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 3,
+            "element": "holy",
+            "min": 108,
+            "max": 216,
+            "target": true,
+            "shootEffect": "ani_holy"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 20,
+            "min": 100,
+            "max": 150,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 99
+        },
+        {
+            "name": "meat",
+            "chance": 5000,
+            "maxCount": 2
+        },
+        {
+            "name": "great dual potion",
+            "chance": 100000,
+            "maxCount": 2
+        },
+        {
+            "name": "onyx chip",
+            "chance": 1500
+        },
+        {
+            "name": "small diamond",
+            "chance": 1500,
+            "maxCount": 2
+        },
+        {
+            "name": "special fx box",
+            "chance": 1500
+        },
+        {
+            "name": "small enchanted ruby",
+            "chance": 5000,
+            "maxCount": 2
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "nether_tiger",
+    "threatDps": 94.575,
+    "burstDps": 94.575,
+    "avgHit": 135.1071,
+    "maxHit": 325,
+    "manaCost": 0
+}

@@ -1,0 +1,154 @@
+{
+    "id": "renegade_deep_terror_mantassin",
+    "label": "Renegade Deep Terror Mantassin",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A renegade deep terror mantassin.",
+    "hp": 1200,
+    "hpMax": 1200,
+    "speed": 295,
+    "level": 443,
+    "armor": 16,
+    "mitigation": 0.7,
+    "maxBlock": 0,
+    "exp": 1000,
+    "lootValue": 210.29469001946,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": 100,
+        "energy": -25,
+        "earth": -10,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "element": "physical",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "min": 53,
+            "max": 145,
+            "target": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "invisible_0",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 20,
+            "durationSec": 2,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Aquatic",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 2
+    },
+    "loot": [
+        {
+            "name": "mantassin tail",
+            "chance": 14490
+        },
+        {
+            "name": "mind stone",
+            "chance": 10370
+        },
+        {
+            "name": "shrimp",
+            "chance": 3950,
+            "maxCount": 3
+        },
+        {
+            "name": "small sapphire",
+            "chance": 3540,
+            "maxCount": 3
+        },
+        {
+            "chance": 3290,
+            "name": "stealth ring"
+        },
+        {
+            "name": "ice rapier",
+            "chance": 2060
+        },
+        {
+            "name": "blue crystal shard",
+            "chance": 1890
+        },
+        {
+            "name": "strange helmet",
+            "chance": 1320
+        },
+        {
+            "name": "two handed sword",
+            "chance": 820
+        },
+        {
+            "name": "fish fin",
+            "chance": 740
+        },
+        {
+            "name": "blue robe",
+            "chance": 660
+        },
+        {
+            "chance": 580,
+            "name": "voltaic ring"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "rift_wraith",
+    "threatDps": 49.5,
+    "burstDps": 49.5,
+    "avgHit": 99,
+    "maxHit": 145,
+    "manaCost": 0
+}

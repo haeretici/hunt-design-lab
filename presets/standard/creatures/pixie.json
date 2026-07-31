@@ -1,0 +1,228 @@
+{
+    "id": "pixie",
+    "label": "Pixie",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A pixie.",
+    "hp": 770,
+    "hpMax": 770,
+    "speed": 120,
+    "level": 399,
+    "armor": 52,
+    "mitigation": 1.04,
+    "maxBlock": 0,
+    "exp": 700,
+    "lootValue": 240.59983694041,
+    "aggro": true,
+    "resists": {
+        "physical": -5,
+        "fire": -10,
+        "ice": -5,
+        "energy": 0,
+        "earth": 60,
+        "holy": 60,
+        "death": 30
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 20,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 124
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "energy",
+            "min": 42,
+            "max": 67,
+            "target": true,
+            "effect": "me_energyhit",
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "slow_2",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 11,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -440,
+                "durationSec": 7
+            },
+            "length": 4,
+            "spread": 2,
+            "effect": "me_magic_green",
+            "target": false
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 4,
+            "element": "energy",
+            "min": 0,
+            "max": 49,
+            "target": false,
+            "shootEffect": "ani_leafstar"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 25,
+            "min": 40,
+            "max": 75,
+            "hpBelow": 0.7,
+            "effect": "me_magic_green"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Fey",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 30000,
+            "maxCount": 90
+        },
+        {
+            "name": "butterfly ring",
+            "chance": 492
+        },
+        {
+            "name": "wooden spellbook",
+            "chance": 92
+        },
+        {
+            "name": "dream blossom staff",
+            "chance": 92
+        },
+        {
+            "chance": 492,
+            "name": "magic light wand"
+        },
+        {
+            "name": "green mushroom",
+            "chance": 492
+        },
+        {
+            "name": "small enchanted amethyst",
+            "chance": 492,
+            "maxCount": 2
+        },
+        {
+            "name": "small topaz",
+            "chance": 592,
+            "maxCount": 2
+        },
+        {
+            "name": "rainbow quartz",
+            "chance": 719,
+            "maxCount": 3
+        },
+        {
+            "name": "colourful snail shell",
+            "chance": 719
+        },
+        {
+            "name": "star herb",
+            "chance": 719
+        },
+        {
+            "name": "leaf star",
+            "chance": 10000,
+            "maxCount": 5
+        },
+        {
+            "name": "red rose",
+            "chance": 30100
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 6800
+        },
+        {
+            "name": "wild flowers",
+            "chance": 5155
+        },
+        {
+            "name": "great mana potion",
+            "chance": 591
+        },
+        {
+            "name": "dandelion seeds",
+            "chance": 5800
+        },
+        {
+            "name": "fresh fruit",
+            "chance": 3400,
+            "maxCount": 2
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "glacier_forest_construct",
+    "threatDps": 38.7625,
+    "burstDps": 38.7625,
+    "avgHit": 53.4655,
+    "maxHit": 124,
+    "manaCost": 450
+}

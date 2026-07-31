@@ -1,0 +1,241 @@
+{
+    "id": "mutated_visco",
+    "label": "Mutated Visco",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A mutated visco.",
+    "hp": 28000,
+    "hpMax": 28000,
+    "speed": 145,
+    "level": 757,
+    "armor": 96,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 9800,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 20,
+        "energy": 100,
+        "earth": 70,
+        "holy": 20,
+        "death": 30
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 1500,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 40,
+            "range": 4,
+            "element": "physical",
+            "min": 427,
+            "max": 1281,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_mortarea"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 4,
+            "element": "earth",
+            "min": 256,
+            "max": 1111,
+            "radius": 3,
+            "target": false,
+            "effect": "me_poisonarea"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 7,
+            "element": "manadrain",
+            "min": 43,
+            "max": 111,
+            "target": true,
+            "effect": "me_magic_green"
+        },
+        {
+            "id": "slow_4",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -500,
+                "durationSec": 20
+            },
+            "effect": "me_magic_red",
+            "target": false
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 20,
+            "min": 2000,
+            "max": 3000,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 30500,
+            "name": "great health potion"
+        },
+        {
+            "chance": 41325,
+            "maxCount": 30,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 49650,
+            "maxCount": 100,
+            "name": "gold coin"
+        },
+        {
+            "chance": 50500,
+            "name": "heavily rusted armor"
+        },
+        {
+            "chance": 33000,
+            "maxCount": 4,
+            "name": "gold ingot"
+        },
+        {
+            "chance": 30500,
+            "name": "blue gem"
+        },
+        {
+            "chance": 20500,
+            "name": "green gem"
+        },
+        {
+            "chance": 10500,
+            "name": "ultimate health potion"
+        },
+        {
+            "chance": 5500,
+            "name": "dragon scale boots"
+        },
+        {
+            "chance": 19250,
+            "maxCount": 4,
+            "name": "soul orb"
+        },
+        {
+            "chance": 15500,
+            "name": "tower shield"
+        },
+        {
+            "chance": 8100,
+            "maxCount": 67,
+            "name": "viper star"
+        },
+        {
+            "id": 281,
+            "chance": 28000,
+            "maxCount": 2
+        },
+        {
+            "chance": 15500,
+            "name": "yellow gem"
+        },
+        {
+            "chance": 10500,
+            "name": "red gem"
+        },
+        {
+            "chance": 10500,
+            "name": "savant potion"
+        },
+        {
+            "chance": 25500,
+            "name": "violet gem"
+        },
+        {
+            "chance": 20500,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 5500,
+            "name": "earthborn titan armor"
+        },
+        {
+            "chance": 5500,
+            "name": "mastermind shield"
+        },
+        {
+            "chance": 10500,
+            "name": "emerald bangle"
+        },
+        {
+            "chance": 5500,
+            "name": "paladin armor"
+        },
+        {
+            "chance": 5500,
+            "name": "guardian shield"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ashen_goblin_devourer",
+    "threatDps": 282.95,
+    "burstDps": 282.95,
+    "avgHit": 595.6842,
+    "maxHit": 1281,
+    "manaCost": 0
+}

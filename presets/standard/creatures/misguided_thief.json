@@ -1,0 +1,154 @@
+{
+    "id": "misguided_thief",
+    "label": "Misguided Thief",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A misguided thief.",
+    "hp": 1800,
+    "hpMax": 1800,
+    "speed": 130,
+    "level": 484,
+    "armor": 25,
+    "mitigation": 1.32,
+    "maxBlock": 0,
+    "exp": 1600,
+    "lootValue": 189.14556533514,
+    "aggro": true,
+    "resists": {
+        "physical": 20,
+        "fire": 0,
+        "ice": 10,
+        "energy": 0,
+        "earth": 30,
+        "holy": -30,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 203
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "fire",
+            "min": 90,
+            "max": 135,
+            "target": true,
+            "shootEffect": "ani_fire"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 1000,
+            "chance": 20,
+            "min": 200,
+            "max": 450,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Human",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 80,
+            "name": "gold coin"
+        },
+        {
+            "chance": 9660,
+            "name": "strong mana potion"
+        },
+        {
+            "chance": 5680,
+            "name": "red gem"
+        },
+        {
+            "chance": 58520,
+            "name": "ham"
+        },
+        {
+            "chance": 5680,
+            "name": "strong health potion"
+        },
+        {
+            "chance": 47160,
+            "name": "meat"
+        },
+        {
+            "chance": 6250,
+            "name": "yellow gem"
+        },
+        {
+            "chance": 6250,
+            "name": "rubbish amulet"
+        },
+        {
+            "chance": 570,
+            "name": "blue crystal splinter"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "dromedary",
+    "threatDps": 62,
+    "burstDps": 62,
+    "avgHit": 103.3333,
+    "maxHit": 203,
+    "manaCost": 390
+}

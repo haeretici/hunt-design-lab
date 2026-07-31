@@ -1,0 +1,96 @@
+{
+    "id": "cursed_gladiator",
+    "label": "Cursed Gladiator",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A cursed gladiator.",
+    "hp": 435,
+    "hpMax": 435,
+    "speed": 85,
+    "level": 342,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 215,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -5,
+        "ice": 0,
+        "energy": 0,
+        "earth": 20,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 104
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 4000,
+            "chance": 50,
+            "range": 5,
+            "element": "lifedrain",
+            "min": 0,
+            "max": 35,
+            "radius": 1,
+            "target": true,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "undead",
+    "loot": [],
+    "changeTarget": {
+        "interval": 0,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "crystal_lizard_warrior",
+    "threatDps": 28.1875,
+    "burstDps": 30.375,
+    "avgHit": 45.1,
+    "maxHit": 104,
+    "manaCost": 0
+}

@@ -1,0 +1,149 @@
+{
+    "id": "barbarian_huntress",
+    "label": "Barbarian Huntress",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A barbarian huntress.",
+    "hp": 345,
+    "hpMax": 345,
+    "speed": 140,
+    "level": 319,
+    "armor": 0,
+    "mitigation": 0.7,
+    "maxBlock": 0,
+    "exp": 355,
+    "lootValue": 96.2,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 34,
+            "range": 7,
+            "element": "physical",
+            "min": 58,
+            "max": 154,
+            "radius": 1,
+            "target": true,
+            "shootEffect": "ani_snowball"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 3000,
+            "chance": 20,
+            "range": 7,
+            "element": "energy",
+            "min": 68,
+            "max": 135,
+            "target": false,
+            "effect": "me_energyhit",
+            "shootEffect": "ani_fire"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 1000,
+            "chance": 25,
+            "min": 50,
+            "max": 80,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 48000,
+            "maxCount": 35,
+            "name": "gold coin"
+        },
+        {
+            "chance": 11000,
+            "name": "chain armor"
+        },
+        {
+            "chance": 12500,
+            "name": "hunting spear"
+        },
+        {
+            "chance": 1000,
+            "name": "fur bag"
+        },
+        {
+            "chance": 25000,
+            "name": "torch"
+        },
+        {
+            "id": 2824,
+            "chance": 15000
+        }
+    ],
+    "changeTarget": {
+        "interval": 60000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "phantom_hill_giant",
+    "threatDps": 24.7867,
+    "burstDps": 28.17,
+    "avgHit": 104.7324,
+    "maxHit": 154,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 1,
+        "summons": [
+            {
+                "name": "War Wolf",
+                "id": "war_wolf",
+                "chance": 40,
+                "interval": 2000,
+                "count": 1
+            }
+        ]
+    }
+}

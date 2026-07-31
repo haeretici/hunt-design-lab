@@ -1,0 +1,143 @@
+{
+    "id": "imp_mephiles",
+    "label": "Imp Mephiles",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An imp mephiles.",
+    "hp": 415,
+    "hpMax": 415,
+    "speed": 150,
+    "level": 337,
+    "armor": 0,
+    "mitigation": 0.4,
+    "maxBlock": 0,
+    "exp": 415,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": -10,
+        "fire": 100,
+        "ice": -10,
+        "energy": 0,
+        "earth": 50,
+        "holy": -5,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 3,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 1200,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 34
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 1500,
+            "chance": 70,
+            "range": 7,
+            "element": "fire",
+            "min": 14,
+            "max": 43,
+            "radius": 2,
+            "target": true,
+            "effect": "me_firearea",
+            "shootEffect": "ani_fire"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 1000,
+            "chance": 40,
+            "speedChange": 400,
+            "durationSec": 40,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "invisible_1",
+            "kind": "invisible",
+            "intervalMs": 4000,
+            "chance": 50,
+            "durationSec": 2,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 2000,
+            "maxCount": 95,
+            "name": "gold coin"
+        },
+        {
+            "chance": 30000,
+            "maxCount": 9,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 1000,
+            "name": "stale bread of ancientness"
+        },
+        {
+            "chance": 1000,
+            "name": "poet's fencing quill"
+        },
+        {
+            "chance": 1000,
+            "name": "rain coat"
+        },
+        {
+            "chance": 1000,
+            "name": "white knight"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "crab",
+    "threatDps": 27.4667,
+    "burstDps": 36.95,
+    "avgHit": 21.1282,
+    "maxHit": 43,
+    "manaCost": 0
+}

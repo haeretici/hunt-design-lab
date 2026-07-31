@@ -1,0 +1,203 @@
+{
+    "id": "lesser_doom_demon",
+    "label": "Lesser Doom Demon",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A lesser doom demon.",
+    "hp": 6000,
+    "hpMax": 6000,
+    "speed": 350,
+    "level": 603,
+    "armor": 25,
+    "mitigation": 1.6,
+    "maxBlock": 0,
+    "exp": 4000,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 350,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "fire",
+            "min": 210,
+            "max": 920,
+            "radius": 4,
+            "target": true,
+            "effect": "me_firearea",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 3000,
+            "chance": 34,
+            "range": 7,
+            "element": "fire",
+            "min": 315,
+            "max": 1314,
+            "radius": 2,
+            "target": true,
+            "effect": "me_firearea",
+            "shootEffect": "ani_fire"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 1000,
+            "chance": 50,
+            "min": 155,
+            "max": 255,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 1000,
+            "chance": 12,
+            "speedChange": 320,
+            "durationSec": 4,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "invisible_2",
+            "kind": "invisible",
+            "intervalMs": 4000,
+            "chance": 50,
+            "durationSec": 2,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 20,
+            "name": "gold coin"
+        },
+        {
+            "chance": 1428,
+            "maxCount": 2,
+            "name": "small amethyst"
+        },
+        {
+            "chance": 2857,
+            "name": "pitchfork"
+        },
+        {
+            "chance": 666,
+            "name": "fire axe"
+        },
+        {
+            "chance": 909,
+            "name": "soul orb"
+        },
+        {
+            "chance": 200,
+            "name": "demon shield"
+        },
+        {
+            "chance": 1000,
+            "maxCount": 2,
+            "name": "demonic essence"
+        },
+        {
+            "chance": 180,
+            "name": "golden legs"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 20,
+            "name": "gold coin"
+        },
+        {
+            "chance": 909,
+            "name": "soul orb"
+        },
+        {
+            "chance": 800,
+            "name": "crown legs"
+        },
+        {
+            "chance": 1333,
+            "name": "guardian shield"
+        },
+        {
+            "chance": 909,
+            "name": "fiendbone amulet"
+        },
+        {
+            "chance": 500,
+            "name": "tempest shield"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "mist_demon_priest",
+    "threatDps": 120.56,
+    "burstDps": 166.715,
+    "avgHit": 738.1224,
+    "maxHit": 1314,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 3,
+        "summons": [
+            {
+                "name": "Diabolic Imp",
+                "id": "diabolic_imp",
+                "chance": 40,
+                "interval": 2000,
+                "count": 3
+            }
+        ]
+    }
+}

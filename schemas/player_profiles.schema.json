@@ -1,0 +1,158 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://hunt-design-lab.local/schemas/player_profiles.schema.json",
+  "title": "Player Profile folder entity",
+  "description": "Shape of presets/<mode>/player_profiles/<id>.json. Storage: folder entity. Defines reusable player character profiles for party creation.",
+  "type": "object",
+  "required": ["id"],
+  "additionalProperties": true,
+  "definitions": {
+    "entityId": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]{0,79}$",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "inventoryItem": {
+      "type": "object",
+      "title": "Inventory Item",
+      "required": ["itemId"],
+      "additionalProperties": false,
+      "properties": {
+        "itemId": {
+          "type": "string",
+          "format": "equipment_id",
+          "description": "Item ID from equipment catalog (relation: kind=equipment)."
+        },
+        "count": {
+          "type": "integer",
+          "minimum": 1,
+          "default": 1,
+          "description": "Number of items (e.g. ammunition or stackable items)."
+        },
+        "slotIndex": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Optional explicit slot index within the container."
+        },
+        "contents": {
+          "type": "array",
+          "description": "Items nested inside this container (e.g. arrows in a quiver or gear in a bag).",
+          "items": { "$ref": "#/definitions/inventoryItem" }
+        }
+      }
+    }
+  },
+  "properties": {
+    "id": { "$ref": "#/definitions/entityId" },
+    "label": { "type": "string", "maxLength": 120, "description": "Human-readable profile display name." },
+    "vocation": { "type": "string", "description": "Class or vocation ID (relation: kind=classes)." },
+    "controlMode": { "type": "string", "enum": ["ai", "manual"], "default": "ai", "description": "Control mode for this character profile (ai or manual)." },
+    "customSpriteGenre": {
+      "type": "string",
+      "description": "Optional catalog genre for Custom Sprite when different from the mode genre. Empty = mode genre. Controls the catalog list and runtime sprite path for customSprite."
+    },
+    "customSprite": {
+      "type": "string",
+      "format": "creature_sprite_id",
+      "description": "Optional genre creature catalog id used for watch-mode art for this profile. Wins over the vocation baseSprite. Designer: Select opens the creature catalog filtered by customSpriteGenre (or mode genre). Alpha thumb preview."
+    },
+    "level": { "type": "integer", "minimum": 1, "maximum": 999, "default": 50, "description": "Player character level." },
+    "promoted": { "type": "boolean", "default": false, "description": "Whether the character is promoted." },
+    "skills": {
+      "type": "object",
+      "description": "Skill levels for axe, club, distance, fishing, fist, magicLevel, shielding, sword. Runtime: normalizeSkillBag maps sword/axe/club/fist→melee (max), magicLevel→magic; used as buildEffectiveStats baseSkills (gear skillBonuses still stack).",
+      "additionalProperties": { "type": "integer", "minimum": 0 },
+      "properties": {
+        "axe": { "type": "integer", "minimum": 0, "default": 13 },
+        "club": { "type": "integer", "minimum": 0, "default": 13 },
+        "distance": { "type": "integer", "minimum": 0, "default": 13 },
+        "fishing": { "type": "integer", "minimum": 0, "default": 10 },
+        "fist": { "type": "integer", "minimum": 0, "default": 10 },
+        "magicLevel": { "type": "integer", "minimum": 0, "default": 0 },
+        "shielding": { "type": "integer", "minimum": 0, "default": 10 },
+        "sword": { "type": "integer", "minimum": 0, "default": 13 }
+      }
+    },
+    "stats": {
+      "type": "object",
+      "description": "Combat attributes, imbuements, and leech stats.",
+      "additionalProperties": { "type": "number", "minimum": 0 },
+      "properties": {
+        "lifeLeech": { "type": "number", "minimum": 0, "default": 0 },
+        "manaLeech": { "type": "number", "minimum": 0, "default": 0 },
+        "critChance": { "type": "number", "minimum": 0, "default": 5 },
+        "critDamage": { "type": "number", "minimum": 0, "default": 10 }
+      }
+    },
+    "equipment": {
+      "type": "object",
+      "description": "Equipped items by designer slot (relation: kind=equipment). Runtime maps head→helmet, chest→armor, weapon→rightHand, shield→leftHand via normalizeEquipmentMap (Phase 5).",
+      "additionalProperties": { "type": "string" },
+      "properties": {
+        "head": { "type": "string", "format": "equipment_id", "description": "Helmet (engine: helmet)." },
+        "chest": { "type": "string", "format": "equipment_id", "description": "Chest armor (engine: armor)." },
+        "legs": { "type": "string", "format": "equipment_id", "description": "Legs equipment item." },
+        "boots": { "type": "string", "format": "equipment_id", "description": "Boots equipment item." },
+        "weapon": { "type": "string", "format": "equipment_id", "description": "Weapon (engine: rightHand)." },
+        "shield": { "type": "string", "format": "equipment_id", "description": "Shield (engine: leftHand)." },
+        "amulet": { "type": "string", "format": "equipment_id", "description": "Amulet equipment item." },
+        "ring": { "type": "string", "format": "equipment_id", "description": "Ring equipment item." },
+        "backpack": { "type": "string", "format": "equipment_id", "description": "Backpack (not rolled into combat stats)." },
+        "helmet": { "type": "string", "format": "equipment_id", "description": "Engine alias for head (optional)." },
+        "armor": { "type": "string", "format": "equipment_id", "description": "Engine alias for chest (optional)." },
+        "rightHand": { "type": "string", "format": "equipment_id", "description": "Engine alias for weapon (optional)." },
+        "leftHand": { "type": "string", "format": "equipment_id", "description": "Engine alias for shield (optional)." }
+      }
+    },
+    "inventory": {
+      "type": "object",
+      "title": "Container Inventory",
+      "description": "Initial items stored inside equipped containers (e.g. main backpack or quiver in shield/leftHand slot). Supports nested containers.",
+      "additionalProperties": {
+        "type": "array",
+        "items": { "$ref": "#/definitions/inventoryItem" }
+      },
+      "properties": {
+        "backpack": {
+          "type": "array",
+          "title": "Backpack Contents",
+          "description": "Items starting inside the equipped main backpack.",
+          "items": { "$ref": "#/definitions/inventoryItem" }
+        },
+        "shield": {
+          "type": "array",
+          "title": "Shield / Quiver Contents",
+          "description": "Items starting inside a container equipped in the shield/leftHand slot (e.g. arrows in a quiver).",
+          "items": { "$ref": "#/definitions/inventoryItem" }
+        },
+        "leftHand": {
+          "type": "array",
+          "title": "Left Hand Contents",
+          "description": "Engine alias for shield slot container contents.",
+          "items": { "$ref": "#/definitions/inventoryItem" }
+        },
+        "weapon": {
+          "type": "array",
+          "title": "Weapon Slot Contents",
+          "description": "Items starting inside a container equipped in the weapon/rightHand slot.",
+          "items": { "$ref": "#/definitions/inventoryItem" }
+        },
+        "rightHand": {
+          "type": "array",
+          "title": "Right Hand Contents",
+          "description": "Engine alias for weapon slot container contents.",
+          "items": { "$ref": "#/definitions/inventoryItem" }
+        }
+      }
+    },
+    "backpack": {
+      "type": "array",
+      "title": "Root Backpack Contents (Shorthand)",
+      "description": "Shorthand array for items starting inside the main backpack (same as inventory.backpack).",
+      "items": { "$ref": "#/definitions/inventoryItem" }
+    },
+    "strategyId": { "type": "string", "description": "Strategy preset ID (relation: kind=strategies)." },
+    "notes": { "type": "string", "maxLength": 4000, "description": "Designer notes." }
+  }
+}

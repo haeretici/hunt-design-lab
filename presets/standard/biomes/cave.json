@@ -1,0 +1,29 @@
+{
+    "id": "cave",
+    "label": "Cave",
+    "notes": "Stage 11.7 — standard cave biome pack. Logic pieces + rat population + generator-friendly markers. Stage 11.8: multi-floor chain. Stage 11.9: artSet cave binds presets/art_sets/cave.json → genre tiles.",
+    "piecePack": "cave_v1",
+    "populationId": "cave_rats",
+    "markersId": "cave_clickies",
+    "profiles": {
+        "procedural": [
+            "small_crawl"
+        ],
+        "fixed": [
+            "outskirts_camp"
+        ]
+    },
+    "artSet": "cave",
+    "floors": [
+        {
+            "z": 0,
+            "profileId": "small_crawl",
+            "role": "entrance"
+        },
+        {
+            "z": 1,
+            "profileId": "small_crawl",
+            "role": "deep"
+        }
+    ]
+}

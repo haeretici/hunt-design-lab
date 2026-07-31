@@ -1,0 +1,296 @@
+{
+    "id": "abyss_warden",
+    "label": "Abyss Warden",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An abyss warden.",
+    "hp": 30000,
+    "hpMax": 30000,
+    "speed": 160,
+    "level": 764,
+    "armor": 72,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 18000,
+    "lootValue": 29642.914049587,
+    "aggro": true,
+    "resists": {
+        "physical": 10,
+        "fire": 30,
+        "ice": 30,
+        "energy": 30,
+        "earth": 30,
+        "holy": -40,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": false,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 4,
+            "element": "earth",
+            "min": 600,
+            "max": 1000,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_hitbypoison"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 4,
+            "element": "earth",
+            "min": 600,
+            "max": 1000,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_hitbypoison"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 7,
+            "element": "earth",
+            "min": 100,
+            "max": 235,
+            "target": true,
+            "effect": "me_hitbypoison",
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 4,
+            "element": "earth",
+            "min": 100,
+            "max": 250,
+            "radius": 3,
+            "target": false,
+            "effect": "me_poisonarea"
+        },
+        {
+            "id": "condition_5",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 4,
+            "element": "earth",
+            "min": 300,
+            "max": 450,
+            "radius": 3,
+            "target": false,
+            "effect": "me_hitbypoison"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 35,
+            "min": 400,
+            "max": 700,
+            "hpBelow": 0.7
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 100000,
+            "name": "cluster of solace"
+        },
+        {
+            "chance": 100000,
+            "name": "demon horn"
+        },
+        {
+            "chance": 100000,
+            "name": "demonic essence"
+        },
+        {
+            "chance": 13850,
+            "name": "dream matter"
+        },
+        {
+            "chance": 5380,
+            "name": "dream warden mask"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 200,
+            "name": "gold coin"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 50,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 100000,
+            "name": "unrealized dream"
+        },
+        {
+            "chance": 5130,
+            "name": "spellbook of lost souls"
+        },
+        {
+            "chance": 35900,
+            "name": "spellbook of warding"
+        },
+        {
+            "chance": 10260,
+            "name": "spellbook of mind control"
+        },
+        {
+            "chance": 33330,
+            "name": "beastslayer axe"
+        },
+        {
+            "chance": 12820,
+            "name": "noble axe"
+        },
+        {
+            "chance": 2560,
+            "name": "executioner"
+        },
+        {
+            "chance": 2560,
+            "name": "vile axe"
+        },
+        {
+            "chance": 1220,
+            "name": "golden armor"
+        },
+        {
+            "chance": 1220,
+            "name": "blue robe"
+        },
+        {
+            "chance": 17950,
+            "name": "Regal Crown Armor"
+        },
+        {
+            "chance": 250,
+            "name": "golden legs"
+        },
+        {
+            "chance": 90,
+            "name": "great axe"
+        },
+        {
+            "chance": 90,
+            "name": "demonwing axe"
+        },
+        {
+            "chance": 1750,
+            "name": "Stormbound Legs"
+        },
+        {
+            "chance": 1750,
+            "name": "knight legs"
+        },
+        {
+            "chance": 20510,
+            "name": "crown legs"
+        },
+        {
+            "chance": 15380,
+            "name": "steel boots"
+        },
+        {
+            "chance": 17950,
+            "maxCount": 25,
+            "name": "small diamond"
+        },
+        {
+            "chance": 5130,
+            "maxCount": 25,
+            "name": "small amethyst"
+        },
+        {
+            "chance": 10260,
+            "maxCount": 25,
+            "name": "small emerald"
+        },
+        {
+            "chance": 28210,
+            "maxCount": 25,
+            "name": "small sapphire"
+        },
+        {
+            "chance": 15380,
+            "maxCount": 25,
+            "name": "small topaz"
+        },
+        {
+            "chance": 20510,
+            "maxCount": 25,
+            "name": "small ruby"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 25
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "dread_abomination",
+    "threatDps": 293.875,
+    "burstDps": 293.875,
+    "avgHit": 452.1154,
+    "maxHit": 1000,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 2,
+        "summons": [
+            {
+                "name": "Defiler",
+                "id": "defiler",
+                "chance": 12,
+                "interval": 2000,
+                "count": 2
+            }
+        ]
+    }
+}

@@ -1,0 +1,186 @@
+{
+    "id": "war_dragon",
+    "label": "War Dragon",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A war dragon.",
+    "hp": 6960,
+    "hpMax": 6960,
+    "speed": 165,
+    "level": 618,
+    "armor": 80,
+    "mitigation": 2.19,
+    "maxBlock": 0,
+    "exp": 5810,
+    "lootValue": 1453.9821029083,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 40,
+        "ice": -10,
+        "energy": -5,
+        "earth": -10,
+        "holy": -5,
+        "death": 15
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 289
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2500,
+            "chance": 20,
+            "range": 4,
+            "element": "death",
+            "min": 160,
+            "max": 257,
+            "radius": 4,
+            "target": true,
+            "effect": "me_mortarea"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 3000,
+            "chance": 25,
+            "range": 4,
+            "element": "fire",
+            "min": 193,
+            "max": 257,
+            "length": 8,
+            "spread": 4,
+            "target": false,
+            "effect": "me_explosionhit"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 3000,
+            "chance": 20,
+            "range": 4,
+            "element": "physical",
+            "min": 177,
+            "max": 257,
+            "radius": 4,
+            "target": true,
+            "effect": "me_poff"
+        },
+        {
+            "id": "ranged_4",
+            "kind": "ranged",
+            "intervalMs": 3000,
+            "chance": 15,
+            "range": 2,
+            "element": "physical",
+            "min": 160,
+            "max": 193,
+            "target": true,
+            "effect": "me_big_scratch"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Dragon",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 5,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "Platinum Coin",
+            "chance": 52560,
+            "minCount": 1,
+            "maxCount": 45
+        },
+        {
+            "name": "Wardragon Claw",
+            "chance": 14420
+        },
+        {
+            "name": "Nimmersatt's Seal",
+            "chance": 10620
+        },
+        {
+            "name": "Dragon Tongue",
+            "chance": 8450
+        },
+        {
+            "name": "Wardragon Tooth",
+            "chance": 6330
+        },
+        {
+            "name": "Gold Ingot",
+            "chance": 6007
+        },
+        {
+            "name": "Onyx Chip",
+            "chance": 4650,
+            "minCount": 1,
+            "maxCount": 2
+        },
+        {
+            "name": "Black Pearl",
+            "chance": 4000
+        },
+        {
+            "name": "White Gem",
+            "chance": 1000
+        },
+        {
+            "name": "Dragonbone Staff",
+            "chance": 740
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "wild_desert_dragon",
+    "threatDps": 130.9717,
+    "burstDps": 156.1625,
+    "avgHit": 167.9124,
+    "maxHit": 289,
+    "manaCost": 0
+}

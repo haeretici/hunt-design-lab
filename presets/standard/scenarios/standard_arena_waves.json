@@ -1,0 +1,10 @@
+{
+    "id": "standard_arena_waves",
+    "label": "Standard arena waves (vocation ladder)",
+    "notes": "docs/24 I3–I4 — Scenario Lab companion for the product vocation arena. Temporal ladder (no route noise); default party balance_quartet (L50). Progression A/B: balance_quartet_novice | balance_quartet_veteran. Expect summary.waves + champion/elite/boss kill tags. Mono-class: sim:sweep --matrix --hunt standard_arena_waves.",
+    "baseHuntId": "standard_arena_waves",
+    "partyId": "balance_quartet",
+    "seed": 42,
+    "frames": 10000,
+    "maxTicks": 10000
+}

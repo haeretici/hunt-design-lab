@@ -1,0 +1,142 @@
+{
+    "id": "thornback_tortoise",
+    "label": "Thornback Tortoise",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A thornback tortoise.",
+    "hp": 300,
+    "hpMax": 300,
+    "speed": 75,
+    "level": 303,
+    "armor": 24,
+    "mitigation": 0.7,
+    "maxBlock": 0,
+    "exp": 150,
+    "lootValue": 40.236050420168,
+    "aggro": true,
+    "resists": {
+        "physical": 30,
+        "fire": -10,
+        "ice": 20,
+        "energy": 0,
+        "earth": 20,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 53,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 19,
+                "intervalMs": 4000
+            }
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Reptile",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "white pearl",
+            "chance": 1600
+        },
+        {
+            "name": "black pearl",
+            "chance": 800
+        },
+        {
+            "name": "gold coin",
+            "chance": 89500,
+            "maxCount": 48
+        },
+        {
+            "name": "war hammer",
+            "chance": 260
+        },
+        {
+            "chance": 10800,
+            "maxCount": 2,
+            "name": "fish"
+        },
+        {
+            "name": "white mushroom",
+            "chance": 1200
+        },
+        {
+            "name": "brown mushroom",
+            "chance": 700
+        },
+        {
+            "name": "tortoise egg",
+            "chance": 790,
+            "maxCount": 3
+        },
+        {
+            "chance": 800,
+            "name": "turtle shell"
+        },
+        {
+            "name": "health potion",
+            "chance": 1600
+        },
+        {
+            "name": "thorn",
+            "chance": 15980
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "crystal_lizard_warrior",
+    "threatDps": 22.75,
+    "burstDps": 22.75,
+    "avgHit": 26.5,
+    "maxHit": 53,
+    "manaCost": 490
+}

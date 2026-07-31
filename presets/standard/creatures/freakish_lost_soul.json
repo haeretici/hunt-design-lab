@@ -1,0 +1,185 @@
+{
+    "id": "freakish_lost_soul",
+    "label": "Freakish Lost Soul",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A freakish lost soul.",
+    "hp": 7000,
+    "hpMax": 7000,
+    "speed": 260,
+    "level": 619,
+    "armor": 85,
+    "mitigation": 2.6,
+    "maxBlock": 0,
+    "exp": 7020,
+    "lootValue": 1385.9518599562,
+    "aggro": true,
+    "resists": {
+        "physical": 60,
+        "fire": 0,
+        "ice": 0,
+        "energy": 35,
+        "earth": 70,
+        "holy": -40,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 37,
+            "max": 186
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 1700,
+            "chance": 15,
+            "range": 4,
+            "element": "earth",
+            "min": 112,
+            "max": 205,
+            "radius": 3,
+            "target": true,
+            "effect": "me_hitbypoison",
+            "shootEffect": "ani_envenomedarrow"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 1700,
+            "chance": 25,
+            "range": 4,
+            "element": "energy",
+            "min": 56,
+            "max": 205,
+            "length": 4,
+            "spread": 0,
+            "target": false,
+            "effect": "me_energyhit"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 1700,
+            "chance": 35,
+            "range": 4,
+            "element": "death",
+            "min": 56,
+            "max": 205,
+            "radius": 4,
+            "target": false,
+            "effect": "me_mortarea"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 1700,
+            "chance": 20,
+            "range": 4,
+            "element": "energy",
+            "min": 56,
+            "max": 205,
+            "radius": 4,
+            "target": false,
+            "effect": "me_energyarea"
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 10000,
+            "maxCount": 3
+        },
+        {
+            "name": "lost soul",
+            "chance": 45240
+        },
+        {
+            "name": "death toll",
+            "chance": 6250
+        },
+        {
+            "name": "emerald bangle",
+            "chance": 5980
+        },
+        {
+            "name": "gemmed figurine",
+            "chance": 3800
+        },
+        {
+            "name": "ensouled essence",
+            "chance": 2720
+        },
+        {
+            "chance": 1220,
+            "name": "ring of blue plasma"
+        },
+        {
+            "name": "silver hand mirror",
+            "chance": 1090
+        },
+        {
+            "name": "ornate crossbow",
+            "chance": 1090
+        },
+        {
+            "name": "crystal crossbow",
+            "chance": 270
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "glacier_mountain_phantom",
+    "threatDps": 131.1471,
+    "burstDps": 183.925,
+    "avgHit": 123.8611,
+    "maxHit": 205,
+    "manaCost": 0
+}

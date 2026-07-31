@@ -1,0 +1,241 @@
+{
+    "id": "foam_stalker",
+    "label": "Foam Stalker",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A foam stalker.",
+    "hp": 4500,
+    "hpMax": 4500,
+    "speed": 180,
+    "level": 574,
+    "armor": 64,
+    "mitigation": 1.74,
+    "maxBlock": 0,
+    "exp": 3525,
+    "lootValue": 1233.0808080808,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 80,
+        "ice": 20,
+        "energy": -30,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 2,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 46,
+            "max": 138
+        },
+        {
+            "id": "foamsplash_1",
+            "kind": "melee",
+            "intervalMs": 5000,
+            "chance": 50,
+            "range": 1,
+            "element": "physical",
+            "min": 46,
+            "max": 138
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2500,
+            "chance": 35,
+            "range": 4,
+            "element": "ice",
+            "min": 46,
+            "max": 138,
+            "length": 6,
+            "spread": 0,
+            "effect": "me_loseenergy"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 45,
+            "range": 4,
+            "element": "ice",
+            "min": 46,
+            "max": 138,
+            "radius": 1,
+            "target": true,
+            "effect": "me_iceattack",
+            "shootEffect": "ani_ice"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 15,
+            "range": 4,
+            "element": "ice",
+            "min": 46,
+            "max": 138,
+            "radius": 4,
+            "target": false,
+            "effect": "me_icearea"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 20,
+            "min": 80,
+            "max": 113,
+            "hpBelow": 0.7
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Elemental",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 50
+        },
+        {
+            "name": "halberd",
+            "chance": 11025
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 9728
+        },
+        {
+            "name": "orichalcum pearl",
+            "chance": 9728
+        },
+        {
+            "name": "spike sword",
+            "chance": 8301
+        },
+        {
+            "name": "combat knife",
+            "chance": 7004
+        },
+        {
+            "name": "flotsam",
+            "chance": 6874
+        },
+        {
+            "name": "white pearl",
+            "chance": 6485
+        },
+        {
+            "chance": 6355,
+            "name": "twigs"
+        },
+        {
+            "chance": 6355,
+            "name": "staff"
+        },
+        {
+            "name": "remains of a fish",
+            "chance": 5966
+        },
+        {
+            "name": "Frostbound Shoes",
+            "chance": 5707
+        },
+        {
+            "name": "coral branch",
+            "chance": 4929
+        },
+        {
+            "name": "soul orb",
+            "chance": 4929
+        },
+        {
+            "chance": 4669,
+            "name": "black pearl"
+        },
+        {
+            "name": "small diamond",
+            "chance": 3891
+        },
+        {
+            "name": "small emerald",
+            "chance": 3243,
+            "maxCount": 2
+        },
+        {
+            "id": 281,
+            "chance": 2205
+        },
+        {
+            "name": "Earthbound Boots",
+            "chance": 5075
+        },
+        {
+            "name": "mercenary sword",
+            "chance": 4167
+        },
+        {
+            "name": "knight legs",
+            "chance": 3649
+        },
+        {
+            "name": "violet gem",
+            "chance": 3389
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "twilight_desert_stalker",
+    "threatDps": 102.58,
+    "burstDps": 119.6,
+    "avgHit": 92,
+    "maxHit": 138,
+    "manaCost": 0
+}

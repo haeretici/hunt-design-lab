@@ -1,0 +1,27 @@
+{
+    "id": "balance_quartet_novice",
+    "label": "Balance Quartet (Novice L12)",
+    "notes": "docs/24 I4 / docs/22 A4 — tutorial tier of the four-vocation ladder. Same roles as balance_quartet; only level + gear + skills differ. Pair with standard_arena_waves for progression A/B.",
+    "members": [
+        {
+            "profileId": "guardian_novice",
+            "name": "Guardian",
+            "isLeader": true
+        },
+        {
+            "profileId": "scout_novice",
+            "name": "Scout",
+            "isLeader": false
+        },
+        {
+            "profileId": "adept_novice",
+            "name": "Adept",
+            "isLeader": false
+        },
+        {
+            "profileId": "warden_novice",
+            "name": "Warden",
+            "isLeader": false
+        }
+    ]
+}

@@ -1,0 +1,143 @@
+{
+    "id": "emperor_spite_aspect",
+    "label": "Emperor Spite Aspect",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An emperor spite aspect.",
+    "hp": 48000,
+    "hpMax": 48000,
+    "speed": 205,
+    "level": 811,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 500,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": -10,
+        "fire": 10,
+        "ice": 50,
+        "energy": -10,
+        "earth": 100,
+        "holy": -14,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 366,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 3000,
+            "chance": 17,
+            "range": 4,
+            "element": "physical",
+            "min": 1064,
+            "max": 1773,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_loseenergy"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 3000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 3545,
+            "target": false,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "slow_3",
+            "kind": "status",
+            "intervalMs": 1000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -600,
+                "durationSec": 20
+            },
+            "effect": "me_magic_red",
+            "target": false
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 21,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 1418,
+            "max": 3191,
+            "radius": 6,
+            "target": false,
+            "effect": "me_poff"
+        }
+    ],
+    "race": "undead",
+    "loot": [],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "crystal_mountain_chimera",
+    "threatDps": 381.4375,
+    "burstDps": 451.17,
+    "avgHit": 1956.0897,
+    "maxHit": 3545,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 2,
+        "summons": [
+            {
+                "name": "Draconian Warmaster",
+                "id": "draconian_warmaster",
+                "chance": 10,
+                "interval": 2000,
+                "count": 2
+            }
+        ]
+    }
+}

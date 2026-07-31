@@ -1,0 +1,179 @@
+{
+    "id": "hellfire_archfiend",
+    "label": "Hellfire Archfiend",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A hellfire archfiend.",
+    "hp": 35000,
+    "hpMax": 35000,
+    "speed": 95,
+    "level": 779,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 22000,
+    "lootValue": 5477.2727272727,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 50,
+        "ice": -14,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 50
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 724
+        },
+        {
+            "id": "deathburst_rune_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 16,
+            "range": 5,
+            "element": "physical",
+            "min": 501,
+            "max": 612,
+            "target": true
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 14,
+            "range": 5,
+            "element": "fire",
+            "min": 445,
+            "max": 534,
+            "radius": 3,
+            "target": true,
+            "effect": "me_firearea",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "fire",
+            "min": 445,
+            "max": 612,
+            "radius": 4,
+            "target": false,
+            "effect": "me_explosionhit"
+        },
+        {
+            "id": "wave_4",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 12,
+            "range": 4,
+            "element": "fire",
+            "min": 468,
+            "max": 668,
+            "length": 5,
+            "spread": 3,
+            "target": false,
+            "effect": "me_hitbyfire"
+        }
+    ],
+    "race": "fire",
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 9
+        },
+        {
+            "chance": 65000,
+            "maxCount": 2,
+            "name": "red gem"
+        },
+        {
+            "name": "green crystal shard",
+            "chance": 16000
+        },
+        {
+            "name": "sea horse figurine",
+            "chance": 2400
+        },
+        {
+            "name": "winged boots",
+            "chance": 120
+        },
+        {
+            "name": "small sapphire",
+            "chance": 48000,
+            "maxCount": 3
+        },
+        {
+            "name": "Stonehide Amulet",
+            "chance": 54000
+        },
+        {
+            "chance": 6500,
+            "name": "gryphon mask"
+        },
+        {
+            "name": "fire axe",
+            "chance": 34000
+        },
+        {
+            "chance": 520,
+            "name": "enchanted blister ring"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "celestial_fiend",
+    "threatDps": 320.29,
+    "burstDps": 320.29,
+    "avgHit": 421.4342,
+    "maxHit": 724,
+    "manaCost": 0
+}

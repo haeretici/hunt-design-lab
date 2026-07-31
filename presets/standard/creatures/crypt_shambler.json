@@ -1,0 +1,149 @@
+{
+    "id": "crypt_shambler",
+    "label": "Crypt Shambler",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A crypt shambler.",
+    "hp": 330,
+    "hpMax": 330,
+    "speed": 70,
+    "level": 315,
+    "armor": 30,
+    "mitigation": 0.64,
+    "maxBlock": 0,
+    "exp": 195,
+    "lootValue": 32.257575757576,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 100,
+        "holy": -25,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "damage": 30
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 89
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 1,
+            "element": "lifedrain",
+            "min": 18,
+            "max": 35,
+            "target": true
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "small diamond",
+            "chance": 510
+        },
+        {
+            "name": "gold coin",
+            "chance": 57000,
+            "maxCount": 55
+        },
+        {
+            "name": "rotten meat",
+            "chance": 1850
+        },
+        {
+            "chance": 5000,
+            "name": "bone"
+        },
+        {
+            "name": "throwing star",
+            "chance": 910,
+            "maxCount": 3
+        },
+        {
+            "name": "bone sword",
+            "chance": 1000
+        },
+        {
+            "name": "iron helmet",
+            "chance": 2130
+        },
+        {
+            "name": "iron helmet",
+            "chance": 2000
+        },
+        {
+            "name": "bone shield",
+            "chance": 1000
+        },
+        {
+            "name": "worm",
+            "chance": 9000,
+            "maxCount": 10
+        },
+        {
+            "name": "half-digested piece of meat",
+            "chance": 5000
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "black_sheep",
+    "threatDps": 24.2375,
+    "burstDps": 24.2375,
+    "avgHit": 42.1522,
+    "maxHit": 89,
+    "manaCost": 580
+}

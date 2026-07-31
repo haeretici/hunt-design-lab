@@ -1,0 +1,97 @@
+{
+    "id": "tremor_worm",
+    "label": "Tremor Worm",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A tremor worm.",
+    "hp": 125000,
+    "hpMax": 125000,
+    "speed": 85,
+    "level": 906,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 80000,
+    "lootValue": 6698.2857142857,
+    "aggro": true,
+    "resists": {
+        "physical": 75,
+        "fire": 75,
+        "ice": 75,
+        "energy": 75,
+        "earth": 75,
+        "holy": 75,
+        "death": 75
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 2592
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 33000,
+            "maxCount": 5,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 10000,
+            "name": "great health potion"
+        },
+        {
+            "chance": 10000,
+            "name": "great mana potion"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "brimstone_ruins_crawler",
+    "threatDps": 648,
+    "burstDps": 648,
+    "avgHit": 1296,
+    "maxHit": 2592,
+    "manaCost": 0
+}

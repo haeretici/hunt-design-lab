@@ -1,0 +1,184 @@
+{
+    "id": "bat_lord_bruise_payne",
+    "label": "Bat Lord Bruise Payne",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A bat lord bruise payne.",
+    "hp": 1600,
+    "hpMax": 1600,
+    "speed": 105,
+    "level": 472,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 1000,
+    "lootValue": 6961.3170731707,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 20,
+        "energy": 0,
+        "earth": 65,
+        "holy": 0,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 300,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 160,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 4,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "earth",
+            "min": 47,
+            "max": 120,
+            "target": false,
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "physical",
+            "min": 87,
+            "max": 158,
+            "radius": 6,
+            "target": false,
+            "effect": "me_sound_white"
+        },
+        {
+            "id": "condition_4",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "earth",
+            "min": 8,
+            "max": 8,
+            "length": 4,
+            "spread": 0,
+            "target": false,
+            "effect": "me_poisonarea"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 80,
+            "max": 95,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 2,
+            "name": "bat wing"
+        },
+        {
+            "chance": 100000,
+            "name": "voltaic ring"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 99,
+            "name": "gold coin"
+        },
+        {
+            "chance": 100000,
+            "name": "mutated bat ear"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 5,
+            "name": "small amethyst"
+        },
+        {
+            "chance": 100000,
+            "name": "star herb"
+        },
+        {
+            "chance": 92000,
+            "name": "black shield"
+        },
+        {
+            "chance": 85000,
+            "maxCount": 5,
+            "name": "black pearl"
+        },
+        {
+            "chance": 25000,
+            "name": "mercenary sword"
+        },
+        {
+            "chance": 16000,
+            "name": "batwing hat"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ember_ogre_ravager",
+    "threatDps": 58.05,
+    "burstDps": 58.05,
+    "avgHit": 77.3103,
+    "maxHit": 160,
+    "manaCost": 0
+}

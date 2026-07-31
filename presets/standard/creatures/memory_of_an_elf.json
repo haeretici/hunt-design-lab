@@ -1,0 +1,164 @@
+{
+    "id": "memory_of_an_elf",
+    "label": "Memory Of An Elf",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A memory of an elf.",
+    "hp": 3440,
+    "hpMax": 3440,
+    "speed": 110,
+    "level": 548,
+    "armor": 0,
+    "mitigation": 1.2,
+    "maxBlock": 0,
+    "exp": 1440,
+    "lootValue": 88.323741007194,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 189
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 379,
+            "target": false,
+            "shootEffect": "ani_arrow"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "energy",
+            "min": 162,
+            "max": 271,
+            "target": false,
+            "effect": "me_energyhit",
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "death",
+            "min": 379,
+            "max": 460,
+            "target": false,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_suddendeath"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 40,
+            "max": 60,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 37000,
+            "maxCount": 70
+        },
+        {
+            "name": "candlestick",
+            "chance": 2100
+        },
+        {
+            "name": "bread",
+            "chance": 14000
+        },
+        {
+            "chance": 1000,
+            "name": "inkwell"
+        },
+        {
+            "name": "green tunic",
+            "chance": 7000
+        },
+        {
+            "name": "blank rune",
+            "chance": 18000
+        },
+        {
+            "name": "wand of cosmic energy",
+            "chance": 1160
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 3000
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "phantom_elf_raider",
+    "threatDps": 88.525,
+    "burstDps": 88.525,
+    "avgHit": 136.1923,
+    "maxHit": 460,
+    "manaCost": 0
+}

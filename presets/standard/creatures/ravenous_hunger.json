@@ -1,0 +1,246 @@
+{
+    "id": "ravenous_hunger",
+    "label": "Ravenous Hunger",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A ravenous hunger.",
+    "hp": 1,
+    "hpMax": 1,
+    "speed": 140,
+    "level": 716,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 31743.588235294,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 100,
+        "holy": 0,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 900
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "bed of nails",
+            "chance": 67000
+        },
+        {
+            "name": "small sapphire",
+            "chance": 21000,
+            "maxCount": 10
+        },
+        {
+            "name": "great dual potion",
+            "chance": 33230,
+            "maxCount": 5
+        },
+        {
+            "name": "yellow gem",
+            "chance": 12000
+        },
+        {
+            "id": 282,
+            "chance": 5000
+        },
+        {
+            "name": "platinum coin",
+            "chance": 68299,
+            "maxCount": 30
+        },
+        {
+            "name": "Stormbound Legs",
+            "chance": 18000
+        },
+        {
+            "name": "sacred tree amulet",
+            "chance": 15000
+        },
+        {
+            "name": "wood cape",
+            "chance": 9000
+        },
+        {
+            "name": "gold token",
+            "chance": 1532
+        },
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 200
+        },
+        {
+            "name": "small emerald",
+            "chance": 19000,
+            "maxCount": 10
+        },
+        {
+            "name": "great mana potion",
+            "chance": 31230,
+            "maxCount": 5
+        },
+        {
+            "chance": 12000,
+            "name": "red gem"
+        },
+        {
+            "name": "oriental shoes",
+            "chance": 11000
+        },
+        {
+            "name": "torn shirt",
+            "chance": 42000
+        },
+        {
+            "name": "fig leaf",
+            "chance": 32000
+        },
+        {
+            "name": "luminous orb",
+            "chance": 35000
+        },
+        {
+            "name": "wooden spellbook",
+            "chance": 4500
+        },
+        {
+            "name": "elven legs",
+            "chance": 16000
+        },
+        {
+            "name": "small diamond",
+            "chance": 21000,
+            "maxCount": 10
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 28230,
+            "maxCount": 5
+        },
+        {
+            "name": "energy bar",
+            "chance": 53000,
+            "maxCount": 5
+        },
+        {
+            "name": "green gem",
+            "chance": 12000
+        },
+        {
+            "name": "broken key ring",
+            "chance": 4000
+        },
+        {
+            "name": "muck rod",
+            "chance": 10000
+        },
+        {
+            "name": "mysterious remains",
+            "chance": 100000
+        },
+        {
+            "name": "cobra crown",
+            "chance": 400
+        },
+        {
+            "name": "silver token",
+            "chance": 2500
+        },
+        {
+            "name": "elven mail",
+            "chance": 3000
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "hellfire_vampire_archer",
+    "threatDps": 225,
+    "burstDps": 225,
+    "avgHit": 450,
+    "maxHit": 900,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 4,
+        "summons": [
+            {
+                "name": "Plagued Bat",
+                "id": "plagued_bat",
+                "chance": 100,
+                "interval": 2000,
+                "count": 1
+            },
+            {
+                "name": "Plagued Bat",
+                "id": "plagued_bat",
+                "chance": 100,
+                "interval": 2000,
+                "count": 1
+            },
+            {
+                "name": "Plagued Bat",
+                "id": "plagued_bat",
+                "chance": 100,
+                "interval": 2000,
+                "count": 1
+            },
+            {
+                "name": "Plagued Bat",
+                "id": "plagued_bat",
+                "chance": 100,
+                "interval": 2000,
+                "count": 1
+            }
+        ]
+    }
+}

@@ -1,0 +1,199 @@
+{
+    "id": "many_headed_hydra",
+    "label": "Many-Headed Hydra",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A many-headed hydra.",
+    "hp": 5000,
+    "hpMax": 5000,
+    "speed": 130,
+    "level": 585,
+    "armor": 0,
+    "mitigation": 1.48,
+    "maxBlock": 0,
+    "exp": 4000,
+    "lootValue": 30616.784037559,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 50,
+        "energy": -10,
+        "earth": 100,
+        "holy": 30,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 300,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 322
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "earth",
+            "min": 77,
+            "max": 381,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_carniphila"
+        },
+        {
+            "id": "slow_2",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -300,
+                "durationSec": 15
+            },
+            "radius": 4,
+            "effect": "me_green_rings",
+            "target": true
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "ice",
+            "min": 119,
+            "max": 298,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_loseenergy"
+        },
+        {
+            "id": "ranged_4",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "ice",
+            "min": 83,
+            "max": 185,
+            "target": false,
+            "effect": "me_iceattack",
+            "shootEffect": "ani_ice"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 20,
+            "min": 260,
+            "max": 407,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 90000,
+            "name": "Stonehide Amulet"
+        },
+        {
+            "chance": 83000,
+            "maxCount": 5,
+            "name": "strong mana potion"
+        },
+        {
+            "chance": 80000,
+            "name": "sacred tree amulet"
+        },
+        {
+            "chance": 79000,
+            "name": "warrior helmet"
+        },
+        {
+            "chance": 77000,
+            "maxCount": 5,
+            "name": "small sapphire"
+        },
+        {
+            "chance": 60000,
+            "maxCount": 3,
+            "name": "gold ingot"
+        },
+        {
+            "chance": 53000,
+            "name": "Gorgon Shield"
+        },
+        {
+            "chance": 37000,
+            "name": "egg of The Many"
+        },
+        {
+            "chance": 20000,
+            "name": "royal helmet"
+        },
+        {
+            "chance": 10000,
+            "name": "knight armor"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "sanguine_crypt_drake_vanguard",
+    "threatDps": 109.075,
+    "burstDps": 109.075,
+    "avgHit": 167.8077,
+    "maxHit": 381,
+    "manaCost": 0
+}

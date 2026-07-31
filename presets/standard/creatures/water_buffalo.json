@@ -1,0 +1,105 @@
+{
+    "id": "water_buffalo",
+    "label": "Water Buffalo",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A water buffalo.",
+    "hp": 390,
+    "hpMax": 390,
+    "speed": 75,
+    "level": 331,
+    "armor": 35,
+    "mitigation": 1.04,
+    "maxBlock": 0,
+    "exp": 20,
+    "lootValue": 9.6161731207289,
+    "aggro": true,
+    "resists": {
+        "physical": 20,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": false,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 106
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Mammal",
+        "toKill": 5,
+        "firstUnlock": 2,
+        "secondUnlock": 3,
+        "charmsPoints": 30,
+        "stars": 2,
+        "occurrence": 3
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 20
+        },
+        {
+            "name": "meat",
+            "chance": 33600,
+            "maxCount": 4
+        },
+        {
+            "name": "ham",
+            "chance": 39200,
+            "maxCount": 3
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "venomous_triton_devourer",
+    "threatDps": 26.5,
+    "burstDps": 26.5,
+    "avgHit": 53,
+    "maxHit": 106,
+    "manaCost": 0
+}

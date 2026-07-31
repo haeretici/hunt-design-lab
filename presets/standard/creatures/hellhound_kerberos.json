@@ -1,0 +1,216 @@
+{
+    "id": "hellhound_kerberos",
+    "label": "Hellhound Kerberos",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A hellhound kerberos.",
+    "hp": 11000,
+    "hpMax": 11000,
+    "speed": 140,
+    "level": 664,
+    "armor": 0,
+    "mitigation": 2.95,
+    "maxBlock": 0,
+    "exp": 10000,
+    "lootValue": 34556.666666667,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": -5,
+        "energy": 10,
+        "earth": 20,
+        "holy": -25,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 437
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 4,
+            "element": "earth",
+            "min": 0,
+            "max": 602,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_carniphila"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "death",
+            "min": 0,
+            "max": 429,
+            "target": false,
+            "effect": "me_smallclouds",
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "fire",
+            "min": 0,
+            "max": 570,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_firearea"
+        },
+        {
+            "id": "wave_4",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 0,
+            "max": 840,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "ranged_5",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 7,
+            "element": "earth",
+            "min": 0,
+            "max": 472,
+            "target": false,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_poison"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 18,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 96880,
+            "maxCount": 5,
+            "name": "black pearl"
+        },
+        {
+            "chance": 100000,
+            "name": "flask of demonic blood"
+        },
+        {
+            "chance": 62500,
+            "name": "demonic essence"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 5,
+            "name": "gold ingot"
+        },
+        {
+            "chance": 10810,
+            "name": "knight axe"
+        },
+        {
+            "chance": 6250,
+            "name": "ruthless axe"
+        },
+        {
+            "chance": 100000,
+            "name": "hellhound slobber"
+        },
+        {
+            "chance": 50000,
+            "name": "green gem"
+        },
+        {
+            "chance": 46880,
+            "name": "fire sword"
+        },
+        {
+            "chance": 65630,
+            "name": "explorer brooch"
+        },
+        {
+            "chance": 96880,
+            "name": "Emberbound Amulet"
+        },
+        {
+            "chance": 96880,
+            "maxCount": 3,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 3130,
+            "name": "executioner"
+        },
+        {
+            "chance": 31250,
+            "name": "golden armor"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "storm_wolf_rager",
+    "threatDps": 168.65,
+    "burstDps": 168.65,
+    "avgHit": 240.9286,
+    "maxHit": 840,
+    "manaCost": 0
+}

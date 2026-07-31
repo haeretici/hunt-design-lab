@@ -1,0 +1,189 @@
+{
+    "id": "stomp_rhino",
+    "label": "Stomp Rhino",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A stomp rhino.",
+    "hp": 1200,
+    "hpMax": 1200,
+    "speed": 220,
+    "level": 442,
+    "armor": 60,
+    "mitigation": 0.91,
+    "maxBlock": 0,
+    "exp": 780,
+    "lootValue": 207.11502864698,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 20,
+        "ice": 10,
+        "energy": 30,
+        "earth": 0,
+        "holy": 50,
+        "death": 10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 116
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "physical",
+            "min": 134,
+            "max": 251,
+            "radius": 3,
+            "target": false,
+            "effect": "me_groundshaker"
+        },
+        {
+            "id": "melee_2",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 1,
+            "element": "lifedrain",
+            "min": 67,
+            "max": 90,
+            "target": true,
+            "shootEffect": "ani_smallstone"
+        },
+        {
+            "id": "stampor_skill_reducer_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 5,
+            "element": "physical",
+            "target": false,
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 90,
+            "max": 120,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Reptile",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 30000,
+            "maxCount": 242
+        },
+        {
+            "name": "platinum coin",
+            "chance": 9920,
+            "maxCount": 2
+        },
+        {
+            "name": "war hammer",
+            "chance": 1010
+        },
+        {
+            "name": "knight armor",
+            "chance": 870
+        },
+        {
+            "name": "spiked squelcher",
+            "chance": 160
+        },
+        {
+            "name": "strong health potion",
+            "chance": 5000,
+            "maxCount": 2
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 5000,
+            "maxCount": 2
+        },
+        {
+            "name": "small topaz",
+            "chance": 7940,
+            "maxCount": 2
+        },
+        {
+            "name": "stampor horn",
+            "chance": 4920
+        },
+        {
+            "name": "stampor talons",
+            "chance": 9950,
+            "maxCount": 2
+        },
+        {
+            "name": "hollow stampor hoof",
+            "chance": 3020
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "animated_skunk",
+    "threatDps": 49.325,
+    "burstDps": 49.325,
+    "avgHit": 75.8846,
+    "maxHit": 251,
+    "manaCost": 0
+}

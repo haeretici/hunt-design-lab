@@ -1,0 +1,301 @@
+{
+    "id": "chimera_matriarch_weakened",
+    "label": "Chimera Matriarch Weakened",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A chimera matriarch weakened.",
+    "hp": 1,
+    "hpMax": 1,
+    "speed": 95,
+    "level": 839,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 49775.892857143,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": 0,
+        "energy": 10,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 50,
+            "max": 1100
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 3000,
+            "chance": 20,
+            "range": 4,
+            "element": "fire",
+            "min": 500,
+            "max": 800,
+            "radius": 4,
+            "target": false,
+            "effect": "me_firearea"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "fire",
+            "min": 550,
+            "max": 800,
+            "radius": 3,
+            "target": false,
+            "effect": "me_firearea"
+        },
+        {
+            "id": "urmahlulluring_3",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 18,
+            "range": 1,
+            "element": "physical",
+            "min": 450,
+            "max": 600,
+            "target": false
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 9
+        },
+        {
+            "name": "green gem",
+            "chance": 100000,
+            "maxCount": 2
+        },
+        {
+            "name": "energy bar",
+            "chance": 100000
+        },
+        {
+            "name": "ultimate mana potion",
+            "chance": 73080,
+            "maxCount": 31
+        },
+        {
+            "name": "supreme health potion",
+            "chance": 53850,
+            "maxCount": 28
+        },
+        {
+            "chance": 53850,
+            "maxCount": 2,
+            "name": "red gem"
+        },
+        {
+            "name": "Stormbound Pendant",
+            "chance": 30770
+        },
+        {
+            "name": "berserk potion",
+            "chance": 23080,
+            "maxCount": 15
+        },
+        {
+            "name": "marksman potion",
+            "chance": 23080,
+            "maxCount": 15
+        },
+        {
+            "name": "Emberbound Coat",
+            "chance": 23080
+        },
+        {
+            "name": "royal star",
+            "chance": 19230,
+            "maxCount": 168
+        },
+        {
+            "name": "flash arrow",
+            "chance": 19230,
+            "maxCount": 175
+        },
+        {
+            "name": "ultimate dual potion",
+            "chance": 19230,
+            "maxCount": 8
+        },
+        {
+            "name": "Emberbound Amulet",
+            "chance": 19230
+        },
+        {
+            "name": "gold ingot",
+            "chance": 19230
+        },
+        {
+            "name": "blue gem",
+            "chance": 15380
+        },
+        {
+            "name": "Emberbound Monocle",
+            "chance": 15380
+        },
+        {
+            "name": "yellow gem",
+            "chance": 15380
+        },
+        {
+            "name": "crystal coin",
+            "chance": 11540,
+            "maxCount": 5
+        },
+        {
+            "name": "silver token",
+            "chance": 7690,
+            "maxCount": 5
+        },
+        {
+            "name": "violet gem",
+            "chance": 7690
+        },
+        {
+            "name": "urmahlullu's paw",
+            "chance": 7690
+        },
+        {
+            "id": 281,
+            "chance": 7690
+        },
+        {
+            "name": "savant potion",
+            "chance": 3850
+        },
+        {
+            "name": "tagralt blade",
+            "chance": 1850
+        },
+        {
+            "name": "giant sapphire",
+            "chance": 3850
+        },
+        {
+            "chance": 3850,
+            "name": "Ring of Secret Thoughts"
+        },
+        {
+            "name": "sunray emblem",
+            "chance": 3850
+        },
+        {
+            "name": "urmahlullu's mane",
+            "chance": 3850
+        },
+        {
+            "name": "winged boots",
+            "chance": 1850
+        },
+        {
+            "name": "urmahlullu's tail",
+            "chance": 6980
+        },
+        {
+            "name": "Stormbound Legs",
+            "chance": 6400
+        },
+        {
+            "name": "giant emerald",
+            "chance": 3490
+        },
+        {
+            "name": "giant ruby",
+            "chance": 3490
+        },
+        {
+            "chance": 1740,
+            "name": "enchanted theurgic amulet"
+        },
+        {
+            "name": "sun medal",
+            "chance": 580
+        },
+        {
+            "name": "golden bijou",
+            "chance": 580
+        },
+        {
+            "name": "winged backpack",
+            "chance": 250
+        },
+        {
+            "name": "rainbow necklace",
+            "chance": 1160
+        },
+        {
+            "chance": 160,
+            "name": "enchanted theurgic amulet"
+        },
+        {
+            "name": "sun medal",
+            "chance": 160
+        },
+        {
+            "name": "sunray emblem",
+            "chance": 160
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "astral_chimera",
+    "threatDps": 445.5833,
+    "burstDps": 467.25,
+    "avgHit": 588.8767,
+    "maxHit": 1100,
+    "manaCost": 0
+}

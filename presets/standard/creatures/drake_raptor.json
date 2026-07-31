@@ -1,0 +1,179 @@
+{
+    "id": "drake_raptor",
+    "label": "Drake Raptor",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A drake raptor.",
+    "hp": 3000,
+    "hpMax": 3000,
+    "speed": 340,
+    "level": 534,
+    "armor": 40,
+    "mitigation": 0.91,
+    "maxBlock": 0,
+    "exp": 2400,
+    "lootValue": 136.86428571429,
+    "aggro": true,
+    "resists": {
+        "physical": -20,
+        "fire": 50,
+        "ice": 0,
+        "energy": 100,
+        "earth": -20,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 350,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 124
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 3000,
+            "chance": 30,
+            "range": 4,
+            "element": "energy",
+            "min": 107,
+            "max": 256,
+            "radius": 3,
+            "target": false,
+            "effect": "me_yellowenergy"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 3000,
+            "chance": 35,
+            "range": 7,
+            "element": "energy",
+            "min": 165,
+            "max": 248,
+            "target": false,
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2500,
+            "chance": 17,
+            "range": 4,
+            "element": "fire",
+            "min": 58,
+            "max": 206,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_firearea"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 1000,
+            "chance": 25,
+            "min": 57,
+            "max": 93,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 12,
+            "speedChange": 457,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Reptile",
+        "toKill": 5,
+        "firstUnlock": 2,
+        "secondUnlock": 3,
+        "charmsPoints": 50,
+        "stars": 3,
+        "occurrence": 3
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 33750,
+            "maxCount": 90
+        },
+        {
+            "name": "gold coin",
+            "chance": 33750,
+            "maxCount": 60
+        },
+        {
+            "name": "strong health potion",
+            "chance": 3150
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 4150
+        },
+        {
+            "name": "dragon robe",
+            "chance": 950
+        },
+        {
+            "name": "draptor scales",
+            "chance": 6650
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "sanguine_crypt_drake_vanguard",
+    "threatDps": 82.2177,
+    "burstDps": 105.5825,
+    "avgHit": 104.7804,
+    "maxHit": 256,
+    "manaCost": 0
+}

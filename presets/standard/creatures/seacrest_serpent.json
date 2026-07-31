@@ -1,0 +1,233 @@
+{
+    "id": "seacrest_serpent",
+    "label": "Seacrest Serpent",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A seacrest serpent.",
+    "hp": 3000,
+    "hpMax": 3000,
+    "speed": 250,
+    "level": 534,
+    "armor": 51,
+    "mitigation": 1.21,
+    "maxBlock": 0,
+    "exp": 2900,
+    "lootValue": 916.6399688958,
+    "aggro": true,
+    "resists": {
+        "physical": 10,
+        "fire": 20,
+        "ice": 100,
+        "energy": 0,
+        "earth": 5,
+        "holy": 0,
+        "death": 10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 7,
+            "range": 7,
+            "element": "death",
+            "min": 298,
+            "max": 387,
+            "target": true,
+            "effect": "me_sound_red",
+            "shootEffect": "ani_earth"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 11,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 298,
+            "max": 424,
+            "radius": 3,
+            "target": false,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "seacrest_serpent_wave_3",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 423,
+            "target": false
+        },
+        {
+            "id": "wave_4",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "physical",
+            "min": 298,
+            "max": 446,
+            "length": 4,
+            "spread": 3,
+            "target": false,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 145,
+            "max": 200,
+            "hpBelow": 0.7,
+            "effect": "me_sound_blue"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Reptile",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 2
+    },
+    "loot": [
+        {
+            "chance": 13040,
+            "name": "dragon ham"
+        },
+        {
+            "chance": 12040,
+            "name": "seacrest hair"
+        },
+        {
+            "chance": 7020,
+            "maxCount": 17,
+            "name": "shiver arrow"
+        },
+        {
+            "chance": 2680,
+            "name": "Frostbound Mask"
+        },
+        {
+            "chance": 400,
+            "name": "crest of the deep seas"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 5,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 7020,
+            "maxCount": 2,
+            "name": "strong health potion"
+        },
+        {
+            "chance": 10370,
+            "maxCount": 2,
+            "name": "strong mana potion"
+        },
+        {
+            "chance": 10030,
+            "name": "seacrest pearl"
+        },
+        {
+            "chance": 3680,
+            "maxCount": 2,
+            "name": "white pearl"
+        },
+        {
+            "chance": 2340,
+            "maxCount": 3,
+            "name": "black pearl"
+        },
+        {
+            "id": 281,
+            "chance": 1000
+        },
+        {
+            "chance": 3340,
+            "name": "soul orb"
+        },
+        {
+            "chance": 5020,
+            "maxCount": 3,
+            "name": "small diamond"
+        },
+        {
+            "chance": 17390,
+            "name": "seacrest scale"
+        },
+        {
+            "chance": 670,
+            "name": "Frostbound Amulet"
+        },
+        {
+            "chance": 3680,
+            "name": "Frostbound Kilt"
+        },
+        {
+            "chance": 3010,
+            "name": "Frostbound Shoes"
+        },
+        {
+            "chance": 670,
+            "name": "wand of defiance"
+        },
+        {
+            "chance": 670,
+            "name": "wand of draconia"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 9
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "tempest_serpent_berserker",
+    "threatDps": 82.1675,
+    "burstDps": 82.1675,
+    "avgHit": 283.3362,
+    "maxHit": 446,
+    "manaCost": 0
+}

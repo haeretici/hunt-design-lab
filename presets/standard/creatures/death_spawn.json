@@ -1,0 +1,105 @@
+{
+    "id": "death_spawn",
+    "label": "Death Spawn",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A death spawn.",
+    "hp": 225,
+    "hpMax": 225,
+    "speed": 51,
+    "level": 275,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 15,
+        "ice": 15,
+        "energy": 15,
+        "earth": 100,
+        "holy": -10,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "earth",
+            "min": 0,
+            "max": 8,
+            "effect": "me_drawblood"
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 10,
+            "range": 7,
+            "element": "death",
+            "min": 80,
+            "max": 140,
+            "target": true,
+            "effect": "ani_death"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 10,
+            "range": 7,
+            "element": "energy",
+            "min": 40,
+            "max": 90,
+            "target": true,
+            "effect": "ani_energy"
+        }
+    ],
+    "race": "blood",
+    "loot": [],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "skeletal_hill_giant",
+    "threatDps": 19.5,
+    "burstDps": 19.5,
+    "avgHit": 27.8571,
+    "maxHit": 140,
+    "manaCost": 0
+}

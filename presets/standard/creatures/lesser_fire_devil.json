@@ -1,0 +1,120 @@
+{
+    "id": "lesser_fire_devil",
+    "label": "Lesser Fire Devil",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A lesser fire devil.",
+    "hp": 175,
+    "hpMax": 175,
+    "speed": 75,
+    "level": 251,
+    "armor": 9,
+    "mitigation": 0.38,
+    "maxBlock": 0,
+    "exp": 110,
+    "lootValue": 7.7414448669202,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 35,
+        "ice": 0,
+        "energy": 10,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": true,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 7,
+            "element": "fire",
+            "min": 190,
+            "max": 285,
+            "radius": 4,
+            "target": true,
+            "effect": "me_firearea",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 35,
+            "range": 7,
+            "element": "fire",
+            "min": 32,
+            "max": 95,
+            "radius": 2,
+            "target": true,
+            "effect": "me_fireattack",
+            "shootEffect": "ani_fire"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 21050,
+            "name": "blank rune"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 10,
+            "name": "gold coin"
+        },
+        {
+            "chance": 22810,
+            "name": "small pitchfork"
+        },
+        {
+            "chance": 1750,
+            "name": "torch"
+        },
+        {
+            "chance": 1750,
+            "name": "torch"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 5
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ember_jungle_devil",
+    "threatDps": 17.05,
+    "burstDps": 17.05,
+    "avgHit": 85.25,
+    "maxHit": 285,
+    "manaCost": 530
+}

@@ -1,0 +1,185 @@
+{
+    "id": "gloomlight_emitter",
+    "label": "Gloomlight Emitter",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A gloomlight emitter.",
+    "hp": 27500,
+    "hpMax": 27500,
+    "speed": 210,
+    "level": 755,
+    "armor": 120,
+    "mitigation": 3.04,
+    "maxBlock": 0,
+    "exp": 20600,
+    "lootValue": 6897.8333333333,
+    "aggro": true,
+    "resists": {
+        "physical": -14,
+        "fire": 40,
+        "ice": 0,
+        "energy": -10,
+        "earth": 5,
+        "holy": 25,
+        "death": -20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 465
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2600,
+            "chance": 20,
+            "range": 4,
+            "element": "fire",
+            "min": 621,
+            "max": 776,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_hitbyfire"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 3100,
+            "chance": 20,
+            "range": 4,
+            "element": "holy",
+            "min": 443,
+            "max": 709,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_holyarea"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2600,
+            "chance": 20,
+            "range": 4,
+            "element": "fire",
+            "min": 532,
+            "max": 731,
+            "radius": 5,
+            "target": true,
+            "effect": "me_hitbyfire"
+        },
+        {
+            "id": "largefirering_4",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 1,
+            "element": "physical",
+            "min": 355,
+            "max": 621,
+            "target": false
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Magical",
+        "toKill": 5000,
+        "firstUnlock": 200,
+        "secondUnlock": 2000,
+        "charmsPoints": 100,
+        "stars": 5,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "crystal coin",
+            "chance": 12516,
+            "maxCount": 2
+        },
+        {
+            "name": "darklight core",
+            "chance": 13367,
+            "maxCount": 1
+        },
+        {
+            "name": "darklight obsidian axe",
+            "chance": 10433,
+            "maxCount": 1
+        },
+        {
+            "name": "zaoan armor",
+            "chance": 8574,
+            "maxCount": 1
+        },
+        {
+            "name": "basalt crumbs",
+            "chance": 5794,
+            "maxCount": 1
+        },
+        {
+            "name": "small topaz",
+            "chance": 5784,
+            "maxCount": 3
+        },
+        {
+            "name": "amber staff",
+            "chance": 6240,
+            "maxCount": 1
+        },
+        {
+            "chance": 8459,
+            "maxCount": 1,
+            "name": "red gem"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "celestial_fiend",
+    "threatDps": 280.119,
+    "burstDps": 331.25,
+    "avgHit": 364.5663,
+    "maxHit": 776,
+    "manaCost": 0
+}

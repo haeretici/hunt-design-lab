@@ -1,0 +1,146 @@
+{
+    "id": "undead_prospector",
+    "label": "Undead Prospector",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An undead prospector.",
+    "hp": 100,
+    "hpMax": 100,
+    "speed": 72,
+    "level": 195,
+    "armor": 8,
+    "mitigation": 0.43,
+    "maxBlock": 0,
+    "exp": 85,
+    "lootValue": 46,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 10,
+        "energy": 30,
+        "earth": 20,
+        "holy": -25,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 80,
+        "health": 10,
+        "damage": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": true,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 50
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 5,
+            "max": 15,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 1
+    },
+    "loot": [
+        {
+            "chance": 46150,
+            "name": "torch"
+        },
+        {
+            "name": "gold coin",
+            "chance": 53850,
+            "maxCount": 30
+        },
+        {
+            "chance": 200,
+            "name": "life ring"
+        },
+        {
+            "chance": 240,
+            "name": "skull"
+        },
+        {
+            "name": "knife",
+            "chance": 15380
+        },
+        {
+            "name": "brass helmet",
+            "chance": 23000
+        },
+        {
+            "name": "viking helmet",
+            "chance": 1000
+        },
+        {
+            "name": "scale armor",
+            "chance": 1000
+        },
+        {
+            "name": "worm",
+            "chance": 92310,
+            "maxCount": 6
+        },
+        {
+            "name": "brown piece of cloth",
+            "chance": 1000
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "undead_prospector",
+    "threatDps": 12.5,
+    "burstDps": 12.5,
+    "avgHit": 25,
+    "maxHit": 50,
+    "manaCost": 440
+}

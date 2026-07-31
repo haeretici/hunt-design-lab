@@ -1,0 +1,144 @@
+{
+    "id": "cyclops",
+    "label": "Cyclops",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A cyclops.",
+    "hp": 260,
+    "hpMax": 260,
+    "speed": 95,
+    "level": 291,
+    "armor": 17,
+    "mitigation": 0.62,
+    "maxBlock": 0,
+    "exp": 150,
+    "lootValue": 24.200851152169,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 25,
+        "earth": -10,
+        "holy": 20,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "damage": 30
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": true,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 85
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Giant",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 190,
+            "name": "wolf tooth chain"
+        },
+        {
+            "name": "gold coin",
+            "chance": 82000,
+            "maxCount": 47
+        },
+        {
+            "chance": 90,
+            "name": "club ring"
+        },
+        {
+            "name": "halberd",
+            "chance": 1003
+        },
+        {
+            "name": "short sword",
+            "chance": 8000
+        },
+        {
+            "name": "dark helmet",
+            "chance": 220
+        },
+        {
+            "name": "plate shield",
+            "chance": 2500
+        },
+        {
+            "name": "battle shield",
+            "chance": 1400
+        },
+        {
+            "name": "meat",
+            "chance": 30070
+        },
+        {
+            "chance": 80,
+            "name": "cyclops trophy"
+        },
+        {
+            "name": "health potion",
+            "chance": 210
+        },
+        {
+            "name": "cyclops toe",
+            "chance": 4930
+        },
+        {
+            "chance": 1000,
+            "name": "heavy old tome"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "obsidian_cyclops",
+    "threatDps": 21.25,
+    "burstDps": 21.25,
+    "avgHit": 42.5,
+    "maxHit": 85,
+    "manaCost": 490
+}

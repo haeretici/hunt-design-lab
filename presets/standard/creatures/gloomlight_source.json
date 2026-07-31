@@ -1,0 +1,173 @@
+{
+    "id": "gloomlight_source",
+    "label": "Gloomlight Source",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A gloomlight source.",
+    "hp": 31550,
+    "hpMax": 31550,
+    "speed": 220,
+    "level": 769,
+    "armor": 115,
+    "mitigation": 3.19,
+    "maxBlock": 0,
+    "exp": 22465,
+    "lootValue": 5929.4238683128,
+    "aggro": true,
+    "resists": {
+        "physical": -10,
+        "fire": -14,
+        "ice": 40,
+        "energy": 55,
+        "earth": -10,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 576
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2500,
+            "chance": 20,
+            "range": 4,
+            "element": "energy",
+            "min": 672,
+            "max": 792,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_blue_energy_spark"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2500,
+            "chance": 20,
+            "range": 4,
+            "element": "holy",
+            "min": 720,
+            "max": 768,
+            "radius": 5,
+            "target": false,
+            "effect": "me_ghostly_bite"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2500,
+            "chance": 15,
+            "range": 4,
+            "element": "energy",
+            "min": 624,
+            "max": 720,
+            "radius": 5,
+            "target": false,
+            "effect": "me_electricalspark"
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Magical",
+        "toKill": 5000,
+        "firstUnlock": 200,
+        "secondUnlock": 2000,
+        "charmsPoints": 100,
+        "stars": 5,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "crystal coin",
+            "chance": 5214,
+            "maxCount": 1
+        },
+        {
+            "name": "yellow darklight matter",
+            "chance": 9397,
+            "maxCount": 1
+        },
+        {
+            "name": "dark obsidian splinter",
+            "chance": 13215,
+            "maxCount": 1
+        },
+        {
+            "name": "darklight core",
+            "chance": 7570,
+            "maxCount": 1
+        },
+        {
+            "name": "small sapphire",
+            "chance": 5644,
+            "maxCount": 2
+        },
+        {
+            "name": "blue gem",
+            "chance": 12909,
+            "maxCount": 1
+        },
+        {
+            "name": "twiceslicer",
+            "chance": 11596,
+            "maxCount": 1
+        },
+        {
+            "name": "white gem",
+            "chance": 13964,
+            "maxCount": 1
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "celestial_fiend",
+    "threatDps": 302.4,
+    "burstDps": 342,
+    "avgHit": 420,
+    "maxHit": 792,
+    "manaCost": 0
+}

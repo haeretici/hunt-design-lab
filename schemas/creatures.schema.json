@@ -1,0 +1,343 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://hunt-design-lab.local/schemas/creatures.schema.json",
+  "title": "Creature combat template",
+  "description": "Shape of presets/<mode>/creatures/<id>.json. Loaded by presets.loadCreatureTemplateRaw. Storage: folder entity. Not the genre art roster (assets/data).",
+  "type": "object",
+  "required": ["id"],
+  "additionalProperties": true,
+  "definitions": {
+    "entityId": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]{0,79}$",
+      "minLength": 1,
+      "maxLength": 80
+    }
+  },
+  "properties": {
+    "id": { "$ref": "#/definitions/entityId" },
+    "label": { "type": "string", "minLength": 1, "maxLength": 120 },
+    "notes": { "type": "string", "maxLength": 4000 },
+    "customSpriteGenre": {
+      "type": "string",
+      "description": "Optional catalog genre for Custom Sprite when different from the mode genre (e.g. steampunk while editing a standard-mode creature). Empty = mode genre. Controls the catalog list and runtime sprite path for customSprite."
+    },
+    "customSprite": {
+      "type": "string",
+      "format": "creature_sprite_id",
+      "description": "Optional genre creature catalog id used for art when this template has no matching sprite under its own id. Designer: Select opens the creature catalog filtered by customSpriteGenre (or mode genre). Alpha thumb preview."
+    },
+    "displayScale": {
+      "type": "number",
+      "minimum": 0.25,
+      "maximum": 8,
+      "default": 1,
+      "description": "Species visual size relative to a standard humanoid (1 = one tile tall at default draw settings). Rarity/affix mults from Settings.entitySpriteScaleByAffix multiply this (e.g. displayScale 1.5 × elite 1.6). Missing → 1."
+    },
+    "hp": { "type": "number", "minimum": 1 },
+    "hpMax": { "type": "number", "minimum": 1 },
+    "speed": { "type": "number", "minimum": 0 },
+    "level": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 1000,
+      "description": "Threat rank 1..1000 from log(threatDps) catalog map (npm run map:levels). Not an input to monster offense."
+    },
+    "threatDps": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Derived cache: sustained expected kit DPS on a naked single-target dummy (npm run measure:threat -- --apply). Not an input to monster offense; source of truth remains attacks[]."
+    },
+    "burstDps": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Derived cache: expected opening DPS over the measure burst window (default 2s, all CDs ready at t=0). Not combat input."
+    },
+    "avgHit": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Derived cache: rate-weighted mean of (min+max)/2 across damaging attacks. Not combat input."
+    },
+    "maxHit": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Derived cache: highest attack.max on the kit (peak single-roll ceiling). Not combat input."
+    },
+    "armor": { "type": "number" },
+    "mitigation": { "type": "number" },
+    "exp": { "type": "number", "minimum": 0 },
+    "lootValue": { "type": "number" },
+    "aggro": { "type": "boolean" },
+    "canBlock": {
+      "type": "boolean",
+      "description": "Shield-block eligibility (from legacy flags.isBlockable)."
+    },
+    "manaCost": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Legacy convince/summon mana cost (0 = not usable that way)."
+    },
+    "strategiesTarget": {
+      "type": "object",
+      "additionalProperties": { "type": "number" },
+      "description": "Weighted target pick: nearest, health, damage, random. damage uses damageTakenBy with optional half-life decay (flags.threatDecayHalflifeSec). Mid-combat re-roll when flags.retargetIntervalSec > 0."
+    },
+    "bestiary": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Bestiary metadata (class, toKill, firstUnlock, secondUnlock, charmsPoints, stars, occurrence). Locations are not stored.",
+      "properties": {
+        "class": { "type": "string" },
+        "toKill": { "type": "integer", "minimum": 0 },
+        "firstUnlock": { "type": "integer", "minimum": 0 },
+        "secondUnlock": { "type": "integer", "minimum": 0 },
+        "charmsPoints": { "type": "integer", "minimum": 0 },
+        "stars": { "type": "integer", "minimum": 0 },
+        "occurrence": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "summon": {
+      "type": "object",
+      "description": "Creatures this template can auto-summon in combat (runtime when features.monsterSummons; names mapped to standard ids).",
+      "properties": {
+        "maxSummons": { "type": "integer", "minimum": 0 },
+        "summons": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+              "name": { "type": "string" },
+              "id": { "type": "string" },
+              "chance": { "type": "number", "minimum": 0, "maximum": 100 },
+              "interval": { "type": "integer", "minimum": 0 },
+              "count": { "type": "integer", "minimum": 0 }
+            }
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "resists": {
+      "type": "object",
+      "additionalProperties": { "type": "number" }
+    },
+    "defenseSpells": {
+      "type": "array",
+      "description": "Self-cast defense spells (heal / haste / invisible).",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "id": { "type": "string" },
+          "kind": {
+            "type": "string",
+            "enum": ["heal", "haste", "invisible"]
+          },
+          "intervalMs": { "type": "integer", "minimum": 50 },
+          "chance": { "type": "number", "minimum": 0, "maximum": 100 },
+          "min": { "type": "number" },
+          "max": { "type": "number" },
+          "hpBelow": { "type": "number", "minimum": 0, "maximum": 1 },
+          "speedChange": { "type": "number" },
+          "durationSec": { "type": "number", "minimum": 0 },
+          "effect": { "type": "string" }
+        }
+      }
+    },
+    "attacks": {
+      "type": "array",
+      "description": "Creature offensive kit. Each damaging row needs fixed min/max (or statusOnly). This is the only monster damage source; level is threat rank only.",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique attack key (e.g. melee_0, area_1, fire_wave)."
+          },
+          "kind": {
+            "type": "string",
+            "enum": ["melee", "ranged", "area", "wave", "status"],
+            "description": "Attack delivery shape / pattern (status = condition-only)."
+          },
+          "element": {
+            "type": "string",
+            "enum": [
+              "physical",
+              "fire",
+              "ice",
+              "energy",
+              "earth",
+              "holy",
+              "death",
+              "lifedrain",
+              "manadrain"
+            ],
+            "description": "Damage or drain element for resistance calculations."
+          },
+          "intervalMs": {
+            "type": "integer",
+            "minimum": 50,
+            "description": "Cooldown interval in milliseconds."
+          },
+          "chance": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100,
+            "description": "Cast probability percentage (0-100)."
+          },
+          "range": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Maximum tile range.",
+            "options": {
+              "dependencies": {
+                "kind": ["ranged", "area"]
+              }
+            }
+          },
+          "radius": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Radial size for area attacks.",
+            "options": {
+              "dependencies": {
+                "kind": "area"
+              }
+            }
+          },
+          "length": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Wave / beam length in tiles.",
+            "options": {
+              "dependencies": {
+                "kind": "wave"
+              }
+            }
+          },
+          "spread": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Wave cone spread width.",
+            "options": {
+              "dependencies": {
+                "kind": "wave"
+              }
+            }
+          },
+          "min": {
+            "type": "number",
+            "description": "Minimum hit damage."
+          },
+          "max": {
+            "type": "number",
+            "description": "Maximum hit damage."
+          },
+          "target": {
+            "type": "boolean",
+            "description": "Whether attack requires an explicit targeted entity."
+          },
+          "statusOnly": {
+            "type": "boolean",
+            "description": "True if attack only applies status condition without direct hit damage."
+          },
+          "condition": {
+            "type": "object",
+            "description": "On-hit condition (poison/fire/ice DoT or slow).",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["poison", "fire", "ice", "slow", "haste", "invisible"]
+              },
+              "totalDamage": { "type": "number", "minimum": 0 },
+              "intervalMs": { "type": "number", "minimum": 0 },
+              "durationSec": { "type": "number", "minimum": 0 },
+              "speedChange": { "type": "number" }
+            },
+            "additionalProperties": true
+          },
+          "effect": {
+            "type": "string",
+            "enum": [
+              "158", "193", "216", "225", "240", "241", "243", "244", "248", "249", "252", "53",
+              "ani_death", "ani_earth", "ani_energy", "ani_suddendeath",
+              "me_bats", "me_big_scratch", "me_bigclouds", "me_bigplants", "me_bite",
+              "me_blacksmoke", "me_blockhit", "me_blue_energy_spark", "me_bubbles",
+              "me_cacao", "me_cake", "me_carniphila", "me_cream", "me_drawblood",
+              "me_electricalspark", "me_energyarea", "me_energyhit", "me_explosionarea",
+              "me_explosionhit", "me_firearea", "me_fireattack", "me_ghostly_bite",
+              "me_giantice", "me_green_energy_spark", "me_green_rings", "me_greensmoke",
+              "me_groundshaker", "me_hearts", "me_hitarea", "me_hitbyfire", "me_hitbypoison",
+              "me_holyarea", "me_holydamage", "me_icearea", "me_iceattack", "me_icetornado",
+              "me_insects", "me_loseenergy", "me_magic_blue", "me_magic_green", "me_magic_red",
+              "me_mortarea", "me_pink_beam", "me_pink_energy_spark", "me_pixie_explosion",
+              "me_plantattack", "me_poff", "me_poison", "me_poisonarea", "me_powerful_hearts",
+              "me_purpleenergy", "me_purplesmoke", "me_reaper", "me_redsmoke", "me_siurp",
+              "me_slash", "me_sleep", "me_smallclouds", "me_smallplants", "me_smoke",
+              "me_sound_blue", "me_sound_green", "me_sound_purple", "me_sound_red",
+              "me_sound_white", "me_starburst", "me_stone_storm", "me_stones", "me_stun",
+              "me_teleport", "me_watersplash", "me_white_energy_spark", "me_yalaharighost",
+              "me_yellow_energy_spark", "me_yellow_rings", "me_yellowenergy", "me_yellowsmoke"
+            ],
+            "description": "Magic / impact visual effect animation."
+          },
+          "shootEffect": {
+            "type": "string",
+            "enum": [
+              "31", "37",
+              "ani_arrow", "ani_bolt", "ani_burstarrow", "ani_cherrybomb", "ani_death",
+              "ani_earth", "ani_eartharrow", "ani_enchantedspear", "ani_energy",
+              "ani_energyball", "ani_envenomedarrow", "ani_etherealspear", "ani_explosion",
+              "ani_fire", "ani_flammingarrow", "ani_flasharrow", "ani_gloothspear",
+              "ani_greenstar", "ani_holy", "ani_huntingspear", "ani_ice", "ani_infernalbolt",
+              "ani_largerock", "ani_leafstar", "ani_onyxarrow", "ani_piercingbolt",
+              "ani_poison", "ani_poisonarrow", "ani_powerbolt", "ani_royalspear",
+              "ani_shiverarrow", "ani_smallearth", "ani_smallholy", "ani_smallice",
+              "ani_smallstone", "ani_sniperarrow", "ani_snowball", "ani_spear",
+              "ani_spectralbolt", "ani_suddendeath", "ani_throwingknife", "ani_throwingstar",
+              "ani_whirlwindaxe", "ani_whirlwindclub", "ani_whirlwindsword"
+            ],
+            "description": "Distance / missile visual effect animation.",
+            "options": {
+              "dependencies": {
+                "kind": ["ranged", "area"]
+              }
+            }
+          },
+          "condition": {
+            "type": "object",
+            "description": "Status condition effect parameters.",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["CONDITION_POISON", "CONDITION_FIRE", "CONDITION_FREEZING"],
+                "description": "Status condition type."
+              },
+              "totalDamage": {
+                "type": "number",
+                "minimum": 0,
+                "description": "Total damage dealt over condition duration."
+              },
+              "interval": {
+                "type": "number",
+                "minimum": 1,
+                "description": "Tick interval in milliseconds."
+              }
+            }
+          },
+          "legacyName": {
+            "type": "string",
+            "description": "Optional legacy display/source name."
+          }
+        }
+      }
+    },
+    "flags": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Kit movement/aggro flags. Notable: targetDistance, runHealth, runHealthPercent, staticAttackChance, aggroRange, loseTargetDistance, idleWander, retargetIntervalSec (mid-combat strategiesTarget re-roll; 0=sticky), threatDecayHalflifeSec (damageTakenBy half-life; 0=no decay)."
+    }
+  }
+}

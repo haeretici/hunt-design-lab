@@ -1,0 +1,120 @@
+{
+    "id": "bloodtusk_mammoth",
+    "label": "Bloodtusk Mammoth",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A bloodtusk mammoth.",
+    "hp": 600,
+    "hpMax": 600,
+    "speed": 95,
+    "level": 374,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 300,
+    "lootValue": 3267.6976744186,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -10,
+        "ice": -10,
+        "energy": 0,
+        "earth": 15,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 135
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 99,
+            "name": "gold coin"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 2,
+            "name": "mammoth tusk"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 5,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 63000,
+            "name": "furry club"
+        },
+        {
+            "chance": 60000,
+            "name": "red piece of cloth"
+        },
+        {
+            "chance": 55000,
+            "name": "tusk shield"
+        },
+        {
+            "chance": 41000,
+            "maxCount": 4,
+            "name": "tusk"
+        },
+        {
+            "chance": 18000,
+            "name": "mammoth fur cape"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "blood_behemoth",
+    "threatDps": 33.75,
+    "burstDps": 33.75,
+    "avgHit": 67.5,
+    "maxHit": 135,
+    "manaCost": 0
+}

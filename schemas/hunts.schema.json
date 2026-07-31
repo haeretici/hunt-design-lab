@@ -1,0 +1,367 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://hunt-design-lab.local/schemas/hunts.schema.json",
+  "title": "Hunt package definition",
+  "description": "Shape of presets/<mode>/hunts/<id>.json. Loaded by presets.loadHunt. Hunt package defining dungeon layout, spawns/waves, and session limits. Party roster is NOT authored here — pick a party preset (presets/<mode>/parties/) at sim/UI/CLI time via partyId.",
+  "type": "object",
+  "required": ["id"],
+  "additionalProperties": true,
+  "definitions": {
+    "entityId": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]{0,79}$",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "point": {
+      "type": "object",
+      "required": ["x", "y"],
+      "additionalProperties": true,
+      "properties": {
+        "x": { "type": "integer" },
+        "y": { "type": "integer" },
+        "z": { "type": "integer", "default": 0 }
+      }
+    },
+    "spawn": {
+      "type": "object",
+      "required": ["creatureId"],
+      "additionalProperties": true,
+      "properties": {
+        "creatureId": {
+          "type": "string",
+          "format": "creature_id",
+          "description": "Combat creature template id. Select opens the shared creature browser."
+        },
+        "x": { "type": "integer", "description": "Tile X position." },
+        "y": { "type": "integer", "description": "Tile Y position." },
+        "z": { "type": "integer", "description": "Floor Z index." },
+        "count": { "type": "integer", "minimum": 1, "description": "Spawn count multiplier." },
+        "radius": { "type": "integer", "minimum": 0, "description": "Cluster scatter radius." },
+        "affix": {
+          "type": "string",
+          "enum": ["none", "rare", "champion", "elite", "boss"],
+          "default": "none",
+          "description": "Special affix/rarity modifier."
+        }
+      }
+    },
+    "waveEntry": {
+      "type": "object",
+      "required": ["creatureId"],
+      "additionalProperties": true,
+      "properties": {
+        "creatureId": {
+          "type": "string",
+          "format": "creature_id",
+          "description": "Combat creature template id. Select opens the shared creature browser."
+        },
+        "count": { "type": "integer", "minimum": 1, "description": "Expand into N one-shot slots." },
+        "x": { "type": "integer", "description": "Fixed tile X (omit for random in waves.regions)." },
+        "y": { "type": "integer", "description": "Fixed tile Y (omit for random in waves.regions)." },
+        "z": { "type": "integer", "description": "Floor Z index." },
+        "respawn": { "type": "number", "minimum": 0, "description": "Respawn delay; arenas use 0 (one-shot)." },
+        "rarity": {
+          "type": "string",
+          "enum": ["rare", "champion", "elite", "boss"],
+          "description": "Rarity tier (stamps default affix mults)."
+        },
+        "affixes": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Affix tags e.g. rare/champion/elite/boss."
+        },
+        "hpMult": { "type": "number", "description": "Explicit HP multiplier (overrides affix table)." },
+        "atkMult": { "type": "number", "description": "Explicit attack multiplier (overrides affix table)." },
+        "expMult": { "type": "number", "description": "Explicit exp multiplier (overrides affix table)." },
+        "groupId": { "type": "string", "description": "Optional label for telemetry/debug." }
+      }
+    },
+    "wave": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "id": { "type": "string", "description": "Wave identifier (e.g. wave_trash)." },
+        "label": { "type": "string", "description": "Human label for HUD/docs." },
+        "delaySec": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Optional inter-wave delay override before this wave (seconds)."
+        },
+        "entries": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/waveEntry" },
+          "description": "Spawn rows for this pack."
+        },
+        "spawns": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/waveEntry" },
+          "description": "Alias for entries."
+        }
+      }
+    },
+    "spawnRegion": {
+      "type": "object",
+      "description": "Walkable AABB for random wave entry tiles (flat or bbox form).",
+      "additionalProperties": true,
+      "properties": {
+        "id": { "type": "string", "description": "Optional region label." },
+        "x": { "type": "integer" },
+        "y": { "type": "integer" },
+        "w": { "type": "integer", "minimum": 1 },
+        "h": { "type": "integer", "minimum": 1 },
+        "z": { "type": "integer", "default": 0 },
+        "bbox": {
+          "type": "object",
+          "description": "Optional nested box (cutout-style); wins over top-level x/y/w/h when present.",
+          "properties": {
+            "x": { "type": "integer" },
+            "y": { "type": "integer" },
+            "w": { "type": "integer", "minimum": 1 },
+            "h": { "type": "integer", "minimum": 1 }
+          }
+        }
+      }
+    },
+    "wavesConfig": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Preferred arena form: global pacing + spawn regions + list of packs.",
+      "properties": {
+        "delaySec": {
+          "type": "number",
+          "minimum": 0,
+          "default": 3,
+          "description": "Seconds after a pack clears before the next."
+        },
+        "startDelaySec": {
+          "type": "number",
+          "minimum": 0,
+          "default": 0,
+          "description": "Delay before wave 0."
+        },
+        "endOnComplete": {
+          "type": "boolean",
+          "default": true,
+          "description": "End session with waves_complete after last pack."
+        },
+        "holdRoute": {
+          "type": "boolean",
+          "default": true,
+          "description": "Suppress route_complete while waves unfinished."
+        },
+        "anchorRadius": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Prefer spawn tiles within Chebyshev range of living party."
+        },
+        "packClustering": {
+          "type": "boolean",
+          "default": false,
+          "description": "When true, each entry is a spatial pack (one zone + center clump). Default false (or omit) scatters every member across all spawn regions."
+        },
+        "regions": {
+          "type": "array",
+          "format": "wave_regions",
+          "description": "Spawn regions for random wave tiles (union of boxes). Visual multi-box editor like dungeon cutouts. Empty → whole floor walkable.",
+          "items": { "$ref": "#/definitions/spawnRegion" }
+        },
+        "list": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/wave" },
+          "description": "Ordered wave pack definitions."
+        }
+      }
+    }
+  },
+  "properties": {
+    "id": { "$ref": "#/definitions/entityId" },
+    "label": { "type": "string", "minLength": 1, "maxLength": 200, "description": "Human readable hunt title." },
+    "notes": { "type": "string", "maxLength": 4000, "description": "Designer notes and description." },
+    "artSet": {
+      "type": "string",
+      "description": "Art set pack id (e.g. cave, ice_simple, cave_simple)."
+    },
+    "spawnMode": {
+      "type": "string",
+      "enum": ["eager", "on_demand"],
+      "default": "eager",
+      "description": "Spawn materialization strategy (eager = pre-spawn all, on_demand = proximity)."
+    },
+    "layout": {
+      "type": "object",
+      "description": "Map layout generation configuration.",
+      "additionalProperties": true,
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "procedural",
+            "fixed",
+            "multifloor",
+            "multi_biome"
+          ],
+          "description": "Layout mode: single-floor procedural/fixed, multifloor chain, or multi_biome macro segments."
+        },
+        "profileId": {
+          "type": "string",
+          "description": "Dungeon profile id from dungeons/ (single-floor procedural/fixed)."
+        },
+        "segments": {
+          "type": "array",
+          "description": "multi_biome macro segments (biomeId + floors/profileId per segment).",
+          "items": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "floors": {
+          "type": "array",
+          "description": "multifloor chain entries (profileId / biomeId per floor).",
+          "items": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        }
+      }
+    },
+    "spawnSource": {
+      "type": "object",
+      "description": "Source configuration for hunt monster spawns.",
+      "additionalProperties": true,
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["legacy_floor", "population", "authored", "waves"],
+          "description": "Spawn source type."
+        },
+        "floor": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Floor number for legacy floor spawns.",
+          "options": {
+            "dependencies": {
+              "type": "legacy_floor"
+            }
+          }
+        },
+        "creatures": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "creature_id",
+            "description": "Combat creature template id filter."
+          },
+          "description": "Creature id filter list for legacy floor spawns.",
+          "options": {
+            "dependencies": {
+              "type": "legacy_floor"
+            }
+          }
+        },
+        "bbox": {
+          "type": "object",
+          "description": "Bounding box rectangle for legacy floor spawns.",
+          "options": {
+            "dependencies": {
+              "type": "legacy_floor"
+            }
+          },
+          "properties": {
+            "x": { "type": "integer" },
+            "y": { "type": "integer" },
+            "w": { "type": "integer", "minimum": 1 },
+            "h": { "type": "integer", "minimum": 1 }
+          }
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Maximum spawn count limit.",
+          "options": {
+            "dependencies": {
+              "type": "legacy_floor"
+            }
+          }
+        },
+        "populationId": {
+          "type": "string",
+          "description": "Population profile id from populations/.",
+          "options": {
+            "dependencies": {
+              "type": "population"
+            }
+          }
+        },
+        "populationDensity": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Population density multiplier.",
+          "options": {
+            "dependencies": {
+              "type": "population"
+            }
+          }
+        }
+      }
+    },
+    "floor": {
+      "type": "integer",
+      "description": "Primary floor number index."
+    },
+    "floors": {
+      "type": "array",
+      "items": { "type": "integer" },
+      "description": "Multi-floor index list (e.g. [7, 8])."
+    },
+    "loopWaypoints": {
+      "type": "boolean",
+      "default": false,
+      "description": "When true, party restarts at the first waypoint after the last (arena patrol). Route tiles come from the selected dungeon profile (layout.profileId), not the hunt. Route never completes while looping — pair with waves.endOnComplete / party_wipe for session end."
+    },
+    "spawns": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/spawn" },
+      "description": "Authored monster spawns."
+    },
+    "waves": {
+      "description": "Sequential arena waves (clear pack → delay → next). Prefer object form with list/regions for arenas; a bare array of wave defs is also accepted by the runtime. Party route is owned by the dungeon profile; set loopWaypoints on the hunt for arena patrol.",
+      "oneOf": [
+        {
+          "title": "Waves config (arena)",
+          "$ref": "#/definitions/wavesConfig"
+        },
+        {
+          "title": "Wave list (simple)",
+          "type": "array",
+          "items": { "$ref": "#/definitions/wave" }
+        }
+      ]
+    },
+    "defaultPartyId": {
+      "type": "string",
+      "description": "Optional UI/CLI default party preset id (presets/<mode>/parties/<id>.json). Session party is selected at runtime; hunts no longer embed members."
+    },
+    "limits": {
+      "type": "object",
+      "description": "Session termination limits.",
+      "additionalProperties": true,
+      "properties": {
+        "maxSeconds": { "type": "integer", "minimum": 1, "description": "Maximum session duration in seconds." },
+        "maxFrames": { "type": "integer", "minimum": 1, "description": "Maximum session logic frames." },
+        "killCap": { "type": "integer", "minimum": 1, "description": "Maximum total mob kill count." },
+        "maxKills": { "type": "integer", "minimum": 1, "description": "Alias for killCap (runtime maxKills)." },
+        "noAttackTimeoutSec": {
+          "type": "number",
+          "minimum": 1,
+          "description": "End session with no_attack_timeout when no successful attack is recorded for this many seconds (liveness guard for stuck arena/AI). At 20 UPS, 120s = 2400 ticks."
+        }
+      }
+    },
+    "pacingBudget": {
+      "type": "object",
+      "description": "Pacing and spawn density budget rules.",
+      "additionalProperties": true
+    }
+  }
+}

@@ -1,0 +1,81 @@
+{
+    "id": "pale_aristocrat",
+    "label": "Pale Aristocrat",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A pale aristocrat.",
+    "hp": 150,
+    "hpMax": 150,
+    "speed": 100,
+    "level": 237,
+    "armor": 0,
+    "mitigation": 0.05,
+    "maxBlock": 0,
+    "exp": 5,
+    "lootValue": 0,
+    "aggro": false,
+    "resists": {
+        "physical": 100,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 100,
+        "holy": 0,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": false,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "element": "physical",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "min": 7,
+            "max": 56,
+            "target": true
+        }
+    ],
+    "race": "blood",
+    "loot": [],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "pale_aristocrat",
+    "threatDps": 15.75,
+    "burstDps": 15.75,
+    "avgHit": 31.5,
+    "maxHit": 56,
+    "manaCost": 0
+}

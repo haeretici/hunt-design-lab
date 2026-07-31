@@ -1,0 +1,145 @@
+{
+    "id": "elf",
+    "label": "Elf",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An elf.",
+    "hp": 100,
+    "hpMax": 100,
+    "speed": 95,
+    "level": 196,
+    "armor": 6,
+    "mitigation": 0.3,
+    "maxBlock": 0,
+    "exp": 42,
+    "lootValue": 23.361935591365,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 20,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 43
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 71,
+            "target": false,
+            "shootEffect": "ani_arrow"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 44000,
+            "maxCount": 30
+        },
+        {
+            "name": "longsword",
+            "chance": 10800
+        },
+        {
+            "name": "studded helmet",
+            "chance": 13500
+        },
+        {
+            "name": "studded armor",
+            "chance": 8960
+        },
+        {
+            "name": "plate shield",
+            "chance": 9300
+        },
+        {
+            "name": "arrow",
+            "chance": 7060,
+            "maxCount": 3
+        },
+        {
+            "name": "leather boots",
+            "chance": 11410
+        },
+        {
+            "chance": 940,
+            "name": "heaven blossom"
+        },
+        {
+            "name": "plum",
+            "chance": 20000,
+            "maxCount": 2
+        },
+        {
+            "name": "elvish talisman",
+            "chance": 2100
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "elf",
+    "threatDps": 12.525,
+    "burstDps": 12.525,
+    "avgHit": 22.7727,
+    "maxHit": 71,
+    "manaCost": 320
+}

@@ -1,0 +1,253 @@
+{
+    "id": "lisa",
+    "label": "Lisa",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A lisa.",
+    "hp": 55000,
+    "hpMax": 55000,
+    "speed": 100,
+    "level": 824,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 18000,
+    "lootValue": 4127.6470588235,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -3,
+        "ice": 20,
+        "energy": 15,
+        "earth": 100,
+        "holy": 0,
+        "death": 50
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "condition": {
+                "type": "poison",
+                "totalDamage": 704,
+                "intervalMs": 4000
+            },
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "lifedrain",
+            "min": 157,
+            "max": 313,
+            "radius": 1,
+            "target": true,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_greenstar"
+        },
+        {
+            "id": "effect_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "radius": 6,
+            "target": true,
+            "effect": "me_bigplants",
+            "shootEffect": "ani_smallearth",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "effect_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "radius": 6,
+            "target": true,
+            "effect": "me_plantattack",
+            "shootEffect": "ani_smallearth",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 13,
+            "range": 4,
+            "element": "manadrain",
+            "min": 78,
+            "max": 157,
+            "radius": 8,
+            "target": false,
+            "effect": "me_poisonarea"
+        },
+        {
+            "id": "lisa_wave_7",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 11,
+            "range": 1,
+            "element": "physical",
+            "min": 313,
+            "max": 704,
+            "target": false
+        }
+    ],
+    "race": "venom",
+    "loot": [
+        {
+            "name": "bowl of glooth soup",
+            "chance": 55000,
+            "maxCount": 5
+        },
+        {
+            "name": "glooth sandwich",
+            "chance": 34500,
+            "maxCount": 5
+        },
+        {
+            "name": "great health potion",
+            "chance": 33000,
+            "maxCount": 5
+        },
+        {
+            "name": "great mana potion",
+            "chance": 33000,
+            "maxCount": 5
+        },
+        {
+            "name": "great dual potion",
+            "chance": 33000,
+            "maxCount": 5
+        },
+        {
+            "name": "glooth steak",
+            "chance": 28000,
+            "maxCount": 5
+        },
+        {
+            "name": "slimy leaf tentacle",
+            "chance": 22000,
+            "maxCount": 3
+        },
+        {
+            "name": "small amethyst",
+            "chance": 21000,
+            "maxCount": 5
+        },
+        {
+            "name": "small diamond",
+            "chance": 18000,
+            "maxCount": 5
+        },
+        {
+            "name": "small ruby",
+            "chance": 16000,
+            "maxCount": 5
+        },
+        {
+            "name": "small topaz",
+            "chance": 14800,
+            "maxCount": 5
+        },
+        {
+            "name": "glooth club",
+            "chance": 10500
+        },
+        {
+            "name": "glooth spear",
+            "chance": 9900
+        },
+        {
+            "name": "glooth whip",
+            "chance": 9500
+        },
+        {
+            "name": "glooth amulet",
+            "chance": 9000
+        },
+        {
+            "name": "glooth axe",
+            "chance": 8000
+        },
+        {
+            "name": "glooth blade",
+            "chance": 7000
+        },
+        {
+            "name": "glooth cape",
+            "chance": 6000
+        },
+        {
+            "chance": 2600,
+            "name": "red gem"
+        },
+        {
+            "name": "yellow gem",
+            "chance": 2500
+        },
+        {
+            "name": "lisa's doll",
+            "chance": 300
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 3
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "demon_goblin",
+    "threatDps": 411.105,
+    "burstDps": 411.105,
+    "avgHit": 268.6591,
+    "maxHit": 704,
+    "manaCost": 0
+}

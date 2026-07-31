@@ -1,0 +1,195 @@
+{
+    "id": "oozing_corpus",
+    "label": "Oozing Corpus",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An oozing corpus.",
+    "hp": 28700,
+    "hpMax": 28700,
+    "speed": 220,
+    "level": 760,
+    "armor": 107,
+    "mitigation": 3.25,
+    "maxBlock": 0,
+    "exp": 20600,
+    "lootValue": 6708.6876155268,
+    "aggro": true,
+    "resists": {
+        "physical": 30,
+        "fire": 25,
+        "ice": -10,
+        "energy": -25,
+        "earth": 40,
+        "holy": -10,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 559
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2500,
+            "chance": 20,
+            "range": 4,
+            "element": "physical",
+            "min": 454,
+            "max": 593,
+            "radius": 5,
+            "target": true,
+            "effect": "me_ghostly_bite"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "physical",
+            "min": 489,
+            "max": 541,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_groundshaker"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "earth",
+            "min": 384,
+            "max": 541,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_green_rings"
+        },
+        {
+            "id": "death_chain_4",
+            "kind": "melee",
+            "intervalMs": 3000,
+            "chance": 15,
+            "range": 1,
+            "element": "physical",
+            "min": 314,
+            "max": 454,
+            "target": true
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 5000,
+        "firstUnlock": 200,
+        "secondUnlock": 2000,
+        "charmsPoints": 100,
+        "stars": 5,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "crystal coin",
+            "chance": 9000,
+            "maxCount": 1
+        },
+        {
+            "name": "organic acid",
+            "chance": 7678,
+            "maxCount": 1
+        },
+        {
+            "name": "Earthbound Boots",
+            "chance": 12369,
+            "maxCount": 1
+        },
+        {
+            "name": "small amethyst",
+            "chance": 12859,
+            "maxCount": 1
+        },
+        {
+            "name": "rotten roots",
+            "chance": 13133,
+            "maxCount": 1
+        },
+        {
+            "name": "blue gem",
+            "chance": 9808,
+            "maxCount": 1
+        },
+        {
+            "name": "dragonbone staff",
+            "chance": 6964,
+            "maxCount": 1
+        },
+        {
+            "name": "worm sponge",
+            "chance": 7270,
+            "maxCount": 1
+        },
+        {
+            "name": "violet gem",
+            "chance": 5084,
+            "maxCount": 1
+        },
+        {
+            "name": "jade hammer",
+            "chance": 3073,
+            "maxCount": 1
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "rune_glacier_dwarf_archer",
+    "threatDps": 287.0175,
+    "burstDps": 307.0875,
+    "avgHit": 356.5435,
+    "maxHit": 593,
+    "manaCost": 0
+}

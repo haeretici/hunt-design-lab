@@ -1,0 +1,121 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://hunt-design-lab.local/schemas/equipment.schema.json",
+  "title": "Equipment catalog document",
+  "description": "Shape of presets/<mode>/equipment.json. Loaded by presets.loadEquipmentPreset / getEquipmentItem. Storage: catalog document (items[]).",
+  "type": "object",
+  "required": ["items"],
+  "additionalProperties": true,
+  "properties": {
+    "version": { "type": "integer", "minimum": 1 },
+    "notes": { "type": "string", "maxLength": 4000 },
+    "items": {
+      "type": "array",
+      "minItems": 0,
+      "items": { "$ref": "#/definitions/equipmentItem" }
+    }
+  },
+  "definitions": {
+    "entityId": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]{0,79}$",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "equipmentItem": {
+      "type": "object",
+      "required": ["id"],
+      "additionalProperties": true,
+      "properties": {
+        "id": { "$ref": "#/definitions/entityId" },
+        "label": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "customSpriteGenre": {
+          "type": "string",
+          "description": "Optional catalog genre for Custom Sprite when different from the mode genre (e.g. steampunk while editing a standard-mode item). Empty = mode genre. Controls the catalog list and wiki/runtime sprite path for customSprite."
+        },
+        "customSprite": {
+          "type": "string",
+          "format": "catalog_asset_id",
+          "options": {
+            "assetKind": "equipment",
+            "previewVariant": "alpha",
+            "selectLabel": "Browse equipment art"
+          },
+          "description": "Optional genre equipment catalog id used for art when this combat item has no matching sprite under its own id. Designer: Select opens the equipment art catalog filtered by customSpriteGenre (or mode genre). Alpha thumb preview in wiki and form."
+        },
+        "slot": {
+          "type": "string",
+          "description": "Equipment slot (rightHand, leftHand, head, body, legs, feet, …)."
+        },
+        "category": { "type": "string" },
+        "weaponType": {
+          "type": "string",
+          "description": "Weapon family for power curves (melee, distance, magic, shield, …)."
+        },
+        "atk": { "type": "number" },
+        "extraAtk": { "type": "number" },
+        "extraAtkElement": { "type": "string" },
+        "defense": { "type": "number" },
+        "defenseBonus": {
+          "type": "number",
+          "description": "Weapon extradef / defense modifier. Applied to total defense only when a shield contributes defense > 0."
+        },
+        "armor": { "type": "number" },
+        "speed": { "type": "number" },
+        "weight": { "type": "number", "minimum": 0 },
+        "stackable": {
+          "type": "boolean",
+          "default": false,
+          "description": "When true, identical itemId instances merge into one container slot with count (weight = unit × count). Max stack size is 100. Used for arrows/bolts, throwing weapons (spears/stars), and runes (category rune)."
+        },
+        "breakChance": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Throwing weapons only: percent chance (0–100) to destroy one stack unit on each throw (hit or miss). 100 = always consume one. Cap weight uses unit × remaining count."
+        },
+        "ammoType": {
+          "type": "string",
+          "enum": ["arrow", "bolt"],
+          "description": "Required for category ammo: which distance weapon may fire this stack. Bows consume arrow; crossbows consume bolt. Used for O(1) matching when scanning a quiver."
+        },
+        "range": { "type": "number", "minimum": 0 },
+        "durationSec": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Temporary item lifetime in seconds (data-only until tick/decay stage)."
+        },
+        "charges": { "type": "integer", "minimum": 0 },
+        "skillBonuses": { "type": "object", "additionalProperties": { "type": "number" } },
+        "resists": { "type": "object", "additionalProperties": { "type": "number" } },
+        "regen": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "hp": { "type": "number" },
+            "mp": { "type": "number" },
+            "hpTicksMs": { "type": ["number", "null"] },
+            "mpTicksMs": { "type": ["number", "null"] }
+          }
+        },
+        "flags": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "manaShield": { "type": "boolean" },
+            "invisible": { "type": "boolean" }
+          }
+        },
+        "notes": { "type": "string", "maxLength": 2000 },
+        "customSprite": {
+          "type": "string",
+          "description": "Temporary art catalog stem when combat id has no matching sprite under assets/sprites/<genre>/equipment/."
+        },
+        "spriteId": {
+          "type": "string",
+          "description": "Alias of customSprite (equipment picker historically reads spriteId)."
+        }
+      }
+    }
+  }
+}

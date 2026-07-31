@@ -1,0 +1,266 @@
+{
+    "id": "necrotic_monarch_s_spite",
+    "label": "Necrotic Monarch's Spite",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A necrotic monarch's spite.",
+    "hp": 1,
+    "hpMax": 1,
+    "speed": 150,
+    "level": 1000,
+    "armor": 0,
+    "mitigation": 5.4,
+    "maxBlock": 0,
+    "exp": 75000,
+    "lootValue": 1779500,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 5000
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "earth",
+            "min": 1400,
+            "max": 2200,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_green_rings"
+        },
+        {
+            "id": "singlecloudchain_2",
+            "kind": "ranged",
+            "intervalMs": 6000,
+            "chance": 40,
+            "range": 6,
+            "element": "physical",
+            "min": 1700,
+            "max": 1900,
+            "target": true,
+            "effect": "me_energyhit"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 7,
+            "element": "earth",
+            "min": 1200,
+            "max": 3500,
+            "radius": 4,
+            "target": true,
+            "effect": "me_green_rings",
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "wave_4",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "earth",
+            "min": 1400,
+            "max": 2200,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_green_rings"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 1000,
+            "chance": 20,
+            "speedChange": 500,
+            "durationSec": 10,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "heal_1",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 25,
+            "min": 1250,
+            "max": 3250,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "name": "crystal coin",
+            "chance": 55000,
+            "minCount": 70,
+            "maxCount": 75
+        },
+        {
+            "id": 281,
+            "chance": 1150
+        },
+        {
+            "name": "giant sapphire",
+            "chance": 10000,
+            "maxCount": 1
+        },
+        {
+            "name": "giant topaz",
+            "chance": 10000,
+            "maxCount": 1
+        },
+        {
+            "name": "violet gem",
+            "chance": 6000,
+            "maxCount": 1
+        },
+        {
+            "name": "blue gem",
+            "chance": 10000,
+            "maxCount": 3
+        },
+        {
+            "chance": 10000,
+            "maxCount": 3,
+            "name": "red gem"
+        },
+        {
+            "name": "green gem",
+            "chance": 10000,
+            "maxCount": 3
+        },
+        {
+            "name": "yellow gem",
+            "chance": 10000,
+            "maxCount": 3
+        },
+        {
+            "name": "white gem",
+            "chance": 6000,
+            "maxCount": 3
+        },
+        {
+            "name": "dragon figurine",
+            "chance": 10000,
+            "maxCount": 1
+        },
+        {
+            "name": "marksman potion",
+            "chance": 15000,
+            "minCount": 10,
+            "maxCount": 25
+        },
+        {
+            "name": "savant potion",
+            "chance": 15000,
+            "minCount": 10,
+            "maxCount": 25
+        },
+        {
+            "name": "berserk potion",
+            "chance": 15000,
+            "minCount": 10,
+            "maxCount": 25
+        },
+        {
+            "name": "ultimate mana potion",
+            "chance": 18000,
+            "minCount": 50,
+            "maxCount": 100
+        },
+        {
+            "name": "supreme health potion",
+            "chance": 18000,
+            "minCount": 50,
+            "maxCount": 100
+        },
+        {
+            "name": "ultimate dual potion",
+            "chance": 18000,
+            "minCount": 50,
+            "maxCount": 100
+        },
+        {
+            "name": "the skull of a beast",
+            "chance": 400
+        },
+        {
+            "name": "figurine of spite",
+            "chance": 400
+        },
+        {
+            "name": "spite's spirit",
+            "chance": 400
+        },
+        {
+            "name": "bag you desire",
+            "chance": 100
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "cave_parrot",
+    "threatDps": 1902.5,
+    "burstDps": 2142.5,
+    "avgHit": 2329.5918,
+    "maxHit": 5000,
+    "manaCost": 0
+}

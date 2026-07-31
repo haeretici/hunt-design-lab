@@ -1,0 +1,269 @@
+{
+    "id": "fury",
+    "label": "Fury",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A fury.",
+    "hp": 4100,
+    "hpMax": 4100,
+    "speed": 200,
+    "level": 566,
+    "armor": 35,
+    "mitigation": 1.32,
+    "maxBlock": 0,
+    "exp": 4000,
+    "lootValue": 1354.7101872759,
+    "aggro": true,
+    "resists": {
+        "physical": -10,
+        "fire": 100,
+        "ice": 5,
+        "energy": -10,
+        "earth": -10,
+        "holy": 30,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 276
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "fire",
+            "min": 108,
+            "max": 162,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_explosionarea"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 4,
+            "element": "death",
+            "min": 65,
+            "max": 378,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_drawblood"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "death",
+            "min": 65,
+            "max": 162,
+            "radius": 4,
+            "target": false,
+            "effect": "me_drawblood"
+        },
+        {
+            "id": "area_5",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 65,
+            "max": 162,
+            "radius": 3,
+            "target": false,
+            "effect": "me_hitarea"
+        },
+        {
+            "id": "ranged_6",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "death",
+            "min": 68,
+            "max": 135,
+            "target": false,
+            "effect": "me_smallclouds",
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "slow_7",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -800,
+                "durationSec": 30
+            },
+            "effect": "me_smallclouds",
+            "target": false
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 800,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Demon",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 410,
+            "name": "crystal ring"
+        },
+        {
+            "name": "gold coin",
+            "chance": 30000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 30000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 38000,
+            "maxCount": 69
+        },
+        {
+            "name": "platinum coin",
+            "chance": 2800,
+            "maxCount": 4
+        },
+        {
+            "name": "Earthbound Rod",
+            "chance": 20000
+        },
+        {
+            "name": "golden legs",
+            "chance": 130
+        },
+        {
+            "name": "steel boots",
+            "chance": 790
+        },
+        {
+            "name": "orichalcum pearl",
+            "chance": 1500,
+            "maxCount": 4
+        },
+        {
+            "name": "red piece of cloth",
+            "chance": 4000
+        },
+        {
+            "name": "soul orb",
+            "chance": 21500
+        },
+        {
+            "name": "soul orb",
+            "chance": 50
+        },
+        {
+            "chance": 60,
+            "name": "death ring"
+        },
+        {
+            "name": "demonic essence",
+            "chance": 22500
+        },
+        {
+            "name": "flask of demonic blood",
+            "chance": 35000,
+            "maxCount": 3
+        },
+        {
+            "name": "assassin dagger",
+            "chance": 660
+        },
+        {
+            "name": "noble axe",
+            "chance": 2000
+        },
+        {
+            "name": "great health potion",
+            "chance": 10500
+        },
+        {
+            "name": "jalapeno pepper",
+            "chance": 29280,
+            "maxCount": 4
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "storm_catacomb_devil_vanguard",
+    "threatDps": 97.7125,
+    "burstDps": 97.7125,
+    "avgHit": 134.7759,
+    "maxHit": 378,
+    "manaCost": 0
+}

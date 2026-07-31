@@ -1,0 +1,119 @@
+{
+    "id": "necromancer_servant",
+    "label": "Necromancer Servant",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A necromancer servant.",
+    "hp": 600,
+    "hpMax": 600,
+    "speed": 105,
+    "level": 373,
+    "armor": 0,
+    "mitigation": 0.94,
+    "maxBlock": 0,
+    "exp": 590,
+    "lootValue": 42.8,
+    "aggro": true,
+    "resists": {
+        "physical": -5,
+        "fire": -5,
+        "ice": 0,
+        "energy": 20,
+        "earth": 100,
+        "holy": -5,
+        "death": 50
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 10,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 112
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "min": 12,
+            "max": 100,
+            "target": false,
+            "shootEffect": "ani_throwingknife"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 74230,
+            "maxCount": 70
+        },
+        {
+            "name": "poison arrow",
+            "chance": 74230,
+            "maxCount": 5
+        },
+        {
+            "name": "book of necromantic rituals",
+            "chance": 74230
+        },
+        {
+            "name": "incantation fragment",
+            "chance": 100000
+        },
+        {
+            "name": "necromantic robe",
+            "chance": 54230
+        },
+        {
+            "name": "boots of haste",
+            "chance": 5000
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "infernal_merrow_necromancer",
+    "threatDps": 33.6,
+    "burstDps": 33.6,
+    "avgHit": 56,
+    "maxHit": 112,
+    "manaCost": 0
+}

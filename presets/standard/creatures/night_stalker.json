@@ -1,0 +1,191 @@
+{
+    "id": "night_stalker",
+    "label": "Night Stalker",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A night stalker.",
+    "hp": 700,
+    "hpMax": 700,
+    "speed": 130,
+    "level": 390,
+    "armor": 40,
+    "mitigation": 1.18,
+    "maxBlock": 0,
+    "exp": 500,
+    "lootValue": 116.80063418338,
+    "aggro": true,
+    "resists": {
+        "physical": -5,
+        "fire": 0,
+        "ice": 20,
+        "energy": -5,
+        "earth": 0,
+        "holy": 20,
+        "death": -5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 45,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 40,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "lifedrain",
+            "min": 30,
+            "max": 84,
+            "target": true,
+            "effect": "me_holyarea"
+        },
+        {
+            "id": "nightstalker_paralyze_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "target": true,
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 240,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "invisible_1",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 10,
+            "durationSec": 2,
+            "effect": "me_yellow_rings"
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Magical",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 1030,
+            "name": "crystal ring"
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 10
+        },
+        {
+            "name": "platinum amulet",
+            "chance": 121
+        },
+        {
+            "name": "boots of haste",
+            "chance": 121
+        },
+        {
+            "name": "protection amulet",
+            "chance": 847
+        },
+        {
+            "name": "shadow herb",
+            "chance": 4761
+        },
+        {
+            "name": "haunted blade",
+            "chance": 318
+        },
+        {
+            "name": "Maelstrom Mace",
+            "chance": 121
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 1612
+        },
+        {
+            "name": "spirit cloak",
+            "chance": 520
+        },
+        {
+            "name": "crystal of balance",
+            "chance": 127
+        }
+    ],
+    "changeTarget": {
+        "interval": 0,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "twilight_desert_stalker",
+    "threatDps": 36.95,
+    "burstDps": 36.95,
+    "avgHit": 28.25,
+    "maxHit": 84,
+    "manaCost": 0
+}

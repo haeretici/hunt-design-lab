@@ -1,0 +1,168 @@
+{
+    "id": "bone_fiend",
+    "label": "Bone Fiend",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A bone fiend.",
+    "hp": 400,
+    "hpMax": 400,
+    "speed": 90,
+    "level": 333,
+    "armor": 25,
+    "mitigation": 0.91,
+    "maxBlock": 0,
+    "exp": 240,
+    "lootValue": 65.2,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": 0,
+        "energy": 0,
+        "earth": 100,
+        "holy": -25,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "damage": 30
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": true,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 103
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 1,
+            "element": "death",
+            "min": 17,
+            "max": 28,
+            "radius": 1,
+            "target": true,
+            "effect": "me_smallclouds"
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 5270,
+            "name": "torch"
+        },
+        {
+            "name": "black pearl",
+            "chance": 2900
+        },
+        {
+            "name": "small ruby",
+            "chance": 1400
+        },
+        {
+            "name": "gold coin",
+            "chance": 97000,
+            "maxCount": 75
+        },
+        {
+            "name": "mind stone",
+            "chance": 520
+        },
+        {
+            "name": "mysterious fetish",
+            "chance": 690
+        },
+        {
+            "name": "throwing star",
+            "chance": 10000,
+            "maxCount": 3
+        },
+        {
+            "name": "battle hammer",
+            "chance": 4000
+        },
+        {
+            "name": "iron helmet",
+            "chance": 3450
+        },
+        {
+            "name": "battle shield",
+            "chance": 5000
+        },
+        {
+            "name": "guardian shield",
+            "chance": 100
+        },
+        {
+            "name": "health potion",
+            "chance": 10120,
+            "maxCount": 2
+        },
+        {
+            "name": "health potion",
+            "chance": 10000,
+            "maxCount": 2
+        },
+        {
+            "name": "mana potion",
+            "chance": 5300
+        },
+        {
+            "name": "demonic skeletal hand",
+            "chance": 12600
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "celestial_fiend",
+    "threatDps": 26.875,
+    "burstDps": 26.875,
+    "avgHit": 48.8636,
+    "maxHit": 103,
+    "manaCost": 620
+}

@@ -1,0 +1,396 @@
+{
+    "id": "dark_sorcerer_supreme",
+    "label": "Dark Sorcerer Supreme",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A dark sorcerer supreme.",
+    "hp": 90000,
+    "hpMax": 90000,
+    "speed": 160,
+    "level": 874,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 35000,
+    "lootValue": 14727.036697248,
+    "aggro": true,
+    "resists": {
+        "physical": 5,
+        "fire": 90,
+        "ice": 20,
+        "energy": 90,
+        "earth": 90,
+        "holy": 20,
+        "death": 5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 2,
+        "runHealth": 2500,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 490
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "manadrain",
+            "min": 700,
+            "max": 980,
+            "target": false,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 420,
+            "max": 630,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_hitbypoison"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 21,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 630,
+            "max": 700,
+            "radius": 6,
+            "target": false,
+            "effect": "me_poff"
+        },
+        {
+            "id": "condition_4",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "earth",
+            "min": 28,
+            "max": 56,
+            "target": false,
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "area_5",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 1260,
+            "max": 1400,
+            "radius": 3,
+            "target": false,
+            "effect": "me_drawblood"
+        },
+        {
+            "id": "condition_6",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 18,
+            "range": 4,
+            "element": "energy",
+            "min": 420,
+            "max": 560,
+            "radius": 6,
+            "target": false,
+            "effect": "me_energyhit"
+        },
+        {
+            "id": "condition_7",
+            "kind": "area",
+            "intervalMs": 3000,
+            "chance": 20,
+            "range": 7,
+            "element": "fire",
+            "min": 700,
+            "max": 840,
+            "radius": 7,
+            "target": true,
+            "effect": "me_firearea",
+            "shootEffect": "ani_fire"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 900,
+            "max": 1500,
+            "hpBelow": 0.7,
+            "effect": "me_magic_green"
+        },
+        {
+            "id": "invisible_1",
+            "kind": "invisible",
+            "intervalMs": 4000,
+            "chance": 20,
+            "durationSec": 2,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "venom",
+    "loot": [
+        {
+            "chance": 100000,
+            "unique": true,
+            "name": "Ferumbras' hat"
+        },
+        {
+            "chance": 98000,
+            "maxCount": 184,
+            "name": "gold coin"
+        },
+        {
+            "chance": 75000,
+            "maxCount": 2,
+            "name": "gold ingot"
+        },
+        {
+            "chance": 26000,
+            "unique": true,
+            "name": "great shield"
+        },
+        {
+            "chance": 26000,
+            "name": "spellbook of lost souls"
+        },
+        {
+            "chance": 24000,
+            "name": "golden armor"
+        },
+        {
+            "chance": 22000,
+            "name": "golden legs"
+        },
+        {
+            "chance": 22000,
+            "name": "spellbook of mind control"
+        },
+        {
+            "chance": 22000,
+            "name": "velvet mantle"
+        },
+        {
+            "chance": 20000,
+            "name": "demon shield"
+        },
+        {
+            "chance": 20000,
+            "name": "divine plate"
+        },
+        {
+            "chance": 20000,
+            "name": "Emberbound Legs"
+        },
+        {
+            "chance": 20000,
+            "name": "tempest shield"
+        },
+        {
+            "chance": 18000,
+            "name": "emerald bangle"
+        },
+        {
+            "chance": 18000,
+            "name": "Frostbound Kilt"
+        },
+        {
+            "chance": 18000,
+            "name": "Stormbound Legs"
+        },
+        {
+            "chance": 18000,
+            "name": "phoenix shield"
+        },
+        {
+            "chance": 18000,
+            "name": "spellbook of dark mysteries"
+        },
+        {
+            "chance": 18000,
+            "name": "Earthbound Legs"
+        },
+        {
+            "chance": 16000,
+            "name": "emerald sword"
+        },
+        {
+            "chance": 16000,
+            "name": "Ruin Blade"
+        },
+        {
+            "chance": 16000,
+            "name": "shadow sceptre"
+        },
+        {
+            "chance": 16000,
+            "maxCount": 100,
+            "name": "small emerald"
+        },
+        {
+            "id": 281,
+            "chance": 14000,
+            "maxCount": 5
+        },
+        {
+            "id": 282,
+            "chance": 14000,
+            "maxCount": 5
+        },
+        {
+            "chance": 14000,
+            "name": "Arcane Plate Armor"
+        },
+        {
+            "chance": 14000,
+            "name": "mastermind shield"
+        },
+        {
+            "chance": 14000,
+            "name": "runed sword"
+        },
+        {
+            "chance": 14000,
+            "name": "spellscroll of prophecies"
+        },
+        {
+            "chance": 12000,
+            "name": "Maelstrom Mace"
+        },
+        {
+            "chance": 12000,
+            "name": "demonwing axe"
+        },
+        {
+            "chance": 12000,
+            "name": "greenwood coat"
+        },
+        {
+            "chance": 12000,
+            "maxCount": 98,
+            "name": "small sapphire"
+        },
+        {
+            "chance": 12000,
+            "maxCount": 88,
+            "name": "white pearl"
+        },
+        {
+            "chance": 10000,
+            "name": "haunted blade"
+        },
+        {
+            "chance": 10000,
+            "name": "hellforged axe"
+        },
+        {
+            "chance": 10000,
+            "name": "ornamented axe"
+        },
+        {
+            "chance": 10000,
+            "maxCount": 54,
+            "name": "small amethyst"
+        },
+        {
+            "chance": 10000,
+            "maxCount": 87,
+            "name": "small topaz"
+        },
+        {
+            "chance": 8000,
+            "name": "demonrage sword"
+        },
+        {
+            "chance": 8000,
+            "name": "jade hammer"
+        },
+        {
+            "chance": 8000,
+            "maxCount": 58,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 8000,
+            "name": "skullcrusher"
+        },
+        {
+            "chance": 8000,
+            "maxCount": 9,
+            "name": "soul orb"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "infernal_merrow_necromancer",
+    "threatDps": 540.2833,
+    "burstDps": 565.95,
+    "avgHit": 475.3226,
+    "maxHit": 1400,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 4,
+        "summons": [
+            {
+                "name": "Demon",
+                "id": "demon",
+                "chance": 12,
+                "interval": 3000,
+                "count": 4
+            }
+        ]
+    }
+}

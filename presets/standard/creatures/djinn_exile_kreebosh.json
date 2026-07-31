@@ -1,0 +1,155 @@
+{
+    "id": "djinn_exile_kreebosh",
+    "label": "Djinn Exile Kreebosh",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A djinn exile kreebosh.",
+    "hp": 705,
+    "hpMax": 705,
+    "speed": 135,
+    "level": 390,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 350,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 55,
+        "earth": 0,
+        "holy": 0,
+        "death": -1
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 88
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 6000,
+            "chance": 80,
+            "range": 4,
+            "element": "fire",
+            "min": 0,
+            "max": 106,
+            "radius": 3,
+            "target": false,
+            "effect": "me_energyhit"
+        },
+        {
+            "id": "slow_2",
+            "kind": "status",
+            "intervalMs": 3500,
+            "chance": 35,
+            "range": 5,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -450,
+                "durationSec": 20
+            },
+            "radius": 1,
+            "effect": "me_magic_red",
+            "target": true
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 6000,
+            "chance": 40,
+            "range": 5,
+            "element": "physical",
+            "min": 18,
+            "max": 88,
+            "radius": 1,
+            "target": true,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "ranged_4",
+            "kind": "ranged",
+            "intervalMs": 5000,
+            "chance": 20,
+            "range": 5,
+            "element": "energy",
+            "min": 35,
+            "max": 176,
+            "radius": 1,
+            "target": true,
+            "effect": "me_firearea",
+            "shootEffect": "ani_energy"
+        }
+    ],
+    "race": "blood",
+    "loot": [],
+    "changeTarget": {
+        "interval": 0,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "mist_demon_priest",
+    "threatDps": 36.82,
+    "burstDps": 64.35,
+    "avgHit": 49.7568,
+    "maxHit": 176,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 2,
+        "summons": [
+            {
+                "name": "Green Djinn",
+                "id": "green_djinn",
+                "chance": 20,
+                "interval": 5000,
+                "count": 2
+            }
+        ]
+    }
+}

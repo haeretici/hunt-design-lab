@@ -1,0 +1,186 @@
+{
+    "id": "ratkin_vanguard",
+    "label": "Ratkin Vanguard",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A ratkin vanguard.",
+    "hp": 700,
+    "hpMax": 700,
+    "speed": 100,
+    "level": 389,
+    "armor": 29,
+    "mitigation": 0.99,
+    "maxBlock": 0,
+    "exp": 490,
+    "lootValue": 95.958193979933,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 10,
+        "energy": 20,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 50,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 120
+        },
+        {
+            "id": "corym_vanguard_wave_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 1,
+            "element": "physical",
+            "min": 43,
+            "max": 86,
+            "target": false
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "death",
+            "min": 34,
+            "max": 60,
+            "radius": 4,
+            "target": true,
+            "effect": "me_mortarea"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 30,
+            "max": 60,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 120
+        },
+        {
+            "chance": 20000,
+            "name": "cheese"
+        },
+        {
+            "name": "bola",
+            "chance": 10000
+        },
+        {
+            "name": "spike shield",
+            "chance": 4761
+        },
+        {
+            "name": "ratana",
+            "chance": 5000
+        },
+        {
+            "name": "life preserver",
+            "chance": 5000
+        },
+        {
+            "name": "cheese cutter",
+            "chance": 16666
+        },
+        {
+            "name": "cheesy figurine",
+            "chance": 3846
+        },
+        {
+            "name": "earflap",
+            "chance": 11111
+        },
+        {
+            "name": "soft cheese",
+            "chance": 14285
+        },
+        {
+            "name": "rat cheese",
+            "chance": 14285
+        },
+        {
+            "name": "rat god doll",
+            "chance": 14
+        },
+        {
+            "name": "leather harness",
+            "chance": 1612
+        },
+        {
+            "name": "spiky club",
+            "chance": 3225
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "sun_orc_guard",
+    "threatDps": 36.75,
+    "burstDps": 36.75,
+    "avgHit": 58.8,
+    "maxHit": 120,
+    "manaCost": 0
+}

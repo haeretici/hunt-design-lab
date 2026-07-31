@@ -1,0 +1,145 @@
+{
+    "id": "energy_lore_guardian",
+    "label": "Energy Lore Guardian",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An energy lore guardian.",
+    "hp": 14000,
+    "hpMax": 14000,
+    "speed": 210,
+    "level": 688,
+    "armor": 77,
+    "mitigation": 1.94,
+    "maxBlock": 0,
+    "exp": 11361,
+    "lootValue": 3423.0434782609,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 100,
+        "earth": -12,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 11,
+            "max": 581
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 13,
+            "range": 4,
+            "element": "energy",
+            "min": 106,
+            "max": 586,
+            "radius": 3,
+            "target": false,
+            "effect": "me_energyarea"
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Magical",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 10000,
+            "maxCount": 5,
+            "name": "book page"
+        },
+        {
+            "chance": 10000,
+            "maxCount": 5,
+            "name": "glowing rune"
+        },
+        {
+            "name": "small amethyst",
+            "chance": 10000,
+            "maxCount": 5
+        },
+        {
+            "name": "flash arrow",
+            "chance": 10000,
+            "maxCount": 5
+        },
+        {
+            "name": "Stormbound Legs",
+            "chance": 250
+        },
+        {
+            "name": "spellbook of warding",
+            "chance": 350
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 10000,
+            "maxCount": 5
+        },
+        {
+            "name": "ultimate mana potion",
+            "chance": 10000,
+            "maxCount": 5
+        },
+        {
+            "name": "wand of starstorm",
+            "chance": 300
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "arcane_elemental_vanguard",
+    "threatDps": 192.98,
+    "burstDps": 192.98,
+    "avgHit": 306.3175,
+    "maxHit": 586,
+    "manaCost": 0
+}

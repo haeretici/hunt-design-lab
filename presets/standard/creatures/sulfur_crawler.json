@@ -1,0 +1,156 @@
+{
+    "id": "sulfur_crawler",
+    "label": "Sulfur Crawler",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A sulfur crawler.",
+    "hp": 21000,
+    "hpMax": 21000,
+    "speed": 215,
+    "level": 728,
+    "armor": 83,
+    "mitigation": 2.11,
+    "maxBlock": 0,
+    "exp": 13328,
+    "lootValue": 4876.6972477064,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 20,
+        "ice": -20,
+        "energy": 0,
+        "earth": 0,
+        "holy": -10,
+        "death": 20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 572
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 3500,
+            "chance": 40,
+            "range": 7,
+            "element": "fire",
+            "min": 372,
+            "max": 606,
+            "radius": 4,
+            "target": true,
+            "effect": "me_firearea",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "blast_ring_2",
+            "kind": "melee",
+            "intervalMs": 4000,
+            "chance": 35,
+            "range": 1,
+            "element": "physical",
+            "min": 343,
+            "max": 629
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Vermin",
+        "toKill": 5000,
+        "firstUnlock": 200,
+        "secondUnlock": 2000,
+        "charmsPoints": 100,
+        "stars": 5,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "Sulphur Powder",
+            "chance": 29600
+        },
+        {
+            "name": "Sulphider Shell",
+            "chance": 24660
+        },
+        {
+            "name": "Ultimate Mana Potion",
+            "chance": 14620
+        },
+        {
+            "name": "Crystal Coin",
+            "chance": 14430,
+            "minCount": 1,
+            "maxCount": 3
+        },
+        {
+            "name": "White Pearl",
+            "chance": 5010
+        },
+        {
+            "name": "Fire Axe",
+            "chance": 2450
+        },
+        {
+            "name": "Emberbound Boots",
+            "chance": 1600
+        },
+        {
+            "name": "Crown Shield",
+            "chance": 1230
+        },
+        {
+            "name": "Amber Staff",
+            "chance": 1150
+        },
+        {
+            "name": "Amulet of Safekeeping",
+            "chance": 850
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "brimstone_ruins_crawler",
+    "threatDps": 241.4107,
+    "burstDps": 325.85,
+    "avgHit": 343.9949,
+    "maxHit": 629,
+    "manaCost": 0
+}

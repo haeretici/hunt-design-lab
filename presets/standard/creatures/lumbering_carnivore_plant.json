@@ -1,0 +1,180 @@
+{
+    "id": "lumbering_carnivore_plant",
+    "label": "Lumbering Carnivore Plant",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A lumbering carnivore plant.",
+    "hp": 2600,
+    "hpMax": 2600,
+    "speed": 200,
+    "level": 520,
+    "armor": 65,
+    "mitigation": 1.82,
+    "maxBlock": 0,
+    "exp": 1452,
+    "lootValue": 804.3247734139,
+    "aggro": true,
+    "resists": {
+        "physical": 20,
+        "fire": -40,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 84,
+            "max": 209
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "physical",
+            "min": 42,
+            "max": 63,
+            "radius": 4,
+            "target": false,
+            "effect": "me_groundshaker"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 150,
+            "max": 200,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Magical",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 64770,
+            "maxCount": 3
+        },
+        {
+            "name": "blue glass plate",
+            "chance": 20840,
+            "maxCount": 3
+        },
+        {
+            "name": "axe",
+            "chance": 14620
+        },
+        {
+            "name": "ice rapier",
+            "chance": 7600
+        },
+        {
+            "chance": 5500,
+            "name": "sword"
+        },
+        {
+            "id": 281,
+            "chance": 1830
+        },
+        {
+            "name": "green gem",
+            "chance": 1680
+        },
+        {
+            "name": "violet gem",
+            "chance": 1560
+        },
+        {
+            "name": "glorious axe",
+            "chance": 1530
+        },
+        {
+            "name": "two handed sword",
+            "chance": 1490
+        },
+        {
+            "name": "blue robe",
+            "chance": 760
+        },
+        {
+            "name": "blue gem",
+            "chance": 990
+        },
+        {
+            "name": "fur armor",
+            "chance": 950
+        },
+        {
+            "name": "green crystal shard",
+            "chance": 920
+        },
+        {
+            "name": "focus cape",
+            "chance": 80
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "glacier_forest_construct",
+    "threatDps": 75.875,
+    "burstDps": 75.875,
+    "avgHit": 137.9545,
+    "maxHit": 209,
+    "manaCost": 0
+}

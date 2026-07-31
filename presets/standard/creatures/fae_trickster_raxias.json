@@ -1,0 +1,118 @@
+{
+    "id": "fae_trickster_raxias",
+    "label": "Fae Trickster Raxias",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A fae trickster raxias.",
+    "hp": 1100,
+    "hpMax": 1100,
+    "speed": 25,
+    "level": 434,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 900,
+    "lootValue": 182.03333333333,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -5,
+        "ice": 0,
+        "energy": -10,
+        "earth": 60,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 127
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 115,
+            "target": false,
+            "effect": "me_poff",
+            "shootEffect": "ani_snowball"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 1000,
+            "chance": 12,
+            "range": 4,
+            "element": "energy",
+            "min": 0,
+            "max": 111,
+            "length": 3,
+            "spread": 3,
+            "target": false,
+            "effect": "me_poff"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 60
+        },
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 40
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "wild_water_magic",
+    "threatDps": 47.035,
+    "burstDps": 47.035,
+    "avgHit": 61.0844,
+    "maxHit": 127,
+    "manaCost": 0
+}

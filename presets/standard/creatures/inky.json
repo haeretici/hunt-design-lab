@@ -1,0 +1,146 @@
+{
+    "id": "inky",
+    "label": "Inky",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An inky.",
+    "hp": 750,
+    "hpMax": 750,
+    "speed": 120,
+    "level": 397,
+    "armor": 0,
+    "mitigation": 0.94,
+    "maxBlock": 0,
+    "exp": 700,
+    "lootValue": 0.72222222222222,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": 100,
+        "energy": -5,
+        "earth": 90,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 120,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 2,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 0,
+            "max": 67,
+            "radius": 3,
+            "target": false,
+            "effect": "me_hitarea"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 19,
+            "range": 4,
+            "element": "ice",
+            "min": 0,
+            "max": 62,
+            "radius": 3,
+            "target": false,
+            "effect": "me_icearea",
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 7,
+            "range": 4,
+            "element": "ice",
+            "min": 43,
+            "max": 67,
+            "radius": 4,
+            "target": false,
+            "effect": "me_icearea"
+        },
+        {
+            "id": "quara_constrictor_electrify_4",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 1,
+            "element": "physical",
+            "target": false,
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 12000,
+            "maxCount": 13,
+            "name": "gold coin"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "dragon_egg",
+    "threatDps": 38.3825,
+    "burstDps": 38.3825,
+    "avgHit": 53.0248,
+    "maxHit": 120,
+    "manaCost": 0
+}

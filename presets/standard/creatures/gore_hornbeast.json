@@ -1,0 +1,165 @@
+{
+    "id": "gore_hornbeast",
+    "label": "Gore Hornbeast",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A gore hornbeast.",
+    "hp": 20620,
+    "hpMax": 20620,
+    "speed": 191,
+    "level": 727,
+    "armor": 78,
+    "mitigation": 2.28,
+    "maxBlock": 0,
+    "exp": 12595,
+    "lootValue": 4355.4210526316,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -10,
+        "ice": 10,
+        "energy": 50,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 601
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 3500,
+            "chance": 20,
+            "range": 4,
+            "element": "energy",
+            "min": 271,
+            "max": 451,
+            "length": 7,
+            "spread": 0,
+            "target": false,
+            "effect": "me_energyarea"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 4100,
+            "chance": 15,
+            "range": 4,
+            "element": "physical",
+            "min": 301,
+            "max": 541,
+            "radius": 7,
+            "target": false,
+            "effect": "me_explosionarea"
+        },
+        {
+            "id": "melee_3",
+            "kind": "melee",
+            "intervalMs": 2700,
+            "chance": 35,
+            "range": 1,
+            "element": "energy",
+            "min": 301,
+            "max": 511,
+            "target": true,
+            "shootEffect": "ani_energy"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Mammal",
+        "toKill": 5000,
+        "firstUnlock": 200,
+        "secondUnlock": 2000,
+        "charmsPoints": 100,
+        "stars": 5,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "Gore Horn",
+            "chance": 36040
+        },
+        {
+            "name": "Crystal Coin",
+            "chance": 30050
+        },
+        {
+            "name": "Big Bone",
+            "chance": 5270
+        },
+        {
+            "chance": 3590,
+            "name": "dwarven ring"
+        },
+        {
+            "name": "Metal Spats",
+            "chance": 3100
+        },
+        {
+            "name": "Knight Legs",
+            "chance": 2330
+        },
+        {
+            "name": "Diamond Sceptre",
+            "chance": 2060
+        },
+        {
+            "name": "Doublet",
+            "chance": 1390
+        },
+        {
+            "name": "Hammer of Wrath",
+            "chance": 1070
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ethereal_storm_bear",
+    "threatDps": 238.9106,
+    "burstDps": 288.975,
+    "avgHit": 330.28,
+    "maxHit": 601,
+    "manaCost": 0
+}

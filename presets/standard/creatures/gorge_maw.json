@@ -1,0 +1,189 @@
+{
+    "id": "gorge_maw",
+    "label": "Gorge Maw",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A gorge maw.",
+    "hp": 3600,
+    "hpMax": 3600,
+    "speed": 150,
+    "level": 552,
+    "armor": 71,
+    "mitigation": 1.94,
+    "maxBlock": 0,
+    "exp": 2770,
+    "lootValue": 909.59662865642,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": -20,
+        "energy": 0,
+        "earth": 20,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "ranged_0",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 7,
+            "element": "earth",
+            "min": 185,
+            "max": 247,
+            "target": false,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 7,
+            "element": "earth",
+            "min": 185,
+            "max": 308,
+            "radius": 4,
+            "target": true,
+            "effect": "me_poff",
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "condition_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 21,
+            "range": 4,
+            "element": "earth",
+            "min": 247,
+            "max": 382,
+            "radius": 4,
+            "target": false,
+            "effect": "me_green_rings"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Vermin",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "ham",
+            "chance": 40080,
+            "maxCount": 4
+        },
+        {
+            "name": "diremaw brainpan",
+            "chance": 24120
+        },
+        {
+            "name": "poisonous slime",
+            "chance": 11930,
+            "maxCount": 5
+        },
+        {
+            "name": "blue crystal shard",
+            "chance": 9660
+        },
+        {
+            "name": "violet crystal shard",
+            "chance": 8180
+        },
+        {
+            "name": "green crystal shard",
+            "chance": 8030
+        },
+        {
+            "name": "onyx chip",
+            "chance": 8560,
+            "maxCount": 4
+        },
+        {
+            "name": "diremaw legs",
+            "chance": 9650,
+            "maxCount": 2
+        },
+        {
+            "name": "small enchanted emerald",
+            "chance": 2940,
+            "maxCount": 2
+        },
+        {
+            "name": "small emerald",
+            "chance": 5080,
+            "maxCount": 2
+        },
+        {
+            "name": "gold ingot",
+            "chance": 2970
+        },
+        {
+            "id": 281,
+            "chance": 3100
+        },
+        {
+            "name": "suspicious device",
+            "chance": 600
+        },
+        {
+            "name": "mycological bow",
+            "chance": 200
+        },
+        {
+            "name": "mushroom backpack",
+            "chance": 1500
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "poodle",
+    "threatDps": 90.835,
+    "burstDps": 90.835,
+    "avgHit": 255.8732,
+    "maxHit": 382,
+    "manaCost": 0
+}

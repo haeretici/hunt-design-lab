@@ -1,0 +1,142 @@
+{
+    "id": "vampire_count",
+    "label": "Vampire Count",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A vampire count.",
+    "hp": 1250,
+    "hpMax": 1250,
+    "speed": 185,
+    "level": 447,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 450,
+    "lootValue": 36.631578947368,
+    "aggro": true,
+    "resists": {
+        "physical": 60,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 100,
+        "holy": -1,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 60,
+            "max": 102
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 9,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 0,
+            "max": 226,
+            "radius": 4,
+            "target": false,
+            "effect": "me_magic_red"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 1000,
+            "chance": 25,
+            "min": 100,
+            "max": 195,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "invisible_1",
+            "kind": "invisible",
+            "intervalMs": 3000,
+            "chance": 30,
+            "durationSec": 2,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "chance": 40000,
+            "maxCount": 98,
+            "name": "gold coin"
+        },
+        {
+            "chance": 100000,
+            "name": "ring of the count"
+        },
+        {
+            "chance": 2300,
+            "name": "war hammer"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "hellfire_vampire_archer",
+    "threatDps": 50.67,
+    "burstDps": 50.67,
+    "avgHit": 85.8814,
+    "maxHit": 226,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 1,
+        "summons": [
+            {
+                "name": "Banshee",
+                "id": "banshee",
+                "chance": 50,
+                "interval": 4000,
+                "count": 1
+            }
+        ]
+    }
+}

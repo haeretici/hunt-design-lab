@@ -1,0 +1,86 @@
+{
+    "id": "enraged_squirrel",
+    "label": "Enraged Squirrel",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An enraged squirrel.",
+    "hp": 35,
+    "hpMax": 35,
+    "speed": 150,
+    "level": 91,
+    "armor": 1,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 15,
+    "lootValue": 2.2377622377622,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 2,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": true,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "element": "physical",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "min": 1,
+            "max": 27,
+            "target": true
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 2680,
+            "name": "walnut"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "enraged_squirrel",
+    "threatDps": 7,
+    "burstDps": 7,
+    "avgHit": 14,
+    "maxHit": 27,
+    "manaCost": 220
+}

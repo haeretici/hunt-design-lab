@@ -1,0 +1,111 @@
+{
+    "id": "agrestic_chicken",
+    "label": "Agrestic Chicken",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An agrestic chicken.",
+    "hp": 15,
+    "hpMax": 15,
+    "speed": 64,
+    "level": 1,
+    "armor": 1,
+    "mitigation": 0.05,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 7.3427518427518,
+    "aggro": false,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 15,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": false,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "element": "physical",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "min": 2,
+            "max": 15,
+            "target": true
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Bird",
+        "toKill": 250,
+        "firstUnlock": 10,
+        "secondUnlock": 100,
+        "charmsPoints": 5,
+        "stars": 1,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "meat",
+            "chance": 2120,
+            "maxCount": 2
+        },
+        {
+            "chance": 980,
+            "maxCount": 2,
+            "name": "egg"
+        },
+        {
+            "name": "worm",
+            "chance": 11000,
+            "maxCount": 3
+        },
+        {
+            "name": "chicken feather",
+            "chance": 19000,
+            "maxCount": 2
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "agrestic_chicken",
+    "threatDps": 4.25,
+    "burstDps": 4.25,
+    "avgHit": 8.5,
+    "maxHit": 15,
+    "manaCost": 0
+}

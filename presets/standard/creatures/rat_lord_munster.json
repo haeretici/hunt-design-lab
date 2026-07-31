@@ -1,0 +1,123 @@
+{
+    "id": "rat_lord_munster",
+    "label": "Rat Lord Munster",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A rat lord munster.",
+    "hp": 58,
+    "hpMax": 58,
+    "speed": 100,
+    "level": 141,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 35,
+    "lootValue": 13.861751152074,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 10,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": true,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 37
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 87000,
+            "name": "bone club"
+        },
+        {
+            "chance": 71000,
+            "maxCount": 22,
+            "name": "gold coin"
+        },
+        {
+            "chance": 56000,
+            "name": "cheese"
+        },
+        {
+            "chance": 51000,
+            "maxCount": 4,
+            "name": "worm"
+        },
+        {
+            "chance": 2500,
+            "maxCount": 2,
+            "name": "cookie"
+        },
+        {
+            "id": 5792,
+            "chance": 250
+        }
+    ],
+    "changeTarget": {
+        "interval": 10000,
+        "chance": 5
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "rat_lord_munster",
+    "threatDps": 9.25,
+    "burstDps": 9.25,
+    "avgHit": 18.5,
+    "maxHit": 37,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 2,
+        "summons": [
+            {
+                "name": "Rat",
+                "id": "rat",
+                "chance": 20,
+                "interval": 2000,
+                "count": 2
+            }
+        ]
+    }
+}

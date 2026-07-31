@@ -1,0 +1,158 @@
+{
+    "id": "forest_fury",
+    "label": "Forest Fury",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A forest fury.",
+    "hp": 480,
+    "hpMax": 480,
+    "speed": 110,
+    "level": 351,
+    "armor": 19,
+    "mitigation": 0.8,
+    "maxBlock": 0,
+    "exp": 330,
+    "lootValue": 39.959865175562,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -5,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 10,
+        "death": 40
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 83
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 1500,
+            "chance": 40,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 67,
+            "radius": 4,
+            "target": true,
+            "effect": "me_magic_green",
+            "shootEffect": "ani_huntingspear"
+        },
+        {
+            "id": "forest_fury_skill_reducer_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 5,
+            "element": "physical",
+            "target": false,
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Magical",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 87250,
+            "maxCount": 53
+        },
+        {
+            "name": "crossbow",
+            "chance": 2750
+        },
+        {
+            "name": "bolt",
+            "chance": 48270,
+            "maxCount": 15
+        },
+        {
+            "name": "meat",
+            "chance": 24930
+        },
+        {
+            "name": "piercing bolt",
+            "chance": 14900,
+            "maxCount": 5
+        },
+        {
+            "name": "elvish bow",
+            "chance": 90
+        },
+        {
+            "name": "small topaz",
+            "chance": 470
+        },
+        {
+            "name": "elven hoof",
+            "chance": 7030
+        },
+        {
+            "name": "venison",
+            "chance": 13210
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "storm_catacomb_devil_vanguard",
+    "threatDps": 29.6833,
+    "burstDps": 34.15,
+    "avgHit": 38.7174,
+    "maxHit": 83,
+    "manaCost": 0
+}

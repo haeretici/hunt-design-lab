@@ -1,0 +1,349 @@
+{
+    "id": "cataclysm_demon",
+    "label": "Cataclysm Demon",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A cataclysm demon.",
+    "hp": 125000,
+    "hpMax": 125000,
+    "speed": 350,
+    "level": 906,
+    "armor": 188,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 30000,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": 10,
+        "energy": 100,
+        "earth": 100,
+        "holy": 0,
+        "death": 1
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 8,
+            "range": 4,
+            "element": "death",
+            "min": 1534,
+            "max": 3642,
+            "radius": 9,
+            "target": false,
+            "effect": "me_mortarea"
+        },
+        {
+            "id": "slow_2",
+            "kind": "status",
+            "intervalMs": 1000,
+            "chance": 12,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -850,
+                "durationSec": 60
+            },
+            "radius": 6,
+            "effect": "me_poisonarea",
+            "target": false
+        },
+        {
+            "id": "strength_3",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 10,
+            "range": 4,
+            "element": "physical",
+            "min": 1150,
+            "max": 2780,
+            "radius": 5,
+            "target": false,
+            "effect": "me_hitarea"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 3000,
+            "chance": 13,
+            "range": 7,
+            "element": "fire",
+            "min": 575,
+            "max": 1534,
+            "radius": 7,
+            "target": true,
+            "effect": "me_firearea",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "area_5",
+            "kind": "area",
+            "intervalMs": 3000,
+            "chance": 8,
+            "range": 4,
+            "element": "manadrain",
+            "min": 1150,
+            "max": 1342,
+            "radius": 10,
+            "target": false,
+            "effect": "me_energyarea"
+        },
+        {
+            "id": "wave_6",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 9,
+            "range": 4,
+            "element": "energy",
+            "min": 767,
+            "max": 1534,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "condition_7",
+            "kind": "melee",
+            "intervalMs": 5000,
+            "chance": 18,
+            "range": 1,
+            "element": "earth",
+            "min": 1534,
+            "max": 1917,
+            "target": false,
+            "effect": "me_hitbypoison"
+        },
+        {
+            "id": "area_8",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 6,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 1150,
+            "max": 2300,
+            "radius": 14,
+            "target": false,
+            "effect": "me_magic_green"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 1000,
+            "chance": 15,
+            "min": 1000,
+            "max": 3000,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 8,
+            "speedChange": 480,
+            "durationSec": 6,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "fire",
+    "loot": [
+        {
+            "chance": 13500,
+            "name": "ancient amulet"
+        },
+        {
+            "chance": 19000,
+            "name": "big bone"
+        },
+        {
+            "name": "black pearl",
+            "chance": 15000,
+            "maxCount": 35
+        },
+        {
+            "name": "boots of haste",
+            "chance": 14000
+        },
+        {
+            "chance": 22500,
+            "name": "crystal ball"
+        },
+        {
+            "name": "crystal necklace",
+            "chance": 21500
+        },
+        {
+            "chance": 15500,
+            "name": "crystal ring"
+        },
+        {
+            "name": "demon shield",
+            "chance": 15500
+        },
+        {
+            "name": "devil helmet",
+            "chance": 11000
+        },
+        {
+            "name": "dragon hammer",
+            "chance": 34500
+        },
+        {
+            "chance": 13500,
+            "name": "voltaic ring"
+        },
+        {
+            "name": "fire axe",
+            "chance": 17000
+        },
+        {
+            "name": "giant sword",
+            "chance": 12500
+        },
+        {
+            "name": "platinum coin",
+            "chance": 69900,
+            "maxCount": 100
+        },
+        {
+            "name": "platinum coin",
+            "chance": 68800,
+            "maxCount": 100
+        },
+        {
+            "name": "crystal coin",
+            "chance": 47700,
+            "maxCount": 40
+        },
+        {
+            "name": "crystal coin",
+            "chance": 36600,
+            "maxCount": 15
+        },
+        {
+            "name": "gold ring",
+            "chance": 28000
+        },
+        {
+            "name": "golden legs",
+            "chance": 15000
+        },
+        {
+            "name": "giant ruby",
+            "chance": 31500
+        },
+        {
+            "name": "giant sapphire",
+            "chance": 31500
+        },
+        {
+            "name": "giant emerald",
+            "chance": 31500
+        },
+        {
+            "name": "ice rapier",
+            "chance": 27500
+        },
+        {
+            "name": "Arcane Plate Armor",
+            "chance": 13000
+        },
+        {
+            "name": "mastermind shield",
+            "chance": 17500
+        },
+        {
+            "name": "purple tome",
+            "chance": 12600
+        },
+        {
+            "name": "Celestial Band",
+            "chance": 13500
+        },
+        {
+            "name": "silver dagger",
+            "chance": 15500
+        },
+        {
+            "name": "Bone Skull Staff",
+            "chance": 25000
+        },
+        {
+            "name": "talon",
+            "chance": 14000,
+            "maxCount": 27
+        },
+        {
+            "name": "teddy bear",
+            "chance": 10500
+        },
+        {
+            "name": "thunder hammer",
+            "chance": 3500
+        },
+        {
+            "chance": 5100,
+            "name": "voodoo doll"
+        },
+        {
+            "name": "white pearl",
+            "chance": 12500,
+            "maxCount": 35
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 40
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "mist_demon_priest",
+    "threatDps": 648.1022,
+    "burstDps": 780.74,
+    "avgHit": 1795.2969,
+    "maxHit": 3642,
+    "manaCost": 0
+}

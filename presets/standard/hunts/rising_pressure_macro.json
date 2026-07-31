@@ -1,0 +1,83 @@
+{
+    "id": "rising_pressure_macro",
+    "label": "Rising Pressure Macro (early → mid → late)",
+    "notes": "docs/24 I5 / docs/22 A5b — multi-biome pressure story. Three segments with rising threat bands: cave_trash_low (L1–150) + cave_simple → cave_mid_mixed (L200–400) + ice_simple → crypt_pressure_high (L450–650) + crypt art. Watcher should name early/mid/late without JSON. defaultPartyId rising_pressure_duo (L90 duo — hops stairs; quartets often stall on early floor occupancy). starter_duo wipes on mid ice (pressure A/B). pacingBudget evaluates macro transitions + mid-loop champion tags. noAttackTimeoutSec is a liveness guard for true post-combat stalls — must stay long enough for empty inter-floor waypoint walks after an early floor clear (20s was too short and aborted before z0→z1).",
+    "layout": {
+        "type": "multi_biome",
+        "segments": [
+            {
+                "biomeId": "cave",
+                "label": "early",
+                "role": "early",
+                "targetMinSec": 900,
+                "populationId": "cave_trash_low",
+                "artSet": "cave_simple",
+                "floors": [
+                    {
+                        "profileId": "small_crawl",
+                        "role": "early_entrance"
+                    }
+                ]
+            },
+            {
+                "biomeId": "ice",
+                "label": "mid",
+                "role": "mid",
+                "targetMinSec": 900,
+                "populationId": "cave_mid_mixed",
+                "artSet": "ice_simple",
+                "floors": [
+                    {
+                        "profileId": "small_crawl",
+                        "role": "mid_ice"
+                    }
+                ]
+            },
+            {
+                "biomeId": "crypt",
+                "label": "late",
+                "role": "late",
+                "targetMinSec": 900,
+                "populationId": "crypt_pressure_high",
+                "artSet": "crypt",
+                "floors": [
+                    {
+                        "profileId": "small_crawl",
+                        "role": "late_crypt"
+                    }
+                ]
+            }
+        ]
+    },
+    "defaultPartyId": "rising_pressure_duo",
+    "pacingBudget": {
+        "id": "rising_pressure_macro",
+        "micro": {
+            "targetGapSec": 20,
+            "warnGapSec": 120,
+            "maxGapSec": 300
+        },
+        "mid": {
+            "minKills": 1,
+            "maxKills": 120,
+            "minChampions": 0,
+            "maxChampions": 40
+        },
+        "session": {
+            "minTimeSec": 0,
+            "maxTimeSec": 3600
+        },
+        "macro": {
+            "targetSegmentSec": 900,
+            "warnSegmentSec": 1500,
+            "minTransitions": 2,
+            "minBiomes": 3,
+            "minArtSets": 3
+        }
+    },
+    "limits": {
+        "maxSeconds": 180,
+        "maxFrames": 3600,
+        "noAttackTimeoutSec": 60
+    }
+}

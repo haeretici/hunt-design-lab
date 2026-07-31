@@ -1,0 +1,103 @@
+{
+    "id": "animated_skunk",
+    "label": "Animated Skunk",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An animated skunk.",
+    "hp": 20,
+    "hpMax": 20,
+    "speed": 60,
+    "level": 35,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 3,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 8,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 19
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 1,
+            "element": "earth",
+            "min": 4,
+            "max": 11,
+            "target": true
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "bulb of garlic",
+            "chance": 4910
+        },
+        {
+            "name": "skunk tail",
+            "chance": 920
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "animated_skunk",
+    "threatDps": 5.125,
+    "burstDps": 5.125,
+    "avgHit": 9.3182,
+    "maxHit": 19,
+    "manaCost": 0
+}

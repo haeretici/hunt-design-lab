@@ -1,0 +1,265 @@
+{
+    "id": "abyssal_devourer",
+    "label": "Abyssal Devourer",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An abyssal devourer.",
+    "hp": 1,
+    "hpMax": 1,
+    "speed": 250,
+    "level": 1000,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 3250000,
+    "lootValue": 1222633.3333333,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 98,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 1500,
+            "max": 2500
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 3000,
+            "chance": 20,
+            "range": 4,
+            "element": "fire",
+            "min": 500,
+            "max": 1000,
+            "length": 10,
+            "spread": 3,
+            "target": false,
+            "effect": "244"
+        },
+        {
+            "id": "slow_2",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -600,
+                "durationSec": 15
+            },
+            "radius": 7,
+            "effect": "me_magic_red",
+            "target": false
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "ice",
+            "min": 300,
+            "max": 700,
+            "radius": 5,
+            "target": false,
+            "effect": "243"
+        },
+        {
+            "id": "wave_4",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "death",
+            "min": 500,
+            "max": 800,
+            "length": 10,
+            "spread": 3,
+            "target": false,
+            "effect": "me_explosionhit"
+        },
+        {
+            "id": "wave_5",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "fire",
+            "min": 500,
+            "max": 800,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_fireattack"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 3000,
+            "chance": 10,
+            "min": 800,
+            "max": 1500,
+            "hpBelow": 0.7,
+            "effect": "236"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "name": "crystal coin",
+            "chance": 8852,
+            "maxCount": 125
+        },
+        {
+            "name": "ultimate mana potion",
+            "chance": 11337,
+            "maxCount": 211
+        },
+        {
+            "name": "giant emerald",
+            "chance": 6423,
+            "maxCount": 1
+        },
+        {
+            "name": "supreme health potion",
+            "chance": 8385,
+            "maxCount": 179
+        },
+        {
+            "name": "yellow gem",
+            "chance": 8604,
+            "maxCount": 5
+        },
+        {
+            "name": "berserk potion",
+            "chance": 9395,
+            "maxCount": 45
+        },
+        {
+            "name": "blue gem",
+            "chance": 14144,
+            "maxCount": 5
+        },
+        {
+            "name": "green gem",
+            "chance": 6221,
+            "maxCount": 4
+        },
+        {
+            "name": "marksman potion",
+            "chance": 6530,
+            "maxCount": 26
+        },
+        {
+            "name": "savant potion",
+            "chance": 5700,
+            "maxCount": 44
+        },
+        {
+            "name": "ultimate dual potion",
+            "chance": 9216,
+            "maxCount": 25
+        },
+        {
+            "name": "giant topaz",
+            "chance": 11191,
+            "maxCount": 1
+        },
+        {
+            "name": "giant amethyst",
+            "chance": 8527,
+            "maxCount": 1
+        },
+        {
+            "name": "gold ingot",
+            "chance": 10866,
+            "maxCount": 1
+        },
+        {
+            "chance": 8945,
+            "maxCount": 1,
+            "name": "red gem"
+        },
+        {
+            "name": "dragon figurine",
+            "chance": 11502,
+            "maxCount": 1
+        },
+        {
+            "name": "raw watermelon tourmaline",
+            "chance": 9302,
+            "maxCount": 1
+        },
+        {
+            "name": "vemiath's infused basalt",
+            "chance": 7914,
+            "maxCount": 1
+        },
+        {
+            "name": "violet gem",
+            "chance": 7210,
+            "maxCount": 1
+        }
+    ],
+    "changeTarget": {
+        "interval": 10000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ashen_goblin_devourer",
+    "threatDps": 1217.5,
+    "burstDps": 1242.5,
+    "avgHit": 1446.5347,
+    "maxHit": 2500,
+    "manaCost": 0
+}

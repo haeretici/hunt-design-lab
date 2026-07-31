@@ -1,0 +1,175 @@
+{
+    "id": "hellhound_fluffy",
+    "label": "Hellhound Fluffy",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A hellhound fluffy.",
+    "hp": 4500,
+    "hpMax": 4500,
+    "speed": 155,
+    "level": 576,
+    "armor": 25,
+    "mitigation": 2.25,
+    "maxBlock": 0,
+    "exp": 3550,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 1500,
+            "chance": 100,
+            "range": 4,
+            "element": "energy",
+            "min": 26,
+            "max": 53,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_loseenergy"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 1000,
+            "chance": 100,
+            "range": 4,
+            "element": "earth",
+            "min": 32,
+            "max": 79,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_poisonarea"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 25,
+            "range": 7,
+            "element": "physical",
+            "min": 28,
+            "max": 62,
+            "target": false,
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 20,
+            "range": 7,
+            "element": "earth",
+            "min": 35,
+            "max": 67,
+            "radius": 6,
+            "target": false,
+            "effect": "me_loseenergy"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 100,
+            "name": "gold coin"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 20,
+            "name": "gold coin"
+        },
+        {
+            "chance": 5555,
+            "name": "soul orb"
+        },
+        {
+            "id": 6570,
+            "chance": 5538,
+            "maxCount": 4
+        },
+        {
+            "id": 6571,
+            "chance": 1538
+        },
+        {
+            "chance": 50000,
+            "maxCount": 8,
+            "name": "ham"
+        },
+        {
+            "chance": 25000,
+            "name": "bone"
+        },
+        {
+            "chance": 7200,
+            "name": "demonic essence"
+        },
+        {
+            "chance": 2857,
+            "name": "knight axe"
+        },
+        {
+            "chance": 2500,
+            "name": "spike sword"
+        },
+        {
+            "chance": 8888,
+            "name": "flask of demonic blood"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "storm_wolf_rager",
+    "threatDps": 103.2833,
+    "burstDps": 116.45,
+    "avgHit": 48.7953,
+    "maxHit": 79,
+    "manaCost": 0
+}

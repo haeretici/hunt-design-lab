@@ -1,0 +1,158 @@
+{
+    "id": "cave_spider",
+    "label": "Cave Spider",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A cave spider.",
+    "hp": 1800,
+    "hpMax": 1800,
+    "speed": 60,
+    "level": 484,
+    "armor": 0,
+    "mitigation": 1.04,
+    "maxBlock": 0,
+    "exp": 2000,
+    "lootValue": 343.15384615385,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -30,
+        "ice": 0,
+        "energy": 0,
+        "earth": 100,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 118,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 63,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "poisonfield_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "radius": 1,
+            "target": true,
+            "shootEffect": "ani_poison",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "earth",
+            "min": 16,
+            "max": 27,
+            "radius": 1,
+            "target": true,
+            "shootEffect": "ani_poison"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 390,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "venom",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 99990,
+            "maxCount": 76
+        },
+        {
+            "name": "strong health potion",
+            "chance": 50000
+        },
+        {
+            "name": "small diamond",
+            "chance": 50000,
+            "maxCount": 3
+        },
+        {
+            "name": "black pearl",
+            "chance": 16670
+        },
+        {
+            "name": "spider silk",
+            "chance": 16670
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "cave_spider",
+    "threatDps": 62.075,
+    "burstDps": 62.075,
+    "avgHit": 55.5909,
+    "maxHit": 118,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 2,
+        "summons": [
+            {
+                "name": "Poison Spider",
+                "id": "poison_spider",
+                "chance": 10,
+                "interval": 2000,
+                "count": 2
+            }
+        ]
+    }
+}

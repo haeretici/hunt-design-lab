@@ -1,0 +1,174 @@
+{
+    "id": "putrid_mummy",
+    "label": "Putrid Mummy",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A putrid mummy.",
+    "hp": 1500,
+    "hpMax": 1500,
+    "speed": 85,
+    "level": 465,
+    "armor": 40,
+    "mitigation": 0.91,
+    "maxBlock": 0,
+    "exp": 900,
+    "lootValue": 392.27694859038,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -20,
+        "ice": 20,
+        "energy": 0,
+        "earth": 100,
+        "holy": -25,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 192
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 1,
+            "element": "earth",
+            "min": 64,
+            "max": 96,
+            "target": true,
+            "effect": "me_carniphila",
+            "shootEffect": "ani_earth"
+        },
+        {
+            "id": "slow_2",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -226,
+                "durationSec": 10
+            },
+            "effect": "me_mortarea",
+            "target": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 100,
+            "max": 150,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 60870,
+            "maxCount": 62
+        },
+        {
+            "chance": 3840,
+            "name": "pharaoh banner"
+        },
+        {
+            "name": "black pearl",
+            "chance": 1280
+        },
+        {
+            "name": "little bowl of myrrh",
+            "chance": 13550
+        },
+        {
+            "name": "single human eye",
+            "chance": 8950
+        },
+        {
+            "name": "green gem",
+            "chance": 3070
+        },
+        {
+            "name": "green bandage",
+            "chance": 1100
+        },
+        {
+            "name": "scarab coin",
+            "chance": 8180,
+            "maxCount": 3
+        },
+        {
+            "name": "poison dagger",
+            "chance": 1530
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "warp_tomb_drake",
+    "threatDps": 56,
+    "burstDps": 56,
+    "avgHit": 93.3333,
+    "maxHit": 192,
+    "manaCost": 0
+}

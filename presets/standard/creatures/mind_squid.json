@@ -1,0 +1,240 @@
+{
+    "id": "mind_squid",
+    "label": "Mind Squid",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A mind squid.",
+    "hp": 18000,
+    "hpMax": 18000,
+    "speed": 215,
+    "level": 713,
+    "armor": 78,
+    "mitigation": 2.16,
+    "maxBlock": 0,
+    "exp": 17672,
+    "lootValue": 2100,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 100,
+        "earth": 0,
+        "holy": 100,
+        "death": -14
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 180,
+            "max": 360
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "energy",
+            "min": 360,
+            "max": 846,
+            "target": false,
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 13,
+            "range": 4,
+            "element": "energy",
+            "min": 360,
+            "max": 909,
+            "radius": 3,
+            "target": false,
+            "effect": "me_energyarea"
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Magical",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "violet crystal shard",
+            "chance": 900,
+            "maxCount": 4
+        },
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 12
+        },
+        {
+            "name": "glowing rune",
+            "chance": 900,
+            "maxCount": 4
+        },
+        {
+            "name": "instable proto matter",
+            "chance": 1200,
+            "maxCount": 4
+        },
+        {
+            "name": "energy ball",
+            "chance": 1200,
+            "maxCount": 4
+        },
+        {
+            "name": "energy bar",
+            "chance": 1200,
+            "maxCount": 4
+        },
+        {
+            "name": "energy drink",
+            "chance": 1200,
+            "maxCount": 4
+        },
+        {
+            "name": "odd organ",
+            "chance": 1200,
+            "maxCount": 4
+        },
+        {
+            "name": "frozen lightning",
+            "chance": 1200,
+            "maxCount": 4
+        },
+        {
+            "chance": 1200,
+            "maxCount": 3,
+            "name": "inkwell"
+        },
+        {
+            "name": "small ruby",
+            "chance": 1200,
+            "maxCount": 4
+        },
+        {
+            "name": "violet gem",
+            "chance": 1200,
+            "maxCount": 4
+        },
+        {
+            "name": "blue crystal splinter",
+            "chance": 1200,
+            "maxCount": 4
+        },
+        {
+            "name": "cyan crystal fragment",
+            "chance": 1200,
+            "maxCount": 4
+        },
+        {
+            "name": "ultimate mana potion",
+            "chance": 1200,
+            "maxCount": 4
+        },
+        {
+            "name": "piece of dead brain",
+            "chance": 1200,
+            "maxCount": 4
+        },
+        {
+            "name": "wand of defiance",
+            "chance": 800
+        },
+        {
+            "name": "Stormbound Headband",
+            "chance": 950
+        },
+        {
+            "name": "Stormbound Pendant",
+            "chance": 850
+        },
+        {
+            "name": "might ring",
+            "chance": 1300
+        },
+        {
+            "name": "slime heart",
+            "chance": 1200,
+            "maxCount": 4
+        },
+        {
+            "chance": 560,
+            "name": "collar of red plasma"
+        },
+        {
+            "chance": 560,
+            "name": "collar of blue plasma"
+        },
+        {
+            "chance": 560,
+            "name": "collar of green plasma"
+        },
+        {
+            "chance": 560,
+            "name": "ring of red plasma"
+        },
+        {
+            "chance": 560,
+            "name": "ring of blue plasma"
+        },
+        {
+            "chance": 560,
+            "name": "ring of green plasma"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "organic_matter",
+    "threatDps": 221.4675,
+    "burstDps": 221.4675,
+    "avgHit": 346.043,
+    "maxHit": 909,
+    "manaCost": 0
+}

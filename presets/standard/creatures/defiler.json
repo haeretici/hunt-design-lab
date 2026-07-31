@@ -1,0 +1,257 @@
+{
+    "id": "defiler",
+    "label": "Defiler",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A defiler.",
+    "hp": 3650,
+    "hpMax": 3650,
+    "speed": 80,
+    "level": 553,
+    "armor": 60,
+    "mitigation": 1.32,
+    "maxBlock": 0,
+    "exp": 3700,
+    "lootValue": 751.94713277079,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -25,
+        "ice": 20,
+        "energy": 10,
+        "earth": 100,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 85,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 89,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 55,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "earth",
+            "min": 59,
+            "max": 100,
+            "target": false,
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "condition_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "earth",
+            "min": 148,
+            "max": 237,
+            "radius": 7,
+            "target": false,
+            "effect": "me_hitbypoison"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "earth",
+            "min": 44,
+            "max": 63,
+            "radius": 3,
+            "target": false,
+            "effect": "me_poisonarea"
+        },
+        {
+            "id": "condition_4",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "earth",
+            "min": 185,
+            "max": 370,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_smallplants"
+        },
+        {
+            "id": "slow_5",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 8,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -700,
+                "durationSec": 15
+            },
+            "length": 8,
+            "spread": 3,
+            "effect": "me_smallclouds",
+            "target": false
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 280,
+            "max": 350,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Slime",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "small diamond",
+            "chance": 2439,
+            "maxCount": 2
+        },
+        {
+            "name": "small ruby",
+            "chance": 3000,
+            "maxCount": 2
+        },
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 72
+        },
+        {
+            "name": "small emerald",
+            "chance": 5366,
+            "maxCount": 3
+        },
+        {
+            "name": "talon",
+            "chance": 5710
+        },
+        {
+            "name": "platinum coin",
+            "chance": 95000,
+            "maxCount": 6
+        },
+        {
+            "name": "yellow gem",
+            "chance": 1219
+        },
+        {
+            "name": "green gem",
+            "chance": 613
+        },
+        {
+            "chance": 1538,
+            "name": "red gem"
+        },
+        {
+            "name": "blue gem",
+            "chance": 300
+        },
+        {
+            "name": "soul orb",
+            "chance": 20000
+        },
+        {
+            "chance": 3030,
+            "name": "death ring"
+        },
+        {
+            "name": "demonic essence",
+            "chance": 20320
+        },
+        {
+            "name": "glob of acid slime",
+            "chance": 14210
+        },
+        {
+            "name": "glob of tar",
+            "chance": 12000
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "dread_phoenix_ranger",
+    "threatDps": 91.3625,
+    "burstDps": 91.3625,
+    "avgHit": 77.4091,
+    "maxHit": 370,
+    "manaCost": 0
+}

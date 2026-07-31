@@ -1,0 +1,220 @@
+{
+    "id": "tribal_war_chief",
+    "label": "Tribal War Chief",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A tribal war chief.",
+    "hp": 9000,
+    "hpMax": 9000,
+    "speed": 350,
+    "level": 644,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 17500,
+    "lootValue": 9384.8639455782,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 5,
+        "ice": 0,
+        "energy": 5,
+        "earth": 100,
+        "holy": 0,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 1700,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 179,
+            "effect": "244"
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 1,
+            "element": "earth",
+            "min": 137,
+            "max": 166,
+            "radius": 0,
+            "target": true,
+            "effect": "me_greensmoke"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 40,
+            "range": 4,
+            "element": "fire",
+            "min": 157,
+            "max": 196,
+            "length": 5,
+            "spread": 0,
+            "target": false,
+            "effect": "216"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 4,
+            "element": "earth",
+            "min": 163,
+            "max": 224,
+            "radius": 2,
+            "target": false,
+            "effect": "me_stone_storm"
+        },
+        {
+            "id": "boulder_ring_4",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 1,
+            "element": "physical",
+            "min": 181,
+            "max": 196
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 100
+        },
+        {
+            "name": "the living idol of tukh",
+            "chance": 100000
+        },
+        {
+            "name": "rotten feather",
+            "chance": 50000
+        },
+        {
+            "name": "great health potion",
+            "chance": 40000,
+            "maxCount": 5
+        },
+        {
+            "name": "great dual potion",
+            "chance": 25530,
+            "maxCount": 1
+        },
+        {
+            "name": "great mana potion",
+            "chance": 34040,
+            "maxCount": 5
+        },
+        {
+            "name": "ritual tooth",
+            "chance": 32980
+        },
+        {
+            "name": "diamond",
+            "chance": 5320,
+            "maxCount": 8
+        },
+        {
+            "name": "amber with a bug",
+            "chance": 3190
+        },
+        {
+            "name": "amber",
+            "chance": 5320
+        },
+        {
+            "chance": 3500,
+            "name": "ring of red plasma"
+        },
+        {
+            "chance": 3500,
+            "name": "ring of green plasma"
+        },
+        {
+            "chance": 3500,
+            "name": "ring of blue plasma"
+        },
+        {
+            "chance": 3500,
+            "name": "collar of red plasma"
+        },
+        {
+            "chance": 3500,
+            "name": "collar of blue plasma"
+        },
+        {
+            "chance": 3500,
+            "name": "collar of green plasma"
+        },
+        {
+            "name": "broken iks headpiece",
+            "chance": 1000
+        },
+        {
+            "name": "broken macuahuitl",
+            "chance": 1000
+        },
+        {
+            "name": "broken iks faulds",
+            "chance": 1000
+        },
+        {
+            "name": "broken iks cuirass",
+            "chance": 1000
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "frost_imp_minion",
+    "threatDps": 150.9721,
+    "burstDps": 187.825,
+    "avgHit": 132.637,
+    "maxHit": 224,
+    "manaCost": 0
+}

@@ -1,0 +1,96 @@
+{
+    "id": "shard_of_corruption",
+    "label": "Shard Of Corruption",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A shard of corruption.",
+    "hp": 600,
+    "hpMax": 600,
+    "speed": 90,
+    "level": 374,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 5,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 60,
+        "fire": 30,
+        "ice": 15,
+        "energy": 25,
+        "earth": 100,
+        "holy": 0,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 125
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "earth",
+            "min": 0,
+            "max": 96,
+            "target": true,
+            "effect": "me_green_rings",
+            "shootEffect": "ani_smallearth"
+        }
+    ],
+    "race": "undead",
+    "loot": [],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ashen_goblin_devourer",
+    "threatDps": 33.65,
+    "burstDps": 33.65,
+    "avgHit": 61.1818,
+    "maxHit": 125,
+    "manaCost": 0
+}

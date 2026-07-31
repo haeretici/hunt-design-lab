@@ -1,0 +1,208 @@
+{
+    "id": "sun_court_spy_neferi",
+    "label": "Sun Court Spy Neferi",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A sun court spy neferi.",
+    "hp": 28000,
+    "hpMax": 28000,
+    "speed": 115,
+    "level": 757,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 19650,
+    "lootValue": 8487.8099173554,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": -10,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 91,
+            "max": 212
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 60,
+            "range": 4,
+            "element": "earth",
+            "min": 424,
+            "max": 666,
+            "radius": 3,
+            "target": false,
+            "effect": "me_smallplants"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 5,
+            "element": "death",
+            "min": 393,
+            "max": 484,
+            "radius": 3,
+            "target": true,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_suddendeath"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "crystal coin",
+            "chance": 4366,
+            "maxCount": 1
+        },
+        {
+            "name": "Earthbound Rod",
+            "chance": 2276
+        },
+        {
+            "name": "dagger",
+            "chance": 1791
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 1119,
+            "maxCount": 4
+        },
+        {
+            "name": "gold ingot",
+            "chance": 1045,
+            "maxCount": 1
+        },
+        {
+            "name": "great dual potion",
+            "chance": 784,
+            "maxCount": 2
+        },
+        {
+            "name": "fire sword",
+            "chance": 746
+        },
+        {
+            "name": "Earthbound Boots",
+            "chance": 522
+        },
+        {
+            "name": "Hailburst Rod",
+            "chance": 485
+        },
+        {
+            "name": "Stormbound Headband",
+            "chance": 410
+        },
+        {
+            "name": "Earthbound Hood",
+            "chance": 373
+        },
+        {
+            "name": "knight axe",
+            "chance": 336
+        },
+        {
+            "name": "Stormbound Legs",
+            "chance": 336
+        },
+        {
+            "chance": 299,
+            "name": "ring of red plasma"
+        },
+        {
+            "name": "spellbook of warding",
+            "chance": 261
+        },
+        {
+            "name": "Frostbound Shoes",
+            "chance": 224
+        },
+        {
+            "name": "knight armor",
+            "chance": 224
+        },
+        {
+            "name": "eye-embroidered veil",
+            "chance": 187
+        },
+        {
+            "name": "violet crystal shard",
+            "chance": 187
+        },
+        {
+            "name": "Frostbound Mask",
+            "chance": 149
+        },
+        {
+            "name": "sea horse figurine",
+            "chance": 149
+        },
+        {
+            "chance": 149,
+            "name": "stealth ring"
+        },
+        {
+            "name": "violet gem",
+            "chance": 149
+        },
+        {
+            "name": "golden mask",
+            "chance": 75
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "feral_ogre_weaver",
+    "threatDps": 283.1,
+    "burstDps": 283.1,
+    "avgHit": 314.5556,
+    "maxHit": 666,
+    "manaCost": 0
+}

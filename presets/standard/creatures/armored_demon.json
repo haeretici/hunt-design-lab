@@ -1,0 +1,230 @@
+{
+    "id": "armored_demon",
+    "label": "Armored Demon",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An armored demon.",
+    "hp": 25000,
+    "hpMax": 25000,
+    "speed": 220,
+    "level": 746,
+    "armor": 100,
+    "mitigation": 2.75,
+    "maxBlock": 0,
+    "exp": 15770,
+    "lootValue": 6817.9463741621,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 30,
+        "ice": -25,
+        "energy": 0,
+        "earth": 0,
+        "holy": -35,
+        "death": 50
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 383
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 24,
+            "range": 4,
+            "element": "fire",
+            "min": 444,
+            "max": 626,
+            "radius": 4,
+            "target": false,
+            "effect": "me_explosionarea"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 22,
+            "range": 4,
+            "element": "death",
+            "min": 363,
+            "max": 517,
+            "radius": 4,
+            "target": false,
+            "effect": "me_explosionhit"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "death",
+            "min": 464,
+            "max": 589,
+            "target": true,
+            "effect": "ani_suddendeath"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "death",
+            "min": 383,
+            "max": 444,
+            "radius": 4,
+            "target": true,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_suddendeath"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Demon",
+        "toKill": 5000,
+        "firstUnlock": 200,
+        "secondUnlock": 2000,
+        "charmsPoints": 100,
+        "stars": 5,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "crystal coin",
+            "chance": 58990
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 29110,
+            "maxCount": 4
+        },
+        {
+            "chance": 5490,
+            "name": "hand"
+        },
+        {
+            "chance": 3710,
+            "name": "head"
+        },
+        {
+            "name": "epee",
+            "chance": 3290
+        },
+        {
+            "name": "crystal mace",
+            "chance": 1690
+        },
+        {
+            "name": "noble axe",
+            "chance": 1600
+        },
+        {
+            "name": "spellbook of mind control",
+            "chance": 1180
+        },
+        {
+            "name": "Bone Skull Staff",
+            "chance": 930
+        },
+        {
+            "chance": 930,
+            "name": "ring of green plasma"
+        },
+        {
+            "name": "royal helmet",
+            "chance": 840
+        },
+        {
+            "name": "jade hammer",
+            "chance": 840
+        },
+        {
+            "name": "metal bat",
+            "chance": 760
+        },
+        {
+            "name": "diabolic skull",
+            "chance": 590
+        },
+        {
+            "name": "fire axe",
+            "chance": 590
+        },
+        {
+            "name": "crystalline sword",
+            "chance": 420
+        },
+        {
+            "name": "butcher's axe",
+            "chance": 420
+        },
+        {
+            "name": "mastermind shield",
+            "chance": 420
+        },
+        {
+            "name": "assassin dagger",
+            "chance": 340
+        },
+        {
+            "name": "alloy legs",
+            "chance": 170
+        },
+        {
+            "name": "bag you desire",
+            "chance": 15
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "mist_demon_priest",
+    "threatDps": 265.6875,
+    "burstDps": 265.6875,
+    "avgHit": 310.7456,
+    "maxHit": 626,
+    "manaCost": 0
+}

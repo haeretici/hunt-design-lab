@@ -1,0 +1,238 @@
+{
+    "id": "minotaur_amazon",
+    "label": "Minotaur Amazon",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A minotaur amazon.",
+    "hp": 2600,
+    "hpMax": 2600,
+    "speed": 125,
+    "level": 520,
+    "armor": 37,
+    "mitigation": 1.18,
+    "maxBlock": 0,
+    "exp": 2200,
+    "lootValue": 678.17791201276,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -5,
+        "ice": 5,
+        "energy": -10,
+        "earth": 0,
+        "holy": 10,
+        "death": 10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 240,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "manadrain",
+            "min": 40,
+            "max": 243,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 16,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 40,
+            "max": 120,
+            "radius": 4,
+            "target": false,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 22,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 120,
+            "target": false,
+            "effect": "me_explosionarea",
+            "shootEffect": "ani_huntingspear"
+        },
+        {
+            "id": "condition_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 40,
+            "range": 4,
+            "element": "physical",
+            "min": 239,
+            "max": 319,
+            "radius": 4,
+            "target": true,
+            "effect": "me_drawblood",
+            "shootEffect": "ani_throwingknife"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 3040,
+            "maxCount": 5,
+            "name": "assassin star"
+        },
+        {
+            "chance": 19830,
+            "name": "cowbell"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 196,
+            "name": "gold coin"
+        },
+        {
+            "chance": 60780,
+            "name": "ham"
+        },
+        {
+            "chance": 4920,
+            "name": "meat"
+        },
+        {
+            "chance": 62080,
+            "maxCount": 3,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 290,
+            "name": "gold ingot"
+        },
+        {
+            "chance": 17950,
+            "name": "minotaur leather"
+        },
+        {
+            "chance": 7670,
+            "name": "great health potion"
+        },
+        {
+            "chance": 7380,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 6800,
+            "maxCount": 2,
+            "name": "minotaur horn"
+        },
+        {
+            "chance": 3040,
+            "name": "ring of healing"
+        },
+        {
+            "chance": 5500,
+            "maxCount": 2,
+            "name": "small ruby"
+        },
+        {
+            "chance": 900,
+            "maxCount": 2,
+            "name": "small topaz"
+        },
+        {
+            "chance": 970,
+            "maxCount": 2,
+            "name": "small amethyst"
+        },
+        {
+            "chance": 4050,
+            "maxCount": 2,
+            "name": "small emerald"
+        },
+        {
+            "chance": 3040,
+            "name": "mino shield"
+        },
+        {
+            "chance": 1740,
+            "name": "mino lance"
+        },
+        {
+            "chance": 710,
+            "name": "red piece of cloth"
+        },
+        {
+            "chance": 430,
+            "name": "red gem"
+        },
+        {
+            "chance": 850,
+            "name": "Stonehide Amulet"
+        },
+        {
+            "chance": 870,
+            "name": "yellow gem"
+        },
+        {
+            "chance": 1160,
+            "name": "warrior helmet"
+        },
+        {
+            "chance": 720,
+            "name": "marksman potion"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 11
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "lunar_minotaur_vanguard",
+    "threatDps": 75.875,
+    "burstDps": 75.875,
+    "avgHit": 172.4432,
+    "maxHit": 319,
+    "manaCost": 0
+}

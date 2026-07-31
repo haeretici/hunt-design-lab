@@ -1,0 +1,231 @@
+{
+    "id": "hydra",
+    "label": "Hydra",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A hydra.",
+    "hp": 2350,
+    "hpMax": 2350,
+    "speed": 180,
+    "level": 510,
+    "armor": 27,
+    "mitigation": 1.18,
+    "maxBlock": 0,
+    "exp": 2100,
+    "lootValue": 396.18680445151,
+    "aggro": true,
+    "resists": {
+        "physical": -5,
+        "fire": 0,
+        "ice": 50,
+        "energy": -10,
+        "earth": 100,
+        "holy": 30,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 300,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 211
+        },
+        {
+            "id": "slow_1",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -700,
+                "durationSec": 15
+            },
+            "radius": 4,
+            "effect": "me_green_rings",
+            "target": true
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "ice",
+            "min": 78,
+            "max": 195,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_loseenergy"
+        },
+        {
+            "id": "melee_3",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 1,
+            "element": "ice",
+            "min": 63,
+            "max": 121,
+            "target": true,
+            "shootEffect": "ani_smallice"
+        },
+        {
+            "id": "wave_4",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "earth",
+            "min": 52,
+            "max": 250,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_carniphila"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 25,
+            "min": 260,
+            "max": 407,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Dragon",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 87970,
+            "maxCount": 212
+        },
+        {
+            "name": "ham",
+            "chance": 59510,
+            "maxCount": 3
+        },
+        {
+            "name": "platinum coin",
+            "chance": 49910,
+            "maxCount": 3
+        },
+        {
+            "name": "hydra head",
+            "chance": 10820
+        },
+        {
+            "name": "cucumber",
+            "chance": 6900
+        },
+        {
+            "name": "small sapphire",
+            "chance": 3920
+        },
+        {
+            "name": "warrior helmet",
+            "chance": 1310
+        },
+        {
+            "name": "knight armor",
+            "chance": 1120
+        },
+        {
+            "name": "life crystal",
+            "chance": 930
+        },
+        {
+            "chance": 840,
+            "name": "ring of healing"
+        },
+        {
+            "name": "hydra egg",
+            "chance": 840
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 840
+        },
+        {
+            "name": "Stonehide Amulet",
+            "chance": 750
+        },
+        {
+            "name": "boots of haste",
+            "chance": 190
+        },
+        {
+            "name": "Gorgon Shield",
+            "chance": 190
+        },
+        {
+            "name": "royal helmet",
+            "chance": 90
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "sanguine_crypt_drake_vanguard",
+    "threatDps": 71.725,
+    "burstDps": 71.725,
+    "avgHit": 110.3462,
+    "maxHit": 250,
+    "manaCost": 0
+}

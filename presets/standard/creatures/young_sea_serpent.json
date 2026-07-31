@@ -1,0 +1,206 @@
+{
+    "id": "young_sea_serpent",
+    "label": "Young Sea Serpent",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A young sea serpent.",
+    "hp": 1050,
+    "hpMax": 1050,
+    "speed": 240,
+    "level": 430,
+    "armor": 20,
+    "mitigation": 0.78,
+    "maxBlock": 0,
+    "exp": 1000,
+    "lootValue": 149.15744431419,
+    "aggro": true,
+    "resists": {
+        "physical": -20,
+        "fire": 30,
+        "ice": 100,
+        "energy": -10,
+        "earth": -5,
+        "holy": 0,
+        "death": -14
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 400,
+        "staticAttackChance": 85,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 142
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "earth",
+            "min": 7,
+            "max": 177,
+            "length": 7,
+            "spread": 2,
+            "target": false,
+            "effect": "me_smallplants"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "ice",
+            "min": 57,
+            "max": 177,
+            "length": 7,
+            "spread": 2,
+            "target": false,
+            "effect": "me_iceattack"
+        },
+        {
+            "id": "young_sea_serpent_drown_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 5,
+            "element": "physical",
+            "target": false,
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 30,
+            "min": 25,
+            "max": 175,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 400,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Reptile",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "small sapphire",
+            "chance": 1900,
+            "maxCount": 2
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 48000,
+            "maxCount": 74
+        },
+        {
+            "chance": 1000,
+            "name": "stealth ring"
+        },
+        {
+            "name": "life crystal",
+            "chance": 300
+        },
+        {
+            "name": "battle axe",
+            "chance": 8000
+        },
+        {
+            "name": "morning star",
+            "chance": 40000
+        },
+        {
+            "name": "battle hammer",
+            "chance": 5000
+        },
+        {
+            "name": "strong health potion",
+            "chance": 5000
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 4000
+        },
+        {
+            "chance": 7940,
+            "name": "heavily rusted armor"
+        },
+        {
+            "chance": 7940,
+            "name": "rusted armor"
+        },
+        {
+            "name": "sea serpent scale",
+            "chance": 5000
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "tempest_serpent_berserker",
+    "threatDps": 45.95,
+    "burstDps": 45.95,
+    "avgHit": 76.5833,
+    "maxHit": 177,
+    "manaCost": 0
+}

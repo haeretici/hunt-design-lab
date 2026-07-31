@@ -1,0 +1,144 @@
+{
+    "id": "amazon",
+    "label": "Amazon",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An amazon.",
+    "hp": 110,
+    "hpMax": 110,
+    "speed": 86,
+    "level": 203,
+    "armor": 10,
+    "mitigation": 0.28,
+    "maxBlock": 0,
+    "exp": 60,
+    "lootValue": 15.996134349586,
+    "aggro": true,
+    "resists": {
+        "physical": -5,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": -5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": true,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 46
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 5,
+            "element": "physical",
+            "min": 0,
+            "max": 41,
+            "target": false,
+            "shootEffect": "ani_throwingknife"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Human",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "dagger",
+            "chance": 80000
+        },
+        {
+            "chance": 80000,
+            "maxCount": 2,
+            "name": "skull"
+        },
+        {
+            "name": "gold coin",
+            "chance": 40000,
+            "maxCount": 20
+        },
+        {
+            "name": "brown bread",
+            "chance": 30000
+        },
+        {
+            "name": "sabre",
+            "chance": 23000
+        },
+        {
+            "name": "girlish hair decoration",
+            "chance": 10000
+        },
+        {
+            "name": "protective charm",
+            "chance": 5200
+        },
+        {
+            "chance": 1000,
+            "name": "torch"
+        },
+        {
+            "name": "crystal necklace",
+            "chance": 260
+        },
+        {
+            "name": "small ruby",
+            "chance": 130
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "amazon",
+    "threatDps": 13.0375,
+    "burstDps": 13.0375,
+    "avgHit": 22.6739,
+    "maxHit": 46,
+    "manaCost": 390
+}

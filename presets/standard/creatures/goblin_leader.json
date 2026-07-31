@@ -1,0 +1,143 @@
+{
+    "id": "goblin_leader",
+    "label": "Goblin Leader",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A goblin leader.",
+    "hp": 50,
+    "hpMax": 50,
+    "speed": 60,
+    "level": 126,
+    "armor": 7,
+    "mitigation": 0.33,
+    "maxBlock": 0,
+    "exp": 75,
+    "lootValue": 5.8707482993197,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 10,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": true,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 30
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 27,
+            "target": false,
+            "shootEffect": "ani_smallstone"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 5,
+        "firstUnlock": 2,
+        "secondUnlock": 3,
+        "charmsPoints": 30,
+        "stars": 2,
+        "occurrence": 3
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 40000,
+            "maxCount": 10
+        },
+        {
+            "chance": 11500,
+            "name": "bone"
+        },
+        {
+            "name": "mouldy cheese",
+            "chance": 9000
+        },
+        {
+            "name": "dagger",
+            "chance": 10300
+        },
+        {
+            "name": "short sword",
+            "chance": 15400
+        },
+        {
+            "name": "bone club",
+            "chance": 1300
+        },
+        {
+            "name": "leather helmet",
+            "chance": 16670
+        },
+        {
+            "name": "leather armor",
+            "chance": 5000
+        },
+        {
+            "name": "small axe",
+            "chance": 12800
+        },
+        {
+            "chance": 15000,
+            "name": "fish"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "goblin_leader",
+    "threatDps": 8.5125,
+    "burstDps": 8.5125,
+    "avgHit": 14.8043,
+    "maxHit": 30,
+    "manaCost": 290
+}

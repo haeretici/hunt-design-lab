@@ -1,0 +1,250 @@
+{
+    "id": "void_archdemon",
+    "label": "Void Archdemon",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A void archdemon.",
+    "hp": 660000,
+    "hpMax": 660000,
+    "speed": 250,
+    "level": 1000,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 15000000,
+    "lootValue": 1616750,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": -5,
+        "holy": 0,
+        "death": 35
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 98,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 3512
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 3000,
+            "chance": 35,
+            "range": 7,
+            "element": "ice",
+            "min": 1054,
+            "max": 1288,
+            "radius": 7,
+            "target": true,
+            "effect": "243",
+            "shootEffect": "ani_ice"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 13,
+            "range": 4,
+            "element": "death",
+            "min": 117,
+            "max": 1171,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "252"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 3000,
+            "chance": 30,
+            "range": 4,
+            "element": "fire",
+            "min": 1171,
+            "max": 2342,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "249"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 7,
+            "element": "ice",
+            "min": 1112,
+            "max": 2810,
+            "radius": 3,
+            "target": true,
+            "effect": "240",
+            "shootEffect": "37"
+        },
+        {
+            "id": "wave_5",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "death",
+            "min": 1171,
+            "max": 2927,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "244"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 3000,
+            "chance": 15,
+            "min": 2500,
+            "max": 3500,
+            "hpBelow": 0.7,
+            "effect": "236"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 4000,
+            "chance": 80,
+            "speedChange": 700,
+            "durationSec": 6,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "name": "crystal coin",
+            "chance": 8938,
+            "maxCount": 165
+        },
+        {
+            "name": "ultimate mana potion",
+            "chance": 11433,
+            "maxCount": 198
+        },
+        {
+            "name": "giant amethyst",
+            "chance": 10570,
+            "maxCount": 4
+        },
+        {
+            "name": "giant topaz",
+            "chance": 10570,
+            "maxCount": 6
+        },
+        {
+            "name": "ultimate dual potion",
+            "chance": 11433,
+            "maxCount": 45
+        },
+        {
+            "name": "giant ruby",
+            "chance": 10570,
+            "maxCount": 1
+        },
+        {
+            "name": "giant sapphire",
+            "chance": 10570,
+            "maxCount": 1
+        },
+        {
+            "name": "savant potion",
+            "chance": 10938,
+            "maxCount": 23
+        },
+        {
+            "chance": 10570,
+            "maxCount": 3,
+            "name": "red gem"
+        },
+        {
+            "name": "violet gem",
+            "chance": 10970,
+            "maxCount": 8
+        },
+        {
+            "name": "yellow gem",
+            "chance": 10970,
+            "maxCount": 9
+        },
+        {
+            "name": "spiritual horseshoe",
+            "chance": 470
+        },
+        {
+            "chance": 360,
+            "name": "bag you covet"
+        }
+    ],
+    "changeTarget": {
+        "interval": 10000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "mist_demon_priest",
+    "threatDps": 1628.7267,
+    "burstDps": 1784.86,
+    "avgHit": 1659.1443,
+    "maxHit": 3512,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 2,
+        "summons": [
+            {
+                "name": "Elder Bloodjaw",
+                "id": "elder_bloodjaw",
+                "chance": 20,
+                "interval": 2000,
+                "count": 2
+            }
+        ]
+    }
+}

@@ -1,0 +1,89 @@
+{
+    "id": "gingerbread_man",
+    "label": "Gingerbread Man",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A gingerbread man.",
+    "hp": 85,
+    "hpMax": 85,
+    "speed": 115,
+    "level": 180,
+    "armor": 13,
+    "mitigation": 0.41,
+    "maxBlock": 0,
+    "exp": 22,
+    "lootValue": 0,
+    "aggro": false,
+    "resists": {
+        "physical": 20,
+        "fire": -10,
+        "ice": 0,
+        "energy": 0,
+        "earth": 40,
+        "holy": 10,
+        "death": 20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 85,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": false,
+        "convinceable": false,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 46
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Construct",
+        "toKill": 25,
+        "firstUnlock": 5,
+        "secondUnlock": 10,
+        "charmsPoints": 1,
+        "stars": 1,
+        "occurrence": 0
+    },
+    "loot": [],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "gingerbread_man",
+    "threatDps": 11.5,
+    "burstDps": 11.5,
+    "avgHit": 23,
+    "maxHit": 46,
+    "manaCost": 0
+}

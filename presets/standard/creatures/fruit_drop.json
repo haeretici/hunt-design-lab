@@ -1,0 +1,89 @@
+{
+    "id": "fruit_drop",
+    "label": "Fruit Drop",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A fruit drop.",
+    "hp": 63,
+    "hpMax": 63,
+    "speed": 140,
+    "level": 151,
+    "armor": 8,
+    "mitigation": 0.36,
+    "maxBlock": 0,
+    "exp": 18,
+    "lootValue": 0,
+    "aggro": false,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 10,
+        "energy": 10,
+        "earth": 5,
+        "holy": 5,
+        "death": -5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 63,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": false,
+        "convinceable": false,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 39
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Fey",
+        "toKill": 25,
+        "firstUnlock": 5,
+        "secondUnlock": 10,
+        "charmsPoints": 1,
+        "stars": 1,
+        "occurrence": 0
+    },
+    "loot": [],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "fruit_drop",
+    "threatDps": 9.75,
+    "burstDps": 9.75,
+    "avgHit": 19.5,
+    "maxHit": 39,
+    "manaCost": 0
+}

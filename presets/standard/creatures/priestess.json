@@ -1,0 +1,215 @@
+{
+    "id": "priestess",
+    "label": "Priestess",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A priestess.",
+    "hp": 390,
+    "hpMax": 390,
+    "speed": 85,
+    "level": 332,
+    "armor": 30,
+    "mitigation": 1.32,
+    "maxBlock": 0,
+    "exp": 420,
+    "lootValue": 69.871210404677,
+    "aggro": true,
+    "resists": {
+        "physical": -10,
+        "fire": 40,
+        "ice": 0,
+        "energy": 0,
+        "earth": 70,
+        "holy": -10,
+        "death": 10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 59
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "death",
+            "min": 43,
+            "max": 94,
+            "target": false,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "manadrain",
+            "min": 2,
+            "max": 133,
+            "target": false
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 50,
+            "max": 80,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Human",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "id": 2828,
+            "chance": 890
+        },
+        {
+            "chance": 1410,
+            "name": "wooden flute"
+        },
+        {
+            "name": "piggy bank",
+            "chance": 90
+        },
+        {
+            "name": "crystal necklace",
+            "chance": 640
+        },
+        {
+            "name": "talon",
+            "chance": 750
+        },
+        {
+            "name": "Hailburst Rod",
+            "chance": 1100
+        },
+        {
+            "chance": 1250,
+            "name": "crystal ball"
+        },
+        {
+            "chance": 1400,
+            "name": "wooden flute"
+        },
+        {
+            "name": "clerical mace",
+            "chance": 1500
+        },
+        {
+            "name": "black shield",
+            "chance": 210
+        },
+        {
+            "name": "red apple",
+            "chance": 7500,
+            "maxCount": 2
+        },
+        {
+            "name": "goat grass",
+            "chance": 11720
+        },
+        {
+            "name": "wood mushroom",
+            "chance": 3240
+        },
+        {
+            "name": "sling herb",
+            "chance": 13200
+        },
+        {
+            "name": "powder herb",
+            "chance": 5900
+        },
+        {
+            "name": "mana potion",
+            "chance": 850
+        },
+        {
+            "name": "cultish robe",
+            "chance": 1800
+        },
+        {
+            "name": "black hood",
+            "chance": 5230
+        },
+        {
+            "name": "dark rosary",
+            "chance": 9840
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "crystal_demon_priest",
+    "threatDps": 26.6625,
+    "burstDps": 26.6625,
+    "avgHit": 39.5,
+    "maxHit": 133,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 2,
+        "summons": [
+            {
+                "name": "Ghoul",
+                "id": "ghoul",
+                "chance": 10,
+                "interval": 2000,
+                "count": 2
+            }
+        ]
+    }
+}

@@ -1,0 +1,262 @@
+{
+    "id": "twin_fiend_latriv",
+    "label": "Twin Fiend Latriv",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A twin fiend latriv.",
+    "hp": 25000,
+    "hpMax": 25000,
+    "speed": 195,
+    "level": 746,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 10000,
+    "lootValue": 10456.565217391,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -5,
+        "ice": -1,
+        "energy": 30,
+        "earth": 5,
+        "holy": 0,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 85,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 4
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "fire",
+            "min": 0,
+            "max": 3688,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_firearea"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 1000,
+            "chance": 10,
+            "range": 4,
+            "element": "fire",
+            "min": 217,
+            "max": 1085,
+            "length": 7,
+            "spread": 3,
+            "target": false,
+            "effect": "me_explosionhit"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "death",
+            "min": 0,
+            "max": 2604,
+            "radius": 1,
+            "target": false,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_death"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "fire",
+            "min": 260,
+            "max": 868,
+            "radius": 4,
+            "target": false,
+            "effect": "me_firearea",
+            "shootEffect": "ani_fire"
+        }
+    ],
+    "race": "fire",
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 273,
+            "name": "gold coin"
+        },
+        {
+            "chance": 55000,
+            "name": "great health potion"
+        },
+        {
+            "chance": 30000,
+            "name": "double axe"
+        },
+        {
+            "chance": 25000,
+            "name": "death ring"
+        },
+        {
+            "chance": 25000,
+            "name": "ring of healing"
+        },
+        {
+            "chance": 20000,
+            "maxCount": 13,
+            "name": "black pearl"
+        },
+        {
+            "chance": 20000,
+            "maxCount": 10,
+            "name": "small emerald"
+        },
+        {
+            "chance": 15000,
+            "name": "ice rapier"
+        },
+        {
+            "chance": 15000,
+            "name": "magic light wand"
+        },
+        {
+            "chance": 15000,
+            "name": "silver amulet"
+        },
+        {
+            "chance": 15000,
+            "maxCount": 10,
+            "name": "small sapphire"
+        },
+        {
+            "chance": 15000,
+            "maxCount": 13,
+            "name": "white pearl"
+        },
+        {
+            "chance": 10000,
+            "name": "demon shield"
+        },
+        {
+            "chance": 10000,
+            "name": "demonic essence"
+        },
+        {
+            "chance": 10000,
+            "name": "voltaic ring"
+        },
+        {
+            "chance": 10000,
+            "name": "giant sword"
+        },
+        {
+            "chance": 10000,
+            "name": "gold ingot"
+        },
+        {
+            "chance": 10000,
+            "name": "gold ring"
+        },
+        {
+            "chance": 10000,
+            "name": "golden legs"
+        },
+        {
+            "chance": 5000,
+            "name": "blue gem"
+        },
+        {
+            "chance": 5000,
+            "name": "devil helmet"
+        },
+        {
+            "chance": 5000,
+            "name": "fire axe"
+        },
+        {
+            "chance": 5000,
+            "name": "green gem"
+        },
+        {
+            "chance": 5000,
+            "name": "might ring"
+        },
+        {
+            "chance": 5000,
+            "name": "silver dagger"
+        },
+        {
+            "chance": 15000,
+            "maxCount": 12,
+            "name": "small amethyst"
+        },
+        {
+            "chance": 5000,
+            "name": "Viperfang Rod"
+        },
+        {
+            "chance": 5000,
+            "name": "stealth ring"
+        },
+        {
+            "chance": 5000,
+            "name": "Stonehide Amulet"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "celestial_fiend",
+    "threatDps": 265.7,
+    "burstDps": 265.7,
+    "avgHit": 342.8387,
+    "maxHit": 3688,
+    "manaCost": 0
+}

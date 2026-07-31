@@ -1,0 +1,232 @@
+{
+    "id": "werelioness",
+    "label": "Werelioness",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A werelioness.",
+    "hp": 3000,
+    "hpMax": 3000,
+    "speed": 110,
+    "level": 534,
+    "armor": 38,
+    "mitigation": 0.91,
+    "maxBlock": 0,
+    "exp": 2300,
+    "lootValue": 853.70577871741,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 35,
+        "ice": -25,
+        "energy": 0,
+        "earth": 40,
+        "holy": -5,
+        "death": 50
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 5,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 206
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 3,
+            "element": "holy",
+            "min": 206,
+            "max": 282,
+            "target": true,
+            "effect": "me_holyarea"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 3,
+            "element": "holy",
+            "min": 117,
+            "max": 241,
+            "target": true,
+            "shootEffect": "ani_holy"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "fire",
+            "min": 172,
+            "max": 206,
+            "length": 4,
+            "spread": 0,
+            "target": false,
+            "effect": "me_firearea"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 20,
+            "min": 100,
+            "max": 150,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Lycanthrope",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 5
+        },
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 60
+        },
+        {
+            "name": "small enchanted sapphire",
+            "chance": 5000,
+            "maxCount": 2
+        },
+        {
+            "name": "black pearl",
+            "chance": 5000,
+            "maxCount": 2
+        },
+        {
+            "name": "ham",
+            "chance": 5000,
+            "maxCount": 2
+        },
+        {
+            "name": "meat",
+            "chance": 5000,
+            "maxCount": 2
+        },
+        {
+            "name": "soul orb",
+            "chance": 5000,
+            "maxCount": 2
+        },
+        {
+            "name": "white pearl",
+            "chance": 1500,
+            "maxCount": 2
+        },
+        {
+            "name": "ankh",
+            "chance": 5000
+        },
+        {
+            "name": "crystal sword",
+            "chance": 5000
+        },
+        {
+            "name": "serpent sword",
+            "chance": 5000
+        },
+        {
+            "name": "rapier",
+            "chance": 5000
+        },
+        {
+            "name": "lion's mane",
+            "chance": 5000
+        },
+        {
+            "name": "Stormbound Headband",
+            "chance": 1500
+        },
+        {
+            "name": "steel helmet",
+            "chance": 1500
+        },
+        {
+            "name": "doublet",
+            "chance": 1500
+        },
+        {
+            "name": "ivory carving",
+            "chance": 1500
+        },
+        {
+            "name": "Emberbound Legs",
+            "chance": 500
+        },
+        {
+            "name": "crown helmet",
+            "chance": 500
+        },
+        {
+            "name": "white silk flower",
+            "chance": 200
+        },
+        {
+            "name": "lion figurine",
+            "chance": 100
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "nether_tiger",
+    "threatDps": 82.1,
+    "burstDps": 82.1,
+    "avgHit": 126.3077,
+    "maxHit": 282,
+    "manaCost": 0
+}

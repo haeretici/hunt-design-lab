@@ -1,0 +1,172 @@
+{
+    "id": "deep_terror_looter",
+    "label": "Deep Terror Looter",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A deep terror looter.",
+    "hp": 11500,
+    "hpMax": 11500,
+    "speed": 210,
+    "level": 668,
+    "armor": 92,
+    "mitigation": 2.75,
+    "maxBlock": 0,
+    "exp": 8650,
+    "lootValue": 1506.4343163539,
+    "aggro": true,
+    "resists": {
+        "physical": 5,
+        "fire": 20,
+        "ice": 100,
+        "energy": -14,
+        "earth": -10,
+        "holy": 10,
+        "death": 5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 3,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "death",
+            "min": 103,
+            "max": 310
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 35,
+            "range": 7,
+            "element": "ice",
+            "min": 276,
+            "max": 517,
+            "target": true,
+            "effect": "me_iceattack",
+            "shootEffect": "ani_shiverarrow"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 7,
+            "min": 600,
+            "max": 800,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Aquatic",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 1
+    },
+    "loot": [
+        {
+            "name": "Amber Souvenir",
+            "chance": 7040
+        },
+        {
+            "name": "Resinous Fish Fin",
+            "chance": 6460
+        },
+        {
+            "chance": 4340,
+            "name": "red gem"
+        },
+        {
+            "chance": 2700,
+            "name": "blue gem"
+        },
+        {
+            "name": "Frostbound Kilt",
+            "chance": 940
+        },
+        {
+            "name": "Necklace of the Deep",
+            "chance": 820
+        },
+        {
+            "name": "Crystal Crossbow",
+            "chance": 470
+        },
+        {
+            "name": "Rift Lance",
+            "chance": 350
+        },
+        {
+            "name": "Mantassin Tail",
+            "chance": 230
+        },
+        {
+            "name": "platinum coin",
+            "chance": 10000,
+            "maxCount": 25
+        },
+        {
+            "name": "Frostbound Robe",
+            "chance": 1000
+        },
+        {
+            "name": "Preserved Light Blue Seed",
+            "chance": 110
+        },
+        {
+            "name": "Preserved Purple Seed",
+            "chance": 110
+        },
+        {
+            "name": "Preserved Violet Seed",
+            "chance": 110
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 11
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "hive_spore_vent",
+    "threatDps": 172.6375,
+    "burstDps": 172.6375,
+    "avgHit": 255.7593,
+    "maxHit": 517,
+    "manaCost": 0
+}

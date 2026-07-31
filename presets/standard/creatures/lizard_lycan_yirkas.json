@@ -1,0 +1,265 @@
+{
+    "id": "lizard_lycan_yirkas",
+    "label": "Lizard Lycan Yirkas",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A lizard lycan yirkas.",
+    "hp": 6300,
+    "hpMax": 6300,
+    "speed": 190,
+    "level": 608,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 4900,
+    "lootValue": 10643.728813559,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 10,
+        "ice": 0,
+        "energy": 15,
+        "earth": 40,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 54,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 8,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 4,
+            "element": "earth",
+            "min": 218,
+            "max": 272,
+            "length": 3,
+            "spread": 0,
+            "target": false,
+            "effect": "me_poisonarea"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 3,
+            "element": "energy",
+            "min": 136,
+            "max": 191,
+            "radius": 3,
+            "target": true,
+            "effect": "me_energyhit",
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "melee_3",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 1,
+            "element": "energy",
+            "min": 218,
+            "max": 272,
+            "target": true,
+            "effect": "me_energyarea",
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 4,
+            "element": "energy",
+            "min": 109,
+            "max": 163,
+            "radius": 4,
+            "target": false,
+            "effect": "me_energyarea"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 5,
+            "speedChange": 350,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 100000,
+            "minCount": 1,
+            "maxCount": 6,
+            "name": "blue goanna scale"
+        },
+        {
+            "chance": 100000,
+            "minCount": 1,
+            "maxCount": 17,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 100000,
+            "minCount": 1,
+            "maxCount": 5,
+            "name": "ultimate health potion"
+        },
+        {
+            "chance": 11540,
+            "name": "gold ingot"
+        },
+        {
+            "chance": 8790,
+            "name": "gemmed figurine"
+        },
+        {
+            "chance": 8240,
+            "name": "Yirkas' egg"
+        },
+        {
+            "chance": 6590,
+            "name": "lizard heart"
+        },
+        {
+            "chance": 3850,
+            "name": "green gem"
+        },
+        {
+            "chance": 3300,
+            "name": "blue gem"
+        },
+        {
+            "chance": 3300,
+            "name": "Emberbound Legs"
+        },
+        {
+            "chance": 3300,
+            "name": "skull helmet"
+        },
+        {
+            "chance": 2750,
+            "name": "giant sword"
+        },
+        {
+            "chance": 2750,
+            "name": "jade hammer"
+        },
+        {
+            "chance": 2750,
+            "name": "war axe"
+        },
+        {
+            "chance": 2200,
+            "name": "assassin dagger"
+        },
+        {
+            "chance": 2200,
+            "name": "gold ring"
+        },
+        {
+            "chance": 2200,
+            "name": "ring of green plasma"
+        },
+        {
+            "chance": 1650,
+            "name": "Arcane Plate Armor"
+        },
+        {
+            "chance": 1100,
+            "name": "demon shield"
+        },
+        {
+            "chance": 1100,
+            "name": "savant potion"
+        },
+        {
+            "chance": 1100,
+            "name": "ornate crossbow"
+        },
+        {
+            "chance": 1100,
+            "name": "spellweaver's robe"
+        },
+        {
+            "chance": 550,
+            "name": "demonrage sword"
+        },
+        {
+            "chance": 550,
+            "name": "spellbook of mind control"
+        },
+        {
+            "chance": 550,
+            "name": "alloy legs"
+        },
+        {
+            "chance": 360,
+            "name": "raw watermelon tourmaline"
+        },
+        {
+            "chance": 360,
+            "name": "red silk flower"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "crystal_lizard_warrior",
+    "threatDps": 123.675,
+    "burstDps": 123.675,
+    "avgHit": 113.9762,
+    "maxHit": 272,
+    "manaCost": 0
+}

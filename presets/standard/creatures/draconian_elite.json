@@ -1,0 +1,248 @@
+{
+    "id": "draconian_elite",
+    "label": "Draconian Elite",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A draconian elite.",
+    "hp": 5550,
+    "hpMax": 5550,
+    "speed": 166,
+    "level": 596,
+    "armor": 60,
+    "mitigation": 1.6,
+    "maxBlock": 0,
+    "exp": 4750,
+    "lootValue": 1825.7346925893,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": 0,
+        "energy": 40,
+        "earth": 100,
+        "holy": 30,
+        "death": 30
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 245
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "fire",
+            "min": 166,
+            "max": 380,
+            "length": 4,
+            "spread": 3,
+            "target": false,
+            "effect": "me_explosionhit"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "fire",
+            "min": 138,
+            "max": 207,
+            "target": true,
+            "effect": "me_firearea",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "earth",
+            "min": 193,
+            "max": 283,
+            "radius": 4,
+            "target": true,
+            "effect": "me_poff"
+        },
+        {
+            "id": "condition_5",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "earth",
+            "min": 173,
+            "max": 221,
+            "target": true,
+            "shootEffect": "ani_poison"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 510,
+            "max": 600,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Dragon",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 97220,
+            "maxCount": 187
+        },
+        {
+            "name": "platinum coin",
+            "chance": 49070,
+            "maxCount": 8
+        },
+        {
+            "name": "meat",
+            "chance": 34260,
+            "maxCount": 4
+        },
+        {
+            "name": "broken draken mail",
+            "chance": 25000
+        },
+        {
+            "name": "broken slicer",
+            "chance": 25000
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 12040,
+            "maxCount": 3
+        },
+        {
+            "name": "great mana potion",
+            "chance": 9260,
+            "maxCount": 3
+        },
+        {
+            "name": "draken sulphur",
+            "chance": 6480
+        },
+        {
+            "name": "draken wristbands",
+            "chance": 6480
+        },
+        {
+            "name": "small diamond",
+            "chance": 1850,
+            "maxCount": 2
+        },
+        {
+            "name": "zaoan legs",
+            "chance": 1850
+        },
+        {
+            "name": "magic sulphur",
+            "chance": 1850
+        },
+        {
+            "name": "draken boots",
+            "chance": 930
+        },
+        {
+            "name": "assassin dagger",
+            "chance": 930
+        },
+        {
+            "name": "twiceslicer",
+            "chance": 930
+        },
+        {
+            "name": "zaoan armor",
+            "chance": 650
+        },
+        {
+            "name": "zaoan sword",
+            "chance": 550
+        },
+        {
+            "name": "zaoan helmet",
+            "chance": 220
+        },
+        {
+            "name": "elite draken mail",
+            "chance": 110
+        },
+        {
+            "name": "blade of corruption",
+            "chance": 60
+        },
+        {
+            "name": "snake god's wristguard",
+            "chance": 40
+        },
+        {
+            "name": "cobra crown",
+            "chance": 0
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "wild_water_magic",
+    "threatDps": 115.5375,
+    "burstDps": 115.5375,
+    "avgHit": 154.05,
+    "maxHit": 380,
+    "manaCost": 0
+}

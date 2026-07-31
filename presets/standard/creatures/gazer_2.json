@@ -1,0 +1,122 @@
+{
+    "id": "gazer_2",
+    "label": "Gazer",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A gazer.",
+    "hp": 120,
+    "hpMax": 120,
+    "speed": 70,
+    "level": 213,
+    "armor": 4,
+    "mitigation": 0.38,
+    "maxBlock": 0,
+    "exp": 90,
+    "lootValue": 13.416777276347,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -10,
+        "ice": 20,
+        "energy": 10,
+        "earth": 100,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 29
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "lifedrain",
+            "min": 48,
+            "max": 68,
+            "target": false,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "manadrain",
+            "min": 19,
+            "max": 68,
+            "target": false
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Magical",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 99350,
+            "maxCount": 16
+        },
+        {
+            "name": "small flask of eyedrops",
+            "chance": 3200
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "gazer_2",
+    "threatDps": 13.775,
+    "burstDps": 13.775,
+    "avgHit": 22.04,
+    "maxHit": 68,
+    "manaCost": 0
+}

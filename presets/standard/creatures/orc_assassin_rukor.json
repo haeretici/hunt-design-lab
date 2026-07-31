@@ -1,0 +1,154 @@
+{
+    "id": "orc_assassin_rukor",
+    "label": "Orc Assassin Rukor",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An orc assassin rukor.",
+    "hp": 380,
+    "hpMax": 380,
+    "speed": 107,
+    "level": 328,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 380,
+    "lootValue": 76,
+    "aggro": true,
+    "resists": {
+        "physical": 1,
+        "fire": 5,
+        "ice": 0,
+        "energy": 10,
+        "earth": 20,
+        "holy": 0,
+        "death": 5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 88
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 52,
+            "target": false,
+            "shootEffect": "ani_throwingstar"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 52,
+            "target": false,
+            "shootEffect": "ani_poisonarrow"
+        },
+        {
+            "id": "condition_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "earth",
+            "min": 4,
+            "max": 4,
+            "target": false,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_poison"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "invisible_0",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 10,
+            "durationSec": 2,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 93210,
+            "maxCount": 50,
+            "name": "gold coin"
+        },
+        {
+            "chance": 9210,
+            "maxCount": 14,
+            "name": "throwing star"
+        },
+        {
+            "chance": 6200,
+            "maxCount": 7,
+            "name": "viper star"
+        },
+        {
+            "chance": 4190,
+            "name": "steel helmet"
+        },
+        {
+            "chance": 1940,
+            "name": "steel shield"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "chaos_triton_assassin",
+    "threatDps": 26.1,
+    "burstDps": 26.1,
+    "avgHit": 37.2857,
+    "maxHit": 88,
+    "manaCost": 0
+}

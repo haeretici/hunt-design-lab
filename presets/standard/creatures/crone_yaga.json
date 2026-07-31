@@ -1,0 +1,178 @@
+{
+    "id": "crone_yaga",
+    "label": "Crone Yaga",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A crone yaga.",
+    "hp": 620,
+    "hpMax": 620,
+    "speed": 120,
+    "level": 377,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 375,
+    "lootValue": 1086.425,
+    "aggro": true,
+    "resists": {
+        "physical": -1,
+        "fire": 0,
+        "ice": 0,
+        "energy": 100,
+        "earth": 1,
+        "holy": 0,
+        "death": -5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 82
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2500,
+            "chance": 50,
+            "range": 5,
+            "element": "fire",
+            "min": 49,
+            "max": 82,
+            "target": false,
+            "effect": "me_hitbyfire",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "condition_2",
+            "kind": "ranged",
+            "intervalMs": 3000,
+            "chance": 13,
+            "range": 5,
+            "element": "earth",
+            "min": 16,
+            "max": 16,
+            "target": false,
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "firefield_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 13,
+            "range": 5,
+            "element": "physical",
+            "target": false,
+            "shootEffect": "ani_fire",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "invisible_0",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 18,
+            "durationSec": 2,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "cape",
+            "chance": 66000
+        },
+        {
+            "name": "broom",
+            "chance": 62500
+        },
+        {
+            "name": "cookie",
+            "chance": 62500,
+            "maxCount": 8
+        },
+        {
+            "name": "gold coin",
+            "chance": 29170,
+            "maxCount": 55
+        },
+        {
+            "name": "star herb",
+            "chance": 20833
+        },
+        {
+            "chance": 20833,
+            "name": "wolf tooth chain"
+        },
+        {
+            "name": "garlic necklace",
+            "chance": 8333
+        },
+        {
+            "name": "spellbook of mind control",
+            "chance": 8333
+        },
+        {
+            "name": "coat",
+            "chance": 4170
+        },
+        {
+            "name": "Withering Rod",
+            "chance": 4170
+        },
+        {
+            "name": "silver dagger",
+            "chance": 4170
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "crimson_frog",
+    "threatDps": 34.2933,
+    "burstDps": 37.915,
+    "avgHit": 46.1345,
+    "maxHit": 82,
+    "manaCost": 0
+}

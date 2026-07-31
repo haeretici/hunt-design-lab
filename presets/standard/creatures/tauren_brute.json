@@ -1,0 +1,173 @@
+{
+    "id": "tauren_brute",
+    "label": "Tauren Brute",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A tauren brute.",
+    "hp": 6560,
+    "hpMax": 6560,
+    "speed": 170,
+    "level": 612,
+    "armor": 78,
+    "mitigation": 2.22,
+    "maxBlock": 0,
+    "exp": 4700,
+    "lootValue": 1409.3352601156,
+    "aggro": true,
+    "resists": {
+        "physical": 30,
+        "fire": 10,
+        "ice": 10,
+        "energy": -5,
+        "earth": -20,
+        "holy": -10,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 80,
+        "health": 10,
+        "damage": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 113,
+            "max": 199
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 3,
+            "element": "physical",
+            "min": 299,
+            "max": 399,
+            "radius": 1,
+            "target": true,
+            "effect": "me_slash"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 3,
+            "element": "death",
+            "min": 266,
+            "max": 332,
+            "radius": 1,
+            "target": true,
+            "effect": "me_mortarea"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 53709,
+            "maxCount": 33,
+            "name": "platinum coin"
+        },
+        {
+            "id": 44736,
+            "chance": 16095
+        },
+        {
+            "id": 44738,
+            "chance": 13883
+        },
+        {
+            "chance": 10239,
+            "maxCount": 3,
+            "name": "small topaz"
+        },
+        {
+            "id": 44737,
+            "chance": 9718
+        },
+        {
+            "chance": 2950,
+            "name": "mino shield"
+        },
+        {
+            "chance": 2516,
+            "name": "dwarven ring"
+        },
+        {
+            "chance": 1432,
+            "name": "might ring"
+        },
+        {
+            "chance": 1258,
+            "name": "violet gem"
+        },
+        {
+            "chance": 954,
+            "name": "blue gem"
+        },
+        {
+            "chance": 824,
+            "name": "gold nugget"
+        },
+        {
+            "chance": 694,
+            "name": "dragon hammer"
+        },
+        {
+            "chance": 607,
+            "name": "white gem"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "drunk": true,
+        "bleed": false
+    },
+    "customSprite": "spider_queen",
+    "threatDps": 126.6,
+    "burstDps": 126.6,
+    "avgHit": 194.7692,
+    "maxHit": 399,
+    "manaCost": 0
+}

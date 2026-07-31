@@ -1,0 +1,401 @@
+{
+  "schemaVersion": 1,
+  "kind": "strategy_eval",
+  "huntId": "standard_arena_waves",
+  "seed": 1,
+  "iterationsPerStrategy": 1,
+  "strategyIds": [
+    "balanced",
+    "guardian_aggro",
+    "scout_kite",
+    "adept_caster",
+    "warden_support",
+    "pacifist"
+  ],
+  "classId": null,
+  "partyMode": "hunt_default",
+  "sideSwap": false,
+  "rankBy": "meanKills",
+  "lowerIsBetter": false,
+  "generatedAt": "2026-07-31T00:20:11.781Z",
+  "rows": [
+    {
+      "strategyId": "balanced",
+      "label": "Balanced",
+      "metrics": {
+        "iterations": 1,
+        "routeCompleteRate": 0,
+        "partyWipeRate": 0,
+        "timeoutRate": 0,
+        "killCapRate": 0,
+        "wavesCompleteRate": 0,
+        "meanKills": 60,
+        "meanDeaths": 0,
+        "meanDamageDealt": 11109,
+        "meanDamageTaken": 613,
+        "meanExpGained": 2093,
+        "meanExpPerHour": 33849.056603771096,
+        "meanTimeToClear": 222.60000000001637,
+        "meanTickCount": 4452,
+        "outcomes": {
+          "routeComplete": 0,
+          "partyWipe": 0,
+          "timeout": 0,
+          "killCap": 0,
+          "wavesComplete": 0
+        }
+      },
+      "aggregate": {
+        "iterations": 1,
+        "totals": {
+          "kills": 60,
+          "deaths": 0,
+          "damageDealt": 11109,
+          "damageTaken": 613,
+          "expGained": 2093,
+          "lootGained": 557.7206742361283,
+          "tickCount": 4452,
+          "timeToClear": 222.60000000001637
+        },
+        "means": {
+          "kills": 60,
+          "deaths": 0,
+          "damageDealt": 11109,
+          "damageTaken": 613,
+          "expGained": 2093,
+          "lootGained": 557.7206742361283,
+          "tickCount": 4452,
+          "timeToClear": 222.60000000001637,
+          "expPerHour": 33849.056603771096
+        },
+        "outcomes": {
+          "routeComplete": 0,
+          "partyWipe": 0,
+          "timeout": 0,
+          "killCap": 0,
+          "wavesComplete": 0,
+          "noAttackTimeout": 1
+        }
+      },
+      "sideSwap": null,
+      "rank": 1
+    },
+    {
+      "strategyId": "guardian_aggro",
+      "label": "Guardian Aggro",
+      "metrics": {
+        "iterations": 1,
+        "routeCompleteRate": 0,
+        "partyWipeRate": 0,
+        "timeoutRate": 0,
+        "killCapRate": 0,
+        "wavesCompleteRate": 0,
+        "meanKills": 60,
+        "meanDeaths": 0,
+        "meanDamageDealt": 11340,
+        "meanDamageTaken": 688,
+        "meanExpGained": 2288,
+        "meanExpPerHour": 35858.946451890966,
+        "meanTimeToClear": 229.70000000001798,
+        "meanTickCount": 4594,
+        "outcomes": {
+          "routeComplete": 0,
+          "partyWipe": 0,
+          "timeout": 0,
+          "killCap": 0,
+          "wavesComplete": 0
+        }
+      },
+      "aggregate": {
+        "iterations": 1,
+        "totals": {
+          "kills": 60,
+          "deaths": 0,
+          "damageDealt": 11340,
+          "damageTaken": 688,
+          "expGained": 2288,
+          "lootGained": 533.9644106076462,
+          "tickCount": 4594,
+          "timeToClear": 229.70000000001798
+        },
+        "means": {
+          "kills": 60,
+          "deaths": 0,
+          "damageDealt": 11340,
+          "damageTaken": 688,
+          "expGained": 2288,
+          "lootGained": 533.9644106076462,
+          "tickCount": 4594,
+          "timeToClear": 229.70000000001798,
+          "expPerHour": 35858.946451890966
+        },
+        "outcomes": {
+          "routeComplete": 0,
+          "partyWipe": 0,
+          "timeout": 0,
+          "killCap": 0,
+          "wavesComplete": 0,
+          "noAttackTimeout": 1
+        }
+      },
+      "sideSwap": null,
+      "rank": 2
+    },
+    {
+      "strategyId": "adept_caster",
+      "label": "Adept Caster",
+      "metrics": {
+        "iterations": 1,
+        "routeCompleteRate": 0,
+        "partyWipeRate": 1,
+        "timeoutRate": 0,
+        "killCapRate": 0,
+        "wavesCompleteRate": 0,
+        "meanKills": 59,
+        "meanDeaths": 2,
+        "meanDamageDealt": 10903,
+        "meanDamageTaken": 1474,
+        "meanExpGained": 1943,
+        "meanExpPerHour": 43744.84052532775,
+        "meanTimeToClear": 159.9000000000021,
+        "meanTickCount": 3198,
+        "outcomes": {
+          "routeComplete": 0,
+          "partyWipe": 1,
+          "timeout": 0,
+          "killCap": 0,
+          "wavesComplete": 0
+        }
+      },
+      "aggregate": {
+        "iterations": 1,
+        "totals": {
+          "kills": 59,
+          "deaths": 2,
+          "damageDealt": 10903,
+          "damageTaken": 1474,
+          "expGained": 1943,
+          "lootGained": 517.4494191753993,
+          "tickCount": 3198,
+          "timeToClear": 159.9000000000021
+        },
+        "means": {
+          "kills": 59,
+          "deaths": 2,
+          "damageDealt": 10903,
+          "damageTaken": 1474,
+          "expGained": 1943,
+          "lootGained": 517.4494191753993,
+          "tickCount": 3198,
+          "timeToClear": 159.9000000000021,
+          "expPerHour": 43744.84052532775
+        },
+        "outcomes": {
+          "routeComplete": 0,
+          "partyWipe": 1,
+          "timeout": 0,
+          "killCap": 0,
+          "wavesComplete": 0,
+          "noAttackTimeout": 0
+        }
+      },
+      "sideSwap": null,
+      "rank": 3
+    },
+    {
+      "strategyId": "warden_support",
+      "label": "Warden Support",
+      "metrics": {
+        "iterations": 1,
+        "routeCompleteRate": 0,
+        "partyWipeRate": 1,
+        "timeoutRate": 0,
+        "killCapRate": 0,
+        "wavesCompleteRate": 0,
+        "meanKills": 56,
+        "meanDeaths": 2,
+        "meanDamageDealt": 10245,
+        "meanDamageTaken": 1585,
+        "meanExpGained": 1638,
+        "meanExpPerHour": 42180.25751073036,
+        "meanTimeToClear": 139.79999999999754,
+        "meanTickCount": 2796,
+        "outcomes": {
+          "routeComplete": 0,
+          "partyWipe": 1,
+          "timeout": 0,
+          "killCap": 0,
+          "wavesComplete": 0
+        }
+      },
+      "aggregate": {
+        "iterations": 1,
+        "totals": {
+          "kills": 56,
+          "deaths": 2,
+          "damageDealt": 10245,
+          "damageTaken": 1585,
+          "expGained": 1638,
+          "lootGained": 441.0639581677196,
+          "tickCount": 2796,
+          "timeToClear": 139.79999999999754
+        },
+        "means": {
+          "kills": 56,
+          "deaths": 2,
+          "damageDealt": 10245,
+          "damageTaken": 1585,
+          "expGained": 1638,
+          "lootGained": 441.0639581677196,
+          "tickCount": 2796,
+          "timeToClear": 139.79999999999754,
+          "expPerHour": 42180.25751073036
+        },
+        "outcomes": {
+          "routeComplete": 0,
+          "partyWipe": 1,
+          "timeout": 0,
+          "killCap": 0,
+          "wavesComplete": 0,
+          "noAttackTimeout": 0
+        }
+      },
+      "sideSwap": null,
+      "rank": 4
+    },
+    {
+      "strategyId": "scout_kite",
+      "label": "Scout Kite",
+      "metrics": {
+        "iterations": 1,
+        "routeCompleteRate": 0,
+        "partyWipeRate": 0,
+        "timeoutRate": 0,
+        "killCapRate": 0,
+        "wavesCompleteRate": 0,
+        "meanKills": 45,
+        "meanDeaths": 0,
+        "meanDamageDealt": 6944,
+        "meanDamageTaken": 128,
+        "meanExpGained": 1046,
+        "meanExpPerHour": 19818.94736842012,
+        "meanTimeToClear": 190.00000000000895,
+        "meanTickCount": 3800,
+        "outcomes": {
+          "routeComplete": 0,
+          "partyWipe": 0,
+          "timeout": 0,
+          "killCap": 0,
+          "wavesComplete": 0
+        }
+      },
+      "aggregate": {
+        "iterations": 1,
+        "totals": {
+          "kills": 45,
+          "deaths": 0,
+          "damageDealt": 6944,
+          "damageTaken": 128,
+          "expGained": 1046,
+          "lootGained": 310.85170446794865,
+          "tickCount": 3800,
+          "timeToClear": 190.00000000000895
+        },
+        "means": {
+          "kills": 45,
+          "deaths": 0,
+          "damageDealt": 6944,
+          "damageTaken": 128,
+          "expGained": 1046,
+          "lootGained": 310.85170446794865,
+          "tickCount": 3800,
+          "timeToClear": 190.00000000000895,
+          "expPerHour": 19818.94736842012
+        },
+        "outcomes": {
+          "routeComplete": 0,
+          "partyWipe": 0,
+          "timeout": 0,
+          "killCap": 0,
+          "wavesComplete": 0,
+          "noAttackTimeout": 1
+        }
+      },
+      "sideSwap": null,
+      "rank": 5
+    },
+    {
+      "strategyId": "pacifist",
+      "label": "Pacifist",
+      "metrics": {
+        "iterations": 1,
+        "routeCompleteRate": 0,
+        "partyWipeRate": 0,
+        "timeoutRate": 1,
+        "killCapRate": 0,
+        "wavesCompleteRate": 0,
+        "meanKills": 0,
+        "meanDeaths": 0,
+        "meanDamageDealt": 0,
+        "meanDamageTaken": 165,
+        "meanExpGained": 0,
+        "meanExpPerHour": 0,
+        "meanTimeToClear": 480.00000000007486,
+        "meanTickCount": 9600,
+        "outcomes": {
+          "routeComplete": 0,
+          "partyWipe": 0,
+          "timeout": 1,
+          "killCap": 0,
+          "wavesComplete": 0
+        }
+      },
+      "aggregate": {
+        "iterations": 1,
+        "totals": {
+          "kills": 0,
+          "deaths": 0,
+          "damageDealt": 0,
+          "damageTaken": 165,
+          "expGained": 0,
+          "lootGained": 0,
+          "tickCount": 9600,
+          "timeToClear": 480.00000000007486
+        },
+        "means": {
+          "kills": 0,
+          "deaths": 0,
+          "damageDealt": 0,
+          "damageTaken": 165,
+          "expGained": 0,
+          "lootGained": 0,
+          "tickCount": 9600,
+          "timeToClear": 480.00000000007486,
+          "expPerHour": 0
+        },
+        "outcomes": {
+          "routeComplete": 0,
+          "partyWipe": 0,
+          "timeout": 1,
+          "killCap": 0,
+          "wavesComplete": 0,
+          "noAttackTimeout": 0
+        }
+      },
+      "sideSwap": null,
+      "rank": 6
+    }
+  ],
+  "notes": "docs/24 I3 baseline. Hunt standard_arena_waves + balance_quartet roster with strategyId swapped per row. Seed 1, iterations 1. Rank by meanKills: balanced/guardian_aggro lead (~60 kills, no wipe); adept_caster/warden_support wipe; scout_kite fewer kills; pacifist 0 kills. Re-run: npm run sim:eval-strategies -- --hunt standard_arena_waves --strategies balanced,guardian_aggro,scout_kite,adept_caster,warden_support,pacifist --seed 1 --rank-by meanKills --out var/sim/strategy_eval/standard_arena_i3",
+  "chartMetrics": [
+    "routeCompleteRate",
+    "partyWipeRate",
+    "meanKills",
+    "meanDeaths",
+    "meanExpPerHour",
+    "meanTimeToClear",
+    "meanDamageTaken",
+    "meanDamageDealt"
+  ],
+  "label": "Standard arena waves — strategy eval (I3)"
+}

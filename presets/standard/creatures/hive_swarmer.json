@@ -1,0 +1,139 @@
+{
+    "id": "hive_swarmer",
+    "label": "Hive Swarmer",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A hive swarmer.",
+    "hp": 460,
+    "hpMax": 460,
+    "speed": 128,
+    "level": 348,
+    "armor": 29,
+    "mitigation": 0.91,
+    "maxBlock": 0,
+    "exp": 350,
+    "lootValue": 112.35150724547,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -8,
+        "ice": -3,
+        "energy": 75,
+        "earth": 100,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 50,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 40,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 32,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "lifedrain",
+            "min": 20,
+            "max": 44,
+            "target": true,
+            "effect": "me_magic_red"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 220,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Vermin",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 75
+        },
+        {
+            "name": "small emerald",
+            "chance": 920
+        },
+        {
+            "name": "epee",
+            "chance": 450
+        },
+        {
+            "name": "swarmer antenna",
+            "chance": 15300
+        },
+        {
+            "name": "compound eye",
+            "chance": 12500
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "troll_guard",
+    "threatDps": 29.2,
+    "burstDps": 29.2,
+    "avgHit": 22,
+    "maxHit": 44,
+    "manaCost": 0
+}

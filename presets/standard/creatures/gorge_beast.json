@@ -1,0 +1,297 @@
+{
+    "id": "gorge_beast",
+    "label": "Gorge Beast",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A gorge beast.",
+    "hp": 6400,
+    "hpMax": 6400,
+    "speed": 200,
+    "level": 610,
+    "armor": 74,
+    "mitigation": 2.31,
+    "maxBlock": 0,
+    "exp": 6050,
+    "lootValue": 1101.2987804878,
+    "aggro": true,
+    "resists": {
+        "physical": 5,
+        "fire": 10,
+        "ice": 5,
+        "energy": 15,
+        "earth": 20,
+        "holy": -5,
+        "death": 10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 271
+        },
+        {
+            "id": "condition_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "physical",
+            "min": 272,
+            "max": 544,
+            "radius": 3,
+            "target": false,
+            "effect": "me_drawblood"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 0,
+            "max": 490,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_explosionarea"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 272,
+            "radius": 2,
+            "target": true,
+            "effect": "me_stones",
+            "shootEffect": "ani_largerock"
+        },
+        {
+            "id": "slow_4",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -800,
+                "durationSec": 15
+            },
+            "radius": 6,
+            "effect": "me_magic_red",
+            "target": false
+        },
+        {
+            "id": "wave_5",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 0,
+            "max": 435,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_magic_red"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 20,
+            "min": 250,
+            "max": 425,
+            "hpBelow": 0.7,
+            "effect": "me_hitbypoison"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Magical",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 100
+        },
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 7
+        },
+        {
+            "name": "banana skin",
+            "chance": 10700
+        },
+        {
+            "name": "piece of iron",
+            "chance": 10500
+        },
+        {
+            "name": "fishbone",
+            "chance": 9500
+        },
+        {
+            "chance": 10400,
+            "name": "skull"
+        },
+        {
+            "chance": 9200,
+            "name": "bone"
+        },
+        {
+            "chance": 4500,
+            "name": "big bone"
+        },
+        {
+            "name": "two handed sword",
+            "chance": 2700
+        },
+        {
+            "chance": 7000,
+            "maxCount": 3,
+            "name": "fish"
+        },
+        {
+            "name": "ham",
+            "chance": 10000
+        },
+        {
+            "name": "iron ore",
+            "chance": 3000
+        },
+        {
+            "name": "fish fin",
+            "chance": 5000
+        },
+        {
+            "name": "hardened bone",
+            "chance": 5700
+        },
+        {
+            "chance": 9400,
+            "name": "fish tail"
+        },
+        {
+            "name": "assassin dagger",
+            "chance": 1000
+        },
+        {
+            "name": "haunted blade",
+            "chance": 2000
+        },
+        {
+            "name": "nightmare blade",
+            "chance": 380
+        },
+        {
+            "name": "great mana potion",
+            "chance": 17000,
+            "maxCount": 3
+        },
+        {
+            "name": "great health potion",
+            "chance": 18500,
+            "maxCount": 2
+        },
+        {
+            "name": "sai",
+            "chance": 1200
+        },
+        {
+            "name": "violet crystal shard",
+            "chance": 3000
+        },
+        {
+            "name": "brown crystal splinter",
+            "chance": 12000,
+            "maxCount": 2
+        },
+        {
+            "name": "red crystal fragment",
+            "chance": 7600
+        },
+        {
+            "chance": 12000,
+            "name": "crystal rubbish"
+        },
+        {
+            "name": "cluster of solace",
+            "chance": 8920
+        },
+        {
+            "name": "frazzle tongue",
+            "chance": 15000
+        },
+        {
+            "name": "frazzle skin",
+            "chance": 14000
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ethereal_storm_bear",
+    "threatDps": 124.875,
+    "burstDps": 124.875,
+    "avgHit": 166.5,
+    "maxHit": 544,
+    "manaCost": 0
+}

@@ -1,0 +1,127 @@
+{
+    "id": "frostkin_tribewarden",
+    "label": "Frostkin Tribewarden",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A frostkin tribewarden.",
+    "hp": 68,
+    "hpMax": 68,
+    "speed": 62,
+    "level": 155,
+    "armor": 9,
+    "mitigation": 0.33,
+    "maxBlock": 0,
+    "exp": 40,
+    "lootValue": 7.1448173949757,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 25,
+        "ice": 100,
+        "energy": -14,
+        "earth": 0,
+        "holy": 10,
+        "death": -5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 40
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 79590,
+            "maxCount": 20
+        },
+        {
+            "name": "short sword",
+            "chance": 4810
+        },
+        {
+            "name": "bone shield",
+            "chance": 1030
+        },
+        {
+            "chance": 19370,
+            "name": "fish"
+        },
+        {
+            "name": "northern pike",
+            "chance": 60
+        },
+        {
+            "name": "rainbow trout",
+            "chance": 50
+        },
+        {
+            "name": "green perch",
+            "chance": 100
+        },
+        {
+            "name": "mammoth whopper",
+            "chance": 130
+        },
+        {
+            "name": "fireproof horn",
+            "chance": 350
+        }
+    ],
+    "changeTarget": {
+        "interval": 60000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "frostkin_tribewarden",
+    "threatDps": 10,
+    "burstDps": 10,
+    "avgHit": 20,
+    "maxHit": 40,
+    "manaCost": 305
+}

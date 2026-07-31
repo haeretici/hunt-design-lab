@@ -1,0 +1,26 @@
+{
+    "id": "cave_crawl_multifloor",
+    "label": "Generated multi-floor cave (Stage 11.8)",
+    "notes": "Two-floor chain via layout.multifloor + small_crawl per z. Stair sockets synthesize between floors when piece stairs are absent. floorLayers + stairLinks feed TileMap and party hops.",
+    "layout": {
+        "type": "multifloor",
+        "floors": [
+            {
+                "z": 0,
+                "profileId": "small_crawl",
+                "role": "entrance"
+            },
+            {
+                "z": 1,
+                "profileId": "small_crawl",
+                "role": "deep"
+            }
+        ],
+        "biomeId": "cave"
+    },
+    "artSet": "cave",
+    "limits": {
+        "maxSeconds": 120,
+        "maxFrames": 2400
+    }
+}

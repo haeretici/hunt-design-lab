@@ -1,0 +1,271 @@
+{
+    "id": "cursed_hand",
+    "label": "Cursed Hand",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A cursed hand.",
+    "hp": 6600,
+    "hpMax": 6600,
+    "speed": 130,
+    "level": 613,
+    "armor": 53,
+    "mitigation": 1.88,
+    "maxBlock": 0,
+    "exp": 5000,
+    "lootValue": 1715,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": -10,
+        "energy": 5,
+        "earth": 100,
+        "holy": -25,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 3500,
+        "staticAttackChance": 20,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 172,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 126,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 1,
+            "element": "manadrain",
+            "min": 0,
+            "max": 205,
+            "target": false
+        },
+        {
+            "id": "melee_3",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 1,
+            "element": "lifedrain",
+            "min": 73,
+            "max": 291,
+            "target": false,
+            "effect": "me_smallclouds"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 1000,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "invisible_1",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 10,
+            "durationSec": 2,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "heal_2",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 20,
+            "min": 100,
+            "max": 250,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "emerald bangle",
+            "chance": 3500
+        },
+        {
+            "name": "small sapphire",
+            "chance": 11000,
+            "maxCount": 4
+        },
+        {
+            "name": "gold coin",
+            "chance": 60000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 60000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 67
+        },
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 7
+        },
+        {
+            "name": "violet gem",
+            "chance": 700
+        },
+        {
+            "name": "yellow gem",
+            "chance": 5940
+        },
+        {
+            "chance": 3150,
+            "name": "voltaic ring"
+        },
+        {
+            "name": "platinum amulet",
+            "chance": 1005
+        },
+        {
+            "name": "mind stone",
+            "chance": 9090
+        },
+        {
+            "name": "wand of inferno",
+            "chance": 5590
+        },
+        {
+            "name": "boots of haste",
+            "chance": 540
+        },
+        {
+            "name": "protection amulet",
+            "chance": 8740
+        },
+        {
+            "name": "sudden death rune",
+            "chance": 4200,
+            "maxCount": 8
+        },
+        {
+            "name": "Bone Skull Staff",
+            "chance": 700
+        },
+        {
+            "name": "knight armor",
+            "chance": 4550
+        },
+        {
+            "name": "Regal Crown Armor",
+            "chance": 1400
+        },
+        {
+            "name": "mysterious voodoo skull",
+            "chance": 247
+        },
+        {
+            "name": "soul orb",
+            "chance": 31111
+        },
+        {
+            "chance": 1750,
+            "name": "death ring"
+        },
+        {
+            "name": "demonic essence",
+            "chance": 12000
+        },
+        {
+            "name": "flask of demonic blood",
+            "chance": 30000,
+            "maxCount": 4
+        },
+        {
+            "name": "assassin star",
+            "chance": 7692,
+            "maxCount": 5
+        },
+        {
+            "name": "abyss hammer",
+            "chance": 495
+        },
+        {
+            "name": "great mana potion",
+            "chance": 19990,
+            "maxCount": 2
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 18000
+        },
+        {
+            "name": "gold ingot",
+            "chance": 700
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "winter_wolf",
+    "threatDps": 127.3375,
+    "burstDps": 127.3375,
+    "avgHit": 98.9808,
+    "maxHit": 291,
+    "manaCost": 0
+}

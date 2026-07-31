@@ -1,0 +1,155 @@
+{
+    "id": "night_fiend",
+    "label": "Night Fiend",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A night fiend.",
+    "hp": 2700,
+    "hpMax": 2700,
+    "speed": 112,
+    "level": 524,
+    "armor": 46,
+    "mitigation": 1.43,
+    "maxBlock": 0,
+    "exp": 2100,
+    "lootValue": 243.87893864013,
+    "aggro": true,
+    "resists": {
+        "physical": 10,
+        "fire": -5,
+        "ice": 20,
+        "energy": 10,
+        "earth": 100,
+        "holy": -8,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 80,
+        "health": 10,
+        "damage": 10
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 258
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "min": 29,
+            "max": 230,
+            "target": false,
+            "shootEffect": "ani_throwingknife"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Demon",
+        "toKill": 5,
+        "firstUnlock": 2,
+        "secondUnlock": 3,
+        "charmsPoints": 50,
+        "stars": 3,
+        "occurrence": 3
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 50000,
+            "maxCount": 1
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 148
+        },
+        {
+            "chance": 1052,
+            "maxCount": 3,
+            "name": "small ruby"
+        },
+        {
+            "name": "tooth file",
+            "chance": 564
+        },
+        {
+            "name": "blood preservation",
+            "chance": 1000
+        },
+        {
+            "name": "emerald bangle",
+            "chance": 120
+        },
+        {
+            "name": "vampire teeth",
+            "chance": 10000
+        },
+        {
+            "name": "Bloodfang Shield",
+            "chance": 50
+        },
+        {
+            "name": "strong health potion",
+            "chance": 4761
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 5000
+        },
+        {
+            "chance": 55,
+            "name": "red gem"
+        },
+        {
+            "chance": 1000,
+            "name": "ring of healing"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "celestial_fiend",
+    "threatDps": 77.45,
+    "burstDps": 77.45,
+    "avgHit": 129.0833,
+    "maxHit": 258,
+    "manaCost": 0
+}

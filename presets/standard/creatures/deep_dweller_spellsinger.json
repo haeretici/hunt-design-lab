@@ -1,0 +1,210 @@
+{
+    "id": "deep_dweller_spellsinger",
+    "label": "Deep Dweller Spellsinger",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A deep dweller spellsinger.",
+    "hp": 850,
+    "hpMax": 850,
+    "speed": 95,
+    "level": 409,
+    "armor": 42,
+    "mitigation": 1.29,
+    "maxBlock": 0,
+    "exp": 1000,
+    "lootValue": 322.34755381044,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": 100,
+        "energy": -10,
+        "earth": -10,
+        "holy": 0,
+        "death": 50
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 60,
+        "staticAttackChance": 60,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": false,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 83,
+            "effect": "me_drawblood"
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "ice",
+            "min": 98,
+            "max": 191,
+            "length": 10,
+            "spread": 3,
+            "target": false,
+            "effect": "me_icetornado"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "physical",
+            "min": 49,
+            "max": 71,
+            "radius": 4,
+            "target": true,
+            "effect": "me_bubbles"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "lifedrain",
+            "min": 33,
+            "max": 77,
+            "target": false,
+            "effect": "me_smallplants"
+        },
+        {
+            "id": "ranged_4",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "manadrain",
+            "min": 33,
+            "max": 77,
+            "target": false,
+            "effect": "me_smallplants"
+        },
+        {
+            "id": "deepling_spellsinger_skill_reducer_5",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 5,
+            "element": "physical",
+            "target": false,
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Aquatic",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 80120
+        },
+        {
+            "name": "gold coin",
+            "chance": 75110,
+            "maxCount": 60
+        },
+        {
+            "name": "spellsinger's seal",
+            "chance": 15185
+        },
+        {
+            "name": "deepling filet",
+            "chance": 14995
+        },
+        {
+            "name": "key to the drowned library",
+            "chance": 10740
+        },
+        {
+            "chance": 3448,
+            "name": "fish"
+        },
+        {
+            "name": "small sapphire",
+            "chance": 2934
+        },
+        {
+            "name": "eye of a deepling",
+            "chance": 2540
+        },
+        {
+            "chance": 2459,
+            "name": "life ring"
+        },
+        {
+            "name": "deepling staff",
+            "chance": 2020
+        },
+        {
+            "name": "necklace of the deep",
+            "chance": 790
+        },
+        {
+            "name": "fish fin",
+            "chance": 520
+        },
+        {
+            "name": "ornate crossbow",
+            "chance": 220
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "rabbit",
+    "threatDps": 40.85,
+    "burstDps": 40.85,
+    "avgHit": 52.7097,
+    "maxHit": 191,
+    "manaCost": 0
+}

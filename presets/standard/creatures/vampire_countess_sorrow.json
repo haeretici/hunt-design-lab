@@ -1,0 +1,204 @@
+{
+    "id": "vampire_countess_sorrow",
+    "label": "Vampire Countess Sorrow",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A vampire countess sorrow.",
+    "hp": 6500,
+    "hpMax": 6500,
+    "speed": 200,
+    "level": 611,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 13000,
+    "lootValue": 53593.468085106,
+    "aggro": true,
+    "resists": {
+        "physical": 100,
+        "fire": -10,
+        "ice": 50,
+        "energy": 10,
+        "earth": 100,
+        "holy": 0,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 540,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "condition": {
+                "type": "poison",
+                "totalDamage": 232,
+                "intervalMs": 4000
+            },
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "lifedrain",
+            "min": 106,
+            "max": 248,
+            "radius": 1,
+            "target": true,
+            "effect": "me_hitbypoison",
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 12,
+            "range": 4,
+            "element": "manadrain",
+            "min": 11,
+            "max": 23,
+            "radius": 3,
+            "target": false,
+            "effect": "me_yellow_rings"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 26,
+            "min": 415,
+            "max": 625,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "invisible_1",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 15,
+            "durationSec": 2,
+            "effect": "me_poff"
+        },
+        {
+            "id": "haste_2",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 11,
+            "speedChange": 736,
+            "durationSec": 6,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "chance": 100000,
+            "name": "Countess Sorrow's frozen tear"
+        },
+        {
+            "chance": 20590,
+            "name": "demonic essence"
+        },
+        {
+            "chance": 82350,
+            "maxCount": 169,
+            "name": "gold coin"
+        },
+        {
+            "chance": 55880,
+            "maxCount": 4,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 85290,
+            "name": "soul orb"
+        },
+        {
+            "chance": 32350,
+            "name": "blue robe"
+        },
+        {
+            "chance": 4210,
+            "name": "silver mace"
+        },
+        {
+            "chance": 8820,
+            "name": "plate legs"
+        },
+        {
+            "chance": 23530,
+            "name": "protection amulet"
+        },
+        {
+            "chance": 5880,
+            "name": "stealth ring"
+        },
+        {
+            "chance": 47060,
+            "name": "worn leather boots"
+        }
+    ],
+    "changeTarget": {
+        "interval": 60000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "hellfire_vampire_archer",
+    "threatDps": 125.87,
+    "burstDps": 125.87,
+    "avgHit": 89.7273,
+    "maxHit": 248,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 3,
+        "summons": [
+            {
+                "name": "Nightmare Phantom",
+                "id": "nightmare_phantom",
+                "chance": 7,
+                "interval": 2000,
+                "count": 3
+            }
+        ]
+    }
+}

@@ -1,0 +1,120 @@
+{
+    "id": "earth_mite",
+    "label": "Earth Mite",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An earth mite.",
+    "hp": 365,
+    "hpMax": 365,
+    "speed": 111,
+    "level": 326,
+    "armor": 15,
+    "mitigation": 0.56,
+    "maxBlock": 0,
+    "exp": 160,
+    "lootValue": 43.366668288949,
+    "aggro": true,
+    "resists": {
+        "physical": 5,
+        "fire": -10,
+        "ice": 0,
+        "energy": -5,
+        "earth": 20,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": true,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 100
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "earth",
+            "min": 5,
+            "max": 16,
+            "target": true,
+            "shootEffect": "ani_poison"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Vermin",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 97520,
+            "maxCount": 45
+        },
+        {
+            "name": "terramite shell",
+            "chance": 7730
+        },
+        {
+            "name": "terramite eggs",
+            "chance": 4680,
+            "maxCount": 3
+        },
+        {
+            "name": "terramite legs",
+            "chance": 14880
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "chaos_stone_revenant_archer",
+    "threatDps": 25.7875,
+    "burstDps": 25.7875,
+    "avgHit": 44.8478,
+    "maxHit": 100,
+    "manaCost": 505
+}

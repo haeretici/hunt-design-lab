@@ -1,0 +1,164 @@
+{
+    "id": "earth_overlord",
+    "label": "Earth Overlord",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An earth overlord.",
+    "hp": 4000,
+    "hpMax": 4000,
+    "speed": 165,
+    "level": 563,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 2800,
+    "lootValue": 5430.952848723,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -25,
+        "ice": 20,
+        "energy": 0,
+        "earth": 100,
+        "holy": 0,
+        "death": 20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 1,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 238
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 1000,
+            "chance": 10,
+            "range": 4,
+            "element": "earth",
+            "min": 0,
+            "max": 476,
+            "length": 7,
+            "spread": 0,
+            "target": false,
+            "effect": "me_stones"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 9,
+            "range": 4,
+            "element": "earth",
+            "min": 0,
+            "max": 291,
+            "radius": 6,
+            "target": false,
+            "effect": "me_bigplants"
+        },
+        {
+            "id": "slow_3",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -750,
+                "durationSec": 4
+            },
+            "effect": "me_magic_red",
+            "target": false
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 68
+        },
+        {
+            "name": "platinum coin",
+            "chance": 33333,
+            "maxCount": 3
+        },
+        {
+            "name": "Earthbound Mantle",
+            "chance": 1923
+        },
+        {
+            "name": "mother soil",
+            "chance": 100000
+        },
+        {
+            "name": "lump of earth",
+            "chance": 33333
+        },
+        {
+            "name": "shiny stone",
+            "chance": 8333
+        },
+        {
+            "chance": 552,
+            "name": "coal"
+        }
+    ],
+    "changeTarget": {
+        "interval": 20000,
+        "chance": 30
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "chaos_stone_revenant_archer",
+    "threatDps": 96.395,
+    "burstDps": 96.395,
+    "avgHit": 139.7029,
+    "maxHit": 476,
+    "manaCost": 0
+}

@@ -1,0 +1,122 @@
+{
+    "id": "reptilian_abomination",
+    "label": "Reptilian Abomination",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A reptilian abomination.",
+    "hp": 95000,
+    "hpMax": 95000,
+    "speed": 150,
+    "level": 879,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 9700,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 15,
+        "fire": -10,
+        "ice": 20,
+        "energy": -10,
+        "earth": 100,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 1027
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 40,
+            "range": 4,
+            "element": "earth",
+            "min": 0,
+            "max": 1831,
+            "radius": 3,
+            "target": false,
+            "effect": "me_hitbypoison"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 50,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 374,
+            "max": 560,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_magic_red"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 25,
+            "min": 50,
+            "max": 350,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "dread_abomination",
+    "threatDps": 556.6,
+    "burstDps": 556.6,
+    "avgHit": 585.8947,
+    "maxHit": 1831,
+    "manaCost": 0
+}

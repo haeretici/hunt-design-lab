@@ -1,0 +1,169 @@
+{
+    "id": "void_architect",
+    "label": "Void Architect",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A void architect.",
+    "hp": 26000,
+    "hpMax": 26000,
+    "speed": 143,
+    "level": 750,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 6000,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 15,
+        "ice": 15,
+        "energy": 15,
+        "earth": 15,
+        "holy": 15,
+        "death": 15
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 85,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 572
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "manadrain",
+            "min": 0,
+            "max": 2415,
+            "radius": 4,
+            "target": false,
+            "effect": "me_bigclouds",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "death",
+            "min": 0,
+            "max": 333,
+            "target": false,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "fire",
+            "min": 191,
+            "max": 667,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_fireattack"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 11,
+            "min": 400,
+            "max": 900,
+            "hpBelow": 0.7,
+            "effect": "me_magic_green"
+        }
+    ],
+    "race": "blood",
+    "loot": [],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "obsidian_cyclops_berserker",
+    "threatDps": 271.6625,
+    "burstDps": 271.6625,
+    "avgHit": 374.7069,
+    "maxHit": 2415,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 10,
+        "summons": [
+            {
+                "name": "Rift Worm",
+                "id": "rift_worm",
+                "chance": 100,
+                "interval": 30,
+                "count": 8
+            },
+            {
+                "name": "Rift Brood Spawn",
+                "id": "rift_brood_spawn",
+                "chance": 100,
+                "interval": 30,
+                "count": 8
+            },
+            {
+                "name": "Rift Scythe",
+                "id": "rift_scythe",
+                "chance": 100,
+                "interval": 30,
+                "count": 8
+            },
+            {
+                "name": "War Golem",
+                "id": "war_golem",
+                "chance": 100,
+                "interval": 30,
+                "count": 5
+            }
+        ]
+    }
+}

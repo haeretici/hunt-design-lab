@@ -1,0 +1,236 @@
+{
+    "id": "stone_weeper",
+    "label": "Stone Weeper",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A stone weeper.",
+    "hp": 6800,
+    "hpMax": 6800,
+    "speed": 170,
+    "level": 616,
+    "armor": 76,
+    "mitigation": 2.19,
+    "maxBlock": 0,
+    "exp": 5800,
+    "lootValue": 1616.4441332088,
+    "aggro": true,
+    "resists": {
+        "physical": -5,
+        "fire": 100,
+        "ice": -5,
+        "energy": 0,
+        "earth": 100,
+        "holy": 0,
+        "death": 30
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 80,
+        "random": 20
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": false,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 264
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "fire",
+            "min": 235,
+            "max": 587,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_fireattack"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 3000,
+            "chance": 100,
+            "range": 4,
+            "element": "fire",
+            "min": 47,
+            "max": 147,
+            "radius": 3,
+            "target": false,
+            "effect": "me_hitbyfire"
+        },
+        {
+            "id": "slow_3",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 5,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -600,
+                "durationSec": 30
+            },
+            "length": 5,
+            "spread": 0,
+            "effect": "me_blockhit",
+            "target": false
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "invisible_0",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 5,
+            "durationSec": 2,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "fire",
+    "bestiary": {
+        "class": "Construct",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 1
+    },
+    "loot": [
+        {
+            "name": "small ruby",
+            "chance": 15690,
+            "maxCount": 3
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 99
+        },
+        {
+            "chance": 100000,
+            "maxCount": 7,
+            "name": "platinum coin"
+        },
+        {
+            "name": "fire sword",
+            "chance": 3280
+        },
+        {
+            "name": "fire axe",
+            "chance": 2150
+        },
+        {
+            "name": "great mana potion",
+            "chance": 14800,
+            "maxCount": 2
+        },
+        {
+            "name": "Emberbound Legs",
+            "chance": 790
+        },
+        {
+            "name": "Emberbound Coat",
+            "chance": 790
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 15440,
+            "maxCount": 2
+        },
+        {
+            "name": "fiery heart",
+            "chance": 13570
+        },
+        {
+            "chance": 1320,
+            "name": "coal"
+        },
+        {
+            "name": "wand of everblazing",
+            "chance": 1480
+        },
+        {
+            "name": "violet crystal shard",
+            "chance": 5430
+        },
+        {
+            "name": "brown crystal splinter",
+            "chance": 12100,
+            "maxCount": 2
+        },
+        {
+            "name": "red crystal fragment",
+            "chance": 8880
+        },
+        {
+            "name": "magma clump",
+            "chance": 13240
+        },
+        {
+            "name": "blazing bone",
+            "chance": 14890
+        },
+        {
+            "name": "eye of a weeper",
+            "chance": 15870
+        },
+        {
+            "name": "prismatic bolt",
+            "chance": 10900,
+            "maxCount": 5
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "chaos_stone_revenant_archer",
+    "threatDps": 129.1583,
+    "burstDps": 145.325,
+    "avgHit": 142.1927,
+    "maxHit": 587,
+    "manaCost": 0
+}

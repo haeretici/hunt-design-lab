@@ -1,0 +1,349 @@
+{
+    "id": "ancient_doom_demon",
+    "label": "Ancient Doom Demon",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An ancient doom demon.",
+    "hp": 1000000,
+    "hpMax": 1000000,
+    "speed": 530,
+    "level": 1000,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 3720909.0909091,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 5,
+        "ice": 0,
+        "energy": 5,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "wave_0",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 5881,
+            "length": 8,
+            "spread": 0,
+            "effect": "me_white_energy_spark"
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 1,
+            "element": "ice",
+            "min": 4277,
+            "max": 32076,
+            "effect": "me_iceattack"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 7,
+            "range": 7,
+            "element": "manadrain",
+            "min": 107,
+            "max": 1069,
+            "target": false,
+            "effect": "me_poff",
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "strength_5",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 9,
+            "range": 7,
+            "element": "physical",
+            "target": false,
+            "effect": "me_energyarea",
+            "shootEffect": "ani_largerock",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "area_6",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 13,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 428,
+            "max": 748,
+            "radius": 8,
+            "target": false,
+            "effect": "me_loseenergy"
+        },
+        {
+            "id": "area_7",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 10,
+            "range": 4,
+            "element": "manadrain",
+            "min": 428,
+            "max": 748,
+            "radius": 8,
+            "target": false,
+            "effect": "me_magic_green"
+        },
+        {
+            "id": "slow_8",
+            "kind": "status",
+            "intervalMs": 1000,
+            "chance": 12,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -1900,
+                "durationSec": 60
+            },
+            "radius": 6,
+            "effect": "me_poisonarea",
+            "target": false
+        },
+        {
+            "id": "strength_9",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 8,
+            "range": 4,
+            "element": "physical",
+            "radius": 5,
+            "target": false,
+            "effect": "me_hitarea",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "area_12",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 34,
+            "range": 7,
+            "element": "fire",
+            "min": 107,
+            "max": 962,
+            "radius": 7,
+            "target": true,
+            "effect": "me_firearea",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "wave_13",
+            "kind": "wave",
+            "intervalMs": 1000,
+            "chance": 15,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 535,
+            "max": 909,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_magic_red"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 1000,
+            "chance": 15,
+            "min": 5000,
+            "max": 10000,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "heal_1",
+            "kind": "heal",
+            "intervalMs": 1000,
+            "chance": 25,
+            "min": 2000,
+            "max": 3000,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_2",
+            "kind": "haste",
+            "intervalMs": 1000,
+            "chance": 8,
+            "speedChange": 1901,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "invisible_3",
+            "kind": "invisible",
+            "intervalMs": 1000,
+            "chance": 4,
+            "durationSec": 2,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "invisible_4",
+            "kind": "invisible",
+            "intervalMs": 1000,
+            "chance": 17,
+            "durationSec": 2,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 60000,
+            "maxCount": 35,
+            "name": "crystal coin"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 69,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 40000,
+            "maxCount": 100,
+            "name": "ultimate mana potion"
+        },
+        {
+            "chance": 30000,
+            "maxCount": 100,
+            "name": "ultimate health potion"
+        },
+        {
+            "chance": 30000,
+            "maxCount": 100,
+            "name": "ultimate dual potion"
+        },
+        {
+            "chance": 100000,
+            "name": "Morshabaal's extract"
+        },
+        {
+            "chance": 100000,
+            "name": "watermelon tourmaline"
+        },
+        {
+            "chance": 100000,
+            "name": "watermelon tourmaline"
+        },
+        {
+            "chance": 40000,
+            "name": "amber with a dragonfly"
+        },
+        {
+            "chance": 20000,
+            "name": "unicorn figurine"
+        },
+        {
+            "chance": 20000,
+            "name": "sea horse figurine"
+        },
+        {
+            "chance": 10000,
+            "name": "Morshabaal's mask"
+        },
+        {
+            "chance": 10000,
+            "name": "giant emerald"
+        },
+        {
+            "chance": 10000,
+            "name": "bar of gold"
+        },
+        {
+            "chance": 6666,
+            "name": "Morshabaal's brain"
+        },
+        {
+            "chance": 6666,
+            "name": "green demon armor"
+        },
+        {
+            "chance": 6666,
+            "name": "green demon helmet"
+        },
+        {
+            "chance": 6666,
+            "name": "green demon legs"
+        },
+        {
+            "chance": 6666,
+            "name": "green demon slippers"
+        },
+        {
+            "chance": 6666,
+            "name": "dragon figurine"
+        },
+        {
+            "chance": 6666,
+            "name": "thunder hammer"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "drunk": true,
+        "bleed": false
+    },
+    "customSprite": "mist_demon_priest",
+    "threatDps": 2050.205,
+    "burstDps": 2050.205,
+    "avgHit": 2181.0691,
+    "maxHit": 32076,
+    "manaCost": 0
+}

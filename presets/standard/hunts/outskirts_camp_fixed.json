@@ -1,0 +1,14 @@
+{
+    "id": "outskirts_camp_fixed",
+    "label": "Outskirts camp (Stage 11.5 fixed + cutouts)",
+    "notes": "Fixed piece shell; only the east camp cutout randomizes events and packs under seed. Friction outside the cutout is identical across seeds. Stage 11.9: artSet cave.",
+    "layout": {
+        "type": "fixed",
+        "profileId": "outskirts_camp"
+    },
+    "artSet": "cave",
+    "limits": {
+        "maxSeconds": 90,
+        "maxFrames": 1800
+    }
+}

@@ -1,0 +1,123 @@
+{
+    "id": "ugly_monster",
+    "label": "Ugly Monster",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An ugly monster.",
+    "hp": 10000,
+    "hpMax": 10000,
+    "speed": 340,
+    "level": 654,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 1000,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 20,
+        "ice": 20,
+        "energy": 20,
+        "earth": 100,
+        "holy": 0,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 640
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "invisible_0",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 8,
+            "durationSec": 2,
+            "effect": "me_hitarea"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "cobra crossbow",
+            "chance": 300
+        },
+        {
+            "name": "cobra hood",
+            "chance": 300
+        },
+        {
+            "name": "cobra axe",
+            "chance": 300
+        },
+        {
+            "name": "cobra boots",
+            "chance": 300
+        },
+        {
+            "name": "cobra sword",
+            "chance": 300
+        },
+        {
+            "name": "cobra wand",
+            "chance": 300
+        },
+        {
+            "name": "cobra rod",
+            "chance": 300
+        },
+        {
+            "name": "cobra club",
+            "chance": 300
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "crystal_dune_viper",
+    "threatDps": 160,
+    "burstDps": 160,
+    "avgHit": 320,
+    "maxHit": 640,
+    "manaCost": 0
+}

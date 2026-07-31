@@ -1,0 +1,222 @@
+{
+    "id": "pygmy_voodoomaster",
+    "label": "Pygmy Voodoomaster",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A pygmy voodoomaster.",
+    "hp": 80,
+    "hpMax": 80,
+    "speed": 75,
+    "level": 171,
+    "armor": 3,
+    "mitigation": 0.2,
+    "maxBlock": 0,
+    "exp": 55,
+    "lootValue": 11.114619683252,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -14,
+        "ice": -10,
+        "energy": 0,
+        "earth": 100,
+        "holy": 35,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 15,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 33
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 1,
+            "element": "lifedrain",
+            "min": 0,
+            "max": 67,
+            "target": false,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "slow_2",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -800,
+                "durationSec": 5
+            },
+            "effect": "me_magic_red",
+            "target": false
+        },
+        {
+            "id": "area_5",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "earth",
+            "min": 10,
+            "max": 30,
+            "radius": 6,
+            "target": false,
+            "effect": "me_green_rings"
+        },
+        {
+            "id": "poisonfield_6",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "radius": 1,
+            "target": true,
+            "shootEffect": "ani_poison",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 20,
+            "min": 3,
+            "max": 9,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 200,
+            "durationSec": 4,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "invisible_2",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 15,
+            "durationSec": 2,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 6000,
+            "name": "torch"
+        },
+        {
+            "name": "gold coin",
+            "chance": 75000,
+            "maxCount": 17
+        },
+        {
+            "name": "strange symbol",
+            "chance": 500
+        },
+        {
+            "chance": 1950,
+            "maxCount": 3,
+            "name": "skull"
+        },
+        {
+            "chance": 5800,
+            "name": "bone"
+        },
+        {
+            "chance": 3000,
+            "name": "big bone"
+        },
+        {
+            "name": "poison dagger",
+            "chance": 1000
+        },
+        {
+            "name": "leather armor",
+            "chance": 10000
+        },
+        {
+            "chance": 130,
+            "name": "voodoo doll"
+        },
+        {
+            "name": "tribal mask",
+            "chance": 500
+        },
+        {
+            "name": "health potion",
+            "chance": 600
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "pygmy_voodoomaster",
+    "threatDps": 10.925,
+    "burstDps": 10.925,
+    "avgHit": 18.2083,
+    "maxHit": 67,
+    "manaCost": 0
+}

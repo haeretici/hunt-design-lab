@@ -1,0 +1,44 @@
+{
+    "id": "cave_clickies",
+    "biome": "cave",
+    "notes": "Stage 11.7 — generator-friendly cave markers. Pool mins fit piece-socket counts on small procedural/fixed profiles (unlike floor07 hand-corridor tables).",
+    "pools": {
+        "A": {
+            "objectIds": [
+                "barrel",
+                "crate",
+                "vase"
+            ],
+            "spawnCount": [
+                0,
+                4
+            ],
+            "effect": "break",
+            "lootValue": [
+                1,
+                3
+            ],
+            "blocking": false
+        },
+        "B": {
+            "objectIds": [
+                "rest_well"
+            ],
+            "spawnCount": [
+                0,
+                1
+            ],
+            "effect": "well",
+            "healAmount": [
+                30,
+                50
+            ],
+            "lootValue": [
+                0,
+                0
+            ],
+            "blocking": false,
+            "pacingTag": "well"
+        }
+    }
+}

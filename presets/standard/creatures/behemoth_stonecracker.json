@@ -1,0 +1,156 @@
+{
+    "id": "behemoth_stonecracker",
+    "label": "Behemoth Stonecracker",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A behemoth stonecracker.",
+    "hp": 6500,
+    "hpMax": 6500,
+    "speed": 140,
+    "level": 611,
+    "armor": 0,
+    "mitigation": 1.94,
+    "maxBlock": 0,
+    "exp": 3500,
+    "lootValue": 22653.348837209,
+    "aggro": true,
+    "resists": {
+        "physical": 1,
+        "fire": 40,
+        "ice": 0,
+        "energy": 30,
+        "earth": 75,
+        "holy": 1,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 431
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "earth",
+            "min": 153,
+            "max": 214,
+            "target": false,
+            "shootEffect": "ani_largerock"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 10,
+            "speedChange": 360,
+            "durationSec": 4,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "heal_1",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 500,
+            "max": 600,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 76225,
+            "maxCount": 100,
+            "name": "gold coin"
+        },
+        {
+            "chance": 64800,
+            "name": "perfect behemoth fang"
+        },
+        {
+            "chance": 36200,
+            "name": "meat"
+        },
+        {
+            "chance": 50500,
+            "name": "behemoth claw"
+        },
+        {
+            "chance": 11225,
+            "maxCount": 2,
+            "name": "assassin star"
+        },
+        {
+            "chance": 7650,
+            "name": "dark armor"
+        },
+        {
+            "chance": 14800,
+            "name": "crowbar"
+        },
+        {
+            "chance": 7650,
+            "maxCount": 2,
+            "name": "small amethyst"
+        },
+        {
+            "chance": 7650,
+            "name": "double axe"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "blood_behemoth",
+    "threatDps": 126.1,
+    "burstDps": 126.1,
+    "avgHit": 210.1667,
+    "maxHit": 431,
+    "manaCost": 0
+}

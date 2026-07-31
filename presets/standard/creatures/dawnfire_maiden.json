@@ -1,0 +1,277 @@
+{
+    "id": "dawnfire_maiden",
+    "label": "Dawnfire Maiden",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A dawnfire maiden.",
+    "hp": 2900,
+    "hpMax": 2900,
+    "speed": 140,
+    "level": 531,
+    "armor": 48,
+    "mitigation": 1.46,
+    "maxBlock": 0,
+    "exp": 3610,
+    "lootValue": 797.31340819022,
+    "aggro": true,
+    "resists": {
+        "physical": -10,
+        "fire": 100,
+        "ice": -10,
+        "energy": -5,
+        "earth": 0,
+        "holy": -10,
+        "death": 20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 208
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 3700,
+            "chance": 17,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 77,
+            "max": 232,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_purpleenergy"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 3200,
+            "chance": 25,
+            "range": 5,
+            "element": "death",
+            "min": 77,
+            "max": 271,
+            "radius": 4,
+            "target": true,
+            "effect": "me_mortarea"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2700,
+            "chance": 20,
+            "range": 3,
+            "element": "fire",
+            "min": 73,
+            "max": 139,
+            "target": true,
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "slow_4",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -800,
+                "durationSec": 15
+            },
+            "radius": 1,
+            "effect": "me_sleep",
+            "target": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 50,
+            "max": 100,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 320,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Demon",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 69190,
+            "maxCount": 100,
+            "name": "gold coin"
+        },
+        {
+            "chance": 84140,
+            "maxCount": 9,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 20910,
+            "maxCount": 2,
+            "name": "flask of demonic blood"
+        },
+        {
+            "chance": 8590,
+            "maxCount": 2,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 3140,
+            "maxCount": 1,
+            "name": "small amethyst"
+        },
+        {
+            "chance": 2930,
+            "maxCount": 1,
+            "name": "small diamond"
+        },
+        {
+            "chance": 3530,
+            "maxCount": 1,
+            "name": "small emerald"
+        },
+        {
+            "chance": 5760,
+            "maxCount": 1,
+            "name": "small ruby"
+        },
+        {
+            "chance": 2840,
+            "maxCount": 1,
+            "name": "small topaz"
+        },
+        {
+            "chance": 220,
+            "name": "blue gem"
+        },
+        {
+            "chance": 340,
+            "name": "death ring"
+        },
+        {
+            "chance": 10660,
+            "name": "demonic essence"
+        },
+        {
+            "chance": 870,
+            "name": "focus cape"
+        },
+        {
+            "chance": 1230,
+            "name": "golden lotus brooch"
+        },
+        {
+            "chance": 570,
+            "name": "Emberbound Coat"
+        },
+        {
+            "chance": 1160,
+            "name": "mysterious fetish"
+        },
+        {
+            "chance": 2190,
+            "name": "mystic turban"
+        },
+        {
+            "chance": 310,
+            "name": "oriental shoes"
+        },
+        {
+            "chance": 11110,
+            "name": "peacock feather fan"
+        },
+        {
+            "chance": 2340,
+            "name": "red piece of cloth"
+        },
+        {
+            "chance": 800,
+            "name": "ruby necklace"
+        },
+        {
+            "chance": 14560,
+            "name": "soul orb"
+        },
+        {
+            "chance": 80,
+            "name": "spellbook of mind control"
+        },
+        {
+            "chance": 910,
+            "name": "wand of inferno"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "radiant_fire_giant_priest",
+    "threatDps": 80.5443,
+    "burstDps": 97.4825,
+    "avgHit": 115.3689,
+    "maxHit": 271,
+    "manaCost": 0
+}

@@ -1,0 +1,231 @@
+{
+    "id": "pharaoh_blademaster",
+    "label": "Pharaoh Blademaster",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A pharaoh blademaster.",
+    "hp": 4800,
+    "hpMax": 4800,
+    "speed": 295,
+    "level": 581,
+    "armor": 75,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 3000,
+    "lootValue": 319.8764940239,
+    "aggro": true,
+    "resists": {
+        "physical": 20,
+        "fire": 25,
+        "ice": 20,
+        "energy": 25,
+        "earth": -10,
+        "holy": -20,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 80,
+        "health": 10,
+        "damage": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 313,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 20,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 3000,
+            "chance": 7,
+            "range": 1,
+            "element": "lifedrain",
+            "min": 17,
+            "max": 172,
+            "target": false
+        },
+        {
+            "id": "slow_2",
+            "kind": "status",
+            "intervalMs": 1000,
+            "chance": 25,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -650,
+                "durationSec": 50
+            },
+            "effect": "me_magic_red",
+            "target": false
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 20,
+            "range": 4,
+            "element": "physical",
+            "min": 13,
+            "max": 125,
+            "radius": 3,
+            "target": false,
+            "effect": "me_hitarea"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 3000,
+            "chance": 7,
+            "range": 4,
+            "element": "physical",
+            "min": 16,
+            "max": 157,
+            "radius": 3,
+            "target": false,
+            "effect": "me_mortarea"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 1000,
+            "chance": 13,
+            "min": 200,
+            "max": 300,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 1000,
+            "chance": 7,
+            "speedChange": 1201,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "invisible_2",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 10,
+            "durationSec": 2,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "chance": 500,
+            "name": "fiendbone amulet"
+        },
+        {
+            "name": "black pearl",
+            "chance": 7000
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 80
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 73
+        },
+        {
+            "name": "Stonehide Amulet",
+            "chance": 7000
+        },
+        {
+            "name": "sword hilt",
+            "chance": 100000
+        },
+        {
+            "name": "knight axe",
+            "chance": 7000
+        },
+        {
+            "name": "ravager's axe",
+            "chance": 300
+        },
+        {
+            "name": "steel boots",
+            "chance": 500
+        },
+        {
+            "name": "assassin star",
+            "chance": 500,
+            "maxCount": 3
+        },
+        {
+            "name": "great health potion",
+            "chance": 1500
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "chaos_stone_revenant_archer",
+    "threatDps": 106.2733,
+    "burstDps": 108.385,
+    "avgHit": 128.9375,
+    "maxHit": 313,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 3,
+        "summons": [
+            {
+                "name": "Fallen Hero",
+                "id": "fallen_hero",
+                "chance": 100,
+                "interval": 2000,
+                "count": 3
+            }
+        ]
+    }
+}

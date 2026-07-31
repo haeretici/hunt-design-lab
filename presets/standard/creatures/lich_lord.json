@@ -1,0 +1,235 @@
+{
+    "id": "lich_lord",
+    "label": "Lich Lord",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A lich lord.",
+    "hp": 750,
+    "hpMax": 750,
+    "speed": 180,
+    "level": 396,
+    "armor": 0,
+    "mitigation": 1.18,
+    "maxBlock": 0,
+    "exp": 1050,
+    "lootValue": 9853.4358974359,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 28,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 3,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 3000,
+            "chance": 70,
+            "range": 5,
+            "element": "physical",
+            "min": 21,
+            "max": 76,
+            "target": false,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "melee_2",
+            "kind": "melee",
+            "intervalMs": 1000,
+            "chance": 20,
+            "range": 1,
+            "element": "lifedrain",
+            "min": 28,
+            "max": 42,
+            "target": false
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 17,
+            "range": 7,
+            "element": "fire",
+            "min": 18,
+            "max": 49,
+            "target": false,
+            "effect": "me_hitbyfire",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "ranged_4",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 17,
+            "range": 7,
+            "element": "energy",
+            "min": 18,
+            "max": 49,
+            "target": false,
+            "effect": "me_energyhit",
+            "shootEffect": "ani_energy"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 0,
+            "max": 300,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 100000,
+            "name": "book of necromantic rituals"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 99,
+            "name": "gold coin"
+        },
+        {
+            "chance": 100000,
+            "name": "necromantic robe"
+        },
+        {
+            "chance": 100000,
+            "name": "soul stone"
+        },
+        {
+            "chance": 52000,
+            "name": "clerical mace"
+        },
+        {
+            "chance": 47000,
+            "name": "Bone Skull Staff"
+        },
+        {
+            "chance": 38000,
+            "name": "bone club"
+        },
+        {
+            "chance": 19000,
+            "name": "skull"
+        },
+        {
+            "chance": 14000,
+            "name": "green mushroom"
+        },
+        {
+            "chance": 14000,
+            "name": "Lunar Rod"
+        },
+        {
+            "chance": 9500,
+            "name": "big bone"
+        },
+        {
+            "chance": 9500,
+            "name": "bone shield"
+        },
+        {
+            "chance": 4700,
+            "name": "boots of haste"
+        },
+        {
+            "chance": 4700,
+            "name": "mystic turban"
+        },
+        {
+            "chance": 4700,
+            "name": "strong mana potion"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ember_ogre_ravager",
+    "threatDps": 38.2067,
+    "burstDps": 43.865,
+    "avgHit": 28.8272,
+    "maxHit": 76,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 6,
+        "summons": [
+            {
+                "name": "Ghoul",
+                "id": "ghoul",
+                "chance": 20,
+                "interval": 1000,
+                "count": 2
+            },
+            {
+                "name": "Ghost",
+                "id": "ghost",
+                "chance": 17,
+                "interval": 1000,
+                "count": 2
+            },
+            {
+                "name": "Mummy",
+                "id": "mummy",
+                "chance": 15,
+                "interval": 1000,
+                "count": 2
+            }
+        ]
+    }
+}

@@ -1,0 +1,237 @@
+{
+    "id": "lost_husher",
+    "label": "Lost Husher",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A lost husher.",
+    "hp": 1600,
+    "hpMax": 1600,
+    "speed": 125,
+    "level": 472,
+    "armor": 55,
+    "mitigation": 1.35,
+    "maxBlock": 0,
+    "exp": 1800,
+    "lootValue": 497.37544574631,
+    "aggro": true,
+    "resists": {
+        "physical": 5,
+        "fire": 25,
+        "ice": -5,
+        "energy": 10,
+        "earth": 100,
+        "holy": -10,
+        "death": 20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "wave_0",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "death",
+            "min": 290,
+            "max": 580,
+            "length": 6,
+            "spread": 0,
+            "target": false,
+            "effect": "me_blacksmoke"
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "death",
+            "min": 290,
+            "max": 387,
+            "target": false,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "earth",
+            "min": 290,
+            "max": 483,
+            "radius": 2,
+            "target": true,
+            "effect": "me_magic_green",
+            "shootEffect": "ani_smallearth"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 75,
+            "max": 92,
+            "hpBelow": 0.7,
+            "effect": "me_yellowenergy"
+        },
+        {
+            "id": "invisible_1",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 15,
+            "durationSec": 2,
+            "effect": "me_teleport"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 100
+        },
+        {
+            "name": "platinum coin",
+            "chance": 58670,
+            "maxCount": 2
+        },
+        {
+            "name": "fire axe",
+            "chance": 330
+        },
+        {
+            "name": "Bone Skull Staff",
+            "chance": 280
+        },
+        {
+            "name": "guardian shield",
+            "chance": 830
+        },
+        {
+            "name": "tower shield",
+            "chance": 440
+        },
+        {
+            "name": "brown mushroom",
+            "chance": 14920,
+            "maxCount": 2
+        },
+        {
+            "name": "spiked squelcher",
+            "chance": 50
+        },
+        {
+            "name": "strong health potion",
+            "chance": 11050,
+            "maxCount": 3
+        },
+        {
+            "name": "great mana potion",
+            "chance": 10770,
+            "maxCount": 2
+        },
+        {
+            "name": "Earthbound Legs",
+            "chance": 50
+        },
+        {
+            "name": "Earthbound Boots",
+            "chance": 880
+        },
+        {
+            "name": "small topaz",
+            "chance": 9780
+        },
+        {
+            "name": "clay lump",
+            "chance": 500
+        },
+        {
+            "chance": 10930,
+            "name": "coal"
+        },
+        {
+            "name": "buckle",
+            "chance": 8180
+        },
+        {
+            "name": "buckle",
+            "chance": 770
+        },
+        {
+            "name": "bonecarving knife",
+            "chance": 8510
+        },
+        {
+            "name": "wimp tooth chain",
+            "chance": 8950
+        },
+        {
+            "name": "skull shatterer",
+            "chance": 12320
+        },
+        {
+            "name": "red hair dye",
+            "chance": 8510
+        },
+        {
+            "name": "basalt figurine",
+            "chance": 8560
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "arcane_jungle_stalker_assassin",
+    "threatDps": 58,
+    "burstDps": 58,
+    "avgHit": 386.6667,
+    "maxHit": 580,
+    "manaCost": 0
+}

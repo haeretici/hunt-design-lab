@@ -1,0 +1,318 @@
+{
+    "id": "infernal_flayer",
+    "label": "Infernal Flayer",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An infernal flayer.",
+    "hp": 14000,
+    "hpMax": 14000,
+    "speed": 165,
+    "level": 688,
+    "armor": 55,
+    "mitigation": 1.6,
+    "maxBlock": 0,
+    "exp": 11720,
+    "lootValue": 3416.2358318099,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 70,
+        "ice": 5,
+        "energy": -5,
+        "earth": 20,
+        "holy": -5,
+        "death": 25
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 103,
+            "max": 449,
+            "condition": {
+                "type": "fire",
+                "totalDamage": 3,
+                "intervalMs": 9000
+            }
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "fire",
+            "min": 88,
+            "max": 155,
+            "target": false,
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "death",
+            "min": 129,
+            "max": 259,
+            "radius": 4,
+            "target": true,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "wave_4",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 26,
+            "max": 103,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_purpleenergy"
+        },
+        {
+            "id": "melee_5",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 1,
+            "element": "fire",
+            "min": 155,
+            "max": 284,
+            "radius": 1,
+            "target": true,
+            "effect": "me_fireattack",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "warlock_skill_reducer_6",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 5,
+            "element": "physical",
+            "target": false,
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "melee_7",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 1,
+            "element": "physical",
+            "min": 155,
+            "max": 259,
+            "radius": 1,
+            "target": true,
+            "effect": "me_sleep",
+            "shootEffect": "ani_explosion"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 80,
+            "max": 95,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Demon",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 90000,
+            "maxCount": 130,
+            "name": "gold coin"
+        },
+        {
+            "chance": 20000,
+            "maxCount": 9,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 4000,
+            "maxCount": 3,
+            "name": "flask of demonic blood"
+        },
+        {
+            "chance": 1300,
+            "maxCount": 2,
+            "name": "gold ingot"
+        },
+        {
+            "chance": 9600,
+            "maxCount": 2,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 2300,
+            "maxCount": 2,
+            "name": "great dual potion"
+        },
+        {
+            "chance": 2000,
+            "maxCount": 5,
+            "name": "small amethyst"
+        },
+        {
+            "chance": 900,
+            "maxCount": 5,
+            "name": "small diamond"
+        },
+        {
+            "chance": 900,
+            "maxCount": 5,
+            "name": "small emerald"
+        },
+        {
+            "chance": 2000,
+            "maxCount": 5,
+            "name": "small ruby"
+        },
+        {
+            "chance": 900,
+            "maxCount": 5,
+            "name": "small topaz"
+        },
+        {
+            "chance": 5300,
+            "maxCount": 2,
+            "name": "ultimate health potion"
+        },
+        {
+            "chance": 1000,
+            "name": "fiendbone amulet"
+        },
+        {
+            "chance": 1600,
+            "name": "demonic essence"
+        },
+        {
+            "id": 281,
+            "chance": 800
+        },
+        {
+            "chance": 800,
+            "name": "green gem"
+        },
+        {
+            "chance": 500,
+            "name": "Emberbound Boots"
+        },
+        {
+            "chance": 1200,
+            "name": "Emberbound Legs"
+        },
+        {
+            "chance": 350,
+            "name": "mastermind shield"
+        },
+        {
+            "chance": 800,
+            "name": "pair of hellflayer horns"
+        },
+        {
+            "chance": 500,
+            "name": "red gem"
+        },
+        {
+            "chance": 280,
+            "name": "rift bow"
+        },
+        {
+            "chance": 180,
+            "name": "rift crossbow"
+        },
+        {
+            "chance": 450,
+            "name": "skull helmet"
+        },
+        {
+            "chance": 200,
+            "name": "rift lance"
+        },
+        {
+            "chance": 900,
+            "name": "titan axe"
+        },
+        {
+            "chance": 750,
+            "name": "golden armor"
+        },
+        {
+            "chance": 900,
+            "name": "spellbook of mind control"
+        },
+        {
+            "chance": 400,
+            "name": "heavy mace"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "brimstone_ruins_crawler",
+    "threatDps": 192.5625,
+    "burstDps": 192.5625,
+    "avgHit": 231.5909,
+    "maxHit": 449,
+    "manaCost": 0
+}

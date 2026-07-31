@@ -1,0 +1,250 @@
+{
+    "id": "hideous_spore_mass",
+    "label": "Hideous Spore Mass",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A hideous spore mass.",
+    "hp": 4600,
+    "hpMax": 4600,
+    "speed": 170,
+    "level": 577,
+    "armor": 60,
+    "mitigation": 1.74,
+    "maxBlock": 0,
+    "exp": 3700,
+    "lootValue": 965.12265324252,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -5,
+        "ice": 15,
+        "energy": 15,
+        "earth": 100,
+        "holy": 5,
+        "death": 35
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 241
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "earth",
+            "min": 134,
+            "max": 231,
+            "target": false,
+            "effect": "me_smallplants",
+            "shootEffect": "ani_smallearth"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "ice",
+            "min": 134,
+            "max": 295,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_icearea",
+            "shootEffect": "ani_snowball"
+        },
+        {
+            "id": "condition_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "earth",
+            "min": 215,
+            "max": 343,
+            "radius": 3,
+            "target": false,
+            "effect": "me_hitbypoison"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 275,
+            "max": 350,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "invisible_1",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 5,
+            "durationSec": 2,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Plant",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 197
+        },
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 7
+        },
+        {
+            "name": "war hammer",
+            "chance": 4010
+        },
+        {
+            "name": "white piece of cloth",
+            "chance": 6430
+        },
+        {
+            "name": "green piece of cloth",
+            "chance": 3003
+        },
+        {
+            "name": "red piece of cloth",
+            "chance": 1820
+        },
+        {
+            "name": "blue piece of cloth",
+            "chance": 3700
+        },
+        {
+            "name": "great mana potion",
+            "chance": 7692
+        },
+        {
+            "name": "great health potion",
+            "chance": 7220
+        },
+        {
+            "name": "mana potion",
+            "chance": 9090
+        },
+        {
+            "name": "Earthbound Mantle",
+            "chance": 800
+        },
+        {
+            "name": "Earthbound Legs",
+            "chance": 920
+        },
+        {
+            "name": "Earthbound Boots",
+            "chance": 2000
+        },
+        {
+            "name": "Earthbound Amulet",
+            "chance": 2000
+        },
+        {
+            "name": "mushroom backpack",
+            "chance": 20
+        },
+        {
+            "name": "mushroom pie",
+            "chance": 14500,
+            "maxCount": 3
+        },
+        {
+            "name": "muck rod",
+            "chance": 590
+        },
+        {
+            "name": "hideous chunk",
+            "chance": 14285
+        },
+        {
+            "name": "envenomed arrow",
+            "chance": 14500,
+            "maxCount": 15
+        },
+        {
+            "name": "mycological bow",
+            "chance": 60
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "cursed_basilisk_scout",
+    "threatDps": 103.975,
+    "burstDps": 103.975,
+    "avgHit": 148.5357,
+    "maxHit": 343,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 1,
+        "summons": [
+            {
+                "name": "Humorless Fungus",
+                "id": "humorless_fungus",
+                "chance": 10,
+                "interval": 2000,
+                "count": 1
+            }
+        ]
+    }
+}

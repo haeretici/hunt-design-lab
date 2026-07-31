@@ -1,0 +1,190 @@
+{
+    "id": "massive_fire_elemental",
+    "label": "Massive Fire Elemental",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A massive fire elemental.",
+    "hp": 1800,
+    "hpMax": 1800,
+    "speed": 119,
+    "level": 483,
+    "armor": 57,
+    "mitigation": 1.32,
+    "maxBlock": 0,
+    "exp": 1400,
+    "lootValue": 360.365625,
+    "aggro": true,
+    "resists": {
+        "physical": 50,
+        "fire": 100,
+        "ice": -14,
+        "energy": 30,
+        "earth": 0,
+        "holy": 0,
+        "death": 20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 80,
+        "random": 20
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 170
+        },
+        {
+            "id": "firefield_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "radius": 3,
+            "target": false,
+            "shootEffect": "ani_fire",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "firefield_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "radius": 3,
+            "target": true,
+            "shootEffect": "ani_fire",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "fire",
+            "min": 113,
+            "max": 397,
+            "length": 7,
+            "spread": 0,
+            "target": false,
+            "effect": "me_firearea"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "fire",
+            "min": 34,
+            "max": 142,
+            "radius": 3,
+            "target": false,
+            "effect": "me_explosionhit"
+        }
+    ],
+    "race": "fire",
+    "bestiary": {
+        "class": "Elemental",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "small ruby",
+            "chance": 6100,
+            "maxCount": 2
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 25000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 25000,
+            "maxCount": 12
+        },
+        {
+            "name": "wand of inferno",
+            "chance": 2240
+        },
+        {
+            "name": "fire sword",
+            "chance": 530
+        },
+        {
+            "name": "Emberbound Amulet",
+            "chance": 1300
+        },
+        {
+            "name": "Emberbound Boots",
+            "chance": 560
+        },
+        {
+            "name": "Emberbound Legs",
+            "chance": 210
+        },
+        {
+            "chance": 1330,
+            "name": "rusted armor"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "arcane_elemental_vanguard",
+    "threatDps": 61.85,
+    "burstDps": 61.85,
+    "avgHit": 98.96,
+    "maxHit": 397,
+    "manaCost": 0
+}

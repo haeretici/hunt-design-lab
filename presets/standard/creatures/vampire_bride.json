@@ -1,0 +1,220 @@
+{
+    "id": "vampire_bride",
+    "label": "Vampire Bride",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A vampire bride.",
+    "hp": 1200,
+    "hpMax": 1200,
+    "speed": 100,
+    "level": 443,
+    "armor": 55,
+    "mitigation": 1.18,
+    "maxBlock": 0,
+    "exp": 1050,
+    "lootValue": 163.61538461538,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -10,
+        "ice": 20,
+        "energy": 10,
+        "earth": 20,
+        "holy": -10,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 80,
+        "health": 10,
+        "damage": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 141
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 3000,
+            "chance": 15,
+            "range": 1,
+            "element": "lifedrain",
+            "min": 44,
+            "max": 96,
+            "target": true,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "death",
+            "min": 44,
+            "max": 111,
+            "target": true,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 4000,
+            "chance": 5,
+            "range": 7,
+            "element": "death",
+            "min": 44,
+            "max": 111,
+            "target": true,
+            "effect": "me_hearts",
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "ranged_4",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "energy",
+            "min": 44,
+            "max": 111,
+            "target": true,
+            "shootEffect": "ani_energy"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 40,
+            "max": 80,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "emerald bangle",
+            "chance": 1100
+        },
+        {
+            "name": "small diamond",
+            "chance": 1020,
+            "maxCount": 2
+        },
+        {
+            "name": "gold coin",
+            "chance": 90000,
+            "maxCount": 149
+        },
+        {
+            "name": "platinum coin",
+            "chance": 9910
+        },
+        {
+            "name": "Lunar Rod",
+            "chance": 5500
+        },
+        {
+            "name": "boots of haste",
+            "chance": 220
+        },
+        {
+            "name": "strong health potion",
+            "chance": 5000
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 10210
+        },
+        {
+            "chance": 200,
+            "name": "flower bouquet"
+        },
+        {
+            "name": "hibiscus dress",
+            "chance": 1030
+        },
+        {
+            "name": "blood goblet",
+            "chance": 60
+        },
+        {
+            "chance": 1010,
+            "name": "rusted armor"
+        },
+        {
+            "chance": 970,
+            "name": "velvet tapestry"
+        },
+        {
+            "name": "vampire teeth",
+            "chance": 10000
+        },
+        {
+            "name": "blood preservation",
+            "chance": 4950
+        },
+        {
+            "name": "leather whip",
+            "chance": 20
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "hellfire_vampire_archer",
+    "threatDps": 49.4063,
+    "burstDps": 52.125,
+    "avgHit": 71.8636,
+    "maxHit": 141,
+    "manaCost": 0
+}

@@ -1,0 +1,96 @@
+{
+    "id": "void",
+    "label": "Void",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A void.",
+    "hp": 2000,
+    "hpMax": 2000,
+    "speed": 0,
+    "level": 494,
+    "armor": 10,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 320,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 100,
+        "fire": 100,
+        "ice": 100,
+        "energy": 100,
+        "earth": 100,
+        "holy": 100,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": true,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "element": "physical",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "min": 64,
+            "max": 198,
+            "target": true
+        }
+    ],
+    "race": "undead",
+    "loot": [],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "dread_abomination",
+    "threatDps": 65.5,
+    "burstDps": 65.5,
+    "avgHit": 131,
+    "maxHit": 198,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 10,
+        "summons": [
+            {
+                "name": "Enthralled Demon",
+                "id": "enthralled_demon",
+                "chance": 25,
+                "interval": 2000,
+                "count": 10
+            }
+        ]
+    }
+}

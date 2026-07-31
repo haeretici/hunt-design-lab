@@ -1,0 +1,202 @@
+{
+    "id": "dark_sylvan_horror",
+    "label": "Dark Sylvan Horror",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A dark sylvan horror.",
+    "hp": 7500,
+    "hpMax": 7500,
+    "speed": 120,
+    "level": 626,
+    "armor": 41,
+    "mitigation": 0.91,
+    "maxBlock": 0,
+    "exp": 4400,
+    "lootValue": 2141.4890198179,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -20,
+        "ice": -10,
+        "energy": 0,
+        "earth": 10,
+        "holy": 0,
+        "death": 20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 153
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2700,
+            "chance": 40,
+            "range": 2,
+            "element": "death",
+            "min": 102,
+            "max": 256,
+            "radius": 7,
+            "target": true,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 70,
+            "range": 5,
+            "element": "earth",
+            "min": 179,
+            "max": 230,
+            "target": true,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_smallearth"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 80,
+            "max": 210,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 10,
+            "speedChange": 330,
+            "durationSec": 8,
+            "effect": "me_hitarea"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Human",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 70000,
+            "maxCount": 19
+        },
+        {
+            "chance": 39690,
+            "maxCount": 1,
+            "name": "bone"
+        },
+        {
+            "name": "carnisylvan finger",
+            "chance": 17490,
+            "maxCount": 4
+        },
+        {
+            "name": "carnisylvan bark",
+            "chance": 11490,
+            "maxCount": 5
+        },
+        {
+            "name": "great mana potion",
+            "chance": 9660,
+            "maxCount": 4
+        },
+        {
+            "name": "Nether Rod",
+            "chance": 4440
+        },
+        {
+            "name": "wand of starstorm",
+            "chance": 3660
+        },
+        {
+            "name": "Hailburst Rod",
+            "chance": 3660
+        },
+        {
+            "name": "Bloomshoot Rod",
+            "chance": 2610
+        },
+        {
+            "chance": 2350,
+            "name": "spellbook"
+        },
+        {
+            "name": "spellbook of warding",
+            "chance": 3390
+        },
+        {
+            "name": "gold ring",
+            "chance": 780
+        },
+        {
+            "name": "butterfly ring",
+            "chance": 520
+        },
+        {
+            "name": "human teeth",
+            "chance": 1040
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 25
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ember_ruins_horror",
+    "threatDps": 136.3435,
+    "burstDps": 145.625,
+    "avgHit": 136.5965,
+    "maxHit": 256,
+    "manaCost": 0
+}

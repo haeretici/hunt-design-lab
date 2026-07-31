@@ -1,0 +1,264 @@
+{
+    "id": "snake_abomination",
+    "label": "Snake Abomination",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A snake abomination.",
+    "hp": 3000,
+    "hpMax": 3000,
+    "speed": 117,
+    "level": 534,
+    "armor": 35,
+    "mitigation": 1.04,
+    "maxBlock": 0,
+    "exp": 3050,
+    "lootValue": 775.07127456998,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -10,
+        "ice": 20,
+        "energy": -10,
+        "earth": 100,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 30
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 275,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 177
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "earth",
+            "min": 56,
+            "max": 211,
+            "target": false,
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "slow_3",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -850,
+                "durationSec": 12
+            },
+            "radius": 4,
+            "effect": "me_green_rings",
+            "target": true
+        },
+        {
+            "id": "wave_4",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 140,
+            "max": 351,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_sound_red"
+        },
+        {
+            "id": "wave_5",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "earth",
+            "min": 140,
+            "max": 351,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_poisonarea"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 250,
+            "max": 500,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 340,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Reptile",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "golden mug",
+            "chance": 2870
+        },
+        {
+            "name": "small sapphire",
+            "chance": 12000
+        },
+        {
+            "name": "gold coin",
+            "chance": 97250,
+            "maxCount": 239
+        },
+        {
+            "chance": 590,
+            "name": "voltaic ring"
+        },
+        {
+            "chance": 6250,
+            "name": "life ring"
+        },
+        {
+            "name": "life crystal",
+            "chance": 800
+        },
+        {
+            "name": "Viperfang Rod",
+            "chance": 930
+        },
+        {
+            "name": "warrior helmet",
+            "chance": 560
+        },
+        {
+            "name": "strange helmet",
+            "chance": 670
+        },
+        {
+            "name": "Regal Crown Armor",
+            "chance": 510
+        },
+        {
+            "chance": 550,
+            "name": "old parchment"
+        },
+        {
+            "name": "royal helmet",
+            "chance": 140
+        },
+        {
+            "name": "tower shield",
+            "chance": 920
+        },
+        {
+            "name": "power bolt",
+            "chance": 6200
+        },
+        {
+            "name": "green mushroom",
+            "chance": 18200
+        },
+        {
+            "name": "charmer's tiara",
+            "chance": 180
+        },
+        {
+            "name": "mercenary sword",
+            "chance": 2070
+        },
+        {
+            "name": "noble axe",
+            "chance": 750
+        },
+        {
+            "name": "great mana potion",
+            "chance": 2000
+        },
+        {
+            "name": "swamplair armor",
+            "chance": 90
+        },
+        {
+            "name": "spellbook of mind control",
+            "chance": 90
+        },
+        {
+            "name": "snake skin",
+            "chance": 14800
+        },
+        {
+            "name": "winged tail",
+            "chance": 960
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "dread_abomination",
+    "threatDps": 82.15,
+    "burstDps": 82.15,
+    "avgHit": 117.3571,
+    "maxHit": 351,
+    "manaCost": 0
+}

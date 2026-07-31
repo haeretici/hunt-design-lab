@@ -1,0 +1,92 @@
+{
+    "id": "wild_knowledge",
+    "label": "Wild Knowledge",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A wild knowledge.",
+    "hp": 1,
+    "hpMax": 1,
+    "speed": 25,
+    "level": 628,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 150,
+        "earth": -40,
+        "holy": 0,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 200
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 1000,
+            "chance": 25,
+            "range": 1,
+            "element": "energy",
+            "min": 0,
+            "max": 705,
+            "target": false,
+            "shootEffect": "ani_energyball"
+        }
+    ],
+    "race": "venom",
+    "loot": [],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "wild_fire_magic",
+    "threatDps": 138.125,
+    "burstDps": 138.125,
+    "avgHit": 184.1667,
+    "maxHit": 705,
+    "manaCost": 0
+}

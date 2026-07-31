@@ -1,0 +1,186 @@
+{
+    "id": "boar_man",
+    "label": "Boar Man",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A boar man.",
+    "hp": 9200,
+    "hpMax": 9200,
+    "speed": 160,
+    "level": 646,
+    "armor": 72,
+    "mitigation": 2.16,
+    "maxBlock": 0,
+    "exp": 7100,
+    "lootValue": 1801.1349655512,
+    "aggro": true,
+    "resists": {
+        "physical": 15,
+        "fire": 15,
+        "ice": 5,
+        "energy": 15,
+        "earth": 5,
+        "holy": -10,
+        "death": 5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 262
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2300,
+            "chance": 30,
+            "range": 7,
+            "element": "physical",
+            "min": 197,
+            "max": 206,
+            "target": true,
+            "shootEffect": "ani_throwingknife"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2600,
+            "chance": 40,
+            "range": 7,
+            "element": "death",
+            "min": 203,
+            "max": 253,
+            "target": true,
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2900,
+            "chance": 30,
+            "range": 1,
+            "element": "physical",
+            "min": 32,
+            "max": 74,
+            "radius": 4,
+            "target": false,
+            "effect": "me_explosionarea"
+        },
+        {
+            "id": "wave_4",
+            "kind": "wave",
+            "intervalMs": 3200,
+            "chance": 35,
+            "range": 4,
+            "element": "energy",
+            "min": 164,
+            "max": 210,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_energyhit"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 1
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 78950,
+            "maxCount": 22
+        },
+        {
+            "name": "red crystal fragment",
+            "chance": 9830,
+            "maxCount": 6
+        },
+        {
+            "chance": 6390,
+            "maxCount": 2,
+            "name": "red gem"
+        },
+        {
+            "name": "boar man hoof",
+            "chance": 4640,
+            "maxCount": 2
+        },
+        {
+            "name": "great health potion",
+            "chance": 3810,
+            "maxCount": 4
+        },
+        {
+            "name": "sapphire hammer",
+            "chance": 2700
+        },
+        {
+            "name": "crystal mace",
+            "chance": 2160
+        },
+        {
+            "name": "crystal sword",
+            "chance": 1310
+        },
+        {
+            "name": "tower shield",
+            "chance": 930
+        },
+        {
+            "chance": 710,
+            "name": "crystal ring"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ember_ogre_ravager",
+    "threatDps": 152.7954,
+    "burstDps": 182,
+    "avgHit": 153.2392,
+    "maxHit": 262,
+    "manaCost": 0
+}

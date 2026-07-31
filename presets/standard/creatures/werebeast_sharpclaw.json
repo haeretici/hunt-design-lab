@@ -1,0 +1,256 @@
+{
+    "id": "werebeast_sharpclaw",
+    "label": "Werebeast Sharpclaw",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A werebeast sharpclaw.",
+    "hp": 3300,
+    "hpMax": 3300,
+    "speed": 125,
+    "level": 544,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 3000,
+    "lootValue": 1527,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -5,
+        "ice": 10,
+        "energy": 10,
+        "earth": 50,
+        "holy": 0,
+        "death": 20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 119
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 20,
+            "range": 7,
+            "element": "physical",
+            "min": 41,
+            "max": 296,
+            "target": false,
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "slow_2",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -600,
+                "durationSec": 20
+            },
+            "effect": "me_magic_red",
+            "target": false
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 1000,
+            "chance": 14,
+            "range": 4,
+            "element": "death",
+            "min": 41,
+            "max": 288,
+            "length": 5,
+            "spread": 0,
+            "target": false,
+            "effect": "me_mortarea"
+        },
+        {
+            "id": "ghastly_dragon_curse_5",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 1,
+            "element": "physical",
+            "target": false,
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 4000,
+            "chance": 15,
+            "min": 150,
+            "max": 345,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "invisible_1",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 15,
+            "durationSec": 2,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 13600000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 13600000,
+            "maxCount": 100
+        },
+        {
+            "name": "platinum coin",
+            "chance": 13600000,
+            "maxCount": 10
+        },
+        {
+            "name": "brown mushroom",
+            "chance": 13600000,
+            "maxCount": 9
+        },
+        {
+            "name": "onyx chip",
+            "chance": 13600000,
+            "maxCount": 9
+        },
+        {
+            "name": "small enchanted amethyst",
+            "chance": 13600000,
+            "maxCount": 9
+        },
+        {
+            "name": "beetroot",
+            "chance": 13600000,
+            "maxCount": 9
+        },
+        {
+            "name": "great mana potion",
+            "chance": 13600000,
+            "maxCount": 9
+        },
+        {
+            "name": "platinum amulet",
+            "chance": 13600000
+        },
+        {
+            "chance": 13600000,
+            "name": "ring of healing"
+        },
+        {
+            "name": "troll green",
+            "chance": 13600000,
+            "maxCount": 9
+        },
+        {
+            "name": "ultimate mana potion",
+            "chance": 13600000,
+            "maxCount": 9
+        },
+        {
+            "name": "werebadger claws",
+            "chance": 13600000,
+            "maxCount": 9
+        },
+        {
+            "name": "werebadger skull",
+            "chance": 13600000,
+            "maxCount": 9
+        },
+        {
+            "name": "badger boots",
+            "chance": 400
+        },
+        {
+            "name": "Nether Rod",
+            "chance": 400
+        },
+        {
+            "name": "wand of voodoo",
+            "chance": 400
+        },
+        {
+            "name": "wolf backpack",
+            "chance": 250
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ethereal_storm_bear",
+    "threatDps": 86.48,
+    "burstDps": 86.48,
+    "avgHit": 102.9524,
+    "maxHit": 296,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 2,
+        "summons": [
+            {
+                "name": "Werebadger",
+                "id": "werebadger",
+                "chance": 20,
+                "interval": 2000,
+                "count": 2
+            }
+        ]
+    }
+}

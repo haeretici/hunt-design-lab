@@ -1,0 +1,136 @@
+{
+    "id": "heavy_stomper",
+    "label": "Heavy Stomper",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A heavy stomper.",
+    "hp": 900,
+    "hpMax": 900,
+    "speed": 215,
+    "level": 415,
+    "armor": 45,
+    "mitigation": 1.88,
+    "maxBlock": 0,
+    "exp": 475,
+    "lootValue": 23.678848641656,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 300,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 20,
+            "max": 143,
+            "condition": {
+                "type": "fire",
+                "totalDamage": 3,
+                "intervalMs": 9000
+            }
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 80,
+            "max": 95,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Mammal",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 92000,
+            "maxCount": 130,
+            "name": "gold coin"
+        },
+        {
+            "chance": 2200,
+            "name": "raw meat"
+        },
+        {
+            "chance": 1200,
+            "maxCount": 2,
+            "name": "hardened bone"
+        },
+        {
+            "chance": 900,
+            "name": "thick fur"
+        },
+        {
+            "chance": 400,
+            "name": "tusk shield"
+        },
+        {
+            "chance": 200,
+            "name": "furry club"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "animated_skunk",
+    "threatDps": 42.25,
+    "burstDps": 42.25,
+    "avgHit": 81.5,
+    "maxHit": 143,
+    "manaCost": 0
+}

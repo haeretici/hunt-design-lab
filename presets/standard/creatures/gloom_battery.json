@@ -1,0 +1,116 @@
+{
+    "id": "gloom_battery",
+    "label": "Gloom Battery",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A gloom battery.",
+    "hp": 8000,
+    "hpMax": 8000,
+    "speed": 0,
+    "level": 632,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 4200,
+    "lootValue": 1158.9808917197,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 25,
+        "ice": 25,
+        "energy": 25,
+        "earth": 1,
+        "holy": 25,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "area_0",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "earth",
+            "min": 2544,
+            "max": 3112,
+            "radius": 6,
+            "target": false,
+            "effect": "me_green_rings"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 4000,
+            "chance": 15,
+            "min": 133,
+            "max": 454,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 33000,
+            "maxCount": 5,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 10000,
+            "name": "great health potion"
+        },
+        {
+            "chance": 1500,
+            "name": "crystal pedestal"
+        },
+        {
+            "chance": 1000,
+            "name": "metal spats"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "umbral_ghoul",
+    "threatDps": 141.4,
+    "burstDps": 141.4,
+    "avgHit": 2828,
+    "maxHit": 3112,
+    "manaCost": 0
+}

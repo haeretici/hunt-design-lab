@@ -1,0 +1,258 @@
+{
+    "id": "false_god_idol",
+    "label": "False God Idol",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A false god idol.",
+    "hp": 300000,
+    "hpMax": 300000,
+    "speed": 115,
+    "level": 994,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 50000,
+    "lootValue": 25162.571428571,
+    "aggro": true,
+    "resists": {
+        "physical": 10,
+        "fire": 10,
+        "ice": 0,
+        "energy": 10,
+        "earth": 0,
+        "holy": 0,
+        "death": 50
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 3368
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "earth",
+            "min": 0,
+            "max": 4210,
+            "radius": 4,
+            "target": true,
+            "effect": "me_stones"
+        },
+        {
+            "id": "slow_2",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -650,
+                "durationSec": 5
+            },
+            "radius": 5,
+            "effect": "me_magic_red",
+            "target": false
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "id": 282,
+            "chance": 26900
+        },
+        {
+            "name": "magic sulphur",
+            "chance": 18920
+        },
+        {
+            "name": "mino shield",
+            "chance": 17620
+        },
+        {
+            "name": "silver token",
+            "chance": 1732
+        },
+        {
+            "name": "gold token",
+            "chance": 1532
+        },
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 200
+        },
+        {
+            "name": "platinum coin",
+            "chance": 29840,
+            "maxCount": 30
+        },
+        {
+            "name": "piece of hell steel",
+            "chance": 12370,
+            "maxCount": 9
+        },
+        {
+            "name": "red piece of cloth",
+            "chance": 16370,
+            "maxCount": 6
+        },
+        {
+            "name": "yellow gem",
+            "chance": 29460
+        },
+        {
+            "name": "blue gem",
+            "chance": 21892
+        },
+        {
+            "name": "Nether Rod",
+            "chance": 117270
+        },
+        {
+            "name": "war axe",
+            "chance": 127270
+        },
+        {
+            "name": "pair of iron fists",
+            "chance": 9510
+        },
+        {
+            "name": "mysterious remains",
+            "chance": 100000
+        },
+        {
+            "name": "small diamond",
+            "chance": 12760,
+            "maxCount": 10
+        },
+        {
+            "name": "small amethyst",
+            "chance": 14700,
+            "maxCount": 10
+        },
+        {
+            "name": "small topaz",
+            "chance": 11520,
+            "maxCount": 10
+        },
+        {
+            "name": "small sapphire",
+            "chance": 13790,
+            "maxCount": 10
+        },
+        {
+            "name": "small emerald",
+            "chance": 14700,
+            "maxCount": 10
+        },
+        {
+            "name": "small amethyst",
+            "chance": 12259,
+            "maxCount": 10
+        },
+        {
+            "name": "energy bar",
+            "chance": 16872,
+            "maxCount": 3
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 27652,
+            "maxCount": 10
+        },
+        {
+            "name": "great mana potion",
+            "chance": 33721,
+            "maxCount": 10
+        },
+        {
+            "name": "great dual potion",
+            "chance": 25690,
+            "maxCount": 5
+        },
+        {
+            "name": "piece of royal steel",
+            "chance": 15890
+        },
+        {
+            "name": "execowtioner axe",
+            "chance": 7890
+        },
+        {
+            "name": "maimer",
+            "chance": 1890
+        },
+        {
+            "name": "ornate mace",
+            "chance": 7890
+        },
+        {
+            "name": "velvet mantle",
+            "chance": 1890
+        },
+        {
+            "name": "iron ore",
+            "chance": 14542
+        },
+        {
+            "name": "giant sword",
+            "chance": 16892
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 30
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "tempest_jungle_orc_lord",
+    "threatDps": 1052.5,
+    "burstDps": 1052.5,
+    "avgHit": 1754.1667,
+    "maxHit": 4210,
+    "manaCost": 0
+}

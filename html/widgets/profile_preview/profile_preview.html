@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Character Profile Preview — Designer</title>
+    <link rel="icon" href="../../../assets/brand/favicon-32.png?v=4" type="image/png" sizes="32x32">
+    <link rel="icon" href="../../../assets/brand/favicon.svg?v=4" type="image/svg+xml">
+    <link rel="icon" href="../../../assets/brand/favicon.ico?v=4" sizes="any">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0d1117;
+            --panel: #161b22;
+            --border: #30363d;
+            --text: #e6edf3;
+            --muted: #8b949e;
+            --accent: #58a6ff;
+            --cyan: #39c5bb;
+            --card-bg: #11161d;
+            --slot-bg: #0a0d12;
+            --slot-border: #21262d;
+            --slot-hover: #1f242c;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            font-family: Outfit, system-ui, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .pp-header {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 12px 18px;
+            background: var(--panel);
+            border-bottom: 1px solid var(--border);
+        }
+        .pp-header h1 {
+            margin: 0;
+            font-family: Orbitron, sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .pp-header-meta {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.85rem;
+        }
+        .pp-body {
+            flex: 1 1 auto;
+            overflow-y: auto;
+            padding: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* Equipment Card (Legacy 108x148 Grid Layout) */
+        .equipment-card-container {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+        }
+        .equipment-card {
+            margin: 0 auto;
+            width: 108px;
+            height: 148px;
+            border: 2px outset #30363d;
+            background-color: #05070a;
+            position: relative;
+            border-radius: 4px;
+            box-shadow: inset 0 0 8px rgba(0,0,0,0.9);
+        }
+        .equipment-card > .slot-item {
+            position: absolute;
+            text-align: center;
+            width: 34px;
+            height: 34px;
+            border: 1px solid var(--slot-border);
+            background: var(--slot-bg);
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s ease;
+            cursor: pointer;
+        }
+        .equipment-card > .slot-item:hover,
+        .equipment-card > .slot-item.is-highlighted {
+            border-color: var(--accent);
+            background: var(--slot-hover);
+            box-shadow: 0 0 8px rgba(88, 166, 255, 0.5);
+        }
+        .equipment-card .slot-item img {
+            max-width: 32px;
+            max-height: 32px;
+            width: auto;
+            height: auto;
+            image-rendering: pixelated;
+        }
+        .equipment-card .slot-placeholder {
+            font-size: 11px;
+            color: #383e47;
+            pointer-events: none;
+        }
+        .equipment-card p {
+            font-size: 8px;
+            margin: 0;
+            padding: 0;
+            line-height: 9px;
+            text-align: center;
+            width: 34px;
+            font-weight: bold;
+            color: var(--muted);
+        }
+        .equipment-card p.total {
+            font-size: 9px;
+            line-height: 10px;
+            color: #e6edf3;
+            font-family: "JetBrains Mono", monospace;
+        }
+        .equipment-card .soul,
+        .equipment-card .capacity {
+            position: absolute;
+            width: 34px;
+            height: 20px;
+            border: none !important;
+            background: transparent !important;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Profile Info Box */
+        .profile-info-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .profile-info-card h4 {
+            font-family: Orbitron, sans-serif;
+            font-size: 1.2rem;
+            color: #ffffff;
+            margin-bottom: 12px;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px 16px;
+            font-size: 0.88rem;
+        }
+        .info-label {
+            color: var(--muted);
+            font-weight: 500;
+        }
+        .info-value {
+            font-weight: 600;
+            color: var(--text);
+            font-family: "JetBrains Mono", monospace;
+        }
+
+        /* Tables */
+        .section-title {
+            font-family: Orbitron, sans-serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--cyan);
+            letter-spacing: 0.03em;
+            margin-top: 24px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 6px;
+        }
+        .table-custom {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            overflow: hidden;
+            background: var(--card-bg);
+            font-size: 0.85rem;
+        }
+        .table-custom th {
+            background: #1c2128;
+            color: var(--muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            padding: 8px 12px;
+            border-bottom: 1px solid var(--border);
+            text-align: center;
+        }
+        .table-custom td {
+            padding: 8px 12px;
+            border-bottom: 1px solid rgba(48, 54, 61, 0.5);
+            text-align: center;
+            color: var(--text);
+        }
+        .table-custom tr:last-child td {
+            border-bottom: none;
+        }
+        .table-custom tr:nth-child(even) {
+            background: rgba(22, 27, 34, 0.4);
+        }
+        .val-bonus {
+            color: var(--cyan);
+            font-weight: 700;
+        }
+        .val-total {
+            font-weight: 700;
+            color: #ffffff;
+            font-family: "JetBrains Mono", monospace;
+        }
+
+        /* Inventory Item Cards */
+        .inventory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 10px;
+        }
+        .item-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: border-color 0.15s ease;
+            cursor: pointer;
+        }
+        .item-card:hover {
+            border-color: var(--accent);
+            background: #171d26;
+        }
+        .item-card-icon {
+            width: 40px;
+            height: 40px;
+            background: #07090d;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .item-card-icon img {
+            max-width: 36px;
+            max-height: 36px;
+            image-rendering: pixelated;
+        }
+        .item-card-info {
+            flex: 1 1 auto;
+            min-width: 0;
+        }
+        .item-card-title {
+            font-weight: 600;
+            font-size: 0.88rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: #ffffff;
+        }
+        .item-card-sub {
+            font-size: 0.76rem;
+            color: var(--muted);
+            display: flex;
+            gap: 8px;
+            font-family: "JetBrains Mono", monospace;
+        }
+
+        .badge-mode {
+            background: rgba(57, 197, 187, 0.15);
+            color: var(--cyan);
+            border: 1px solid rgba(57, 197, 187, 0.4);
+            font-family: Orbitron, sans-serif;
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        .badge-sync {
+            background: rgba(46, 160, 67, 0.15);
+            color: #3fb950;
+            border: 1px solid rgba(46, 160, 67, 0.4);
+            font-size: 0.72rem;
+            padding: 2px 8px;
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .badge-sync::before {
+            content: "";
+            width: 6px;
+            height: 6px;
+            background: #3fb950;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        /* Equipment Modal Styling */
+        .eq-modal-thumb {
+            width: 64px;
+            height: 64px;
+            background: #07090d;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+        }
+        .eq-modal-thumb img {
+            max-width: 56px;
+            max-height: 56px;
+            image-rendering: pixelated;
+        }
+        .eq-modal-title {
+            font-family: Orbitron, sans-serif;
+            font-size: 1.1rem;
+            color: #ffffff;
+            text-align: center;
+            margin-bottom: 2px;
+        }
+        .eq-modal-id {
+            font-family: "JetBrains Mono", monospace;
+            font-size: 0.78rem;
+            color: var(--muted);
+            text-align: center;
+            margin-bottom: 14px;
+        }
+        .eq-stat-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-size: 0.85rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+        .eq-stat-table td {
+            padding: 8px 12px;
+            border-bottom: 1px solid rgba(48, 54, 61, 0.5);
+        }
+        .eq-stat-table tr:last-child td {
+            border-bottom: none;
+        }
+        .eq-stat-label {
+            color: var(--muted);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .eq-stat-val {
+            font-family: "JetBrains Mono", monospace;
+            font-weight: 700;
+            text-align: right;
+            color: var(--text);
+        }
+        .eq-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-family: "JetBrains Mono", monospace;
+            border: 1px solid var(--border);
+            background: rgba(22, 27, 34, 0.6);
+            margin: 2px;
+        }
+        .eq-pill-bonus {
+            border-color: rgba(57, 197, 187, 0.4);
+            color: var(--cyan);
+        }
+        .eq-pill-resist {
+            border-color: rgba(123, 200, 255, 0.4);
+            color: #7bc8ff;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="pp-header">
+        <h1><i class="fa-solid fa-user-gear"></i> Character Profile Preview</h1>
+        <div class="pp-header-meta">
+            <span class="badge-mode" id="ppModeBadge">STANDARD</span>
+            <span class="badge-sync" id="ppSyncStatus">Live Sync Active</span>
+            <button class="btn btn-sm btn-outline-secondary" id="ppRefreshBtn" title="Refresh equipment data">
+                <i class="fa-solid fa-rotate"></i> Reload
+            </button>
+        </div>
+    </header>
+
+    <main class="pp-body">
+        <div id="ppAlert" class="alert alert-warning py-2 px-3 small mb-3" hidden></div>
+
+        <!-- Top Section: Equipment Card & Profile Summary -->
+        <div class="row g-3">
+            <div class="col-md-5 col-12">
+                <div class="equipment-card-container">
+                    <div class="equipment-card" id="equipmentCard">
+                        <!-- Slots absolutely positioned -->
+                        <div class="slot-item amulet" style="left:1px;top:19px;" data-slot="amulet" title="Amulet">
+                            <span class="slot-placeholder"><i class="fa-solid fa-gem"></i></span>
+                        </div>
+                        <div class="slot-item helmet" style="left:37px;top:1px;" data-slot="head" title="Helmet / Head">
+                            <span class="slot-placeholder"><i class="fa-solid fa-helmet-safety"></i></span>
+                        </div>
+                        <div class="slot-item bag" style="left:73px;top:19px;" data-slot="backpack" title="Backpack">
+                            <span class="slot-placeholder"><i class="fa-solid fa-bag-shopping"></i></span>
+                        </div>
+                        <div class="slot-item rightHand" style="left:1px;top:55px;" data-slot="weapon" title="Weapon / Right Hand">
+                            <span class="slot-placeholder"><i class="fa-solid fa-hand-fist"></i></span>
+                        </div>
+                        <div class="slot-item armor" style="left:37px;top:37px;" data-slot="chest" title="Armor / Chest">
+                            <span class="slot-placeholder"><i class="fa-solid fa-vest"></i></span>
+                        </div>
+                        <div class="slot-item leftHand" style="left:73px;top:55px;" data-slot="shield" title="Shield / Left Hand">
+                            <span class="slot-placeholder"><i class="fa-solid fa-shield"></i></span>
+                        </div>
+                        <div class="slot-item ring" style="left:1px;top:91px;" data-slot="ring" title="Ring">
+                            <span class="slot-placeholder"><i class="fa-solid fa-ring"></i></span>
+                        </div>
+                        <div class="slot-item legs" style="left:37px;top:73px;" data-slot="legs" title="Legs">
+                            <span class="slot-placeholder"><i class="fa-solid fa-socks"></i></span>
+                        </div>
+                        <div class="slot-item light" style="left:73px;top:91px;" data-slot="light" title="Utility / Light">
+                            <span class="slot-placeholder"><i class="fa-solid fa-lightbulb"></i></span>
+                        </div>
+                        <div class="slot-item boots" style="left:37px;top:109px;" data-slot="boots" title="Boots">
+                            <span class="slot-placeholder"><i class="fa-solid fa-shoe-prints"></i></span>
+                        </div>
+
+                        <div style="left:1px;top:127px;" class="soul">
+                            <p>Soul:</p>
+                            <p class="total" id="ppSoul">100</p>
+                        </div>
+                        <div style="left:73px;top:127px;" class="capacity">
+                            <p>Cap:</p>
+                            <p class="total" id="ppCap">1,200</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-7 col-12">
+                <div class="profile-info-card">
+                    <div>
+                        <div class="d-flex justify-content-between align-items-start mb-1">
+                            <h4 id="ppTitle" class="mb-0">—</h4>
+                            <span class="badge bg-secondary font-monospace" id="ppIdBadge">id</span>
+                        </div>
+                        <p class="small text-muted mb-3" id="ppNotes">No designer notes available.</p>
+
+                        <div class="info-grid mb-3">
+                            <div>
+                                <span class="info-label">Vocation:</span>
+                                <div class="info-value" id="ppVocation">Guardian</div>
+                            </div>
+                            <div>
+                                <span class="info-label">Level:</span>
+                                <div class="info-value" id="ppLevel">50</div>
+                            </div>
+                            <div>
+                                <span class="info-label">Est. Health (HP):</span>
+                                <div class="info-value text-success" id="ppHp">445 / 445</div>
+                            </div>
+                            <div>
+                                <span class="info-label">Est. Mana (MP):</span>
+                                <div class="info-value text-primary" id="ppMp">250 / 250</div>
+                            </div>
+                            <div>
+                                <span class="info-label">Total Armor:</span>
+                                <div class="info-value text-warning" id="ppTotalArmor">0</div>
+                            </div>
+                            <div>
+                                <span class="info-label">Equipped Weight:</span>
+                                <div class="info-value" id="ppTotalWeight">0.00 oz</div>
+                            </div>
+                            <div>
+                                <span class="info-label">Strategy Preset:</span>
+                                <div class="info-value" id="ppStrategy">guardian_aggro</div>
+                            </div>
+                            <div>
+                                <span class="info-label">Promotion Status:</span>
+                                <div class="info-value" id="ppPromoted">Regular</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 2: Character Skills Table -->
+        <h2 class="section-title"><i class="fa-solid fa-chart-line"></i> Character Skills</h2>
+        <table class="table-custom">
+            <thead>
+                <tr>
+                    <th>Skill</th>
+                    <th>Base</th>
+                    <th>Bonus</th>
+                    <th>Total</th>
+                    <th>Skill</th>
+                    <th>Base</th>
+                    <th>Bonus</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody id="ppSkillsTable">
+                <tr>
+                    <td>Axe</td><td id="sk-base-axe">10</td><td class="val-bonus" id="sk-bonus-axe">+0</td><td class="val-total" id="sk-tot-axe">10</td>
+                    <td>Club</td><td id="sk-base-club">10</td><td class="val-bonus" id="sk-bonus-club">+0</td><td class="val-total" id="sk-tot-club">10</td>
+                </tr>
+                <tr>
+                    <td>Distance</td><td id="sk-base-distance">10</td><td class="val-bonus" id="sk-bonus-distance">+0</td><td class="val-total" id="sk-tot-distance">10</td>
+                    <td>Fishing</td><td id="sk-base-fishing">10</td><td class="val-bonus" id="sk-bonus-fishing">+0</td><td class="val-total" id="sk-tot-fishing">10</td>
+                </tr>
+                <tr>
+                    <td>Fist</td><td id="sk-base-fist">10</td><td class="val-bonus" id="sk-bonus-fist">+0</td><td class="val-total" id="sk-tot-fist">10</td>
+                    <td>Magic Level</td><td id="sk-base-magicLevel">0</td><td class="val-bonus" id="sk-bonus-magicLevel">+0</td><td class="val-total" id="sk-tot-magicLevel">0</td>
+                </tr>
+                <tr>
+                    <td>Shielding</td><td id="sk-base-shielding">10</td><td class="val-bonus" id="sk-bonus-shielding">+0</td><td class="val-total" id="sk-tot-shielding">10</td>
+                    <td>Sword</td><td id="sk-base-sword">10</td><td class="val-bonus" id="sk-bonus-sword">+0</td><td class="val-total" id="sk-tot-sword">10</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Section 3: Combat Attributes & Imbuements Table -->
+        <h2 class="section-title"><i class="fa-solid fa-bolt"></i> Combat Stats & Imbuements</h2>
+        <table class="table-custom">
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Value</th>
+                    <th>Property</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Life Leech</td>
+                    <td class="val-total text-success" id="st-lifeLeech">0%</td>
+                    <td>Mana Leech</td>
+                    <td class="val-total text-primary" id="st-manaLeech">0%</td>
+                </tr>
+                <tr>
+                    <td>Critical Chance</td>
+                    <td class="val-total text-warning" id="st-critChance">5%</td>
+                    <td>Critical Damage</td>
+                    <td class="val-total text-danger" id="st-critDamage">10%</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Section 4: Inventory Equipment Breakdown -->
+        <h2 class="section-title"><i class="fa-solid fa-boxes-stacked"></i> Inventory Breakdown</h2>
+        <div class="inventory-grid" id="ppInventoryGrid">
+            <div class="text-muted small">Loading equipment items...</div>
+        </div>
+    </main>
+
+    <!-- Modal for Equipment Details -->
+    <div class="modal fade" id="equipmentModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark text-white border-secondary shadow-lg">
+                <div class="modal-header border-secondary py-2">
+                    <h5 class="modal-title d-flex align-items-center gap-2 font-monospace fs-6" id="eqModalTitle">
+                        <i class="fa-solid fa-shield-halved text-cyan"></i> Equipment Details & Stats
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="eqModalBody">
+                    <!-- Dynamically filled by profile_preview.js -->
+                </div>
+                <div class="modal-footer border-secondary py-2">
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="profile_preview.js"></script>
+</body>
+</html>

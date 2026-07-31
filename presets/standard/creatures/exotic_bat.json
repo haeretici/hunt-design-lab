@@ -1,0 +1,150 @@
+{
+    "id": "exotic_bat",
+    "label": "Exotic Bat",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An exotic bat.",
+    "hp": 1500,
+    "hpMax": 1500,
+    "speed": 100,
+    "level": 465,
+    "armor": 40,
+    "mitigation": 1.18,
+    "maxBlock": 0,
+    "exp": 1200,
+    "lootValue": 432.4937434407,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -10,
+        "ice": 5,
+        "energy": 5,
+        "earth": 1,
+        "holy": 5,
+        "death": 5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 10,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 144
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "earth",
+            "min": 115,
+            "max": 216,
+            "length": 5,
+            "spread": 2,
+            "target": false,
+            "effect": "me_green_rings"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "min": 86,
+            "max": 216,
+            "radius": 3,
+            "target": true,
+            "effect": "me_yellow_rings"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Mammal",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 4
+        },
+        {
+            "name": "great mana potion",
+            "chance": 30000,
+            "maxCount": 2
+        },
+        {
+            "name": "Earthbound Amulet",
+            "chance": 6000
+        },
+        {
+            "name": "dark mushroom",
+            "chance": 15000,
+            "maxCount": 6
+        },
+        {
+            "name": "green mushroom",
+            "chance": 10300,
+            "maxCount": 5
+        },
+        {
+            "name": "garlic necklace",
+            "chance": 5000
+        },
+        {
+            "name": "bat wing",
+            "chance": 5000,
+            "maxCount": 2
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "storm_catacomb_devil_vanguard",
+    "threatDps": 55.9625,
+    "burstDps": 55.9625,
+    "avgHit": 89.54,
+    "maxHit": 216,
+    "manaCost": 250
+}

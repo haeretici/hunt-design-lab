@@ -1,0 +1,139 @@
+{
+    "id": "jungle_ape",
+    "label": "Jungle Ape",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A jungle ape.",
+    "hp": 340,
+    "hpMax": 340,
+    "speed": 92,
+    "level": 316,
+    "armor": 18,
+    "mitigation": 0.36,
+    "maxBlock": 0,
+    "exp": 115,
+    "lootValue": 28.547475091152,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 20,
+        "ice": -14,
+        "energy": 5,
+        "earth": 10,
+        "holy": 0,
+        "death": -5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 10,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 98
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 260,
+            "durationSec": 3,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Mammal",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 69000,
+            "maxCount": 40
+        },
+        {
+            "chance": 300,
+            "name": "power ring"
+        },
+        {
+            "name": "protection amulet",
+            "chance": 990
+        },
+        {
+            "chance": 230,
+            "name": "club ring"
+        },
+        {
+            "name": "plate armor",
+            "chance": 950
+        },
+        {
+            "name": "banana",
+            "chance": 30000,
+            "maxCount": 12
+        },
+        {
+            "name": "ape fur",
+            "chance": 980
+        },
+        {
+            "name": "health potion",
+            "chance": 570
+        },
+        {
+            "name": "kongra's shoulderpad",
+            "chance": 4900
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "floor_blob",
+    "threatDps": 24.5,
+    "burstDps": 24.5,
+    "avgHit": 49,
+    "maxHit": 98,
+    "manaCost": 0
+}

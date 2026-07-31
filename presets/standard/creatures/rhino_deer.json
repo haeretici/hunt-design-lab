@@ -1,0 +1,196 @@
+{
+    "id": "rhino_deer",
+    "label": "Rhino Deer",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A rhino deer.",
+    "hp": 8650,
+    "hpMax": 8650,
+    "speed": 160,
+    "level": 640,
+    "armor": 68,
+    "mitigation": 2.08,
+    "maxBlock": 0,
+    "exp": 5600,
+    "lootValue": 2777.5184638109,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -10,
+        "ice": 0,
+        "energy": 5,
+        "earth": 20,
+        "holy": -5,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 200,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 247
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 3,
+            "element": "physical",
+            "min": 139,
+            "max": 217,
+            "radius": 4,
+            "target": true,
+            "effect": "me_explosionhit"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 7,
+            "element": "earth",
+            "min": 170,
+            "max": 210,
+            "target": true,
+            "shootEffect": "ani_poisonarrow"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 1,
+            "element": "physical",
+            "min": 139,
+            "max": 215,
+            "radius": 4,
+            "target": false,
+            "effect": "me_explosionarea"
+        },
+        {
+            "id": "ranged_4",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 2,
+            "element": "physical",
+            "min": 105,
+            "max": 157,
+            "target": true,
+            "effect": "me_groundshaker"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 1
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 72260,
+            "maxCount": 30
+        },
+        {
+            "name": "brown crystal splinter",
+            "chance": 11550,
+            "maxCount": 4
+        },
+        {
+            "name": "rhindeer antlers",
+            "chance": 6020
+        },
+        {
+            "name": "rainbow quartz",
+            "chance": 4940,
+            "maxCount": 2
+        },
+        {
+            "name": "great mana potion",
+            "chance": 2670,
+            "maxCount": 4
+        },
+        {
+            "name": "titan axe",
+            "chance": 2470
+        },
+        {
+            "name": "yellow gem",
+            "chance": 1880
+        },
+        {
+            "name": "knight armor",
+            "chance": 1380
+        },
+        {
+            "name": "violet gem",
+            "chance": 1200
+        },
+        {
+            "chance": 890,
+            "name": "collar of green plasma"
+        },
+        {
+            "name": "heavy mace",
+            "chance": 300
+        },
+        {
+            "name": "mastermind shield",
+            "chance": 400
+        },
+        {
+            "chance": 690,
+            "name": "time ring"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ethereal_storm_bear",
+    "threatDps": 147.7,
+    "burstDps": 147.7,
+    "avgHit": 147.7,
+    "maxHit": 247,
+    "manaCost": 0
+}

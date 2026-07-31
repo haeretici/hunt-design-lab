@@ -1,0 +1,163 @@
+{
+    "id": "pirate_scoundrel",
+    "label": "Pirate Scoundrel",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A pirate scoundrel.",
+    "hp": 2200,
+    "hpMax": 2200,
+    "speed": 190,
+    "level": 503,
+    "armor": 60,
+    "mitigation": 1.74,
+    "maxBlock": 0,
+    "exp": 1600,
+    "lootValue": 730.85167809455,
+    "aggro": true,
+    "resists": {
+        "physical": 20,
+        "fire": 0,
+        "ice": 0,
+        "energy": 26,
+        "earth": -30,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 1,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 215
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "energy",
+            "min": 59,
+            "max": 97,
+            "radius": 7,
+            "target": true,
+            "effect": "me_energyhit",
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "energy",
+            "min": 54,
+            "max": 75,
+            "radius": 3,
+            "target": true,
+            "effect": "me_energyhit"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "energy",
+            "min": 48,
+            "max": 64,
+            "radius": 3,
+            "target": false,
+            "effect": "me_energyhit"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "great mana potion",
+            "chance": 44810
+        },
+        {
+            "name": "wand of inferno",
+            "chance": 12500
+        },
+        {
+            "chance": 19420,
+            "name": "grappling hook"
+        },
+        {
+            "name": "pirate coin",
+            "chance": 17810,
+            "maxCount": 10
+        },
+        {
+            "name": "pirat's tail",
+            "chance": 2120
+        },
+        {
+            "name": "Bloomshoot Rod",
+            "chance": 9550
+        },
+        {
+            "name": "wand of starstorm",
+            "chance": 1750
+        },
+        {
+            "name": "wand of voodoo",
+            "chance": 1450
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "chaos_triton_assassin",
+    "threatDps": 69.1875,
+    "burstDps": 69.1875,
+    "avgHit": 95.431,
+    "maxHit": 215,
+    "manaCost": 0
+}

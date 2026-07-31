@@ -1,0 +1,128 @@
+{
+    "id": "feverish_citizen",
+    "label": "Feverish Citizen",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A feverish citizen.",
+    "hp": 125,
+    "hpMax": 125,
+    "speed": 73,
+    "level": 219,
+    "armor": 14,
+    "mitigation": 0.25,
+    "maxBlock": 0,
+    "exp": 30,
+    "lootValue": 5.3939574422004,
+    "aggro": true,
+    "resists": {
+        "physical": -14,
+        "fire": -14,
+        "ice": 10,
+        "energy": -10,
+        "earth": 10,
+        "holy": 75,
+        "death": 10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 57
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Human",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 2
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 30300,
+            "maxCount": 35
+        },
+        {
+            "chance": 4920,
+            "name": "bone"
+        },
+        {
+            "name": "worm",
+            "chance": 25730,
+            "maxCount": 3
+        },
+        {
+            "name": "ominous piece of cloth",
+            "chance": 1660
+        },
+        {
+            "name": "dubious piece of cloth",
+            "chance": 1720
+        },
+        {
+            "name": "voluminous piece of cloth",
+            "chance": 2290
+        },
+        {
+            "name": "obvious piece of cloth",
+            "chance": 2006
+        },
+        {
+            "name": "ludicrous piece of cloth",
+            "chance": 2060
+        },
+        {
+            "name": "luminous piece of cloth",
+            "chance": 2290
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "feverish_citizen",
+    "threatDps": 14.25,
+    "burstDps": 14.25,
+    "avgHit": 28.5,
+    "maxHit": 57,
+    "manaCost": 0
+}

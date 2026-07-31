@@ -1,0 +1,91 @@
+{
+    "id": "beast_giant_primeval_behemoth",
+    "label": "Beast Giant Primeval Behemoth",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A beast giant primeval behemoth.",
+    "hp": 20700,
+    "hpMax": 20700,
+    "speed": 200,
+    "level": 727,
+    "armor": 84,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 20,
+        "fire": 10,
+        "ice": 10,
+        "energy": -5,
+        "earth": -5,
+        "holy": -20,
+        "death": 10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 778
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 513,
+            "max": 684,
+            "target": false,
+            "shootEffect": "ani_largerock"
+        }
+    ],
+    "race": "blood",
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "blood_behemoth",
+    "threatDps": 239.3875,
+    "burstDps": 239.3875,
+    "avgHit": 416.3261,
+    "maxHit": 778,
+    "manaCost": 0
+}

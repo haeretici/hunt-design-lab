@@ -1,0 +1,247 @@
+{
+    "id": "flaming_orchid",
+    "label": "Flaming Orchid",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A flaming orchid.",
+    "hp": 4000,
+    "hpMax": 4000,
+    "speed": 210,
+    "level": 563,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 8500,
+    "lootValue": 3846.0550458716,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": -10,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 30
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 29
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 10,
+            "range": 7,
+            "element": "death",
+            "min": 469,
+            "max": 821,
+            "target": true,
+            "effect": "ani_death"
+        },
+        {
+            "id": "ignite_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "physical",
+            "radius": 1,
+            "target": true,
+            "shootEffect": "ani_fire",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "big_death_wave_3",
+            "kind": "melee",
+            "intervalMs": 4000,
+            "chance": 18,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 586
+        },
+        {
+            "id": "aggressivelavawave_4",
+            "kind": "melee",
+            "intervalMs": 5000,
+            "chance": 19,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 235
+        },
+        {
+            "id": "area_5",
+            "kind": "area",
+            "intervalMs": 6000,
+            "chance": 20,
+            "range": 5,
+            "element": "fire",
+            "min": 117,
+            "max": 293,
+            "radius": 7,
+            "target": false,
+            "effect": "me_firearea",
+            "shootEffect": "ani_fire"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 50,
+            "max": 280,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 320,
+            "durationSec": 5
+        },
+        {
+            "id": "invisible_2",
+            "kind": "invisible",
+            "intervalMs": 1000,
+            "chance": 100,
+            "durationSec": 10
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 250
+        },
+        {
+            "name": "platinum coin",
+            "chance": 9240,
+            "maxCount": 10
+        },
+        {
+            "chance": 18200,
+            "name": "red gem"
+        },
+        {
+            "name": "gold ingot",
+            "chance": 29700,
+            "maxCount": 5
+        },
+        {
+            "name": "assassin star",
+            "chance": 29700,
+            "maxCount": 13
+        },
+        {
+            "name": "demonic essence",
+            "chance": 330
+        },
+        {
+            "name": "great dual potion",
+            "chance": 330
+        },
+        {
+            "name": "soul orb",
+            "chance": 19530
+        },
+        {
+            "name": "small amethyst",
+            "chance": 8310,
+            "maxCount": 2
+        },
+        {
+            "name": "small amethyst",
+            "chance": 8310,
+            "maxCount": 2
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 700,
+            "maxCount": 4
+        },
+        {
+            "name": "golden lotus brooch",
+            "chance": 19740
+        },
+        {
+            "name": "green gem",
+            "chance": 15780
+        },
+        {
+            "name": "Emberbound Coat",
+            "chance": 1050
+        },
+        {
+            "name": "Lunar Rod",
+            "chance": 1050
+        },
+        {
+            "name": "Withering Rod",
+            "chance": 1050
+        },
+        {
+            "name": "oriental shoes",
+            "chance": 490
+        },
+        {
+            "name": "peacock feather fan",
+            "chance": 16870
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "sun_orc_guard",
+    "threatDps": 96.2333,
+    "burstDps": 129.7825,
+    "avgHit": 134.3416,
+    "maxHit": 821,
+    "manaCost": 0
+}

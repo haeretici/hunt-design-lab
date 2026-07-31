@@ -1,0 +1,238 @@
+{
+    "id": "blood_priest",
+    "label": "Blood Priest",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A blood priest.",
+    "hp": 820,
+    "hpMax": 820,
+    "speed": 99,
+    "level": 404,
+    "armor": 55,
+    "mitigation": 1.18,
+    "maxBlock": 0,
+    "exp": 900,
+    "lootValue": 376.42727417556,
+    "aggro": true,
+    "resists": {
+        "physical": -8,
+        "fire": -8,
+        "ice": 15,
+        "energy": 15,
+        "earth": 100,
+        "holy": -8,
+        "death": 50
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 35,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 44,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "death",
+            "min": 26,
+            "max": 44,
+            "target": true,
+            "effect": "me_smallclouds",
+            "shootEffect": "ani_death"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 18,
+            "max": 26,
+            "radius": 4,
+            "target": false,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 3000,
+            "chance": 10,
+            "range": 1,
+            "element": "manadrain",
+            "min": 35,
+            "max": 57,
+            "length": 7,
+            "spread": 0,
+            "target": true,
+            "effect": "me_hitarea"
+        },
+        {
+            "id": "condition_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 1,
+            "element": "physical",
+            "min": 71,
+            "max": 128,
+            "radius": 1,
+            "target": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 20,
+            "min": 80,
+            "max": 120,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Human",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "small ruby",
+            "chance": 3510,
+            "maxCount": 2
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 71
+        },
+        {
+            "name": "boots of haste",
+            "chance": 120
+        },
+        {
+            "name": "Bone Skull Staff",
+            "chance": 180
+        },
+        {
+            "name": "mystic turban",
+            "chance": 2170
+        },
+        {
+            "name": "white piece of cloth",
+            "chance": 3040
+        },
+        {
+            "name": "red piece of cloth",
+            "chance": 640
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 6000
+        },
+        {
+            "name": "spellbook of warding",
+            "chance": 290
+        },
+        {
+            "name": "spellbook of mind control",
+            "chance": 180
+        },
+        {
+            "name": "Nether Rod",
+            "chance": 470
+        },
+        {
+            "name": "book of necromantic rituals",
+            "chance": 13550
+        },
+        {
+            "chance": 880,
+            "name": "red gem"
+        },
+        {
+            "name": "lancet",
+            "chance": 14410
+        },
+        {
+            "name": "horoscope",
+            "chance": 9270
+        },
+        {
+            "name": "blood tincture in a vial",
+            "chance": 14460
+        },
+        {
+            "name": "incantation notes",
+            "chance": 14660
+        },
+        {
+            "name": "pieces of magic chalk",
+            "chance": 7770
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "crystal_demon_priest",
+    "threatDps": 39.9208,
+    "burstDps": 40.6875,
+    "avgHit": 24.4375,
+    "maxHit": 128,
+    "manaCost": 0
+}

@@ -1,0 +1,162 @@
+{
+    "id": "vault_custodian",
+    "label": "Vault Custodian",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A vault custodian.",
+    "hp": 47000,
+    "hpMax": 47000,
+    "speed": 105,
+    "level": 809,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 27500,
+    "lootValue": 250,
+    "aggro": true,
+    "resists": {
+        "physical": 70,
+        "fire": 20,
+        "ice": 0,
+        "energy": 0,
+        "earth": 100,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 877
+        },
+        {
+            "id": "explosion_wave_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 14,
+            "range": 1,
+            "element": "physical",
+            "min": 718,
+            "max": 957,
+            "target": false
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "physical",
+            "min": 638,
+            "max": 973,
+            "radius": 5,
+            "target": false,
+            "effect": "me_explosionhit"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 12,
+            "range": 4,
+            "element": "fire",
+            "min": 797,
+            "max": 1164,
+            "radius": 4,
+            "target": false,
+            "effect": "me_fireattack"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "throwing star",
+            "chance": 65000,
+            "maxCount": 6
+        },
+        {
+            "name": "hunting spear",
+            "chance": 62000
+        },
+        {
+            "name": "gold ingot",
+            "chance": 48000
+        },
+        {
+            "name": "blue gem",
+            "chance": 31000
+        },
+        {
+            "name": "yellow gem",
+            "chance": 31000
+        },
+        {
+            "name": "green crystal shard",
+            "chance": 8600
+        },
+        {
+            "id": 281,
+            "chance": 28000
+        },
+        {
+            "name": "cobra crest",
+            "chance": 11000
+        },
+        {
+            "name": "skull helmet",
+            "chance": 7500
+        },
+        {
+            "name": "cobra club",
+            "chance": 100
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "lovely_scorpion",
+    "threatDps": 376.98,
+    "burstDps": 376.98,
+    "avgHit": 554.3824,
+    "maxHit": 1164,
+    "manaCost": 0
+}

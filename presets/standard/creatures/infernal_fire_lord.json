@@ -1,0 +1,314 @@
+{
+    "id": "infernal_fire_lord",
+    "label": "Infernal Fire Lord",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An infernal fire lord.",
+    "hp": 322000,
+    "hpMax": 322000,
+    "speed": 240,
+    "level": 1000,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 14865.866666667,
+    "aggro": true,
+    "resists": {
+        "physical": 50,
+        "fire": 100,
+        "ice": 50,
+        "energy": 50,
+        "earth": 50,
+        "holy": 50,
+        "death": 50
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "omrafir_wave_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 17,
+            "range": 1,
+            "element": "physical",
+            "min": 606,
+            "max": 1213,
+            "target": false
+        },
+        {
+            "id": "omrafir_beam_2",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 1,
+            "element": "physical",
+            "min": 8488,
+            "max": 12126,
+            "target": false
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "fire",
+            "min": 1213,
+            "max": 3638,
+            "length": 10,
+            "spread": 3,
+            "target": false,
+            "effect": "me_fireattack"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "fire",
+            "min": 243,
+            "max": 485,
+            "radius": 3,
+            "target": false,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "area_5",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 19,
+            "range": 4,
+            "element": "fire",
+            "min": 182,
+            "max": 364,
+            "radius": 4,
+            "target": false,
+            "effect": "me_explosionhit"
+        },
+        {
+            "id": "melee_6",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 1,
+            "element": "fire",
+            "radius": 1,
+            "target": true,
+            "effect": "me_hitbyfire",
+            "shootEffect": "ani_fire",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "firefield_7",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 12,
+            "range": 4,
+            "element": "physical",
+            "radius": 3,
+            "target": true,
+            "effect": "me_fireattack",
+            "shootEffect": "ani_fire",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 22,
+            "min": 440,
+            "max": 800,
+            "hpBelow": 0.7
+        }
+    ],
+    "race": "fire",
+    "loot": [
+        {
+            "chance": 37500,
+            "maxCount": 5,
+            "name": "blue crystal shard"
+        },
+        {
+            "chance": 62500,
+            "maxCount": 4,
+            "name": "cluster of solace"
+        },
+        {
+            "chance": 43750,
+            "maxCount": 3,
+            "name": "cyan crystal fragment"
+        },
+        {
+            "chance": 100000,
+            "name": "demon horn"
+        },
+        {
+            "chance": 812500,
+            "maxCount": 4,
+            "name": "demonic essence"
+        },
+        {
+            "chance": 6250,
+            "name": "demonic tapestry"
+        },
+        {
+            "chance": 81250,
+            "maxCount": 2,
+            "name": "dream matter"
+        },
+        {
+            "chance": 3250,
+            "unique": true,
+            "name": "dream warden mask"
+        },
+        {
+            "chance": 2500,
+            "name": "eye pod"
+        },
+        {
+            "id": 281,
+            "chance": 43750
+        },
+        {
+            "id": 282,
+            "chance": 43750
+        },
+        {
+            "chance": 18750,
+            "maxCount": 100,
+            "name": "gold coin"
+        },
+        {
+            "chance": 6250,
+            "maxCount": 8,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 56250,
+            "maxCount": 8,
+            "name": "great dual potion"
+        },
+        {
+            "chance": 37500,
+            "maxCount": 3,
+            "name": "green crystal fragment"
+        },
+        {
+            "chance": 18750,
+            "maxCount": 5,
+            "name": "green crystal shard"
+        },
+        {
+            "chance": 18750,
+            "name": "green gem"
+        },
+        {
+            "chance": 12500,
+            "name": "Stormbound Boots"
+        },
+        {
+            "chance": 18750,
+            "name": "Stormbound Robe"
+        },
+        {
+            "chance": 12500,
+            "name": "nightmare hook"
+        },
+        {
+            "chance": 100000,
+            "unique": true,
+            "name": "nightmare horn"
+        },
+        {
+            "chance": 93750,
+            "maxCount": 20,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 6250,
+            "name": "psychedelic tapestry"
+        },
+        {
+            "chance": 6250,
+            "maxCount": 3,
+            "name": "red crystal fragment"
+        },
+        {
+            "chance": 6250,
+            "name": "ring of healing"
+        },
+        {
+            "chance": 6250,
+            "name": "skull helmet"
+        },
+        {
+            "chance": 6250,
+            "name": "steel boots"
+        },
+        {
+            "chance": 31250,
+            "maxCount": 8,
+            "name": "ultimate health potion"
+        },
+        {
+            "chance": 81250,
+            "maxCount": 3,
+            "name": "unrealized dream"
+        },
+        {
+            "chance": 18750,
+            "maxCount": 5,
+            "name": "violet crystal shard"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 25
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "radiant_fire_giant_priest",
+    "threatDps": 1094.58,
+    "burstDps": 1094.58,
+    "avgHit": 2545.5349,
+    "maxHit": 12126,
+    "manaCost": 0
+}

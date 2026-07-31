@@ -1,0 +1,160 @@
+{
+    "id": "cyclops_smith",
+    "label": "Cyclops Smith",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A cyclops smith.",
+    "hp": 435,
+    "hpMax": 435,
+    "speed": 102,
+    "level": 342,
+    "armor": 28,
+    "mitigation": 0.96,
+    "maxBlock": 0,
+    "exp": 255,
+    "lootValue": 58.169257758151,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 10,
+        "ice": 0,
+        "energy": 20,
+        "earth": -10,
+        "holy": 20,
+        "death": -5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "damage": 30
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 108
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 50,
+            "target": false,
+            "shootEffect": "ani_whirlwindclub"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Giant",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 82920,
+            "maxCount": 70
+        },
+        {
+            "chance": 90,
+            "name": "club ring"
+        },
+        {
+            "name": "battle axe",
+            "chance": 5450
+        },
+        {
+            "name": "double axe",
+            "chance": 880
+        },
+        {
+            "name": "battle hammer",
+            "chance": 5200
+        },
+        {
+            "name": "heavy machete",
+            "chance": 2000
+        },
+        {
+            "name": "dark helmet",
+            "chance": 200
+        },
+        {
+            "name": "plate shield",
+            "chance": 2000
+        },
+        {
+            "name": "battle shield",
+            "chance": 6190
+        },
+        {
+            "name": "meat",
+            "chance": 49950
+        },
+        {
+            "chance": 140,
+            "name": "cyclops trophy"
+        },
+        {
+            "name": "spiked squelcher",
+            "chance": 150
+        },
+        {
+            "name": "strong health potion",
+            "chance": 390
+        },
+        {
+            "name": "cyclops toe",
+            "chance": 10280
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "obsidian_cyclops",
+    "threatDps": 28.25,
+    "burstDps": 28.25,
+    "avgHit": 51.3636,
+    "maxHit": 108,
+    "manaCost": 695
+}

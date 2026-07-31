@@ -1,0 +1,107 @@
+{
+    "id": "barbarian_executioner_darakan",
+    "label": "Barbarian Executioner Darakan",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A barbarian executioner darakan.",
+    "hp": 3480,
+    "hpMax": 3480,
+    "speed": 102,
+    "level": 550,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 1600,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -1,
+        "ice": 1,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 122
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 1000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 42,
+            "max": 76,
+            "target": false,
+            "shootEffect": "ani_spear"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 6000,
+            "chance": 65,
+            "min": 20,
+            "max": 50,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [],
+    "changeTarget": {
+        "interval": 0,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "phantom_hill_giant",
+    "threatDps": 89.5,
+    "burstDps": 89.5,
+    "avgHit": 59.6667,
+    "maxHit": 122,
+    "manaCost": 0
+}

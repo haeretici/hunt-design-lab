@@ -1,0 +1,119 @@
+{
+    "id": "deathling_impaler_nargol",
+    "label": "Deathling Impaler Nargol",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A deathling impaler nargol.",
+    "hp": 250000,
+    "hpMax": 250000,
+    "speed": 250,
+    "level": 975,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 200
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 1065,
+            "max": 1597
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 6000,
+            "chance": 56,
+            "range": 4,
+            "element": "earth",
+            "min": 1331,
+            "max": 1597,
+            "length": 7,
+            "spread": 5,
+            "target": false,
+            "effect": "me_poisonarea"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 5000,
+            "chance": 70,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 932,
+            "max": 1198,
+            "length": 7,
+            "target": false,
+            "effect": "me_mortarea"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 55,
+            "min": 350,
+            "max": 950,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "venom",
+    "loot": [],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "skeletal_hill_giant",
+    "threatDps": 951.24,
+    "burstDps": 1448.17,
+    "avgHit": 1297.1455,
+    "maxHit": 1597,
+    "manaCost": 0
+}

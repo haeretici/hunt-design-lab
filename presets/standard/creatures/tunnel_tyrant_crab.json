@@ -1,0 +1,194 @@
+{
+    "id": "tunnel_tyrant_crab",
+    "label": "Tunnel Tyrant Crab",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A tunnel tyrant crab.",
+    "hp": 5200,
+    "hpMax": 5200,
+    "speed": 120,
+    "level": 589,
+    "armor": 76,
+    "mitigation": 1.82,
+    "maxBlock": 0,
+    "exp": 4420,
+    "lootValue": 1041.751951431,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": -30,
+        "energy": 20,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 291
+        },
+        {
+            "id": "stalagmite_rune_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 138,
+            "max": 218,
+            "target": true,
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 3,
+            "element": "death",
+            "min": 51,
+            "max": 116,
+            "length": 6,
+            "spread": 3,
+            "target": false,
+            "effect": "me_mortarea"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 3,
+            "element": "fire",
+            "min": 65,
+            "max": 116,
+            "length": 6,
+            "spread": 3,
+            "target": false,
+            "effect": "me_hitbyfire"
+        },
+        {
+            "id": "stone_shower_rune_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "min": 167,
+            "max": 327,
+            "radius": 3,
+            "target": true,
+            "effect": "me_stones"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Vermin",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "small enchanted sapphire",
+            "chance": 11910
+        },
+        {
+            "name": "small enchanted ruby",
+            "chance": 9040
+        },
+        {
+            "name": "violet gem",
+            "chance": 7750
+        },
+        {
+            "name": "lump of dirt",
+            "chance": 10190
+        },
+        {
+            "name": "tunnel tyrant head",
+            "chance": 24100
+        },
+        {
+            "name": "tunnel tyrant shell",
+            "chance": 12480
+        },
+        {
+            "name": "green gem",
+            "chance": 2300
+        },
+        {
+            "name": "blue gem",
+            "chance": 3010
+        },
+        {
+            "name": "crystal mace",
+            "chance": 1580
+        },
+        {
+            "chance": 3010,
+            "name": "energy vein"
+        },
+        {
+            "name": "crystalline armor",
+            "chance": 860
+        },
+        {
+            "name": "suspicious device",
+            "chance": 1850
+        }
+    ],
+    "changeTarget": {
+        "interval": 10000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "venomous_ocean_scorpion_ravager",
+    "threatDps": 111.5,
+    "burstDps": 111.5,
+    "avgHit": 143.871,
+    "maxHit": 327,
+    "manaCost": 0
+}

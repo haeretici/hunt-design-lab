@@ -1,0 +1,198 @@
+{
+    "id": "ravager_beast",
+    "label": "Ravager Beast",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A ravager beast.",
+    "hp": 53500,
+    "hpMax": 53500,
+    "speed": 170,
+    "level": 822,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 14980,
+    "lootValue": 2070.7853403141,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 50,
+        "energy": 10,
+        "earth": 1,
+        "holy": 0,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "condition": {
+                "type": "poison",
+                "totalDamage": 490,
+                "intervalMs": 4000
+            },
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 12,
+            "range": 7,
+            "element": "death",
+            "min": 306,
+            "max": 1148,
+            "target": false,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_death"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 9,
+            "range": 4,
+            "element": "death",
+            "min": 1072,
+            "max": 1347,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_smallclouds"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 18,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 612,
+            "max": 766,
+            "length": 7,
+            "spread": 3,
+            "target": false,
+            "effect": "me_smoke"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 20,
+            "min": 200,
+            "max": 400,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "chance": 95000,
+            "maxCount": 243,
+            "name": "gold coin"
+        },
+        {
+            "chance": 10000,
+            "maxCount": 5,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 5000,
+            "maxCount": 5,
+            "name": "great health potion"
+        },
+        {
+            "chance": 37500,
+            "maxCount": 5,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 15000,
+            "maxCount": 5,
+            "name": "scarab coin"
+        },
+        {
+            "chance": 5000,
+            "name": "daramian waraxe"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ethereal_storm_bear",
+    "threatDps": 405.0575,
+    "burstDps": 405.0575,
+    "avgHit": 820.8077,
+    "maxHit": 1347,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 16,
+        "summons": [
+            {
+                "name": "Elder Mummy",
+                "id": "elder_mummy",
+                "chance": 9,
+                "interval": 2000,
+                "count": 4
+            },
+            {
+                "name": "Canopic Jar",
+                "id": "canopic_jar",
+                "chance": 9,
+                "interval": 2000,
+                "count": 4
+            },
+            {
+                "name": "Greater Canopic Jar",
+                "id": "greater_canopic_jar",
+                "chance": 9,
+                "interval": 2000,
+                "count": 8
+            }
+        ]
+    }
+}

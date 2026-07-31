@@ -1,0 +1,246 @@
+{
+    "id": "ghoul_dragon_ethershreck",
+    "label": "Ghoul Dragon Ethershreck",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A ghoul dragon ethershreck.",
+    "hp": 9500,
+    "hpMax": 9500,
+    "speed": 160,
+    "level": 649,
+    "armor": 0,
+    "mitigation": 1.74,
+    "maxBlock": 0,
+    "exp": 5600,
+    "lootValue": 26494.864615385,
+    "aggro": true,
+    "resists": {
+        "physical": -10,
+        "fire": 10,
+        "ice": 50,
+        "energy": -10,
+        "earth": 100,
+        "holy": -14,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 366,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "lifedrain",
+            "min": 129,
+            "max": 372,
+            "target": true,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "ghastly_dragon_curse_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "target": false,
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "condition_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "earth",
+            "min": 1487,
+            "max": 2036,
+            "target": false,
+            "effect": "me_smallclouds",
+            "shootEffect": "ani_death"
+        },
+        {
+            "id": "ranged_4",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "lifedrain",
+            "min": 145,
+            "max": 566,
+            "target": true,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "area_5",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 13,
+            "range": 4,
+            "element": "death",
+            "min": 113,
+            "max": 291,
+            "radius": 4,
+            "target": false,
+            "effect": "me_mortarea"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 9,
+            "min": 70,
+            "max": 300,
+            "hpBelow": 0.7,
+            "effect": "me_magic_green"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "chance": 100000,
+            "name": "ghastly dragon head"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 230,
+            "name": "gold coin"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 15,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 100000,
+            "name": "undead heart"
+        },
+        {
+            "chance": 97000,
+            "name": "demonic essence"
+        },
+        {
+            "id": 281,
+            "chance": 45000
+        },
+        {
+            "id": 282,
+            "chance": 45000
+        },
+        {
+            "chance": 97000,
+            "maxCount": 10,
+            "name": "small topaz"
+        },
+        {
+            "chance": 76000,
+            "name": "Zaoan halberd"
+        },
+        {
+            "chance": 60000,
+            "name": "ultimate health potion"
+        },
+        {
+            "chance": 45000,
+            "name": "shiny stone"
+        },
+        {
+            "chance": 37000,
+            "name": "jade hat"
+        },
+        {
+            "chance": 34000,
+            "maxCount": 3,
+            "name": "great health potion"
+        },
+        {
+            "chance": 30000,
+            "name": "Zaoan shoes"
+        },
+        {
+            "chance": 26000,
+            "maxCount": 3,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 26000,
+            "maxCount": 3,
+            "name": "great dual potion"
+        },
+        {
+            "chance": 21000,
+            "name": "spellweaver's robe"
+        },
+        {
+            "chance": 15000,
+            "name": "Zaoan legs"
+        },
+        {
+            "chance": 13000,
+            "name": "Zaoan armor"
+        },
+        {
+            "chance": 13000,
+            "name": "Zaoan helmet"
+        },
+        {
+            "chance": 10000,
+            "name": "sai"
+        },
+        {
+            "chance": 8700,
+            "name": "drakinata"
+        },
+        {
+            "chance": 2170,
+            "name": "golden can of oil"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 5
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "wild_desert_dragon",
+    "threatDps": 155.5425,
+    "burstDps": 155.5425,
+    "avgHit": 536.3534,
+    "maxHit": 2036,
+    "manaCost": 0
+}

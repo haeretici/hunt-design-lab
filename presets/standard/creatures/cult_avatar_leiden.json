@@ -1,0 +1,102 @@
+{
+    "id": "cult_avatar_leiden",
+    "label": "Cult Avatar Leiden",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A cult avatar leiden.",
+    "hp": 30000,
+    "hpMax": 30000,
+    "speed": 120,
+    "level": 764,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 200,
+        "ice": 200,
+        "energy": 200,
+        "earth": 200,
+        "holy": 200,
+        "death": 200
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 1176
+        }
+    ],
+    "race": "blood",
+    "loot": [],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "hellfire_kobold_cultist",
+    "threatDps": 294,
+    "burstDps": 294,
+    "avgHit": 588,
+    "maxHit": 1176,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 2,
+        "summons": [
+            {
+                "name": "Scarred Cultist",
+                "id": "scarred_cultist",
+                "chance": 20,
+                "interval": 2000,
+                "count": 1
+            },
+            {
+                "name": "Scarred Cultist",
+                "id": "scarred_cultist",
+                "chance": 30,
+                "interval": 2000,
+                "count": 1
+            }
+        ]
+    }
+}

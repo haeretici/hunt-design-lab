@@ -1,0 +1,231 @@
+{
+    "id": "deep_terror_hydromancer",
+    "label": "Deep Terror Hydromancer",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A deep terror hydromancer.",
+    "hp": 1100,
+    "hpMax": 1100,
+    "speed": 245,
+    "level": 434,
+    "armor": 30,
+    "mitigation": 1.04,
+    "maxBlock": 0,
+    "exp": 950,
+    "lootValue": 167.14568965517,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": 100,
+        "energy": -25,
+        "earth": -10,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 38,
+            "effect": "me_drawblood",
+            "condition": {
+                "type": "poison",
+                "totalDamage": 47,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "ice",
+            "min": 47,
+            "max": 85,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_bubbles"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "ice",
+            "min": 43,
+            "max": 71,
+            "radius": 3,
+            "target": false,
+            "effect": "me_bubbles"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 80,
+            "max": 114,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_hitbypoison"
+        },
+        {
+            "id": "ranged_4",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "lifedrain",
+            "min": 0,
+            "max": 80,
+            "target": true,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "slow_5",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -600,
+                "durationSec": 15
+            },
+            "effect": "me_magic_red",
+            "target": false
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 100,
+            "max": 120,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Aquatic",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 60
+        },
+        {
+            "name": "gold coin",
+            "chance": 40000,
+            "maxCount": 50
+        },
+        {
+            "name": "quara eye",
+            "chance": 15930
+        },
+        {
+            "name": "white pearl",
+            "chance": 5250
+        },
+        {
+            "name": "small emerald",
+            "chance": 5111,
+            "maxCount": 2
+        },
+        {
+            "name": "shrimp",
+            "chance": 4545,
+            "maxCount": 5
+        },
+        {
+            "name": "black pearl",
+            "chance": 3150
+        },
+        {
+            "name": "great mana potion",
+            "chance": 2880
+        },
+        {
+            "name": "fish fin",
+            "chance": 1410
+        },
+        {
+            "chance": 1218,
+            "name": "ring of healing"
+        },
+        {
+            "name": "wand of cosmic energy",
+            "chance": 980
+        },
+        {
+            "name": "knight armor",
+            "chance": 230
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "doom_kobold_assassin",
+    "threatDps": 47,
+    "burstDps": 47,
+    "avgHit": 32.4138,
+    "maxHit": 114,
+    "manaCost": 0
+}

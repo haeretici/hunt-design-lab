@@ -1,0 +1,221 @@
+{
+    "id": "blood_hand",
+    "label": "Blood Hand",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A blood hand.",
+    "hp": 700,
+    "hpMax": 700,
+    "speed": 96,
+    "level": 388,
+    "armor": 48,
+    "mitigation": 1.1,
+    "maxBlock": 0,
+    "exp": 750,
+    "lootValue": 290.33358388455,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -10,
+        "ice": 10,
+        "energy": 20,
+        "earth": 100,
+        "holy": -10,
+        "death": 50
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 59,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 30,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 19,
+            "max": 38,
+            "radius": 4,
+            "target": false,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "slow_2",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -600,
+                "durationSec": 15
+            },
+            "radius": 4,
+            "effect": "me_blockhit",
+            "target": true
+        },
+        {
+            "id": "condition_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "physical",
+            "min": 45,
+            "max": 60,
+            "radius": 6,
+            "target": false,
+            "effect": "me_hitarea"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 20,
+            "min": 70,
+            "max": 90,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Human",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 130
+        },
+        {
+            "name": "Withering Rod",
+            "chance": 3000
+        },
+        {
+            "name": "boots of haste",
+            "chance": 210
+        },
+        {
+            "name": "Bone Skull Staff",
+            "chance": 130
+        },
+        {
+            "name": "mystic turban",
+            "chance": 790
+        },
+        {
+            "name": "white piece of cloth",
+            "chance": 840
+        },
+        {
+            "name": "red piece of cloth",
+            "chance": 500
+        },
+        {
+            "name": "noble axe",
+            "chance": 10
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 5590
+        },
+        {
+            "name": "spellbook of enlightenment",
+            "chance": 790
+        },
+        {
+            "name": "book of necromantic rituals",
+            "chance": 9340
+        },
+        {
+            "chance": 710,
+            "name": "red gem"
+        },
+        {
+            "name": "lancet",
+            "chance": 10680
+        },
+        {
+            "name": "horoscope",
+            "chance": 7950
+        },
+        {
+            "name": "blood tincture in a vial",
+            "chance": 15460
+        },
+        {
+            "name": "incantation notes",
+            "chance": 8820
+        },
+        {
+            "name": "pieces of magic chalk",
+            "chance": 6120
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "blood_behemoth",
+    "threatDps": 36.5375,
+    "burstDps": 36.5375,
+    "avgHit": 31.9074,
+    "maxHit": 60,
+    "manaCost": 0
+}

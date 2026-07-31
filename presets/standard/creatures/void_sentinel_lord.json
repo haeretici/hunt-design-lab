@@ -1,0 +1,318 @@
+{
+    "id": "void_sentinel_lord",
+    "label": "Void Sentinel Lord",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A void sentinel lord.",
+    "hp": 31500,
+    "hpMax": 31500,
+    "speed": 220,
+    "level": 769,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 10000,
+    "lootValue": 39491.857954545,
+    "aggro": true,
+    "resists": {
+        "physical": 50,
+        "fire": 30,
+        "ice": 30,
+        "energy": 30,
+        "earth": 30,
+        "holy": 25,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 85,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 833
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 1000,
+            "chance": 10,
+            "range": 4,
+            "element": "physical",
+            "min": 191,
+            "max": 383,
+            "length": 10,
+            "spread": 3,
+            "target": false,
+            "effect": "me_mortarea"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 8,
+            "range": 4,
+            "element": "death",
+            "min": 23,
+            "max": 582,
+            "radius": 5,
+            "target": false,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_death"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 9,
+            "range": 4,
+            "element": "earth",
+            "min": 153,
+            "max": 448,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_smallplants"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 8,
+            "range": 4,
+            "element": "ice",
+            "min": 0,
+            "max": 329,
+            "radius": 6,
+            "target": false,
+            "effect": "me_icetornado"
+        },
+        {
+            "id": "condition_6",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "energy",
+            "min": 191,
+            "max": 191,
+            "radius": 4,
+            "target": false,
+            "effect": "me_energyhit"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 1000,
+            "chance": 12,
+            "min": 400,
+            "max": 600,
+            "hpBelow": 0.7,
+            "effect": "me_magic_green"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 1000,
+            "chance": 4,
+            "speedChange": 400,
+            "durationSec": 7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "fire",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 190
+        },
+        {
+            "name": "platinum coin",
+            "chance": 20000,
+            "maxCount": 26
+        },
+        {
+            "name": "orb",
+            "chance": 16666
+        },
+        {
+            "name": "life crystal",
+            "chance": 16666
+        },
+        {
+            "name": "mind stone",
+            "chance": 20000
+        },
+        {
+            "name": "spike sword",
+            "chance": 9090
+        },
+        {
+            "name": "fire sword",
+            "chance": 14285
+        },
+        {
+            "name": "giant sword",
+            "chance": 7692
+        },
+        {
+            "chance": 11111,
+            "name": "scimitar"
+        },
+        {
+            "name": "warrior helmet",
+            "chance": 20000
+        },
+        {
+            "name": "strange helmet",
+            "chance": 8333
+        },
+        {
+            "name": "crown helmet",
+            "chance": 6250
+        },
+        {
+            "name": "royal helmet",
+            "chance": 20000
+        },
+        {
+            "name": "brown mushroom",
+            "chance": 50000,
+            "maxCount": 30
+        },
+        {
+            "name": "mysterious voodoo skull",
+            "chance": 12500
+        },
+        {
+            "name": "skull helmet",
+            "chance": 20000
+        },
+        {
+            "name": "iron ore",
+            "chance": 33333
+        },
+        {
+            "chance": 4761,
+            "name": "spirit container"
+        },
+        {
+            "name": "flask of warrior's sweat",
+            "chance": 5555
+        },
+        {
+            "name": "enchanted chicken wing",
+            "chance": 7692
+        },
+        {
+            "name": "huge chunk of crude iron",
+            "chance": 14285
+        },
+        {
+            "name": "hardened bone",
+            "chance": 25000,
+            "maxCount": 20
+        },
+        {
+            "name": "demon horn",
+            "chance": 8333,
+            "maxCount": 2
+        },
+        {
+            "chance": 2063,
+            "name": "unholy book"
+        },
+        {
+            "name": "demonic essence",
+            "chance": 100000
+        },
+        {
+            "chance": 10000,
+            "name": "crimson sword"
+        },
+        {
+            "name": "thaian sword",
+            "chance": 25000
+        },
+        {
+            "name": "dragon slayer",
+            "chance": 8333
+        },
+        {
+            "name": "runed sword",
+            "chance": 6666
+        },
+        {
+            "name": "great mana potion",
+            "chance": 20000
+        },
+        {
+            "name": "great health potion",
+            "chance": 20000
+        },
+        {
+            "name": "great dual potion",
+            "chance": 20000
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 20000
+        },
+        {
+            "chance": 20000,
+            "name": "heavily rusted armor"
+        },
+        {
+            "name": "gold ingot",
+            "chance": 16666
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ember_ogre_ravager",
+    "threatDps": 302.1575,
+    "burstDps": 302.1575,
+    "avgHit": 343.3608,
+    "maxHit": 833,
+    "manaCost": 0
+}

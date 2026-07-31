@@ -1,0 +1,257 @@
+{
+    "id": "marid",
+    "label": "Marid",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A marid.",
+    "hp": 550,
+    "hpMax": 550,
+    "speed": 117,
+    "level": 366,
+    "armor": 24,
+    "mitigation": 0.91,
+    "maxBlock": 0,
+    "exp": 410,
+    "lootValue": 138.63678017286,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 90,
+        "ice": -5,
+        "energy": 60,
+        "earth": 10,
+        "holy": 20,
+        "death": -8
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 72
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "energy",
+            "min": 80,
+            "max": 199,
+            "target": false,
+            "shootEffect": "ani_energyball"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "lifedrain",
+            "min": 24,
+            "max": 72,
+            "target": false,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "slow_3",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -650,
+                "durationSec": 1.5
+            },
+            "effect": "me_magic_red",
+            "target": false
+        },
+        {
+            "id": "djinn_electrify_6",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 5,
+            "element": "physical",
+            "target": false,
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "area_7",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "energy",
+            "min": 24,
+            "max": 72,
+            "radius": 3,
+            "target": false,
+            "effect": "me_energyhit"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 50,
+            "max": 80,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Magical",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 2560,
+            "name": "blue tapestry"
+        },
+        {
+            "name": "small oil lamp",
+            "chance": 110
+        },
+        {
+            "name": "small sapphire",
+            "chance": 6200
+        },
+        {
+            "name": "gold coin",
+            "chance": 60000,
+            "maxCount": 70
+        },
+        {
+            "name": "gold coin",
+            "chance": 60000,
+            "maxCount": 30
+        },
+        {
+            "name": "blue gem",
+            "chance": 110
+        },
+        {
+            "name": "Hailburst Rod",
+            "chance": 770
+        },
+        {
+            "chance": 5000,
+            "name": "wooden flute"
+        },
+        {
+            "name": "heavy machete",
+            "chance": 4530
+        },
+        {
+            "name": "mystic turban",
+            "chance": 290
+        },
+        {
+            "name": "blueberry",
+            "chance": 65000,
+            "maxCount": 29
+        },
+        {
+            "name": "blue piece of cloth",
+            "chance": 3750
+        },
+        {
+            "name": "royal spear",
+            "chance": 15500,
+            "maxCount": 3
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 9800
+        },
+        {
+            "name": "seeds",
+            "chance": 2400
+        },
+        {
+            "name": "Emberbound Monocle",
+            "chance": 320
+        },
+        {
+            "name": "jewelled belt",
+            "chance": 7880
+        },
+        {
+            "name": "noble turban",
+            "chance": 530
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "obsidian_storm_giant_assassin",
+    "threatDps": 32.175,
+    "burstDps": 32.175,
+    "avgHit": 45.9643,
+    "maxHit": 199,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 2,
+        "summons": [
+            {
+                "name": "Blue Djinn",
+                "id": "blue_djinn",
+                "chance": 10,
+                "interval": 2000,
+                "count": 2
+            }
+        ]
+    }
+}

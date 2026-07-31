@@ -1,0 +1,105 @@
+{
+    "id": "condensed_sins",
+    "label": "Condensed Sins",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A condensed sins.",
+    "hp": 1500,
+    "hpMax": 1500,
+    "speed": 80,
+    "level": 465,
+    "armor": 10,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -10,
+        "ice": 20,
+        "energy": -10,
+        "earth": 100,
+        "holy": 0,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 176
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 3500,
+            "chance": 25,
+            "range": 3,
+            "element": "physical",
+            "min": 123,
+            "max": 211,
+            "radius": 4,
+            "target": false,
+            "effect": "me_poff"
+        },
+        {
+            "id": "death_blob_curse_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 5,
+            "element": "physical",
+            "target": false,
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "race": "undead",
+    "loot": [],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "hive_spore_vent",
+    "threatDps": 55.9286,
+    "burstDps": 64.875,
+    "avgHit": 97.875,
+    "maxHit": 211,
+    "manaCost": 0
+}

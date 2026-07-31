@@ -1,0 +1,176 @@
+{
+    "id": "crypt_warden",
+    "label": "Crypt Warden",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A crypt warden.",
+    "hp": 8300,
+    "hpMax": 8300,
+    "speed": 145,
+    "level": 636,
+    "armor": 84,
+    "mitigation": 2.31,
+    "maxBlock": 0,
+    "exp": 8400,
+    "lootValue": 1103.313446749,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 20,
+        "holy": 25,
+        "death": -35
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 347
+        },
+        {
+            "id": "warden_x_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 1,
+            "element": "physical",
+            "min": 174,
+            "max": 299,
+            "target": false
+        },
+        {
+            "id": "warden_ring_2",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 8,
+            "range": 1,
+            "element": "physical",
+            "min": 174,
+            "max": 264,
+            "target": false
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 12,
+            "range": 4,
+            "element": "earth",
+            "min": 139,
+            "max": 333,
+            "radius": 2,
+            "target": false,
+            "effect": "me_groundshaker"
+        },
+        {
+            "id": "wave_4",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 13,
+            "range": 4,
+            "element": "holy",
+            "min": 208,
+            "max": 312,
+            "length": 5,
+            "spread": 0,
+            "target": false,
+            "effect": "me_holyarea"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Magical",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 3
+        },
+        {
+            "name": "cyan crystal fragment",
+            "chance": 13670
+        },
+        {
+            "name": "green crystal fragment",
+            "chance": 1770
+        },
+        {
+            "name": "lamassu horn",
+            "chance": 10770
+        },
+        {
+            "name": "lamassu hoof",
+            "chance": 9700
+        },
+        {
+            "name": "small amethyst",
+            "chance": 8680
+        },
+        {
+            "name": "gold ingot",
+            "chance": 4660
+        },
+        {
+            "name": "green gem",
+            "chance": 1290
+        },
+        {
+            "name": "elven amulet",
+            "chance": 800
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "fish",
+    "threatDps": 144.3075,
+    "burstDps": 144.3075,
+    "avgHit": 195.0101,
+    "maxHit": 347,
+    "manaCost": 0
+}

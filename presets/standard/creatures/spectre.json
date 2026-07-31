@@ -1,0 +1,216 @@
+{
+    "id": "spectre",
+    "label": "Spectre",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A spectre.",
+    "hp": 1350,
+    "hpMax": 1350,
+    "speed": 140,
+    "level": 454,
+    "armor": 40,
+    "mitigation": 1.04,
+    "maxBlock": 0,
+    "exp": 2100,
+    "lootValue": 520.44805194805,
+    "aggro": true,
+    "resists": {
+        "physical": 90,
+        "fire": -8,
+        "ice": 1,
+        "energy": -8,
+        "earth": 100,
+        "holy": 0,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 56,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 55,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "manadrain",
+            "min": 18,
+            "max": 73,
+            "target": false
+        },
+        {
+            "id": "ranged_4",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "lifedrain",
+            "min": 55,
+            "max": 101,
+            "target": false,
+            "effect": "me_magic_red"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 20,
+            "min": 100,
+            "max": 700,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 290,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 9620,
+            "name": "lyre"
+        },
+        {
+            "name": "silver brooch",
+            "chance": 850
+        },
+        {
+            "name": "silver brooch",
+            "chance": 110
+        },
+        {
+            "chance": 110,
+            "name": "fiendbone amulet"
+        },
+        {
+            "name": "gold coin",
+            "chance": 33000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 33000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 33000,
+            "maxCount": 97
+        },
+        {
+            "name": "platinum coin",
+            "chance": 3850,
+            "maxCount": 7
+        },
+        {
+            "chance": 190,
+            "name": "stealth ring"
+        },
+        {
+            "name": "wand of cosmic energy",
+            "chance": 9800
+        },
+        {
+            "name": "blank rune",
+            "chance": 30310,
+            "maxCount": 2
+        },
+        {
+            "name": "white piece of cloth",
+            "chance": 3800
+        },
+        {
+            "name": "soul orb",
+            "chance": 6005
+        },
+        {
+            "chance": 280,
+            "name": "death ring"
+        },
+        {
+            "name": "demonic essence",
+            "chance": 6270
+        },
+        {
+            "name": "relic sword",
+            "chance": 700
+        },
+        {
+            "name": "great mana potion",
+            "chance": 920
+        },
+        {
+            "name": "shiny stone",
+            "chance": 1000
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "glacier_mountain_phantom",
+    "threatDps": 52.7125,
+    "burstDps": 52.7125,
+    "avgHit": 37.3519,
+    "maxHit": 101,
+    "manaCost": 0
+}

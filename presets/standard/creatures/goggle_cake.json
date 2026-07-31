@@ -1,0 +1,206 @@
+{
+    "id": "goggle_cake",
+    "label": "Goggle Cake",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A goggle cake.",
+    "hp": 2700,
+    "hpMax": 2700,
+    "speed": 122,
+    "level": 524,
+    "armor": 38,
+    "mitigation": 0.99,
+    "maxBlock": 0,
+    "exp": 2700,
+    "lootValue": 723.90688437776,
+    "aggro": true,
+    "resists": {
+        "physical": 5,
+        "fire": -10,
+        "ice": 15,
+        "energy": 15,
+        "earth": -5,
+        "holy": 5,
+        "death": 15
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 209
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "energy",
+            "min": 101,
+            "max": 179,
+            "target": true,
+            "effect": "me_starburst",
+            "shootEffect": "ani_cherrybomb"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 6,
+            "element": "ice",
+            "min": 72,
+            "max": 155,
+            "target": true,
+            "effect": "me_cream",
+            "shootEffect": "ani_cherrybomb"
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Construct",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 100
+        },
+        {
+            "name": "platinum coin",
+            "chance": 80540,
+            "maxCount": 10
+        },
+        {
+            "name": "small enchanted sapphire",
+            "chance": 6730,
+            "maxCount": 5
+        },
+        {
+            "name": "combat knife",
+            "chance": 5710
+        },
+        {
+            "name": "great mana potion",
+            "chance": 5690
+        },
+        {
+            "name": "rainbow quartz",
+            "chance": 3810,
+            "maxCount": 3
+        },
+        {
+            "name": "small sapphire",
+            "chance": 3590,
+            "maxCount": 2
+        },
+        {
+            "chance": 2660,
+            "name": "red gem"
+        },
+        {
+            "name": "spirit cloak",
+            "chance": 1740
+        },
+        {
+            "name": "gummy rotworm",
+            "chance": 1690
+        },
+        {
+            "name": "churro heart",
+            "chance": 1520
+        },
+        {
+            "name": "Frostbound Amulet",
+            "chance": 1020
+        },
+        {
+            "chance": 1000,
+            "name": "egg"
+        },
+        {
+            "name": "milk chocolate coin",
+            "chance": 780,
+            "maxCount": 15
+        },
+        {
+            "name": "flour",
+            "chance": 690
+        },
+        {
+            "name": "cookie",
+            "chance": 520,
+            "maxCount": 2
+        },
+        {
+            "name": "Frostbound Robe",
+            "chance": 500
+        },
+        {
+            "name": "epee",
+            "chance": 400
+        },
+        {
+            "name": "ice rapier",
+            "chance": 210
+        },
+        {
+            "name": "cream cake",
+            "chance": 140
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "plague_wyrmling_overlord",
+    "threatDps": 77.6,
+    "burstDps": 77.6,
+    "avgHit": 110.8571,
+    "maxHit": 209,
+    "manaCost": 0
+}

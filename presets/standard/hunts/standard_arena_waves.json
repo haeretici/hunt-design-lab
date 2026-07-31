@@ -1,0 +1,176 @@
+{
+    "id": "standard_arena_waves",
+    "label": "Standard Arena Waves (vocation ladder)",
+    "notes": "docs/24 I3–I4 / docs/22 A3–A4 — product vocation arena. Fixed test_arena_small + cave_simple. Wave ladder steps by creature level/threat (trash L~10–80 → mid L~200–320 → high L~350–450) plus rare/champion/elite/boss affixes. defaultPartyId balance_quartet (L50 mid). Progression A/B: --party balance_quartet_novice | balance_quartet | balance_quartet_veteran. Ends waves_complete | party_wipe | no_attack_timeout. Tutorial: docs/23.",
+    "artSet": "cave_simple",
+    "spawnMode": "eager",
+    "defaultPartyId": "balance_quartet",
+    "layout": {
+        "type": "fixed",
+        "profileId": "test_arena_small"
+    },
+    "loopWaypoints": true,
+    "waves": {
+        "delaySec": 3,
+        "startDelaySec": 0,
+        "endOnComplete": true,
+        "holdRoute": true,
+        "anchorRadius": 7,
+        "list": [
+            {
+                "id": "wave_trash",
+                "label": "Wave 1 — trash density L~10–80 (AoE / multi-target)",
+                "entries": [
+                    { "creatureId": "spider", "count": 12 },
+                    { "creatureId": "snake", "count": 3 },
+                    { "creatureId": "cave_rat", "count": 4 },
+                    { "creatureId": "bug", "count": 3 }
+                ]
+            },
+            {
+                "id": "wave_crawlers",
+                "label": "Wave 2 — L~70–130 crawlers + rare spike",
+                "entries": [
+                    { "creatureId": "skeleton", "count": 4 },
+                    { "creatureId": "spider", "count": 3 },
+                    { "creatureId": "bug", "count": 2 },
+                    {
+                        "creatureId": "skeleton",
+                        "count": 1,
+                        "rarity": "rare",
+                        "affixes": ["rare"]
+                    }
+                ]
+            },
+            {
+                "id": "wave_frontline",
+                "label": "Wave 3 — L~120–200 frontline + champion tank check",
+                "entries": [
+                    { "creatureId": "orc", "count": 3 },
+                    { "creatureId": "skeleton", "count": 3 },
+                    { "creatureId": "minotaur", "count": 1 },
+                    {
+                        "creatureId": "orc",
+                        "count": 1,
+                        "rarity": "champion",
+                        "affixes": ["champion"]
+                    }
+                ]
+            },
+            {
+                "id": "wave_orcs",
+                "label": "Wave 4 — L~160–220 orc line + champion warrior",
+                "entries": [
+                    { "creatureId": "orc", "count": 3 },
+                    { "creatureId": "orc_spearman", "count": 2 },
+                    { "creatureId": "dwarf", "count": 1 },
+                    {
+                        "creatureId": "orc_warrior",
+                        "count": 1,
+                        "rarity": "champion",
+                        "affixes": ["champion"]
+                    }
+                ]
+            },
+            {
+                "id": "wave_ranged_pressure",
+                "label": "Wave 5 — L~190–230 ranged / kite + champion caster",
+                "entries": [
+                    { "creatureId": "orc_spearman", "count": 4 },
+                    { "creatureId": "orc", "count": 2 },
+                    {
+                        "creatureId": "orc_spearman",
+                        "count": 1,
+                        "rarity": "rare",
+                        "affixes": ["rare"]
+                    },
+                    {
+                        "creatureId": "orc_shaman",
+                        "count": 1,
+                        "rarity": "champion",
+                        "affixes": ["champion"]
+                    }
+                ]
+            },
+            {
+                "id": "wave_mid_band",
+                "label": "Wave 6 — L~200–320 mid-band catalog + champion",
+                "entries": [
+                    { "creatureId": "crazed_dwarf", "count": 2 },
+                    { "creatureId": "boar", "count": 2 },
+                    { "creatureId": "mummy", "count": 1 },
+                    { "creatureId": "orc_berserker", "count": 1 },
+                    {
+                        "creatureId": "crypt_shambler",
+                        "count": 1,
+                        "rarity": "champion",
+                        "affixes": ["champion"]
+                    }
+                ]
+            },
+            {
+                "id": "wave_elites",
+                "label": "Wave 7 — L~250–330 elites among normals (focus fire)",
+                "entries": [
+                    { "creatureId": "orc_berserker", "count": 2 },
+                    { "creatureId": "dragon_hatchling", "count": 1 },
+                    { "creatureId": "fire_elemental", "count": 1 },
+                    {
+                        "creatureId": "cyclops",
+                        "count": 1,
+                        "rarity": "elite",
+                        "affixes": ["elite"]
+                    }
+                ]
+            },
+            {
+                "id": "wave_champion_pack",
+                "label": "Wave 8 — L~280–370 champion pack + elite (burst + sustain)",
+                "entries": [
+                    {
+                        "creatureId": "orc_marauder",
+                        "count": 2,
+                        "rarity": "champion",
+                        "affixes": ["champion"]
+                    },
+                    {
+                        "creatureId": "mechanical_fighter",
+                        "count": 1,
+                        "rarity": "champion",
+                        "affixes": ["champion"]
+                    },
+                    {
+                        "creatureId": "necromancer",
+                        "count": 1,
+                        "rarity": "elite",
+                        "affixes": ["elite"]
+                    }
+                ]
+            },
+            {
+                "id": "wave_boss",
+                "label": "Wave 9 — L~350–450 boss + elite adds",
+                "entries": [
+                    {
+                        "creatureId": "dragon",
+                        "count": 1,
+                        "rarity": "boss",
+                        "affixes": ["boss"]
+                    },
+                    {
+                        "creatureId": "dragon_hatchling",
+                        "count": 2,
+                        "rarity": "elite",
+                        "affixes": ["elite"]
+                    },
+                    { "creatureId": "hot_dog", "count": 1 }
+                ]
+            }
+        ]
+    },
+    "limits": {
+        "maxSeconds": 480,
+        "maxFrames": 10000,
+        "noAttackTimeoutSec": 120
+    }
+}

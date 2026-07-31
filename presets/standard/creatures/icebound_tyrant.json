@@ -1,0 +1,156 @@
+{
+    "id": "icebound_tyrant",
+    "label": "Icebound Tyrant",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An icebound tyrant.",
+    "hp": 1500,
+    "hpMax": 1500,
+    "speed": 95,
+    "level": 465,
+    "armor": 0,
+    "mitigation": 1.18,
+    "maxBlock": 0,
+    "exp": 800,
+    "lootValue": 3041.4285714286,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": 100,
+        "energy": -20,
+        "earth": 0,
+        "holy": 100,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "ice",
+            "min": 497,
+            "max": 995,
+            "radius": 3,
+            "target": true,
+            "effect": "me_blockhit",
+            "shootEffect": "ani_ice"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "chance": 200,
+            "name": "runic ice shield"
+        },
+        {
+            "chance": 70000,
+            "maxCount": 100,
+            "name": "gold coin"
+        },
+        {
+            "chance": 200,
+            "name": "silver raid token"
+        },
+        {
+            "chance": 200,
+            "name": "icicle bow"
+        },
+        {
+            "chance": 1200,
+            "name": "strange helmet"
+        },
+        {
+            "chance": 2200,
+            "name": "ice rapier"
+        },
+        {
+            "chance": 4200,
+            "name": "shard"
+        },
+        {
+            "chance": 2200,
+            "name": "ice cube"
+        },
+        {
+            "chance": 3200,
+            "name": "Frostbound Shoes"
+        },
+        {
+            "chance": 1200,
+            "name": "Frostbound Mask"
+        },
+        {
+            "chance": 900,
+            "name": "crystal sword"
+        },
+        {
+            "chance": 900,
+            "name": "blue piece of cloth"
+        },
+        {
+            "chance": 20000,
+            "maxCount": 5,
+            "name": "strong mana potion"
+        },
+        {
+            "chance": 2000,
+            "maxCount": 5,
+            "name": "strong health potion"
+        },
+        {
+            "chance": 2000,
+            "maxCount": 5,
+            "name": "small diamond"
+        },
+        {
+            "chance": 20000,
+            "name": "platinum coin"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 5
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "glacier_mountain_phantom",
+    "threatDps": 55.95,
+    "burstDps": 55.95,
+    "avgHit": 746,
+    "maxHit": 995,
+    "manaCost": 0
+}

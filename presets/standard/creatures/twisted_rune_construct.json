@@ -1,0 +1,234 @@
+{
+    "id": "twisted_rune_construct",
+    "label": "Twisted Rune Construct",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A twisted rune construct.",
+    "hp": 2500,
+    "hpMax": 2500,
+    "speed": 140,
+    "level": 516,
+    "armor": 35,
+    "mitigation": 1.18,
+    "maxBlock": 0,
+    "exp": 2050,
+    "lootValue": 505.00142229118,
+    "aggro": true,
+    "resists": {
+        "physical": 5,
+        "fire": -5,
+        "ice": 30,
+        "energy": -5,
+        "earth": 40,
+        "holy": 30,
+        "death": 10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 15,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 224
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "min": 56,
+            "max": 112,
+            "target": true,
+            "effect": "me_energyhit",
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 35,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 0,
+            "max": 112,
+            "length": 5,
+            "spread": 0,
+            "target": false,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "manadrain",
+            "min": 56,
+            "max": 112,
+            "radius": 7,
+            "target": false,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "slow_4",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 9,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -440,
+                "durationSec": 7
+            },
+            "effect": "me_giantice",
+            "target": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 400,
+            "max": 500,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 80320,
+            "maxCount": 222,
+            "name": "gold coin"
+        },
+        {
+            "chance": 50320,
+            "maxCount": 4,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 5000,
+            "maxCount": 2,
+            "name": "brown mushroom"
+        },
+        {
+            "chance": 10000,
+            "maxCount": 2,
+            "name": "meat"
+        },
+        {
+            "chance": 20000,
+            "maxCount": 2,
+            "name": "cave turnip"
+        },
+        {
+            "chance": 5000,
+            "maxCount": 2,
+            "name": "orichalcum pearl"
+        },
+        {
+            "chance": 5600,
+            "maxCount": 5,
+            "name": "small ruby"
+        },
+        {
+            "chance": 4900,
+            "name": "onyx chip"
+        },
+        {
+            "chance": 14580,
+            "name": "tarnished rhino figurine"
+        },
+        {
+            "chance": 7300,
+            "name": "great health potion"
+        },
+        {
+            "chance": 7660,
+            "name": "voltaic ring"
+        },
+        {
+            "chance": 3810,
+            "name": "wand of cosmic energy"
+        },
+        {
+            "chance": 370,
+            "name": "platinum amulet"
+        },
+        {
+            "chance": 17000,
+            "name": "ancient belt buckle"
+        },
+        {
+            "chance": 20000,
+            "name": "cracked alabaster vase"
+        },
+        {
+            "chance": 4000,
+            "name": "ancient coin"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "warm_fire",
+    "threatDps": 74.2,
+    "burstDps": 74.2,
+    "avgHit": 95.7419,
+    "maxHit": 224,
+    "manaCost": 0
+}

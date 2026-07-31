@@ -1,0 +1,119 @@
+{
+    "id": "woodling",
+    "label": "Woodling",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A woodling.",
+    "hp": 80,
+    "hpMax": 80,
+    "speed": 65,
+    "level": 173,
+    "armor": 2,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 40,
+    "lootValue": 9.6157407407407,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 3,
+            "element": "earth",
+            "min": 91,
+            "max": 204,
+            "target": false,
+            "effect": "me_insects",
+            "shootEffect": "ani_smallearth"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 9450,
+            "maxCount": 10,
+            "name": "simple arrow"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 12,
+            "name": "gold coin"
+        },
+        {
+            "chance": 14500,
+            "name": "piece of swampling wood"
+        },
+        {
+            "chance": 5700,
+            "name": "rope"
+        },
+        {
+            "chance": 4950,
+            "name": "studded armor"
+        },
+        {
+            "chance": 2670,
+            "name": "studded shield"
+        },
+        {
+            "chance": 20250,
+            "name": "swampling moss"
+        },
+        {
+            "chance": 18200,
+            "maxCount": 4,
+            "name": "white mushroom"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "woodling",
+    "threatDps": 11.0625,
+    "burstDps": 11.0625,
+    "avgHit": 147.5,
+    "maxHit": 204,
+    "manaCost": 0
+}

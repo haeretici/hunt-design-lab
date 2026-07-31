@@ -1,0 +1,192 @@
+{
+    "id": "evil_prospector",
+    "label": "Evil Prospector",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An evil prospector.",
+    "hp": 8500,
+    "hpMax": 8500,
+    "speed": 220,
+    "level": 638,
+    "armor": 100,
+    "mitigation": 2.81,
+    "maxBlock": 0,
+    "exp": 9800,
+    "lootValue": 1064.0833333333,
+    "aggro": true,
+    "resists": {
+        "physical": 65,
+        "fire": -5,
+        "ice": -5,
+        "energy": 30,
+        "earth": 0,
+        "holy": 35,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 3,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 34,
+            "max": 172
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 1700,
+            "chance": 15,
+            "range": 4,
+            "element": "earth",
+            "min": 86,
+            "max": 189,
+            "radius": 3,
+            "target": true,
+            "effect": "me_hitbypoison",
+            "shootEffect": "ani_envenomedarrow"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 1700,
+            "chance": 25,
+            "range": 4,
+            "element": "energy",
+            "min": 86,
+            "max": 189,
+            "length": 4,
+            "spread": 0,
+            "target": false,
+            "effect": "me_energyhit"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 1700,
+            "chance": 35,
+            "range": 4,
+            "element": "death",
+            "min": 86,
+            "max": 189,
+            "radius": 3,
+            "target": false,
+            "effect": "me_mortarea"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 1700,
+            "chance": 35,
+            "range": 4,
+            "element": "holy",
+            "min": 86,
+            "max": 137,
+            "radius": 3,
+            "target": false,
+            "effect": "me_holyarea"
+        },
+        {
+            "id": "area_5",
+            "kind": "area",
+            "intervalMs": 1700,
+            "chance": 13,
+            "range": 4,
+            "element": "energy",
+            "min": 137,
+            "max": 155,
+            "radius": 4,
+            "target": true,
+            "effect": "me_energyarea"
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 5
+        },
+        {
+            "name": "spectral silver nugget",
+            "chance": 17110,
+            "maxCount": 2
+        },
+        {
+            "name": "wand of starstorm",
+            "chance": 13160,
+            "maxCount": 10
+        },
+        {
+            "name": "Stormbound Pendant",
+            "chance": 9210
+        },
+        {
+            "name": "emerald bangle",
+            "chance": 3950
+        },
+        {
+            "name": "strange talisman",
+            "chance": 2630
+        },
+        {
+            "name": "wand of defiance",
+            "chance": 2630
+        },
+        {
+            "name": "Stormbound Headband",
+            "chance": 1320
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "crystal_dune_viper",
+    "threatDps": 146.2824,
+    "burstDps": 212.63,
+    "avgHit": 119.5577,
+    "maxHit": 189,
+    "manaCost": 0
+}

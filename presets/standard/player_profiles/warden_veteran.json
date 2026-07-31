@@ -1,0 +1,51 @@
+{
+    "id": "warden_veteran",
+    "label": "Warden Veteran",
+    "vocation": "warden",
+    "level": 90,
+    "promoted": true,
+    "skills": {
+        "axe": 12,
+        "club": 12,
+        "distance": 15,
+        "fishing": 10,
+        "fist": 13,
+        "magicLevel": 80,
+        "shielding": 25,
+        "sword": 25
+    },
+    "stats": {
+        "lifeLeech": 0,
+        "manaLeech": 0,
+        "critChance": 8,
+        "critDamage": 15
+    },
+    "equipment": {
+        "head": "jade_hat",
+        "chest": "crystalline_armor",
+        "legs": "frostbound_kilt",
+        "boots": "crystal_boots",
+        "weapon": "ember_wand",
+        "shield": "spellbook_of_lost_souls",
+        "amulet": "archmage_s_amulet",
+        "ring": "butterfly_ring",
+        "backpack": "backpack"
+    },
+    "inventory": {
+        "backpack": [
+            { "itemId": "rockfall_rune", "count": 50 },
+            { "itemId": "frost_spike_rune", "count": 30 },
+            { "itemId": "gravel_rain_rune", "count": 25 },
+            { "itemId": "stone_spike_rune", "count": 20 },
+            { "itemId": "venom_field_rune", "count": 15 },
+            { "itemId": "venom_bomb_rune", "count": 12 },
+            { "itemId": "venom_wall_rune", "count": 12 },
+            { "itemId": "spark_field_rune", "count": 12 },
+            { "itemId": "spark_bomb_rune", "count": 10 },
+            { "itemId": "spark_wall_rune", "count": 10 },
+            { "itemId": "purge_field_rune", "count": 15 }
+        ]
+    },
+    "strategyId": "warden_support",
+    "notes": "docs/24 I4 — L90 late tier. Unlocks strong_ice_strike (L80); eternal_winter (L60) already mid-unlocked. Ice-themed legs + spellbook. Full ice/earth/energy rune kit seeded for consumption-on demos. Skills from deriveSkills policy v1 (level anchors)."
+}

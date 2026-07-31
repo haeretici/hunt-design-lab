@@ -1,0 +1,179 @@
+{
+    "id": "witch",
+    "label": "Witch",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A witch.",
+    "hp": 300,
+    "hpMax": 300,
+    "speed": 102,
+    "level": 305,
+    "armor": 8,
+    "mitigation": 0.3,
+    "maxBlock": 0,
+    "exp": 120,
+    "lootValue": 55.982251447525,
+    "aggro": true,
+    "resists": {
+        "physical": -5,
+        "fire": 0,
+        "ice": 0,
+        "energy": 100,
+        "earth": 20,
+        "holy": 0,
+        "death": -5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 30,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 45
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "fire",
+            "min": 67,
+            "max": 168,
+            "target": false,
+            "effect": "me_hitbyfire",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "firefield_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "radius": 1,
+            "target": true,
+            "shootEffect": "ani_fire",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Human",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 10120,
+            "name": "wolf tooth chain"
+        },
+        {
+            "name": "gold coin",
+            "chance": 64000,
+            "maxCount": 40
+        },
+        {
+            "name": "Withering Rod",
+            "chance": 1140
+        },
+        {
+            "name": "garlic necklace",
+            "chance": 1000
+        },
+        {
+            "name": "silver dagger",
+            "chance": 500
+        },
+        {
+            "name": "sickle",
+            "chance": 3910
+        },
+        {
+            "name": "leather boots",
+            "chance": 4950
+        },
+        {
+            "name": "coat",
+            "chance": 2010
+        },
+        {
+            "name": "cape",
+            "chance": 4870
+        },
+        {
+            "name": "cookie",
+            "chance": 29750,
+            "maxCount": 8
+        },
+        {
+            "name": "star herb",
+            "chance": 8950
+        },
+        {
+            "name": "witch broom",
+            "chance": 10000
+        },
+        {
+            "name": "witch hat",
+            "chance": 80
+        },
+        {
+            "name": "stuffed toad",
+            "chance": 10
+        },
+        {
+            "name": "bag of apple slices",
+            "chance": 920
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "infernal_merrow_necromancer",
+    "threatDps": 23,
+    "burstDps": 23,
+    "avgHit": 38.3333,
+    "maxHit": 168,
+    "manaCost": 0
+}

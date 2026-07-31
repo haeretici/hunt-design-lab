@@ -1,0 +1,131 @@
+{
+    "id": "memory_of_a_pirate",
+    "label": "Memory Of A Pirate",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A memory of a pirate.",
+    "hp": 3750,
+    "hpMax": 3750,
+    "speed": 109,
+    "level": 556,
+    "armor": 0,
+    "mitigation": 1.3,
+    "maxBlock": 0,
+    "exp": 1500,
+    "lootValue": 88.515789473684,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 50,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 330
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 207,
+            "target": false,
+            "shootEffect": "ani_throwingknife"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 67740,
+            "maxCount": 98
+        },
+        {
+            "name": "worn leather boots",
+            "chance": 9900
+        },
+        {
+            "name": "sabre",
+            "chance": 10100
+        },
+        {
+            "name": "throwing knife",
+            "chance": 9000,
+            "maxCount": 5
+        },
+        {
+            "name": "plate armor",
+            "chance": 1130
+        },
+        {
+            "name": "battle shield",
+            "chance": 3850
+        },
+        {
+            "name": "pirate shirt",
+            "chance": 1200
+        },
+        {
+            "chance": 5155,
+            "name": "candy floss"
+        },
+        {
+            "name": "strong health potion",
+            "chance": 670
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 15
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "chaos_triton_assassin",
+    "threatDps": 92.85,
+    "burstDps": 92.85,
+    "avgHit": 154.75,
+    "maxHit": 330,
+    "manaCost": 0
+}

@@ -1,0 +1,196 @@
+{
+    "id": "flesh_crawler_scarab",
+    "label": "Flesh Crawler Scarab",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A flesh crawler scarab.",
+    "hp": 1450,
+    "hpMax": 1450,
+    "speed": 115,
+    "level": 461,
+    "armor": 0,
+    "mitigation": 0.96,
+    "maxBlock": 0,
+    "exp": 1000,
+    "lootValue": 11403.780487805,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -14,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 140
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "earth",
+            "min": 0,
+            "max": 64,
+            "target": false,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "slow_2",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -700,
+                "durationSec": 25
+            },
+            "effect": "me_poisonarea",
+            "target": false
+        },
+        {
+            "id": "condition_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 4,
+            "element": "earth",
+            "min": 0,
+            "max": 221,
+            "radius": 5,
+            "target": false,
+            "effect": "me_poisonarea"
+        }
+    ],
+    "race": "venom",
+    "loot": [
+        {
+            "chance": 98890,
+            "maxCount": 15,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 98890,
+            "maxCount": 2,
+            "name": "scarab coin"
+        },
+        {
+            "chance": 88890,
+            "maxCount": 3,
+            "name": "small emerald"
+        },
+        {
+            "chance": 87220,
+            "maxCount": 4,
+            "name": "small amethyst"
+        },
+        {
+            "chance": 100000,
+            "name": "scarab pincers"
+        },
+        {
+            "chance": 45560,
+            "name": "ancient amulet"
+        },
+        {
+            "chance": 52220,
+            "name": "scarab amulet"
+        },
+        {
+            "chance": 11110,
+            "name": "Earthbound Mantle"
+        },
+        {
+            "chance": 43330,
+            "name": "strong health potion"
+        },
+        {
+            "chance": 75560,
+            "name": "Bloomshoot Rod"
+        },
+        {
+            "chance": 43890,
+            "name": "scarab shield"
+        },
+        {
+            "chance": 30560,
+            "name": "amber staff"
+        },
+        {
+            "chance": 14440,
+            "name": "ornamented brooch"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "brimstone_ruins_crawler",
+    "threatDps": 54.775,
+    "burstDps": 54.775,
+    "avgHit": 73.0333,
+    "maxHit": 221,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 3,
+        "summons": [
+            {
+                "name": "Larva",
+                "id": "larva",
+                "chance": 10,
+                "interval": 2000,
+                "count": 3
+            }
+        ]
+    }
+}

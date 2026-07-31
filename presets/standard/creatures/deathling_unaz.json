@@ -1,0 +1,186 @@
+{
+    "id": "deathling_unaz",
+    "label": "Deathling Unaz",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A deathling unaz.",
+    "hp": 28000,
+    "hpMax": 28000,
+    "speed": 150,
+    "level": 757,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 22000,
+    "lootValue": 16807.692307692,
+    "aggro": true,
+    "resists": {
+        "physical": 50,
+        "fire": 0,
+        "ice": -10,
+        "energy": 50,
+        "earth": 0,
+        "holy": 0,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 64,
+            "max": 319
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 1500,
+            "chance": 15,
+            "range": 4,
+            "element": "earth",
+            "min": 191,
+            "max": 319,
+            "radius": 3,
+            "target": true,
+            "effect": "me_hitbypoison",
+            "shootEffect": "ani_envenomedarrow"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 1500,
+            "chance": 25,
+            "range": 4,
+            "element": "energy",
+            "min": 191,
+            "max": 415,
+            "length": 4,
+            "spread": 0,
+            "target": false,
+            "effect": "me_energyhit"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 1500,
+            "chance": 35,
+            "range": 4,
+            "element": "death",
+            "min": 191,
+            "max": 415,
+            "radius": 4,
+            "target": false,
+            "effect": "me_mortarea"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 1500,
+            "chance": 20,
+            "range": 4,
+            "element": "energy",
+            "min": 191,
+            "max": 415,
+            "radius": 4,
+            "target": false,
+            "effect": "me_energyarea"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 10000,
+            "maxCount": 5
+        },
+        {
+            "name": "ivory comb",
+            "chance": 1000
+        },
+        {
+            "name": "skull coin",
+            "chance": 1000
+        },
+        {
+            "name": "moonstone",
+            "chance": 1000,
+            "maxCount": 2
+        },
+        {
+            "name": "diamond",
+            "chance": 100
+        },
+        {
+            "name": "machete",
+            "chance": 400
+        },
+        {
+            "name": "pair of nightmare boots",
+            "chance": 200
+        },
+        {
+            "name": "Bone Skull Staff",
+            "chance": 400
+        },
+        {
+            "name": "warrior's axe",
+            "chance": 400
+        },
+        {
+            "name": "death toll",
+            "chance": 150
+        },
+        {
+            "name": "silver hand mirror",
+            "chance": 150
+        },
+        {
+            "chance": 150,
+            "maxCount": 2,
+            "name": "red gem"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "skeletal_hill_giant",
+    "threatDps": 282.85,
+    "burstDps": 376.4,
+    "avgHit": 249.5735,
+    "maxHit": 415,
+    "manaCost": 0
+}

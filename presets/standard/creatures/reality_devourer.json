@@ -1,0 +1,261 @@
+{
+    "id": "reality_devourer",
+    "label": "Reality Devourer",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A reality devourer.",
+    "hp": 25000,
+    "hpMax": 25000,
+    "speed": 225,
+    "level": 746,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 25661.28342246,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 635
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 159,
+            "max": 317,
+            "length": 10,
+            "spread": 0,
+            "target": false,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "death",
+            "min": 159,
+            "max": 317,
+            "radius": 4,
+            "target": true,
+            "effect": "me_smallclouds"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "energy",
+            "min": 159,
+            "max": 317,
+            "radius": 4,
+            "target": true,
+            "effect": "me_yellowenergy",
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "wave_4",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "energy",
+            "min": 238,
+            "max": 476,
+            "length": 10,
+            "spread": 0,
+            "target": false,
+            "effect": "me_loseenergy"
+        },
+        {
+            "id": "area_5",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "lifedrain",
+            "radius": 8,
+            "target": false,
+            "effect": "me_magic_red",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "race": "venom",
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 100,
+            "name": "gold coin"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 20,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 10000,
+            "maxCount": 3,
+            "name": "blue crystal shard"
+        },
+        {
+            "chance": 10000,
+            "maxCount": 5,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 10000,
+            "maxCount": 5,
+            "name": "great dual potion"
+        },
+        {
+            "chance": 10000,
+            "maxCount": 3,
+            "name": "green crystal shard"
+        },
+        {
+            "chance": 10000,
+            "maxCount": 5,
+            "name": "ultimate health potion"
+        },
+        {
+            "chance": 10000,
+            "maxCount": 3,
+            "name": "violet crystal shard"
+        },
+        {
+            "chance": 10000,
+            "name": "crystallized anger"
+        },
+        {
+            "chance": 10000,
+            "name": "energy vein"
+        },
+        {
+            "id": 281,
+            "chance": 5000
+        },
+        {
+            "id": 282,
+            "chance": 5000
+        },
+        {
+            "chance": 10000,
+            "name": "odd organ"
+        },
+        {
+            "chance": 10000,
+            "name": "plasmatic lightning"
+        },
+        {
+            "chance": 10000,
+            "name": "green gem"
+        },
+        {
+            "chance": 100000,
+            "name": "gold token"
+        },
+        {
+            "chance": 10000,
+            "name": "amber staff"
+        },
+        {
+            "chance": 8000,
+            "name": "Stormbound Headband"
+        },
+        {
+            "chance": 8000,
+            "name": "ring of red plasma"
+        },
+        {
+            "chance": 8000,
+            "name": "violet gem"
+        },
+        {
+            "chance": 6000,
+            "unique": true,
+            "name": "tiara of power"
+        },
+        {
+            "chance": 6000,
+            "unique": true,
+            "name": "void boots"
+        },
+        {
+            "chance": 4000,
+            "unique": true,
+            "name": "devourer core"
+        },
+        {
+            "chance": 2000,
+            "unique": true,
+            "name": "crackling egg"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 25
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ashen_goblin_devourer",
+    "threatDps": 265.85,
+    "burstDps": 265.85,
+    "avgHit": 295.3889,
+    "maxHit": 635,
+    "manaCost": 0
+}

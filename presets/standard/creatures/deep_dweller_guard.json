@@ -1,0 +1,201 @@
+{
+    "id": "deep_dweller_guard",
+    "label": "Deep Dweller Guard",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A deep dweller guard.",
+    "hp": 1900,
+    "hpMax": 1900,
+    "speed": 135,
+    "level": 489,
+    "armor": 53,
+    "mitigation": 1.57,
+    "maxBlock": 0,
+    "exp": 2100,
+    "lootValue": 513.27033517445,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": 100,
+        "energy": -10,
+        "earth": -10,
+        "holy": 0,
+        "death": 10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 20,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 214,
+            "effect": "me_drawblood"
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 107,
+            "target": true,
+            "shootEffect": "ani_whirlwindsword"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 53,
+            "max": 80,
+            "target": true,
+            "effect": "me_loseenergy",
+            "shootEffect": "ani_spear"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 100,
+            "max": 200,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Aquatic",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 90
+        },
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 90
+        },
+        {
+            "name": "platinum coin",
+            "chance": 70000,
+            "maxCount": 2
+        },
+        {
+            "name": "great mana potion",
+            "chance": 14285,
+            "maxCount": 3
+        },
+        {
+            "name": "great health potion",
+            "chance": 14285,
+            "maxCount": 3
+        },
+        {
+            "name": "deepling breaktime snack",
+            "chance": 16666
+        },
+        {
+            "name": "deepling guard belt buckle",
+            "chance": 12500
+        },
+        {
+            "name": "eye of a deepling",
+            "chance": 10000
+        },
+        {
+            "name": "deepling claw",
+            "chance": 9090
+        },
+        {
+            "name": "small sapphire",
+            "chance": 2890,
+            "maxCount": 3
+        },
+        {
+            "name": "heavy trident",
+            "chance": 1694
+        },
+        {
+            "name": "guardian axe",
+            "chance": 925
+        },
+        {
+            "name": "deepling squelcher",
+            "chance": 751
+        },
+        {
+            "name": "deepling backpack",
+            "chance": 333
+        },
+        {
+            "name": "ornate crossbow",
+            "chance": 362
+        },
+        {
+            "name": "foxtail",
+            "chance": 10
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "sun_orc_guard",
+    "threatDps": 63.8375,
+    "burstDps": 63.8375,
+    "avgHit": 94.5741,
+    "maxHit": 214,
+    "manaCost": 0
+}

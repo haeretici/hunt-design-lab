@@ -1,0 +1,222 @@
+{
+    "id": "fae_dragon_kroazur",
+    "label": "Fae Dragon Kroazur",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A fae dragon kroazur.",
+    "hp": 3000,
+    "hpMax": 3000,
+    "speed": 250,
+    "level": 534,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 2700,
+    "lootValue": 5473.8125,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 55,
+        "ice": 10,
+        "energy": 20,
+        "earth": 80,
+        "holy": -5,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 98,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 200,
+            "chance": 20,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 64
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 200,
+            "chance": 20,
+            "range": 1,
+            "element": "death",
+            "min": 30,
+            "max": 49,
+            "target": false
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 500,
+            "chance": 10,
+            "range": 4,
+            "element": "death",
+            "min": 20,
+            "max": 30,
+            "length": 8,
+            "spread": 0,
+            "target": true,
+            "effect": "me_mortarea"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 500,
+            "chance": 10,
+            "range": 4,
+            "element": "death",
+            "min": 25,
+            "max": 30,
+            "radius": 8,
+            "target": false,
+            "effect": "me_mortarea"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 3000,
+            "chance": 35,
+            "min": 400,
+            "max": 500,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 320,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "name": "fairy wings",
+            "chance": 100000
+        },
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 365
+        },
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 7
+        },
+        {
+            "name": "strong health potion",
+            "chance": 91460,
+            "maxCount": 2
+        },
+        {
+            "name": "great health potion",
+            "chance": 76330,
+            "maxCount": 3
+        },
+        {
+            "name": "small enchanted amethyst",
+            "chance": 53560,
+            "maxCount": 5
+        },
+        {
+            "name": "ancient coin",
+            "chance": 46980,
+            "maxCount": 3
+        },
+        {
+            "name": "gemmed figurine",
+            "chance": 32030
+        },
+        {
+            "name": "small enchanted emerald",
+            "chance": 11003,
+            "maxCount": 5
+        },
+        {
+            "name": "small enchanted ruby",
+            "chance": 2000
+        },
+        {
+            "name": "silver token",
+            "chance": 10140
+        },
+        {
+            "name": "cluster of solace",
+            "chance": 19960
+        },
+        {
+            "name": "red crystal fragment",
+            "chance": 9960
+        },
+        {
+            "name": "small enchanted sapphire",
+            "chance": 8900
+        },
+        {
+            "name": "assassin star",
+            "chance": 8540
+        },
+        {
+            "name": "gold token",
+            "chance": 6580
+        },
+        {
+            "name": "gold ingot",
+            "chance": 6410
+        },
+        {
+            "name": "nightmare blade",
+            "chance": 3020
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "wild_desert_dragon",
+    "threatDps": 82,
+    "burstDps": 82,
+    "avgHit": 34.1667,
+    "maxHit": 64,
+    "manaCost": 0
+}

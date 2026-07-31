@@ -1,0 +1,210 @@
+{
+    "id": "angry_sugar_fairy",
+    "label": "Angry Sugar Fairy",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An angry sugar fairy.",
+    "hp": 3000,
+    "hpMax": 3000,
+    "speed": 120,
+    "level": 534,
+    "armor": 37,
+    "mitigation": 1.1,
+    "maxBlock": 0,
+    "exp": 3100,
+    "lootValue": 922.61510128913,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -5,
+        "ice": 10,
+        "energy": 40,
+        "earth": -10,
+        "holy": 10,
+        "death": 40
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 140
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 6,
+            "element": "physical",
+            "min": 127,
+            "max": 293,
+            "target": true,
+            "effect": "me_iceattack",
+            "shootEffect": "ani_smallice"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 5,
+            "element": "physical",
+            "min": 166,
+            "max": 357,
+            "radius": 3,
+            "target": true,
+            "effect": "me_electricalspark",
+            "shootEffect": "ani_energy"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 25,
+            "min": 100,
+            "max": 200,
+            "hpBelow": 0.7,
+            "effect": "me_cacao"
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Fey",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 93020,
+            "maxCount": 11
+        },
+        {
+            "name": "small enchanted emerald",
+            "chance": 8830,
+            "maxCount": 4
+        },
+        {
+            "name": "wild flowers",
+            "chance": 7410
+        },
+        {
+            "name": "small enchanted sapphire",
+            "chance": 5860,
+            "maxCount": 4
+        },
+        {
+            "name": "green crystal splinter",
+            "chance": 5820
+        },
+        {
+            "name": "violet crystal shard",
+            "chance": 4040
+        },
+        {
+            "name": "small enchanted ruby",
+            "chance": 3840,
+            "maxCount": 3
+        },
+        {
+            "name": "wand of cosmic energy",
+            "chance": 3770
+        },
+        {
+            "name": "white pearl",
+            "chance": 2710,
+            "maxCount": 3
+        },
+        {
+            "name": "prismatic quartz",
+            "chance": 2320
+        },
+        {
+            "name": "ruby necklace",
+            "chance": 1890
+        },
+        {
+            "name": "wafer paper flower",
+            "chance": 1650
+        },
+        {
+            "name": "spellbook of enlightenment",
+            "chance": 960
+        },
+        {
+            "name": "butterfly ring",
+            "chance": 760
+        },
+        {
+            "name": "milk chocolate coin",
+            "chance": 760,
+            "maxCount": 10
+        },
+        {
+            "chance": 730,
+            "name": "ring of healing"
+        },
+        {
+            "name": "hibiscus dress",
+            "chance": 360
+        },
+        {
+            "chance": 230,
+            "name": "gold nugget"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "magma_harpy",
+    "threatDps": 82.15,
+    "burstDps": 82.15,
+    "avgHit": 117.3571,
+    "maxHit": 357,
+    "manaCost": 0
+}

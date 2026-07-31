@@ -1,0 +1,187 @@
+{
+    "id": "tormentor",
+    "label": "Tormentor",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A tormentor.",
+    "hp": 4100,
+    "hpMax": 4100,
+    "speed": 120,
+    "level": 566,
+    "armor": 0,
+    "mitigation": 1.23,
+    "maxBlock": 0,
+    "exp": 3200,
+    "lootValue": 18765.408450704,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 20,
+        "ice": 10,
+        "energy": 20,
+        "earth": 100,
+        "holy": 0,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 300,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 266
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "death",
+            "min": 102,
+            "max": 133,
+            "radius": 1,
+            "target": true,
+            "effect": "me_smallclouds",
+            "shootEffect": "ani_death"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "earth",
+            "min": 195,
+            "max": 312,
+            "radius": 4,
+            "target": true,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_poison"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 60,
+            "max": 100,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 420,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 100000,
+            "name": "flask of demonic blood"
+        },
+        {
+            "chance": 100000,
+            "name": "death ring"
+        },
+        {
+            "chance": 100000,
+            "name": "demonic essence"
+        },
+        {
+            "chance": 100000,
+            "name": "essence of a bad dream"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 2,
+            "name": "ham"
+        },
+        {
+            "chance": 90000,
+            "maxCount": 10,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 81000,
+            "name": "scythe leg"
+        },
+        {
+            "chance": 70000,
+            "name": "knight legs"
+        },
+        {
+            "chance": 40000,
+            "name": "mysterious voodoo skull"
+        },
+        {
+            "chance": 28000,
+            "name": "skeleton decoration"
+        },
+        {
+            "chance": 14000,
+            "name": "war axe"
+        },
+        {
+            "chance": 10000,
+            "name": "nightmare blade"
+        },
+        {
+            "chance": 8000,
+            "name": "boots of haste"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "lava_bog_stalker_guard",
+    "threatDps": 97.725,
+    "burstDps": 97.725,
+    "avgHit": 150.3462,
+    "maxHit": 312,
+    "manaCost": 0
+}

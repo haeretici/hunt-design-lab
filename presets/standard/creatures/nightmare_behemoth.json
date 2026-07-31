@@ -1,0 +1,316 @@
+{
+    "id": "nightmare_behemoth",
+    "label": "Nightmare Behemoth",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A nightmare behemoth.",
+    "hp": 750000,
+    "hpMax": 750000,
+    "speed": 125,
+    "level": 1000,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 255000,
+    "lootValue": 55510.204081633,
+    "aggro": true,
+    "resists": {
+        "physical": 20,
+        "fire": 35,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 15,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 1084,
+            "max": 3795,
+            "target": true
+        },
+        {
+            "id": "death_beam_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 1,
+            "element": "physical",
+            "min": 1084,
+            "max": 2277,
+            "target": false
+        },
+        {
+            "id": "big_death_wave_2",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 1,
+            "element": "physical",
+            "min": 1084,
+            "max": 2168,
+            "target": false
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 4,
+            "element": "death",
+            "min": 759,
+            "max": 1084,
+            "radius": 5,
+            "target": false,
+            "effect": "me_mortarea"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 6450,
+            "name": "collar of blue plasma"
+        },
+        {
+            "chance": 3230,
+            "name": "ring of blue plasma"
+        },
+        {
+            "chance": 16129,
+            "name": "ring of green plasma"
+        },
+        {
+            "chance": 9680,
+            "name": "ring of red plasma"
+        },
+        {
+            "chance": 9680,
+            "name": "collar of green plasma"
+        },
+        {
+            "chance": 12900,
+            "name": "collar of red plasma"
+        },
+        {
+            "chance": 2830,
+            "name": "enchanted sleep shawl"
+        },
+        {
+            "chance": 41940,
+            "maxCount": 2,
+            "name": "red gem"
+        },
+        {
+            "name": "abyss hammer",
+            "chance": 2830
+        },
+        {
+            "chance": 3130,
+            "name": "arcane staff"
+        },
+        {
+            "name": "beast's nightmare-cushion",
+            "chance": 3770
+        },
+        {
+            "name": "berserk potion",
+            "chance": 16129,
+            "maxCount": 9
+        },
+        {
+            "name": "blue gem",
+            "chance": 6450
+        },
+        {
+            "name": "marksman potion",
+            "chance": 32259,
+            "maxCount": 19
+        },
+        {
+            "name": "Maelstrom Mace",
+            "chance": 10380
+        },
+        {
+            "name": "crystal coin",
+            "chance": 22580,
+            "maxCount": 3
+        },
+        {
+            "name": "dark whispers",
+            "chance": 3230
+        },
+        {
+            "name": "dragon figurine",
+            "chance": 7550
+        },
+        {
+            "name": "energy bar",
+            "chance": 91510
+        },
+        {
+            "name": "giant emerald",
+            "chance": 1890
+        },
+        {
+            "name": "giant ruby",
+            "chance": 6450
+        },
+        {
+            "name": "giant sapphire",
+            "chance": 2830
+        },
+        {
+            "id": 282,
+            "chance": 9680
+        },
+        {
+            "name": "gold ingot",
+            "chance": 16129
+        },
+        {
+            "name": "gold token",
+            "chance": 64150
+        },
+        {
+            "name": "green gem",
+            "chance": 19350
+        },
+        {
+            "name": "huge chunk of crude iron",
+            "chance": 38710
+        },
+        {
+            "name": "ice shield",
+            "chance": 9680
+        },
+        {
+            "name": "magic sulphur",
+            "chance": 8490
+        },
+        {
+            "name": "savant potion",
+            "chance": 12900,
+            "maxCount": 18
+        },
+        {
+            "name": "mysterious remains",
+            "chance": 93400
+        },
+        {
+            "name": "piggy bank",
+            "chance": 100000
+        },
+        {
+            "name": "piggy bank",
+            "chance": 94340
+        },
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 9
+        },
+        {
+            "name": "purple tendril lantern",
+            "chance": 6600
+        },
+        {
+            "name": "Celestial Band",
+            "chance": 4720
+        },
+        {
+            "name": "royal star",
+            "chance": 48390,
+            "maxCount": 193
+        },
+        {
+            "name": "silver token",
+            "chance": 98110,
+            "maxCount": 4
+        },
+        {
+            "name": "Bone Skull Staff",
+            "chance": 12900
+        },
+        {
+            "name": "soul stone",
+            "chance": 4720
+        },
+        {
+            "name": "supreme health potion",
+            "chance": 58060,
+            "maxCount": 29
+        },
+        {
+            "name": "turquoise tendril lantern",
+            "chance": 7550
+        },
+        {
+            "name": "ultimate mana potion",
+            "chance": 64519,
+            "maxCount": 29
+        },
+        {
+            "name": "ultimate dual potion",
+            "chance": 58060,
+            "maxCount": 24
+        },
+        {
+            "name": "violet gem",
+            "chance": 6450
+        },
+        {
+            "name": "yellow gem",
+            "chance": 45160,
+            "maxCount": 2
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "blood_behemoth",
+    "threatDps": 1748.25,
+    "burstDps": 1748.25,
+    "avgHit": 1998,
+    "maxHit": 3795,
+    "manaCost": 0
+}

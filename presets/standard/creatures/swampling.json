@@ -1,0 +1,151 @@
+{
+    "id": "swampling",
+    "label": "Swampling",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A swampling.",
+    "hp": 80,
+    "hpMax": 80,
+    "speed": 95,
+    "level": 174,
+    "armor": 4,
+    "mitigation": 0.25,
+    "maxBlock": 0,
+    "exp": 45,
+    "lootValue": 17.746649391474,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 43
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "earth",
+            "min": 1,
+            "max": 8,
+            "target": false,
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "slow_2",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 3,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -300,
+                "durationSec": 5
+            },
+            "length": 3,
+            "spread": 2,
+            "effect": "me_watersplash",
+            "target": false
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Plant",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 5080,
+            "name": "rope"
+        },
+        {
+            "name": "gold coin",
+            "chance": 84900,
+            "maxCount": 12
+        },
+        {
+            "name": "white mushroom",
+            "chance": 10220,
+            "maxCount": 5
+        },
+        {
+            "name": "swampling club",
+            "chance": 7410
+        },
+        {
+            "name": "swampling moss",
+            "chance": 19900
+        },
+        {
+            "name": "piece of swampling wood",
+            "chance": 14870
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "swampling",
+    "threatDps": 11.0875,
+    "burstDps": 11.0875,
+    "avgHit": 19.2826,
+    "maxHit": 43,
+    "manaCost": 0
+}

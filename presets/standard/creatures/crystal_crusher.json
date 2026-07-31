@@ -1,0 +1,154 @@
+{
+    "id": "crystal_crusher",
+    "label": "Crystal Crusher",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A crystal crusher.",
+    "hp": 570,
+    "hpMax": 570,
+    "speed": 195,
+    "level": 368,
+    "armor": 48,
+    "mitigation": 1.29,
+    "maxBlock": 0,
+    "exp": 500,
+    "lootValue": 115.39933291641,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 15,
+        "ice": -3,
+        "energy": -5,
+        "earth": 100,
+        "holy": -10,
+        "death": 10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 107
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "earth",
+            "min": 71,
+            "max": 167,
+            "radius": 3,
+            "target": true,
+            "effect": "me_green_rings"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 30,
+            "min": 5,
+            "max": 15,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "heal_1",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 129,
+            "max": 175,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Magical",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 85000,
+            "maxCount": 90
+        },
+        {
+            "name": "crystalline arrow",
+            "chance": 5000,
+            "maxCount": 3
+        },
+        {
+            "name": "green crystal splinter",
+            "chance": 4920
+        },
+        {
+            "name": "brown crystal splinter",
+            "chance": 5250
+        },
+        {
+            "name": "blue crystal splinter",
+            "chance": 5000
+        },
+        {
+            "name": "crystalline spikes",
+            "chance": 3690
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "rune_glacier_dwarf_archer",
+    "threatDps": 32.7,
+    "burstDps": 32.7,
+    "avgHit": 59.4545,
+    "maxHit": 167,
+    "manaCost": 0
+}

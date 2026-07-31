@@ -1,0 +1,199 @@
+{
+    "id": "streaked_devourer",
+    "label": "Streaked Devourer",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A streaked devourer.",
+    "hp": 7000,
+    "hpMax": 7000,
+    "speed": 125,
+    "level": 619,
+    "armor": 62,
+    "mitigation": 1.6,
+    "maxBlock": 0,
+    "exp": 6300,
+    "lootValue": 3749.4577006508,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 10,
+        "ice": -14,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 152
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 4,
+            "element": "fire",
+            "min": 221,
+            "max": 249,
+            "radius": 3,
+            "target": false,
+            "effect": "me_explosionhit"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 5,
+            "element": "fire",
+            "min": 160,
+            "max": 171,
+            "radius": 3,
+            "target": true,
+            "effect": "me_fireattack",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "devourer_death_wave_3",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 40,
+            "range": 1,
+            "element": "physical",
+            "min": 202,
+            "max": 213
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Vermin",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 70000,
+            "maxCount": 28
+        },
+        {
+            "name": "gold ingot",
+            "chance": 16920,
+            "maxCount": 3
+        },
+        {
+            "name": "streaked devourer maw",
+            "chance": 13850,
+            "maxCount": 2
+        },
+        {
+            "name": "streaked devourer eyes",
+            "chance": 9230,
+            "maxCount": 2
+        },
+        {
+            "chance": 4620,
+            "maxCount": 1,
+            "name": "red gem"
+        },
+        {
+            "name": "streaked devourer legs",
+            "chance": 1540
+        },
+        {
+            "name": "yellow gem",
+            "chance": 1540
+        },
+        {
+            "name": "crystal mace",
+            "chance": 1540
+        },
+        {
+            "name": "mercenary sword",
+            "chance": 1540
+        },
+        {
+            "name": "noble axe",
+            "chance": 1280
+        },
+        {
+            "name": "ornate crossbow",
+            "chance": 1100
+        },
+        {
+            "name": "relic sword",
+            "chance": 1010
+        },
+        {
+            "name": "guardian halberd",
+            "chance": 3080
+        },
+        {
+            "name": "warrior's axe",
+            "chance": 1540
+        },
+        {
+            "name": "giant sword",
+            "chance": 830
+        },
+        {
+            "name": "war axe",
+            "chance": 4620
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ashen_goblin_devourer",
+    "threatDps": 131.3,
+    "burstDps": 131.3,
+    "avgHit": 138.2105,
+    "maxHit": 249,
+    "manaCost": 0
+}

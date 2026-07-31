@@ -1,0 +1,238 @@
+{
+    "id": "frost_tome",
+    "label": "Frost Tome",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A frost tome.",
+    "hp": 21000,
+    "hpMax": 21000,
+    "speed": 220,
+    "level": 728,
+    "armor": 82,
+    "mitigation": 2.16,
+    "maxBlock": 0,
+    "exp": 12750,
+    "lootValue": 3809.4089834515,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -10,
+        "ice": 100,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 82,
+            "max": 165
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 10,
+            "range": 7,
+            "element": "ice",
+            "min": 577,
+            "max": 700,
+            "target": false,
+            "effect": "me_iceattack",
+            "shootEffect": "ani_smallice"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 10,
+            "range": 7,
+            "element": "ice",
+            "min": 82,
+            "max": 313,
+            "target": false,
+            "effect": "me_iceattack",
+            "shootEffect": "ani_smallice"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "ice",
+            "min": 288,
+            "max": 807,
+            "length": 5,
+            "spread": 0,
+            "target": false,
+            "effect": "me_iceattack",
+            "shootEffect": "ani_smallice"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 12,
+            "range": 7,
+            "element": "ice",
+            "min": 189,
+            "max": 725,
+            "radius": 3,
+            "target": false,
+            "effect": "me_icetornado",
+            "shootEffect": "ani_smallice"
+        }
+    ],
+    "race": "ink",
+    "bestiary": {
+        "class": "Magical",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 8
+        },
+        {
+            "name": "book page",
+            "chance": 100000,
+            "maxCount": 3
+        },
+        {
+            "name": "small diamond",
+            "chance": 100000,
+            "maxCount": 8
+        },
+        {
+            "name": "small sapphire",
+            "chance": 100000,
+            "maxCount": 8
+        },
+        {
+            "name": "quill",
+            "chance": 100000,
+            "maxCount": 8
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 100000,
+            "maxCount": 8
+        },
+        {
+            "name": "ultimate mana potion",
+            "chance": 100000,
+            "maxCount": 8
+        },
+        {
+            "name": "diamond sceptre",
+            "chance": 100000
+        },
+        {
+            "name": "frosty heart",
+            "chance": 100000,
+            "maxCount": 8
+        },
+        {
+            "name": "Frostbound Mask",
+            "chance": 350
+        },
+        {
+            "name": "ice rapier",
+            "chance": 250
+        },
+        {
+            "name": "silken bookmark",
+            "chance": 100000,
+            "maxCount": 8
+        },
+        {
+            "name": "crystal mace",
+            "chance": 250
+        },
+        {
+            "name": "Frostbound Kilt",
+            "chance": 250
+        },
+        {
+            "name": "Frostbound Robe",
+            "chance": 250
+        },
+        {
+            "name": "Frostbound Shoes",
+            "chance": 350
+        },
+        {
+            "name": "strange helmet",
+            "chance": 1000
+        },
+        {
+            "name": "sapphire hammer",
+            "chance": 300
+        },
+        {
+            "chance": 100000,
+            "name": "ice cube"
+        },
+        {
+            "name": "glacial rod",
+            "chance": 150
+        },
+        {
+            "name": "crystalline armor",
+            "chance": 250
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "insect_swarm",
+    "threatDps": 241.2525,
+    "burstDps": 241.2525,
+    "avgHit": 269.5559,
+    "maxHit": 807,
+    "manaCost": 0
+}

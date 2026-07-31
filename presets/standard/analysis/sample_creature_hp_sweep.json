@@ -1,0 +1,304 @@
+{
+    "schemaVersion": 1,
+    "kind": "sweep",
+    "knob": "creature_hp",
+    "knobLabel": "Creature HP scale",
+    "unit": "×",
+    "huntId": "cave_crawl_generated",
+    "seed": 1,
+    "iterationsPerValue": 1,
+    "values": [
+        1,
+        5,
+        10,
+        20,
+        50
+    ],
+    "generatedAt": "2026-07-25T01:06:37.557Z",
+    "rows": [
+        {
+            "value": 1,
+            "label": "1",
+            "metrics": {
+                "iterations": 1,
+                "routeCompleteRate": 1,
+                "partyWipeRate": 0,
+                "timeoutRate": 0,
+                "killCapRate": 0,
+                "meanKills": 4,
+                "meanDeaths": 0,
+                "meanDamageDealt": 1562,
+                "meanDamageTaken": 0,
+                "meanExpGained": 72,
+                "meanExpPerHour": 43932.2033898306,
+                "meanTimeToClear": 5.899999999999987,
+                "meanTickCount": 118,
+                "outcomes": {
+                    "routeComplete": 1,
+                    "partyWipe": 0,
+                    "timeout": 0,
+                    "killCap": 0
+                }
+            },
+            "aggregate": {
+                "iterations": 1,
+                "totals": {
+                    "kills": 4,
+                    "deaths": 0,
+                    "damageDealt": 1562,
+                    "damageTaken": 0,
+                    "expGained": 72,
+                    "lootGained": 4,
+                    "tickCount": 118,
+                    "timeToClear": 5.899999999999987
+                },
+                "means": {
+                    "kills": 4,
+                    "deaths": 0,
+                    "damageDealt": 1562,
+                    "damageTaken": 0,
+                    "expGained": 72,
+                    "lootGained": 4,
+                    "tickCount": 118,
+                    "timeToClear": 5.899999999999987,
+                    "expPerHour": 43932.2033898306
+                },
+                "outcomes": {
+                    "routeComplete": 1,
+                    "partyWipe": 0,
+                    "timeout": 0,
+                    "killCap": 0
+                }
+            }
+        },
+        {
+            "value": 5,
+            "label": "5",
+            "metrics": {
+                "iterations": 1,
+                "routeCompleteRate": 1,
+                "partyWipeRate": 0,
+                "timeoutRate": 0,
+                "killCapRate": 0,
+                "meanKills": 4,
+                "meanDeaths": 0,
+                "meanDamageDealt": 2163,
+                "meanDamageTaken": 0,
+                "meanExpGained": 72,
+                "meanExpPerHour": 17165.562913907193,
+                "meanTimeToClear": 15.10000000000008,
+                "meanTickCount": 302,
+                "outcomes": {
+                    "routeComplete": 1,
+                    "partyWipe": 0,
+                    "timeout": 0,
+                    "killCap": 0
+                }
+            },
+            "aggregate": {
+                "iterations": 1,
+                "totals": {
+                    "kills": 4,
+                    "deaths": 0,
+                    "damageDealt": 2163,
+                    "damageTaken": 0,
+                    "expGained": 72,
+                    "lootGained": 4,
+                    "tickCount": 302,
+                    "timeToClear": 15.10000000000008
+                },
+                "means": {
+                    "kills": 4,
+                    "deaths": 0,
+                    "damageDealt": 2163,
+                    "damageTaken": 0,
+                    "expGained": 72,
+                    "lootGained": 4,
+                    "tickCount": 302,
+                    "timeToClear": 15.10000000000008,
+                    "expPerHour": 17165.562913907193
+                },
+                "outcomes": {
+                    "routeComplete": 1,
+                    "partyWipe": 0,
+                    "timeout": 0,
+                    "killCap": 0
+                }
+            }
+        },
+        {
+            "value": 10,
+            "label": "10",
+            "metrics": {
+                "iterations": 1,
+                "routeCompleteRate": 1,
+                "partyWipeRate": 0,
+                "timeoutRate": 0,
+                "killCapRate": 0,
+                "meanKills": 4,
+                "meanDeaths": 0,
+                "meanDamageDealt": 2984,
+                "meanDamageTaken": 21,
+                "meanExpGained": 72,
+                "meanExpPerHour": 14521.008403361247,
+                "meanTimeToClear": 17.85000000000012,
+                "meanTickCount": 357,
+                "outcomes": {
+                    "routeComplete": 1,
+                    "partyWipe": 0,
+                    "timeout": 0,
+                    "killCap": 0
+                }
+            },
+            "aggregate": {
+                "iterations": 1,
+                "totals": {
+                    "kills": 4,
+                    "deaths": 0,
+                    "damageDealt": 2984,
+                    "damageTaken": 21,
+                    "expGained": 72,
+                    "lootGained": 4,
+                    "tickCount": 357,
+                    "timeToClear": 17.85000000000012
+                },
+                "means": {
+                    "kills": 4,
+                    "deaths": 0,
+                    "damageDealt": 2984,
+                    "damageTaken": 21,
+                    "expGained": 72,
+                    "lootGained": 4,
+                    "tickCount": 357,
+                    "timeToClear": 17.85000000000012,
+                    "expPerHour": 14521.008403361247
+                },
+                "outcomes": {
+                    "routeComplete": 1,
+                    "partyWipe": 0,
+                    "timeout": 0,
+                    "killCap": 0
+                }
+            }
+        },
+        {
+            "value": 20,
+            "label": "20",
+            "metrics": {
+                "iterations": 1,
+                "routeCompleteRate": 1,
+                "partyWipeRate": 0,
+                "timeoutRate": 0,
+                "killCapRate": 0,
+                "meanKills": 4,
+                "meanDeaths": 0,
+                "meanDamageDealt": 4808,
+                "meanDamageTaken": 55,
+                "meanExpGained": 72,
+                "meanExpPerHour": 8625.623960066472,
+                "meanTimeToClear": 30.050000000000292,
+                "meanTickCount": 601,
+                "outcomes": {
+                    "routeComplete": 1,
+                    "partyWipe": 0,
+                    "timeout": 0,
+                    "killCap": 0
+                }
+            },
+            "aggregate": {
+                "iterations": 1,
+                "totals": {
+                    "kills": 4,
+                    "deaths": 0,
+                    "damageDealt": 4808,
+                    "damageTaken": 55,
+                    "expGained": 72,
+                    "lootGained": 4,
+                    "tickCount": 601,
+                    "timeToClear": 30.050000000000292
+                },
+                "means": {
+                    "kills": 4,
+                    "deaths": 0,
+                    "damageDealt": 4808,
+                    "damageTaken": 55,
+                    "expGained": 72,
+                    "lootGained": 4,
+                    "tickCount": 601,
+                    "timeToClear": 30.050000000000292,
+                    "expPerHour": 8625.623960066472
+                },
+                "outcomes": {
+                    "routeComplete": 1,
+                    "partyWipe": 0,
+                    "timeout": 0,
+                    "killCap": 0
+                }
+            }
+        },
+        {
+            "value": 50,
+            "label": "50",
+            "metrics": {
+                "iterations": 1,
+                "routeCompleteRate": 1,
+                "partyWipeRate": 0,
+                "timeoutRate": 0,
+                "killCapRate": 0,
+                "meanKills": 4,
+                "meanDeaths": 0,
+                "meanDamageDealt": 11586,
+                "meanDamageTaken": 240,
+                "meanExpGained": 72,
+                "meanExpPerHour": 4003.0888030888977,
+                "meanTimeToClear": 64.74999999999847,
+                "meanTickCount": 1295,
+                "outcomes": {
+                    "routeComplete": 1,
+                    "partyWipe": 0,
+                    "timeout": 0,
+                    "killCap": 0
+                }
+            },
+            "aggregate": {
+                "iterations": 1,
+                "totals": {
+                    "kills": 4,
+                    "deaths": 0,
+                    "damageDealt": 11586,
+                    "damageTaken": 240,
+                    "expGained": 72,
+                    "lootGained": 4,
+                    "tickCount": 1295,
+                    "timeToClear": 64.74999999999847
+                },
+                "means": {
+                    "kills": 4,
+                    "deaths": 0,
+                    "damageDealt": 11586,
+                    "damageTaken": 240,
+                    "expGained": 72,
+                    "lootGained": 4,
+                    "tickCount": 1295,
+                    "timeToClear": 64.74999999999847,
+                    "expPerHour": 4003.0888030888977
+                },
+                "outcomes": {
+                    "routeComplete": 1,
+                    "partyWipe": 0,
+                    "timeout": 0,
+                    "killCap": 0
+                }
+            }
+        }
+    ],
+    "chartMetrics": [
+        "routeCompleteRate",
+        "partyWipeRate",
+        "meanKills",
+        "meanExpPerHour",
+        "meanTimeToClear",
+        "meanDamageDealt"
+    ],
+    "notes": "Documented Stage 8 sample shape: cave_crawl_generated party vs creature HP scale (regenerate after hand-map retirement). Higher scale → longer clear and more damage dealt."
+}

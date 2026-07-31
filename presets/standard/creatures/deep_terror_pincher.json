@@ -1,0 +1,165 @@
+{
+    "id": "deep_terror_pincher",
+    "label": "Deep Terror Pincher",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A deep terror pincher.",
+    "hp": 1800,
+    "hpMax": 1800,
+    "speed": 198,
+    "level": 484,
+    "armor": 85,
+    "mitigation": 0.99,
+    "maxBlock": 0,
+    "exp": 1500,
+    "lootValue": 348.75368620038,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": 100,
+        "energy": -25,
+        "earth": -10,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 248,
+            "effect": "me_drawblood"
+        },
+        {
+            "id": "slow_1",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -600,
+                "durationSec": 3
+            },
+            "effect": "me_magic_red",
+            "target": false
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Aquatic",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 50
+        },
+        {
+            "name": "platinum coin",
+            "chance": 40000
+        },
+        {
+            "name": "quara pincers",
+            "chance": 14285
+        },
+        {
+            "name": "great health potion",
+            "chance": 10630
+        },
+        {
+            "name": "small ruby",
+            "chance": 7761,
+            "maxCount": 2
+        },
+        {
+            "name": "halberd",
+            "chance": 6861
+        },
+        {
+            "name": "shrimp",
+            "chance": 5245,
+            "maxCount": 5
+        },
+        {
+            "name": "fish fin",
+            "chance": 1600
+        },
+        {
+            "name": "warrior helmet",
+            "chance": 1460
+        },
+        {
+            "name": "Regal Crown Armor",
+            "chance": 280
+        },
+        {
+            "name": "Frostbound Robe",
+            "chance": 120
+        },
+        {
+            "name": "giant shrimp",
+            "chance": 40
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "thunder_jungle_horror_raider",
+    "threatDps": 62,
+    "burstDps": 62,
+    "avgHit": 124,
+    "maxHit": 248,
+    "manaCost": 0
+}

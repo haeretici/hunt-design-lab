@@ -1,0 +1,180 @@
+{
+    "id": "dark_dancer",
+    "label": "Dark Dancer",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A dark dancer.",
+    "hp": 805,
+    "hpMax": 805,
+    "speed": 85,
+    "level": 402,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 435,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 40,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 1
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 11,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 56,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 3000,
+            "chance": 70,
+            "range": 5,
+            "element": "physical",
+            "min": 15,
+            "max": 24,
+            "radius": 1,
+            "target": true,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 6000,
+            "chance": 90,
+            "range": 5,
+            "element": "physical",
+            "min": 15,
+            "max": 24,
+            "radius": 1,
+            "target": true,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "slow_3",
+            "kind": "status",
+            "intervalMs": 3500,
+            "chance": 35,
+            "range": 5,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -400,
+                "durationSec": 10
+            },
+            "radius": 1,
+            "effect": "me_magic_red",
+            "target": true
+        },
+        {
+            "id": "ranged_4",
+            "kind": "ranged",
+            "intervalMs": 4000,
+            "chance": 30,
+            "range": 5,
+            "element": "manadrain",
+            "min": 1,
+            "max": 28,
+            "radius": 1,
+            "target": true,
+            "effect": "me_magic_red"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 45,
+            "min": 75,
+            "max": 135,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "invisible_1",
+            "kind": "invisible",
+            "intervalMs": 3000,
+            "chance": 50,
+            "durationSec": 2,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [],
+    "changeTarget": {
+        "interval": 0,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "umbral_ghoul",
+    "threatDps": 39.3125,
+    "burstDps": 48.525,
+    "avgHit": 11.8043,
+    "maxHit": 28,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 2,
+        "summons": [
+            {
+                "name": "Ghoul",
+                "id": "ghoul",
+                "chance": 20,
+                "interval": 2000,
+                "count": 2
+            }
+        ]
+    }
+}

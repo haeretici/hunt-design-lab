@@ -1,0 +1,250 @@
+{
+    "id": "efreet",
+    "label": "Efreet",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An efreet.",
+    "hp": 550,
+    "hpMax": 550,
+    "speed": 117,
+    "level": 365,
+    "armor": 24,
+    "mitigation": 0.91,
+    "maxBlock": 0,
+    "exp": 410,
+    "lootValue": 128.97330625272,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 90,
+        "ice": -5,
+        "energy": 60,
+        "earth": 10,
+        "holy": -8,
+        "death": 20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 82
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "fire",
+            "min": 30,
+            "max": 82,
+            "target": false,
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "energy",
+            "min": 22,
+            "max": 67,
+            "radius": 3,
+            "target": false,
+            "effect": "me_energyhit"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "energy",
+            "min": 48,
+            "max": 89,
+            "target": false,
+            "effect": "me_energyhit",
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "slow_4",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -650,
+                "durationSec": 15
+            },
+            "effect": "me_magic_red",
+            "target": false
+        },
+        {
+            "id": "djinn_electrify_7",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 5,
+            "element": "physical",
+            "target": false,
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 50,
+            "max": 80,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Magical",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 2200,
+            "name": "green tapestry"
+        },
+        {
+            "name": "small oil lamp",
+            "chance": 160
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 75
+        },
+        {
+            "name": "gold coin",
+            "chance": 60000,
+            "maxCount": 50
+        },
+        {
+            "name": "small emerald",
+            "chance": 7000
+        },
+        {
+            "name": "green gem",
+            "chance": 200
+        },
+        {
+            "name": "wand of inferno",
+            "chance": 390
+        },
+        {
+            "name": "heavy machete",
+            "chance": 5000
+        },
+        {
+            "name": "mystic turban",
+            "chance": 160
+        },
+        {
+            "name": "pear",
+            "chance": 9390,
+            "maxCount": 5
+        },
+        {
+            "name": "green piece of cloth",
+            "chance": 3000
+        },
+        {
+            "name": "royal spear",
+            "chance": 15570,
+            "maxCount": 3
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 3500
+        },
+        {
+            "name": "Emberbound Monocle",
+            "chance": 360
+        },
+        {
+            "name": "jewelled belt",
+            "chance": 8540
+        },
+        {
+            "name": "noble turban",
+            "chance": 1130
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "crystal_imp_priest",
+    "threatDps": 32.0625,
+    "burstDps": 32.0625,
+    "avgHit": 45.8036,
+    "maxHit": 89,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 2,
+        "summons": [
+            {
+                "name": "Green Djinn",
+                "id": "green_djinn",
+                "chance": 10,
+                "interval": 2000,
+                "count": 2
+            }
+        ]
+    }
+}

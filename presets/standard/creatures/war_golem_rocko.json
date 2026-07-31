@@ -1,0 +1,101 @@
+{
+    "id": "war_golem_rocko",
+    "label": "War Golem Rocko",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A war golem rocko.",
+    "hp": 10000,
+    "hpMax": 10000,
+    "speed": 90,
+    "level": 654,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 3400,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 15,
+        "fire": 30,
+        "ice": 20,
+        "energy": 25,
+        "earth": 100,
+        "holy": 10,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "earth",
+            "min": 0,
+            "max": 746,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_poisonarea"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 2454,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_groundshaker"
+        }
+    ],
+    "race": "blood",
+    "loot": [],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 9
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "solar_volcano_golem_slayer",
+    "threatDps": 160,
+    "burstDps": 160,
+    "avgHit": 800,
+    "maxHit": 2454,
+    "manaCost": 0
+}

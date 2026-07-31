@@ -1,0 +1,180 @@
+{
+    "id": "jungle_spirit_revenge",
+    "label": "Jungle Spirit Revenge",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A jungle spirit revenge.",
+    "hp": 1800,
+    "hpMax": 1800,
+    "speed": 220,
+    "level": 483,
+    "armor": 0,
+    "mitigation": 1.58,
+    "maxBlock": 0,
+    "exp": 2635,
+    "lootValue": 5260.1666666667,
+    "aggro": true,
+    "resists": {
+        "physical": 1,
+        "fire": -1,
+        "ice": 1,
+        "energy": 0,
+        "earth": 100,
+        "holy": 0,
+        "death": 1
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "damage": 30
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 400,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "condition": {
+                "type": "poison",
+                "totalDamage": 65,
+                "intervalMs": 4000
+            },
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 25,
+            "range": 7,
+            "element": "earth",
+            "min": 41,
+            "max": 137,
+            "target": false,
+            "effect": "me_hitbypoison",
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "slow_2",
+            "kind": "status",
+            "intervalMs": 1000,
+            "chance": 34,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -850,
+                "durationSec": 30
+            },
+            "effect": "me_hitbypoison",
+            "target": false
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 12,
+            "range": 4,
+            "element": "earth",
+            "min": 27,
+            "max": 89,
+            "radius": 3,
+            "target": false,
+            "effect": "me_poisonarea"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 1200,
+            "chance": 35,
+            "min": 600,
+            "max": 800,
+            "hpBelow": 0.7
+        }
+    ],
+    "race": "venom",
+    "loot": [
+        {
+            "chance": 87250,
+            "maxCount": 110,
+            "name": "gold coin"
+        },
+        {
+            "chance": 70250,
+            "maxCount": 50,
+            "name": "meat"
+        },
+        {
+            "chance": 38250,
+            "maxCount": 8,
+            "name": "ham"
+        },
+        {
+            "chance": 21250,
+            "maxCount": 6,
+            "name": "dark mushroom"
+        },
+        {
+            "chance": 100,
+            "name": "small diamond"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 3,
+            "name": "seeds"
+        },
+        {
+            "chance": 12750,
+            "name": "carrot on a stick"
+        },
+        {
+            "chance": 100000,
+            "name": "mandrake"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "glacier_mountain_phantom",
+    "threatDps": 61.71,
+    "burstDps": 61.71,
+    "avgHit": 78.9459,
+    "maxHit": 137,
+    "manaCost": 0
+}

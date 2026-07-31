@@ -1,0 +1,156 @@
+{
+    "id": "vampire_enchantress",
+    "label": "Vampire Enchantress",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A vampire enchantress.",
+    "hp": 1500,
+    "hpMax": 1500,
+    "speed": 140,
+    "level": 465,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 1800,
+    "lootValue": 3144.3663366337,
+    "aggro": true,
+    "resists": {
+        "physical": 40,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 100,
+        "holy": -5,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 1000,
+            "chance": 12,
+            "range": 1,
+            "element": "death",
+            "min": 0,
+            "max": 933,
+            "target": true,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_suddendeath"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 1000,
+            "chance": 12,
+            "min": 100,
+            "max": 235,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "invisible_1",
+            "kind": "invisible",
+            "intervalMs": 3000,
+            "chance": 25,
+            "durationSec": 2,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000
+        },
+        {
+            "name": "vampire lord token",
+            "chance": 100000
+        },
+        {
+            "name": "blood preservation",
+            "chance": 94000
+        },
+        {
+            "name": "Bloodfang Shield",
+            "chance": 22000
+        },
+        {
+            "name": "strong health potion",
+            "chance": 18000
+        },
+        {
+            "name": "platinum coin",
+            "chance": 12000,
+            "maxCount": 5
+        },
+        {
+            "chance": 12000,
+            "name": "ring of healing"
+        },
+        {
+            "chance": 12000,
+            "name": "skull"
+        },
+        {
+            "name": "spellbook of lost souls",
+            "chance": 2000
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "hellfire_vampire_archer",
+    "threatDps": 55.98,
+    "burstDps": 55.98,
+    "avgHit": 466.5,
+    "maxHit": 933,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 3,
+        "summons": [
+            {
+                "name": "Banshee",
+                "id": "banshee",
+                "chance": 50,
+                "interval": 4500,
+                "count": 3
+            }
+        ]
+    }
+}

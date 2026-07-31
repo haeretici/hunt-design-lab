@@ -1,0 +1,192 @@
+{
+    "id": "barbarian_brutetamer",
+    "label": "Barbarian Brutetamer",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A barbarian brutetamer.",
+    "hp": 145,
+    "hpMax": 145,
+    "speed": 89,
+    "level": 233,
+    "armor": 8,
+    "mitigation": 0.36,
+    "maxBlock": 0,
+    "exp": 90,
+    "lootValue": 31.347297750923,
+    "aggro": true,
+    "resists": {
+        "physical": -10,
+        "fire": 0,
+        "ice": 50,
+        "energy": 20,
+        "earth": 0,
+        "holy": 10,
+        "death": -5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 10,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 46
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 78,
+            "radius": 1,
+            "target": true,
+            "shootEffect": "ani_snowball"
+        },
+        {
+            "id": "barbarian_brutetamer_skill_reducer_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 5,
+            "element": "physical",
+            "target": false,
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 40,
+            "min": 50,
+            "max": 80,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Human",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "id": 2824,
+            "chance": 4750
+        },
+        {
+            "name": "gold coin",
+            "chance": 90230,
+            "maxCount": 15
+        },
+        {
+            "chance": 6550,
+            "name": "staff"
+        },
+        {
+            "name": "chain armor",
+            "chance": 9300
+        },
+        {
+            "name": "corncob",
+            "chance": 10940,
+            "maxCount": 2
+        },
+        {
+            "name": "hunting spear",
+            "chance": 5200
+        },
+        {
+            "name": "fur bag",
+            "chance": 7590
+        },
+        {
+            "name": "brutetamer's staff",
+            "chance": 340
+        },
+        {
+            "name": "fur boots",
+            "chance": 170
+        },
+        {
+            "name": "mammoth fur cape",
+            "chance": 150
+        },
+        {
+            "name": "mammoth fur shorts",
+            "chance": 90
+        },
+        {
+            "name": "mana potion",
+            "chance": 580
+        }
+    ],
+    "changeTarget": {
+        "interval": 60000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "barbarian_brutetamer",
+    "threatDps": 15.4,
+    "burstDps": 15.4,
+    "avgHit": 25.6667,
+    "maxHit": 78,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 2,
+        "summons": [
+            {
+                "name": "War Wolf",
+                "id": "war_wolf",
+                "chance": 10,
+                "interval": 2000,
+                "count": 2
+            }
+        ]
+    }
+}

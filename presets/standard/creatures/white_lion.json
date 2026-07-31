@@ -1,0 +1,191 @@
+{
+    "id": "white_lion",
+    "label": "White Lion",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A white lion.",
+    "hp": 2700,
+    "hpMax": 2700,
+    "speed": 110,
+    "level": 524,
+    "armor": 38,
+    "mitigation": 0.91,
+    "maxBlock": 0,
+    "exp": 2300,
+    "lootValue": 955.90905734679,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 25,
+        "ice": -20,
+        "energy": 0,
+        "earth": 30,
+        "holy": 0,
+        "death": 40
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 5,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 0,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 155
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 0,
+            "range": 1,
+            "element": "holy",
+            "min": 155,
+            "max": 207,
+            "target": false,
+            "effect": "me_holyarea"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 0,
+            "range": 1,
+            "element": "holy",
+            "min": 129,
+            "max": 181,
+            "radius": 2,
+            "target": false,
+            "effect": "me_holyarea"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 129,
+            "max": 181,
+            "radius": 2,
+            "target": false,
+            "effect": "me_explosionarea"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 100,
+            "max": 150,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Mammal",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 5
+        },
+        {
+            "name": "great dual potion",
+            "chance": 5000,
+            "maxCount": 2
+        },
+        {
+            "name": "lion's mane",
+            "chance": 5000
+        },
+        {
+            "name": "green crystal shard",
+            "chance": 5000,
+            "maxCount": 2
+        },
+        {
+            "name": "cyan crystal fragment",
+            "chance": 1500
+        },
+        {
+            "name": "green crystal fragment",
+            "chance": 1500
+        },
+        {
+            "name": "Earthbound Boots",
+            "chance": 5000
+        },
+        {
+            "name": "axe",
+            "chance": 5000
+        },
+        {
+            "name": "leather boots",
+            "chance": 5000
+        },
+        {
+            "name": "twin hooks",
+            "chance": 5000
+        },
+        {
+            "name": "war hammer",
+            "chance": 1500
+        },
+        {
+            "name": "combat knife",
+            "chance": 1500
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 15
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "nether_tiger",
+    "threatDps": 77.5,
+    "burstDps": 77.5,
+    "avgHit": 155,
+    "maxHit": 207,
+    "manaCost": 0
+}

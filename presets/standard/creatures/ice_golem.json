@@ -1,0 +1,176 @@
+{
+    "id": "ice_golem",
+    "label": "Ice Golem",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An ice golem.",
+    "hp": 385,
+    "hpMax": 385,
+    "speed": 95,
+    "level": 329,
+    "armor": 47,
+    "mitigation": 0.7,
+    "maxBlock": 0,
+    "exp": 295,
+    "lootValue": 118.07640046351,
+    "aggro": true,
+    "resists": {
+        "physical": 20,
+        "fire": 100,
+        "ice": 100,
+        "energy": -20,
+        "earth": 0,
+        "holy": 100,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 50,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 89
+        },
+        {
+            "id": "slow_1",
+            "kind": "status",
+            "intervalMs": 1000,
+            "chance": 13,
+            "range": 8,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -800,
+                "durationSec": 20
+            },
+            "length": 8,
+            "spread": 0,
+            "effect": "me_energyhit",
+            "target": false
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 15,
+            "range": 7,
+            "element": "ice",
+            "min": 20,
+            "max": 34,
+            "target": false,
+            "effect": "me_iceattack",
+            "shootEffect": "ani_smallice"
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Construct",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "black pearl",
+            "chance": 1500
+        },
+        {
+            "name": "small diamond",
+            "chance": 750
+        },
+        {
+            "name": "small sapphire",
+            "chance": 578
+        },
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 111
+        },
+        {
+            "name": "ice rapier",
+            "chance": 350
+        },
+        {
+            "name": "strange helmet",
+            "chance": 350
+        },
+        {
+            "name": "shard",
+            "chance": 200
+        },
+        {
+            "chance": 5000,
+            "name": "ice cube"
+        },
+        {
+            "name": "crystal sword",
+            "chance": 600
+        },
+        {
+            "name": "strong health potion",
+            "chance": 2500
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 3000
+        },
+        {
+            "name": "Frostbound Mask",
+            "chance": 200
+        },
+        {
+            "name": "frosty heart",
+            "chance": 14500
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 5
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "solar_volcano_golem_slayer",
+    "threatDps": 26.3,
+    "burstDps": 26.3,
+    "avgHit": 40.4615,
+    "maxHit": 89,
+    "manaCost": 0
+}

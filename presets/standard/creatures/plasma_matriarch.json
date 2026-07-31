@@ -1,0 +1,176 @@
+{
+    "id": "plasma_matriarch",
+    "label": "Plasma Matriarch",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A plasma matriarch.",
+    "hp": 7500,
+    "hpMax": 7500,
+    "speed": 155,
+    "level": 626,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 12000,
+    "lootValue": 51939.333333333,
+    "aggro": true,
+    "resists": {
+        "physical": 10,
+        "fire": 0,
+        "ice": 0,
+        "energy": 10,
+        "earth": 100,
+        "holy": -14,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 250,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "slow_1",
+            "kind": "status",
+            "intervalMs": 1000,
+            "chance": 8,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -800,
+                "durationSec": 10
+            },
+            "radius": 6,
+            "effect": "me_poisonarea",
+            "target": false
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "earth",
+            "min": 702,
+            "max": 1228,
+            "radius": 4,
+            "target": false,
+            "effect": "me_poisonarea"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 3000,
+            "chance": 15,
+            "range": 4,
+            "element": "earth",
+            "min": 702,
+            "max": 1860,
+            "radius": 4,
+            "target": true,
+            "effect": "me_hitbypoison",
+            "shootEffect": "ani_poison"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 1000,
+            "chance": 75,
+            "min": 505,
+            "max": 605,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "venom",
+    "loot": [
+        {
+            "chance": 20000,
+            "maxCount": 177,
+            "name": "gold coin"
+        },
+        {
+            "chance": 25000,
+            "maxCount": 13,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 45000,
+            "name": "demonic essence"
+        },
+        {
+            "chance": 5000,
+            "maxCount": 3,
+            "name": "black pearl"
+        },
+        {
+            "chance": 5000,
+            "maxCount": 3,
+            "name": "small sapphire"
+        },
+        {
+            "chance": 35000,
+            "name": "soul orb"
+        },
+        {
+            "chance": 100000,
+            "name": "Plasmother's remains"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5500,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "frog_prince",
+    "threatDps": 136.425,
+    "burstDps": 168.45,
+    "avgHit": 1091.4,
+    "maxHit": 1860,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 2,
+        "summons": [
+            {
+                "name": "Defiler",
+                "id": "defiler",
+                "chance": 20,
+                "interval": 4000,
+                "count": 2
+            }
+        ]
+    }
+}

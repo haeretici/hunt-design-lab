@@ -1,0 +1,244 @@
+{
+    "id": "ancient_pharaoh_high_priest",
+    "label": "Ancient Pharaoh High Priest",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An ancient pharaoh high priest.",
+    "hp": 3900,
+    "hpMax": 3900,
+    "speed": 170,
+    "level": 561,
+    "armor": 42,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 3050,
+    "lootValue": 240.92994161802,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": -10,
+        "energy": 20,
+        "earth": 20,
+        "holy": -20,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 80,
+        "health": 10,
+        "damage": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 145,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 24,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 1600,
+            "chance": 7,
+            "range": 1,
+            "element": "physical",
+            "min": 22,
+            "max": 217,
+            "target": false,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 7,
+            "range": 7,
+            "element": "fire",
+            "min": 22,
+            "max": 217,
+            "target": false,
+            "effect": "me_firearea",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "slow_3",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 13,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -850,
+                "durationSec": 50
+            },
+            "effect": "me_magic_red",
+            "target": false
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 34,
+            "range": 4,
+            "element": "fire",
+            "min": 29,
+            "max": 289,
+            "radius": 3,
+            "target": false,
+            "effect": "me_explosionarea"
+        },
+        {
+            "id": "firefield_5",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 12,
+            "range": 4,
+            "element": "physical",
+            "radius": 4,
+            "target": false,
+            "effect": "me_blockhit",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "condition_6",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 13,
+            "range": 4,
+            "element": "fire",
+            "min": 18,
+            "max": 181,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_explosionhit"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 1000,
+            "chance": 20,
+            "min": 20,
+            "max": 800,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "name": "holy falcon",
+            "chance": 500
+        },
+        {
+            "name": "small ruby",
+            "chance": 7000,
+            "maxCount": 3
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 80
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 70
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 64
+        },
+        {
+            "chance": 1500,
+            "name": "red gem"
+        },
+        {
+            "chance": 1500,
+            "name": "life ring"
+        },
+        {
+            "name": "burning heart",
+            "chance": 100000
+        },
+        {
+            "name": "fire axe",
+            "chance": 750
+        },
+        {
+            "name": "phoenix shield",
+            "chance": 300
+        },
+        {
+            "name": "great health potion",
+            "chance": 1500
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "chaos_stone_revenant_archer",
+    "threatDps": 95.3406,
+    "burstDps": 98.4775,
+    "avgHit": 98.1922,
+    "maxHit": 289,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 4,
+        "summons": [
+            {
+                "name": "Fire Elemental",
+                "id": "fire_elemental",
+                "chance": 30,
+                "interval": 2000,
+                "count": 4
+            }
+        ]
+    }
+}

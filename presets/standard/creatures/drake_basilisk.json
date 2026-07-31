@@ -1,0 +1,161 @@
+{
+    "id": "drake_basilisk",
+    "label": "Drake Basilisk",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A drake basilisk.",
+    "hp": 6180,
+    "hpMax": 6180,
+    "speed": 165,
+    "level": 606,
+    "armor": 86,
+    "mitigation": 2.11,
+    "maxBlock": 0,
+    "exp": 5050,
+    "lootValue": 1411.7261904762,
+    "aggro": true,
+    "resists": {
+        "physical": 15,
+        "fire": 40,
+        "ice": -5,
+        "energy": 0,
+        "earth": -10,
+        "holy": -14,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 212
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 3000,
+            "chance": 27,
+            "range": 4,
+            "element": "physical",
+            "min": 233,
+            "max": 265,
+            "length": 7,
+            "spread": 0,
+            "target": false,
+            "effect": "me_explosionarea"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2500,
+            "chance": 25,
+            "range": 4,
+            "element": "physical",
+            "min": 212,
+            "max": 265,
+            "radius": 4,
+            "target": true,
+            "effect": "me_poff"
+        },
+        {
+            "id": "death_chain_3",
+            "kind": "ranged",
+            "intervalMs": 2500,
+            "chance": 20,
+            "range": 7,
+            "element": "physical",
+            "min": 265,
+            "max": 318
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Dragon",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 5,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "Platinum Coin",
+            "chance": 52610,
+            "minCount": 1,
+            "maxCount": 46
+        },
+        {
+            "name": "Dragolisk Poison Gland",
+            "chance": 12600
+        },
+        {
+            "name": "Nimmersatt's Seal",
+            "chance": 8320
+        },
+        {
+            "id": 282,
+            "chance": 7580
+        },
+        {
+            "name": "Dragolisk Eye",
+            "chance": 5510
+        },
+        {
+            "name": "Green Gem",
+            "chance": 8260
+        },
+        {
+            "name": "Dragon's Tail",
+            "chance": 1003
+        },
+        {
+            "name": "Dragon Shield",
+            "chance": 400
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "plague_basilisk",
+    "threatDps": 122.58,
+    "burstDps": 145.5775,
+    "avgHit": 159.1948,
+    "maxHit": 318,
+    "manaCost": 0
+}

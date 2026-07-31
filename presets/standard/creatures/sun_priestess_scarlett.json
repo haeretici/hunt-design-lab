@@ -1,0 +1,267 @@
+{
+    "id": "sun_priestess_scarlett",
+    "label": "Sun Priestess Scarlett",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A sun priestess scarlett.",
+    "hp": 30000,
+    "hpMax": 30000,
+    "speed": 120,
+    "level": 764,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 20000,
+    "lootValue": 26378.431372549,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 833
+        },
+        {
+            "id": "deathburst_rune_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 16,
+            "range": 1,
+            "element": "physical",
+            "min": 278,
+            "max": 417,
+            "target": true
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 13,
+            "range": 4,
+            "element": "holy",
+            "min": 312,
+            "max": 444,
+            "length": 7,
+            "target": false,
+            "effect": "me_holyarea"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "earth",
+            "min": 333,
+            "max": 556,
+            "radius": 5,
+            "target": false,
+            "effect": "me_explosionhit"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "energy bar",
+            "chance": 100000
+        },
+        {
+            "name": "platinum coin",
+            "chance": 87000,
+            "maxCount": 9
+        },
+        {
+            "name": "green gem",
+            "chance": 85000
+        },
+        {
+            "name": "supreme health potion",
+            "chance": 53700,
+            "maxCount": 14
+        },
+        {
+            "name": "ultimate mana potion",
+            "chance": 48150,
+            "maxCount": 20
+        },
+        {
+            "chance": 42500,
+            "name": "red gem"
+        },
+        {
+            "name": "ultimate dual potion",
+            "chance": 34000,
+            "maxCount": 6
+        },
+        {
+            "name": "yellow gem",
+            "chance": 29600,
+            "maxCount": 2
+        },
+        {
+            "name": "royal star",
+            "chance": 26600,
+            "maxCount": 100
+        },
+        {
+            "id": 281,
+            "chance": 24000
+        },
+        {
+            "name": "berserk potion",
+            "chance": 20300,
+            "maxCount": 10
+        },
+        {
+            "name": "blue gem",
+            "chance": 18500,
+            "maxCount": 2
+        },
+        {
+            "name": "marksman potion",
+            "chance": 18500,
+            "maxCount": 10
+        },
+        {
+            "name": "Emberbound Coat",
+            "chance": 16600
+        },
+        {
+            "name": "Earthbound Rod",
+            "chance": 1100
+        },
+        {
+            "name": "crystal coin",
+            "chance": 9200
+        },
+        {
+            "name": "violet gem",
+            "chance": 9000
+        },
+        {
+            "name": "Earthbound Legs",
+            "chance": 8500
+        },
+        {
+            "name": "Earthbound Hood",
+            "chance": 7400
+        },
+        {
+            "name": "Earthbound Mantle",
+            "chance": 7250
+        },
+        {
+            "name": "Emberbound Amulet",
+            "chance": 5500
+        },
+        {
+            "name": "silver token",
+            "chance": 6000,
+            "maxCount": 4
+        },
+        {
+            "name": "gold ingot",
+            "chance": 5000
+        },
+        {
+            "name": "Earthbound Amulet",
+            "chance": 4800
+        },
+        {
+            "name": "giant sapphire",
+            "chance": 4800
+        },
+        {
+            "name": "Emberbound Monocle",
+            "chance": 3700
+        },
+        {
+            "name": "cobra club",
+            "chance": 700
+        },
+        {
+            "name": "cobra axe",
+            "chance": 600
+        },
+        {
+            "name": "cobra crossbow",
+            "chance": 600
+        },
+        {
+            "name": "cobra hood",
+            "chance": 400
+        },
+        {
+            "name": "cobra rod",
+            "chance": 650
+        },
+        {
+            "name": "cobra sword",
+            "chance": 650
+        },
+        {
+            "name": "cobra wand",
+            "chance": 650
+        },
+        {
+            "name": "cobra amulet",
+            "chance": 350
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "crystal_demon_priest",
+    "threatDps": 293.9575,
+    "burstDps": 293.9575,
+    "avgHit": 408.2743,
+    "maxHit": 833,
+    "manaCost": 0
+}

@@ -1,0 +1,134 @@
+{
+    "id": "last_planegazer",
+    "label": "Last Planegazer",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A last planegazer.",
+    "hp": 50000,
+    "hpMax": 50000,
+    "speed": 125,
+    "level": 815,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 10000,
+    "lootValue": 97.222222222222,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 35,
+        "ice": 40,
+        "energy": 45,
+        "earth": 100,
+        "holy": 0,
+        "death": 70
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 1561
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 65700,
+            "maxCount": 15,
+            "name": "gold coin"
+        },
+        {
+            "chance": 20000,
+            "name": "plate shield"
+        },
+        {
+            "chance": 12900,
+            "name": "mace"
+        },
+        {
+            "chance": 10000,
+            "name": "chain armor"
+        },
+        {
+            "chance": 7800,
+            "name": "brass helmet"
+        },
+        {
+            "chance": 5000,
+            "name": "sword"
+        },
+        {
+            "chance": 5000,
+            "name": "meat"
+        },
+        {
+            "chance": 4000,
+            "name": "axe"
+        },
+        {
+            "chance": 2000,
+            "maxCount": 2,
+            "name": "minotaur horn"
+        },
+        {
+            "chance": 980,
+            "name": "minotaur leather"
+        },
+        {
+            "chance": 310,
+            "name": "shovel"
+        },
+        {
+            "chance": 120,
+            "name": "bronze amulet"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "dawn_bat",
+    "threatDps": 390.25,
+    "burstDps": 390.25,
+    "avgHit": 780.5,
+    "maxHit": 1561,
+    "manaCost": 0
+}

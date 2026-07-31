@@ -1,0 +1,284 @@
+{
+    "id": "phantom_dragon",
+    "label": "Phantom Dragon",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A phantom dragon.",
+    "hp": 7800,
+    "hpMax": 7800,
+    "speed": 160,
+    "level": 630,
+    "armor": 30,
+    "mitigation": 1.24,
+    "maxBlock": 0,
+    "exp": 4600,
+    "lootValue": 2425.3859271381,
+    "aggro": true,
+    "resists": {
+        "physical": -10,
+        "fire": 10,
+        "ice": 50,
+        "energy": -10,
+        "earth": 100,
+        "holy": -14,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 366,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 354
+        },
+        {
+            "id": "ghastly_dragon_curse_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 5,
+            "element": "physical",
+            "target": false,
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "condition_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 5,
+            "element": "earth",
+            "min": 540,
+            "max": 751,
+            "target": true,
+            "effect": "me_smallclouds"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "lifedrain",
+            "min": 47,
+            "max": 135,
+            "target": true,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "ghastly_dragon_wave_4",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 1,
+            "element": "physical",
+            "min": 70,
+            "max": 147,
+            "target": false
+        },
+        {
+            "id": "area_5",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "death",
+            "min": 65,
+            "max": 106,
+            "radius": 4,
+            "target": false,
+            "effect": "me_mortarea"
+        },
+        {
+            "id": "slow_6",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -800,
+                "durationSec": 30
+            },
+            "effect": "me_smallclouds",
+            "target": true
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Dragon",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 99500,
+            "maxCount": 238
+        },
+        {
+            "name": "plate legs",
+            "chance": 53270
+        },
+        {
+            "name": "small emerald",
+            "chance": 41210,
+            "maxCount": 5
+        },
+        {
+            "name": "platinum coin",
+            "chance": 33170,
+            "maxCount": 2
+        },
+        {
+            "name": "great dual potion",
+            "chance": 32659,
+            "maxCount": 2
+        },
+        {
+            "name": "dark armor",
+            "chance": 30650
+        },
+        {
+            "name": "great mana potion",
+            "chance": 27140,
+            "maxCount": 2
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 24120
+        },
+        {
+            "name": "undead heart",
+            "chance": 21610
+        },
+        {
+            "name": "zaoan halberd",
+            "chance": 16580
+        },
+        {
+            "chance": 15080,
+            "name": "slightly rusted armor"
+        },
+        {
+            "name": "demonic essence",
+            "chance": 10550
+        },
+        {
+            "name": "Earthbound Boots",
+            "chance": 10050
+        },
+        {
+            "name": "twin hooks",
+            "chance": 9550
+        },
+        {
+            "name": "ghastly dragon head",
+            "chance": 7540
+        },
+        {
+            "name": "soul orb",
+            "chance": 7040
+        },
+        {
+            "name": "Earthbound Legs",
+            "chance": 4520
+        },
+        {
+            "name": "jade hat",
+            "chance": 1010
+        },
+        {
+            "name": "zaoan armor",
+            "chance": 1010
+        },
+        {
+            "name": "guardian boots",
+            "chance": 1010
+        },
+        {
+            "name": "drakinata",
+            "chance": 1010
+        },
+        {
+            "name": "spellweaver's robe",
+            "chance": 500
+        },
+        {
+            "name": "zaoan shoes",
+            "chance": 980
+        },
+        {
+            "name": "zaoan legs",
+            "chance": 970
+        },
+        {
+            "name": "shiny stone",
+            "chance": 830
+        },
+        {
+            "name": "zaoan helmet",
+            "chance": 230
+        },
+        {
+            "name": "zaoan sword",
+            "chance": 120
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 5
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "glacier_mountain_phantom",
+    "threatDps": 139.4375,
+    "burstDps": 139.4375,
+    "avgHit": 185.9167,
+    "maxHit": 751,
+    "manaCost": 0
+}

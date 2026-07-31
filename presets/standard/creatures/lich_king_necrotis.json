@@ -1,0 +1,266 @@
+{
+    "id": "lich_king_necrotis",
+    "label": "Lich King Necrotis",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A lich king necrotis.",
+    "hp": 480000,
+    "hpMax": 480000,
+    "speed": 212,
+    "level": 1000,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 75000,
+    "lootValue": 52741.379310345,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 200
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 815,
+            "max": 2445
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "fire",
+            "min": 1087,
+            "max": 2898,
+            "length": 8,
+            "spread": 0,
+            "effect": "me_hitbyfire"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 543,
+            "max": 1449,
+            "length": 8,
+            "spread": 0,
+            "effect": "me_smallclouds"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 4,
+            "element": "death",
+            "min": 1087,
+            "max": 1359,
+            "radius": 6,
+            "target": false,
+            "effect": "me_mortarea"
+        },
+        {
+            "id": "wave_4",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "death",
+            "min": 1540,
+            "max": 1811,
+            "length": 8,
+            "target": false,
+            "effect": "me_mortarea"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 1450,
+            "max": 5350,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "venom",
+    "loot": [
+        {
+            "name": "platinum coin",
+            "minCount": 1,
+            "maxCount": 5,
+            "chance": 100000
+        },
+        {
+            "name": "crystal coin",
+            "minCount": 0,
+            "maxCount": 5,
+            "chance": 50000
+        },
+        {
+            "name": "supreme health potion",
+            "minCount": 0,
+            "maxCount": 20,
+            "chance": 45000
+        },
+        {
+            "name": "ultimate mana potion",
+            "minCount": 0,
+            "maxCount": 6,
+            "chance": 42000
+        },
+        {
+            "name": "ultimate dual potion",
+            "minCount": 0,
+            "maxCount": 14,
+            "chance": 42000
+        },
+        {
+            "name": "marksman potion",
+            "minCount": 0,
+            "maxCount": 10,
+            "chance": 22000
+        },
+        {
+            "name": "berserk potion",
+            "minCount": 0,
+            "maxCount": 10,
+            "chance": 22000
+        },
+        {
+            "name": "gold token",
+            "minCount": 0,
+            "maxCount": 3,
+            "chance": 18000
+        },
+        {
+            "name": "silver token",
+            "minCount": 0,
+            "maxCount": 3,
+            "chance": 25000
+        },
+        {
+            "name": "green gem",
+            "chance": 19000
+        },
+        {
+            "chance": 18500,
+            "name": "red gem"
+        },
+        {
+            "name": "yellow gem",
+            "chance": 18500
+        },
+        {
+            "name": "giant sapphire",
+            "chance": 16800
+        },
+        {
+            "chance": 15200,
+            "name": "collar of green plasma"
+        },
+        {
+            "name": "Emberbound Coat",
+            "chance": 15200
+        },
+        {
+            "name": "gold ingot",
+            "minCount": 0,
+            "maxCount": 1,
+            "chance": 18000
+        },
+        {
+            "name": "red tome",
+            "chance": 18200
+        },
+        {
+            "chance": 12000,
+            "name": "ring of blue plasma"
+        },
+        {
+            "chance": 12000,
+            "name": "ring of red plasma"
+        },
+        {
+            "name": "young lich worm",
+            "chance": 5500
+        },
+        {
+            "name": "mortal mace",
+            "chance": 1300
+        },
+        {
+            "name": "golden hyaena pendant",
+            "chance": 1100
+        },
+        {
+            "name": "bow of cataclysm",
+            "chance": 600
+        },
+        {
+            "name": "galea mortis",
+            "chance": 550
+        },
+        {
+            "name": "shadow cowl",
+            "chance": 530
+        },
+        {
+            "name": "toga mortis",
+            "chance": 500
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "invisible": true
+    },
+    "customSprite": "crystal_wolf_raider",
+    "threatDps": 1365.2375,
+    "burstDps": 1365.2375,
+    "avgHit": 1560.2714,
+    "maxHit": 2898
+}

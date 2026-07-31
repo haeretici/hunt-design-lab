@@ -1,0 +1,149 @@
+{
+    "id": "poor_soul",
+    "label": "Poor Soul",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A poor soul.",
+    "hp": 1000,
+    "hpMax": 1000,
+    "speed": 140,
+    "level": 425,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 100,
+        "fire": 100,
+        "ice": 100,
+        "energy": 100,
+        "earth": 100,
+        "holy": 100,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 60,
+        "health": 10,
+        "damage": 10,
+        "random": 20
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 64,
+            "max": 115
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "name": "crystal coin",
+            "chance": 70540
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 12220,
+            "maxCount": 7
+        },
+        {
+            "name": "violet gem",
+            "chance": 4560
+        },
+        {
+            "name": "green gem",
+            "chance": 5760
+        },
+        {
+            "name": "blue gem",
+            "chance": 4960
+        },
+        {
+            "name": "Boreal Rod",
+            "chance": 5920
+        },
+        {
+            "name": "sacred tree amulet",
+            "chance": 5520
+        },
+        {
+            "chance": 7920,
+            "name": "apron"
+        },
+        {
+            "chance": 7220,
+            "name": "Hailburst Rod"
+        },
+        {
+            "name": "Frostbound Shoes",
+            "chance": 2520
+        },
+        {
+            "name": "Frostbound Robe",
+            "chance": 2220
+        },
+        {
+            "name": "Stonehide Amulet",
+            "chance": 5920
+        },
+        {
+            "chance": 4892,
+            "name": "ring of red plasma"
+        },
+        {
+            "chance": 3520,
+            "name": "head"
+        },
+        {
+            "name": "glacial rod",
+            "chance": 620
+        },
+        {
+            "chance": 650,
+            "name": "gruesome fan"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 5
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "glacier_mountain_phantom",
+    "threatDps": 44.75,
+    "burstDps": 44.75,
+    "avgHit": 89.5,
+    "maxHit": 115,
+    "manaCost": 0
+}

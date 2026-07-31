@@ -1,0 +1,51 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://hunt-design-lab.local/schemas/strategies.schema.json",
+  "title": "Strategies catalog document",
+  "description": "Shape of presets/<mode>/strategies.json. Loaded by presets.loadStrategies / getStrategy. Storage: catalog document (strategies[]).",
+  "type": "object",
+  "required": ["strategies"],
+  "additionalProperties": true,
+  "properties": {
+    "version": { "type": "integer", "minimum": 1 },
+    "notes": { "type": "string", "maxLength": 4000 },
+    "strategies": {
+      "type": "array",
+      "minItems": 0,
+      "items": { "$ref": "#/definitions/strategy" }
+    }
+  },
+  "definitions": {
+    "entityId": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]{0,79}$",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "strategy": {
+      "type": "object",
+      "required": ["id"],
+      "additionalProperties": true,
+      "properties": {
+        "id": { "$ref": "#/definitions/entityId" },
+        "label": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "aggression": { "type": "number", "minimum": 0, "maximum": 1 },
+        "engageRange": { "type": "integer", "minimum": 0, "maximum": 30 },
+        "keepDistance": { "type": "integer", "minimum": 0, "maximum": 30 },
+        "fleeHpPercent": { "type": "number", "minimum": 0, "maximum": 1 },
+        "healHpPercent": { "type": "number", "minimum": 0, "maximum": 1 },
+        "healSpellId": {
+          "$ref": "#/definitions/entityId",
+          "description": "Spell id for heal (relation: kind=spells)."
+        },
+        "monstersToEngage": { "type": "integer", "minimum": 1 },
+        "returnToRoute": { "type": "boolean" },
+        "spellPriority": {
+          "type": "array",
+          "description": "Ordered strike/spell ids only (relation: kind=spells). Weapon auto is mode.features.autoAttack, not listed here.",
+          "items": { "$ref": "#/definitions/entityId" }
+        }
+      }
+    }
+  }
+}

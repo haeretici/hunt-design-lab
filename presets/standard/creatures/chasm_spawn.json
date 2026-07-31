@@ -1,0 +1,239 @@
+{
+    "id": "chasm_spawn",
+    "label": "Chasm Spawn",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A chasm spawn.",
+    "hp": 4500,
+    "hpMax": 4500,
+    "speed": 115,
+    "level": 575,
+    "armor": 74,
+    "mitigation": 1.94,
+    "maxBlock": 0,
+    "exp": 3600,
+    "lootValue": 868.17142857143,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -30,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 266
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "earth",
+            "min": 5,
+            "max": 17,
+            "target": true,
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "death",
+            "min": 32,
+            "max": 64,
+            "target": true,
+            "shootEffect": "ani_death"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 3,
+            "element": "death",
+            "min": 75,
+            "max": 170,
+            "length": 3,
+            "spread": 3,
+            "target": false,
+            "effect": "me_mortarea"
+        },
+        {
+            "id": "explosion_rune_4",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 1,
+            "element": "physical",
+            "min": 53,
+            "max": 181,
+            "target": false
+        },
+        {
+            "id": "ranged_5",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "manadrain",
+            "min": 43,
+            "max": 64,
+            "target": false
+        },
+        {
+            "id": "stone_shower_rune_6",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "min": 75,
+            "max": 149,
+            "target": false
+        },
+        {
+            "id": "wave_7",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "earth",
+            "min": 75,
+            "max": 149,
+            "length": 3,
+            "spread": 3,
+            "target": false,
+            "effect": "me_plantattack"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Vermin",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 10000,
+            "maxCount": 78
+        },
+        {
+            "name": "wood mushroom",
+            "chance": 27200,
+            "maxCount": 5
+        },
+        {
+            "name": "chasm spawn head",
+            "chance": 33390
+        },
+        {
+            "name": "chasm spawn abdomen",
+            "chance": 24710
+        },
+        {
+            "name": "chasm spawn tail",
+            "chance": 64890
+        },
+        {
+            "name": "small enchanted emerald",
+            "chance": 11040,
+            "maxCount": 3
+        },
+        {
+            "name": "small enchanted amethyst",
+            "chance": 8170,
+            "maxCount": 3
+        },
+        {
+            "name": "brown mushroom",
+            "chance": 19680,
+            "maxCount": 5
+        },
+        {
+            "name": "orange mushroom",
+            "chance": 15140
+        },
+        {
+            "name": "blue crystal shard",
+            "chance": 7850
+        },
+        {
+            "name": "green crystal shard",
+            "chance": 7850
+        },
+        {
+            "name": "violet crystal shard",
+            "chance": 4690
+        },
+        {
+            "name": "mushroom backpack",
+            "chance": 610
+        },
+        {
+            "name": "suspicious device",
+            "chance": 850
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ashen_goblin_devourer",
+    "threatDps": 102.7625,
+    "burstDps": 102.7625,
+    "avgHit": 108.1711,
+    "maxHit": 266,
+    "manaCost": 0
+}

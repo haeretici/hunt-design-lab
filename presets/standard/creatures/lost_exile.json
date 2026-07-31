@@ -1,0 +1,276 @@
+{
+    "id": "lost_exile",
+    "label": "Lost Exile",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A lost exile.",
+    "hp": 1600,
+    "hpMax": 1600,
+    "speed": 125,
+    "level": 471,
+    "armor": 55,
+    "mitigation": 1.35,
+    "maxBlock": 0,
+    "exp": 1800,
+    "lootValue": 522.34985049124,
+    "aggro": true,
+    "resists": {
+        "physical": 5,
+        "fire": 25,
+        "ice": 15,
+        "energy": 10,
+        "earth": 100,
+        "holy": -10,
+        "death": 20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 75
+        },
+        {
+            "id": "deathburst_rune_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 3,
+            "element": "physical",
+            "min": 94,
+            "max": 220,
+            "length": 6,
+            "spread": 0,
+            "target": false,
+            "effect": "me_mortarea"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 3,
+            "element": "manadrain",
+            "min": 94,
+            "max": 157,
+            "length": 5,
+            "spread": 5,
+            "target": false,
+            "effect": "me_smoke"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 3,
+            "element": "lifedrain",
+            "min": 94,
+            "max": 182,
+            "length": 5,
+            "spread": 5,
+            "target": false,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_largerock"
+        },
+        {
+            "id": "deathburst_rune_4",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 44,
+            "max": 157,
+            "target": false
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 20,
+            "min": 0,
+            "max": 160,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 200
+        },
+        {
+            "name": "platinum coin",
+            "chance": 60240,
+            "maxCount": 2
+        },
+        {
+            "name": "strong health potion",
+            "chance": 10950,
+            "maxCount": 2
+        },
+        {
+            "name": "great mana potion",
+            "chance": 8330,
+            "maxCount": 2
+        },
+        {
+            "name": "brown mushroom",
+            "chance": 16900,
+            "maxCount": 2
+        },
+        {
+            "chance": 13100,
+            "name": "coal"
+        },
+        {
+            "name": "holy ash",
+            "chance": 13100
+        },
+        {
+            "name": "small topaz",
+            "chance": 10240
+        },
+        {
+            "name": "lost husher's staff",
+            "chance": 6900
+        },
+        {
+            "name": "skull shatterer",
+            "chance": 7620
+        },
+        {
+            "name": "wimp tooth chain",
+            "chance": 11900
+        },
+        {
+            "name": "red hair dye",
+            "chance": 12620
+        },
+        {
+            "name": "basalt fetish",
+            "chance": 8100
+        },
+        {
+            "name": "bonecarving knife",
+            "chance": 8100
+        },
+        {
+            "name": "basalt figurine",
+            "chance": 8100
+        },
+        {
+            "name": "bone fetish",
+            "chance": 8881
+        },
+        {
+            "chance": 1043,
+            "name": "dwarven ring"
+        },
+        {
+            "name": "guardian shield",
+            "chance": 1430
+        },
+        {
+            "name": "buckle",
+            "chance": 1900
+        },
+        {
+            "name": "clay lump",
+            "chance": 710
+        },
+        {
+            "name": "knight axe",
+            "chance": 950
+        },
+        {
+            "name": "Earthbound Boots",
+            "chance": 240
+        },
+        {
+            "name": "suspicious device",
+            "chance": 250
+        },
+        {
+            "name": "tower shield",
+            "chance": 240
+        },
+        {
+            "name": "Earthbound Legs",
+            "chance": 240
+        },
+        {
+            "name": "fire axe",
+            "chance": 710
+        },
+        {
+            "name": "Bone Skull Staff",
+            "chance": 480
+        },
+        {
+            "name": "spiked squelcher",
+            "chance": 240
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ashen_dwarf_priest",
+    "threatDps": 57.825,
+    "burstDps": 57.825,
+    "avgHit": 72.2813,
+    "maxHit": 220,
+    "manaCost": 0
+}

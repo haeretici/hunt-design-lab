@@ -1,0 +1,123 @@
+{
+    "id": "raging_fire",
+    "label": "Raging Fire",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A raging fire.",
+    "hp": 1800,
+    "hpMax": 1800,
+    "speed": 100,
+    "level": 483,
+    "armor": 50,
+    "mitigation": 1.32,
+    "maxBlock": 0,
+    "exp": 1500,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": -10,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 80,
+        "random": 20
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 9,
+            "range": 4,
+            "element": "fire",
+            "min": 267,
+            "max": 2484,
+            "length": 7,
+            "spread": 0,
+            "target": false,
+            "effect": "me_firearea"
+        },
+        {
+            "id": "firefield_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 11,
+            "range": 7,
+            "element": "physical",
+            "radius": 3,
+            "target": true,
+            "effect": "me_explosionhit",
+            "shootEffect": "ani_fire",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "firefield_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 11,
+            "range": 4,
+            "element": "physical",
+            "radius": 3,
+            "target": false,
+            "effect": "me_hitbyfire",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "race": "fire",
+    "bestiary": {
+        "class": "Elemental",
+        "toKill": 5,
+        "firstUnlock": 2,
+        "secondUnlock": 3,
+        "charmsPoints": 50,
+        "stars": 3,
+        "occurrence": 3
+    },
+    "loot": [],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "radiant_fire_giant_priest",
+    "threatDps": 61.8975,
+    "burstDps": 61.8975,
+    "avgHit": 1375.5,
+    "maxHit": 2484,
+    "manaCost": 0
+}

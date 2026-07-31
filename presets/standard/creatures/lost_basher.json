@@ -1,0 +1,241 @@
+{
+    "id": "lost_basher",
+    "label": "Lost Basher",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A lost basher.",
+    "hp": 2600,
+    "hpMax": 2600,
+    "speed": 130,
+    "level": 520,
+    "armor": 57,
+    "mitigation": 1.62,
+    "maxBlock": 0,
+    "exp": 2300,
+    "lootValue": 638.37593646988,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 25,
+        "ice": 0,
+        "energy": 5,
+        "earth": 100,
+        "holy": 0,
+        "death": 15
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 277
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 174,
+            "radius": 3,
+            "target": true,
+            "effect": "me_explosionarea",
+            "shootEffect": "ani_whirlwindaxe"
+        },
+        {
+            "id": "slow_3",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -650,
+                "durationSec": 15
+            },
+            "radius": 2,
+            "effect": "me_energyhit",
+            "target": false
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 250,
+            "max": 500,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "piggy bank",
+            "chance": 4450
+        },
+        {
+            "name": "gold coin",
+            "chance": 60000,
+            "maxCount": 100
+        },
+        {
+            "name": "platinum coin",
+            "chance": 70000,
+            "maxCount": 2
+        },
+        {
+            "name": "fire axe",
+            "chance": 310
+        },
+        {
+            "name": "war axe",
+            "chance": 120
+        },
+        {
+            "name": "knight legs",
+            "chance": 310
+        },
+        {
+            "name": "black shield",
+            "chance": 3710
+        },
+        {
+            "name": "brown mushroom",
+            "chance": 15170,
+            "maxCount": 2
+        },
+        {
+            "name": "iron ore",
+            "chance": 5280
+        },
+        {
+            "name": "Maelstrom Mace",
+            "chance": 160
+        },
+        {
+            "name": "spiked squelcher",
+            "chance": 420
+        },
+        {
+            "name": "great mana potion",
+            "chance": 11240
+        },
+        {
+            "name": "Earthbound Boots",
+            "chance": 780
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 10250
+        },
+        {
+            "name": "small topaz",
+            "chance": 10200
+        },
+        {
+            "chance": 21130,
+            "name": "coal"
+        },
+        {
+            "name": "blue crystal shard",
+            "chance": 840
+        },
+        {
+            "name": "lost basher's spike",
+            "chance": 17260
+        },
+        {
+            "name": "lost basher's spike",
+            "chance": 14380
+        },
+        {
+            "name": "bloody dwarven beard",
+            "chance": 1730
+        },
+        {
+            "name": "pair of iron fists",
+            "chance": 1410
+        },
+        {
+            "name": "buckle",
+            "chance": 10930
+        },
+        {
+            "name": "bonecarving knife",
+            "chance": 7320
+        },
+        {
+            "name": "basalt fetish",
+            "chance": 8800
+        },
+        {
+            "name": "basalt figurine",
+            "chance": 9470
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "glacier_mountain_phantom",
+    "threatDps": 75.775,
+    "burstDps": 75.775,
+    "avgHit": 131.7826,
+    "maxHit": 277,
+    "manaCost": 0
+}

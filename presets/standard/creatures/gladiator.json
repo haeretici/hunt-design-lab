@@ -1,0 +1,142 @@
+{
+    "id": "gladiator",
+    "label": "Gladiator",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A gladiator.",
+    "hp": 185,
+    "hpMax": 185,
+    "speed": 98,
+    "level": 256,
+    "armor": 14,
+    "mitigation": 0.78,
+    "maxBlock": 0,
+    "exp": 90,
+    "lootValue": 24.619496855346,
+    "aggro": true,
+    "resists": {
+        "physical": 5,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 10,
+        "death": -5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 10,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 70
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 215,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Human",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 49500,
+            "maxCount": 30
+        },
+        {
+            "chance": 12620,
+            "name": "sword"
+        },
+        {
+            "name": "mace",
+            "chance": 11160
+        },
+        {
+            "name": "chain helmet",
+            "chance": 5200
+        },
+        {
+            "name": "iron helmet",
+            "chance": 590
+        },
+        {
+            "name": "brass armor",
+            "chance": 2750
+        },
+        {
+            "name": "steel shield",
+            "chance": 840
+        },
+        {
+            "name": "plate shield",
+            "chance": 9950
+        },
+        {
+            "name": "meat",
+            "chance": 19000
+        },
+        {
+            "name": "belted cape",
+            "chance": 340
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "crystal_lizard_warrior",
+    "threatDps": 17.5,
+    "burstDps": 17.5,
+    "avgHit": 35,
+    "maxHit": 70,
+    "manaCost": 470
+}

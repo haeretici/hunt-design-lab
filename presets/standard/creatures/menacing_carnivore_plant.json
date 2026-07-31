@@ -1,0 +1,235 @@
+{
+    "id": "menacing_carnivore_plant",
+    "label": "Menacing Carnivore Plant",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A menacing carnivore plant.",
+    "hp": 3500,
+    "hpMax": 3500,
+    "speed": 170,
+    "level": 550,
+    "armor": 68,
+    "mitigation": 1.88,
+    "maxBlock": 0,
+    "exp": 2112,
+    "lootValue": 1064.7157190635,
+    "aggro": true,
+    "resists": {
+        "physical": 50,
+        "fire": 0,
+        "ice": -20,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 117,
+            "max": 175
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 39,
+            "max": 70,
+            "length": 4,
+            "spread": 0,
+            "target": false,
+            "effect": "me_smoke"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 14,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 39,
+            "max": 78,
+            "length": 4,
+            "spread": 0,
+            "target": false,
+            "effect": "me_poisonarea"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "physical",
+            "min": 58,
+            "max": 128,
+            "radius": 4,
+            "target": false,
+            "effect": "me_groundshaker"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 150,
+            "max": 200,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Magical",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 65410,
+            "maxCount": 8
+        },
+        {
+            "name": "morning star",
+            "chance": 16730
+        },
+        {
+            "name": "ultimate mana potion",
+            "chance": 9820
+        },
+        {
+            "name": "violet glass plate",
+            "chance": 691
+        },
+        {
+            "name": "crystal sword",
+            "chance": 4750
+        },
+        {
+            "name": "Earthbound Rod",
+            "chance": 4480
+        },
+        {
+            "name": "small ruby",
+            "chance": 4000
+        },
+        {
+            "name": "onyx chip",
+            "chance": 3350
+        },
+        {
+            "name": "green crystal fragment",
+            "chance": 3180
+        },
+        {
+            "name": "small enchanted ruby",
+            "chance": 2050
+        },
+        {
+            "name": "Earthbound Legs",
+            "chance": 2000
+        },
+        {
+            "name": "knight legs",
+            "chance": 1780
+        },
+        {
+            "name": "machete",
+            "chance": 1730
+        },
+        {
+            "name": "wand of voodoo",
+            "chance": 1570
+        },
+        {
+            "name": "heavy machete",
+            "chance": 1240
+        },
+        {
+            "name": "wand of starstorm",
+            "chance": 1240
+        },
+        {
+            "name": "wand of dragonbreath",
+            "chance": 970
+        },
+        {
+            "name": "tiger eye",
+            "chance": 920
+        },
+        {
+            "name": "opal",
+            "chance": 810
+        },
+        {
+            "name": "iron helmet",
+            "chance": 760
+        },
+        {
+            "name": "serpent sword",
+            "chance": 700
+        },
+        {
+            "name": "wand of decay",
+            "chance": 490
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "glacier_forest_construct",
+    "threatDps": 89.52,
+    "burstDps": 89.52,
+    "avgHit": 120.1611,
+    "maxHit": 175,
+    "manaCost": 0
+}

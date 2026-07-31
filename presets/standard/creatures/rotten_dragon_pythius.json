@@ -1,0 +1,169 @@
+{
+    "id": "rotten_dragon_pythius",
+    "label": "Rotten Dragon Pythius",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A rotten dragon pythius.",
+    "hp": 9000,
+    "hpMax": 9000,
+    "speed": 175,
+    "level": 644,
+    "armor": 40,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 7000,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 100,
+        "earth": 100,
+        "holy": 0,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 417
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 16,
+            "range": 7,
+            "element": "physical",
+            "min": 145,
+            "max": 176,
+            "radius": 4,
+            "target": true,
+            "effect": "me_firearea",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 17,
+            "range": 7,
+            "element": "earth",
+            "min": 48,
+            "max": 136,
+            "radius": 4,
+            "target": true,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2500,
+            "chance": 14,
+            "range": 4,
+            "element": "earth",
+            "min": 293,
+            "max": 363,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_poisonarea"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 2500,
+            "chance": 22,
+            "range": 7,
+            "element": "manadrain",
+            "min": 75,
+            "max": 97,
+            "radius": 4,
+            "target": true,
+            "effect": "me_loseenergy",
+            "shootEffect": "ani_ice"
+        },
+        {
+            "id": "slow_5",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -300,
+                "durationSec": 30
+            },
+            "effect": "me_mortarea",
+            "target": true
+        }
+    ],
+    "race": "undead",
+    "loot": [],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "wild_desert_dragon",
+    "threatDps": 150.846,
+    "burstDps": 157.33,
+    "avgHit": 186.4598,
+    "maxHit": 417,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 2,
+        "summons": [
+            {
+                "name": "Undead Gladiator",
+                "id": "undead_gladiator",
+                "chance": 10,
+                "interval": 1000,
+                "count": 2
+            }
+        ]
+    }
+}

@@ -1,0 +1,171 @@
+{
+    "id": "plagued_tiger",
+    "label": "Plagued Tiger",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A plagued tiger.",
+    "hp": 1100,
+    "hpMax": 1100,
+    "speed": 100,
+    "level": 436,
+    "armor": 25,
+    "mitigation": 0.99,
+    "maxBlock": 0,
+    "exp": 750,
+    "lootValue": 171.45618546013,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 20,
+        "ice": 20,
+        "energy": 20,
+        "earth": 80,
+        "holy": 0,
+        "death": -5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 100,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 150
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 200,
+            "length": 5,
+            "spread": 3,
+            "target": false,
+            "effect": "me_blockhit"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "invisible_0",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 10,
+            "durationSec": 2,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "heal_1",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 150,
+            "max": 300,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Mammal",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 5
+        },
+        {
+            "chance": 5580,
+            "name": "life ring"
+        },
+        {
+            "name": "guardian shield",
+            "chance": 380
+        },
+        {
+            "name": "meat",
+            "chance": 29500,
+            "maxCount": 2
+        },
+        {
+            "name": "angelic axe",
+            "chance": 440
+        },
+        {
+            "name": "glorious axe",
+            "chance": 870
+        },
+        {
+            "name": "strong health potion",
+            "chance": 6000
+        },
+        {
+            "name": "silky tapestry",
+            "chance": 730
+        },
+        {
+            "name": "striped fur",
+            "chance": 20130
+        },
+        {
+            "name": "sabretooth",
+            "chance": 10600
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "nether_tiger",
+    "threatDps": 47.5,
+    "burstDps": 47.5,
+    "avgHit": 79.1667,
+    "maxHit": 200,
+    "manaCost": 0
+}

@@ -1,0 +1,194 @@
+{
+    "id": "lore_guardian",
+    "label": "Lore Guardian",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A lore guardian.",
+    "hp": 15000,
+    "hpMax": 15000,
+    "speed": 210,
+    "level": 695,
+    "armor": 77,
+    "mitigation": 1.94,
+    "maxBlock": 0,
+    "exp": 10600,
+    "lootValue": 4046.3044241573,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": -12,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 50
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 148,
+            "max": 407
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 13,
+            "range": 4,
+            "element": "energy",
+            "min": 148,
+            "max": 447,
+            "radius": 3,
+            "target": false,
+            "effect": "me_energyarea"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 277,
+            "max": 370,
+            "length": 5,
+            "spread": 0,
+            "target": false,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 12,
+            "range": 4,
+            "element": "fire",
+            "min": 296,
+            "max": 573,
+            "radius": 3,
+            "target": false,
+            "effect": "me_hitbyfire"
+        }
+    ],
+    "race": "ink",
+    "bestiary": {
+        "class": "Magical",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 1
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 10000,
+            "maxCount": 10
+        },
+        {
+            "name": "book page",
+            "chance": 10000,
+            "maxCount": 5
+        },
+        {
+            "name": "burnt scroll",
+            "chance": 10000,
+            "maxCount": 5
+        },
+        {
+            "name": "glowing rune",
+            "chance": 10000,
+            "maxCount": 5
+        },
+        {
+            "name": "small diamond",
+            "chance": 10000,
+            "maxCount": 5
+        },
+        {
+            "name": "fire axe",
+            "chance": 250
+        },
+        {
+            "name": "soul orb",
+            "chance": 260,
+            "maxCount": 5
+        },
+        {
+            "name": "spellbook of warding",
+            "chance": 250
+        },
+        {
+            "name": "wand of inferno",
+            "chance": 250
+        },
+        {
+            "name": "fire sword",
+            "chance": 250
+        },
+        {
+            "name": "Emberbound Coat",
+            "chance": 350
+        },
+        {
+            "name": "Emberbound Legs",
+            "chance": 250
+        },
+        {
+            "name": "piece of hellfire armor",
+            "chance": 500,
+            "maxCount": 5
+        },
+        {
+            "chance": 10000,
+            "maxCount": 5,
+            "name": "coal"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "sun_orc_guard",
+    "threatDps": 200.3325,
+    "burstDps": 200.3325,
+    "avgHit": 296.7889,
+    "maxHit": 573,
+    "manaCost": 0
+}

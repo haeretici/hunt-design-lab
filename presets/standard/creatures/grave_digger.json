@@ -1,0 +1,206 @@
+{
+    "id": "grave_digger",
+    "label": "Grave Digger",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A grave digger.",
+    "hp": 1500,
+    "hpMax": 1500,
+    "speed": 120,
+    "level": 466,
+    "armor": 58,
+    "mitigation": 1.68,
+    "maxBlock": 0,
+    "exp": 950,
+    "lootValue": 359.20454545455,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -10,
+        "ice": 100,
+        "energy": 100,
+        "earth": -5,
+        "holy": -5,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 200,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 92,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 52,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 1,
+            "element": "manadrain",
+            "min": 11,
+            "max": 72,
+            "target": false,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "melee_2",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 1,
+            "element": "death",
+            "min": 50,
+            "max": 86,
+            "target": false,
+            "shootEffect": "ani_death"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "invisible_0",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 15,
+            "durationSec": 2,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "heal_1",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 20,
+            "min": 100,
+            "max": 250,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_2",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 420,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 137
+        },
+        {
+            "name": "platinum coin",
+            "chance": 24470
+        },
+        {
+            "name": "yellow gem",
+            "chance": 800
+        },
+        {
+            "name": "wand of inferno",
+            "chance": 5590
+        },
+        {
+            "name": "sudden death rune",
+            "chance": 7300
+        },
+        {
+            "name": "Bone Skull Staff",
+            "chance": 130
+        },
+        {
+            "name": "mysterious voodoo skull",
+            "chance": 100
+        },
+        {
+            "chance": 800,
+            "name": "death ring"
+        },
+        {
+            "name": "strong health potion",
+            "chance": 2260,
+            "maxCount": 2
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 3600,
+            "maxCount": 2
+        },
+        {
+            "name": "unholy bone",
+            "chance": 9570
+        },
+        {
+            "name": "pile of grave earth",
+            "chance": 6650
+        },
+        {
+            "name": "safety pin",
+            "chance": 6000
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "nightmare_spider_horror",
+    "threatDps": 56.175,
+    "burstDps": 56.175,
+    "avgHit": 48.28,
+    "maxHit": 92,
+    "manaCost": 0
+}

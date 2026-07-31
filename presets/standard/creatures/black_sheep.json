@@ -1,0 +1,100 @@
+{
+    "id": "black_sheep",
+    "label": "Black Sheep",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A black sheep.",
+    "hp": 20,
+    "hpMax": 20,
+    "speed": 58,
+    "level": 30,
+    "armor": 1,
+    "mitigation": 0.05,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 3.0571923743501,
+    "aggro": false,
+    "resists": {
+        "physical": 0,
+        "fire": -5,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 20,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": true,
+        "attackable": true,
+        "hostile": false,
+        "convinceable": true,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "element": "physical",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "min": 3,
+            "max": 17,
+            "target": true
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Mammal",
+        "toKill": 250,
+        "firstUnlock": 10,
+        "secondUnlock": 100,
+        "charmsPoints": 5,
+        "stars": 1,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "meat",
+            "chance": 70860,
+            "maxCount": 5
+        },
+        {
+            "name": "black wool",
+            "chance": 1000
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "black_sheep",
+    "threatDps": 5,
+    "burstDps": 5,
+    "avgHit": 10,
+    "maxHit": 17,
+    "manaCost": 250
+}

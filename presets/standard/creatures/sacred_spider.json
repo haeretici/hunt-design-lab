@@ -1,0 +1,136 @@
+{
+    "id": "sacred_spider",
+    "label": "Sacred Spider",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A sacred spider.",
+    "hp": 550,
+    "hpMax": 550,
+    "speed": 122,
+    "level": 366,
+    "armor": 27,
+    "mitigation": 1.43,
+    "maxBlock": 0,
+    "exp": 330,
+    "lootValue": 82.099664188055,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -14,
+        "ice": -10,
+        "energy": 10,
+        "earth": 100,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 20,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 59,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 30,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "earth",
+            "min": 19,
+            "max": 30,
+            "target": false,
+            "shootEffect": "ani_poison"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Vermin",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 2
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 89790,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 89790,
+            "maxCount": 19
+        },
+        {
+            "name": "scarab coin",
+            "chance": 6710,
+            "maxCount": 4
+        },
+        {
+            "name": "plate armor",
+            "chance": 5050
+        },
+        {
+            "name": "spider fangs",
+            "chance": 25380
+        },
+        {
+            "name": "gold ingot",
+            "chance": 60
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "sacred_spider",
+    "threatDps": 32.2,
+    "burstDps": 32.2,
+    "avgHit": 28.6667,
+    "maxHit": 59,
+    "manaCost": 0
+}

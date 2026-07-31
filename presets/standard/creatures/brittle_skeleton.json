@@ -1,0 +1,124 @@
+{
+    "id": "brittle_skeleton",
+    "label": "Brittle Skeleton",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A brittle skeleton.",
+    "hp": 50,
+    "hpMax": 50,
+    "speed": 73,
+    "level": 126,
+    "armor": 2,
+    "mitigation": 0.23,
+    "maxBlock": 0,
+    "exp": 35,
+    "lootValue": 12.110017889088,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": true,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 8,
+            "range": 7,
+            "element": "lifedrain",
+            "min": 149,
+            "max": 276,
+            "target": false,
+            "shootEffect": "ani_suddendeath"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "chance": 49870,
+            "name": "bone"
+        },
+        {
+            "chance": 2920,
+            "name": "brass shield"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 5,
+            "name": "gold coin"
+        },
+        {
+            "chance": 4770,
+            "name": "hatchet"
+        },
+        {
+            "chance": 4770,
+            "name": "mace"
+        },
+        {
+            "chance": 9280,
+            "name": "pelvis bone"
+        },
+        {
+            "chance": 2920,
+            "name": "studded armor"
+        },
+        {
+            "chance": 6100,
+            "name": "sword"
+        },
+        {
+            "chance": 10610,
+            "name": "torch"
+        },
+        {
+            "chance": 3980,
+            "name": "viking helmet"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "brittle_skeleton",
+    "threatDps": 8.5,
+    "burstDps": 8.5,
+    "avgHit": 212.5,
+    "maxHit": 276,
+    "manaCost": 300
+}

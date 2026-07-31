@@ -1,0 +1,186 @@
+{
+    "id": "lore_elemental",
+    "label": "Lore Elemental",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A lore elemental.",
+    "hp": 10500,
+    "hpMax": 10500,
+    "speed": 230,
+    "level": 659,
+    "armor": 76,
+    "mitigation": 2.08,
+    "maxBlock": 0,
+    "exp": 10603,
+    "lootValue": 3301.7931034483,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 100,
+        "earth": 0,
+        "holy": 50,
+        "death": -20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 92,
+            "max": 370
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "holy",
+            "min": 185,
+            "max": 629,
+            "radius": 3,
+            "target": true,
+            "effect": "me_holydamage"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 14,
+            "range": 7,
+            "element": "energy",
+            "min": 185,
+            "max": 629,
+            "target": false,
+            "shootEffect": "ani_energy"
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Elemental",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 1
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 9
+        },
+        {
+            "name": "book page",
+            "chance": 10000,
+            "maxCount": 6
+        },
+        {
+            "name": "small amethyst",
+            "chance": 10000,
+            "maxCount": 8
+        },
+        {
+            "name": "glowing rune",
+            "chance": 10000,
+            "maxCount": 3
+        },
+        {
+            "name": "quill",
+            "chance": 10000,
+            "maxCount": 3
+        },
+        {
+            "name": "silken bookmark",
+            "chance": 10000,
+            "maxCount": 3
+        },
+        {
+            "name": "flash arrow",
+            "chance": 10000,
+            "maxCount": 6
+        },
+        {
+            "name": "throwing star",
+            "chance": 10000,
+            "maxCount": 10
+        },
+        {
+            "name": "crystal sword",
+            "chance": 10000
+        },
+        {
+            "chance": 10000,
+            "name": "voltaic ring"
+        },
+        {
+            "name": "guardian shield",
+            "chance": 10000
+        },
+        {
+            "name": "mana potion",
+            "chance": 10000,
+            "maxCount": 10
+        },
+        {
+            "name": "ultimate mana potion",
+            "chance": 10000,
+            "maxCount": 8
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 10000,
+            "maxCount": 8
+        },
+        {
+            "name": "wand of cosmic energy",
+            "chance": 300
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "arcane_elemental_vanguard",
+    "threatDps": 164.34,
+    "burstDps": 164.34,
+    "avgHit": 265.0645,
+    "maxHit": 629,
+    "manaCost": 0
+}

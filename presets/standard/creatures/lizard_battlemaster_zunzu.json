@@ -1,0 +1,138 @@
+{
+    "id": "lizard_battlemaster_zunzu",
+    "label": "Lizard Battlemaster Zunzu",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A lizard battlemaster zunzu.",
+    "hp": 4000,
+    "hpMax": 4000,
+    "speed": 210,
+    "level": 563,
+    "armor": 0,
+    "mitigation": 1.6,
+    "maxBlock": 0,
+    "exp": 2500,
+    "lootValue": 619,
+    "aggro": true,
+    "resists": {
+        "physical": 15,
+        "fire": 25,
+        "ice": 15,
+        "energy": 20,
+        "earth": 100,
+        "holy": 0,
+        "death": 10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 150,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 278
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 1,
+            "element": "earth",
+            "min": 106,
+            "max": 324,
+            "radius": 1,
+            "target": true,
+            "effect": "me_poisonarea"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 1000,
+            "chance": 18,
+            "min": 200,
+            "max": 400,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "great health potion",
+            "chance": 2775,
+            "maxCount": 2
+        },
+        {
+            "name": "red lantern",
+            "chance": 100000
+        },
+        {
+            "name": "zaoan armor",
+            "chance": 1050
+        },
+        {
+            "name": "zaoan shoes",
+            "chance": 3150
+        },
+        {
+            "name": "zaoan legs",
+            "chance": 2625
+        },
+        {
+            "name": "zaogun flag",
+            "chance": 11250
+        },
+        {
+            "name": "zaogun shoulderplates",
+            "chance": 100000
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "crystal_lizard_warrior",
+    "threatDps": 96.375,
+    "burstDps": 96.375,
+    "avgHit": 154.2,
+    "maxHit": 324,
+    "manaCost": 0
+}

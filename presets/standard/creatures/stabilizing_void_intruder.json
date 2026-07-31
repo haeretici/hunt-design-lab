@@ -1,0 +1,199 @@
+{
+    "id": "stabilizing_void_intruder",
+    "label": "Stabilizing Void Intruder",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A stabilizing void intruder.",
+    "hp": 2800,
+    "hpMax": 2800,
+    "speed": 145,
+    "level": 527,
+    "armor": 46,
+    "mitigation": 1.37,
+    "maxBlock": 0,
+    "exp": 1900,
+    "lootValue": 543.77610481032,
+    "aggro": true,
+    "resists": {
+        "physical": -5,
+        "fire": 20,
+        "ice": 5,
+        "energy": 80,
+        "earth": 0,
+        "holy": -5,
+        "death": 70
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 174
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 4,
+            "element": "death",
+            "min": 87,
+            "max": 131,
+            "radius": 4,
+            "target": true,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "dread_intruder_wave_2",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 1,
+            "element": "physical",
+            "min": 153,
+            "max": 196,
+            "target": false
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 5,
+            "min": 80,
+            "max": 120,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Extra Dimensional",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 100,
+            "name": "gold coin"
+        },
+        {
+            "chance": 20000,
+            "maxCount": 5,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 12200,
+            "name": "energy bar"
+        },
+        {
+            "chance": 10800,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 9800,
+            "name": "strange proto matter"
+        },
+        {
+            "chance": 9400,
+            "name": "solid rage"
+        },
+        {
+            "chance": 9000,
+            "name": "glistening bone"
+        },
+        {
+            "chance": 8700,
+            "name": "ultimate health potion"
+        },
+        {
+            "chance": 8700,
+            "name": "energy drink"
+        },
+        {
+            "chance": 8700,
+            "name": "great dual potion"
+        },
+        {
+            "chance": 5000,
+            "maxCount": 2,
+            "name": "small amethyst"
+        },
+        {
+            "chance": 4800,
+            "name": "blue crystal splinter"
+        },
+        {
+            "chance": 4400,
+            "maxCount": 2,
+            "name": "small sapphire"
+        },
+        {
+            "chance": 4200,
+            "name": "violet crystal shard"
+        },
+        {
+            "chance": 3400,
+            "maxCount": 2,
+            "name": "small ruby"
+        },
+        {
+            "chance": 3300,
+            "name": "cyan crystal fragment"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 25
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "crypt_construct",
+    "threatDps": 78.9375,
+    "burstDps": 78.9375,
+    "avgHit": 105.25,
+    "maxHit": 196,
+    "manaCost": 0
+}

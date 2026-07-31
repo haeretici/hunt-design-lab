@@ -1,0 +1,90 @@
+{
+    "id": "modified_gnash_hound",
+    "label": "Modified Gnash Hound",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A modified gnash hound.",
+    "hp": 1500,
+    "hpMax": 1500,
+    "speed": 225,
+    "level": 465,
+    "armor": 200,
+    "mitigation": 4.26,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": false,
+    "resists": {
+        "physical": 90,
+        "fire": 90,
+        "ice": 90,
+        "energy": 90,
+        "earth": 100,
+        "holy": 100,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 25,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": false,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "element": "physical",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 4,
+            "min": 55,
+            "max": 169,
+            "target": true
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Mammal",
+        "toKill": 25,
+        "firstUnlock": 5,
+        "secondUnlock": 10,
+        "charmsPoints": 1,
+        "stars": 0,
+        "occurrence": 1
+    },
+    "loot": [],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "storm_wolf_rager",
+    "threatDps": 56,
+    "burstDps": 56,
+    "avgHit": 112,
+    "maxHit": 169,
+    "manaCost": 0
+}

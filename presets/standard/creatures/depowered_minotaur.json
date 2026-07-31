@@ -1,0 +1,107 @@
+{
+    "id": "depowered_minotaur",
+    "label": "Depowered Minotaur",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A depowered minotaur.",
+    "hp": 1500,
+    "hpMax": 1500,
+    "speed": 106,
+    "level": 465,
+    "armor": 0,
+    "mitigation": 1.09,
+    "maxBlock": 0,
+    "exp": 1100,
+    "lootValue": 414.09230769231,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 20,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 10,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 224
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 82,
+            "name": "gold coin"
+        },
+        {
+            "chance": 100000,
+            "name": "minotaur horn"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 4,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 25000,
+            "name": "strong health potion"
+        },
+        {
+            "chance": 25000,
+            "name": "minotaur leather"
+        },
+        {
+            "chance": 25000,
+            "name": "small sapphire"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "lunar_minotaur_vanguard",
+    "threatDps": 56,
+    "burstDps": 56,
+    "avgHit": 112,
+    "maxHit": 224,
+    "manaCost": 0
+}

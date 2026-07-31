@@ -1,0 +1,247 @@
+{
+    "id": "serpent_priestess",
+    "label": "Serpent Priestess",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A serpent priestess.",
+    "hp": 1100,
+    "hpMax": 1100,
+    "speed": 99,
+    "level": 435,
+    "armor": 36,
+    "mitigation": 1.37,
+    "maxBlock": 0,
+    "exp": 1500,
+    "lootValue": 358.25626503942,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 10,
+        "ice": 5,
+        "energy": 0,
+        "earth": 20,
+        "holy": 0,
+        "death": 5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 200,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 24,
+            "range": 7,
+            "element": "lifedrain",
+            "min": 52,
+            "max": 135,
+            "target": true,
+            "shootEffect": "ani_smallstone"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 16,
+            "range": 4,
+            "element": "energy",
+            "min": 104,
+            "max": 171,
+            "target": false,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_smallearth"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "death",
+            "min": 119,
+            "max": 207,
+            "radius": 3,
+            "target": true,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_death"
+        },
+        {
+            "id": "area_5",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 13,
+            "range": 7,
+            "element": "earth",
+            "min": 207,
+            "max": 311,
+            "radius": 4,
+            "target": true,
+            "effect": "me_hitbypoison",
+            "shootEffect": "ani_smallearth"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 8,
+            "min": 100,
+            "max": 150,
+            "hpBelow": 0.7,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 9,
+            "speedChange": 198,
+            "durationSec": 1,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 150,
+            "name": "gold coin"
+        },
+        {
+            "chance": 41130,
+            "maxCount": 3,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 15850,
+            "name": "purple robe"
+        },
+        {
+            "chance": 12380,
+            "maxCount": 3,
+            "name": "strong mana potion"
+        },
+        {
+            "chance": 11470,
+            "name": "Viperfang Rod"
+        },
+        {
+            "chance": 5210,
+            "name": "taurus mace"
+        },
+        {
+            "chance": 4760,
+            "name": "torch"
+        },
+        {
+            "chance": 4640,
+            "name": "minotaur leather"
+        },
+        {
+            "chance": 2940,
+            "maxCount": 2,
+            "name": "minotaur horn"
+        },
+        {
+            "chance": 2500,
+            "maxCount": 2,
+            "name": "small amethyst"
+        },
+        {
+            "chance": 2370,
+            "maxCount": 2,
+            "name": "small emerald"
+        },
+        {
+            "chance": 2200,
+            "maxCount": 2,
+            "name": "small ruby"
+        },
+        {
+            "chance": 2460,
+            "maxCount": 2,
+            "name": "small topaz"
+        },
+        {
+            "chance": 2430,
+            "maxCount": 2,
+            "name": "small diamond"
+        },
+        {
+            "chance": 1350,
+            "name": "red piece of cloth"
+        },
+        {
+            "chance": 1400,
+            "name": "green piece of cloth"
+        },
+        {
+            "chance": 1820,
+            "name": "blue piece of cloth"
+        },
+        {
+            "chance": 1590,
+            "name": "Nether Rod"
+        },
+        {
+            "chance": 560,
+            "name": "yellow gem"
+        },
+        {
+            "chance": 430,
+            "name": "red gem"
+        },
+        {
+            "chance": 160,
+            "name": "minotaur trophy"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "tempest_serpent_berserker",
+    "threatDps": 47.205,
+    "burstDps": 47.205,
+    "avgHit": 149.8571,
+    "maxHit": 311,
+    "manaCost": 0
+}

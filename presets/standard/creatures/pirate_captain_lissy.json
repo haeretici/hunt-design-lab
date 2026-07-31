@@ -1,0 +1,152 @@
+{
+    "id": "pirate_captain_lissy",
+    "label": "Pirate Captain Lissy",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A pirate captain lissy.",
+    "hp": 1450,
+    "hpMax": 1450,
+    "speed": 120,
+    "level": 462,
+    "armor": 0,
+    "mitigation": 1.2,
+    "maxBlock": 0,
+    "exp": 500,
+    "lootValue": 1012.0476190476,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 50,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 220
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 6000,
+            "chance": 65,
+            "min": 200,
+            "max": 250,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "small diamond",
+            "chance": 12500
+        },
+        {
+            "name": "meat",
+            "chance": 18750,
+            "maxCount": 3
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 60
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 61
+        },
+        {
+            "chance": 81250,
+            "maxCount": 2,
+            "name": "skull"
+        },
+        {
+            "name": "pirate backpack",
+            "chance": 6250
+        },
+        {
+            "name": "plate armor",
+            "chance": 56250
+        },
+        {
+            "name": "knight armor",
+            "chance": 12500
+        },
+        {
+            "name": "very old piece of paper",
+            "chance": 25000
+        },
+        {
+            "chance": 100000,
+            "name": "Lethal Lissy's shirt"
+        }
+    ],
+    "changeTarget": {
+        "interval": 60000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "chaos_triton_assassin",
+    "threatDps": 55,
+    "burstDps": 55,
+    "avgHit": 110,
+    "maxHit": 220,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 4,
+        "summons": [
+            {
+                "name": "Pirate Cutthroat",
+                "id": "pirate_cutthroat_2",
+                "chance": 50,
+                "interval": 2000,
+                "count": 4
+            }
+        ]
+    }
+}

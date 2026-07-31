@@ -1,0 +1,36 @@
+{
+    "id": "test_scout_bar",
+    "label": "Test Scout Bar",
+    "vocation": "scout",
+    "level": 50,
+    "promoted": false,
+    "skills": {
+        "axe": 13,
+        "club": 13,
+        "distance": 50,
+        "fishing": 10,
+        "fist": 10,
+        "magicLevel": 0,
+        "shielding": 20,
+        "sword": 30
+    },
+    "stats": {
+        "lifeLeech": 0,
+        "manaLeech": 0,
+        "critChance": 5,
+        "critDamage": 10
+    },
+    "equipment": {
+        "head": "",
+        "chest": "",
+        "legs": "",
+        "boots": "leather_boots",
+        "weapon": "hunter_bow",
+        "shield": "arrow",
+        "amulet": "",
+        "ring": "",
+        "backpack": "backpack"
+    },
+    "strategyId": "scout_kite",
+    "notes": "FROZEN CI profile. Matches pre-party-select hunt scout loadout."
+}

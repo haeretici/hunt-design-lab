@@ -1,0 +1,232 @@
+{
+    "id": "corrupted_blossom_lord",
+    "label": "Corrupted Blossom Lord",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A corrupted blossom lord.",
+    "hp": 1,
+    "hpMax": 1,
+    "speed": 250,
+    "level": 1000,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 3250000,
+    "lootValue": 1372884.6153846,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 15,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 98,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 1400,
+            "max": 2300
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "death",
+            "min": 500,
+            "max": 900,
+            "radius": 4,
+            "target": false,
+            "effect": "me_smallclouds"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "holy",
+            "min": 500,
+            "max": 900,
+            "radius": 4,
+            "target": true,
+            "effect": "248",
+            "shootEffect": "31"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "ice",
+            "min": 1000,
+            "max": 1200,
+            "length": 10,
+            "spread": 0,
+            "target": false,
+            "effect": "53"
+        },
+        {
+            "id": "wave_4",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "physical",
+            "min": 1500,
+            "max": 1900,
+            "length": 10,
+            "spread": 0,
+            "target": false,
+            "effect": "158"
+        },
+        {
+            "id": "slow_5",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -600,
+                "durationSec": 20
+            },
+            "radius": 7,
+            "effect": "me_poff",
+            "target": false
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 3000,
+            "chance": 10,
+            "min": 800,
+            "max": 1500,
+            "hpBelow": 0.7,
+            "effect": "236"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "name": "crystal coin",
+            "chance": 12317,
+            "maxCount": 91
+        },
+        {
+            "chance": 10896,
+            "maxCount": 2,
+            "name": "red gem"
+        },
+        {
+            "name": "amber with a bug",
+            "chance": 14590,
+            "maxCount": 1
+        },
+        {
+            "name": "amber with a dragonfly",
+            "chance": 5405,
+            "maxCount": 1
+        },
+        {
+            "name": "marksman potion",
+            "chance": 10821,
+            "maxCount": 44
+        },
+        {
+            "name": "green gem",
+            "chance": 7763,
+            "maxCount": 4
+        },
+        {
+            "name": "savant potion",
+            "chance": 9534,
+            "maxCount": 15
+        },
+        {
+            "name": "supreme health potion",
+            "chance": 6212,
+            "maxCount": 102
+        },
+        {
+            "name": "ultimate mana potion",
+            "chance": 8785,
+            "maxCount": 29
+        },
+        {
+            "name": "ultimate dual potion",
+            "chance": 8783,
+            "maxCount": 161
+        }
+    ],
+    "changeTarget": {
+        "interval": 10000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ashen_goblin_devourer",
+    "threatDps": 1345,
+    "burstDps": 1345,
+    "avgHit": 1494.4444,
+    "maxHit": 2300,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 8,
+        "summons": [
+            {
+                "name": "Mushroom",
+                "id": "mushroom",
+                "chance": 30,
+                "interval": 5000,
+                "count": 8
+            }
+        ]
+    }
+}

@@ -1,0 +1,243 @@
+{
+    "id": "varnished_gorge_maw",
+    "label": "Varnished Gorge Maw",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A varnished gorge maw.",
+    "hp": 9000,
+    "hpMax": 9000,
+    "speed": 120,
+    "level": 644,
+    "armor": 50,
+    "mitigation": 1.6,
+    "maxBlock": 0,
+    "exp": 6300,
+    "lootValue": 3681.3633217993,
+    "aggro": true,
+    "resists": {
+        "physical": -5,
+        "fire": 0,
+        "ice": 5,
+        "energy": 15,
+        "earth": -5,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 108
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 4,
+            "element": "ice",
+            "min": 189,
+            "max": 203,
+            "radius": 4,
+            "target": true,
+            "effect": "me_iceattack",
+            "shootEffect": "ani_ice"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 50,
+            "range": 4,
+            "element": "holy",
+            "min": 197,
+            "max": 203,
+            "radius": 3,
+            "target": false,
+            "effect": "me_holyarea"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 40,
+            "range": 4,
+            "element": "ice",
+            "min": 216,
+            "max": 230,
+            "target": true,
+            "shootEffect": "ani_ice"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Vermin",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 70000,
+            "maxCount": 18
+        },
+        {
+            "name": "Earthbound Rod",
+            "chance": 30090
+        },
+        {
+            "name": "emerald bangle",
+            "chance": 18580,
+            "maxCount": 1
+        },
+        {
+            "name": "brown crystal splinter",
+            "chance": 8850,
+            "maxCount": 3
+        },
+        {
+            "chance": 10620,
+            "maxCount": 1,
+            "name": "red gem"
+        },
+        {
+            "name": "green crystal splinter",
+            "chance": 6190,
+            "maxCount": 3
+        },
+        {
+            "name": "small diamond",
+            "chance": 9730,
+            "maxCount": 6
+        },
+        {
+            "name": "varnished diremaw legs",
+            "chance": 13270,
+            "maxCount": 4
+        },
+        {
+            "name": "violet crystal shard",
+            "chance": 9730,
+            "maxCount": 3
+        },
+        {
+            "name": "cyan crystal fragment",
+            "chance": 5310
+        },
+        {
+            "name": "varnished diremaw brainpan",
+            "chance": 2650
+        },
+        {
+            "name": "green gem",
+            "chance": 6190,
+            "maxCount": 1
+        },
+        {
+            "name": "small emerald",
+            "chance": 9730,
+            "maxCount": 5
+        },
+        {
+            "name": "green crystal shard",
+            "chance": 11500,
+            "maxCount": 3
+        },
+        {
+            "name": "Hailburst Rod",
+            "chance": 6190
+        },
+        {
+            "name": "diamond sceptre",
+            "chance": 2650
+        },
+        {
+            "name": "wand of starstorm",
+            "chance": 2650
+        },
+        {
+            "name": "Bloomshoot Rod",
+            "chance": 7080
+        },
+        {
+            "name": "Frostbound Shoes",
+            "chance": 2650
+        },
+        {
+            "name": "spellbook of warding",
+            "chance": 1770
+        },
+        {
+            "name": "fur armor",
+            "chance": 1640
+        },
+        {
+            "name": "wood cape",
+            "chance": 2650
+        },
+        {
+            "name": "haunted blade",
+            "chance": 1370
+        },
+        {
+            "name": "Frostbound Kilt",
+            "chance": 880
+        },
+        {
+            "name": "crown shield",
+            "chance": 880
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ethereal_storm_bear",
+    "threatDps": 151,
+    "burstDps": 151,
+    "avgHit": 137.2727,
+    "maxHit": 230,
+    "manaCost": 0
+}

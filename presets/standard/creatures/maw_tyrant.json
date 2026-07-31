@@ -1,0 +1,178 @@
+{
+    "id": "maw_tyrant",
+    "label": "Maw Tyrant",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A maw tyrant.",
+    "hp": 45000,
+    "hpMax": 45000,
+    "speed": 135,
+    "level": 804,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 14000,
+    "lootValue": 9647.7647058824,
+    "aggro": true,
+    "resists": {
+        "physical": 10,
+        "fire": 20,
+        "ice": 15,
+        "energy": 20,
+        "earth": 20,
+        "holy": -5,
+        "death": 25
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": false,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 1800,
+            "chance": 10,
+            "range": 4,
+            "element": "earth",
+            "min": 2387,
+            "max": 5450,
+            "length": 7,
+            "spread": 0,
+            "target": false,
+            "effect": "me_stones"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 9,
+            "range": 4,
+            "element": "earth",
+            "min": 1989,
+            "max": 4694,
+            "radius": 6,
+            "target": false,
+            "effect": "me_bigplants"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 30000,
+            "maxCount": 2,
+            "name": "cluster of solace"
+        },
+        {
+            "chance": 30000,
+            "name": "frazzle tongue"
+        },
+        {
+            "chance": 30000,
+            "maxCount": 2,
+            "unique": true,
+            "name": "unrealized dream"
+        },
+        {
+            "chance": 10000,
+            "maxCount": 100,
+            "name": "gold coin"
+        },
+        {
+            "chance": 10000,
+            "maxCount": 25,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 10000,
+            "name": "fire sword"
+        },
+        {
+            "chance": 10000,
+            "name": "iron ore"
+        },
+        {
+            "chance": 10000,
+            "name": "fish fin"
+        },
+        {
+            "chance": 10000,
+            "name": "red piece of cloth"
+        },
+        {
+            "chance": 10000,
+            "name": "hardened bone"
+        },
+        {
+            "chance": 10000,
+            "name": "assassin dagger"
+        },
+        {
+            "chance": 10000,
+            "name": "haunted blade"
+        },
+        {
+            "chance": 10000,
+            "name": "nightmare blade"
+        },
+        {
+            "chance": 10000,
+            "maxCount": 3,
+            "name": "violet crystal shard"
+        },
+        {
+            "chance": 10000,
+            "maxCount": 3,
+            "name": "green crystal shard"
+        },
+        {
+            "chance": 10000,
+            "maxCount": 5,
+            "name": "green crystal splinter"
+        },
+        {
+            "chance": 10000,
+            "maxCount": 5,
+            "name": "blue crystal splinter"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "magma_harpy",
+    "threatDps": 368.0619,
+    "burstDps": 542.2175,
+    "avgHit": 3660.2845,
+    "maxHit": 5450,
+    "manaCost": 0
+}

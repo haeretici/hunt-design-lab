@@ -1,0 +1,110 @@
+{
+    "id": "ape_king_hairman",
+    "label": "Ape King Hairman",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An ape king hairman.",
+    "hp": 600,
+    "hpMax": 600,
+    "speed": 115,
+    "level": 374,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 335,
+    "lootValue": 76.538461538462,
+    "aggro": true,
+    "resists": {
+        "physical": 1,
+        "fire": 25,
+        "ice": -1,
+        "energy": 20,
+        "earth": 20,
+        "holy": 0,
+        "death": -1
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "element": "physical",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "min": 33,
+            "max": 102,
+            "target": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 1000,
+            "chance": 7,
+            "speedChange": 260,
+            "durationSec": 3,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 60
+        },
+        {
+            "chance": 25000,
+            "name": "club ring"
+        },
+        {
+            "name": "banana",
+            "chance": 25000,
+            "maxCount": 1
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 14
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "feral_dune_orc_warden",
+    "threatDps": 33.75,
+    "burstDps": 33.75,
+    "avgHit": 67.5,
+    "maxHit": 102,
+    "manaCost": 0
+}

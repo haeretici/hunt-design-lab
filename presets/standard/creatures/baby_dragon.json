@@ -1,0 +1,84 @@
+{
+    "id": "baby_dragon",
+    "label": "Baby Dragon",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A baby dragon.",
+    "hp": 380,
+    "hpMax": 380,
+    "speed": 88,
+    "level": 329,
+    "armor": 25,
+    "mitigation": 0.78,
+    "maxBlock": 0,
+    "exp": 185,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 100,
+        "fire": 100,
+        "ice": 100,
+        "energy": 100,
+        "earth": 100,
+        "holy": 100,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 30,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": false,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "element": "physical",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "min": 19,
+            "max": 86,
+            "target": true
+        }
+    ],
+    "race": "blood",
+    "loot": [],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 5
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": true
+    },
+    "customSprite": "wild_desert_dragon",
+    "threatDps": 26.25,
+    "burstDps": 26.25,
+    "avgHit": 52.5,
+    "maxHit": 86,
+    "manaCost": 0
+}

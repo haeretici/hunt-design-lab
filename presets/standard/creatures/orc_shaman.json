@@ -1,0 +1,185 @@
+{
+    "id": "orc_shaman",
+    "label": "Orc Shaman",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An orc shaman.",
+    "hp": 115,
+    "hpMax": 115,
+    "speed": 70,
+    "level": 208,
+    "armor": 8,
+    "mitigation": 0.25,
+    "maxBlock": 0,
+    "exp": 110,
+    "lootValue": 32.418661893041,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 50,
+        "earth": -10,
+        "holy": 10,
+        "death": -5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 15,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 32
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "energy",
+            "min": 43,
+            "max": 67,
+            "target": false,
+            "shootEffect": "ani_energyball"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 7,
+            "element": "fire",
+            "min": 11,
+            "max": 93,
+            "radius": 1,
+            "target": true,
+            "shootEffect": "ani_fire"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 60,
+            "min": 27,
+            "max": 43,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "id": 2824,
+            "chance": 520
+        },
+        {
+            "name": "gold coin",
+            "chance": 90000,
+            "maxCount": 5
+        },
+        {
+            "name": "wand of decay",
+            "chance": 1000
+        },
+        {
+            "name": "spear",
+            "chance": 4850
+        },
+        {
+            "name": "chain armor",
+            "chance": 8750
+        },
+        {
+            "name": "corncob",
+            "chance": 10600,
+            "maxCount": 2
+        },
+        {
+            "name": "orc tooth",
+            "chance": 2100
+        },
+        {
+            "name": "broken shamanic staff",
+            "chance": 10300
+        },
+        {
+            "name": "shamanic hood",
+            "chance": 6860
+        },
+        {
+            "name": "orc leather",
+            "chance": 4300
+        },
+        {
+            "chance": 1000,
+            "name": "heavy old tome"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "orc_shaman",
+    "threatDps": 13.425,
+    "burstDps": 13.425,
+    "avgHit": 22.375,
+    "maxHit": 93,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 4,
+        "summons": [
+            {
+                "name": "Snake",
+                "id": "snake",
+                "chance": 20,
+                "interval": 2000,
+                "count": 3
+            }
+        ]
+    }
+}

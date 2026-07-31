@@ -1,0 +1,197 @@
+{
+    "id": "mega_dragon",
+    "label": "Mega Dragon",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A mega dragon.",
+    "hp": 7920,
+    "hpMax": 7920,
+    "speed": 170,
+    "level": 631,
+    "armor": 76,
+    "mitigation": 1.96,
+    "maxBlock": 0,
+    "exp": 7810,
+    "lootValue": 1149.728206828,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 20,
+        "ice": 20,
+        "energy": -10,
+        "earth": -10,
+        "holy": -10,
+        "death": 20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 336
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2500,
+            "chance": 15,
+            "range": 2,
+            "element": "physical",
+            "min": 186,
+            "max": 261,
+            "target": true,
+            "effect": "me_big_scratch"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2500,
+            "chance": 20,
+            "range": 4,
+            "element": "fire",
+            "min": 186,
+            "max": 224,
+            "length": 8,
+            "spread": 4,
+            "target": false,
+            "effect": "me_explosionhit"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2500,
+            "chance": 15,
+            "range": 7,
+            "element": "fire",
+            "min": 149,
+            "max": 224,
+            "radius": 4,
+            "target": true,
+            "effect": "me_firearea",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 3000,
+            "chance": 5,
+            "range": 4,
+            "element": "physical",
+            "min": 149,
+            "max": 261,
+            "radius": 4,
+            "target": true,
+            "effect": "me_poff"
+        },
+        {
+            "id": "death_chain_5",
+            "kind": "ranged",
+            "intervalMs": 2500,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 149,
+            "max": 261
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Dragon",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 5,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "Platinum Coin",
+            "chance": 50780,
+            "minCount": 1,
+            "maxCount": 48
+        },
+        {
+            "name": "Nimmersatt's Seal",
+            "chance": 8670
+        },
+        {
+            "chance": 10090,
+            "name": "red gem"
+        },
+        {
+            "name": "Molten Dragon Essence",
+            "chance": 4720
+        },
+        {
+            "name": "Prismatic Quartz",
+            "chance": 4460
+        },
+        {
+            "name": "Rainbow Quartz",
+            "chance": 4430,
+            "minCount": 1,
+            "maxCount": 2
+        },
+        {
+            "chance": 6790,
+            "name": "blue gem"
+        },
+        {
+            "name": "Mega Dragon Heart",
+            "chance": 1850
+        },
+        {
+            "name": "Violet Gem",
+            "chance": 1470
+        },
+        {
+            "name": "Dragon Slayer",
+            "chance": 130
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "wild_desert_dragon",
+    "threatDps": 140.7167,
+    "burstDps": 155.75,
+    "avgHit": 181.1803,
+    "maxHit": 336,
+    "manaCost": 0
+}

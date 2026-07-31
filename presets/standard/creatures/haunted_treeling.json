@@ -1,0 +1,213 @@
+{
+    "id": "haunted_treeling",
+    "label": "Haunted Treeling",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A haunted treeling.",
+    "hp": 450,
+    "hpMax": 450,
+    "speed": 115,
+    "level": 345,
+    "armor": 20,
+    "mitigation": 0.91,
+    "maxBlock": 0,
+    "exp": 310,
+    "lootValue": 43.897433863483,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -5,
+        "ice": 10,
+        "energy": 0,
+        "earth": 100,
+        "holy": 20,
+        "death": 10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 85,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 92
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 4,
+            "element": "manadrain",
+            "min": 18,
+            "max": 61,
+            "radius": 4,
+            "target": false,
+            "effect": "me_green_rings"
+        },
+        {
+            "id": "slow_2",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 5,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -700,
+                "durationSec": 15
+            },
+            "length": 5,
+            "spread": 0,
+            "effect": "me_smallplants",
+            "target": false
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 61,
+            "radius": 1,
+            "target": true,
+            "effect": "me_carniphila",
+            "shootEffect": "ani_smallearth"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "earth",
+            "min": 34,
+            "max": 61,
+            "radius": 4,
+            "target": true,
+            "effect": "me_hitbypoison"
+        },
+        {
+            "id": "melee_5",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 1,
+            "element": "earth",
+            "radius": 1,
+            "target": false,
+            "effect": "me_poisonarea",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Plant",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 91920,
+            "maxCount": 95
+        },
+        {
+            "id": 3139,
+            "chance": 29190
+        },
+        {
+            "name": "red mushroom",
+            "chance": 7700
+        },
+        {
+            "name": "health potion",
+            "chance": 5130
+        },
+        {
+            "name": "white mushroom",
+            "chance": 5030,
+            "maxCount": 2
+        },
+        {
+            "name": "haunted piece of wood",
+            "chance": 4950
+        },
+        {
+            "name": "orange mushroom",
+            "chance": 1800
+        },
+        {
+            "name": "strong health potion",
+            "chance": 1040
+        },
+        {
+            "chance": 660,
+            "name": "dwarven ring"
+        },
+        {
+            "name": "small emerald",
+            "chance": 620
+        },
+        {
+            "name": "marksman potion",
+            "chance": 100
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "glacier_forest_construct",
+    "threatDps": 28.65,
+    "burstDps": 28.65,
+    "avgHit": 44.0769,
+    "maxHit": 92,
+    "manaCost": 0
+}

@@ -1,0 +1,219 @@
+{
+    "id": "courage_siphon",
+    "label": "Courage Siphon",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A courage siphon.",
+    "hp": 27000,
+    "hpMax": 27000,
+    "speed": 226,
+    "level": 753,
+    "armor": 100,
+    "mitigation": 3.04,
+    "maxBlock": 0,
+    "exp": 18900,
+    "lootValue": 7948.8261672382,
+    "aggro": true,
+    "resists": {
+        "physical": 20,
+        "fire": 0,
+        "ice": 0,
+        "energy": 50,
+        "earth": -20,
+        "holy": 30,
+        "death": -25
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 319
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 17,
+            "range": 4,
+            "element": "energy",
+            "min": 501,
+            "max": 638,
+            "radius": 4,
+            "target": true,
+            "effect": "me_energyarea",
+            "shootEffect": "ani_etherealspear"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 3000,
+            "chance": 15,
+            "range": 4,
+            "element": "energy",
+            "min": 501,
+            "max": 638,
+            "radius": 4,
+            "target": false,
+            "effect": "me_energyhit"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 3000,
+            "chance": 15,
+            "range": 4,
+            "element": "energy",
+            "min": 410,
+            "max": 501,
+            "length": 7,
+            "spread": 0,
+            "target": false,
+            "effect": "me_energyhit"
+        },
+        {
+            "id": "ranged_4",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "holy",
+            "min": 501,
+            "max": 592,
+            "target": true,
+            "effect": "me_holydamage",
+            "shootEffect": "ani_smallholy"
+        },
+        {
+            "id": "energy_chain_5",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 3,
+            "element": "physical",
+            "min": 410,
+            "max": 456,
+            "target": true
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Extra Dimensional",
+        "toKill": 5000,
+        "firstUnlock": 200,
+        "secondUnlock": 2000,
+        "charmsPoints": 100,
+        "stars": 5,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "crystal coin",
+            "chance": 70910
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 11820,
+            "maxCount": 7
+        },
+        {
+            "name": "Stormbound Pendant",
+            "chance": 3640
+        },
+        {
+            "name": "Stormbound Legs",
+            "chance": 3640
+        },
+        {
+            "name": "Stormbound Headband",
+            "chance": 2730
+        },
+        {
+            "name": "hammer of wrath",
+            "chance": 1820
+        },
+        {
+            "name": "jade hammer",
+            "chance": 910
+        },
+        {
+            "name": "dreaded cleaver",
+            "chance": 910
+        },
+        {
+            "name": "Obsidian Flail",
+            "chance": 910
+        },
+        {
+            "name": "gold ring",
+            "chance": 910
+        },
+        {
+            "name": "butcher's axe",
+            "chance": 910
+        },
+        {
+            "name": "Stonehide Amulet",
+            "chance": 910
+        },
+        {
+            "name": "nightmare blade",
+            "chance": 1190
+        },
+        {
+            "name": "demonrage sword",
+            "chance": 600
+        },
+        {
+            "name": "bag you desire",
+            "chance": 15
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "hellfire_kobold_cultist",
+    "threatDps": 277.3575,
+    "burstDps": 302.9825,
+    "avgHit": 313.3983,
+    "maxHit": 638,
+    "manaCost": 0
+}

@@ -1,0 +1,122 @@
+{
+    "id": "enraged_soul",
+    "label": "Enraged Soul",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An enraged soul.",
+    "hp": 150,
+    "hpMax": 150,
+    "speed": 80,
+    "level": 236,
+    "armor": 0,
+    "mitigation": 0.51,
+    "maxBlock": 0,
+    "exp": 120,
+    "lootValue": 50,
+    "aggro": true,
+    "resists": {
+        "physical": 100,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 100,
+        "holy": 0,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 1,
+            "element": "lifedrain",
+            "min": 149,
+            "max": 268,
+            "target": true,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "chance": 10610,
+            "name": "morning star"
+        },
+        {
+            "chance": 7020,
+            "name": "combat knife"
+        },
+        {
+            "chance": 14400,
+            "name": "shadow herb"
+        },
+        {
+            "chance": 8810,
+            "name": "cape"
+        },
+        {
+            "id": 2828,
+            "chance": 1310
+        },
+        {
+            "chance": 1940,
+            "name": "white piece of cloth"
+        },
+        {
+            "chance": 1870,
+            "name": "ghostly tissue"
+        },
+        {
+            "chance": 860,
+            "name": "ancient shield"
+        },
+        {
+            "chance": 180,
+            "name": "stealth ring"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "enraged_soul",
+    "threatDps": 15.6375,
+    "burstDps": 15.6375,
+    "avgHit": 208.5,
+    "maxHit": 268,
+    "manaCost": 0
+}

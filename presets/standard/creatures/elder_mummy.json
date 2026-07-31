@@ -1,0 +1,178 @@
+{
+    "id": "elder_mummy",
+    "label": "Elder Mummy",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An elder mummy.",
+    "hp": 850,
+    "hpMax": 850,
+    "speed": 85,
+    "level": 408,
+    "armor": 35,
+    "mitigation": 0.67,
+    "maxBlock": 0,
+    "exp": 560,
+    "lootValue": 137.66666666667,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 20,
+        "energy": 0,
+        "earth": 100,
+        "holy": -25,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 80,
+        "health": 10,
+        "damage": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 129,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 3,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 1,
+            "element": "death",
+            "min": 0,
+            "max": 140,
+            "target": true,
+            "effect": "me_mortarea"
+        },
+        {
+            "id": "slow_2",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -300,
+                "durationSec": 15
+            },
+            "effect": "me_magic_red",
+            "target": false
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 2
+    },
+    "loot": [
+        {
+            "chance": 1650,
+            "name": "crystal ring"
+        },
+        {
+            "name": "silver brooch",
+            "chance": 4000
+        },
+        {
+            "name": "black pearl",
+            "chance": 1340
+        },
+        {
+            "name": "gold coin",
+            "chance": 87000,
+            "maxCount": 160
+        },
+        {
+            "name": "scarab coin",
+            "chance": 10000,
+            "maxCount": 3
+        },
+        {
+            "name": "strange talisman",
+            "chance": 4500
+        },
+        {
+            "chance": 6000,
+            "name": "magic light wand"
+        },
+        {
+            "name": "poison dagger",
+            "chance": 380
+        },
+        {
+            "name": "worm",
+            "chance": 20000,
+            "maxCount": 3
+        },
+        {
+            "name": "gauze bandage",
+            "chance": 10000
+        },
+        {
+            "name": "flask of embalming fluid",
+            "chance": 12600
+        },
+        {
+            "chance": 2400,
+            "name": "pharaoh banner"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "warp_tomb_drake",
+    "threatDps": 40.75,
+    "burstDps": 40.75,
+    "avgHit": 65.4167,
+    "maxHit": 140,
+    "manaCost": 0
+}

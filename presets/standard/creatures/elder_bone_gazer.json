@@ -1,0 +1,252 @@
+{
+    "id": "elder_bone_gazer",
+    "label": "Elder Bone Gazer",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An elder bone gazer.",
+    "hp": 500,
+    "hpMax": 500,
+    "speed": 85,
+    "level": 356,
+    "armor": 13,
+    "mitigation": 0.67,
+    "maxBlock": 0,
+    "exp": 280,
+    "lootValue": 102.42581177288,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -10,
+        "ice": 30,
+        "energy": 20,
+        "earth": 100,
+        "holy": 0,
+        "death": 30
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 71
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 7,
+            "element": "energy",
+            "min": 58,
+            "max": 78,
+            "target": false,
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 7,
+            "element": "fire",
+            "min": 52,
+            "max": 103,
+            "target": false,
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "death",
+            "min": 58,
+            "max": 116,
+            "target": false,
+            "effect": "me_smallclouds",
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "ranged_4",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "earth",
+            "min": 26,
+            "max": 52,
+            "target": false,
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "ranged_5",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 7,
+            "element": "lifedrain",
+            "min": 58,
+            "max": 110,
+            "target": false,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "ranged_6",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 7,
+            "element": "manadrain",
+            "min": 0,
+            "max": 52,
+            "target": false
+        },
+        {
+            "id": "slow_7",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -600,
+                "durationSec": 20
+            },
+            "effect": "me_magic_red",
+            "target": false
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Magical",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 99290,
+            "maxCount": 86
+        },
+        {
+            "name": "elder bonelord tentacle",
+            "chance": 20040
+        },
+        {
+            "name": "small flask of eyedrops",
+            "chance": 9720
+        },
+        {
+            "name": "sniper arrow",
+            "chance": 8780,
+            "maxCount": 5
+        },
+        {
+            "name": "two handed sword",
+            "chance": 2980
+        },
+        {
+            "name": "steel shield",
+            "chance": 2040
+        },
+        {
+            "chance": 1030,
+            "name": "spellbook"
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 830
+        },
+        {
+            "name": "giant eye",
+            "chance": 460
+        },
+        {
+            "name": "bonelord shield",
+            "chance": 90
+        },
+        {
+            "name": "bonelord helmet",
+            "chance": 90
+        },
+        {
+            "name": "bonelord eye",
+            "chance": 1920
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "skeletal_hill_giant",
+    "threatDps": 30.4375,
+    "burstDps": 30.4375,
+    "avgHit": 43.4821,
+    "maxHit": 116,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 6,
+        "summons": [
+            {
+                "name": "Gazer",
+                "id": "gazer_2",
+                "chance": 10,
+                "interval": 2000,
+                "count": 6
+            },
+            {
+                "name": "Crypt Shambler",
+                "id": "crypt_shambler",
+                "chance": 15,
+                "interval": 2000,
+                "count": 6
+            }
+        ]
+    }
+}

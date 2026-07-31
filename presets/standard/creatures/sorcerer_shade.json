@@ -1,0 +1,230 @@
+{
+    "id": "sorcerer_shade",
+    "label": "Sorcerer Shade",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A sorcerer shade.",
+    "hp": 25000,
+    "hpMax": 25000,
+    "speed": 235,
+    "level": 746,
+    "armor": 100,
+    "mitigation": 2.75,
+    "maxBlock": 0,
+    "exp": 18870,
+    "lootValue": 7604.2288557214,
+    "aggro": true,
+    "resists": {
+        "physical": -20,
+        "fire": -20,
+        "ice": 30,
+        "energy": 0,
+        "earth": 0,
+        "holy": 40,
+        "death": -20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 369
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 4000,
+            "chance": 26,
+            "range": 7,
+            "element": "ice",
+            "min": 443,
+            "max": 534,
+            "radius": 4,
+            "target": true,
+            "effect": "me_bigclouds",
+            "shootEffect": "ani_ice"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 3000,
+            "chance": 20,
+            "range": 4,
+            "element": "ice",
+            "min": 452,
+            "max": 534,
+            "radius": 3,
+            "target": false,
+            "effect": "me_bigclouds"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 5000,
+            "chance": 34,
+            "range": 7,
+            "element": "ice",
+            "min": 452,
+            "max": 534,
+            "target": true,
+            "effect": "me_bigclouds",
+            "shootEffect": "ani_ice"
+        },
+        {
+            "id": "ice_chain_4",
+            "kind": "ranged",
+            "intervalMs": 9500,
+            "chance": 52,
+            "range": 7,
+            "element": "physical",
+            "min": 452,
+            "max": 534
+        },
+        {
+            "id": "ranged_5",
+            "kind": "ranged",
+            "intervalMs": 3000,
+            "chance": 14,
+            "range": 7,
+            "element": "holy",
+            "min": 452,
+            "max": 513,
+            "target": true,
+            "effect": "me_holydamage",
+            "shootEffect": "ani_holy"
+        },
+        {
+            "id": "area_6",
+            "kind": "area",
+            "intervalMs": 4000,
+            "chance": 19,
+            "range": 4,
+            "element": "holy",
+            "min": 513,
+            "max": 575,
+            "radius": 4,
+            "target": false,
+            "effect": "me_holyarea"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 5000,
+        "firstUnlock": 200,
+        "secondUnlock": 2000,
+        "charmsPoints": 100,
+        "stars": 5,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "crystal coin",
+            "chance": 79040
+        },
+        {
+            "name": "great mana potion",
+            "chance": 62450,
+            "maxCount": 3
+        },
+        {
+            "name": "blue gem",
+            "chance": 5240
+        },
+        {
+            "chance": 4370,
+            "name": "ring of red plasma"
+        },
+        {
+            "name": "wand of voodoo",
+            "chance": 4370
+        },
+        {
+            "chance": 3490,
+            "name": "ring of green plasma"
+        },
+        {
+            "chance": 3060,
+            "name": "ring of blue plasma"
+        },
+        {
+            "name": "violet gem",
+            "chance": 2620
+        },
+        {
+            "name": "Frostbound Amulet",
+            "chance": 2620
+        },
+        {
+            "name": "wand of everblazing",
+            "chance": 2180
+        },
+        {
+            "name": "wand of defiance",
+            "chance": 1750
+        },
+        {
+            "name": "wand of starstorm",
+            "chance": 1310
+        },
+        {
+            "name": "Stonehide Amulet",
+            "chance": 1310
+        },
+        {
+            "name": "alloy legs",
+            "chance": 440
+        },
+        {
+            "name": "bag you desire",
+            "chance": 15
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "infernal_merrow_necromancer",
+    "threatDps": 265.7351,
+    "burstDps": 502.5,
+    "avgHit": 313.1563,
+    "maxHit": 575,
+    "manaCost": 0
+}

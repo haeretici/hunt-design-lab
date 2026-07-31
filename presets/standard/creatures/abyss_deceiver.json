@@ -1,0 +1,261 @@
+{
+    "id": "abyss_deceiver",
+    "label": "Abyss Deceiver",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An abyss deceiver.",
+    "hp": 35000,
+    "hpMax": 35000,
+    "speed": 220,
+    "level": 779,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 21000,
+    "lootValue": 31346.637630662,
+    "aggro": true,
+    "resists": {
+        "physical": 10,
+        "fire": 30,
+        "ice": 40,
+        "energy": 40,
+        "earth": 40,
+        "holy": -20,
+        "death": 35
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 512
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 5124,
+            "target": false,
+            "shootEffect": "ani_throwingknife"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 30,
+            "min": 400,
+            "max": 600,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 18,
+            "speedChange": 784,
+            "durationSec": 7,
+            "effect": "me_magic_green"
+        },
+        {
+            "id": "invisible_2",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 20,
+            "durationSec": 2,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 100000,
+            "name": "cluster of solace"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 197,
+            "name": "gold coin"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 50,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 100000,
+            "name": "demon horn"
+        },
+        {
+            "chance": 60000,
+            "name": "unrealized dream"
+        },
+        {
+            "chance": 60000,
+            "name": "demonic essence"
+        },
+        {
+            "id": 281,
+            "chance": 40000
+        },
+        {
+            "chance": 40000,
+            "maxCount": 8,
+            "name": "violet crystal shard"
+        },
+        {
+            "chance": 34440,
+            "maxCount": 10,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 34440,
+            "maxCount": 10,
+            "name": "ultimate health potion"
+        },
+        {
+            "chance": 34440,
+            "maxCount": 5,
+            "name": "great dual potion"
+        },
+        {
+            "chance": 30000,
+            "maxCount": 8,
+            "name": "blue crystal shard"
+        },
+        {
+            "chance": 30000,
+            "maxCount": 8,
+            "name": "green crystal shard"
+        },
+        {
+            "chance": 20000,
+            "name": "green gem"
+        },
+        {
+            "chance": 15030,
+            "name": "guardian shield"
+        },
+        {
+            "chance": 15030,
+            "name": "guardian halberd"
+        },
+        {
+            "chance": 15030,
+            "name": "blue gem"
+        },
+        {
+            "chance": 15030,
+            "name": "gold ingot"
+        },
+        {
+            "chance": 15030,
+            "name": "bonebreaker"
+        },
+        {
+            "chance": 12940,
+            "name": "heavy mace"
+        },
+        {
+            "chance": 11540,
+            "name": "crown shield"
+        },
+        {
+            "chance": 10000,
+            "name": "dream warden mask"
+        },
+        {
+            "chance": 9620,
+            "name": "paladin armor"
+        },
+        {
+            "chance": 8390,
+            "name": "diamond sceptre"
+        },
+        {
+            "chance": 6290,
+            "name": "demon shield"
+        },
+        {
+            "chance": 1400,
+            "name": "mastermind shield"
+        },
+        {
+            "chance": 700,
+            "name": "fiendbone"
+        },
+        {
+            "chance": 350,
+            "name": "lavos armor"
+        },
+        {
+            "chance": 170,
+            "name": "obsidian truncheon"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 25
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "parrot",
+    "threatDps": 320.15,
+    "burstDps": 320.15,
+    "avgHit": 556.7826,
+    "maxHit": 5124,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 2,
+        "summons": [
+            {
+                "name": "Shadow Tormentor",
+                "id": "shadow_tormentor",
+                "chance": 100,
+                "interval": 1000,
+                "count": 2
+            }
+        ]
+    }
+}

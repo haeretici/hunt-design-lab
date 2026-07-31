@@ -1,0 +1,169 @@
+{
+    "id": "cobra_assassin",
+    "label": "Cobra Assassin",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A cobra assassin.",
+    "hp": 8200,
+    "hpMax": 8200,
+    "speed": 140,
+    "level": 635,
+    "armor": 81,
+    "mitigation": 2.22,
+    "maxBlock": 0,
+    "exp": 6980,
+    "lootValue": 1495.7175406215,
+    "aggro": true,
+    "resists": {
+        "physical": 20,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 100,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 352
+        },
+        {
+            "id": "wave_t_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 1,
+            "element": "physical",
+            "min": 234,
+            "max": 297,
+            "target": false
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "physical",
+            "min": 234,
+            "max": 391,
+            "radius": 4,
+            "target": false,
+            "effect": "me_explosionhit"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 12,
+            "range": 4,
+            "element": "physical",
+            "min": 234,
+            "max": 391,
+            "length": 5,
+            "spread": 0,
+            "target": false,
+            "effect": "me_blockhit"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Human",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 3
+        },
+        {
+            "name": "knife",
+            "chance": 10500
+        },
+        {
+            "name": "cobra crest",
+            "chance": 7750
+        },
+        {
+            "chance": 7750,
+            "name": "scimitar"
+        },
+        {
+            "name": "protection amulet",
+            "chance": 7500
+        },
+        {
+            "name": "heavy machete",
+            "chance": 6500
+        },
+        {
+            "name": "bone sword",
+            "chance": 5000
+        },
+        {
+            "name": "machete",
+            "chance": 2250
+        },
+        {
+            "name": "carlin sword",
+            "chance": 2250
+        },
+        {
+            "chance": 1690,
+            "name": "ring of red plasma"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "chaos_triton_assassin",
+    "threatDps": 143.4625,
+    "burstDps": 143.4625,
+    "avgHit": 209.4343,
+    "maxHit": 391,
+    "manaCost": 0
+}

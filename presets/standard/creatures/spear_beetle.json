@@ -1,0 +1,182 @@
+{
+    "id": "spear_beetle",
+    "label": "Spear Beetle",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A spear beetle.",
+    "hp": 400,
+    "hpMax": 400,
+    "speed": 133,
+    "level": 333,
+    "armor": 35,
+    "mitigation": 0.7,
+    "maxBlock": 0,
+    "exp": 275,
+    "lootValue": 68.874967940498,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 100,
+        "holy": 0,
+        "death": 50
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 30,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 88
+        },
+        {
+            "id": "poisonfield_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "physical",
+            "radius": 4,
+            "target": false,
+            "effect": "me_poisonarea",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 0,
+            "max": 69,
+            "length": 7,
+            "spread": 3,
+            "target": false,
+            "effect": "me_hitbypoison"
+        },
+        {
+            "id": "condition_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "earth",
+            "min": 31,
+            "max": 61,
+            "target": false,
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "lancer_beetle_curse_4",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 5,
+            "element": "physical",
+            "target": false,
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "invisible_0",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 10,
+            "durationSec": 2,
+            "effect": "me_groundshaker"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Vermin",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 60000,
+            "maxCount": 61
+        },
+        {
+            "name": "gold coin",
+            "chance": 60000,
+            "maxCount": 79
+        },
+        {
+            "name": "small amethyst",
+            "chance": 247
+        },
+        {
+            "name": "poisonous slime",
+            "chance": 8333
+        },
+        {
+            "name": "lump of dirt",
+            "chance": 4166
+        },
+        {
+            "name": "lancer beetle shell",
+            "chance": 16666
+        },
+        {
+            "name": "beetle necklace",
+            "chance": 1123
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "rune_stone_bugbear",
+    "threatDps": 26.8875,
+    "burstDps": 26.8875,
+    "avgHit": 43.02,
+    "maxHit": 88,
+    "manaCost": 0
+}

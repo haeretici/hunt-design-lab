@@ -1,0 +1,184 @@
+{
+    "id": "vampire_viscount",
+    "label": "Vampire Viscount",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A vampire viscount.",
+    "hp": 1200,
+    "hpMax": 1200,
+    "speed": 110,
+    "level": 443,
+    "armor": 42,
+    "mitigation": 1.18,
+    "maxBlock": 0,
+    "exp": 800,
+    "lootValue": 229.86528497409,
+    "aggro": true,
+    "resists": {
+        "physical": 10,
+        "fire": -5,
+        "ice": 10,
+        "energy": 0,
+        "earth": 100,
+        "holy": -25,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 80,
+        "health": 10,
+        "damage": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 114
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 6,
+            "element": "death",
+            "min": 38,
+            "max": 76,
+            "radius": 3,
+            "target": true,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_death"
+        },
+        {
+            "id": "condition_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "physical",
+            "min": 243,
+            "max": 425,
+            "radius": 6,
+            "target": false,
+            "effect": "me_bats"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 300,
+            "durationSec": 4,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "black pearl",
+            "chance": 2500
+        },
+        {
+            "name": "small ruby",
+            "chance": 3040,
+            "maxCount": 2
+        },
+        {
+            "name": "gold coin",
+            "chance": 83000,
+            "maxCount": 50
+        },
+        {
+            "chance": 540,
+            "name": "red gem"
+        },
+        {
+            "name": "ice rapier",
+            "chance": 810
+        },
+        {
+            "name": "Bloodfang Shield",
+            "chance": 200
+        },
+        {
+            "name": "red piece of cloth",
+            "chance": 70
+        },
+        {
+            "name": "strong health potion",
+            "chance": 7100
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 8180
+        },
+        {
+            "name": "vampire teeth",
+            "chance": 7200
+        },
+        {
+            "name": "blood preservation",
+            "chance": 2910
+        },
+        {
+            "name": "tooth file",
+            "chance": 6560
+        },
+        {
+            "name": "vampire's cape chain",
+            "chance": 4460
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "hellfire_vampire_archer",
+    "threatDps": 49.475,
+    "burstDps": 49.475,
+    "avgHit": 79.16,
+    "maxHit": 425,
+    "manaCost": 0
+}

@@ -1,0 +1,17 @@
+{
+    "id": "golden_cave_crawl",
+    "label": "Golden Cave Crawl (product)",
+    "notes": "docs/24 I2 / docs/22 A2 — named product crawl. procedural small_crawl + cave_mid_mixed (banded L200–400) + artSet cave_simple. defaultPartyId balance_quartet (four vocations). Champion/elite groups from population limits. limits.noAttackTimeoutSec ends the session after combat stalls: 4-member parties often clear packs then fail route_complete (occupancy/pathing — limitations log). Watch path: trash → champions/well → clear or timeout. Compare cave_band_low / crypt_band_high for band A/B.",
+    "layout": {
+        "type": "procedural",
+        "profileId": "small_crawl"
+    },
+    "populationId": "cave_mid_mixed",
+    "artSet": "cave_simple",
+    "defaultPartyId": "balance_quartet",
+    "limits": {
+        "maxSeconds": 90,
+        "maxFrames": 1800,
+        "noAttackTimeoutSec": 15
+    }
+}

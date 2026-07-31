@@ -1,0 +1,224 @@
+{
+    "id": "emerald_tortoise",
+    "label": "Emerald Tortoise",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An emerald tortoise.",
+    "hp": 22300,
+    "hpMax": 22300,
+    "speed": 179,
+    "level": 734,
+    "armor": 97,
+    "mitigation": 2.57,
+    "maxBlock": 0,
+    "exp": 12129,
+    "lootValue": 4305,
+    "aggro": true,
+    "resists": {
+        "physical": 20,
+        "fire": 10,
+        "ice": 10,
+        "energy": 10,
+        "earth": -14,
+        "holy": 10,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 489
+        },
+        {
+            "id": "energy_chain_1",
+            "kind": "ranged",
+            "intervalMs": 5000,
+            "chance": 37,
+            "range": 3,
+            "element": "physical",
+            "min": 294,
+            "max": 392,
+            "target": true
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2700,
+            "chance": 35,
+            "range": 5,
+            "element": "energy",
+            "min": 196,
+            "max": 235,
+            "target": true,
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "emerald_tortoise_large_ring_3",
+            "kind": "melee",
+            "intervalMs": 3500,
+            "chance": 35,
+            "range": 1,
+            "element": "physical",
+            "min": 215,
+            "max": 392
+        },
+        {
+            "id": "emerald_tortoise_small_ring_4",
+            "kind": "melee",
+            "intervalMs": 4500,
+            "chance": 20,
+            "range": 1,
+            "element": "physical",
+            "min": 215,
+            "max": 274
+        },
+        {
+            "id": "emerald_tortoise_small_explosion_5",
+            "kind": "melee",
+            "intervalMs": 3800,
+            "chance": 30,
+            "range": 1,
+            "element": "physical",
+            "min": 157,
+            "max": 235
+        },
+        {
+            "id": "area_6",
+            "kind": "area",
+            "intervalMs": 4100,
+            "chance": 30,
+            "range": 4,
+            "element": "energy",
+            "min": 176,
+            "max": 294,
+            "radius": 3,
+            "target": false,
+            "effect": "me_blue_energy_spark"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Reptile",
+        "toKill": 5000,
+        "firstUnlock": 200,
+        "secondUnlock": 2000,
+        "charmsPoints": 100,
+        "stars": 5,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "Emerald Tortoise Shell",
+            "chance": 28590
+        },
+        {
+            "name": "Crystal Coin",
+            "chance": 15520,
+            "minCount": 1,
+            "maxCount": 3
+        },
+        {
+            "name": "Great Dual Potion",
+            "chance": 13360,
+            "minCount": 1,
+            "maxCount": 2
+        },
+        {
+            "name": "Blue Crystal Shard",
+            "chance": 4030
+        },
+        {
+            "name": "Green Crystal Fragment",
+            "chance": 3950
+        },
+        {
+            "name": "Violet Gem",
+            "chance": 3950
+        },
+        {
+            "name": "Red Crystal Fragment",
+            "chance": 3350
+        },
+        {
+            "name": "Yellow Gem",
+            "chance": 3320
+        },
+        {
+            "name": "White Pearl",
+            "chance": 3240
+        },
+        {
+            "name": "Green Crystal Shard",
+            "chance": 2900
+        },
+        {
+            "name": "Green Gem",
+            "chance": 2870
+        },
+        {
+            "name": "Orichalcum Pearl",
+            "chance": 2640,
+            "minCount": 1,
+            "maxCount": 2
+        },
+        {
+            "id": 282,
+            "chance": 2420
+        },
+        {
+            "chance": 2420,
+            "name": "red gem"
+        },
+        {
+            "name": "Black Pearl",
+            "chance": 2160,
+            "minCount": 1,
+            "maxCount": 2
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "crystal_lizard_warrior",
+    "threatDps": 249.4527,
+    "burstDps": 365.63,
+    "avgHit": 249.4047,
+    "maxHit": 489,
+    "manaCost": 0
+}

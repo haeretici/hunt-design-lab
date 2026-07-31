@@ -1,0 +1,239 @@
+{
+    "id": "mad_mage",
+    "label": "Mad Mage",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A mad mage.",
+    "hp": 2500,
+    "hpMax": 2500,
+    "speed": 120,
+    "level": 516,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 1800,
+    "lootValue": 798.36419753086,
+    "aggro": true,
+    "resists": {
+        "physical": -20,
+        "fire": 100,
+        "ice": 0,
+        "energy": 100,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 54
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 12,
+            "range": 7,
+            "element": "fire",
+            "min": 0,
+            "max": 362,
+            "target": true,
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 1400,
+            "chance": 24,
+            "range": 6,
+            "element": "manadrain",
+            "min": 0,
+            "max": 217,
+            "target": false,
+            "shootEffect": "ani_ice"
+        },
+        {
+            "id": "firefield_3",
+            "kind": "area",
+            "intervalMs": 1600,
+            "chance": 20,
+            "range": 7,
+            "element": "physical",
+            "radius": 3,
+            "target": true,
+            "shootEffect": "ani_fire",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "energy",
+            "min": 181,
+            "max": 362,
+            "radius": 4,
+            "target": false,
+            "effect": "me_bigclouds"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 25,
+            "min": 35,
+            "max": 80,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 340,
+            "name": "gold coin"
+        },
+        {
+            "chance": 48000,
+            "maxCount": 5,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 21000,
+            "maxCount": 5,
+            "name": "strong mana potion"
+        },
+        {
+            "chance": 17000,
+            "maxCount": 5,
+            "name": "strong health potion"
+        },
+        {
+            "chance": 9000,
+            "name": "mind stone"
+        },
+        {
+            "chance": 6000,
+            "name": "stealth ring"
+        },
+        {
+            "chance": 4000,
+            "maxCount": 4,
+            "name": "assassin star"
+        },
+        {
+            "chance": 4000,
+            "maxCount": 3,
+            "name": "dark mushroom"
+        },
+        {
+            "chance": 5000,
+            "name": "red piece of cloth"
+        },
+        {
+            "chance": 4000,
+            "maxCount": 3,
+            "name": "small amethyst"
+        },
+        {
+            "chance": 1680,
+            "unique": true,
+            "name": "mage's cap"
+        },
+        {
+            "chance": 1100,
+            "name": "marksman potion"
+        },
+        {
+            "chance": 740,
+            "name": "crystal of focus"
+        },
+        {
+            "chance": 2370,
+            "name": "boots of haste"
+        },
+        {
+            "chance": 370,
+            "name": "luminous orb"
+        },
+        {
+            "chance": 1370,
+            "name": "piggy bank"
+        },
+        {
+            "chance": 1370,
+            "name": "Celestial Band"
+        },
+        {
+            "chance": 2370,
+            "name": "spellbook of warding"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 30
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "arcane_elemental_vanguard",
+    "threatDps": 74.1825,
+    "burstDps": 81.6225,
+    "avgHit": 85.6187,
+    "maxHit": 362,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 1,
+        "summons": [
+            {
+                "name": "Golden Servant",
+                "id": "golden_servant",
+                "chance": 10,
+                "interval": 1000,
+                "count": 1
+            }
+        ]
+    }
+}

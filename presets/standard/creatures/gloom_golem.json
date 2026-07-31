@@ -1,0 +1,208 @@
+{
+    "id": "gloom_golem",
+    "label": "Gloom Golem",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A gloom golem.",
+    "hp": 2700,
+    "hpMax": 2700,
+    "speed": 130,
+    "level": 524,
+    "armor": 43,
+    "mitigation": 1.37,
+    "maxBlock": 0,
+    "exp": 1930,
+    "lootValue": 817.17003449975,
+    "aggro": true,
+    "resists": {
+        "physical": 5,
+        "fire": -5,
+        "ice": 0,
+        "energy": 5,
+        "earth": 100,
+        "holy": 15,
+        "death": 30
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 7,
+            "element": "energy",
+            "min": 419,
+            "max": 821,
+            "target": false,
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "war_golem_electrify_4",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 9,
+            "range": 7,
+            "element": "physical",
+            "target": false,
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 13,
+            "speedChange": 404,
+            "durationSec": 4,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "heal_1",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 20,
+            "min": 200,
+            "max": 250,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Construct",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 530,
+            "name": "iron ore"
+        },
+        {
+            "chance": 720,
+            "name": "glooth amulet"
+        },
+        {
+            "chance": 1720,
+            "name": "gearwheel chain"
+        },
+        {
+            "chance": 370,
+            "name": "rubber cap"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 200,
+            "name": "gold coin"
+        },
+        {
+            "chance": 1470,
+            "name": "bronze gear wheel"
+        },
+        {
+            "chance": 690,
+            "name": "gear wheel"
+        },
+        {
+            "chance": 1970,
+            "name": "glooth sandwich"
+        },
+        {
+            "chance": 6010,
+            "maxCount": 4,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 2840,
+            "name": "glooth injection tube"
+        },
+        {
+            "chance": 4470,
+            "name": "ultimate health potion"
+        },
+        {
+            "chance": 9280,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 690,
+            "name": "heat core"
+        },
+        {
+            "chance": 440,
+            "name": "glooth blade"
+        },
+        {
+            "chance": 230,
+            "name": "glooth club"
+        },
+        {
+            "chance": 290,
+            "name": "glooth axe"
+        },
+        {
+            "chance": 730,
+            "name": "yellow gem"
+        },
+        {
+            "chance": 1560,
+            "maxCount": 4,
+            "name": "small topaz"
+        },
+        {
+            "chance": 1590,
+            "maxCount": 4,
+            "name": "small emerald"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "solar_volcano_golem_slayer",
+    "threatDps": 77.5,
+    "burstDps": 77.5,
+    "avgHit": 620,
+    "maxHit": 821,
+    "manaCost": 0
+}

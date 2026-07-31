@@ -1,0 +1,98 @@
+{
+    "id": "control_tower",
+    "label": "Control Tower",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A control tower.",
+    "hp": 7500,
+    "hpMax": 7500,
+    "speed": 0,
+    "level": 626,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 4500,
+    "lootValue": 1306.582278481,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 55,
+        "ice": 0,
+        "energy": 55,
+        "earth": 55,
+        "holy": 55,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": true,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "element": "physical",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "min": 165,
+            "max": 381,
+            "target": true
+        }
+    ],
+    "race": "venom",
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 5,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 14285,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 14285,
+            "name": "great health potion"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "lava_fungal_knight",
+    "threatDps": 136.5,
+    "burstDps": 136.5,
+    "avgHit": 273,
+    "maxHit": 381,
+    "manaCost": 0
+}

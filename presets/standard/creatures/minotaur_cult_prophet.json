@@ -1,0 +1,209 @@
+{
+    "id": "minotaur_cult_prophet",
+    "label": "Minotaur Cult Prophet",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A minotaur cult prophet.",
+    "hp": 1700,
+    "hpMax": 1700,
+    "speed": 120,
+    "level": 477,
+    "armor": 28,
+    "mitigation": 1.1,
+    "maxBlock": 0,
+    "exp": 1100,
+    "lootValue": 481.48289326887,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": -10,
+        "energy": 20,
+        "earth": 20,
+        "holy": 10,
+        "death": -5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 142
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "energy",
+            "min": 118,
+            "max": 207,
+            "target": true,
+            "effect": "me_energyhit",
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "fire",
+            "min": 118,
+            "max": 207,
+            "radius": 1,
+            "target": true,
+            "effect": "me_firearea",
+            "shootEffect": "ani_fire"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 150
+        },
+        {
+            "name": "cowbell",
+            "chance": 18570
+        },
+        {
+            "name": "Lunar Rod",
+            "chance": 8480
+        },
+        {
+            "name": "cultish robe",
+            "chance": 15450
+        },
+        {
+            "name": "great health potion",
+            "chance": 7070
+        },
+        {
+            "name": "great mana potion",
+            "chance": 16810
+        },
+        {
+            "name": "gold ingot",
+            "chance": 1120
+        },
+        {
+            "name": "small ruby",
+            "chance": 7160
+        },
+        {
+            "name": "small topaz",
+            "chance": 7650
+        },
+        {
+            "name": "yellow gem",
+            "chance": 490
+        },
+        {
+            "name": "platinum coin",
+            "chance": 67040,
+            "maxCount": 3
+        },
+        {
+            "name": "small emerald",
+            "chance": 11160
+        },
+        {
+            "name": "small diamond",
+            "chance": 2900,
+            "maxCount": 2
+        },
+        {
+            "name": "small amethyst",
+            "chance": 6680,
+            "maxCount": 2
+        },
+        {
+            "name": "red piece of cloth",
+            "chance": 630
+        },
+        {
+            "chance": 6730,
+            "name": "ring of healing"
+        },
+        {
+            "chance": 390,
+            "name": "red gem"
+        },
+        {
+            "name": "meat",
+            "chance": 8040
+        },
+        {
+            "name": "ham",
+            "chance": 60140
+        },
+        {
+            "name": "minotaur leather",
+            "chance": 14230
+        },
+        {
+            "name": "minotaur horn",
+            "chance": 18270,
+            "maxCount": 2
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "lunar_minotaur_vanguard",
+    "threatDps": 59.875,
+    "burstDps": 59.875,
+    "avgHit": 92.1154,
+    "maxHit": 207,
+    "manaCost": 0
+}

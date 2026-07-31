@@ -1,0 +1,217 @@
+{
+    "id": "tyrn",
+    "label": "Tyrn",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A tyrn.",
+    "hp": 12000,
+    "hpMax": 12000,
+    "speed": 150,
+    "level": 673,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 6900,
+    "lootValue": 1836.8666666667,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 30,
+        "ice": 0,
+        "energy": 100,
+        "earth": 80,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 33,
+            "range": 7,
+            "element": "energy",
+            "min": 455,
+            "max": 864,
+            "target": true,
+            "effect": "me_energyarea",
+            "shootEffect": "ani_energyball"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 12,
+            "range": 7,
+            "element": "energy",
+            "min": 909,
+            "max": 1364,
+            "radius": 4,
+            "target": true,
+            "effect": "me_explosionhit",
+            "shootEffect": "ani_explosion"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 33,
+            "min": 200,
+            "max": 300,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "invisible_1",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 11,
+            "durationSec": 2,
+            "effect": "me_energyhit"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 5000,
+            "name": "silver raid token"
+        },
+        {
+            "chance": 3000,
+            "name": "sun mirror"
+        },
+        {
+            "chance": 55000,
+            "maxCount": 3,
+            "name": "dragon ham"
+        },
+        {
+            "chance": 15000,
+            "name": "sudden death rune"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 50,
+            "name": "gold coin"
+        },
+        {
+            "chance": 60000,
+            "maxCount": 8,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 30000,
+            "maxCount": 5,
+            "name": "assassin star"
+        },
+        {
+            "chance": 25000,
+            "maxCount": 5,
+            "name": "strong health potion"
+        },
+        {
+            "chance": 25000,
+            "maxCount": 5,
+            "name": "strong mana potion"
+        },
+        {
+            "chance": 100000,
+            "name": "wyrm scale"
+        },
+        {
+            "chance": 9000,
+            "name": "red gem"
+        },
+        {
+            "chance": 9000,
+            "name": "yellow gem"
+        },
+        {
+            "chance": 9000,
+            "name": "violet gem"
+        },
+        {
+            "chance": 9000,
+            "name": "guardian shield"
+        },
+        {
+            "chance": 9000,
+            "name": "hibiscus dress"
+        },
+        {
+            "chance": 15000,
+            "maxCount": 5,
+            "name": "small diamond"
+        },
+        {
+            "chance": 15000,
+            "maxCount": 5,
+            "name": "small amethyst"
+        },
+        {
+            "chance": 15000,
+            "maxCount": 5,
+            "name": "small emerald"
+        },
+        {
+            "chance": 15000,
+            "maxCount": 5,
+            "name": "small sapphire"
+        },
+        {
+            "chance": 15000,
+            "maxCount": 5,
+            "name": "small topaz"
+        },
+        {
+            "chance": 15000,
+            "maxCount": 5,
+            "name": "small ruby"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 5
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "agrestic_chicken",
+    "threatDps": 177.0075,
+    "burstDps": 177.0075,
+    "avgHit": 786.7,
+    "maxHit": 1364,
+    "manaCost": 0
+}

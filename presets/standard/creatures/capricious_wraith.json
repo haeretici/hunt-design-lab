@@ -1,0 +1,214 @@
+{
+    "id": "capricious_wraith",
+    "label": "Capricious Wraith",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A capricious wraith.",
+    "hp": 30000,
+    "hpMax": 30000,
+    "speed": 240,
+    "level": 764,
+    "armor": 100,
+    "mitigation": 2.45,
+    "maxBlock": 0,
+    "exp": 17230,
+    "lootValue": 4718.9189189189,
+    "aggro": true,
+    "resists": {
+        "physical": -10,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 50,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 481
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 3000,
+            "chance": 20,
+            "range": 7,
+            "element": "earth",
+            "min": 454,
+            "max": 641,
+            "radius": 3,
+            "target": true,
+            "effect": "me_green_rings",
+            "shootEffect": "ani_poisonarrow"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "earth",
+            "min": 374,
+            "max": 561,
+            "length": 6,
+            "spread": 4,
+            "target": false,
+            "effect": "me_green_rings"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 3000,
+            "chance": 20,
+            "range": 4,
+            "element": "ice",
+            "min": 454,
+            "max": 481,
+            "radius": 3,
+            "target": false,
+            "effect": "me_icetornado"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 3000,
+            "chance": 20,
+            "range": 7,
+            "element": "ice",
+            "min": 454,
+            "max": 588,
+            "radius": 4,
+            "target": true,
+            "effect": "me_iceattack"
+        },
+        {
+            "id": "ice_chain_5",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 588,
+            "max": 694
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 5000,
+        "firstUnlock": 200,
+        "secondUnlock": 2000,
+        "charmsPoints": 100,
+        "stars": 5,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "crystal coin",
+            "chance": 77650
+        },
+        {
+            "name": "great dual potion",
+            "chance": 61410,
+            "maxCount": 5
+        },
+        {
+            "name": "blue gem",
+            "chance": 9410
+        },
+        {
+            "name": "gold ingot",
+            "chance": 9410
+        },
+        {
+            "name": "capricious heart",
+            "chance": 7530
+        },
+        {
+            "name": "violet gem",
+            "chance": 4710
+        },
+        {
+            "name": "capricious robe",
+            "chance": 2350
+        },
+        {
+            "chance": 1880,
+            "name": "ring of blue plasma"
+        },
+        {
+            "name": "fur armor",
+            "chance": 1650
+        },
+        {
+            "name": "wood cape",
+            "chance": 1410
+        },
+        {
+            "chance": 1180,
+            "name": "collar of blue plasma"
+        },
+        {
+            "name": "glacial rod",
+            "chance": 940
+        },
+        {
+            "name": "ornate crossbow",
+            "chance": 940
+        },
+        {
+            "name": "bag you desire",
+            "chance": 15
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "feral_ice_spider_hunter",
+    "threatDps": 294.1,
+    "burstDps": 345.3,
+    "avgHit": 356.4848,
+    "maxHit": 694,
+    "manaCost": 0
+}

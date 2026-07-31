@@ -1,0 +1,150 @@
+{
+    "id": "leaf_golem",
+    "label": "Leaf Golem",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A leaf golem.",
+    "hp": 90,
+    "hpMax": 90,
+    "speed": 68,
+    "level": 185,
+    "armor": 11,
+    "mitigation": 0.41,
+    "maxBlock": 0,
+    "exp": 45,
+    "lootValue": 21.372527016433,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -5,
+        "ice": -5,
+        "energy": 0,
+        "earth": 40,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 46
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 8,
+            "target": true,
+            "shootEffect": "ani_smallstone"
+        },
+        {
+            "id": "slow_2",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -600,
+                "durationSec": 9
+            },
+            "radius": 3,
+            "effect": "me_smallplants",
+            "target": false
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Plant",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 87460,
+            "maxCount": 27
+        },
+        {
+            "name": "fir cone",
+            "chance": 14930
+        },
+        {
+            "name": "dowser",
+            "chance": 12190
+        },
+        {
+            "name": "swampling club",
+            "chance": 5130
+        },
+        {
+            "name": "white mushroom",
+            "chance": 4920,
+            "maxCount": 3
+        },
+        {
+            "name": "small emerald",
+            "chance": 950
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "leaf_golem",
+    "threatDps": 11.8,
+    "burstDps": 11.8,
+    "avgHit": 20.5217,
+    "maxHit": 46,
+    "manaCost": 0
+}

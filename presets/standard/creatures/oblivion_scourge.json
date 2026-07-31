@@ -1,0 +1,486 @@
+{
+    "id": "oblivion_scourge",
+    "label": "Oblivion Scourge",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An oblivion scourge.",
+    "hp": 1,
+    "hpMax": 1,
+    "speed": 225,
+    "level": 1000,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 75000,
+    "lootValue": 188902.30769231,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 7,
+            "range": 7,
+            "element": "manadrain",
+            "min": 900,
+            "max": 1500,
+            "target": false,
+            "effect": "me_poff",
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "strength_3",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 9,
+            "range": 7,
+            "element": "physical",
+            "target": false,
+            "effect": "me_energyarea",
+            "shootEffect": "ani_largerock",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "energy_strike_4",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 1,
+            "element": "physical",
+            "min": 2000,
+            "max": 2700,
+            "target": false
+        },
+        {
+            "id": "area_5",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 8,
+            "range": 7,
+            "element": "fire",
+            "min": 1550,
+            "max": 2550,
+            "radius": 7,
+            "target": true,
+            "effect": "me_firearea",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "ranged_6",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "energy",
+            "min": 1075,
+            "max": 2405,
+            "target": true,
+            "effect": "me_energyhit",
+            "shootEffect": "ani_energyball"
+        },
+        {
+            "id": "area_7",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 20,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 600,
+            "max": 1500,
+            "radius": 8,
+            "target": false,
+            "effect": "me_loseenergy"
+        },
+        {
+            "id": "wave_8",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 750,
+            "max": 1200,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_purpleenergy"
+        },
+        {
+            "id": "area_10",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "death",
+            "min": 450,
+            "max": 1400,
+            "radius": 4,
+            "target": true,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "area_11",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 10,
+            "range": 4,
+            "element": "manadrain",
+            "min": 800,
+            "max": 2300,
+            "radius": 8,
+            "target": false,
+            "effect": "me_magic_green"
+        },
+        {
+            "id": "slow_12",
+            "kind": "status",
+            "intervalMs": 1000,
+            "chance": 12,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -800,
+                "durationSec": 60
+            },
+            "radius": 6,
+            "effect": "me_poisonarea",
+            "target": false
+        },
+        {
+            "id": "strength_13",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 8,
+            "range": 4,
+            "element": "physical",
+            "radius": 5,
+            "target": false,
+            "effect": "me_hitarea",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "area_14",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 34,
+            "range": 7,
+            "element": "fire",
+            "min": 100,
+            "max": 700,
+            "radius": 7,
+            "target": true,
+            "effect": "me_firearea",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "wave_15",
+            "kind": "wave",
+            "intervalMs": 1000,
+            "chance": 15,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 300,
+            "max": 950,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_magic_red"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 6000,
+            "chance": 25,
+            "min": 2000,
+            "max": 5000,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 1000,
+            "chance": 8,
+            "speedChange": 1901,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "invisible_2",
+            "kind": "invisible",
+            "intervalMs": 1000,
+            "chance": 4,
+            "durationSec": 2,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "invisible_3",
+            "kind": "invisible",
+            "intervalMs": 1000,
+            "chance": 17,
+            "durationSec": 2,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "venom",
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 15
+        },
+        {
+            "name": "crystal coin",
+            "chance": 100000,
+            "maxCount": 7
+        },
+        {
+            "name": "green crystal shard",
+            "chance": 100000,
+            "maxCount": 3
+        },
+        {
+            "name": "violet crystal shard",
+            "chance": 100000,
+            "maxCount": 3
+        },
+        {
+            "chance": 100000,
+            "name": "instable proto matter"
+        },
+        {
+            "name": "plasmatic lightning",
+            "chance": 100000
+        },
+        {
+            "name": "emerald bangle",
+            "chance": 100000
+        },
+        {
+            "name": "royal star",
+            "chance": 66666,
+            "maxCount": 100
+        },
+        {
+            "name": "small amethyst",
+            "chance": 66666,
+            "maxCount": 12
+        },
+        {
+            "name": "silver token",
+            "chance": 66666,
+            "maxCount": 12
+        },
+        {
+            "name": "savant potion",
+            "chance": 66666,
+            "maxCount": 10
+        },
+        {
+            "name": "ultimate mana potion",
+            "chance": 66666,
+            "maxCount": 6
+        },
+        {
+            "name": "giant emerald",
+            "chance": 66666
+        },
+        {
+            "chance": 66666,
+            "name": "red gem"
+        },
+        {
+            "name": "small ruby",
+            "chance": 33333,
+            "maxCount": 12
+        },
+        {
+            "name": "marksman potion",
+            "chance": 33333,
+            "maxCount": 10
+        },
+        {
+            "name": "gold token",
+            "chance": 33333,
+            "maxCount": 8
+        },
+        {
+            "name": "supreme health potion",
+            "chance": 33333,
+            "maxCount": 6
+        },
+        {
+            "name": "blue crystal shard",
+            "chance": 33333,
+            "maxCount": 3
+        },
+        {
+            "name": "giant sapphire",
+            "chance": 33333
+        },
+        {
+            "name": "green gem",
+            "chance": 33333
+        },
+        {
+            "chance": 33333,
+            "name": "collar of blue plasma"
+        },
+        {
+            "name": "huge chunk of crude iron",
+            "chance": 33333
+        },
+        {
+            "name": "magic sulphur",
+            "chance": 33333
+        },
+        {
+            "name": "Celestial Band",
+            "chance": 33333
+        },
+        {
+            "name": "ultimate dual potion",
+            "chance": 15000,
+            "maxCount": 20
+        },
+        {
+            "name": "small diamond",
+            "chance": 15000,
+            "maxCount": 12
+        },
+        {
+            "name": "small emerald",
+            "chance": 15000,
+            "maxCount": 12
+        },
+        {
+            "name": "rift shield",
+            "chance": 5000
+        },
+        {
+            "id": 281,
+            "chance": 5000
+        },
+        {
+            "chance": 5000,
+            "name": "arcane staff"
+        },
+        {
+            "name": "skullcracker armor",
+            "chance": 5000
+        },
+        {
+            "name": "Maelstrom Mace",
+            "chance": 5000
+        },
+        {
+            "name": "cat's paw",
+            "chance": 5000
+        },
+        {
+            "name": "piggy bank",
+            "chance": 5000
+        },
+        {
+            "name": "mysterious remains",
+            "chance": 5000
+        },
+        {
+            "name": "energy bar",
+            "chance": 5000
+        },
+        {
+            "name": "library ticket",
+            "chance": 500,
+            "unique": true
+        },
+        {
+            "name": "calamity",
+            "chance": 500,
+            "unique": true
+        },
+        {
+            "name": "spark sphere",
+            "chance": 100000
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 25
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "goblin_leader",
+    "threatDps": 1385,
+    "burstDps": 1385,
+    "avgHit": 1086.2745,
+    "maxHit": 2700,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 8,
+        "summons": [
+            {
+                "name": "Void Charger",
+                "id": "void_charger",
+                "chance": 15,
+                "interval": 1000,
+                "count": 3
+            },
+            {
+                "name": "Destruction Spark",
+                "id": "destruction_spark",
+                "chance": 15,
+                "interval": 1000,
+                "count": 5
+            }
+        ]
+    }
+}

@@ -1,0 +1,222 @@
+{
+    "id": "gloom_fairy",
+    "label": "Gloom Fairy",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A gloom fairy.",
+    "hp": 59000,
+    "hpMax": 59000,
+    "speed": 130,
+    "level": 831,
+    "armor": 0,
+    "mitigation": 2.37,
+    "maxBlock": 0,
+    "exp": 19000,
+    "lootValue": 6257.225,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -5,
+        "ice": 0,
+        "energy": 5,
+        "earth": 100,
+        "holy": 15,
+        "death": 30
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 1299
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 7,
+            "range": 4,
+            "element": "energy",
+            "min": 205,
+            "max": 2735,
+            "radius": 6,
+            "target": false,
+            "effect": "me_energyhit"
+        },
+        {
+            "id": "slow_4",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -400,
+                "durationSec": 60
+            },
+            "radius": 6,
+            "effect": "me_poisonarea",
+            "target": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 1000,
+            "chance": 10,
+            "min": 200,
+            "max": 250,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "heal_1",
+            "kind": "heal",
+            "intervalMs": 1000,
+            "chance": 1,
+            "min": 7500,
+            "max": 8000,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 199,
+            "name": "gold coin"
+        },
+        {
+            "chance": 37170,
+            "maxCount": 14,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 14630,
+            "name": "glooth injection tube"
+        },
+        {
+            "chance": 11270,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 10550,
+            "name": "glooth sandwich"
+        },
+        {
+            "chance": 4320,
+            "maxCount": 2,
+            "name": "small topaz"
+        },
+        {
+            "chance": 3600,
+            "maxCount": 2,
+            "name": "small emerald"
+        },
+        {
+            "chance": 2400,
+            "name": "glooth amulet"
+        },
+        {
+            "chance": 1920,
+            "name": "gear wheel"
+        },
+        {
+            "chance": 1200,
+            "name": "glooth axe"
+        },
+        {
+            "chance": 1200,
+            "name": "glooth spear"
+        },
+        {
+            "chance": 1200,
+            "name": "heat core"
+        },
+        {
+            "chance": 960,
+            "name": "yellow gem"
+        },
+        {
+            "chance": 720,
+            "name": "glooth blade"
+        },
+        {
+            "chance": 480,
+            "name": "glooth club"
+        },
+        {
+            "chance": 480,
+            "name": "rubber cap"
+        },
+        {
+            "chance": 980,
+            "name": "red gem"
+        },
+        {
+            "chance": 480,
+            "name": "feedbag"
+        },
+        {
+            "chance": 980,
+            "name": "iron ore"
+        },
+        {
+            "chance": 280,
+            "name": "bowl of glooth soup"
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 80
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "magma_harpy",
+    "threatDps": 427.65,
+    "burstDps": 427.65,
+    "avgHit": 750.2632,
+    "maxHit": 2735,
+    "manaCost": 0
+}

@@ -1,0 +1,264 @@
+{
+    "id": "test_arena",
+    "label": "test_arena",
+    "notes": "Sequential arena for vocation / class balance: progressive trash → rare/champion spikes → elite focus fire → champion pack → boss. Affixes (rare/champion/elite/boss) stamp hp/atk/exp mults via DEFAULT_AFFIX_STATS. Four-vocation party (guardian/scout/adept/warden). Ends with waves_complete or party_wipe. loopWaypoints keeps a short patrol instead of multi-lap waypoint lists. See docs/23_arena_system_in_depth_tutorial.md.",
+    "artSet": "cave_simple",
+    "spawnMode": "eager",
+    "layout": {
+        "type": "fixed",
+        "profileId": "test_arena_small"
+    },
+    "loopWaypoints": true,
+    "waves": {
+        "delaySec": 3,
+        "startDelaySec": 0,
+        "endOnComplete": true,
+        "holdRoute": true,
+        "anchorRadius": 7,
+        "list": [
+            {
+                "id": "wave_trash",
+                "label": "Wave 1 — trash density (AoE / multi-target)",
+                "entries": [
+                    {
+                        "creatureId": "demon",
+                        "count": 2
+                    },
+                    {
+                        "creatureId": "fire_elemental",
+                        "count": 20
+                    },
+                    {
+                        "creatureId": "cave_rat",
+                        "count": 3
+                    }
+                ]
+            },
+            {
+                "id": "wave_crawlers",
+                "label": "Wave 2 — crawlers + rare spike",
+                "entries": [
+                    {
+                        "creatureId": "skeleton",
+                        "count": 4
+                    },
+                    {
+                        "creatureId": "spider",
+                        "count": 3
+                    },
+                    {
+                        "creatureId": "bug",
+                        "count": 2
+                    },
+                    {
+                        "creatureId": "skeleton",
+                        "count": 1,
+                        "rarity": "rare",
+                        "affixes": [
+                            "rare"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "wave_undead",
+                "label": "Wave 3 — bones + champion tank check",
+                "entries": [
+                    {
+                        "creatureId": "skeleton",
+                        "count": 4
+                    },
+                    {
+                        "creatureId": "poison_spider",
+                        "count": 2
+                    },
+                    {
+                        "creatureId": "mummy",
+                        "count": 1
+                    },
+                    {
+                        "creatureId": "skeleton",
+                        "count": 1,
+                        "rarity": "champion",
+                        "affixes": [
+                            "champion"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "wave_orcs",
+                "label": "Wave 4 — orc frontline + champion warrior",
+                "entries": [
+                    {
+                        "creatureId": "orc",
+                        "count": 3
+                    },
+                    {
+                        "creatureId": "orc_spearman",
+                        "count": 2
+                    },
+                    {
+                        "creatureId": "orc_warrior",
+                        "count": 1,
+                        "rarity": "champion",
+                        "affixes": [
+                            "champion"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "wave_ranged_pressure",
+                "label": "Wave 5 — ranged pressure (kite / LoS)",
+                "entries": [
+                    {
+                        "creatureId": "orc_spearman",
+                        "count": 4
+                    },
+                    {
+                        "creatureId": "orc",
+                        "count": 2
+                    },
+                    {
+                        "creatureId": "orc_spearman",
+                        "count": 1,
+                        "rarity": "rare",
+                        "affixes": [
+                            "rare"
+                        ]
+                    },
+                    {
+                        "creatureId": "orc_shaman",
+                        "count": 1,
+                        "rarity": "champion",
+                        "affixes": [
+                            "champion"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "wave_dwarves",
+                "label": "Wave 6 — dwarves mixed rare + champion",
+                "entries": [
+                    {
+                        "creatureId": "dwarf",
+                        "count": 2
+                    },
+                    {
+                        "creatureId": "dwarf_soldier",
+                        "count": 2
+                    },
+                    {
+                        "creatureId": "dwarf_soldier",
+                        "count": 1,
+                        "rarity": "rare",
+                        "affixes": [
+                            "rare"
+                        ]
+                    },
+                    {
+                        "creatureId": "dwarf",
+                        "count": 1,
+                        "rarity": "champion",
+                        "affixes": [
+                            "champion"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "wave_elites",
+                "label": "Wave 7 — elites among normals (focus fire)",
+                "entries": [
+                    {
+                        "creatureId": "orc_berserker",
+                        "count": 2
+                    },
+                    {
+                        "creatureId": "crypt_shambler",
+                        "count": 2
+                    },
+                    {
+                        "creatureId": "cyclops",
+                        "count": 1,
+                        "rarity": "elite",
+                        "affixes": [
+                            "elite"
+                        ]
+                    },
+                    {
+                        "creatureId": "orc_berserker",
+                        "count": 1,
+                        "rarity": "elite",
+                        "affixes": [
+                            "elite"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "wave_champion_pack",
+                "label": "Wave 8 — champion pack (burst + sustained)",
+                "entries": [
+                    {
+                        "creatureId": "minotaur",
+                        "count": 2,
+                        "rarity": "champion",
+                        "affixes": [
+                            "champion"
+                        ]
+                    },
+                    {
+                        "creatureId": "orc_warrior",
+                        "count": 2,
+                        "rarity": "champion",
+                        "affixes": [
+                            "champion"
+                        ]
+                    },
+                    {
+                        "creatureId": "giant_spider",
+                        "count": 1,
+                        "rarity": "elite",
+                        "affixes": [
+                            "elite"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "wave_boss",
+                "label": "Wave 9 — boss + elite adds",
+                "entries": [
+                    {
+                        "creatureId": "dragon",
+                        "count": 1,
+                        "rarity": "boss",
+                        "affixes": [
+                            "boss"
+                        ]
+                    },
+                    {
+                        "creatureId": "dragon_hatchling",
+                        "count": 2,
+                        "rarity": "elite",
+                        "affixes": [
+                            "elite"
+                        ]
+                    },
+                    {
+                        "creatureId": "fire_elemental",
+                        "count": 1
+                    }
+                ]
+            }
+        ]
+    },
+    "limits": {
+        "maxSeconds": 480,
+        "maxFrames": 10000,
+        "noAttackTimeoutSec": 120
+    }
+}

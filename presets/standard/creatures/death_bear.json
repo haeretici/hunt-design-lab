@@ -1,0 +1,228 @@
+{
+    "id": "death_bear",
+    "label": "Death Bear",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A death bear.",
+    "hp": 7200,
+    "hpMax": 7200,
+    "speed": 200,
+    "level": 622,
+    "armor": 78,
+    "mitigation": 2.02,
+    "maxBlock": 0,
+    "exp": 6300,
+    "lootValue": 2294.1338489634,
+    "aggro": true,
+    "resists": {
+        "physical": 30,
+        "fire": 0,
+        "ice": 0,
+        "energy": 50,
+        "earth": 0,
+        "holy": 20,
+        "death": -20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 104,
+            "max": 235
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "holy",
+            "min": 130,
+            "max": 209,
+            "radius": 3,
+            "target": true,
+            "effect": "me_holyarea"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "energy",
+            "min": 146,
+            "max": 235,
+            "length": 4,
+            "spread": 0,
+            "target": false,
+            "effect": "me_energyarea"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "physical",
+            "min": 130,
+            "max": 209,
+            "radius": 6,
+            "target": true,
+            "effect": "me_blockhit"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 14,
+            "min": 150,
+            "max": 250,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Magical",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 17
+        },
+        {
+            "name": "meat",
+            "chance": 90000,
+            "maxCount": 3
+        },
+        {
+            "name": "great dual potion",
+            "chance": 50000,
+            "maxCount": 3
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 50000
+        },
+        {
+            "name": "essence of a bad dream",
+            "chance": 17000
+        },
+        {
+            "name": "knight axe",
+            "chance": 14000
+        },
+        {
+            "name": "mino shield",
+            "chance": 12000
+        },
+        {
+            "name": "Earthbound Boots",
+            "chance": 7000
+        },
+        {
+            "name": "Earthbound Hood",
+            "chance": 6400
+        },
+        {
+            "name": "beastslayer axe",
+            "chance": 500
+        },
+        {
+            "name": "black shield",
+            "chance": 3500
+        },
+        {
+            "name": "bloody pincers",
+            "chance": 4200
+        },
+        {
+            "name": "dark shield",
+            "chance": 1500
+        },
+        {
+            "name": "obsidian lance",
+            "chance": 1500
+        },
+        {
+            "name": "sickle",
+            "chance": 1100
+        },
+        {
+            "name": "titan axe",
+            "chance": 1100
+        },
+        {
+            "name": "wand of cosmic energy",
+            "chance": 400
+        },
+        {
+            "name": "wand of defiance",
+            "chance": 400
+        },
+        {
+            "name": "warrior's axe",
+            "chance": 400
+        },
+        {
+            "name": "warrior's shield",
+            "chance": 400
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "skeletal_hill_giant",
+    "threatDps": 133.4625,
+    "burstDps": 133.4625,
+    "avgHit": 172.2097,
+    "maxHit": 235,
+    "manaCost": 0
+}

@@ -1,0 +1,193 @@
+{
+    "id": "spiky_carnivore_plant",
+    "label": "Spiky Carnivore Plant",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A spiky carnivore plant.",
+    "hp": 2800,
+    "hpMax": 2800,
+    "speed": 160,
+    "level": 527,
+    "armor": 71,
+    "mitigation": 1.94,
+    "maxBlock": 0,
+    "exp": 1650,
+    "lootValue": 941.53965589593,
+    "aggro": true,
+    "resists": {
+        "physical": 40,
+        "fire": -30,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 96,
+            "max": 191
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "physical",
+            "min": 110,
+            "max": 182,
+            "radius": 4,
+            "target": false,
+            "effect": "me_groundshaker"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 150,
+            "max": 200,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Magical",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 66230,
+            "maxCount": 6
+        },
+        {
+            "name": "dark armor",
+            "chance": 13870
+        },
+        {
+            "name": "green glass plate",
+            "chance": 10490,
+            "maxCount": 2
+        },
+        {
+            "name": "blue crystal splinter",
+            "chance": 7590
+        },
+        {
+            "name": "brown crystal splinter",
+            "chance": 7330
+        },
+        {
+            "name": "guardian shield",
+            "chance": 5010
+        },
+        {
+            "name": "warrior helmet",
+            "chance": 2980
+        },
+        {
+            "name": "rainbow quartz",
+            "chance": 2540,
+            "maxCount": 2
+        },
+        {
+            "name": "talon",
+            "chance": 2000
+        },
+        {
+            "name": "Frostbound Amulet",
+            "chance": 1920
+        },
+        {
+            "name": "Earthbound Amulet",
+            "chance": 1920
+        },
+        {
+            "name": "blue robe",
+            "chance": 1670
+        },
+        {
+            "name": "prismatic quartz",
+            "chance": 1380
+        },
+        {
+            "name": "Stormbound Pendant",
+            "chance": 1270
+        },
+        {
+            "name": "doublet",
+            "chance": 360
+        },
+        {
+            "name": "Earthbound Mantle",
+            "chance": 330
+        },
+        {
+            "name": "buckle",
+            "chance": 180
+        },
+        {
+            "name": "shockwave amulet",
+            "chance": 150
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "glacier_forest_construct",
+    "threatDps": 79.05,
+    "burstDps": 79.05,
+    "avgHit": 143.7273,
+    "maxHit": 191,
+    "manaCost": 0
+}

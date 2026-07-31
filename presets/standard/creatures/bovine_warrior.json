@@ -1,0 +1,232 @@
+{
+    "id": "bovine_warrior",
+    "label": "Bovine Warrior",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A bovine warrior.",
+    "hp": 1200,
+    "hpMax": 1200,
+    "speed": 110,
+    "level": 443,
+    "armor": 37,
+    "mitigation": 1.35,
+    "maxBlock": 0,
+    "exp": 900,
+    "lootValue": 401.82822933456,
+    "aggro": true,
+    "resists": {
+        "physical": 5,
+        "fire": 15,
+        "ice": 10,
+        "energy": 5,
+        "earth": 10,
+        "holy": 0,
+        "death": 15
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 14,
+            "range": 4,
+            "element": "energy",
+            "min": 316,
+            "max": 422,
+            "length": 4,
+            "spread": 0,
+            "target": false,
+            "effect": "me_yellowenergy"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 11,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 285,
+            "target": false,
+            "effect": "me_explosionarea",
+            "shootEffect": "ani_largerock"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 105,
+            "max": 316,
+            "radius": 3,
+            "target": false,
+            "effect": "me_hitarea"
+        },
+        {
+            "id": "moohtah_master_skill_reducer_4",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 19,
+            "range": 7,
+            "element": "physical",
+            "target": false,
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 22,
+            "min": 110,
+            "max": 160,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 8,
+            "speedChange": 220,
+            "durationSec": 1,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 119
+        },
+        {
+            "name": "platinum coin",
+            "chance": 45450,
+            "maxCount": 3
+        },
+        {
+            "chance": 18970,
+            "name": "mooh'tah shell"
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 9290
+        },
+        {
+            "name": "strong health potion",
+            "chance": 8500
+        },
+        {
+            "name": "small ruby",
+            "chance": 7710
+        },
+        {
+            "name": "small emerald",
+            "chance": 6320
+        },
+        {
+            "name": "small amethyst",
+            "chance": 5340
+        },
+        {
+            "name": "minotaur leather",
+            "chance": 5340
+        },
+        {
+            "name": "minotaur horn",
+            "chance": 4550,
+            "maxCount": 2
+        },
+        {
+            "name": "small topaz",
+            "chance": 4350
+        },
+        {
+            "chance": 1580,
+            "name": "sword ring"
+        },
+        {
+            "name": "cowtana",
+            "chance": 1380
+        },
+        {
+            "chance": 1380,
+            "name": "mooh'tah plate"
+        },
+        {
+            "name": "knight armor",
+            "chance": 990
+        },
+        {
+            "name": "red piece of cloth",
+            "chance": 790
+        },
+        {
+            "name": "knight legs",
+            "chance": 590
+        },
+        {
+            "name": "guardian shield",
+            "chance": 590
+        },
+        {
+            "chance": 160,
+            "name": "minotaur trophy"
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 4
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "sun_orc_guard",
+    "threatDps": 49.455,
+    "burstDps": 49.455,
+    "avgHit": 247.275,
+    "maxHit": 422,
+    "manaCost": 0
+}

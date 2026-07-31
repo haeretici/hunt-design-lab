@@ -1,0 +1,172 @@
+{
+    "id": "jungle_moa",
+    "label": "Jungle Moa",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A jungle moa.",
+    "hp": 1300,
+    "hpMax": 1300,
+    "speed": 105,
+    "level": 451,
+    "armor": 30,
+    "mitigation": 1.04,
+    "maxBlock": 0,
+    "exp": 1200,
+    "lootValue": 315.55292587776,
+    "aggro": true,
+    "resists": {
+        "physical": 10,
+        "fire": 0,
+        "ice": 10,
+        "energy": 10,
+        "earth": -5,
+        "holy": 0,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 128
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 40,
+            "range": 5,
+            "element": "energy",
+            "min": 48,
+            "max": 59,
+            "target": true,
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "earth",
+            "min": 36,
+            "max": 83,
+            "radius": 4,
+            "target": true,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "earth",
+            "min": 77,
+            "max": 101,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_purpleenergy"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Bird",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "Gold Coin",
+            "chance": 100000,
+            "minCount": 1,
+            "maxCount": 227
+        },
+        {
+            "name": "Jungle Moa Claw",
+            "chance": 21100
+        },
+        {
+            "name": "Meat",
+            "chance": 20140
+        },
+        {
+            "name": "Cyan Crystal Fragment",
+            "chance": 11410
+        },
+        {
+            "name": "Jungle Moa Feather",
+            "chance": 10480,
+            "minCount": 1,
+            "maxCount": 2
+        },
+        {
+            "name": "Strong Mana Potion",
+            "chance": 9860,
+            "minCount": 1,
+            "maxCount": 2
+        },
+        {
+            "name": "Jungle Moa Egg",
+            "chance": 8350
+        },
+        {
+            "name": "Doublet",
+            "chance": 4540
+        },
+        {
+            "name": "Spellbook of Enlightenment",
+            "chance": 1790
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "goblin_leader",
+    "threatDps": 51.6125,
+    "burstDps": 51.6125,
+    "avgHit": 62.5606,
+    "maxHit": 128,
+    "manaCost": 0
+}

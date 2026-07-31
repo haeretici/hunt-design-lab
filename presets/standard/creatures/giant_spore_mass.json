@@ -1,0 +1,269 @@
+{
+    "id": "giant_spore_mass",
+    "label": "Giant Spore Mass",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A giant spore mass.",
+    "hp": 3400,
+    "hpMax": 3400,
+    "speed": 130,
+    "level": 547,
+    "armor": 70,
+    "mitigation": 2.02,
+    "maxBlock": 0,
+    "exp": 2900,
+    "lootValue": 932.00972537766,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -10,
+        "ice": 15,
+        "energy": 15,
+        "earth": 100,
+        "holy": 5,
+        "death": 35
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 165
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "earth",
+            "min": 90,
+            "max": 175,
+            "target": false,
+            "effect": "me_smallplants",
+            "shootEffect": "ani_smallearth"
+        },
+        {
+            "id": "poisonfield_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "physical",
+            "radius": 4,
+            "target": false,
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "condition_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "earth",
+            "min": 251,
+            "max": 501,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_green_rings"
+        },
+        {
+            "id": "wave_4",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 65,
+            "max": 130,
+            "length": 5,
+            "spread": 0,
+            "target": false,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "condition_5",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "earth",
+            "min": 201,
+            "max": 321,
+            "radius": 3,
+            "target": false,
+            "effect": "me_hitbypoison"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 225,
+            "max": 380,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Plant",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 200
+        },
+        {
+            "name": "platinum coin",
+            "chance": 999900,
+            "maxCount": 6
+        },
+        {
+            "name": "mushroom pie",
+            "chance": 17130,
+            "maxCount": 3
+        },
+        {
+            "name": "brown piece of cloth",
+            "chance": 15120
+        },
+        {
+            "name": "drill bolt",
+            "chance": 15120,
+            "maxCount": 15
+        },
+        {
+            "name": "humongous chunk",
+            "chance": 10470
+        },
+        {
+            "name": "white piece of cloth",
+            "chance": 10230
+        },
+        {
+            "name": "strong health potion",
+            "chance": 5040,
+            "maxCount": 2
+        },
+        {
+            "name": "great mana potion",
+            "chance": 4960,
+            "maxCount": 2
+        },
+        {
+            "name": "great health potion",
+            "chance": 4950,
+            "maxCount": 2
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 4930,
+            "maxCount": 2
+        },
+        {
+            "name": "mana potion",
+            "chance": 4750,
+            "maxCount": 3
+        },
+        {
+            "name": "blue piece of cloth",
+            "chance": 4440
+        },
+        {
+            "name": "red piece of cloth",
+            "chance": 2670
+        },
+        {
+            "name": "Earthbound Amulet",
+            "chance": 2180
+        },
+        {
+            "name": "Earthbound Boots",
+            "chance": 1950
+        },
+        {
+            "name": "angelic axe",
+            "chance": 1420
+        },
+        {
+            "name": "Earthbound Legs",
+            "chance": 1160
+        },
+        {
+            "name": "Earthbound Mantle",
+            "chance": 870
+        },
+        {
+            "name": "muck rod",
+            "chance": 640
+        },
+        {
+            "name": "mushroom backpack",
+            "chance": 20
+        },
+        {
+            "name": "mycological bow",
+            "chance": 140
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 15
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "radiant_fire_giant_priest",
+    "threatDps": 87.9125,
+    "burstDps": 87.9125,
+    "avgHit": 121.2586,
+    "maxHit": 501,
+    "manaCost": 0
+}

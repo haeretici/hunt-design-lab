@@ -1,0 +1,365 @@
+{
+    "id": "fel_claw",
+    "label": "Fel Claw",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A fel claw.",
+    "hp": 8500,
+    "hpMax": 8500,
+    "speed": 135,
+    "level": 638,
+    "armor": 55,
+    "mitigation": 1.91,
+    "maxBlock": 0,
+    "exp": 6248,
+    "lootValue": 2563.2561797753,
+    "aggro": true,
+    "resists": {
+        "physical": 5,
+        "fire": 75,
+        "ice": -5,
+        "energy": 10,
+        "earth": 40,
+        "holy": -10,
+        "death": 20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "manadrain",
+            "min": 0,
+            "max": 197,
+            "target": false
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "fire",
+            "min": 246,
+            "max": 410,
+            "radius": 7,
+            "target": true,
+            "effect": "me_firearea",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "death",
+            "min": 246,
+            "max": 655,
+            "radius": 4,
+            "target": true,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "wave_5",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 82,
+            "max": 328,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_purpleenergy"
+        },
+        {
+            "id": "firefield_6",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "radius": 1,
+            "target": true,
+            "shootEffect": "ani_fire",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "wave_7",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 492,
+            "max": 803,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_purpleenergy"
+        },
+        {
+            "id": "energy_strike_8",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 1,
+            "element": "physical",
+            "min": 344,
+            "max": 492,
+            "target": false
+        },
+        {
+            "id": "slow_9",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -300,
+                "durationSec": 30
+            },
+            "radius": 1,
+            "effect": "me_magic_red",
+            "target": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 180,
+            "max": 250,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 320,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "fire",
+    "bestiary": {
+        "class": "Demon",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 100000,
+            "maxCount": 200
+        },
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 6
+        },
+        {
+            "name": "great dual potion",
+            "chance": 26010,
+            "maxCount": 5
+        },
+        {
+            "name": "great mana potion",
+            "chance": 25210,
+            "maxCount": 5
+        },
+        {
+            "name": "vexclaw talon",
+            "chance": 21500
+        },
+        {
+            "name": "demonic essence",
+            "chance": 20730
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 19960,
+            "maxCount": 5
+        },
+        {
+            "name": "fire mushroom",
+            "chance": 19940,
+            "maxCount": 6
+        },
+        {
+            "name": "golden sickle",
+            "chance": 18940
+        },
+        {
+            "name": "purple tome",
+            "chance": 18450
+        },
+        {
+            "name": "small amethyst",
+            "chance": 10090,
+            "maxCount": 5
+        },
+        {
+            "name": "small topaz",
+            "chance": 9790,
+            "maxCount": 5
+        },
+        {
+            "name": "small emerald",
+            "chance": 9770,
+            "maxCount": 5
+        },
+        {
+            "name": "small ruby",
+            "chance": 9590,
+            "maxCount": 5
+        },
+        {
+            "name": "talon",
+            "chance": 5400
+        },
+        {
+            "name": "yellow gem",
+            "chance": 5090
+        },
+        {
+            "name": "wand of voodoo",
+            "chance": 4940
+        },
+        {
+            "chance": 4730,
+            "name": "red gem"
+        },
+        {
+            "name": "ice rapier",
+            "chance": 4730
+        },
+        {
+            "name": "fire axe",
+            "chance": 3520
+        },
+        {
+            "name": "might ring",
+            "chance": 2250
+        },
+        {
+            "name": "giant sword",
+            "chance": 1880
+        },
+        {
+            "chance": 1790,
+            "name": "stealth ring"
+        },
+        {
+            "chance": 1790,
+            "name": "voltaic ring"
+        },
+        {
+            "name": "rift lance",
+            "chance": 1360
+        },
+        {
+            "chance": 1320,
+            "name": "ring of healing"
+        },
+        {
+            "name": "platinum amulet",
+            "chance": 940
+        },
+        {
+            "name": "devil helmet",
+            "chance": 520
+        },
+        {
+            "name": "rift crossbow",
+            "chance": 370
+        },
+        {
+            "name": "rift bow",
+            "chance": 370
+        },
+        {
+            "name": "rift shield",
+            "chance": 370
+        },
+        {
+            "name": "demon shield",
+            "chance": 370
+        },
+        {
+            "name": "Arcane Plate Armor",
+            "chance": 70
+        },
+        {
+            "name": "golden legs",
+            "chance": 50
+        },
+        {
+            "name": "demonrage sword",
+            "chance": 30
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "chicken",
+    "threatDps": 146.3,
+    "burstDps": 146.3,
+    "avgHit": 365.75,
+    "maxHit": 803,
+    "manaCost": 0
+}

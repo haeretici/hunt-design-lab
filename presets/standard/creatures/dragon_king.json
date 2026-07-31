@@ -1,0 +1,219 @@
+{
+    "id": "dragon_king",
+    "label": "Dragon King",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A dragon king.",
+    "hp": 4500,
+    "hpMax": 4500,
+    "speed": 197,
+    "level": 575,
+    "armor": 45,
+    "mitigation": 1.99,
+    "maxBlock": 0,
+    "exp": 6000,
+    "lootValue": 9472.3305084746,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 300,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 72,
+            "max": 268
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 3000,
+            "chance": 20,
+            "range": 7,
+            "element": "fire",
+            "min": 112,
+            "max": 156,
+            "radius": 4,
+            "target": true,
+            "effect": "me_firearea",
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "firefield_2",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "radius": 6,
+            "target": true,
+            "shootEffect": "ani_fire",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 4000,
+            "chance": 20,
+            "range": 4,
+            "element": "fire",
+            "min": 112,
+            "max": 246,
+            "length": 8,
+            "spread": 3,
+            "target": false,
+            "effect": "me_firearea"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 1000,
+            "chance": 25,
+            "min": 400,
+            "max": 700,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "chance": 99150,
+            "maxCount": 10,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 100000,
+            "name": "dragon claw"
+        },
+        {
+            "chance": 25650,
+            "maxCount": 7,
+            "name": "green mushroom"
+        },
+        {
+            "chance": 12000,
+            "name": "small sapphire"
+        },
+        {
+            "chance": 9500,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 4250,
+            "maxCount": 5,
+            "name": "onyx arrow"
+        },
+        {
+            "chance": 850,
+            "name": "life crystal"
+        },
+        {
+            "chance": 19650,
+            "maxCount": 10,
+            "name": "power bolt"
+        },
+        {
+            "chance": 10250,
+            "name": "voltaic ring"
+        },
+        {
+            "chance": 9500,
+            "name": "great health potion"
+        },
+        {
+            "chance": 1700,
+            "name": "dragon scale mail"
+        },
+        {
+            "chance": 75200,
+            "maxCount": 10,
+            "name": "dragon ham"
+        },
+        {
+            "chance": 13700,
+            "name": "red dragon leather"
+        },
+        {
+            "chance": 10250,
+            "name": "book"
+        },
+        {
+            "chance": 6000,
+            "name": "golden mug"
+        },
+        {
+            "chance": 1700,
+            "name": "fire sword"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 8
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "wild_desert_dragon",
+    "threatDps": 102.8833,
+    "burstDps": 116.3,
+    "avgHit": 166.8378,
+    "maxHit": 268,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 2,
+        "summons": [
+            {
+                "name": "Dragon",
+                "id": "dragon",
+                "chance": 17,
+                "interval": 1000,
+                "count": 2
+            }
+        ]
+    }
+}

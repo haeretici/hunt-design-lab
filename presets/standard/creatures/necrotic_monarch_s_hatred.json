@@ -1,0 +1,261 @@
+{
+    "id": "necrotic_monarch_s_hatred",
+    "label": "Necrotic Monarch's Hatred",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A necrotic monarch's hatred.",
+    "hp": 1,
+    "hpMax": 1,
+    "speed": 150,
+    "level": 1000,
+    "armor": 0,
+    "mitigation": 5.4,
+    "maxBlock": 0,
+    "exp": 75000,
+    "lootValue": 844000,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 5000
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 7,
+            "element": "death",
+            "min": 1350,
+            "max": 1700,
+            "radius": 5,
+            "target": true,
+            "effect": "me_groundshaker",
+            "shootEffect": "ani_death"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "death",
+            "min": 1400,
+            "max": 2200,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_groundshaker"
+        },
+        {
+            "id": "singlecloudchain_3",
+            "kind": "ranged",
+            "intervalMs": 6000,
+            "chance": 40,
+            "range": 6,
+            "element": "physical",
+            "min": 1700,
+            "max": 2500,
+            "target": true,
+            "effect": "me_energyhit"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 1000,
+            "chance": 20,
+            "speedChange": 500,
+            "durationSec": 10,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "heal_1",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 25,
+            "min": 1250,
+            "max": 3250,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "undead",
+    "loot": [
+        {
+            "name": "crystal coin",
+            "chance": 55000,
+            "minCount": 70,
+            "maxCount": 75
+        },
+        {
+            "id": 281,
+            "chance": 1150
+        },
+        {
+            "name": "giant sapphire",
+            "chance": 10000,
+            "maxCount": 1
+        },
+        {
+            "name": "giant topaz",
+            "chance": 10000,
+            "maxCount": 1
+        },
+        {
+            "name": "violet gem",
+            "chance": 6000,
+            "maxCount": 1
+        },
+        {
+            "name": "blue gem",
+            "chance": 10000,
+            "maxCount": 3
+        },
+        {
+            "chance": 10000,
+            "maxCount": 3,
+            "name": "red gem"
+        },
+        {
+            "name": "green gem",
+            "chance": 10000,
+            "maxCount": 3
+        },
+        {
+            "name": "yellow gem",
+            "chance": 10000,
+            "maxCount": 3
+        },
+        {
+            "name": "white gem",
+            "chance": 6000,
+            "maxCount": 3
+        },
+        {
+            "name": "dragon figurine",
+            "chance": 10000,
+            "maxCount": 1
+        },
+        {
+            "name": "marksman potion",
+            "chance": 15000,
+            "minCount": 10,
+            "maxCount": 25
+        },
+        {
+            "name": "savant potion",
+            "chance": 15000,
+            "minCount": 10,
+            "maxCount": 25
+        },
+        {
+            "name": "berserk potion",
+            "chance": 15000,
+            "minCount": 10,
+            "maxCount": 25
+        },
+        {
+            "name": "ultimate mana potion",
+            "chance": 18000,
+            "minCount": 50,
+            "maxCount": 100
+        },
+        {
+            "name": "supreme health potion",
+            "chance": 18000,
+            "minCount": 50,
+            "maxCount": 100
+        },
+        {
+            "name": "ultimate dual potion",
+            "chance": 18000,
+            "minCount": 50,
+            "maxCount": 100
+        },
+        {
+            "name": "vial of hatred",
+            "chance": 25000,
+            "maxCount": 1
+        },
+        {
+            "name": "figurine of hatred",
+            "chance": 400
+        },
+        {
+            "name": "spectral horseshoe",
+            "chance": 400
+        },
+        {
+            "name": "spectral horse tack",
+            "chance": 400
+        },
+        {
+            "name": "bracelet of strengthening",
+            "chance": 400
+        },
+        {
+            "name": "bag you desire",
+            "chance": 100
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "obsidian_storm_giant_assassin",
+    "threatDps": 1708.75,
+    "burstDps": 1988.75,
+    "avgHit": 2228.8043,
+    "maxHit": 5000,
+    "manaCost": 0
+}

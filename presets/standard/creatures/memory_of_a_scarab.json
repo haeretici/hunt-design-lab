@@ -1,0 +1,195 @@
+{
+    "id": "memory_of_a_scarab",
+    "label": "Memory Of A Scarab",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A memory of a scarab.",
+    "hp": 3620,
+    "hpMax": 3620,
+    "speed": 109,
+    "level": 553,
+    "armor": 0,
+    "mitigation": 1.1,
+    "maxBlock": 0,
+    "exp": 1590,
+    "lootValue": 366.65384615385,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 100,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 20,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 80,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 139,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 60,
+                "intervalMs": 4000
+            }
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "earth",
+            "min": 16,
+            "max": 155,
+            "target": false,
+            "effect": "me_poisonarea",
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "slow_2",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -700,
+                "durationSec": 25
+            },
+            "effect": "me_poisonarea",
+            "target": false
+        },
+        {
+            "id": "condition_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 30,
+            "range": 4,
+            "element": "earth",
+            "min": 75,
+            "max": 161,
+            "radius": 5,
+            "target": false,
+            "effect": "me_poisonarea"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 380,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "venom",
+    "loot": [
+        {
+            "name": "scarab amulet",
+            "chance": 3410
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 155
+        },
+        {
+            "name": "small emerald",
+            "chance": 4810,
+            "maxCount": 3
+        },
+        {
+            "name": "small amethyst",
+            "chance": 5000,
+            "maxCount": 4
+        },
+        {
+            "name": "scarab coin",
+            "chance": 7692,
+            "maxCount": 2
+        },
+        {
+            "chance": 11480,
+            "name": "magic light wand"
+        },
+        {
+            "name": "plate armor",
+            "chance": 10300
+        },
+        {
+            "name": "special fx box",
+            "chance": 1500
+        },
+        {
+            "name": "strong health potion",
+            "chance": 660
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "rune_stone_bugbear",
+    "threatDps": 91,
+    "burstDps": 91,
+    "avgHit": 81.3333,
+    "maxHit": 161,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 2,
+        "summons": [
+            {
+                "name": "Larva",
+                "id": "larva",
+                "chance": 10,
+                "interval": 2000,
+                "count": 3
+            }
+        ]
+    }
+}

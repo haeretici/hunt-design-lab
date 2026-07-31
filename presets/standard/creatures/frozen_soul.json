@@ -1,0 +1,96 @@
+{
+    "id": "frozen_soul",
+    "label": "Frozen Soul",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A frozen soul.",
+    "hp": 1,
+    "hpMax": 1,
+    "speed": 160,
+    "level": 514,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 100,
+        "fire": 100,
+        "ice": 300,
+        "energy": 100,
+        "earth": 100,
+        "holy": 0,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "ranged_0",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 35,
+            "range": 5,
+            "element": "ice",
+            "min": 225,
+            "max": 400,
+            "target": true,
+            "effect": "me_icearea",
+            "shootEffect": "ani_ice"
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 3500,
+            "chance": 25,
+            "range": 5,
+            "element": "lifedrain",
+            "min": 175,
+            "max": 350,
+            "target": true,
+            "effect": "me_magic_red",
+            "shootEffect": "ani_explosion"
+        }
+    ],
+    "race": "undead",
+    "loot": [],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "glacier_mountain_phantom",
+    "threatDps": 73.4375,
+    "burstDps": 87.5,
+    "avgHit": 298.0072,
+    "maxHit": 400,
+    "manaCost": 0
+}

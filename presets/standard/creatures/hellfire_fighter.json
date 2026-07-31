@@ -1,0 +1,212 @@
+{
+    "id": "hellfire_fighter",
+    "label": "Hellfire Fighter",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A hellfire fighter.",
+    "hp": 3800,
+    "hpMax": 3800,
+    "speed": 165,
+    "level": 558,
+    "armor": 62,
+    "mitigation": 1.6,
+    "maxBlock": 0,
+    "exp": 3800,
+    "lootValue": 1040.8986708777,
+    "aggro": true,
+    "resists": {
+        "physical": 50,
+        "fire": 100,
+        "ice": -25,
+        "energy": 20,
+        "earth": 0,
+        "holy": 0,
+        "death": 20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 80,
+        "random": 20
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 254
+        },
+        {
+            "id": "firefield_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 7,
+            "element": "physical",
+            "radius": 3,
+            "target": false,
+            "shootEffect": "ani_fire",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "fire",
+            "min": 191,
+            "max": 732,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_fireattack"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "fire",
+            "min": 29,
+            "max": 161,
+            "radius": 3,
+            "target": false,
+            "effect": "me_hitbyfire"
+        }
+    ],
+    "race": "fire",
+    "bestiary": {
+        "class": "Demon",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "emerald bangle",
+            "chance": 2200
+        },
+        {
+            "chance": 190,
+            "name": "fiendbone amulet"
+        },
+        {
+            "name": "small diamond",
+            "chance": 1400
+        },
+        {
+            "name": "gold coin",
+            "chance": 50000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 40000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 10000,
+            "maxCount": 46
+        },
+        {
+            "name": "wand of inferno",
+            "chance": 9450
+        },
+        {
+            "name": "burnt scroll",
+            "chance": 50000
+        },
+        {
+            "name": "blank rune",
+            "chance": 30000,
+            "maxCount": 2
+        },
+        {
+            "name": "fire sword",
+            "chance": 4140
+        },
+        {
+            "name": "fire axe",
+            "chance": 440
+        },
+        {
+            "name": "soul orb",
+            "chance": 12150
+        },
+        {
+            "name": "demonic essence",
+            "chance": 14500
+        },
+        {
+            "name": "Emberbound Legs",
+            "chance": 682
+        },
+        {
+            "name": "Emberbound Coat",
+            "chance": 380
+        },
+        {
+            "name": "fiery heart",
+            "chance": 9570
+        },
+        {
+            "name": "piece of hellfire armor",
+            "chance": 5060
+        },
+        {
+            "chance": 670,
+            "name": "coal"
+        },
+        {
+            "name": "eternal flames",
+            "chance": 380
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "radiant_fire_giant_priest",
+    "threatDps": 93.7,
+    "burstDps": 93.7,
+    "avgHit": 149.92,
+    "maxHit": 732,
+    "manaCost": 0
+}

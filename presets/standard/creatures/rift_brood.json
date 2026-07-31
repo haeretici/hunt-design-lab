@@ -1,0 +1,198 @@
+{
+    "id": "rift_brood",
+    "label": "Rift Brood",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A rift brood.",
+    "hp": 3500,
+    "hpMax": 3500,
+    "speed": 135,
+    "level": 550,
+    "armor": 53,
+    "mitigation": 1.46,
+    "maxBlock": 0,
+    "exp": 1760,
+    "lootValue": 943.73431734317,
+    "aggro": true,
+    "resists": {
+        "physical": -5,
+        "fire": 10,
+        "ice": 25,
+        "energy": 80,
+        "earth": -5,
+        "holy": -5,
+        "death": -5
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 209
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 25,
+            "range": 6,
+            "element": "energy",
+            "min": 119,
+            "max": 239,
+            "target": true,
+            "effect": "me_stun",
+            "shootEffect": "ani_flasharrow"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 89,
+            "max": 209,
+            "radius": 5,
+            "target": false,
+            "effect": "me_magic_red"
+        }
+    ],
+    "race": "venom",
+    "bestiary": {
+        "class": "Extra Dimensional",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 100,
+            "name": "gold coin"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 5,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 15000,
+            "name": "energy bar"
+        },
+        {
+            "chance": 15000,
+            "name": "energy drink"
+        },
+        {
+            "chance": 15000,
+            "name": "instable proto matter"
+        },
+        {
+            "chance": 12200,
+            "name": "great health potion"
+        },
+        {
+            "chance": 12000,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 11700,
+            "name": "great dual potion"
+        },
+        {
+            "chance": 11500,
+            "name": "crystallized anger"
+        },
+        {
+            "chance": 10600,
+            "name": "curious matter"
+        },
+        {
+            "chance": 9600,
+            "name": "volatile proto matter"
+        },
+        {
+            "chance": 9600,
+            "name": "plasma pearls"
+        },
+        {
+            "chance": 7400,
+            "maxCount": 2,
+            "name": "blue crystal splinter"
+        },
+        {
+            "chance": 6500,
+            "name": "cyan crystal fragment"
+        },
+        {
+            "chance": 4400,
+            "name": "blue crystal shard"
+        },
+        {
+            "chance": 4100,
+            "name": "green crystal shard"
+        },
+        {
+            "chance": 470,
+            "name": "collar of red plasma"
+        },
+        {
+            "chance": 470,
+            "name": "collar of blue plasma"
+        },
+        {
+            "name": "spark sphere",
+            "chance": 14870
+        }
+    ],
+    "changeTarget": {
+        "interval": 2000,
+        "chance": 20
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "rune_stone_bugbear",
+    "threatDps": 89.525,
+    "burstDps": 89.525,
+    "avgHit": 123.4828,
+    "maxHit": 239,
+    "manaCost": 0
+}

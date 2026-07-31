@@ -1,0 +1,180 @@
+{
+    "id": "draconian_warmaster",
+    "label": "Draconian Warmaster",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A draconian warmaster.",
+    "hp": 4150,
+    "hpMax": 4150,
+    "speed": 162,
+    "level": 567,
+    "armor": 55,
+    "mitigation": 1.6,
+    "maxBlock": 0,
+    "exp": 2400,
+    "lootValue": 964.33825305287,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": -5,
+        "energy": 5,
+        "earth": 100,
+        "holy": 5,
+        "death": 50
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 314
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "fire",
+            "min": 251,
+            "max": 544,
+            "length": 4,
+            "spread": 3,
+            "target": false,
+            "effect": "me_explosionhit"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 510,
+            "max": 600,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Dragon",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 97490,
+            "maxCount": 197
+        },
+        {
+            "name": "platinum coin",
+            "chance": 47640,
+            "maxCount": 5
+        },
+        {
+            "name": "meat",
+            "chance": 30390
+        },
+        {
+            "name": "bone shoulderplate",
+            "chance": 12840
+        },
+        {
+            "name": "zaoan halberd",
+            "chance": 8930
+        },
+        {
+            "name": "warmaster's wristguards",
+            "chance": 7020
+        },
+        {
+            "name": "great health potion",
+            "chance": 3710,
+            "maxCount": 3
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 3410
+        },
+        {
+            "name": "zaoan shoes",
+            "chance": 2610
+        },
+        {
+            "name": "tower shield",
+            "chance": 2310
+        },
+        {
+            "name": "small ruby",
+            "chance": 1810,
+            "maxCount": 5
+        },
+        {
+            "name": "zaoan legs",
+            "chance": 1300
+        },
+        {
+            "name": "zaoan armor",
+            "chance": 600
+        },
+        {
+            "name": "drakinata",
+            "chance": 600
+        },
+        {
+            "name": "Celestial Band",
+            "chance": 220
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "necromantic_focus",
+    "threatDps": 98.375,
+    "burstDps": 98.375,
+    "avgHit": 178.8636,
+    "maxHit": 544,
+    "manaCost": 0
+}

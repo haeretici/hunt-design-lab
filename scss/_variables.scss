@@ -1,0 +1,36 @@
+// Hunt Design Lab — design tokens (shared shell + apps)
+
+$accent-primary: #c77dff;
+$accent-secondary: #00f2fe;
+$accent-gold: #ffcc00;
+$accent-warning: #ffb700;
+$accent-success: #6dffb0;
+$accent-danger: #ff7b7b;
+/** HuntDL brand mark (fa-dragon / favicon) — dragon-lord red */
+$brand-dragon: #c41e3a;
+
+$bg-darkest: #0d0f14;
+$bg-dark: #151821;
+$bg-light: #1f2430;
+$bg-selected: #2b3242;
+$bg-input: #0a0c10;
+
+$text-main: #f3f4f6;
+$text-muted: rgba(255, 255, 255, 0.55);
+
+$border-color: rgba(255, 255, 255, 0.08);
+$glass-bg: rgba(21, 24, 33, 0.92);
+$cmd-block-bg: rgba(5, 8, 18, 0.95);
+
+$font-ui: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+$font-mono: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+$font-title: 'Orbitron', sans-serif;
+
+$header-height: 38px;
+$statusbar-height: 24px;
+$am-sidebar-width: 260px;
+$am-detail-width: 300px;
+
+// Hunt Simulator / Scenario Lab logical canvas (internal buffer size)
+$game-canvas-w: 720;
+$game-canvas-h: 480;

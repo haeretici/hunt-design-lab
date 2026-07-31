@@ -1,0 +1,143 @@
+{
+    "id": "deep_terror_pincher_scout",
+    "label": "Deep Terror Pincher Scout",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A deep terror pincher scout.",
+    "hp": 775,
+    "hpMax": 775,
+    "speed": 78,
+    "level": 399,
+    "armor": 70,
+    "mitigation": 0.91,
+    "maxBlock": 0,
+    "exp": 600,
+    "lootValue": 129.9239337743,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 100,
+        "ice": 100,
+        "energy": -10,
+        "earth": -10,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 155,
+            "effect": "me_drawblood"
+        },
+        {
+            "id": "slow_1",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -600,
+                "durationSec": 3
+            },
+            "effect": "me_magic_red",
+            "target": false
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Aquatic",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 49000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 40000,
+            "maxCount": 29
+        },
+        {
+            "name": "quara pincers",
+            "chance": 9940
+        },
+        {
+            "name": "plate armor",
+            "chance": 4170
+        },
+        {
+            "name": "small ruby",
+            "chance": 3440
+        },
+        {
+            "name": "halberd",
+            "chance": 2070
+        },
+        {
+            "name": "fish fin",
+            "chance": 800
+        },
+        {
+            "name": "life crystal",
+            "chance": 790
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "doom_kobold_assassin",
+    "threatDps": 38.75,
+    "burstDps": 38.75,
+    "avgHit": 77.5,
+    "maxHit": 155,
+    "manaCost": 0
+}

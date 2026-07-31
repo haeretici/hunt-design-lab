@@ -1,0 +1,96 @@
+{
+    "id": "cyclops_axeitus",
+    "label": "Cyclops Axeitus",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A cyclops axeitus.",
+    "hp": 365,
+    "hpMax": 365,
+    "speed": 80,
+    "level": 324,
+    "armor": 18,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 140,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -5,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 51
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 80,
+            "range": 5,
+            "element": "physical",
+            "min": 0,
+            "max": 32,
+            "radius": 1,
+            "target": true,
+            "shootEffect": "ani_smallstone"
+        }
+    ],
+    "race": "blood",
+    "loot": [],
+    "changeTarget": {
+        "interval": 0,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "obsidian_cyclops",
+    "threatDps": 25.55,
+    "burstDps": 25.55,
+    "avgHit": 19.6538,
+    "maxHit": 51,
+    "manaCost": 0
+}

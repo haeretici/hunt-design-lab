@@ -1,0 +1,1506 @@
+/**
+ * Legacy port: converters + assets/legacy fixtures; optional presets/legacy pack.
+ */
+
+'use strict';
+
+const assert = require('assert');
+const fs = require('fs');
+const path = require('path');
+
+const { ROOT, PATHS, mapPathPng } = require('../kernel/settings.js');
+const {
+    slugifyMonsterName,
+    absDamageRange,
+    convertElementsToResists,
+    convertMonsterToTemplate,
+    convertAttack,
+    convertCondition,
+    convertDefenseSpell,
+    convertBestiary,
+    convertSummon,
+    convertMonsterFlags,
+    applyLegacyMonsterMetadata,
+    convertSpawn,
+    analyzeNavmesh,
+    convertWaypointPresets,
+    convertWikiEquipmentItem,
+    convertEquipmentList,
+    mergeWikiItemPair,
+    mergeWikiItemCatalogs,
+    parseSpeedBonus,
+    parseDurationSec,
+    parseSkillBonuses,
+    parseResists,
+    parseEquipmentMapCsv,
+    formatEquipmentMapCsv,
+    mapLegacyEquipmentToStandard,
+    ensureEntityId
+} = require('../kernel/core/lib/content/legacy_monster_port.js');
+const {
+    parseVocationMapCsv,
+    formatVocationMapCsv,
+    parseSpellMapCsv,
+    formatSpellMapCsv,
+    mapLegacyClassesToStandard,
+    mapLegacySpellsToStandard,
+    buildSpellIdMap,
+    buildVocationIdMap
+} = require('../kernel/core/lib/content/standard_catalog_map.js');
+const {
+    applyCondition,
+    tickConditions,
+    isInvisible,
+    hasHaste
+} = require('../kernel/core/lib/combat/conditions.js');
+const {
+    tryDefenseSpells,
+    tryMonsterSummons,
+    ensureCreatureKit,
+    isSummon,
+    normalizeSummonConfig
+} = require('../kernel/core/lib/ai/creature_kit.js');
+const { rollupEquipment } = require('../kernel/core/lib/character/stats.js');
+const {
+    loadFloorSpawns,
+    filterFloorSpawns,
+    filterSpawnList,
+    toHuntSpawns,
+    resolveSpawnSource,
+    resolveHuntSpawnDefs,
+    loadLegacyMonsterManifest,
+    loadSpawnIndex,
+    loadNavmeshAnalysis,
+    legacyPath
+} = require('../kernel/core/lib/content/legacy_assets.js');
+const presets = require('../kernel/core/lib/presets.js');
+const { setActiveMode } = require('../kernel/core/lib/modes.js');
+const { hasMode } = require('./helpers/modes.js');
+const {
+    normalizeCreatureKit,
+    attackToSpell
+} = require('../kernel/core/lib/ai/creature_kit.js');
+
+function log(msg, extra) {
+    if (extra !== undefined) console.log('  ✓', msg, extra);
+    else console.log('  ✓', msg);
+}
+
+function testConverters() {
+    assert.strictEqual(slugifyMonsterName('Cave Rat'), 'cave_rat');
+    assert.strictEqual(slugifyMonsterName('a weak spot'), 'a_weak_spot');
+
+    const dmg = absDamageRange({ minDamage: 0, maxDamage: -10 });
+    assert.deepStrictEqual(dmg, { min: 0, max: 10 });
+
+    const resists = convertElementsToResists({
+        physical: 100,
+        fire: 110,
+        earth: 0,
+        ice: 80
+    });
+    assert.strictEqual(resists.physical, 0);
+    assert.strictEqual(resists.fire, -10);
+    assert.strictEqual(resists.earth, 100);
+    assert.strictEqual(resists.ice, 20);
+
+    const atk = convertAttack(
+        {
+            name: 'melee',
+            interval: 2000,
+            chance: 100,
+            minDamage: 0,
+            maxDamage: -10
+        },
+        0
+    );
+    assert.ok(atk);
+    assert.strictEqual(atk.kind, 'melee');
+    assert.strictEqual(atk.min, 0);
+    assert.strictEqual(atk.max, 10);
+    assert.strictEqual(atk.intervalMs, 2000);
+
+    const ranged = convertAttack(
+        {
+            name: 'combat',
+            interval: 2000,
+            chance: 20,
+            type: 'fire',
+            minDamage: -20,
+            maxDamage: -40,
+            range: 7,
+            radius: 1,
+            target: true
+        },
+        1
+    );
+    assert.ok(ranged);
+    assert.strictEqual(ranged.kind, 'ranged');
+    assert.strictEqual(ranged.element, 'fire');
+    assert.strictEqual(ranged.max, 40);
+
+    const mon = {
+        name: 'cave rat',
+        description: 'a cave rat',
+        experience: 10,
+        health: 30,
+        maxHealth: 30,
+        speed: 75,
+        manaCost: 250,
+        strategiesTarget: { nearest: 100 },
+        flags: {
+            hostile: true,
+            attackable: true,
+            summonable: true,
+            pushable: true,
+            canPushItems: false,
+            canWalkOnFire: false,
+            isBlockable: true,
+            targetDistance: 1,
+            runHealth: 3,
+            staticAttackChance: 90
+        },
+        defenses: { armor: 1, mitigation: 0.1 },
+        elements: { physical: 100, fire: 110, earth: 100 },
+        attacks: [
+            {
+                name: 'melee',
+                interval: 2000,
+                chance: 100,
+                minDamage: 0,
+                maxDamage: -10
+            }
+        ],
+        Bestiary: {
+            class: 'Mammal',
+            Stars: 1,
+            toKill: 25,
+            FirstUnlock: 5,
+            SecondUnlock: 10,
+            CharmsPoints: 1,
+            Occurrence: 0,
+            Locations: 'Rookgaard sewers.'
+        },
+        summon: {
+            maxSummons: 2,
+            summons: [
+                { name: 'Bonebeast', chance: 10, interval: 2000, count: 2 }
+            ]
+        }
+    };
+    const nameMap = new Map([
+        [
+            'bonebeast',
+            { standardName: 'Bone Beast', standardId: 'bone_beast' }
+        ]
+    ]);
+    const t = convertMonsterToTemplate(mon, {
+        imageRel: 'assets/legacy/monsters/images/cave rat.gif',
+        nameMap
+    });
+    assert.strictEqual(t.id, 'cave_rat');
+    assert.strictEqual(t.hp, 30);
+    assert.strictEqual(t.source, 'legacy');
+    assert.strictEqual(t.flags.runHealth, 3);
+    assert.strictEqual(t.flags.summonable, true);
+    assert.strictEqual(t.flags.pushable, true);
+    assert.strictEqual(t.flags.canWalkOnFire, false);
+    assert.strictEqual(t.canBlock, true);
+    assert.strictEqual(t.manaCost, 250);
+    assert.strictEqual(t.resists.fire, -10);
+    assert.strictEqual(t.attacks.length, 1);
+    assert.strictEqual(t.attacks[0].max, 10);
+    assert.ok(t.sprite && t.sprite.legacy);
+    assert.ok(t.bestiary);
+    assert.strictEqual(t.bestiary.class, 'Mammal');
+    assert.strictEqual(t.bestiary.stars, 1);
+    assert.strictEqual(t.bestiary.toKill, 25);
+    assert.strictEqual(t.bestiary.firstUnlock, 5);
+    assert.strictEqual(t.bestiary.secondUnlock, 10);
+    assert.strictEqual(t.bestiary.charmsPoints, 1);
+    assert.strictEqual(t.bestiary.occurrence, 0);
+    assert.strictEqual(t.bestiary.Locations, undefined);
+    assert.strictEqual(t.bestiary.locations, undefined);
+    assert.ok(t.summon);
+    assert.strictEqual(t.summon.maxSummons, 2);
+    assert.strictEqual(t.summon.summons[0].name, 'Bone Beast');
+    assert.strictEqual(t.summon.summons[0].id, 'bone_beast');
+
+    // Metadata-only patch preserves combat fields
+    const existing = {
+        id: 'cave_rat',
+        label: 'Cave Rat',
+        hp: 999,
+        level: 42,
+        canBlock: false,
+        flags: { aggroRange: 9, loseTargetDistance: 15 },
+        customSprite: 'keep_me'
+    };
+    applyLegacyMonsterMetadata(existing, mon, { nameMap });
+    assert.strictEqual(existing.hp, 999);
+    assert.strictEqual(existing.level, 42);
+    assert.strictEqual(existing.customSprite, 'keep_me');
+    assert.strictEqual(existing.canBlock, true);
+    assert.strictEqual(existing.manaCost, 250);
+    assert.strictEqual(existing.flags.aggroRange, 9);
+    assert.strictEqual(existing.flags.summonable, true);
+    assert.strictEqual(existing.bestiary.toKill, 25);
+    assert.strictEqual(existing.summon.summons[0].id, 'bone_beast');
+
+    const bOnly = convertBestiary({
+        class: 'Undead',
+        Stars: 3,
+        Locations: 'somewhere'
+    });
+    assert.deepStrictEqual(bOnly, { class: 'Undead', stars: 3 });
+    assert.strictEqual(convertBestiary(null), null);
+
+    const flags = convertMonsterFlags({
+        hostile: true,
+        summonable: false,
+        targetDistance: 4,
+        runHealth: 10
+    });
+    assert.strictEqual(flags.hostile, true);
+    assert.strictEqual(flags.summonable, false);
+    assert.strictEqual(flags.targetDistance, 4);
+    assert.strictEqual(flags.aggroRange, 7);
+
+    // Without nameMap: slug fallback kept (legacy pack path)
+    const unmappedNoMap = convertSummon({
+        maxSummons: 1,
+        summons: [{ name: 'zamulosh2', chance: 5, interval: 2000, count: 1 }]
+    });
+    assert.ok(unmappedNoMap);
+    assert.strictEqual(unmappedNoMap.summons[0].id, 'zamulosh2');
+
+    // With nameMap: unmapped summon rows are dropped
+    const emptyMap = new Map();
+    assert.strictEqual(
+        convertSummon(
+            {
+                maxSummons: 1,
+                summons: [
+                    { name: 'zamulosh2', chance: 5, interval: 2000, count: 1 }
+                ]
+            },
+            emptyMap
+        ),
+        null
+    );
+    const partialMap = new Map([
+        [
+            'bonebeast',
+            { standardName: 'Bone Beast', standardId: 'bone_beast' }
+        ]
+    ]);
+    const filtered = convertSummon(
+        {
+            maxSummons: 3,
+            summons: [
+                { name: 'Bonebeast', chance: 10, interval: 2000, count: 2 },
+                { name: 'zamulosh2', chance: 5, interval: 2000, count: 1 }
+            ]
+        },
+        partialMap
+    );
+    assert.ok(filtered);
+    assert.strictEqual(filtered.summons.length, 1);
+    assert.strictEqual(filtered.summons[0].id, 'bone_beast');
+
+    const kit = normalizeCreatureKit(t);
+    assert.strictEqual(kit.attacks[0].max, 10);
+    assert.strictEqual(kit.flags.runHealth, 3);
+
+    // ── defense_spells + conditions ───────────────────────────────────
+    const healSpell = convertDefenseSpell(
+        {
+            name: 'combat',
+            interval: 2000,
+            chance: 10,
+            type: 'healing',
+            minDamage: 50,
+            maxDamage: 100,
+            effect: 'me_magic_blue',
+            target: false
+        },
+        0
+    );
+    assert.ok(healSpell);
+    assert.strictEqual(healSpell.kind, 'heal');
+    assert.strictEqual(healSpell.min, 50);
+    assert.strictEqual(healSpell.max, 100);
+
+    const hasteSpell = convertDefenseSpell(
+        {
+            name: 'speed',
+            interval: 2000,
+            chance: 15,
+            speedChange: 300,
+            duration: 5000,
+            effect: 'me_magic_red',
+            target: false
+        },
+        1
+    );
+    assert.ok(hasteSpell);
+    assert.strictEqual(hasteSpell.kind, 'haste');
+    assert.strictEqual(hasteSpell.speedChange, 300);
+    assert.strictEqual(hasteSpell.durationSec, 5);
+
+    const invisSpell = convertDefenseSpell(
+        {
+            name: 'invisible',
+            interval: 2000,
+            chance: 5,
+            effect: 'me_magic_blue',
+            duration: 2000
+        },
+        2
+    );
+    assert.ok(invisSpell);
+    assert.strictEqual(invisSpell.kind, 'invisible');
+    assert.strictEqual(invisSpell.durationSec, 2);
+
+    // Outfit / summon skipped
+    assert.strictEqual(
+        convertDefenseSpell(
+            { name: 'outfit', interval: 4000, chance: 10, duration: 5000 },
+            3
+        ),
+        null
+    );
+
+    const slowAtk = convertAttack(
+        {
+            name: 'speed',
+            interval: 2000,
+            chance: 15,
+            speedChange: -700,
+            length: 5,
+            duration: 15000,
+            effect: 'me_smallplants',
+            target: false
+        },
+        0
+    );
+    assert.ok(slowAtk);
+    assert.strictEqual(slowAtk.kind, 'status');
+    assert.ok(slowAtk.statusOnly);
+    assert.strictEqual(slowAtk.condition.type, 'slow');
+    assert.strictEqual(slowAtk.condition.speedChange, -700);
+    assert.strictEqual(slowAtk.condition.durationSec, 15);
+
+    const poisonMelee = convertAttack(
+        {
+            name: 'melee',
+            interval: 2000,
+            chance: 100,
+            minDamage: 0,
+            maxDamage: -20,
+            condition: {
+                type: 'CONDITION_POISON',
+                totalDamage: 30,
+                interval: 4000
+            }
+        },
+        0
+    );
+    assert.ok(poisonMelee);
+    assert.strictEqual(poisonMelee.max, 20);
+    assert.ok(poisonMelee.condition);
+    assert.strictEqual(poisonMelee.condition.type, 'poison');
+    assert.strictEqual(poisonMelee.condition.totalDamage, 30);
+    assert.strictEqual(poisonMelee.condition.intervalMs, 4000);
+
+    const monWithDef = {
+        name: 'Water Elemental',
+        health: 550,
+        maxHealth: 550,
+        experience: 450,
+        speed: 100,
+        defenses: { armor: 20, mitigation: 1 },
+        elements: { physical: 100, fire: 0 },
+        flags: { targetDistance: 1, staticAttackChance: 90 },
+        attacks: [
+            {
+                name: 'melee',
+                interval: 2000,
+                chance: 100,
+                minDamage: 0,
+                maxDamage: -100
+            }
+        ],
+        defense_spells: [
+            {
+                name: 'speed',
+                interval: 2000,
+                chance: 15,
+                speedChange: 300,
+                effect: 'me_magic_red',
+                target: false,
+                duration: 5000
+            },
+            {
+                name: 'combat',
+                interval: 2000,
+                chance: 10,
+                type: 'healing',
+                minDamage: 50,
+                maxDamage: 80,
+                effect: 'me_magic_blue',
+                target: false
+            }
+        ]
+    };
+    const tDef = convertMonsterToTemplate(monWithDef);
+    assert.ok(tDef.defenseSpells);
+    assert.strictEqual(tDef.defenseSpells.length, 2);
+    assert.strictEqual(tDef.defenseSpells[0].kind, 'haste');
+    assert.strictEqual(tDef.defenseSpells[1].kind, 'heal');
+
+    const kitDef = normalizeCreatureKit(tDef);
+    assert.strictEqual(kitDef.defenseSpells.length, 2);
+
+    // Runtime: conditions DoT + haste
+    const dummy = {
+        alive: true,
+        speed: 100,
+        baseSpeed: 100,
+        conditions: [],
+        hp: { current: 100, max: 100 },
+        applyHpDelta(amount, element) {
+            if (element === 'healing') {
+                this.hp.current = Math.min(
+                    this.hp.max,
+                    this.hp.current + amount
+                );
+            } else {
+                this.hp.current = Math.max(0, this.hp.current - amount);
+                if (this.hp.current <= 0) this.alive = false;
+            }
+        }
+    };
+    applyCondition(dummy, {
+        type: 'poison',
+        totalDamage: 30,
+        intervalMs: 1000
+    });
+    assert.ok(dummy.conditions.length === 1);
+    // Advance past first tick interval
+    tickConditions(dummy, 1.0);
+    assert.ok(dummy.hp.current < 100, 'poison should deal damage');
+
+    applyCondition(dummy, {
+        type: 'haste',
+        speedChange: 50,
+        durationSec: 5
+    });
+    assert.ok(hasHaste(dummy));
+    assert.strictEqual(dummy.speed, 150);
+
+    applyCondition(dummy, {
+        type: 'invisible',
+        durationSec: 2
+    });
+    assert.ok(isInvisible(dummy));
+
+    // Runtime defense heal
+    const healer = {
+        alive: true,
+        speed: 100,
+        baseSpeed: 100,
+        conditions: [],
+        hp: { current: 40, max: 100 },
+        attacks: [],
+        defenseSpells: [
+            {
+                id: 'heal_0',
+                kind: 'heal',
+                intervalMs: 100,
+                chance: 100,
+                min: 20,
+                max: 20,
+                hpBelow: 0.7
+            }
+        ]
+    };
+    ensureCreatureKit(healer);
+    const defRes = tryDefenseSpells(healer, { rng: () => 0 });
+    assert.ok(defRes.fired, 'heal should fire under threshold');
+    assert.strictEqual(defRes.kind, 'heal');
+    assert.ok(healer.hp.current > 40);
+
+    // Runtime: monster auto-summon (kit + mock spawn)
+    const summonCfg = normalizeSummonConfig({
+        maxSummons: 3,
+        summons: [
+            {
+                name: 'Slime',
+                id: 'slime',
+                chance: 100,
+                interval: 2000,
+                count: 3
+            }
+        ]
+    });
+    assert.ok(summonCfg);
+    assert.strictEqual(summonCfg.maxSummons, 3);
+    assert.strictEqual(summonCfg.summons[0].intervalSec, 2);
+    assert.strictEqual(summonCfg.summons[0].id, 'slime');
+
+    const master = {
+        id: 10,
+        alive: true,
+        type: 'creature',
+        creatureType: 'slime',
+        name: 'Slime',
+        inBattle: true,
+        tile: { x: 5, y: 5, z: 0 },
+        hp: { current: 100, max: 100 },
+        attacks: [],
+        summon: {
+            maxSummons: 2,
+            summons: [
+                {
+                    name: 'Slime',
+                    id: 'slime',
+                    chance: 100,
+                    interval: 100,
+                    count: 2
+                }
+            ]
+        },
+        summonIds: []
+    };
+    ensureCreatureKit(master);
+    assert.ok(master.kit.summon);
+    assert.strictEqual(master.kit.summon.maxSummons, 2);
+
+    /** @type {object[]} */
+    const spawned = [];
+    let nextId = 100;
+    const entities = new Map([[master.id, master]]);
+    const mockSim = {
+        entityById: entities,
+        getEntityById(id) {
+            return entities.get(id) || null;
+        },
+        spawnSummon(opts) {
+            const s = {
+                id: nextId++,
+                alive: true,
+                type: 'creature',
+                creatureType: opts.creatureId,
+                name: 'Slime',
+                masterId: master.id,
+                hp: { current: 50, max: 50 },
+                tile: { x: 6, y: 5, z: 0 }
+            };
+            entities.set(s.id, s);
+            master.summonIds.push(s.id);
+            spawned.push(s);
+            return s;
+        }
+    };
+    const player = {
+        id: 1,
+        alive: true,
+        type: 'player',
+        hp: { current: 100, max: 100 },
+        tile: { x: 6, y: 5, z: 0 }
+    };
+    const sumRes = tryMonsterSummons(master, { sim: mockSim, rng: () => 0 }, player);
+    assert.ok(sumRes.fired, 'summon should fire when engaged + chance 100');
+    assert.strictEqual(sumRes.summonId, 'slime');
+    assert.strictEqual(spawned.length, 1);
+    assert.ok(isSummon(spawned[0]));
+    assert.strictEqual(master.summonIds.length, 1);
+
+    // Second tick: interval not ready yet (100ms window just opened)
+    const sumRes2 = tryMonsterSummons(master, { sim: mockSim, rng: () => 0 }, player);
+    assert.strictEqual(sumRes2.fired, false, 'interval gate should block immediate re-summon');
+
+    // Feature off
+    const sumOff = tryMonsterSummons(
+        master,
+        { sim: mockSim, rng: () => 0, monsterSummons: false },
+        player
+    );
+    assert.strictEqual(sumOff.fired, false);
+
+    // Nested summons blocked
+    master._summonReadyIn[0] = 0;
+    const nestedMaster = spawned[0];
+    nestedMaster.summon = master.summon;
+    nestedMaster.summonIds = [];
+    nestedMaster.inBattle = true;
+    ensureCreatureKit(nestedMaster);
+    nestedMaster._summonReadyIn = [0];
+    const nested = tryMonsterSummons(
+        nestedMaster,
+        { sim: mockSim, rng: () => 0 },
+        player
+    );
+    assert.strictEqual(nested.fired, false, 'summons must not nest');
+
+    // Cap maxSummons: force ready and fill
+    master._summonReadyIn[0] = 0;
+    tryMonsterSummons(master, { sim: mockSim, rng: () => 0 }, player);
+    assert.strictEqual(master.summonIds.length, 2, 'should reach maxSummons 2');
+    master._summonReadyIn[0] = 0;
+    const capped = tryMonsterSummons(master, { sim: mockSim, rng: () => 0 }, player);
+    assert.strictEqual(capped.fired, false, 'maxSummons cap');
+
+    const spawn = convertSpawn({
+        x: 10,
+        y: 20,
+        z: '07',
+        name: 'Cave Rat',
+        spawntime: 90
+    });
+    assert.strictEqual(spawn.creatureId, 'cave_rat');
+    assert.strictEqual(spawn.z, 7);
+    assert.strictEqual(spawn.respawn, 90);
+
+    const analysis = analyzeNavmesh({
+        points: [
+            { x: 1, y: 1, z: '00', properties: { icon: 'down' } },
+            { x: 1, y: 1, z: '01', properties: { icon: 'up' } },
+            { x: 2, y: 2, z: '01', properties: {} }
+        ],
+        connections: [
+            [0, 1],
+            [1, 2]
+        ]
+    });
+    assert.strictEqual(analysis.crossFloorEdges, 1);
+    assert.strictEqual(analysis.icons.down, 1);
+    assert.strictEqual(analysis.icons.up, 1);
+
+    const wps = convertWaypointPresets({
+        'Test Route': [
+            { x: 1, y: 2, z: '07' },
+            { x: 3, y: 4, z: '07' }
+        ]
+    });
+    assert.strictEqual(wps.length, 1);
+    assert.strictEqual(wps[0].id, 'test_route');
+    assert.strictEqual(wps[0].waypoints.length, 2);
+
+    log('pure converters');
+}
+
+/**
+ * Phase 1: wiki v1/v2 equipment merge + normalized combat fields.
+ */
+function testEquipmentConverters() {
+    assert.strictEqual(parseSpeedBonus('speed +30', {}), 30);
+    assert.strictEqual(parseSpeedBonus('', { speed: '20' }), 20);
+    assert.strictEqual(parseSpeedBonus('speed +5', { speed: '20' }), 20, 'data.speed wins');
+
+    assert.strictEqual(parseDurationSec({ duration: '10 minutes' }, {}), 600);
+    assert.strictEqual(parseDurationSec({ duration: '7.5 minutes' }, {}), 450);
+    assert.strictEqual(parseDurationSec({ duration: '2 hours' }, {}), 7200);
+    assert.strictEqual(parseDurationSec({}, { duration: '600' }), 600);
+
+    const skills = parseSkillBonuses('axe fighting +4, magic level +2');
+    assert.strictEqual(skills.axe, 4);
+    assert.strictEqual(skills.magic, 2);
+
+    const resists = parseResists('physical +20%, fire +20%, earth +10%');
+    assert.strictEqual(resists.physical, 20);
+    assert.strictEqual(resists.fire, 20);
+    assert.strictEqual(resists.earth, 10);
+
+    // Time Ring: speed + duration only in attributes/data (classic bug case)
+    const timeRing = convertWikiEquipmentItem({
+        name: 'Time Ring',
+        type: ['ring'],
+        weight: 0.9,
+        attributes: 'speed +30',
+        duration: '10 minutes',
+        data: {
+            primarytype: 'rings',
+            speed: '30',
+            duration: '600',
+            weight: '90',
+            transformdeequipto: '3053'
+        }
+    });
+    assert.strictEqual(timeRing.id, 'time_ring');
+    assert.strictEqual(timeRing.speed, 30);
+    assert.strictEqual(timeRing.durationSec, 600);
+    assert.strictEqual(timeRing.slot, 'ring');
+    assert.strictEqual(timeRing.weight, 90);
+    assert.ok(!timeRing.data, 'raw data blob dropped');
+    assert.ok(!timeRing.attributes, 'raw attributes string dropped');
+
+    // Might Ring: absorbs → resists, charges
+    const might = convertWikiEquipmentItem({
+        name: 'Might Ring',
+        type: ['ring'],
+        weight: 1,
+        charges: 20,
+        resists:
+            'physical +20%, fire +20%, earth +20%, energy +20%, ice +20%, holy +20%, death +20%',
+        data: {
+            absorbpercentphysical: '20',
+            absorbpercentfire: '20',
+            absorbpercentpoison: '20',
+            absorbpercentenergy: '20',
+            absorbpercentice: '20',
+            absorbpercentholy: '20',
+            absorbpercentdeath: '20',
+            charges: '20',
+            weight: '100'
+        }
+    });
+    assert.strictEqual(might.charges, 20);
+    assert.strictEqual(might.resists.physical, 20);
+    assert.strictEqual(might.resists.earth, 20, 'poison absorb → earth');
+    assert.strictEqual(might.resists.death, 20);
+
+    // Boots of Haste
+    const boh = convertWikiEquipmentItem({
+        name: 'Boots of Haste',
+        type: ['boots'],
+        weight: 7.5,
+        attributes: 'speed +20',
+        data: { speed: '20', weight: '750', imbuementslot: '1' }
+    });
+    assert.strictEqual(boh.speed, 20);
+    assert.strictEqual(boh.imbuementSlots, 1);
+
+    // Energy Ring → mana shield flag
+    const energy = convertWikiEquipmentItem({
+        name: 'Energy Ring',
+        type: ['ring'],
+        weight: 0.8,
+        attributes: 'magic shield',
+        duration: '10 minutes',
+        data: { manashield: '1', duration: '600', weight: '80' }
+    });
+    assert.ok(energy.flags && energy.flags.manaShield);
+    assert.strictEqual(energy.durationSec, 600);
+
+    // Life Ring → regen
+    const life = convertWikiEquipmentItem({
+        name: 'Life Ring',
+        type: ['ring'],
+        weight: 0.8,
+        attributes: 'faster regeneration',
+        duration: '20 minutes',
+        data: {
+            healthgain: '2',
+            healthticks: '6000',
+            managain: '8',
+            manaticks: '6000',
+            duration: '1200',
+            weight: '80'
+        }
+    });
+    assert.strictEqual(life.durationSec, 1200);
+    assert.strictEqual(life.regen.hp, 2);
+    assert.strictEqual(life.regen.mp, 8);
+    assert.strictEqual(life.regen.hpTicksMs, 6000);
+
+    // Split elemental weapon (Cobra Axe shape)
+    const cobra = convertWikiEquipmentItem({
+        name: 'Cobra Axe',
+        type: ['axe'],
+        weight: 40,
+        attack: 8,
+        'ice attack': 44,
+        defense: 29,
+        'defense modifier': '+2',
+        attributes: 'axe fighting +2',
+        data: {
+            elementice: '44',
+            skillaxe: '2',
+            attack: '8',
+            extradef: '2',
+            defense: '29',
+            weight: '4000'
+        }
+    });
+    assert.strictEqual(cobra.atk, 8);
+    assert.strictEqual(cobra.extraAtk, 44);
+    assert.strictEqual(cobra.extraAtkElement, 'ice');
+    assert.strictEqual(cobra.defenseBonus, 2);
+    assert.strictEqual(cobra.skillBonuses.axe, 2);
+
+    // data.skill* wins over attributes string when both present
+    const power = convertWikiEquipmentItem({
+        name: 'Power Ring',
+        type: ['ring'],
+        weight: 0.8,
+        attributes: 'fist fighting +4',
+        duration: '30 minutes',
+        data: { skillfist: '6', duration: '1800', weight: '80' }
+    });
+    assert.strictEqual(power.skillBonuses.fist, 6, 'data.skillfist overrides attributes');
+
+    // Merge: v1 without data + v2 with data
+    const merged = mergeWikiItemPair(
+        { name: 'Time Ring', type: ['ring'], weight: 0.9, attributes: 'speed +30' },
+        {
+            name: 'Time Ring',
+            type: ['ring'],
+            weight: 0.9,
+            data: { speed: '30', duration: '600', weight: '90' }
+        }
+    );
+    assert.strictEqual(merged.data.speed, '30');
+    assert.strictEqual(merged.attributes, 'speed +30');
+
+    const catalog = mergeWikiItemCatalogs(
+        [{ name: 'Only V1', type: ['ring'], weight: 1 }],
+        [
+            { name: 'Only V2', type: ['shield'], weight: 2, data: { defense: '10' } },
+            {
+                name: 'Only V1',
+                type: ['ring'],
+                weight: 1,
+                data: { speed: '5' }
+            }
+        ]
+    );
+    assert.strictEqual(catalog.length, 2);
+    const onlyV1 = catalog.find((i) => i.name === 'Only V1');
+    assert.ok(onlyV1.data && onlyV1.data.speed === '5');
+
+    // Full catalog convert from on-disk sources when present
+    const itemsPath = path.join(ROOT, 'legacy', 'source', 'items.json');
+    const itemsV2Path = path.join(ROOT, 'legacy', 'source', 'items-v2.json');
+    if (fs.existsSync(itemsPath) && fs.existsSync(itemsV2Path)) {
+        const v1 = JSON.parse(fs.readFileSync(itemsPath, 'utf8'));
+        const v2 = JSON.parse(fs.readFileSync(itemsV2Path, 'utf8'));
+        const list = convertEquipmentList(v1, v2);
+        assert.ok(list.length >= 1500, `expected large catalog, got ${list.length}`);
+        const byId = Object.create(null);
+        for (const it of list) byId[it.id] = it;
+
+        assert.strictEqual(byId.time_ring.speed, 30);
+        assert.strictEqual(byId.time_ring.durationSec, 600);
+        assert.strictEqual(byId.boots_of_swiftness.speed, 20);
+        assert.ok(byId.power_band.resists && byId.power_band.resists.fire === 20);
+        assert.ok(!byId.time_ring.data && !byId.time_ring.attributes);
+
+        const gear = rollupEquipment({ ring: 'time_ring', boots: 'boots_of_swiftness' }, list);
+        assert.strictEqual(gear.speed, 50, 'time ring + boots of swiftness speed stack in rollup');
+
+        // Phase 4: defenseBonus (extradef) only with shield; regen / manaShield surface
+        const { getTotalDefense } = require('../kernel/core/lib/character/stats.js');
+        if (byId.cobra_axe) {
+            assert.strictEqual(byId.cobra_axe.defenseBonus, 2);
+            const shieldDb = list.concat([
+                {
+                    id: '_test_shield',
+                    slot: 'leftHand',
+                    category: 'shield',
+                    defense: 20
+                }
+            ]);
+            const withDef = rollupEquipment(
+                { rightHand: 'cobra_axe', leftHand: '_test_shield' },
+                shieldDb
+            );
+            assert.strictEqual(withDef.defenseBonus, 2);
+            assert.strictEqual(getTotalDefense(withDef), 22, '20 shield + 2 cobra extradef');
+        }
+        if (byId.vitality_ring && byId.vitality_ring.regen) {
+            const lifeGear = rollupEquipment({ ring: 'vitality_ring' }, list);
+            assert.strictEqual(lifeGear.regen.hp, byId.vitality_ring.regen.hp);
+            assert.strictEqual(lifeGear.regen.mp, byId.vitality_ring.regen.mp);
+        }
+        if (byId.voltaic_ring && byId.voltaic_ring.flags && byId.voltaic_ring.flags.manaShield) {
+            const energyGear = rollupEquipment({ ring: 'voltaic_ring' }, list);
+            assert.strictEqual(energyGear.flags.manaShield, true);
+        }
+
+        log('equipment converters (on-disk catalog)', {
+            items: list.length,
+            withSpeed: list.filter((i) => i.speed != null).length,
+            withDurationSec: list.filter((i) => i.durationSec != null).length,
+            withDefenseBonus: list.filter((i) => i.defenseBonus != null).length
+        });
+    } else {
+        log('equipment converters (fixtures only; wiki JSON missing)');
+    }
+
+    log('equipment converters');
+}
+
+function testOnDisk() {
+    const map07 = mapPathPng(7);
+    assert.ok(fs.existsSync(map07), `expected map at ${map07}`);
+    assert.ok(
+        map07.includes(path.join('assets', 'legacy', 'map')),
+        'mapPathPng points at assets/legacy/map'
+    );
+
+    // floors 0–15 expected after full port
+    let pathPngs = 0;
+    for (let z = 0; z <= 15; z++) {
+        if (fs.existsSync(mapPathPng(z))) pathPngs++;
+    }
+    assert.ok(pathPngs >= 1, 'at least floor-07 path png');
+    log('map path PNGs', { count: pathPngs, sample: path.relative(ROOT, map07) });
+
+    const manifest = loadLegacyMonsterManifest();
+    assert.ok(manifest, 'monsters/manifest.json present under assets/legacy/');
+    assert.ok(manifest.count >= 100, 'many creatures ported');
+    log('monster manifest', { count: manifest.count });
+
+    setActiveMode('standard');
+    const cave = presets.loadCreatureTemplate('cave_rat');
+    assert.strictEqual(cave.id, 'cave_rat');
+    assert.ok(cave.attacks && cave.attacks.length >= 1);
+    assert.ok(cave.attacks[0].max > 0, 'positive damage after port');
+    log('cave_rat preset', { hp: cave.hp, maxDmg: cave.attacks[0].max });
+
+    const dummy = presets.loadCreatureTemplate('dummy');
+    assert.ok(dummy.hp >= 500, 'hand-authored dummy preserved');
+
+    const idx = loadSpawnIndex();
+    assert.ok(idx && idx.total > 0, 'spawn index');
+    const f7 = loadFloorSpawns(7);
+    assert.ok(f7.length > 0, 'floor 07 spawns');
+    const rats = filterFloorSpawns(7, { creatureId: 'cave_rat', limit: 5 });
+    assert.ok(rats.length >= 1, 'cave_rat spawns on floor 07');
+    const huntRows = toHuntSpawns(rats, { respawn: 0 });
+    assert.strictEqual(huntRows[0].creatureId, 'cave_rat');
+    assert.strictEqual(huntRows[0].respawn, 0, 'respawn override');
+
+    // keep row respawn when no override
+    const withRow = toHuntSpawns([{ creatureId: 'a', x: 1, y: 2, z: 7, respawn: 90 }]);
+    assert.strictEqual(withRow[0].respawn, 90);
+
+    // filterSpawnList pure (browser path)
+    const pure = filterSpawnList(f7, { creatureId: 'cave_rat', limit: 3 });
+    assert.ok(pure.length <= 3);
+    assert.ok(pure.every((s) => s.creatureId === 'cave_rat'));
+
+    // spawnSource.legacy_floor → defs only
+    // Real cave_rat dens sit around x~400–540, y~800–900 (not the hand y=96 corridor)
+    const resolved = resolveSpawnSource(
+        {
+            type: 'legacy_floor',
+            floors: [7],
+            creatureId: 'cave_rat',
+            xMin: 400,
+            xMax: 540,
+            yMin: 800,
+            yMax: 900,
+            limit: 10,
+            respawn: 60,
+            spawnMode: 'on_demand'
+        },
+        { floor: 7 }
+    );
+    assert.strictEqual(resolved.meta.type, 'legacy_floor');
+    assert.ok(resolved.spawns.length >= 1, 'legacy_floor yields defs');
+    assert.ok(resolved.spawns.length <= 10);
+    assert.strictEqual(resolved.spawns[0].creatureId, 'cave_rat');
+    assert.strictEqual(resolved.spawns[0].respawn, 60);
+    assert.strictEqual(resolved.spawnMode, 'on_demand');
+    assert.ok(resolved.meta.creatureIds.indexOf('cave_rat') >= 0);
+    // no live instances — plain JSON rows only
+    assert.strictEqual(resolved.spawns[0].alive, undefined);
+    assert.strictEqual(resolved.spawns[0].hp, undefined);
+
+    const huntExpanded = resolveHuntSpawnDefs({
+        floor: 7,
+        floors: [7],
+        spawnSource: {
+            type: 'legacy_floor',
+            floors: [7],
+            creatureId: 'cave_rat',
+            limit: 4
+        }
+    });
+    assert.ok(Array.isArray(huntExpanded.spawns));
+    assert.strictEqual(huntExpanded.spawns.length, 4);
+    assert.ok(huntExpanded.spawnSourceSpec);
+    assert.strictEqual(huntExpanded.spawnSource, undefined);
+
+    // Expand path still resolves spawnSource without a dual-maintained dens hunt fixture.
+    setActiveMode(hasMode('legacy') ? 'legacy' : 'standard');
+    const expandedInline = presets.expandHuntDefinition(
+        {
+            id: 'spawn_source_unit',
+            floor: 7,
+            floors: [7],
+            spawnMode: 'on_demand',
+            spawnSource: {
+                type: 'legacy_floor',
+                floors: [7],
+                creatureId: 'cave_rat',
+                xMin: 400,
+                xMax: 540,
+                yMin: 800,
+                yMax: 900,
+                limit: 12,
+                respawn: 60
+            },
+            waypoints: [
+                { x: 420, y: 845, z: 7 },
+                { x: 450, y: 845, z: 7 }
+            ],
+            parties: []
+        },
+        { seed: 7 }
+    );
+    assert.ok(
+        expandedInline.spawns && expandedInline.spawns.length >= 1,
+        'inline dens spawnSource expands to defs'
+    );
+    assert.ok(expandedInline.spawns.length <= 12);
+    assert.strictEqual(expandedInline.spawnMode, 'on_demand');
+    assert.ok(expandedInline.spawns.every((s) => s.creatureId === 'cave_rat'));
+    assert.ok(expandedInline.spawnSourceSpec);
+    assert.strictEqual(expandedInline.spawnSource, undefined);
+
+    // Play/CI path is generator-owned after dens fixture retirement.
+    const generated = presets.loadHunt('cave_crawl_generated');
+    assert.ok(generated.layout && generated.layout.type === 'procedural');
+    assert.ok(!generated.spawnSource, 'generated hunt has no bulk dens source');
+    setActiveMode('standard');
+
+    log('spawns', {
+        total: idx.total,
+        floor07: f7.length,
+        sampleRats: rats.length,
+        sourceDefs: resolved.spawns.length,
+        inlineDens: expandedInline.spawns.length
+    });
+
+    const navAnalysis = loadNavmeshAnalysis();
+    assert.ok(navAnalysis, 'navmesh analysis.json');
+    // Synthetic OSS reference graph (not a full-world dump)
+    assert.ok(navAnalysis.pointCount >= 5, 'reference navmesh has points');
+    assert.ok(navAnalysis.pointCount < 500, 'reference navmesh stays small');
+    assert.ok(navAnalysis.crossFloorEdges > 0, 'cross-floor edges (stairs/teleports)');
+    assert.ok(navAnalysis.icons && navAnalysis.icons.down > 0);
+    log('navmesh analysis', {
+        points: navAnalysis.pointCount,
+        edges: navAnalysis.connectionCount,
+        crossFloor: navAnalysis.crossFloorEdges
+    });
+
+    const merged = path.join(PATHS.navmesh, 'merged.json');
+    assert.ok(fs.existsSync(merged), 'merged navmesh');
+    const corridor = path.join(PATHS.navmesh, 'floor07_corridor.json');
+    assert.ok(fs.existsSync(corridor), 'floor07_corridor sample');
+
+    const imgDir = legacyPath('monsters', 'images');
+    assert.ok(fs.existsSync(imgDir), 'monster images dir');
+    const sampleGif = path.join(imgDir, 'cave rat.gif');
+    assert.ok(fs.existsSync(sampleGif), 'cave rat.gif');
+    log('legacy assets layout ok');
+}
+
+/**
+ * Code check: dragon lord attacks/stats match monsters.json and expose wave shape.
+ */
+function testDragonLordEquivalency() {
+    const monstersPath = path.join(
+        ROOT,
+        'legacy',
+        'source',
+        'assets',
+        'monsters.json'
+    );
+    if (!fs.existsSync(monstersPath)) {
+        log('skip dragon lord equivalency (no legacy monsters.json)');
+        return;
+    }
+    const bag = JSON.parse(fs.readFileSync(monstersPath, 'utf8'));
+    const list = Array.isArray(bag) ? bag : Object.values(bag);
+    const raw = list.find(
+        (m) => m && String(m.name || '').toLowerCase() === 'dragon lord'
+    );
+    assert.ok(raw, 'dragon lord in monsters.json');
+
+    const converted = convertMonsterToTemplate(raw);
+    assert.strictEqual(converted.id, 'dragon_lord');
+    assert.strictEqual(converted.hp, raw.health);
+    assert.strictEqual(converted.exp, raw.experience);
+    assert.strictEqual(converted.speed, raw.speed);
+    assert.strictEqual(converted.armor, raw.defenses.armor);
+    assert.strictEqual(converted.mitigation, raw.defenses.mitigation);
+    assert.strictEqual(converted.resists.fire, 100, 'fire immune');
+    assert.strictEqual(converted.resists.ice, -10, 'ice weak');
+    assert.strictEqual(converted.flags.runHealth, raw.flags.runHealth);
+    assert.strictEqual(
+        converted.flags.staticAttackChance,
+        raw.flags.staticAttackChance
+    );
+
+    assert.strictEqual(converted.attacks.length, raw.attacks.length);
+    const wave = converted.attacks.find((a) => a.kind === 'wave');
+    assert.ok(wave, 'wave breath ported');
+    assert.strictEqual(wave.length, 8);
+    assert.strictEqual(wave.spread, 3);
+    assert.strictEqual(wave.element, 'fire');
+    assert.strictEqual(wave.min, 150);
+    assert.strictEqual(wave.max, 270);
+    assert.strictEqual(wave.target, false);
+    assert.strictEqual(wave.chance, 22);
+
+    const area = converted.attacks.find((a) => a.kind === 'area' && a.max > 0);
+    assert.ok(area, 'fire ball area ported');
+    assert.strictEqual(area.radius, 4);
+    assert.strictEqual(area.range, 7);
+
+    // On-disk preset (if historical pack installed) must stay equivalent
+    if (hasMode('legacy')) {
+        setActiveMode('legacy');
+        const disk = presets.loadCreatureTemplate('dragon_lord');
+        assert.strictEqual(disk.hp, raw.health);
+        assert.ok(disk.attacks.some((a) => a.kind === 'wave' && a.length === 8));
+
+        const kit = normalizeCreatureKit(disk);
+        const kitWave = kit.attacks.find((a) => a.kind === 'wave');
+        assert.ok(kitWave);
+        const spell = attackToSpell(kitWave);
+        assert.ok(spell.shape && spell.shape.type === 'wave');
+        assert.strictEqual(spell.shape.length, 8);
+        assert.strictEqual(spell.shape.spread, 3);
+        setActiveMode('standard');
+    } else {
+        // Converter path alone is enough when pack is absent
+        const kit = normalizeCreatureKit(converted);
+        const kitWave = kit.attacks.find((a) => a.kind === 'wave');
+        assert.ok(kitWave);
+        const spell = attackToSpell(kitWave);
+        assert.ok(spell.shape && spell.shape.type === 'wave');
+    }
+
+    log('dragon lord equivalency', {
+        hp: converted.hp,
+        attacks: converted.attacks.map((a) => a.kind).join(','),
+        wave: `${wave.min}-${wave.max} L${wave.length}S${wave.spread}`
+    });
+}
+
+function testLegacyEquipmentPreset() {
+    if (!hasMode('legacy')) {
+        log('skip legacy equipment preset (presets/legacy not installed)');
+        return;
+    }
+    const equipPath = path.join(ROOT, 'presets', 'legacy', 'equipment.json');
+    assert.ok(fs.existsSync(equipPath), 'presets/legacy/equipment.json present');
+    const doc = JSON.parse(fs.readFileSync(equipPath, 'utf8'));
+    const items = doc.items || doc;
+    assert.ok(Array.isArray(items) && items.length >= 1500, 'legacy equipment catalog size');
+    const byId = Object.create(null);
+    for (const it of items) {
+        if (it && it.id) byId[it.id] = it;
+    }
+    assert.ok(byId.time_ring, 'time_ring present');
+    assert.strictEqual(byId.time_ring.speed, 30, 'time_ring speed promoted');
+    assert.strictEqual(byId.time_ring.durationSec, 600, 'time_ring durationSec');
+    assert.ok(!byId.time_ring.data, 'no raw data blob on time_ring');
+    assert.ok(!byId.time_ring.attributes, 'no raw attributes on time_ring');
+    if (byId.boots_of_haste) {
+        assert.strictEqual(byId.boots_of_haste.speed, 20);
+    }
+    if (byId.power_band) {
+        assert.ok(byId.power_band.resists && byId.power_band.resists.fire === 20);
+    }
+    const withSpeed = items.filter((i) => i.speed != null).length;
+    assert.ok(withSpeed >= 30, `expected many speed items, got ${withSpeed}`);
+    log('legacy equipment preset', {
+        items: items.length,
+        version: doc.version,
+        withSpeed
+    });
+}
+
+/**
+ * Phase 3: map legacy equipment → standard via equipment_map.csv.
+ */
+function testStandardEquipmentMap() {
+    assert.strictEqual(ensureEntityId('25_years_backpack'), 'item_25_years_backpack');
+    assert.strictEqual(ensureEntityId('time_ring'), 'time_ring');
+
+    const csvText =
+        'legacy_id,legacy_label,standard_id,standard_label\n' +
+        'boots_of_haste,Boots of Haste,boots_of_swiftness,Boots of Swiftness\n' +
+        '25_years_backpack,25 Years Backpack,25_years_backpack,25 Years Backpack\n';
+    const rows = parseEquipmentMapCsv(csvText);
+    assert.strictEqual(rows.length, 2);
+    assert.strictEqual(rows[0].standard_id, 'boots_of_swiftness');
+
+    const legacyMini = [
+        {
+            id: 'boots_of_haste',
+            label: 'Boots of Haste',
+            category: 'boots',
+            slot: 'boots',
+            speed: 20,
+            weight: 750
+        },
+        {
+            id: 'item_25_years_backpack',
+            label: '25 Years Backpack',
+            category: 'container',
+            slot: 'backpack',
+            weight: 1700,
+            volume: 25
+        },
+        {
+            id: 'time_ring',
+            label: 'Time Ring',
+            category: 'ring',
+            slot: 'ring',
+            speed: 30,
+            durationSec: 600,
+            weight: 90
+        }
+    ];
+    const mapped = mapLegacyEquipmentToStandard(legacyMini, rows);
+    assert.strictEqual(mapped.stats.total, 3);
+    assert.strictEqual(mapped.stats.fromMap, 2, 'boots + remapped backpack');
+    assert.strictEqual(mapped.stats.generated, 1, 'time_ring generated without csv row');
+    assert.strictEqual(mapped.stats.remappedLegacyIds, 1);
+
+    const byId = Object.create(null);
+    for (const it of mapped.items) byId[it.id] = it;
+    assert.ok(byId.boots_of_swiftness);
+    assert.strictEqual(byId.boots_of_swiftness.speed, 20);
+    assert.strictEqual(byId.boots_of_swiftness.label, 'Boots of Swiftness');
+    assert.ok(byId.item_25_years_backpack);
+    assert.strictEqual(byId.item_25_years_backpack.volume, 25);
+    assert.ok(byId.time_ring);
+    assert.strictEqual(byId.time_ring.speed, 30);
+    assert.ok(!byId.boots_of_haste, 'legacy id not kept when mapped');
+
+    const roundTrip = parseEquipmentMapCsv(formatEquipmentMapCsv(mapped.mapRows));
+    assert.strictEqual(roundTrip.length, 3);
+    assert.strictEqual(roundTrip[0].standard_id, 'boots_of_swiftness');
+
+    // On-disk standard preset after map:standard-equipment
+    const stdPath = path.join(ROOT, 'presets', 'standard', 'equipment.json');
+    const csvCandidates = [
+        path.join(ROOT, 'other', 'content_maps', 'equipment_map.csv'),
+        path.join(ROOT, 'other', 'equipment_map.csv'),
+        path.join(ROOT, 'equipment_map.csv')
+    ];
+    const csvPath = csvCandidates.find((p) => fs.existsSync(p));
+    if (fs.existsSync(stdPath) && csvPath) {
+        const stdDoc = JSON.parse(fs.readFileSync(stdPath, 'utf8'));
+        const stdItems = stdDoc.items || [];
+        assert.ok(stdItems.length >= 1500, 'standard catalog size');
+        const stdById = Object.create(null);
+        for (const it of stdItems) {
+            if (it && it.id) stdById[it.id] = it;
+        }
+        assert.ok(stdById.time_ring, 'standard time_ring');
+        assert.strictEqual(stdById.time_ring.speed, 30);
+        assert.strictEqual(stdById.time_ring.durationSec, 600);
+        assert.ok(stdById.boots_of_swiftness, 'boots_of_haste → boots_of_swiftness');
+        assert.strictEqual(stdById.boots_of_swiftness.speed, 20);
+        assert.ok(!stdById.boots_of_haste);
+        if (stdById.fiendish_helmet) {
+            assert.ok(stdById.fiendish_helmet.label.indexOf('Fiendish') >= 0);
+        }
+        // P0/P1 commercial-safe identity: id+label rewritten, legacy brands gone
+        assert.ok(stdById.raptorial_plate, 'falcon_plate → raptorial_plate');
+        assert.ok(!stdById.falcon_plate, 'legacy falcon_plate id not kept');
+        assert.ok(stdById.jubilee_backpack, '25 years → jubilee_backpack');
+        assert.ok(!stdById.item_25_years_backpack || stdById.jubilee_backpack);
+        assert.ok(
+            !stdItems.some((it) => /falcon|alicorn|eldritch|inferniarch/i.test(it.id || '')),
+            'no P0/P1 brand ids left on standard items'
+        );
+        assert.ok(
+            !stdItems.some((it) => it.legacyName || it.legacyId || it.originalName),
+            'no legacy name fingerprint keys on standard items'
+        );
+        assert.ok(!stdItems.some((it) => it.data), 'no raw data blobs in standard');
+        const withSpeed = stdItems.filter((i) => i.speed != null).length;
+        assert.ok(withSpeed >= 30, `standard speed items, got ${withSpeed}`);
+
+        const diskRows = parseEquipmentMapCsv(fs.readFileSync(csvPath, 'utf8'));
+        assert.ok(
+            diskRows.some((r) => r.legacy_id === 'item_25_years_backpack'),
+            'csv updated for item_25_years_backpack'
+        );
+        assert.ok(
+            diskRows.some(
+                (r) =>
+                    r.legacy_id === 'item_25_years_backpack' &&
+                    r.standard_id === 'jubilee_backpack'
+            ),
+            '25 years backpack maps to jubilee_backpack'
+        );
+
+        log('standard equipment map (on-disk)', {
+            items: stdItems.length,
+            version: stdDoc.version,
+            withSpeed,
+            csv: path.relative(ROOT, csvPath)
+        });
+    } else {
+        log('standard equipment map (fixtures only)');
+    }
+
+    log('standard equipment map');
+}
+
+/**
+ * Standard vocations + spells maps (other/content_maps/vocation_map.csv, other/content_maps/spell_map.csv).
+ */
+function testStandardCatalogMaps() {
+    const vocCsv =
+        'legacy_vocation,legacy_label,standard_id,standard_label\n' +
+        'knight,Knight,guardian,Guardian\n' +
+        'sorcerer,Sorcerer,adept,Adept\n';
+    const vocRows = parseVocationMapCsv(vocCsv);
+    assert.strictEqual(vocRows.length, 2);
+    assert.strictEqual(vocRows[0].standard_id, 'guardian');
+
+    const classDoc = {
+        version: 2,
+        vocationMap: { guardian: 'knight' },
+        classes: [
+            {
+                id: 'guardian',
+                label: 'Guardian',
+                legacyVocation: 'knight',
+                spells: ['front_sweep', 'melee_auto'],
+                autoAttack: 'melee_auto',
+                baseHp: 185
+            },
+            {
+                id: 'adept',
+                label: 'Adept',
+                legacyVocation: 'sorcerer',
+                spells: ['flame_strike'],
+                autoAttack: 'wand_auto',
+                baseHp: 185
+            }
+        ]
+    };
+    const spellIdMap = buildSpellIdMap([
+        { legacy_id: 'front_sweep', standard_id: 'front_sweep' },
+        { legacy_id: 'melee_auto', standard_id: 'melee_auto' },
+        { legacy_id: 'flame_strike', standard_id: 'ember_bolt_renamed' },
+        { legacy_id: 'wand_auto', standard_id: 'wand_auto' }
+    ]);
+    const mappedClasses = mapLegacyClassesToStandard(classDoc, vocRows, { spellIdMap });
+    assert.strictEqual(mappedClasses.stats.total, 2);
+    assert.strictEqual(mappedClasses.stats.fromMap, 2);
+    assert.ok(!mappedClasses.doc.vocationMap);
+    const g = mappedClasses.doc.classes.find((c) => c.id === 'guardian');
+    assert.ok(g);
+    assert.strictEqual(g.label, 'Guardian');
+    assert.ok(g.legacyVocation == null, 'no legacyVocation on standard class');
+    assert.deepStrictEqual(g.spells, ['front_sweep', 'melee_auto']);
+    const a = mappedClasses.doc.classes.find((c) => c.id === 'adept');
+    assert.deepStrictEqual(a.spells, ['ember_bolt_renamed']);
+
+    const roundVoc = parseVocationMapCsv(formatVocationMapCsv(mappedClasses.mapRows));
+    assert.strictEqual(roundVoc.length, 2);
+    assert.strictEqual(roundVoc[0].legacy_vocation, 'knight');
+
+    const spellCsv =
+        'legacy_id,legacy_label,standard_id,standard_label\n' +
+        "inferno_core,hell's core,inferno_core,Inferno Core\n" +
+        'flame_strike,flame strike,flame_strike,Flame Strike\n';
+    const spellRows = parseSpellMapCsv(spellCsv);
+    assert.strictEqual(spellRows[0].legacy_label, "hell's core");
+
+    const spellDoc = {
+        version: 2,
+        spells: [
+            {
+                id: 'inferno_core',
+                label: 'Inferno Core',
+                legacyName: "hell's core",
+                kind: 'spell',
+                mana: 100,
+                vocations: ['adept']
+            },
+            {
+                id: 'flame_strike',
+                label: 'Flame Strike',
+                legacyName: 'flame strike',
+                kind: 'spell',
+                mana: 20,
+                vocations: ['sorcerer']
+            }
+        ]
+    };
+    const vocationIdMap = buildVocationIdMap(vocRows);
+    const mappedSpells = mapLegacySpellsToStandard(spellDoc, spellRows, { vocationIdMap });
+    assert.strictEqual(mappedSpells.stats.total, 2);
+    const inf = mappedSpells.doc.spells.find((s) => s.id === 'inferno_core');
+    assert.ok(inf);
+    assert.strictEqual(inf.label, 'Inferno Core');
+    assert.ok(inf.legacyName == null, 'no legacyName on standard spell');
+    const fl = mappedSpells.doc.spells.find((s) => s.id === 'flame_strike');
+    assert.deepStrictEqual(fl.vocations, ['adept'], 'sorcerer → adept via vocation map');
+
+    const roundSpell = parseSpellMapCsv(formatSpellMapCsv(mappedSpells.mapRows));
+    assert.strictEqual(roundSpell[0].legacy_label, "hell's core");
+
+    // On-disk packs + CSVs
+    const vocPath = [
+        path.join(ROOT, 'other', 'content_maps', 'vocation_map.csv'),
+        path.join(ROOT, 'other', 'vocation_map.csv')
+    ].find((p) => fs.existsSync(p));
+    const spPath = [
+        path.join(ROOT, 'other', 'content_maps', 'spell_map.csv'),
+        path.join(ROOT, 'other', 'spell_map.csv')
+    ].find((p) => fs.existsSync(p));
+    const stdClassesPath = path.join(ROOT, 'presets', 'standard', 'classes.json');
+    const stdSpellsPath = path.join(ROOT, 'presets', 'standard', 'spells.json');
+    if (fs.existsSync(vocPath) && fs.existsSync(stdClassesPath)) {
+        const diskVoc = parseVocationMapCsv(fs.readFileSync(vocPath, 'utf8'));
+        assert.ok(diskVoc.length >= 6, 'vocation_map has six archetypes');
+        assert.ok(diskVoc.some((r) => r.legacy_vocation === 'knight' && r.standard_id === 'guardian'));
+        const stdClasses = JSON.parse(fs.readFileSync(stdClassesPath, 'utf8'));
+        assert.ok(!stdClasses.vocationMap, 'standard classes has no vocationMap');
+        assert.ok(
+            !(stdClasses.classes || []).some((c) => c && c.legacyVocation),
+            'no legacyVocation on standard classes'
+        );
+        assert.ok((stdClasses.classes || []).some((c) => c.id === 'guardian'));
+    }
+    if (fs.existsSync(spPath) && fs.existsSync(stdSpellsPath)) {
+        const diskSp = parseSpellMapCsv(fs.readFileSync(spPath, 'utf8'));
+        assert.ok(diskSp.length >= 70, 'spell_map size');
+        assert.ok(
+            diskSp.some(
+                (r) => r.legacy_id === 'inferno_core' && /hell/i.test(r.legacy_label || '')
+            ),
+            "inferno_core maps from hell's core"
+        );
+        const stdSpells = JSON.parse(fs.readFileSync(stdSpellsPath, 'utf8'));
+        assert.ok(
+            !(stdSpells.spells || []).some((s) => s && s.legacyName),
+            'no legacyName on standard spells'
+        );
+        assert.ok((stdSpells.spells || []).some((s) => s.id === 'inferno_core'));
+    }
+
+    log('standard vocation + spell maps');
+}
+
+function main() {
+    console.log('tests/legacy_port.js');
+    testConverters();
+    testEquipmentConverters();
+    testOnDisk();
+    testLegacyEquipmentPreset();
+    testStandardEquipmentMap();
+    testStandardCatalogMaps();
+    testDragonLordEquivalency();
+    console.log('All legacy_port tests passed.');
+}
+
+main();

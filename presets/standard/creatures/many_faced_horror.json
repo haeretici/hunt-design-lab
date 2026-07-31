@@ -1,0 +1,212 @@
+{
+    "id": "many_faced_horror",
+    "label": "Many-Faced Horror",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A many-faced horror.",
+    "hp": 30000,
+    "hpMax": 30000,
+    "speed": 215,
+    "level": 764,
+    "armor": 105,
+    "mitigation": 3.34,
+    "maxBlock": 0,
+    "exp": 18870,
+    "lootValue": 7486.0792412422,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -5,
+        "ice": 30,
+        "energy": 0,
+        "earth": 0,
+        "holy": 50,
+        "death": -30
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 557
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 4000,
+            "chance": 33,
+            "range": 7,
+            "element": "ice",
+            "min": 523,
+            "max": 600,
+            "target": true,
+            "effect": "me_iceattack",
+            "shootEffect": "ani_snowball"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 5000,
+            "chance": 44,
+            "range": 7,
+            "element": "ice",
+            "min": 429,
+            "max": 621,
+            "radius": 5,
+            "target": true,
+            "effect": "me_icearea",
+            "shootEffect": "ani_ice"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 9500,
+            "chance": 59,
+            "range": 4,
+            "element": "holy",
+            "min": 450,
+            "max": 557,
+            "radius": 4,
+            "target": false,
+            "effect": "me_holyarea"
+        },
+        {
+            "id": "extended_holy_chain_4",
+            "kind": "ranged",
+            "intervalMs": 10000,
+            "chance": 59,
+            "range": 7,
+            "element": "physical",
+            "min": 493,
+            "max": 557
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Demon",
+        "toKill": 5000,
+        "firstUnlock": 200,
+        "secondUnlock": 2000,
+        "charmsPoints": 100,
+        "stars": 5,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "crystal coin",
+            "chance": 76710
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 14920,
+            "maxCount": 7
+        },
+        {
+            "name": "apron",
+            "chance": 7990
+        },
+        {
+            "name": "Hailburst Rod",
+            "chance": 7610
+        },
+        {
+            "name": "Stonehide Amulet",
+            "chance": 5780
+        },
+        {
+            "name": "green gem",
+            "chance": 5710
+        },
+        {
+            "name": "Boreal Rod",
+            "chance": 5630
+        },
+        {
+            "name": "sacred tree amulet",
+            "chance": 5560
+        },
+        {
+            "name": "violet gem",
+            "chance": 5100
+        },
+        {
+            "name": "blue gem",
+            "chance": 5020
+        },
+        {
+            "chance": 4870,
+            "name": "ring of red plasma"
+        },
+        {
+            "chance": 3500,
+            "name": "head"
+        },
+        {
+            "name": "Frostbound Shoes",
+            "chance": 2510
+        },
+        {
+            "name": "Frostbound Robe",
+            "chance": 2130
+        },
+        {
+            "name": "gruesome fan",
+            "chance": 610
+        },
+        {
+            "name": "glacial rod",
+            "chance": 610
+        },
+        {
+            "name": "bag you desire",
+            "chance": 15
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": true,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ember_ruins_horror",
+    "threatDps": 294.0188,
+    "burstDps": 650.805,
+    "avgHit": 371.4209,
+    "maxHit": 621,
+    "manaCost": 0
+}

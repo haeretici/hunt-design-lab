@@ -1,0 +1,168 @@
+{
+    "id": "zombie",
+    "label": "Zombie",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A zombie.",
+    "hp": 500,
+    "hpMax": 500,
+    "speed": 90,
+    "level": 356,
+    "armor": 20,
+    "mitigation": 0.83,
+    "maxBlock": 0,
+    "exp": 280,
+    "lootValue": 45.466666666667,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 50,
+        "ice": 100,
+        "energy": 100,
+        "earth": 100,
+        "holy": 0,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 80,
+        "health": 10,
+        "damage": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 105
+        },
+        {
+            "id": "melee_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 1,
+            "element": "manadrain",
+            "min": 11,
+            "max": 19,
+            "target": true
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "lifedrain",
+            "min": 12,
+            "max": 19,
+            "target": true,
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "melee_3",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 1,
+            "element": "death",
+            "min": 24,
+            "max": 39,
+            "target": true,
+            "effect": "me_smallclouds"
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Undead",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 82000,
+            "maxCount": 65
+        },
+        {
+            "name": "halberd",
+            "chance": 3750
+        },
+        {
+            "name": "mace",
+            "chance": 7250
+        },
+        {
+            "name": "battle hammer",
+            "chance": 7000
+        },
+        {
+            "name": "steel helmet",
+            "chance": 4600
+        },
+        {
+            "name": "brass helmet",
+            "chance": 9400
+        },
+        {
+            "name": "simple dress",
+            "chance": 560
+        },
+        {
+            "name": "mana potion",
+            "chance": 740
+        },
+        {
+            "chance": 5680,
+            "name": "heavily rusted armor"
+        },
+        {
+            "name": "half-eaten brain",
+            "chance": 10000
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "umbral_ghoul",
+    "threatDps": 30.525,
+    "burstDps": 30.525,
+    "avgHit": 43.6071,
+    "maxHit": 105,
+    "manaCost": 0
+}

@@ -1,0 +1,132 @@
+{
+    "id": "troll_champion",
+    "label": "Troll Champion",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A troll champion.",
+    "hp": 75,
+    "hpMax": 75,
+    "speed": 69,
+    "level": 168,
+    "armor": 10,
+    "mitigation": 0.28,
+    "maxBlock": 0,
+    "exp": 40,
+    "lootValue": 7.5684067746902,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 0,
+        "ice": 0,
+        "energy": 20,
+        "earth": -10,
+        "holy": 10,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 15,
+        "staticAttackChance": 95,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": true,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": true,
+        "pushable": true,
+        "rewardBoss": false,
+        "illusionable": true,
+        "canPushItems": false,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 43
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Humanoid",
+        "toKill": 500,
+        "firstUnlock": 25,
+        "secondUnlock": 250,
+        "charmsPoints": 15,
+        "stars": 2,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 64000,
+            "maxCount": 12
+        },
+        {
+            "name": "silver amulet",
+            "chance": 230
+        },
+        {
+            "name": "spear",
+            "chance": 25000
+        },
+        {
+            "name": "studded club",
+            "chance": 5450
+        },
+        {
+            "chance": 6000,
+            "name": "wooden shield"
+        },
+        {
+            "name": "arrow",
+            "chance": 5450,
+            "maxCount": 5
+        },
+        {
+            "name": "leather boots",
+            "chance": 9000
+        },
+        {
+            "name": "meat",
+            "chance": 9650
+        },
+        {
+            "name": "bunch of troll hair",
+            "chance": 3000
+        },
+        {
+            "name": "trollroot",
+            "chance": 750
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "troll_champion",
+    "threatDps": 10.75,
+    "burstDps": 10.75,
+    "avgHit": 21.5,
+    "maxHit": 43,
+    "manaCost": 350
+}

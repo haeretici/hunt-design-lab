@@ -1,0 +1,192 @@
+{
+    "id": "ice_witch",
+    "label": "Ice Witch",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An ice witch.",
+    "hp": 650,
+    "hpMax": 650,
+    "speed": 114,
+    "level": 382,
+    "armor": 70,
+    "mitigation": 0.91,
+    "maxBlock": 0,
+    "exp": 580,
+    "lootValue": 75.350994216237,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 50,
+        "ice": 100,
+        "energy": -10,
+        "earth": 40,
+        "holy": 30,
+        "death": -10
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 75
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "ice",
+            "min": 75,
+            "max": 162,
+            "length": 5,
+            "spread": 2,
+            "target": false,
+            "effect": "me_icetornado"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "ice",
+            "min": 69,
+            "max": 143,
+            "target": true,
+            "effect": "me_iceattack",
+            "shootEffect": "ani_smallice"
+        },
+        {
+            "id": "slow_4",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -600,
+                "durationSec": 20
+            },
+            "effect": "me_icetornado",
+            "target": false
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 25,
+            "min": 90,
+            "max": 120,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Human",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 29630,
+            "maxCount": 90
+        },
+        {
+            "name": "clerical mace",
+            "chance": 920
+        },
+        {
+            "name": "mystic turban",
+            "chance": 430
+        },
+        {
+            "name": "green mushroom",
+            "chance": 1310
+        },
+        {
+            "name": "shard",
+            "chance": 530
+        },
+        {
+            "name": "diamond sceptre",
+            "chance": 330
+        },
+        {
+            "chance": 10000,
+            "name": "ice cube"
+        },
+        {
+            "name": "crystal sword",
+            "chance": 400
+        },
+        {
+            "name": "pair of earmuffs",
+            "chance": 90
+        },
+        {
+            "name": "strong mana potion",
+            "chance": 820
+        },
+        {
+            "name": "Frostbound Shoes",
+            "chance": 280
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "infernal_merrow_necromancer",
+    "threatDps": 35.275,
+    "burstDps": 35.275,
+    "avgHit": 54.2692,
+    "maxHit": 162,
+    "manaCost": 0
+}

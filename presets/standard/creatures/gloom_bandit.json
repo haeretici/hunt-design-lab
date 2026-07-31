@@ -1,0 +1,219 @@
+{
+    "id": "gloom_bandit",
+    "label": "Gloom Bandit",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A gloom bandit.",
+    "hp": 2600,
+    "hpMax": 2600,
+    "speed": 150,
+    "level": 520,
+    "armor": 46,
+    "mitigation": 1.65,
+    "maxBlock": 0,
+    "exp": 2000,
+    "lootValue": 575.64100388369,
+    "aggro": true,
+    "resists": {
+        "physical": 15,
+        "fire": -5,
+        "ice": 10,
+        "energy": 20,
+        "earth": 100,
+        "holy": 0,
+        "death": 20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 50,
+            "range": 8,
+            "element": "physical",
+            "min": 140,
+            "max": 467,
+            "target": false,
+            "shootEffect": "ani_arrow"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 3000,
+            "chance": 35,
+            "min": 200,
+            "max": 250,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Human",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "chance": 100000,
+            "maxCount": 100,
+            "name": "gold coin"
+        },
+        {
+            "chance": 100000,
+            "maxCount": 3,
+            "name": "platinum coin"
+        },
+        {
+            "chance": 9090,
+            "name": "tainted glooth capsule"
+        },
+        {
+            "chance": 7142,
+            "name": "great mana potion"
+        },
+        {
+            "chance": 5555,
+            "name": "glooth bag"
+        },
+        {
+            "chance": 5555,
+            "maxCount": 2,
+            "name": "small topaz"
+        },
+        {
+            "chance": 5000,
+            "name": "great dual potion"
+        },
+        {
+            "chance": 4545,
+            "name": "great health potion"
+        },
+        {
+            "chance": 4000,
+            "name": "glooth sandwich"
+        },
+        {
+            "chance": 3030,
+            "name": "glooth capsule"
+        },
+        {
+            "chance": 2500,
+            "name": "glooth blade"
+        },
+        {
+            "chance": 2500,
+            "name": "glooth club"
+        },
+        {
+            "chance": 2000,
+            "name": "rubber cap"
+        },
+        {
+            "chance": 1492,
+            "maxCount": 2,
+            "name": "small emerald"
+        },
+        {
+            "chance": 1492,
+            "name": "glooth spear"
+        },
+        {
+            "chance": 1492,
+            "name": "ultimate health potion"
+        },
+        {
+            "chance": 1000,
+            "name": "glooth steak"
+        },
+        {
+            "chance": 1000,
+            "name": "Bone Skull Staff"
+        },
+        {
+            "chance": 1000,
+            "name": "glooth cape"
+        },
+        {
+            "chance": 1000,
+            "name": "green gem"
+        },
+        {
+            "chance": 1000,
+            "name": "glooth axe"
+        },
+        {
+            "chance": 1000,
+            "name": "war axe"
+        },
+        {
+            "chance": 1000,
+            "name": "Earthbound Mantle"
+        },
+        {
+            "chance": 1000,
+            "name": "beastslayer axe"
+        },
+        {
+            "chance": 500,
+            "name": "glooth amulet"
+        },
+        {
+            "chance": 500,
+            "name": "Earthbound Boots"
+        },
+        {
+            "chance": 500,
+            "name": "Earthbound Legs"
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 5
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "chaos_triton_assassin",
+    "threatDps": 75.875,
+    "burstDps": 75.875,
+    "avgHit": 303.5,
+    "maxHit": 467,
+    "manaCost": 0
+}

@@ -1,0 +1,267 @@
+{
+    "id": "black_vixen",
+    "label": "Black Vixen",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A black vixen.",
+    "hp": 3200,
+    "hpMax": 3200,
+    "speed": 100,
+    "level": 540,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 3200,
+    "lootValue": 810.5,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -5,
+        "ice": 10,
+        "energy": 20,
+        "earth": 60,
+        "holy": 0,
+        "death": 50
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 3,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 117
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 1000,
+            "chance": 20,
+            "range": 7,
+            "element": "physical",
+            "min": 40,
+            "max": 291,
+            "target": false,
+            "shootEffect": "ani_throwingstar"
+        },
+        {
+            "id": "slow_2",
+            "kind": "status",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -600,
+                "durationSec": 20
+            },
+            "effect": "me_magic_red",
+            "target": false
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 1000,
+            "chance": 14,
+            "range": 4,
+            "element": "death",
+            "min": 40,
+            "max": 283,
+            "length": 5,
+            "spread": 0,
+            "target": false,
+            "effect": "me_mortarea"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 4000,
+            "chance": 15,
+            "min": 150,
+            "max": 345,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "invisible_1",
+            "kind": "invisible",
+            "intervalMs": 2000,
+            "chance": 15,
+            "durationSec": 2,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 13600000,
+            "maxCount": 100
+        },
+        {
+            "name": "gold coin",
+            "chance": 13600000,
+            "maxCount": 100
+        },
+        {
+            "name": "platinum coin",
+            "chance": 13600000,
+            "maxCount": 10
+        },
+        {
+            "name": "assassin star",
+            "chance": 13600000,
+            "maxCount": 9
+        },
+        {
+            "name": "black pearl",
+            "chance": 13600000,
+            "maxCount": 2
+        },
+        {
+            "name": "great mana potion",
+            "chance": 13600000,
+            "maxCount": 2
+        },
+        {
+            "name": "great dual potion",
+            "chance": 13600000,
+            "maxCount": 2
+        },
+        {
+            "name": "small enchanted emerald",
+            "chance": 13600000,
+            "maxCount": 2
+        },
+        {
+            "name": "ultimate mana potion",
+            "chance": 13600000,
+            "maxCount": 2
+        },
+        {
+            "name": "ultimate dual potion",
+            "chance": 13600000,
+            "maxCount": 2
+        },
+        {
+            "name": "fox paw",
+            "chance": 13600000,
+            "maxCount": 2
+        },
+        {
+            "name": "Lunar Rod",
+            "chance": 13600000
+        },
+        {
+            "chance": 13600000,
+            "name": "stealth ring"
+        },
+        {
+            "name": "werefox tail",
+            "chance": 13600000
+        },
+        {
+            "name": "green gem",
+            "chance": 400
+        },
+        {
+            "name": "troll green",
+            "chance": 400
+        },
+        {
+            "name": "werewolf amulet",
+            "chance": 400
+        },
+        {
+            "name": "composite hornbow",
+            "chance": 250
+        },
+        {
+            "name": "sai",
+            "chance": 250
+        },
+        {
+            "name": "silver token",
+            "chance": 250
+        },
+        {
+            "chance": 250,
+            "name": "werefox trophy"
+        },
+        {
+            "name": "foxtail",
+            "chance": 100
+        },
+        {
+            "name": "wolf backpack",
+            "chance": 100
+        },
+        {
+            "name": "silver token",
+            "chance": 100
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "hyaena",
+    "threatDps": 84.96,
+    "burstDps": 84.96,
+    "avgHit": 101.1429,
+    "maxHit": 291,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 2,
+        "summons": [
+            {
+                "name": "Werefox",
+                "id": "werefox",
+                "chance": 20,
+                "interval": 2000,
+                "count": 2
+            }
+        ]
+    }
+}

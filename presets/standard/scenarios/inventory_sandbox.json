@@ -1,0 +1,38 @@
+{
+    "id": "inventory_sandbox",
+    "label": "Inventory sandbox",
+    "notes": "Manual inventory test during a short hunt. Solo guardian starts with nested bags (bag→bag→shields, adventurer backpack with spare armor/jewelry, empty jubilee organizer, rune pouch bag with field/missile stacks, loose gear in root). Pause combat and use the right-column backpack: LMB select, drag to move/swap, RMB open bags / equip, dbl-click equip/unequip, drag gear between equipment card and backpack. Nested runes exercise tree-search consume demos when casting is available. inventoryPractice keeps canvas rendering after the hunt ends so drop/pickup still works.",
+    "baseHuntId": "outskirts_camp_fixed",
+    "seed": 1,
+    "frames": 2000,
+    "maxTicks": 2000,
+    "inventoryPractice": true,
+    "waypoints": [
+        { "x": 0, "y": 3, "z": 0 },
+        { "x": 5, "y": 3, "z": 0 }
+    ],
+    "spawns": [
+        {
+            "creatureId": "cave_rat",
+            "x": 3,
+            "y": 3,
+            "z": 0,
+            "respawn": 0
+        },
+        {
+            "creatureId": "cave_rat",
+            "x": 4,
+            "y": 3,
+            "z": 0,
+            "respawn": 0
+        }
+    ],
+    "members": [
+        {
+            "profileId": "guardian_starter",
+            "name": "Pack Tester",
+            "isLeader": true,
+            "inventorySandbox": true
+        }
+    ]
+}

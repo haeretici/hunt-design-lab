@@ -1,0 +1,199 @@
+{
+    "id": "wandering_mushroom",
+    "label": "Wandering Mushroom",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A wandering mushroom.",
+    "hp": 29100,
+    "hpMax": 29100,
+    "speed": 205,
+    "level": 761,
+    "armor": 115,
+    "mitigation": 3.19,
+    "maxBlock": 0,
+    "exp": 21980,
+    "lootValue": 5634.5679012346,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": -10,
+        "ice": 40,
+        "energy": 25,
+        "earth": -20,
+        "holy": -14,
+        "death": 50
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 85,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": false,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 506
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2500,
+            "chance": 15,
+            "range": 4,
+            "element": "death",
+            "min": 793,
+            "max": 837,
+            "radius": 5,
+            "target": true,
+            "effect": "me_mortarea"
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2500,
+            "chance": 15,
+            "range": 4,
+            "element": "death",
+            "min": 749,
+            "max": 749,
+            "radius": 5,
+            "target": true,
+            "effect": "me_insects"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2500,
+            "chance": 20,
+            "range": 4,
+            "element": "ice",
+            "min": 484,
+            "max": 572,
+            "length": 8,
+            "spread": 5,
+            "target": false,
+            "effect": "me_blacksmoke"
+        },
+        {
+            "id": "largeblackring_4",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 1,
+            "element": "physical",
+            "min": 396,
+            "max": 661,
+            "target": false
+        }
+    ],
+    "race": "undead",
+    "bestiary": {
+        "class": "Slime",
+        "toKill": 5000,
+        "firstUnlock": 200,
+        "secondUnlock": 2000,
+        "charmsPoints": 100,
+        "stars": 5,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "crystal coin",
+            "chance": 11755,
+            "maxCount": 1
+        },
+        {
+            "name": "lichen gobbler",
+            "chance": 9121,
+            "maxCount": 1
+        },
+        {
+            "name": "white mushroom",
+            "chance": 12998,
+            "maxCount": 3
+        },
+        {
+            "name": "rotten roots",
+            "chance": 9791,
+            "maxCount": 1
+        },
+        {
+            "name": "wand of decay",
+            "chance": 14668,
+            "maxCount": 1
+        },
+        {
+            "chance": 10406,
+            "maxCount": 1,
+            "name": "red gem"
+        },
+        {
+            "name": "worm sponge",
+            "chance": 10697,
+            "maxCount": 1
+        },
+        {
+            "name": "dark mushroom",
+            "chance": 12313,
+            "maxCount": 3
+        },
+        {
+            "name": "yellow gem",
+            "chance": 13520,
+            "maxCount": 1
+        },
+        {
+            "name": "brown mushroom",
+            "chance": 6422,
+            "maxCount": 3
+        },
+        {
+            "name": "Earthbound Amulet",
+            "chance": 13122,
+            "maxCount": 1
+        }
+    ],
+    "changeTarget": {
+        "interval": 5000,
+        "chance": 0
+    },
+    "immunities": {
+        "paralyze": false,
+        "outfit": false,
+        "invisible": false,
+        "bleed": false
+    },
+    "customSprite": "crystal_lizard_warrior",
+    "threatDps": 289.005,
+    "burstDps": 323.025,
+    "avgHit": 385.34,
+    "maxHit": 837,
+    "manaCost": 0
+}
