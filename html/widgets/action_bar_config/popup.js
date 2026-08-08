@@ -607,7 +607,8 @@
 
             if (type !== 'empty' && type !== 'text' && type !== 'passive' && type !== 'multi' && slot.targetMode) {
                 const modeLabel = slot.targetMode === 'smart_target' ? 'Smart Cast'
-                    : (slot.targetMode === 'self' ? 'Self' : 'Cursor');
+                    : (slot.targetMode === 'active_target' ? 'Active Target'
+                    : (slot.targetMode === 'self' ? 'Self' : 'Cursor'));
                 actionText += ` <span class="badge bg-dark border border-secondary text-xxs ms-1">${modeLabel}</span>`;
             }
 
@@ -744,7 +745,8 @@
                         ${st === 'empty' ? 'disabled' : ''}>
                     <select class="form-select form-select-sm bg-black text-white border-secondary multi-sub-target"
                         style="display: ${st === 'spell' || st === 'item' ? 'block' : 'none'};">
-                        <option value="smart_target" ${!sub.targetMode || sub.targetMode === 'smart_target' ? 'selected' : ''}>Smart Cast</option>
+                        <option value="smart_target" ${!sub.targetMode || sub.targetMode === 'smart_target' ? 'selected' : ''}>Smart Cast (max hits)</option>
+                        <option value="active_target" ${sub.targetMode === 'active_target' ? 'selected' : ''}>Active Target</option>
                         <option value="cursor_prompt" ${sub.targetMode === 'cursor_prompt' ? 'selected' : ''}>Cursor</option>
                         <option value="self" ${sub.targetMode === 'self' ? 'selected' : ''}>Self</option>
                     </select>
@@ -790,7 +792,8 @@
                         placeholder="spell_id, item_id, or auto_chase">
                     <label class="form-label text-xs text-muted mb-1 d-block" for="inspectTargetMode">Targeting Behavior</label>
                     <select id="inspectTargetMode" class="form-select form-select-sm bg-black text-white border-secondary">
-                        <option value="smart_target" ${!slot.targetMode || slot.targetMode === 'smart_target' ? 'selected' : ''}>Smart Cast on Active Target</option>
+                        <option value="smart_target" ${!slot.targetMode || slot.targetMode === 'smart_target' ? 'selected' : ''}>Smart Cast (max AoE hits)</option>
+                        <option value="active_target" ${slot.targetMode === 'active_target' ? 'selected' : ''}>Active Target (center on target)</option>
                         <option value="cursor_prompt" ${slot.targetMode === 'cursor_prompt' ? 'selected' : ''}>Cursor Prompt (Crosshair)</option>
                         <option value="self" ${slot.targetMode === 'self' ? 'selected' : ''}>Cast on Self / User</option>
                     </select>

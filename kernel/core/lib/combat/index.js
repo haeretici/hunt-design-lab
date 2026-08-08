@@ -10,6 +10,7 @@ const chain = require('./chain.js');
 const conditions = require('./conditions.js');
 const elementalFields = require('./elemental_fields.js');
 const delayedCast = require('./delayed_cast.js');
+const castRange = require('./cast_range.js');
 
 module.exports = {
     ...damage,
@@ -20,5 +21,6 @@ module.exports = {
     ...chain,
     ...conditions,
     ...elementalFields,
-    ...delayedCast
+    ...delayedCast,
+    ...castRange
 };

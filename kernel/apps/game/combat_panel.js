@@ -8,7 +8,11 @@
 const { getActivePlayerFromSim, readSourceVitals } = require('./equipment_panel.js');
 const { entitySpriteOpts, resolveSpriteUrl } = require('../../core/lib/creature_sprites.js');
 const { resolvePlayerSpriteArt } = require('../../core/lib/character/player_profile.js');
-const { Settings } = require('../../settings.js');
+const {
+    resolveEngageRange,
+    engageQueryRadius,
+    isWithinEngageRange
+} = require('../../core/lib/ai/engage_range.js');
 const {
     uiState,
     clearTargetCursorMode,
@@ -124,20 +128,21 @@ function entityKey(entity, prefix) {
 }
 
 /**
- * Player engage range (strategy override → Settings default).
+ * Player engage query radius (max of X/Y box; strategy → Settings).
  * @param {object|null} player
  * @returns {number}
  */
 function engageRangeFor(player) {
-    if (player && player.strategy && player.strategy.engageRange != null) {
-        const n = Number(player.strategy.engageRange);
-        if (Number.isFinite(n) && n >= 1) return n | 0;
-    }
-    const def =
-        Settings && Settings.AI_ENGAGE_RANGE != null
-            ? Number(Settings.AI_ENGAGE_RANGE)
-            : 7;
-    return Number.isFinite(def) && def >= 1 ? def | 0 : 7;
+    return Math.max(1, engageQueryRadius(resolveEngageRange(player)));
+}
+
+/**
+ * Player engage box (strategy → Settings defaults 7×7).
+ * @param {object|null} player
+ * @returns {{ x: number, y: number }}
+ */
+function engageRangeXYFor(player) {
+    return resolveEngageRange(player);
 }
 
 /**
@@ -404,7 +409,7 @@ function bindCombatPanel(opts) {
                 : null;
         const playerTile =
             activePlayer && activePlayer.tile ? activePlayer.tile : { x: 0, y: 0 };
-        const range = engageRangeFor(activePlayer);
+        const engageBox = engageRangeXYFor(activePlayer);
         const genre = typeof o.getGenre === 'function' ? o.getGenre() : 'rpg_fantasy';
 
         const creatures = (sim.creatures || []).filter((c) => {
@@ -423,7 +428,7 @@ function bindCombatPanel(opts) {
             if (activeTarget && (c === activeTarget || c.id === activeTarget.id)) {
                 return true;
             }
-            return chebyshev(playerTile, c.tile) <= range;
+            return isWithinEngageRange(playerTile, c.tile, engageBox);
         });
 
         if (creatures.length === 0) {
@@ -446,8 +451,15 @@ function bindCombatPanel(opts) {
         lastSortedCreatures = creatures.slice();
         lastCombatRefresh = refresh;
 
-        // Dirty signature: skip DOM work when order + vitals + target unchanged
-        const sigParts = [currentSort, String(activeTarget && activeTarget.id), String(range)];
+        // Dirty signature: skip DOM work when order + vitals + target unchanged.
+        // Include engage box so strategy/settings range changes repaint the list.
+        // (Do not reference a free `range` — that was a ReferenceError that blanked
+        // the combat list whenever any creature was in engage range.)
+        const sigParts = [
+            currentSort,
+            String(activeTarget && activeTarget.id),
+            `${engageBox.x}x${engageBox.y}`
+        ];
         for (let i = 0; i < creatures.length; i++) {
             const c = creatures[i];
             const vitals = readSourceVitals(c);
@@ -1067,6 +1079,7 @@ module.exports = {
     chebyshev,
     entityKey,
     engageRangeFor,
+    engageRangeXYFor,
     escapeHtml,
     normalizeSortKey,
     loadSortPreference,

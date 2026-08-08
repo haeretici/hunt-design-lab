@@ -53,6 +53,32 @@
   word-break: break-word;
 }
 
+// Multi-check list (survives grid filter changes)
+.am-checked-list {
+  max-height: 11rem;
+  overflow: auto;
+  padding-right: 0.15rem;
+}
+
+.am-checked-row {
+  gap: 0.25rem;
+  min-width: 0;
+
+  > .text-truncate {
+    min-width: 0;
+    flex: 1;
+    max-width: none;
+  }
+
+  &.is-filtered-out {
+    opacity: 0.55;
+
+    > .text-truncate {
+      font-style: italic;
+    }
+  }
+}
+
 .am-kv--sidebar {
   margin: 0;
 

@@ -80,6 +80,233 @@ const SLOT_PLACEHOLDERS = Object.freeze({
 });
 
 /**
+ * Font Awesome meta for engine condition kinds (equipment status strip).
+ * Colors echo legacy client condition flag hues (poison green, burn orange, …).
+ * @type {Readonly<Record<string, { icon: string, color: string, label: string, title: string }>>}
+ */
+const STATUS_ICON_META = Object.freeze({
+    poison: {
+        icon: 'fa-skull-crossbones',
+        color: '#6bcb3f',
+        label: 'Poisoned',
+        title: 'You are poisoned'
+    },
+    fire: {
+        icon: 'fa-fire',
+        color: '#ff6b35',
+        label: 'Burning',
+        title: 'You are burning'
+    },
+    ice: {
+        icon: 'fa-snowflake',
+        color: '#7ec8ff',
+        label: 'Freezing',
+        title: 'You are freezing'
+    },
+    energy: {
+        icon: 'fa-bolt',
+        color: '#f0d030',
+        label: 'Electrified',
+        title: 'You are electrified'
+    },
+    bleed: {
+        icon: 'fa-droplet',
+        color: '#c41e3a',
+        label: 'Bleeding',
+        title: 'You are bleeding'
+    },
+    curse: {
+        icon: 'fa-ghost',
+        color: '#9b59b6',
+        label: 'Cursed',
+        title: 'You are cursed'
+    },
+    holy: {
+        icon: 'fa-sun',
+        color: '#ffe066',
+        label: 'Dazzled',
+        title: 'You are dazzled'
+    },
+    slow: {
+        icon: 'fa-person-running',
+        color: '#e74c3c',
+        label: 'Slowed',
+        title: 'You are paralysed'
+    },
+    haste: {
+        icon: 'fa-person-running',
+        color: '#2ecc71',
+        label: 'Hasted',
+        title: 'You are hasted'
+    },
+    invisible: {
+        icon: 'fa-eye-slash',
+        color: '#a0aec0',
+        label: 'Invisible',
+        title: 'You are invisible'
+    },
+    regen: {
+        icon: 'fa-heart-pulse',
+        color: '#48bb78',
+        label: 'Regenerating',
+        title: 'You are regenerating'
+    },
+    attributes: {
+        icon: 'fa-dumbbell',
+        color: '#63b3ed',
+        label: 'Strengthened',
+        title: 'You are strengthened'
+    }
+});
+
+/** Stable display order for the status strip (detriments first, then buffs). */
+const STATUS_ICON_ORDER = Object.freeze([
+    'poison',
+    'fire',
+    'energy',
+    'bleed',
+    'ice',
+    'holy',
+    'curse',
+    'slow',
+    'haste',
+    'invisible',
+    'regen',
+    'attributes'
+]);
+
+/**
+ * Collect active condition kinds from a player/entity for the status strip.
+ * Dedupes by kind; order follows STATUS_ICON_ORDER then unknowns alphabetically.
+ *
+ * @param {object|null|undefined} source Player entity or form member
+ * @returns {{ kind: string, icon: string, color: string, label: string, title: string }[]}
+ */
+function listActiveStatusIcons(source) {
+    if (!source || typeof source !== 'object') return [];
+    /** @type {Set<string>} */
+    const kinds = new Set();
+    const list = Array.isArray(source.conditions) ? source.conditions : [];
+    for (let i = 0; i < list.length; i++) {
+        const c = list[i];
+        if (!c || typeof c !== 'object') continue;
+        const kind = String(c.kind || c.type || c.id || '')
+            .toLowerCase()
+            .replace(/^condition_/, '')
+            .trim();
+        if (!kind) continue;
+        // Normalize common aliases to engine kinds
+        let k = kind;
+        if (k === 'burning' || k === 'condition_fire') k = 'fire';
+        else if (k === 'poisoned' || k === 'condition_poison') k = 'poison';
+        else if (k === 'freezing' || k === 'condition_freezing') k = 'ice';
+        else if (
+            k === 'electrified' ||
+            k === 'electrification' ||
+            k === 'electrify'
+        ) {
+            k = 'energy';
+        } else if (k === 'bleeding') k = 'bleed';
+        else if (k === 'cursed') k = 'curse';
+        else if (k === 'dazzled' || k === 'dazzle') k = 'holy';
+        else if (k === 'paralyzed' || k === 'paralysed' || k === 'paralyze') {
+            k = 'slow';
+        } else if (k === 'invisibility') k = 'invisible';
+        else if (
+            k === 'regeneration' ||
+            k === 'hot' ||
+            k === 'recovery'
+        ) {
+            k = 'regen';
+        } else if (k === 'attribute' || k === 'stance' || k === 'strengthened') {
+            k = 'attributes';
+        }
+        kinds.add(k);
+    }
+    // Gear stealth (stealth ring) shows as invisible without a condition row.
+    const gearFlags = source.combatStats && source.combatStats.flags;
+    if (source.invisible || (gearFlags && gearFlags.invisible)) {
+        kinds.add('invisible');
+    }
+
+    /** @type {{ kind: string, icon: string, color: string, label: string, title: string }[]} */
+    const out = [];
+    for (let i = 0; i < STATUS_ICON_ORDER.length; i++) {
+        const kind = STATUS_ICON_ORDER[i];
+        if (!kinds.has(kind)) continue;
+        const meta = STATUS_ICON_META[kind];
+        if (!meta) continue;
+        out.push({
+            kind,
+            icon: meta.icon,
+            color: meta.color,
+            label: meta.label,
+            title: meta.title
+        });
+        kinds.delete(kind);
+    }
+    // Unknown kinds: still show a generic badge so designers see something.
+    const rest = Array.from(kinds).sort();
+    for (let i = 0; i < rest.length; i++) {
+        const kind = rest[i];
+        out.push({
+            kind,
+            icon: 'fa-circle-exclamation',
+            color: '#cbd5e0',
+            label: kind,
+            title: kind
+        });
+    }
+    return out;
+}
+
+/**
+ * Stable signature of active status kinds (for dirty-only paint).
+ * @param {object|null|undefined} source
+ * @returns {string}
+ */
+function statusIconsSignature(source) {
+    const icons = listActiveStatusIcons(source);
+    if (!icons.length) return '';
+    return icons.map((x) => x.kind).join(',');
+}
+
+/**
+ * Paint the miniature status strip under Soul/Cap.
+ * @param {HTMLElement|null} barEl
+ * @param {object|null|undefined} source
+ * @param {{ force?: boolean }} [opts]
+ */
+function renderStatusBar(barEl, source, opts) {
+    if (!barEl) return;
+    const force = !!(opts && opts.force);
+    const icons = listActiveStatusIcons(source);
+    const sig = icons.map((x) => x.kind).join(',');
+    if (!force && barEl.dataset.statusSig === sig) return;
+    barEl.dataset.statusSig = sig;
+    if (!icons.length) {
+        barEl.innerHTML = '';
+        barEl.hidden = true;
+        barEl.setAttribute('aria-hidden', 'true');
+        return;
+    }
+    barEl.hidden = false;
+    barEl.setAttribute('aria-hidden', 'false');
+    let html = '';
+    for (let i = 0; i < icons.length; i++) {
+        const ic = icons[i];
+        html +=
+            `<span class="eq-status-icon" data-status="${escapeHtml(ic.kind)}"` +
+            ` style="color:${escapeHtml(ic.color)}"` +
+            ` title="${escapeHtml(ic.title)}"` +
+            ` aria-label="${escapeHtml(ic.label)}">` +
+            `<i class="fa-solid ${escapeHtml(ic.icon)}" aria-hidden="true"></i>` +
+            `</span>`;
+    }
+    barEl.innerHTML = html;
+}
+
+/**
  * Convert any equipment map (engine or designer keys) to designer slot ids.
  * @param {Record<string, string|number|null|undefined>|null|undefined} raw
  * @returns {Record<string, string>}
@@ -397,10 +624,11 @@ function paintEquipmentSlotIfDirty(slotEl, slotKey, itemId, itemDb, genre, sourc
  * Paint designer-slot equipment into a card root element.
  * Slot DOM is updated only when itemId/genre/charges/duration for that slot
  * change (dirty). Cap/soul text always refreshes when this is called.
+ * Status strip (condition icons) paints from source.conditions when present.
  *
  * @param {HTMLElement|null} cardEl
  * @param {object|null} profile from buildPreviewProfile
- * @param {{ itemDb?: object[]|Record<string, object>|null, genre?: string, soulEl?: HTMLElement|null, capEl?: HTMLElement|null, carriedWeight?: number|null, force?: boolean, source?: object|null }} [opts]
+ * @param {{ itemDb?: object[]|Record<string, object>|null, genre?: string, soulEl?: HTMLElement|null, capEl?: HTMLElement|null, statusBarEl?: HTMLElement|null, carriedWeight?: number|null, force?: boolean, source?: object|null }} [opts]
  */
 function renderEquipmentCard(cardEl, profile, opts) {
     if (!cardEl) return;
@@ -458,6 +686,12 @@ function renderEquipmentCard(cardEl, profile, opts) {
     const currentCap = remainingCapacity(level, totalWeight, classId);
     if (o.soulEl) o.soulEl.textContent = '100';
     if (o.capEl) o.capEl.textContent = currentCap.toLocaleString();
+
+    const statusBarEl =
+        o.statusBarEl ||
+        cardEl.querySelector('.eq-status-bar') ||
+        null;
+    renderStatusBar(statusBarEl, source, { force });
 }
 
 /**
@@ -932,6 +1166,9 @@ function bindEquipmentPanel(opts) {
     const cardEl = document.getElementById('activeEquipmentCard');
     const soulEl = document.getElementById('activeEqSoul');
     const capEl = document.getElementById('activeEqCap');
+    const statusBarEl =
+        document.getElementById('activeEqStatusBar') ||
+        (cardEl ? cardEl.querySelector('.eq-status-bar') : null);
     const detailsBtn = document.getElementById('equipmentDetailsBtn');
 
     /** @type {Window|null} */
@@ -941,9 +1178,10 @@ function bindEquipmentPanel(opts) {
     /** @type {ReturnType<typeof setInterval>|null} */
     let previewTimer = null;
     /**
-     * Card paint signature: gear + Cap inputs only.
+     * Card paint signature: gear + Cap + active condition kinds.
      * HP/MP change every combat tick and must NOT dirty the card (that
      * rebuilt <img> nodes and caused the equipment panel to flicker).
+     * Condition kind set dirties when statuses appear/expire (not every DoT tick).
      * Preview popup still gets live vitals via pushPreview ~1/s.
      * null = never painted (so first empty idle still runs once).
      * @type {string|null}
@@ -995,13 +1233,21 @@ function bindEquipmentPanel(opts) {
     /**
      * Stable signature for the inline equipment card (not preview popup).
      * Includes floored charges/duration so timed gear dirties ~1/s only.
+     * Includes active condition kinds so the status strip appears/clears.
      * @param {object|null} payload
      * @param {number|null} carriedWeight
      * @param {string} genre
      * @param {string} budgetSig
+     * @param {string} statusSig
      * @returns {string}
      */
-    const cardSignature = (payload, carriedWeight, genre, budgetSig) => {
+    const cardSignature = (
+        payload,
+        carriedWeight,
+        genre,
+        budgetSig,
+        statusSig
+    ) => {
         if (!payload) return '';
         const p = payload.profile;
         return JSON.stringify({
@@ -1013,7 +1259,8 @@ function bindEquipmentPanel(opts) {
             live: payload.live,
             genre,
             capW: carriedWeight,
-            budgets: budgetSig || ''
+            budgets: budgetSig || '',
+            status: statusSig || ''
         });
     };
 
@@ -1034,7 +1281,14 @@ function bindEquipmentPanel(opts) {
             payload && payload.profile ? payload.profile.equipment : null,
             itemDb
         );
-        const sig = cardSignature(payload, carriedWeight, genre, budgetSig);
+        const statusSig = statusIconsSignature(source);
+        const sig = cardSignature(
+            payload,
+            carriedWeight,
+            genre,
+            budgetSig,
+            statusSig
+        );
         if (lastCardSig !== null && sig === lastCardSig) return;
         lastCardSig = sig;
         renderEquipmentCard(cardEl, payload ? payload.profile : null, {
@@ -1042,6 +1296,7 @@ function bindEquipmentPanel(opts) {
             genre,
             soulEl,
             capEl,
+            statusBarEl,
             carriedWeight,
             source
         });
@@ -1156,7 +1411,12 @@ module.exports = {
     DESIGNER_SLOTS,
     ENGINE_TO_DESIGNER,
     DESIGNER_TO_ENGINE,
+    STATUS_ICON_META,
+    STATUS_ICON_ORDER,
     equipmentToDesignerSlots,
+    listActiveStatusIcons,
+    statusIconsSignature,
+    renderStatusBar,
     readSourceVitals,
     buildPreviewProfile,
     resolveItemSpriteUrl,

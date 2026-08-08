@@ -533,7 +533,8 @@ function openAssignSpellModal(slot, deps) {
             <div class="mb-3">
                 <label class="form-label text-muted small mb-1">Targeting</label>
                 <select id="abSpellTarget" class="form-select form-select-sm bg-dark text-light border-secondary">
-                    <option value="smart_target">Smart Cast (active target)</option>
+                    <option value="smart_target">Smart Cast (max hits)</option>
+                    <option value="active_target">Active Target (center on target)</option>
                     <option value="cursor_prompt">Cursor prompt</option>
                     <option value="self">Self</option>
                 </select>
@@ -666,11 +667,12 @@ function openAssignObjectModal(slot, deps, prefillItemId) {
             <div class="mb-3">
                 <label class="form-label text-muted small mb-1">Use mode</label>
                 <select id="abObjTarget" class="form-select form-select-sm bg-dark text-light border-secondary">
-                    <option value="smart_target">Smart Cast / attack target (recommended for multi-use)</option>
+                    <option value="smart_target">Smart Cast (max AoE hits; recommended for runes)</option>
+                    <option value="active_target">Active Target (center on attack target)</option>
                     <option value="cursor_prompt">Select target (crosshair)</option>
                     <option value="self">Use on yourself</option>
                 </select>
-                <p class="text-muted small mt-1 mb-0">Wearable gear (weapons, armor, …) always equip/unequip on click, regardless of use mode.</p>
+                <p class="text-muted small mt-1 mb-0">Wearable gear (weapons, armor, …) always equip/unequip on click, regardless of use mode. Smart Cast ranks the blast to hit as many hostiles as possible; Active Target plants the center on your selected target.</p>
             </div>
             <div class="d-flex justify-content-end gap-2">
                 <button type="button" class="btn btn-sm btn-secondary" data-ab-modal-close>Cancel</button>
@@ -1081,7 +1083,9 @@ function draftMultiActions(raw) {
             spellId: t === 'spell' && r.spellId != null ? String(r.spellId) : null,
             text: t === 'text' && r.text != null ? String(r.text) : null,
             targetMode:
-                r.targetMode === 'cursor_prompt' || r.targetMode === 'self'
+                r.targetMode === 'cursor_prompt' ||
+                r.targetMode === 'self' ||
+                r.targetMode === 'active_target'
                     ? r.targetMode
                     : 'smart_target'
         });
@@ -1275,7 +1279,8 @@ function openAssignMultiModal(slot, deps) {
                 <div class="mb-3">
                     <label class="form-label text-muted small mb-1">Targeting</label>
                     <select id="abMultiSpellTarget" class="form-select form-select-sm bg-dark text-light border-secondary">
-                        <option value="smart_target">Smart Cast</option>
+                        <option value="smart_target">Smart Cast (max hits)</option>
+                        <option value="active_target">Active Target</option>
                         <option value="cursor_prompt">Cursor prompt</option>
                         <option value="self">Self</option>
                     </select>
@@ -1393,7 +1398,8 @@ function openAssignMultiModal(slot, deps) {
                 <div class="mb-3">
                     <label class="form-label text-muted small mb-1">Use mode</label>
                     <select id="abMultiObjTarget" class="form-select form-select-sm bg-dark text-light border-secondary">
-                        <option value="smart_target">Smart Cast / attack target</option>
+                        <option value="smart_target">Smart Cast (max hits)</option>
+                        <option value="active_target">Active Target</option>
                         <option value="cursor_prompt">Select target (crosshair)</option>
                         <option value="self">Use on yourself</option>
                     </select>

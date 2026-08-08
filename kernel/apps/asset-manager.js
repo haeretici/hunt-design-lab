@@ -199,9 +199,13 @@ async function initAssetManagerApp() {
     let creatures = [];
     /** @type {object|null} */
     let selected = null;
-    /** Multi-select (checkboxes) — independent of the primary detail selection. */
-    /** @type {Set<string>} */
-    let checkedIds = new Set();
+    /**
+     * Multi-select (checkboxes) — independent of the primary detail selection.
+     * Survives catalog reloads / filter changes so batch actions keep working
+     * on items no longer visible in the grid.
+     * @type {Map<string, { c: object, genre: string, kind: string }>}
+     */
+    let checkedItems = new Map();
     let cacheBust = Date.now();
     let busy = false;
 
@@ -233,6 +237,7 @@ async function initAssetManagerApp() {
     const elModalHost = document.getElementById('amModalHost');
     const elCheckedChip = document.getElementById('amCheckedChip');
     const elCheckedCount = document.getElementById('amCheckedCount');
+    const elAnimRefBtn = document.getElementById('amAnimRefBtn');
     const elFixGreen = document.getElementById('amFixGreenBtn');
     const elFlipBtn = document.getElementById('amFlipBtn');
     const elRegen = document.getElementById('amRegenBtn');
@@ -319,7 +324,7 @@ async function initAssetManagerApp() {
         if (msg) status(msg);
         document
             .querySelectorAll(
-                '.am-actions .btn-retro, #amRefreshBtn, #amReplaceDrop, #amReplaceFile, #amActEdit, #amFixGreenBtn, #amFlipBtn, #amRegenBtn, #amDeleteBtn'
+                '.am-actions .btn-retro, #amRefreshBtn, #amReplaceDrop, #amReplaceFile, #amActEdit, #amAnimRefBtn, #amFixGreenBtn, #amFlipBtn, #amRegenBtn, #amDeleteBtn'
             )
             .forEach((el) => {
                 if (el instanceof HTMLButtonElement || el instanceof HTMLInputElement) {
@@ -327,11 +332,12 @@ async function initAssetManagerApp() {
                     if (
                         (el.id === 'amRegenBtn' ||
                             el.id === 'amDeleteBtn' ||
+                            el.id === 'amAnimRefBtn' ||
                             el.id === 'amFixGreenBtn' ||
                             el.id === 'amFlipBtn') &&
                         !on
                     ) {
-                        el.disabled = checkedIds.size === 0;
+                        el.disabled = checkedItems.size === 0;
                     } else {
                         el.disabled = on;
                     }
@@ -346,10 +352,82 @@ async function initAssetManagerApp() {
         });
     }
 
+    /**
+     * Uncheck one multi-selected asset (sidebar list or grid checkbox).
+     * @param {string} id
+     */
+    function uncheckItem(id) {
+        if (!id) return;
+        checkedItems.delete(id);
+        const card = elGrid?.querySelector(`.am-card[data-id="${CSS.escape(id)}"]`);
+        if (card) {
+            card.classList.remove('is-checked');
+            const check = card.querySelector('.am-card-check-input');
+            if (check instanceof HTMLInputElement) check.checked = false;
+        }
+        updateCheckedUi();
+    }
+
+    /** Sidebar list of multi-checked assets (survives filters). */
+    function updateCheckedList() {
+        const elCheckedBody = document.getElementById('amCheckedBody');
+        const elClearBtn = document.getElementById('amClearCheckedBtn');
+        if (!elCheckedBody) return;
+
+        if (checkedItems.size === 0) {
+            elCheckedBody.className = 'am-selection-empty text-xxs text-muted';
+            elCheckedBody.textContent = 'No checked items.';
+            if (elClearBtn) elClearBtn.style.display = 'none';
+            return;
+        }
+
+        if (elClearBtn) elClearBtn.style.display = 'inline-block';
+
+        const liveIds = new Set(creatures.map((c) => c.id));
+        elCheckedBody.className = 'am-selection-body am-checked-list';
+        const list = document.createElement('div');
+        list.className = 'd-flex flex-column gap-1';
+
+        for (const [id, item] of checkedItems.entries()) {
+            const row = document.createElement('div');
+            row.className = 'am-checked-row d-flex justify-content-between align-items-start text-xxs';
+            if (!liveIds.has(id)) row.classList.add('is-filtered-out');
+
+            const name = document.createElement('div');
+            name.className = 'text-truncate';
+            const label = item.c.alias || item.c.technical || id;
+            const tech = item.c.technical || id;
+            name.title = liveIds.has(id)
+                ? tech
+                : `${tech} (not in current filter)`;
+            name.textContent = label;
+
+            const removeBtn = document.createElement('button');
+            removeBtn.type = 'button';
+            removeBtn.className = 'btn btn-link btn-sm text-decoration-none text-muted p-0 ms-1';
+            removeBtn.innerHTML = '<i class="fa-solid fa-times"></i>';
+            removeBtn.title = 'Uncheck';
+            removeBtn.addEventListener('click', (ev) => {
+                ev.preventDefault();
+                uncheckItem(id);
+            });
+
+            row.appendChild(name);
+            row.appendChild(removeBtn);
+            list.appendChild(row);
+        }
+
+        elCheckedBody.replaceChildren(list);
+    }
+
     function updateCheckedUi() {
-        const n = checkedIds.size;
+        updateCheckedList();
+        const n = checkedItems.size;
         if (elCheckedCount) elCheckedCount.textContent = String(n);
         if (elCheckedChip) elCheckedChip.hidden = n === 0;
+        if (elAnimRefBtn instanceof HTMLButtonElement) {
+            elAnimRefBtn.disabled = busy || n === 0;
+        }
         if (elFixGreen instanceof HTMLButtonElement) {
             elFixGreen.disabled = busy || n === 0;
         }
@@ -365,18 +443,22 @@ async function initAssetManagerApp() {
     }
 
     /**
-     * @param {string} id
+     * @param {object} c catalog row
      * @param {boolean} on
      */
-    function setChecked(id, on) {
-        if (!id) return;
-        if (on) checkedIds.add(id);
-        else checkedIds.delete(id);
+    function setChecked(c, on) {
+        if (!c || !c.id) return;
+        if (on) checkedItems.set(c.id, { c, genre: currentGenre(), kind: currentKind() });
+        else checkedItems.delete(c.id);
         updateCheckedUi();
     }
 
     function clearChecked() {
-        checkedIds.clear();
+        checkedItems.clear();
+        elGrid?.querySelectorAll('.am-card-check-input').forEach((input) => {
+            if (input instanceof HTMLInputElement) input.checked = false;
+        });
+        elGrid?.querySelectorAll('.am-card').forEach((card) => card.classList.remove('is-checked'));
         updateCheckedUi();
     }
 
@@ -424,17 +506,9 @@ async function initAssetManagerApp() {
             if (elShown) elShown.textContent = String(creatures.length);
             if (elTotal) elTotal.textContent = String(data.total ?? creatures.length);
 
-            // Keep selection if still present
+            // Keep primary selection if still present; multi-check persists independently.
             if (selected) {
                 selected = creatures.find((c) => c.id === selected.id) || null;
-            }
-
-            // Drop multi-select ids no longer in the loaded list
-            if (checkedIds.size) {
-                const live = new Set(creatures.map((c) => c.id));
-                for (const id of [...checkedIds]) {
-                    if (!live.has(id)) checkedIds.delete(id);
-                }
             }
 
             renderGrid();
@@ -448,6 +522,7 @@ async function initAssetManagerApp() {
             creatures = [];
             renderGrid();
             renderDetail();
+            updateCheckedUi();
         } finally {
             setBusy(false);
         }
@@ -469,7 +544,7 @@ async function initAssetManagerApp() {
 
         for (const c of creatures) {
             const isPrimary = selected && selected.id === c.id;
-            const isChecked = checkedIds.has(c.id);
+            const isChecked = checkedItems.has(c.id);
             // div (not button) so nested checkbox stays valid HTML
             const card = document.createElement('div');
             card.className =
@@ -496,7 +571,7 @@ async function initAssetManagerApp() {
             });
             check.addEventListener('change', (ev) => {
                 ev.stopPropagation();
-                setChecked(c.id, check.checked);
+                setChecked(c, check.checked);
                 card.classList.toggle('is-checked', check.checked);
             });
             checkWrap.addEventListener('click', (ev) => ev.stopPropagation());
@@ -869,21 +944,16 @@ async function initAssetManagerApp() {
      */
     async function doFlipChecked() {
         if (busy) return;
-        const ids = [...checkedIds];
-        if (!ids.length) {
+        const items = Array.from(checkedItems.values());
+        if (!items.length) {
             status('Check one or more tiles first');
             return;
         }
-        const labels = ids
-            .map((id) => {
-                const c = creatures.find((x) => x.id === id);
-                return c ? c.technical || c.id : id;
-            })
-            .slice(0, 8);
-        const more = ids.length > 8 ? `\n…and ${ids.length - 8} more` : '';
+        const labels = items.map(item => item.c.technical || item.c.id).slice(0, 8);
+        const more = items.length > 8 ? `\n…and ${items.length - 8} more` : '';
         if (
             !window.confirm(
-                `Flip horizontal ${ids.length} asset(s)?\n` +
+                `Flip horizontal ${items.length} asset(s)?\n` +
                     `Rewrites original/ and reprocesses variants for:\n` +
                     labels.map((t) => `  · ${t}`).join('\n') +
                     more
@@ -892,18 +962,17 @@ async function initAssetManagerApp() {
             return;
         }
 
-        const genre = currentGenre();
-        const kind = currentKind();
-        setBusy(true, `Flip 0/${ids.length}…`);
+        setBusy(true, `Flip 0/${items.length}…`);
         let ok = 0;
         /** @type {string[]} */
         const failed = [];
         try {
-            for (let i = 0; i < ids.length; i++) {
-                const id = ids[i];
-                status(`Flip ${i + 1}/${ids.length}: ${id}…`);
+            for (let i = 0; i < items.length; i++) {
+                const item = items[i];
+                const id = item.c.id;
+                status(`Flip ${i + 1}/${items.length}: ${id}…`);
                 try {
-                    await apiCall('creature_flip', { genre, kind, id });
+                    await apiCall('creature_flip', { genre: item.genre, kind: item.kind, id });
                     ok += 1;
                 } catch (err) {
                     failed.push(`${id}: ${err.message || err}`);
@@ -928,21 +997,16 @@ async function initAssetManagerApp() {
      */
     async function doRegen() {
         if (busy) return;
-        const ids = [...checkedIds];
-        if (!ids.length) {
+        const items = Array.from(checkedItems.values());
+        if (!items.length) {
             status('Check one or more tiles first');
             return;
         }
-        const labels = ids
-            .map((id) => {
-                const c = creatures.find((x) => x.id === id);
-                return c ? c.technical || c.id : id;
-            })
-            .slice(0, 8);
-        const more = ids.length > 8 ? `\n…and ${ids.length - 8} more` : '';
+        const labels = items.map(item => item.c.technical || item.c.id).slice(0, 8);
+        const more = items.length > 8 ? `\n…and ${items.length - 8} more` : '';
         if (
             !window.confirm(
-                `Regen ${ids.length} asset(s)?\n` +
+                `Regen ${items.length} asset(s)?\n` +
                     `Re-runs process_sprites on original/ for:\n` +
                     labels.map((t) => `  · ${t}`).join('\n') +
                     more
@@ -951,18 +1015,17 @@ async function initAssetManagerApp() {
             return;
         }
 
-        const genre = currentGenre();
-        const kind = currentKind();
-        setBusy(true, `Regen 0/${ids.length}…`);
+        setBusy(true, `Regen 0/${items.length}…`);
         let ok = 0;
         /** @type {string[]} */
         const failed = [];
         try {
-            for (let i = 0; i < ids.length; i++) {
-                const id = ids[i];
-                status(`Regen ${i + 1}/${ids.length}: ${id}…`);
+            for (let i = 0; i < items.length; i++) {
+                const item = items[i];
+                const id = item.c.id;
+                status(`Regen ${i + 1}/${items.length}: ${id}…`);
                 try {
-                    await apiCall('creature_reprocess', { genre, kind, id });
+                    await apiCall('creature_reprocess', { genre: item.genre, kind: item.kind, id });
                     ok += 1;
                 } catch (err) {
                     failed.push(`${id}: ${err.message || err}`);
@@ -987,21 +1050,16 @@ async function initAssetManagerApp() {
      */
     async function doDeleteChecked() {
         if (busy) return;
-        const ids = [...checkedIds];
-        if (!ids.length) {
+        const items = Array.from(checkedItems.values());
+        if (!items.length) {
             status('Check one or more tiles first');
             return;
         }
-        const labels = ids
-            .map((id) => {
-                const c = creatures.find((x) => x.id === id);
-                return c ? c.technical || c.id : id;
-            })
-            .slice(0, 8);
-        const more = ids.length > 8 ? `\n…and ${ids.length - 8} more` : '';
+        const labels = items.map(item => item.c.technical || item.c.id).slice(0, 8);
+        const more = items.length > 8 ? `\n…and ${items.length - 8} more` : '';
         if (
             !window.confirm(
-                `Delete ${ids.length} asset(s)?\n` +
+                `Delete ${items.length} asset(s)?\n` +
                     `Removes original + alpha/medium/retro/small/icon and catalog rows for:\n` +
                     labels.map((t) => `  · ${t}`).join('\n') +
                     more
@@ -1010,18 +1068,17 @@ async function initAssetManagerApp() {
             return;
         }
 
-        const genre = currentGenre();
-        const kind = currentKind();
-        setBusy(true, `Delete 0/${ids.length}…`);
+        setBusy(true, `Delete 0/${items.length}…`);
         let ok = 0;
         /** @type {string[]} */
         const failed = [];
         try {
-            for (let i = 0; i < ids.length; i++) {
-                const id = ids[i];
-                status(`Delete ${i + 1}/${ids.length}: ${id}…`);
+            for (let i = 0; i < items.length; i++) {
+                const item = items[i];
+                const id = item.c.id;
+                status(`Delete ${i + 1}/${items.length}: ${id}…`);
                 try {
-                    await apiCall('creature_remove', { genre, kind, id });
+                    await apiCall('creature_remove', { genre: item.genre, kind: item.kind, id });
                     ok += 1;
                     if (selected && selected.id === id) selected = null;
                 } catch (err) {
@@ -1048,21 +1105,16 @@ async function initAssetManagerApp() {
      */
     async function doFixGreen() {
         if (busy) return;
-        const ids = [...checkedIds];
-        if (!ids.length) {
+        const items = Array.from(checkedItems.values());
+        if (!items.length) {
             status('Check one or more tiles first');
             return;
         }
-        const labels = ids
-            .map((id) => {
-                const c = creatures.find((x) => x.id === id);
-                return c ? c.technical || c.id : id;
-            })
-            .slice(0, 8);
-        const more = ids.length > 8 ? `\n…and ${ids.length - 8} more` : '';
+        const labels = items.map(item => item.c.technical || item.c.id).slice(0, 8);
+        const more = items.length > 8 ? `\n…and ${items.length - 8} more` : '';
         if (
             !window.confirm(
-                `Fix Green on ${ids.length} asset(s)?\n` +
+                `Fix Green on ${items.length} asset(s)?\n` +
                     `Sets R=B=G on strong green pixels (high G, low R/B), then reprocesses:\n` +
                     labels.map((t) => `  · ${t}`).join('\n') +
                     more
@@ -1071,18 +1123,17 @@ async function initAssetManagerApp() {
             return;
         }
 
-        const genre = currentGenre();
-        const kind = currentKind();
-        setBusy(true, `Fix Green 0/${ids.length}…`);
+        setBusy(true, `Fix Green 0/${items.length}…`);
         let ok = 0;
         /** @type {string[]} */
         const failed = [];
         try {
-            for (let i = 0; i < ids.length; i++) {
-                const id = ids[i];
-                status(`Fix Green ${i + 1}/${ids.length}: ${id}…`);
+            for (let i = 0; i < items.length; i++) {
+                const item = items[i];
+                const id = item.c.id;
+                status(`Fix Green ${i + 1}/${items.length}: ${id}…`);
                 try {
-                    await apiCall('creature_fix_green', { genre, kind, id });
+                    await apiCall('creature_fix_green', { genre: item.genre, kind: item.kind, id });
                     ok += 1;
                 } catch (err) {
                     failed.push(`${id}: ${err.message || err}`);
@@ -1267,7 +1318,7 @@ async function initAssetManagerApp() {
                 id: c.id
             });
             selected = null;
-            checkedIds.delete(c.id);
+            checkedItems.delete(c.id);
             status(`Removed ${c.technical}`);
             await loadCatalog();
             await loadGenreStats();
@@ -1424,6 +1475,9 @@ async function initAssetManagerApp() {
         loadGenreStats();
         loadCatalog();
     });
+    elAnimRefBtn?.addEventListener('click', () => {
+        openAnimRefModal();
+    });
     elFixGreen?.addEventListener('click', () => {
         doFixGreen();
     });
@@ -1436,6 +1490,9 @@ async function initAssetManagerApp() {
     elDelete?.addEventListener('click', () => {
         doDeleteChecked();
     });
+    document.getElementById('amClearCheckedBtn')?.addEventListener('click', () => {
+        clearChecked();
+    });
     elLimit?.addEventListener('change', () => {
         schedulePrefsSave();
         loadCatalog();
@@ -1445,6 +1502,111 @@ async function initAssetManagerApp() {
         renderGrid();
         renderDetail();
     });
+
+    function openAnimRefModal() {
+        const items = Array.from(checkedItems.values());
+        if (items.length === 0) return;
+
+        if (!elModalHost || busy) return;
+        elModalHost.innerHTML = `
+            <div class="am-modal-backdrop" id="amModalBg">
+                <div class="am-modal am-modal-lg">
+                    <div class="am-modal-header">
+                        <h3>AnimRef Preview (${items.length} sprites)</h3>
+                    </div>
+                    <div class="am-modal-body" style="text-align:center; overflow: auto; max-height: 60vh;">
+                        <canvas id="amAnimRefCanvas"></canvas>
+                    </div>
+                    <div class="am-modal-footer" style="display: flex; gap: 10px; align-items: center;">
+                        <input type="color" id="amAnimRefBgColor" value="#00ff00" title="Background Color" style="height: 36px; width: 48px; border: 1px solid #444; padding: 0; background: none; cursor: pointer;">
+                        <button type="button" class="btn btn-retro btn-retro-secondary" id="amAnimRefDownloadBtn">
+                            <i class="fa-solid fa-download"></i> Download
+                        </button>
+                        <div style="flex-grow:1;"></div>
+                        <button type="button" class="btn btn-retro btn-retro-secondary" id="amAnimRefCancelBtn">Close</button>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        const canvas = document.getElementById('amAnimRefCanvas');
+        const ctx = canvas.getContext('2d');
+        const colorInput = document.getElementById('amAnimRefBgColor');
+        const downloadBtn = document.getElementById('amAnimRefDownloadBtn');
+        const cancelBtn = document.getElementById('amAnimRefCancelBtn');
+
+        const TILE_SIZE = 256;
+        const COLS = 4;
+        const ROWS = items.length;
+
+        canvas.width = TILE_SIZE * COLS;
+        canvas.height = TILE_SIZE * ROWS;
+
+        let loadedImages = [];
+
+        function draw() {
+            ctx.fillStyle = colorInput.value;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            loadedImages.forEach((img, row) => {
+                if (img) {
+                    for (let col = 0; col < COLS; col++) {
+                        ctx.drawImage(img, col * TILE_SIZE, row * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+                    }
+                }
+            });
+        }
+
+        colorInput.addEventListener('input', draw);
+
+        downloadBtn.addEventListener('click', () => {
+            const link = document.createElement('a');
+            link.download = `animref_${items.length}_sprites.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        });
+
+        const close = () => {
+            elModalHost.innerHTML = '';
+        };
+
+        cancelBtn.addEventListener('click', close);
+        document.getElementById('amModalBg')?.addEventListener('click', (ev) => {
+            if (ev.target && ev.target.id === 'amModalBg') close();
+        });
+
+        // Use stored catalog rows so AnimRef still works when items are filtered out of the grid.
+        setBusy(true, 'Loading alpha images...');
+        const promises = items.map((item, idx) => {
+            return new Promise((resolve) => {
+                const c = item.c;
+                if (!c) {
+                    resolve({ img: null, idx });
+                    return;
+                }
+                const previewPath =
+                    (c.sprites && c.sprites.alpha) ||
+                    pickPreviewPath(c, 'alpha') ||
+                    pickPreviewPath(c, 'original');
+                if (!previewPath) {
+                    resolve({ img: null, idx });
+                    return;
+                }
+                const img = new Image();
+                img.crossOrigin = 'anonymous';
+                img.onload = () => resolve({ img, idx });
+                img.onerror = () => resolve({ img: null, idx });
+                img.src = spriteUrl(previewPath, cacheBust);
+            });
+        });
+
+        Promise.all(promises).then((results) => {
+            setBusy(false);
+            results.sort((a, b) => a.idx - b.idx);
+            loadedImages = results.map((r) => r.img);
+            draw();
+        });
+    }
+
 
     let searchTimer = null;
     elSearch?.addEventListener('input', () => {
@@ -1490,13 +1652,17 @@ async function initAssetManagerApp() {
     }
 
     /**
-     * Multi-checked catalog rows in grid order (stable), mapped for buildBatch inject.
+     * Multi-checked catalog rows for Batch Builder inject.
+     * Only includes items checked under the current genre/kind (batch payload is single-context).
      * @returns {Array<{technical: string, alias: string, category?: string}>}
      */
     function selectedItemsForBatchInject() {
+        const genre = currentGenre();
+        const kind = currentKind();
         const out = [];
-        for (const c of creatures) {
-            if (!checkedIds.has(c.id)) continue;
+        for (const item of checkedItems.values()) {
+            if (item.genre !== genre || item.kind !== kind) continue;
+            const c = item.c;
             const technical = String(c.technical || c.id || '').trim();
             if (!technical) continue;
             /** @type {{technical: string, alias: string, category?: string}} */
@@ -1634,7 +1800,7 @@ async function initAssetManagerApp() {
 
     if (openBatchBtn) {
         openBatchBtn.addEventListener('click', () => {
-            if (checkedIds.size > 0) {
+            if (checkedItems.size > 0) {
                 openBatchBuilderInjectModal();
                 return;
             }

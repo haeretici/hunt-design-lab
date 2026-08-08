@@ -32,6 +32,7 @@ const { distBetween } = require('./targeting.js');
 const { tileDistance } = require('../movement.js');
 const { hpPercent, isAutoAttackId } = require('./strategy.js');
 const { hasCondition } = require('../combat/conditions.js');
+const { isWithinSpellCastRange } = require('../combat/cast_range.js');
 
 /** Default self-heal spell id (presets/spells.json). */
 const DEFAULT_HEAL_SPELL_ID = 'heal_light';
@@ -785,8 +786,9 @@ function livingHostilePool(attacker, primary, candidates) {
  * and allow cast when **any** living hostile lies on the caster-centered
  * footprint (not only when Chebyshev to sticky ≤ range).
  *
- * Single-target / wave / ranged area: Chebyshev to primary ≤ spell.range,
- * plus Bresenham LoS through walkable tiles when `ctx.tileMap` (or sim) is set.
+ * Single-target / wave / ranged area: cast range to primary (Chebyshev ≤
+ * spell.range; far-use runes also require the legacy 7×5 box), plus Bresenham
+ * LoS through walkable tiles when `ctx.tileMap` (or sim) is set.
  * Adjacent (Chebyshev ≤ 1) is always clear; missing tileMap → open (tests).
  *
  * @param {object} attacker
@@ -880,7 +882,16 @@ function isSpellInRange(attacker, defender, spell, ctx) {
     if (!defender || defender.alive === false) return false;
     if (defender.hp && defender.hp.current <= 0) return false;
     const r = resolveSpellRange(attacker, spell);
-    if (distBetween(attacker, defender) > r) return false;
+    if (
+        !isWithinSpellCastRange(
+            attacker.tile,
+            defender.tile,
+            spell,
+            r
+        )
+    ) {
+        return false;
+    }
 
     // Single-target / wave / ranged-area gate: solid tiles block shots.
     // Self-centered and self-origin chain already returned above.
@@ -992,6 +1003,7 @@ function recordAttackResult(attacker, primary, result, ctx) {
  * @param {object} opts.defender
  * @param {string} opts.spellId
  * @param {object} opts.ctx hunt context { spellBook, sim, onAttack, enemies, players, tileMap }
+ * @param {'primary'|'maximize'} [opts.centerMode] ranged area blast center policy
  * @returns {object|null}
  */
 function tryAttack(opts) {
@@ -1064,6 +1076,13 @@ function tryAttack(opts) {
             (ctx.sim && (ctx.sim.groundItems || ctx.sim.groundStore)) ||
             (tileMap && (tileMap.groundStore || tileMap.groundItems)) ||
             null;
+        // Default: maximize multi-hit (AI + Smart Cast). Manual Active Target
+        // / castWith tile pass centerMode 'primary'; aim-only always primary.
+        let centerMode = o.centerMode;
+        if (centerMode !== 'primary' && centerMode !== 'maximize') {
+            centerMode =
+                defender && defender._aimOnly ? 'primary' : 'maximize';
+        }
         const result = resolveShapedAttack({
             attacker,
             primary: defender,
@@ -1073,7 +1092,8 @@ function tryAttack(opts) {
             groundStore,
             sim: ctx.sim || null,
             spellBook: spellBookFromCtx(ctx),
-            rng: ctx.rng || Math.random
+            rng: ctx.rng || Math.random,
+            centerMode
         });
         if (!result.ok) return null;
         // Consume rune once cast is accepted (even if 0 creatures hit).
@@ -1671,6 +1691,7 @@ module.exports = {
     resolveWeaponType,
     resolveAutoAttackId,
     resolveSpellRange,
+    isWithinSpellCastRange,
     isModeAutoAttackEnabled,
     isModeAmmoConsumptionEnabled,
     isModeRuneConsumptionEnabled,

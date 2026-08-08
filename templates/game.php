@@ -289,6 +289,7 @@ $modesList = function_exists('hdl_list_modes') ? hdl_list_modes() : [
                                 <p>Cap:</p>
                                 <p class="total" id="activeEqCap">—</p>
                             </div>
+                            <div class="eq-status-bar" id="activeEqStatusBar" role="status" aria-label="Active conditions" hidden></div>
                         </div>
                     </div>
                 </section>

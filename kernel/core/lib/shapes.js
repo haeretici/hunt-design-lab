@@ -1074,8 +1074,10 @@ function entitiesOnTiles(entities, tiles, z) {
 }
 
 /**
- * Rank area blast centers that maximize hits (legacy findTopAttackPositions).
- * Wave shapes return [] (use facing from caster instead).
+ * Rank area blast centers that maximize hits (legacy bot findTopAttackPositions).
+ * Used by resolveAreaCenter when centerMode is **maximize** (Smart Cast action
+ * bar, player/creature AI). Manual castWith tile aim and Active Target use
+ * primary-tile centering instead. Wave shapes return [] (facing from caster).
  *
  * @param {{x:number,y:number}} casterTile
  * @param {object[]} targets entities with .tile

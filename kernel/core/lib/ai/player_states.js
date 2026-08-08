@@ -11,6 +11,11 @@ const {
     distBetween
 } = require('./targeting.js');
 const {
+    resolveEngageRange,
+    engageQueryRadius,
+    isWithinEngageRange
+} = require('./engage_range.js');
+const {
     hpPercent,
     pickSpellId
 } = require('./strategy.js');
@@ -56,6 +61,8 @@ function getStrategy(owner) {
     return owner.strategy || {
         aggression: 0.75,
         engageRange: 7,
+        engageRangeX: 7,
+        engageRangeY: 7,
         keepDistance: 1,
         fleeHpPercent: 0.15,
         monstersToEngage: 1,
@@ -69,6 +76,7 @@ function getStrategy(owner) {
  * Etapa 4: prefer per-origin SpatialIndex query when ctx.creatureIndex is set
  * (avoids scanning the full multi-bubble enemy union for sparse parties).
  * Falls back to linear refine of ctx.enemies.
+ * Engage is an axis box (strategy engageRangeX/Y or square engageRange).
  *
  * @param {object} owner
  * @param {HuntCtx} ctx
@@ -76,16 +84,23 @@ function getStrategy(owner) {
  */
 function nearbyEnemies(owner, ctx) {
     const st = getStrategy(owner);
-    const range = st.engageRange;
+    const box = resolveEngageRange(st);
+    const queryR = engageQueryRadius(box);
     const c = ctx || {};
     let near;
     if (c.creatureIndex) {
-        near = queryWithinRange(owner, range, {
+        near = queryWithinRange(owner, queryR, {
             index: c.creatureIndex,
             excludeSelf: true
         });
     } else {
-        near = entitiesWithinRange(owner, c.enemies || [], range);
+        near = entitiesWithinRange(owner, c.enemies || [], queryR);
+    }
+    // Refine Chebyshev over-fetch to the engage box (cheap; no-op when X === Y).
+    if (near && near.length && owner && owner.tile) {
+        near = near.filter(
+            (e) => e && e.tile && isWithinEngageRange(owner.tile, e.tile, box)
+        );
     }
     // Require Line of Sight to avoid aggro across solid dungeon walls
     if (c.tileMap && owner && owner.tile && near && near.length > 0) {

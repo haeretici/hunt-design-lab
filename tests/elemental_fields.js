@@ -481,7 +481,7 @@ function testPlayerFieldRuneDeployAndDestroy() {
         min: 0,
         max: 0,
         element: 'fire',
-        range: 4,
+        range: 7,
         mana: 0,
         isMelee: false,
         shape: { type: 'area', code: 1 },
@@ -516,7 +516,7 @@ function testPlayerFieldRuneDeployAndDestroy() {
         min: 0,
         max: 0,
         element: 'physical',
-        range: 4,
+        range: 5,
         mana: 0,
         isMelee: false,
         shape: { type: 'area', code: 1 },
@@ -549,7 +549,7 @@ function testPlayerFieldRuneDeployAndDestroy() {
         min: 0,
         max: 0,
         element: 'fire',
-        range: 4,
+        range: 7,
         mana: 0,
         isMelee: false,
         shape: { type: 'area', code: 3 },
@@ -577,6 +577,128 @@ function testPlayerFieldRuneDeployAndDestroy() {
 }
 
 /**
+ * Ranged area center modes:
+ * - castWith tile aim / Active Target (primary): pin on aimed tile or target
+ * - Smart Cast / AI (maximize): findTopAreaCenters multi-hit ranking
+ * Regression: equal-hit ranking by distance-to-caster must not steal a lone
+ * empty-tile aim into a pack pivot between char and target.
+ */
+function testRangedAreaCenterModes() {
+    log('Running testRangedAreaCenterModes...');
+    const {
+        computeSpellFootprint,
+        resolveAreaCenter
+    } = require('../kernel/core/lib/combat/area.js');
+    const gfb = {
+        id: 'grand_fireburst_rune',
+        source: 'rune',
+        allowFarUse: true,
+        range: 7,
+        mana: 0,
+        isMelee: false,
+        min: 10,
+        max: 20,
+        element: 'fire',
+        shape: { type: 'area', code: 5 },
+        cooldowns: {}
+    };
+    const attacker = { tile: { x: 0, y: 0, z: 0 }, type: 'player' };
+    // Empty-tile castWith aim far from caster (no creature on aim sqm)
+    const aimOnly = {
+        tile: { x: 5, y: 0, z: 0 },
+        alive: true,
+        _aimOnly: true
+    };
+    // Nearby pack between caster and aim — must not pull castWith center
+    const midA = {
+        tile: { x: 2, y: 0, z: 0 },
+        alive: true,
+        hp: { current: 50, max: 50 },
+        type: 'creature'
+    };
+    const midB = {
+        tile: { x: 2, y: 1, z: 0 },
+        alive: true,
+        hp: { current: 50, max: 50 },
+        type: 'creature'
+    };
+
+    const centerAim = resolveAreaCenter({
+        attacker,
+        primary: aimOnly,
+        spell: gfb,
+        candidates: [midA, midB]
+    });
+    assert.ok(centerAim, 'aim-only center exists');
+    assert.strictEqual(centerAim.x, 5, 'castWith tile center x = clicked sqm');
+    assert.strictEqual(centerAim.y, 0, 'castWith tile center y = clicked sqm');
+
+    const footAim = computeSpellFootprint({
+        attacker,
+        primary: aimOnly,
+        spell: gfb,
+        candidates: [midA, midB]
+    });
+    assert.strictEqual(footAim.center.x, 5);
+    assert.strictEqual(footAim.center.y, 0);
+    const aimKeys = new Set(footAim.affectedTiles.map((t) => `${t.x},${t.y}`));
+    assert.ok(aimKeys.has('5,0'), 'footprint includes clicked aim tile');
+
+    // Active Target: pin blast on the sticky creature even when a denser pack exists
+    const sticky = {
+        tile: { x: 6, y: 2, z: 0 },
+        alive: true,
+        hp: { current: 80, max: 80 },
+        type: 'creature'
+    };
+    const centerActive = resolveAreaCenter({
+        attacker,
+        primary: sticky,
+        spell: gfb,
+        candidates: [midA, midB, sticky],
+        centerMode: 'primary'
+    });
+    assert.strictEqual(centerActive.x, 6, 'active target center x = target creature');
+    assert.strictEqual(centerActive.y, 2, 'active target center y = target creature');
+
+    // Smart Cast / AI: maximize hits among in-range hostiles (mid pack = 2 hits)
+    const centerSmart = resolveAreaCenter({
+        attacker,
+        primary: sticky,
+        spell: gfb,
+        candidates: [midA, midB, sticky],
+        centerMode: 'maximize'
+    });
+    assert.ok(centerSmart, 'maximize center exists');
+    // GFB (code 5) multi-hit pivot should cover both mid pack tiles — not sticky alone
+    const footSmart = computeSpellFootprint({
+        attacker,
+        primary: sticky,
+        spell: gfb,
+        candidates: [midA, midB, sticky],
+        centerMode: 'maximize'
+    });
+    const smartKeys = new Set(footSmart.affectedTiles.map((t) => `${t.x},${t.y}`));
+    assert.ok(smartKeys.has('2,0'), 'smart cast covers midA');
+    assert.ok(smartKeys.has('2,1'), 'smart cast covers midB');
+
+    // Default without primary: same multi-hit ranking
+    const centerNoPrimary = resolveAreaCenter({
+        attacker,
+        primary: null,
+        spell: gfb,
+        candidates: [midA, midB]
+    });
+    assert.ok(centerNoPrimary, 'no-primary still resolves a center');
+    assert.ok(
+        centerNoPrimary.x !== 5 || centerNoPrimary.y !== 0,
+        'no-primary path is not stuck on the aim tile used above'
+    );
+
+    log('testRangedAreaCenterModes: ok');
+}
+
+/**
  * Wall runes: center must stay on the sticky target so diagonal aim picks the
  * stair companion (not findTopAreaCenters' unoriented east line).
  */
@@ -592,7 +714,7 @@ function testEnergyWallDiagonalCentersOnTarget() {
         min: 0,
         max: 0,
         element: 'energy',
-        range: 4,
+        range: 7,
         mana: 0,
         isMelee: false,
         shape: { type: 'area', code: 'wall_field_energy' },
@@ -760,7 +882,7 @@ function testTryAttackFieldRuneConsumesNestedBag() {
         min: 0,
         max: 0,
         element: 'fire',
-        range: 4,
+        range: 7,
         mana: 0,
         isMelee: false,
         level: 1,
@@ -1159,7 +1281,7 @@ function testObstacleBarrierAndVine() {
         statusOnly: true,
         min: 0,
         max: 0,
-        range: 4,
+        range: 7,
         mana: 0,
         hitChance: 100,
         shape: { type: 'area', code: 1 },
@@ -1301,7 +1423,7 @@ function testFieldAndBarrierFloorStickAfterCasterHop() {
         statusOnly: true,
         min: 0,
         max: 0,
-        range: 4,
+        range: 7,
         mana: 0,
         hitChance: 100,
         shape: { type: 'area', code: 1 },
@@ -1348,6 +1470,7 @@ function main() {
     testResolveShapedAttackDeploysEmptyTiles();
     testAttackToSpellMarksField();
     testPlayerFieldRuneDeployAndDestroy();
+    testRangedAreaCenterModes();
     testEnergyWallDiagonalCentersOnTarget();
     testEmptyFootprintFailsNoSpend();
     testTryAttackFieldRuneConsumesNestedBag();

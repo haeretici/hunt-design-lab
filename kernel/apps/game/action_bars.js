@@ -62,7 +62,12 @@ const VISIBLE_CAP_VERTICAL = 10;
 
 const DOCK_AREAS = ['top', 'bottom', 'left', 'right'];
 const VALID_ACTION_TYPES = new Set(['empty', 'item', 'spell', 'command', 'text', 'passive', 'multi']);
-const VALID_TARGET_MODES = new Set(['smart_target', 'cursor_prompt', 'self']);
+const VALID_TARGET_MODES = new Set([
+    'smart_target',
+    'active_target',
+    'cursor_prompt',
+    'self'
+]);
 const VALID_SUB_ACTION_TYPES = new Set(['empty', 'item', 'spell', 'text']);
 
 /**
@@ -71,7 +76,7 @@ const VALID_SUB_ACTION_TYPES = new Set(['empty', 'item', 'spell', 'text']);
  * @property {string|null} [itemId]
  * @property {string|null} [spellId]
  * @property {string|null} [text]
- * @property {'smart_target'|'cursor_prompt'|'self'} [targetMode]
+ * @property {'smart_target'|'active_target'|'cursor_prompt'|'self'} [targetMode]
  */
 
 /**
@@ -86,7 +91,7 @@ const VALID_SUB_ACTION_TYPES = new Set(['empty', 'item', 'spell', 'text']);
  * @property {string|null} [text]
  * @property {string|null} [passiveId]
  * @property {ActionBarSubSlot[]|null} [multiActions]
- * @property {'smart_target'|'cursor_prompt'|'self'} targetMode
+ * @property {'smart_target'|'active_target'|'cursor_prompt'|'self'} targetMode
  */
 
 /**
@@ -1281,14 +1286,24 @@ function executeSlot(slot, opts) {
         }
 
         const isMulti = itemIsMultiUse(item) || (item && String(item.type).toLowerCase() === 'rune');
+        // Smart Cast + Active Target both fire on the selected combat target.
+        // Smart Cast maximizes AoE hits; Active Target pins the blast center.
+        const usesActiveTarget =
+            slot.targetMode === 'smart_target' ||
+            slot.targetMode === 'active_target';
 
-        if (slot.targetMode === 'smart_target' && isMulti) {
+        if (usesActiveTarget && isMulti) {
             if (player.target && player.target.id != null && player.target.alive !== false) {
-                player.commandQueue.push({
+                /** @type {{ type: string, itemId: string, target: object, centerMode?: string }} */
+                const cmd = {
                     type: 'USE_ITEM_WITH',
                     itemId: slot.itemId,
                     target: { kind: 'entity', id: player.target.id }
-                });
+                };
+                // Ranged area runes honor this in resolveAreaCenter.
+                cmd.centerMode =
+                    slot.targetMode === 'active_target' ? 'primary' : 'maximize';
+                player.commandQueue.push(cmd);
                 return;
             }
         }
@@ -1341,14 +1356,19 @@ function executeSlot(slot, opts) {
             return;
         }
 
-        // smart_target (default): only fire targeted spells when a target is selected.
+        // smart_target / active_target: only fire when a combat target is selected.
         // Do NOT fall through to self — that self-damaged fireballs/strikes.
+        // Smart Cast → maximize AoE hits; Active Target → pin center on target.
         if (hasTarget) {
-            player.commandQueue.push({
+            /** @type {{ type: string, spellId: string, target: object, centerMode?: string }} */
+            const cmd = {
                 type: 'CAST_SPELL',
                 spellId: slot.spellId,
                 target: { kind: 'entity', id: player.target.id }
-            });
+            };
+            cmd.centerMode =
+                slot.targetMode === 'active_target' ? 'primary' : 'maximize';
+            player.commandQueue.push(cmd);
             return;
         }
 
@@ -1793,6 +1813,48 @@ function slotAriaLabel(slot, spellBook, itemDb) {
 }
 
 /**
+ * Native hover tooltip for a slot button (action title).
+ * Empty unlocked slots omit a tooltip; locked bars append a short note.
+ * @param {ActionBarSlot} slot
+ * @param {object|null|undefined} [spellBook]
+ * @param {object|null|undefined} [itemDb]
+ * @param {{ locked?: boolean, paintType?: string, paintItemId?: string|null, paintSpellId?: string|null, paintText?: string|null }} [opts]
+ * @returns {string}
+ */
+function slotHoverTitle(slot, spellBook, itemDb, opts) {
+    const locked = !!(opts && opts.locked);
+    if (!slot || slot.actionType === 'empty') {
+        return locked ? 'Bar locked — execute only (unlock to edit)' : '';
+    }
+    let action = describeSlotAction(slot, spellBook, itemDb);
+    // Multi: prefer the rotated active sub-action name when known from paint.
+    if (
+        slot.actionType === 'multi' &&
+        opts &&
+        opts.paintType &&
+        opts.paintType !== 'empty' &&
+        opts.paintType !== 'multi'
+    ) {
+        const subLabel = describeSlotAction(
+            {
+                actionType: opts.paintType,
+                itemId: opts.paintItemId || null,
+                spellId: opts.paintSpellId || null,
+                text: opts.paintText || null
+            },
+            spellBook,
+            itemDb
+        );
+        if (subLabel && subLabel !== 'Empty') {
+            action = `${subLabel} · ${action}`;
+        }
+    }
+    if (slot.hotkey) action += ` (${slot.hotkey})`;
+    if (locked) action += ' — bar locked';
+    return action;
+}
+
+/**
  * Visible index range for a bar's carousel window.
  * @param {ActionBar} bar
  * @returns {{ start: number, end: number, cap: number, maxOffset: number, offset: number }}
@@ -1931,11 +1993,14 @@ function mountSlotElement(parent, slot, barOpts) {
     slotEl.setAttribute('tabindex', '0');
     const spellBook = state.getSpellBook ? state.getSpellBook() : null;
     const itemDb = state.getItemDb ? state.getItemDb() : null;
+    const locked = !!(barOpts && barOpts.locked);
     slotEl.setAttribute('aria-label', slotAriaLabel(slot, spellBook, itemDb));
-    if (barOpts && barOpts.locked) {
+    if (locked) {
         slotEl.setAttribute('aria-disabled', 'false'); // execute still allowed
-        slotEl.title = 'Bar locked — execute only (unlock to edit)';
     }
+    const hoverTitle = slotHoverTitle(slot, spellBook, itemDb, { locked });
+    if (hoverTitle) slotEl.title = hoverTitle;
+    else slotEl.removeAttribute('title');
     if (slot.hotkey) slotEl.setAttribute('data-hotkey', slot.hotkey);
 
     slotEl.addEventListener('click', (ev) => {
@@ -2156,6 +2221,15 @@ function updateActionBars() {
             el.setAttribute('aria-label', slotAriaLabel(slot, spellBook, itemDb));
             el.setAttribute('role', 'button');
             if (!el.hasAttribute('tabindex')) el.setAttribute('tabindex', '0');
+            const hoverTitle = slotHoverTitle(slot, spellBook, itemDb, {
+                locked: isSlotBarLocked(slot.id),
+                paintType,
+                paintItemId,
+                paintSpellId,
+                paintText
+            });
+            if (hoverTitle) el.title = hoverTitle;
+            else el.removeAttribute('title');
 
             let html = '';
             if (slot.hotkey) {
@@ -2461,6 +2535,7 @@ module.exports = {
     clearBar,
     describeSlotAction,
     slotAriaLabel,
+    slotHoverTitle,
     visibleRangeForBar,
     setBarPageOffset,
     shiftBarPage,

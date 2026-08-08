@@ -48,7 +48,9 @@ const {
 const {
     equipmentToDesignerSlots,
     buildPreviewProfile,
-    getActivePlayerFromSim
+    getActivePlayerFromSim,
+    listActiveStatusIcons,
+    statusIconsSignature
 } = require('../kernel/apps/game/equipment_panel.js');
 const {
     huntToSimulatorOpts,
@@ -678,6 +680,43 @@ test('equipmentToDesignerSlots maps engine gear to profile slots', () => {
     assert.strictEqual(eq.weapon, 'iron_longsword');
     assert.strictEqual(eq.shield, 'wooden_shield');
     assert.strictEqual(eq.boots, 'leather_boots');
+});
+
+test('listActiveStatusIcons maps engine conditions to FA status strip', () => {
+    const icons = listActiveStatusIcons({
+        conditions: [
+            { kind: 'poison', remainingDamage: 40 },
+            { kind: 'fire', remainingDamage: 20 },
+            { kind: 'slow', durationSec: 10, speedChange: -30 },
+            { kind: 'haste', durationSec: 10, speedChange: 20 },
+            // alias should normalize
+            { kind: 'burning', remainingDamage: 5 },
+            { type: 'paralyzed', durationSec: 3 }
+        ]
+    });
+    const kinds = icons.map((i) => i.kind);
+    assert.ok(kinds.indexOf('poison') >= 0);
+    assert.ok(kinds.indexOf('fire') >= 0);
+    assert.ok(kinds.indexOf('slow') >= 0);
+    assert.ok(kinds.indexOf('haste') >= 0);
+    // burning/paralyzed collapse into fire/slow (no duplicates)
+    assert.strictEqual(kinds.filter((k) => k === 'fire').length, 1);
+    assert.strictEqual(kinds.filter((k) => k === 'slow').length, 1);
+    const slow = icons.find((i) => i.kind === 'slow');
+    assert.strictEqual(slow.icon, 'fa-person-running');
+    assert.strictEqual(
+        statusIconsSignature({
+            conditions: [
+                { kind: 'poison' },
+                { kind: 'fire' },
+                { kind: 'slow' },
+                { kind: 'haste' }
+            ]
+        }),
+        'poison,fire,slow,haste'
+    );
+    assert.strictEqual(statusIconsSignature({ conditions: [] }), '');
+    assert.strictEqual(listActiveStatusIcons(null).length, 0);
 });
 
 test('buildPreviewProfile exposes live vitals for profile preview popup', () => {
@@ -1988,6 +2027,180 @@ test('combat_panel target cycling and manual controls config', () => {
     // Test that cycling with empty sorted creatures does not throw or crash
     cycleCombatTarget(sim, player, 1);
     assert.strictEqual(player.commandQueue.length, 0, 'no target set when combat list is empty');
+});
+
+/**
+ * Regression: combat list used `String(range)` in the dirty signature but never
+ * defined `range` — ReferenceError blanked the list whenever any creature was
+ * in engage range (bug_20260808_191548: "combat list is not loading monsters").
+ */
+test('combat_panel paints engage-range creatures (no free range ReferenceError)', () => {
+    const { bindCombatPanel } = require('../kernel/apps/game/combat_panel.js');
+    const origDoc = global.document;
+    const origWin = global.window;
+
+    function makeEl(tag) {
+        const el = {
+            tagName: String(tag || 'div').toUpperCase(),
+            style: {},
+            classList: {
+                add() {},
+                remove() {},
+                toggle() {},
+                contains() {
+                    return false;
+                }
+            },
+            dataset: {},
+            innerHTML: '',
+            hidden: true,
+            children: [],
+            attributes: {},
+            title: '',
+            textContent: '',
+            className: '',
+            parentNode: null,
+            appendChild(c) {
+                c.parentNode = this;
+                this.children.push(c);
+                return c;
+            },
+            removeChild(c) {
+                this.children = this.children.filter((x) => x !== c);
+            },
+            insertBefore(node, ref) {
+                if (!ref) this.children.push(node);
+                else {
+                    const i = this.children.indexOf(ref);
+                    if (i < 0) this.children.push(node);
+                    else this.children.splice(i, 0, node);
+                }
+                node.parentNode = this;
+                return node;
+            },
+            remove() {
+                if (this.parentNode && this.parentNode.removeChild) {
+                    this.parentNode.removeChild(this);
+                }
+            },
+            addEventListener() {},
+            removeEventListener() {},
+            setAttribute(k, v) {
+                this.attributes[k] = String(v);
+            },
+            getAttribute(k) {
+                return this.attributes[k] !== undefined ? this.attributes[k] : null;
+            },
+            removeAttribute(k) {
+                delete this.attributes[k];
+            },
+            querySelectorAll(sel) {
+                if (sel === '.entity-list-row') {
+                    return this.children.filter((c) =>
+                        String(c.className || '').includes('entity-list-row')
+                    );
+                }
+                return [];
+            },
+            querySelector() {
+                return null;
+            },
+            closest() {
+                return null;
+            }
+        };
+        return el;
+    }
+
+    const listEl = makeEl('div');
+    listEl.id = 'combatCreaturesList';
+    const els = {
+        combatCreaturesList: listEl,
+        combatSortBtn: makeEl('button'),
+        combatSortDropdown: makeEl('div')
+    };
+    global.document = {
+        getElementById: (id) => els[id] || null,
+        querySelectorAll: () => [],
+        querySelector: () => null,
+        createElement: (tag) => makeEl(tag),
+        body: makeEl('body'),
+        addEventListener() {},
+        removeEventListener() {}
+    };
+    global.window = {
+        localStorage: {
+            getItem() {
+                return null;
+            },
+            setItem() {}
+        },
+        addEventListener() {},
+        removeEventListener() {}
+    };
+
+    try {
+        const player = {
+            id: 1,
+            alive: true,
+            controlMode: 'manual',
+            tile: { x: 3, y: 10, z: 0 },
+            target: null,
+            targetId: null,
+            name: 'Adept',
+            commandQueue: []
+        };
+        const creatures = [];
+        for (let i = 0; i < 4; i++) {
+            creatures.push({
+                id: 200 + i,
+                alive: true,
+                name: 'Trash' + i,
+                tile: { x: 3 + i, y: 10, z: 0 },
+                hp: { current: 40, max: 50 },
+                type: 'creature'
+            });
+        }
+        // Far creature (outside default 7×7 engage) must not appear
+        creatures.push({
+            id: 999,
+            alive: true,
+            name: 'Far',
+            tile: { x: 50, y: 50, z: 0 },
+            hp: { current: 10, max: 10 },
+            type: 'creature'
+        });
+        const sim = {
+            parties: [{ members: [player] }],
+            creatures,
+            Settings: { cameraTileZ: 0 },
+            getCameraFocusMember: () => player
+        };
+        const ctl = bindCombatPanel({
+            getSim: () => sim,
+            isSessionLive: () => true,
+            getGenre: () => 'rpg_fantasy',
+            intervalMs: 0
+        });
+        assert.strictEqual(
+            listEl.children.length,
+            4,
+            'engage-range creatures should paint as list rows'
+        );
+        const keys = listEl.children.map((r) => r.getAttribute('data-uid'));
+        assert.ok(keys.includes('id:200'));
+        assert.ok(!keys.includes('id:999'), 'far creature outside engage range');
+        assert.ok(!listEl.dataset.state, 'no idle/empty placeholder while listing');
+        // Second refresh must not throw (dirty-sig path)
+        ctl.refresh();
+        assert.strictEqual(listEl.children.length, 4);
+        ctl.dispose();
+    } finally {
+        if (origDoc === undefined) delete global.document;
+        else global.document = origDoc;
+        if (origWin === undefined) delete global.window;
+        else global.window = origWin;
+    }
 });
 
 test('inventory_panel RMB on canvas empty tile moves character and prevents default context menu', () => {

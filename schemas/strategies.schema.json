@@ -30,7 +30,24 @@
         "id": { "$ref": "#/definitions/entityId" },
         "label": { "type": "string", "minLength": 1, "maxLength": 120 },
         "aggression": { "type": "number", "minimum": 0, "maximum": 1 },
-        "engageRange": { "type": "integer", "minimum": 0, "maximum": 30 },
+        "engageRange": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 30,
+          "description": "Square shorthand: sets both engageRangeX and engageRangeY when those are omitted."
+        },
+        "engageRangeX": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 30,
+          "description": "Max |Δx| for player engage box (default Settings.AI_ENGAGE_RANGE_X = 7)."
+        },
+        "engageRangeY": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 30,
+          "description": "Max |Δy| for player engage box (default Settings.AI_ENGAGE_RANGE_Y = 7)."
+        },
         "keepDistance": { "type": "integer", "minimum": 0, "maximum": 30 },
         "fleeHpPercent": { "type": "number", "minimum": 0, "maximum": 1 },
         "healHpPercent": { "type": "number", "minimum": 0, "maximum": 1 },

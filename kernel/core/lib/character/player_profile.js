@@ -175,6 +175,12 @@ function memberFromPlayerProfile(profile, overrides) {
     if (o.backpack != null) member.backpack = o.backpack;
     else if (profile.backpack != null) member.backpack = profile.backpack;
     if (o.inventorySandbox === true || profile.inventorySandbox === true) member.inventorySandbox = true;
+    // Starting combat conditions (Scenario Lab status demos / scripted seeds)
+    if (Array.isArray(o.conditions) && o.conditions.length) {
+        member.conditions = o.conditions.slice();
+    } else if (Array.isArray(profile.conditions) && profile.conditions.length) {
+        member.conditions = profile.conditions.slice();
+    }
 
     return member;
 }

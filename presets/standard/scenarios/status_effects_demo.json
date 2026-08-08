@@ -1,0 +1,84 @@
+{
+    "id": "status_effects_demo",
+    "label": "Status effects demo",
+    "notes": "Manual Scenario Lab check for the equipment-panel status strip (icons under Soul/Cap). Solo guardian spawns already poisoned, burning, electrified, bleeding, freezing, slowed, hasted, regenerating, and invis — so the miniature Font Awesome status bar is populated at session start. Short fixed shell; few cave rats for light combat while conditions tick down.",
+    "baseHuntId": "outskirts_camp_fixed",
+    "seed": 7,
+    "frames": 1800,
+    "maxTicks": 1800,
+    "waypoints": [
+        { "x": 0, "y": 3, "z": 0 },
+        { "x": 4, "y": 3, "z": 0 }
+    ],
+    "spawns": [
+        {
+            "creatureId": "cave_rat",
+            "x": 3,
+            "y": 3,
+            "z": 0,
+            "respawn": 0
+        },
+        {
+            "creatureId": "cave_rat",
+            "x": 4,
+            "y": 2,
+            "z": 0,
+            "respawn": 0
+        }
+    ],
+    "members": [
+        {
+            "profileId": "guardian_starter",
+            "name": "Status Subject",
+            "isLeader": true,
+            "controlMode": "manual",
+            "conditions": [
+                {
+                    "type": "poison",
+                    "totalDamage": 120,
+                    "intervalSec": 4
+                },
+                {
+                    "type": "fire",
+                    "totalDamage": 90,
+                    "intervalSec": 3
+                },
+                {
+                    "type": "energy",
+                    "totalDamage": 70,
+                    "intervalSec": 3
+                },
+                {
+                    "type": "bleed",
+                    "totalDamage": 80,
+                    "intervalSec": 3
+                },
+                {
+                    "type": "ice",
+                    "totalDamage": 60,
+                    "intervalSec": 4
+                },
+                {
+                    "type": "slow",
+                    "speedChange": -40,
+                    "durationSec": 180
+                },
+                {
+                    "type": "haste",
+                    "speedChange": 30,
+                    "durationSec": 180
+                },
+                {
+                    "type": "regen",
+                    "healthGain": 8,
+                    "intervalSec": 3,
+                    "durationSec": 180
+                },
+                {
+                    "type": "invisible",
+                    "durationSec": 90
+                }
+            ]
+        }
+    ]
+}

@@ -348,8 +348,9 @@ function resolveScenarioHunt(runnerInput) {
  * }}
  */
 /**
- * Copy inventory seed flags from scenario members onto form party rows so UI
- * party edits do not strip inventorySandbox / backpack trees.
+ * Copy inventory / condition seed flags from scenario members onto form party
+ * rows so UI party edits do not strip inventorySandbox / backpack trees or
+ * authored starting conditions (status strip demos).
  * @param {object[]} formMembers
  * @param {object[]|null|undefined} scenarioMembers
  * @returns {object[]}
@@ -392,6 +393,9 @@ function mergeScenarioInventorySeeds(formMembers, scenarioMembers) {
         if (src.inventorySandbox === true) row.inventorySandbox = true;
         if (src.inventory != null) row.inventory = src.inventory;
         if (src.backpack != null) row.backpack = src.backpack;
+        if (Array.isArray(src.conditions) && src.conditions.length) {
+            row.conditions = src.conditions.slice();
+        }
         if (src.name && (!row.name || row.name === 'Leader')) {
             row.name = String(src.name);
         }

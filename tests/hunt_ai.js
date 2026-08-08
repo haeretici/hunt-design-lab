@@ -108,11 +108,20 @@ const {
     combatMove,
     tryEngagedAttacks,
     runCombatTick,
+    Idle,
+    Retarget,
     Leash,
     beyondLeash,
     insideLeashReaggro,
-    leashReaggroRange
+    leashReaggroRange,
+    hasLivingPresence,
+    changeCreatureState
 } = require('../kernel/core/lib/ai/creature_states.js');
+const {
+    applyCondition,
+    isInvisible
+} = require('../kernel/core/lib/combat/conditions.js');
+const { isValidTarget } = require('../kernel/core/lib/ai/targeting.js');
 
 const VERBOSE = !!process.env.VERBOSE;
 
@@ -4347,6 +4356,175 @@ function testManualControlAndCommandQueue() {
     log('manual control and command queue ok');
 }
 
+/**
+ * Invisible players nearby: monsters must not attack, but still random-walk
+ * (legacy doRandomStep while non-idle). Alone with idleWander off → freeze.
+ */
+function testInvisiblePresenceIdleWander() {
+    const map = openFloor(12, 12, 100);
+    const monster = new Creature({
+        id: 9301,
+        name: 'BlindRat',
+        type: 'creature',
+        tile: { x: 5, y: 5, z: 0 },
+        speed: 100,
+        hp: 50,
+        hpMax: 50
+    });
+    monster.alive = true;
+    monster.homeTile = { x: 5, y: 5, z: 0 };
+    monster.spawnTile = { x: 5, y: 5, z: 0 };
+    monster.aggro = true;
+    ensureCreatureKit(monster, {
+        attacks: [{ id: 'melee', kind: 'melee', min: 1, max: 2, range: 1, intervalSec: 1, chance: 100 }],
+        flags: {
+            targetDistance: 1,
+            aggroRange: 7,
+            loseTargetDistance: 10,
+            idleWander: false
+        },
+        strategiesTarget: { nearest: 100 }
+    });
+    initCreatureAi(monster);
+    map.tryOccupy(5, 5, 0, monster);
+
+    const player = new Player({
+        id: 9302,
+        name: 'Ghost',
+        tile: { x: 6, y: 5, z: 0 },
+        speed: 100,
+        hp: 200,
+        hpMax: 200
+    });
+    player.alive = true;
+    if (player.hp && typeof player.hp === 'object') {
+        player.hp.current = 200;
+        player.hp.max = 200;
+    }
+    map.tryOccupy(6, 5, 0, player);
+
+    applyCondition(player, { type: 'invisible', durationSec: 120 });
+    assert.ok(isInvisible(player), 'player is invisible');
+    assert.strictEqual(
+        isValidTarget(monster, player),
+        false,
+        'blind monster cannot target invisible player'
+    );
+    assert.strictEqual(
+        pickCreatureTarget(monster, [player], { rng: () => 0, range: 7 }),
+        null,
+        'pickCreatureTarget skips invisible'
+    );
+
+    const pool = { list: [player], index: null };
+    assert.ok(
+        hasLivingPresence(monster, pool),
+        'invisible player still counts as living presence'
+    );
+
+    // Idle: should random-step while invisible presence is nearby
+    monster.moveDelay = 0;
+    const t0 = { x: monster.tile.x, y: monster.tile.y };
+    // Deterministic rng that still yields a free neighbor over a few tries
+    let calls = 0;
+    const rng = () => {
+        calls += 1;
+        return (calls % 8) / 8;
+    };
+    Idle.execute(monster, {
+        tileMap: map,
+        players: [player],
+        rng,
+        sim: {
+            getEntityById(id) {
+                return id === player.id ? player : null;
+            }
+        }
+    });
+    assert.strictEqual(
+        monster.aiState,
+        'idle',
+        'stays idle (no aggro on invisible)'
+    );
+    assert.strictEqual(monster.target, null);
+    assert.ok(
+        monster.tile.x !== t0.x || monster.tile.y !== t0.y || monster.moveDelay > 0,
+        'random-walked or started a step while invisible presence nearby'
+    );
+    // If first rng landed on blocked/self, force a step path
+    if (monster.tile.x === t0.x && monster.tile.y === t0.y) {
+        monster.moveDelay = 0;
+        const stepped = stepRandomAdjacent(monster, map, () => 0);
+        assert.ok(stepped, 'open floor has free adjacent for random step');
+    }
+
+    // Alone (no players): idleWander off → no forced wander
+    monster.tile = { x: 5, y: 5, z: 0 };
+    monster.moveDelay = 0;
+    map.clearOccupancy(0);
+    map.tryOccupy(5, 5, 0, monster);
+    const aloneTile = { x: monster.tile.x, y: monster.tile.y };
+    Idle.execute(monster, {
+        tileMap: map,
+        players: [],
+        rng: () => 0,
+        sim: { getEntityById() { return null; } }
+    });
+    assert.strictEqual(monster.tile.x, aloneTile.x);
+    assert.strictEqual(monster.tile.y, aloneTile.y);
+
+    // Retarget: invisible nearby → Idle, not Leash (even if off home)
+    monster.tile = { x: 7, y: 7, z: 0 };
+    monster.homeTile = { x: 5, y: 5, z: 0 };
+    monster.moveDelay = 0;
+    monster.target = player;
+    monster.targetId = player.id;
+    map.clearOccupancy(0);
+    map.tryOccupy(7, 7, 0, monster);
+    map.tryOccupy(6, 5, 0, player);
+    // Put brain in Retarget and run once
+    changeCreatureState(monster, Retarget);
+    Retarget.execute(monster, {
+        tileMap: map,
+        players: [player],
+        rng: () => 0,
+        sim: {
+            getEntityById(id) {
+                return id === player.id ? player : null;
+            }
+        }
+    });
+    assert.strictEqual(
+        monster.aiState,
+        'idle',
+        'retarget with invisible presence → Idle (not Leash)'
+    );
+    assert.strictEqual(monster.target, null);
+
+    // Seer monster can still target invisible
+    const seer = new Creature({
+        id: 9303,
+        name: 'Seer',
+        type: 'creature',
+        tile: { x: 5, y: 6, z: 0 },
+        speed: 100,
+        hp: 50,
+        hpMax: 50
+    });
+    seer.alive = true;
+    seer.immunities = { invisible: true };
+    ensureCreatureKit(seer, {
+        attacks: [{ id: 'melee', kind: 'melee', min: 1, max: 2, range: 1, intervalSec: 1, chance: 100 }],
+        flags: { targetDistance: 1, aggroRange: 7 },
+        strategiesTarget: { nearest: 100 }
+    });
+    assert.ok(isValidTarget(seer, player), 'seer sees invisible');
+    const picked = pickCreatureTarget(seer, [player], { rng: () => 0, range: 7 });
+    assert.ok(picked && picked.id === player.id, 'seer pickCreatureTarget finds invis');
+
+    log('invisible presence idle wander ok');
+}
+
 async function main() {
     testStrategyHelpers();
     testSelfAoeSpellRangeAndPriorityFallback();
@@ -4369,6 +4547,7 @@ async function main() {
     testFleeHoldsAndAttacksDuringMoveDelay();
     testLeashReaggroHysteresis();
     testCreaturePathFailCircleAndLoseTarget();
+    testInvisiblePresenceIdleWander();
     testDragonLordWaveCast();
     testEngageAttackAndMoveDecoupled();
     testEngageSpellPriorityOverAuto();

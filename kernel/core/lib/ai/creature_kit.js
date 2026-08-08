@@ -1204,8 +1204,16 @@ function pickCreatureTarget(owner, players, opts) {
         candidates: players || []
     });
     if (!near.length) return null;
+    // Attack selection only (legacy isTarget / canSeeCreature). Invisible players
+    // stay out of combat focus but may still count as living presence for idle
+    // random walk — see hasLivingPresence in creature_states.
+    const attackable = [];
+    for (let i = 0; i < near.length; i++) {
+        if (isValidTarget(owner, near[i])) attackable.push(near[i]);
+    }
+    if (!attackable.length) return null;
     const strategy = pickWeightedKey(kit.strategiesTarget, o.rng);
-    return pickByStrategy(owner, near, strategy || 'nearest', o.rng);
+    return pickByStrategy(owner, attackable, strategy || 'nearest', o.rng);
 }
 
 /**
@@ -1374,7 +1382,9 @@ function tryShapedKitAttack(owner, primaryTarget, atk, ctx, players, rng) {
         spellBook: spellBookFromCtx(c),
         rng: typeof rng === 'function' ? rng : Math.random,
         // Kit-managed per-attack timers — do not touch spell CD buckets
-        skipCooldown: true
+        skipCooldown: true,
+        // Maximize multi-hit footprint among players in range (same as player AI)
+        centerMode: 'maximize'
     });
     if (!result.ok) {
         return { fired: false };

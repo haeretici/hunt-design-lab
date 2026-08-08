@@ -908,7 +908,15 @@ function executeManualUseItem(owner, cmd, ctx) {
                     return;
                 }
             }
-            tryAttack({ attacker: owner, defender: targetEntity, spellId: matchedSpellId, ctx });
+            tryAttack({
+                attacker: owner,
+                defender: targetEntity,
+                spellId: matchedSpellId,
+                ctx,
+                // Action-bar Smart Cast / Active Target set centerMode on the
+                // command; castWith tile aim forces primary via _aimOnly.
+                centerMode: cmd.centerMode
+            });
             return;
         }
         if (owner.inventory && !targetEntity._aimOnly) {
@@ -1164,7 +1172,13 @@ function executeManualCastSpell(owner, cmd, ctx) {
             const { spellHasShape } = require('../combat/area.js');
             if (!spell || !spellHasShape(spell)) return;
         }
-        tryAttack({ attacker: owner, defender: targetEntity, spellId: cmd.spellId, ctx });
+        tryAttack({
+            attacker: owner,
+            defender: targetEntity,
+            spellId: cmd.spellId,
+            ctx,
+            centerMode: cmd.centerMode
+        });
     }
 }
 

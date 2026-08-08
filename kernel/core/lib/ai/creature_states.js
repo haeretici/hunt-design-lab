@@ -7,7 +7,11 @@
  */
 
 const { Settings } = require('../../../settings.js');
-const { isValidTarget, distBetween } = require('./targeting.js');
+const {
+    isValidTarget,
+    distBetween,
+    queryWithinRange
+} = require('./targeting.js');
 const { isCreatureChallenged } = require('../combat/resolve.js');
 const {
     stepToward,
@@ -154,6 +158,50 @@ function insideLeashReaggro(owner) {
 
 function ensureKit(owner) {
     return ensureCreatureKit(owner);
+}
+
+/**
+ * Living combatants in aggro range, **including** invisible ones.
+ * Legacy keeps invisible players on the monster target list (isOpponent does
+ * not check canSeeCreature) so the monster stays non-idle and does random
+ * steps — only attack selection requires vision.
+ *
+ * @param {object} owner
+ * @param {{ list?: object[], index?: object|null }} pool
+ * @param {number} [range]
+ * @returns {boolean}
+ */
+function hasLivingPresence(owner, pool, range) {
+    if (!owner || !owner.tile) return false;
+    const kit = owner.kit || ensureCreatureKit(owner);
+    const r =
+        range != null
+            ? range
+            : kit && kit.flags && kit.flags.aggroRange != null
+              ? kit.flags.aggroRange
+              : 7;
+    const near = queryWithinRange(owner, r, {
+        index: pool && pool.index != null ? pool.index : null,
+        candidates: (pool && pool.list) || []
+    });
+    return !!(near && near.length);
+}
+
+/**
+ * Idle / no-target random step (legacy Monster::doRandomStep).
+ * Runs when flags.idleWander is set, or when living presence is nearby even if
+ * none are attackable (invisible players the monster cannot see).
+ *
+ * @param {object} owner
+ * @param {object} ctx
+ * @param {{ list?: object[], index?: object|null }} pool
+ */
+function tryIdleRandomStep(owner, ctx, pool) {
+    if (!owner || !(owner.speed > 0) || !ctx || !ctx.tileMap) return;
+    const kit = owner.kit || ensureCreatureKit(owner);
+    const forceWander = !!(kit && kit.flags && kit.flags.idleWander);
+    if (!forceWander && !hasLivingPresence(owner, pool)) return;
+    stepRandomAdjacent(owner, ctx.tileMap, ctx.rng);
 }
 
 function resolveTarget(owner, ctx) {
@@ -397,16 +445,10 @@ const Idle = {
             return;
         }
 
-        // Optional wander (flags.idleWander) — off by default so corridor hunts stay stable
-        if (
-            owner.kit &&
-            owner.kit.flags &&
-            owner.kit.flags.idleWander &&
-            owner.speed > 0 &&
-            ctx.tileMap
-        ) {
-            stepRandomAdjacent(owner, ctx.tileMap, ctx.rng);
-        }
+        // No attackable target: occasional random step when someone is nearby
+        // (incl. invisible — legacy doRandomStep) or flags.idleWander is on.
+        // Alone + idleWander off → stand still (corridor hunt stability).
+        tryIdleRandomStep(owner, ctx, idlePool);
     },
     exit() {}
 };
@@ -493,6 +535,14 @@ const Retarget = {
             setTarget(owner, t);
             armStrategyRetarget(owner);
             changeCreatureState(owner, Aggro);
+            return;
+        }
+
+        // Living presence (e.g. invisible players) still nearby: stay local and
+        // idle-wander. Do not leash home while the pack "knows" someone is there
+        // (legacy: invisible opponents remain on targetList → non-idle + random).
+        if (hasLivingPresence(owner, retargetPool)) {
+            changeCreatureState(owner, Idle);
             return;
         }
 
@@ -602,5 +652,7 @@ module.exports = {
     beyondLeash,
     insideLeashReaggro,
     leashReaggroRange,
-    resolveChallengeTarget
+    resolveChallengeTarget,
+    hasLivingPresence,
+    tryIdleRandomStep
 };

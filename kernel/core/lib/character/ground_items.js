@@ -12,9 +12,14 @@
 
 'use strict';
 
-const { Settings } = require('../../../settings.js');
 const { Utils } = require('../utils.js');
 const { findPath } = require('../pathfinder.js');
+const {
+    resolveEngageRange,
+    engageQueryRadius,
+    isWithinEngageRange,
+    DEFAULT_ENGAGE_AXIS
+} = require('../ai/engage_range.js');
 const { findItem } = require('./stats.js');
 const {
     createEmptyInventory,
@@ -41,8 +46,8 @@ const {
 /** Max items drawn per tile stack (top of pile). */
 const MAX_GROUND_RENDER = 10;
 
-/** Default engage range when strategy / settings omit it. */
-const DEFAULT_ENGAGE_RANGE = 7;
+/** Default engage axis when strategy / settings omit it (square). */
+const DEFAULT_ENGAGE_RANGE = DEFAULT_ENGAGE_AXIS;
 
 /**
  * @typedef {object} GroundStore
@@ -77,23 +82,21 @@ function createGroundStore() {
 }
 
 /**
- * Engage range for drop distance (strategy → Settings → 7).
+ * Engage query radius for drop distance (max of X/Y box axes).
  * @param {object|null|undefined} player
  * @returns {number}
  */
 function engageRangeOf(player) {
-    if (
-        player &&
-        player.strategy &&
-        player.strategy.engageRange != null &&
-        Number.isFinite(Number(player.strategy.engageRange))
-    ) {
-        return Math.max(1, Math.floor(Number(player.strategy.engageRange)));
-    }
-    if (Settings.AI_ENGAGE_RANGE != null && Number.isFinite(Number(Settings.AI_ENGAGE_RANGE))) {
-        return Math.max(1, Math.floor(Number(Settings.AI_ENGAGE_RANGE)));
-    }
-    return DEFAULT_ENGAGE_RANGE;
+    return Math.max(1, engageQueryRadius(resolveEngageRange(player)));
+}
+
+/**
+ * Engage box for drop distance (strategy → Settings → 7×7).
+ * @param {object|null|undefined} player
+ * @returns {{ x: number, y: number }}
+ */
+function engageRangeXYOf(player) {
+    return resolveEngageRange(player);
 }
 
 /**
@@ -280,9 +283,10 @@ function canDropToTile(player, tileMap, x, y, z) {
         return { ok: false, error: 'not_walkable' };
     }
 
-    const range = engageRangeOf(player);
+    const box = engageRangeXYOf(player);
+    const range = engageQueryRadius(box);
     const dist = Utils.distanceMax(pt.x, pt.y, tx, ty);
-    if (dist > range) {
+    if (!isWithinEngageRange(pt, { x: tx, y: ty, z: tz }, box)) {
         return { ok: false, error: 'out_of_range' };
     }
 
@@ -1110,6 +1114,7 @@ module.exports = {
     parseTileKey,
     createGroundStore,
     engageRangeOf,
+    engageRangeXYOf,
     playerTileOf,
     getStack,
     peekTop,

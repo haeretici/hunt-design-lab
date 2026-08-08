@@ -200,6 +200,12 @@ function normalizeMember(raw, index, opts) {
     else if (input.inventory != null) row.inventory = input.inventory;
     if (src.backpack != null) row.backpack = src.backpack;
     else if (input.backpack != null) row.backpack = input.backpack;
+    // Seeded combat conditions (status strip demos)
+    if (Array.isArray(src.conditions) && src.conditions.length) {
+        row.conditions = src.conditions.slice();
+    } else if (Array.isArray(input.conditions) && input.conditions.length) {
+        row.conditions = input.conditions.slice();
+    }
     return row;
 }
 
@@ -426,6 +432,12 @@ function membersToPartyConfig(members) {
         else if (src.inventory != null) row.inventory = src.inventory;
         if (m.backpack != null) row.backpack = m.backpack;
         else if (src.backpack != null) row.backpack = src.backpack;
+        // Seeded combat conditions (status strip demos)
+        if (Array.isArray(m.conditions) && m.conditions.length) {
+            row.conditions = m.conditions.slice();
+        } else if (Array.isArray(src.conditions) && src.conditions.length) {
+            row.conditions = src.conditions.slice();
+        }
         out.push(row);
     }
     if (!out.length) {

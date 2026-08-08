@@ -100,6 +100,15 @@ $activeNav = 'sprites';
                         Select an asset in the grid.
                     </div>
                 </div>
+                <div class="am-sidebar-section am-sidebar-selection" id="amCheckedPanel">
+                    <h2 class="am-sidebar-title d-flex justify-content-between align-items-center">
+                        Checked
+                        <button type="button" class="btn btn-link btn-sm text-decoration-none py-0 px-0 text-muted" id="amClearCheckedBtn" style="display:none; font-size: 0.7rem;">Clear</button>
+                    </h2>
+                    <div id="amCheckedBody" class="am-selection-empty text-xxs text-muted">
+                        No checked items.
+                    </div>
+                </div>
             </div>
         </aside>
 
@@ -113,6 +122,10 @@ $activeNav = 'sprites';
                 <span class="stat-chip am-checked-chip" id="amCheckedChip" hidden>
                     Checked <strong id="amCheckedCount">0</strong>
                 </span>
+                <button type="button" class="btn btn-retro btn-retro-secondary btn-sm" id="amAnimRefBtn"
+                        title="Show animation reference preview for checked tiles" disabled>
+                    <i class="fa-solid fa-film"></i> AnimRef
+                </button>
                 <button type="button" class="btn btn-retro btn-retro-secondary btn-sm" id="amFixGreenBtn"
                         title="Neutralize accentuated green (high G, low R/B → R=B=G) on original/, then reprocess checked tiles" disabled>
                     <i class="fa-solid fa-droplet"></i> Fix Green

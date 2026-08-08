@@ -7,6 +7,7 @@
  */
 
 const { Settings } = require('../../../settings.js');
+const { resolveEngageRange } = require('./engage_range.js');
 
 /** Built-in fallback when presets file is missing / browser cache empty. */
 const DEFAULT_STRATEGIES = {
@@ -17,6 +18,8 @@ const DEFAULT_STRATEGIES = {
             label: 'Balanced',
             aggression: 0.75,
             engageRange: 7,
+            engageRangeX: 7,
+            engageRangeY: 7,
             keepDistance: 1,
             fleeHpPercent: 0.15,
             healHpPercent: 0.35,
@@ -30,6 +33,8 @@ const DEFAULT_STRATEGIES = {
             label: 'Guardian Aggro',
             aggression: 0.95,
             engageRange: 7,
+            engageRangeX: 7,
+            engageRangeY: 7,
             keepDistance: 1,
             fleeHpPercent: 0.12,
             healHpPercent: 0.3,
@@ -43,6 +48,8 @@ const DEFAULT_STRATEGIES = {
             label: 'Scout Kite',
             aggression: 0.7,
             engageRange: 8,
+            engageRangeX: 8,
+            engageRangeY: 8,
             keepDistance: 3,
             fleeHpPercent: 0.25,
             healHpPercent: 0.4,
@@ -56,6 +63,8 @@ const DEFAULT_STRATEGIES = {
             label: 'Mystic Combo',
             aggression: 0.85,
             engageRange: 7,
+            engageRangeX: 7,
+            engageRangeY: 7,
             keepDistance: 1,
             fleeHpPercent: 0.2,
             healHpPercent: 0.35,
@@ -69,6 +78,8 @@ const DEFAULT_STRATEGIES = {
             label: 'Adept Caster',
             aggression: 0.8,
             engageRange: 7,
+            engageRangeX: 7,
+            engageRangeY: 7,
             keepDistance: 3,
             fleeHpPercent: 0.3,
             healHpPercent: 0.45,
@@ -82,6 +93,8 @@ const DEFAULT_STRATEGIES = {
             label: 'Warden Support',
             aggression: 0.75,
             engageRange: 7,
+            engageRangeX: 7,
+            engageRangeY: 7,
             keepDistance: 3,
             fleeHpPercent: 0.3,
             healHpPercent: 0.5,
@@ -100,8 +113,7 @@ const DEFAULT_STRATEGIES = {
  */
 function normalizeStrategy(raw) {
     const s = raw || {};
-    const engageDefault =
-        Settings.AI_ENGAGE_RANGE != null ? Settings.AI_ENGAGE_RANGE : 7;
+    const engageXY = resolveEngageRange(s);
     const fleeDefault =
         Settings.AI_FLEE_HP_PERCENT != null ? Settings.AI_FLEE_HP_PERCENT : 0.15;
     const rawPriority = Array.isArray(s.spellPriority)
@@ -109,14 +121,17 @@ function normalizeStrategy(raw) {
         : [];
     // Auto ids belong to mode feature, not strategy priority lists.
     const spellPriority = rawPriority.filter((id) => !isAutoAttackId(id));
+    // Scalar engageRange = max axis (covers box for Chebyshev over-fetch / BC).
+    const engageScalar = Math.max(1, engageXY.x, engageXY.y);
     return {
         id: s.id || 'balanced',
         label: s.label || s.id || 'Balanced',
         aggression: clamp01(
             s.aggression != null ? s.aggression : 0.75
         ),
-        engageRange:
-            s.engageRange != null ? Math.max(1, s.engageRange | 0) : engageDefault,
+        engageRange: engageScalar,
+        engageRangeX: Math.max(0, engageXY.x | 0),
+        engageRangeY: Math.max(0, engageXY.y | 0),
         keepDistance:
             s.keepDistance != null
                 ? Math.max(1, s.keepDistance | 0)

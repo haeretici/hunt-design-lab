@@ -42,6 +42,8 @@ const ROOT =
  *   COMBAT_MAGIC_MIN: number,
  *   COMBAT_MAGIC_MAX: number,
  *   AI_ENGAGE_RANGE: number,
+ *   AI_ENGAGE_RANGE_X: number,
+ *   AI_ENGAGE_RANGE_Y: number,
  *   AI_FLEE_HP_PERCENT: number,
  *   AI_CREATURE_AGGRO_RANGE: number,
  *   AI_CREATURE_LEASH: number,
@@ -215,13 +217,18 @@ const Settings = {
     COMBAT_MAGIC_MAX: 0.035,
     /**
      * Stage 5 hunt AI knobs.
-     * Player engage scan radius; flee when HP fraction ≤ AI_FLEE_HP_PERCENT.
+     * Player engage area is an axis box: ‖Δx‖ ≤ AI_ENGAGE_RANGE_X and
+     * ‖Δy‖ ≤ AI_ENGAGE_RANGE_Y (defaults 7×7 = historical Chebyshev 7 square).
+     * AI_ENGAGE_RANGE is the scalar fallback / square shorthand when X/Y unset.
+     * Flee when HP fraction ≤ AI_FLEE_HP_PERCENT.
      * Creatures aggro within AI_CREATURE_AGGRO_RANGE; leash home beyond AI_CREATURE_LEASH.
      * While leashing, re-aggro only when home dist ≤ LEASH − REAGGRO_MARGIN (hysteresis
      * so boundary kiting cannot thrash attack ↔ leash). Margin 0 = legacy single edge.
      * AI_DESPAWN_LEASH_TICKS > 0 despawns after that many leash ticks (0 = never).
      */
     AI_ENGAGE_RANGE: 7,
+    AI_ENGAGE_RANGE_X: 7,
+    AI_ENGAGE_RANGE_Y: 7,
     AI_FLEE_HP_PERCENT: 0.15,
     AI_CREATURE_AGGRO_RANGE: 7,
     AI_CREATURE_LEASH: 18,

@@ -7,6 +7,8 @@
  * Interaction:
  *   - Left click: select item
  *   - Left drag (hold + move): move / swap into target slot
+ *   - Drag stackable → inv/eq/ground: Stage 7 amount modal (Shift/Ctrl/moveStack)
+ *   - Drag item → action bar slot: bind by itemId only (no quantity modal)
  *   - Drag bag → canvas: drop on walkable tile (engage range + path)
  *   - Drag ground item → bag: pick up (Chebyshev ≤ 1)
  *   - Drag ground map top → other SQM (Stage 9): threshold drag, suppress walk click
@@ -2099,6 +2101,16 @@ function bindInventoryPanel(opts) {
                 !!(e && (e.ctrlKey || e.metaKey)) || !!mods.ctrl;
             const moveStackPref = !!(uiState && uiState.moveStack);
 
+            // Action bar binds by itemId only (hotkey / use-with). Not a stack
+            // move — never open the quantity modal for this destination.
+            const elUnder =
+                typeof document !== 'undefined'
+                    ? document.elementFromPoint(e.clientX, e.clientY)
+                    : null;
+            if (elUnder && inst.itemId && tryHandleSlotDrop(elUnder, inst.itemId)) {
+                return;
+            }
+
             const runMove = (amount) => {
                 const target = hitTestAtPoint(e.clientX, e.clientY);
                 if (target) {
@@ -2167,16 +2179,6 @@ function bindInventoryPanel(opts) {
                         emitSystemFloat(livePlayer, 'There are no room');
                     }
                     return;
-                }
-
-                const elUnder =
-                    typeof document !== 'undefined'
-                        ? document.elementFromPoint(e.clientX, e.clientY)
-                        : null;
-                if (elUnder) {
-                    if (inst.itemId && tryHandleSlotDrop(elUnder, inst.itemId)) {
-                        return;
-                    }
                 }
 
                 // Drop onto watch canvas floor tile (partial when stackable)

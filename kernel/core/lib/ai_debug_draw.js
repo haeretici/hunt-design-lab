@@ -11,6 +11,10 @@
 
 const { Settings } = require('../../settings.js');
 const { getVisualTilePos } = require('./movement.js');
+const {
+    resolveEngageRange,
+    engageQueryRadius
+} = require('./ai/engage_range.js');
 
 /** Default debugAI flags (production: all off). Hunt domain only. */
 const DEBUG_AI_DEFAULTS = {
@@ -257,12 +261,32 @@ const RANGE_BOX_INFO = {
  * @param {string} [labelFill]
  */
 function drawRangeSquare(g, cx, cy, radiusTiles, vp, stroke, boxName, labelFill) {
-    if (!(radiusTiles > 0)) return;
-    const half = radiusTiles + 0.5;
-    const left = (cx - half - vp.ox) * vp.tw;
-    const top = (cy - half - vp.oy) * vp.th;
-    const size = half * 2 * vp.tw;
-    const sizeY = half * 2 * vp.th;
+    const r = Number(radiusTiles) || 0;
+    drawRangeBox(g, cx, cy, r, r, vp, stroke, boxName, labelFill);
+}
+
+/**
+ * Axis-aligned engage/aggro box in tile space (‖Δx‖ ≤ rx, ‖Δy‖ ≤ ry).
+ * @param {CanvasRenderingContext2D} g
+ * @param {number} cx
+ * @param {number} cy
+ * @param {number} rangeX
+ * @param {number} rangeY
+ * @param {{ ox: number, oy: number, tw: number, th: number }} vp
+ * @param {string} stroke
+ * @param {string} [boxName]
+ * @param {string} [labelFill]
+ */
+function drawRangeBox(g, cx, cy, rangeX, rangeY, vp, stroke, boxName, labelFill) {
+    const rx = Number(rangeX) || 0;
+    const ry = Number(rangeY) || 0;
+    if (!(rx > 0 || ry > 0)) return;
+    const halfX = rx + 0.5;
+    const halfY = ry + 0.5;
+    const left = (cx - halfX - vp.ox) * vp.tw;
+    const top = (cy - halfY - vp.oy) * vp.th;
+    const size = halfX * 2 * vp.tw;
+    const sizeY = halfY * 2 * vp.th;
     g.save();
     g.beginPath();
     g.strokeStyle = stroke;
@@ -272,8 +296,10 @@ function drawRangeSquare(g, cx, cy, radiusTiles, vp, stroke, boxName, labelFill)
     g.restore();
 
     if (boxName) {
-        // Top-left of the square edge so overlapping entities stay readable
-        const tag = `${boxName} r${radiusTiles}`;
+        const tag =
+            rx === ry
+                ? `${boxName} r${rx}`
+                : `${boxName} ${rx}×${ry}`;
         drawLabel(g, left, top + 10, tag, labelFill || stroke, '8px monospace');
     }
 }
@@ -400,14 +426,26 @@ function drawTargets(g, entities, vp) {
 
 function engageRangeFor(ent) {
     if (ent.type === 'player') {
-        if (ent.strategy && ent.strategy.engageRange != null) {
-            return Number(ent.strategy.engageRange);
-        }
-        return Settings.AI_ENGAGE_RANGE != null ? Settings.AI_ENGAGE_RANGE : 7;
+        return engageQueryRadius(resolveEngageRange(ent));
     }
     return Settings.AI_CREATURE_AGGRO_RANGE != null
         ? Settings.AI_CREATURE_AGGRO_RANGE
         : 7;
+}
+
+/**
+ * @param {object} ent
+ * @returns {{ x: number, y: number }}
+ */
+function engageRangeXYFor(ent) {
+    if (ent.type === 'player') {
+        return resolveEngageRange(ent);
+    }
+    const r =
+        Settings.AI_CREATURE_AGGRO_RANGE != null
+            ? Settings.AI_CREATURE_AGGRO_RANGE
+            : 7;
+    return { x: r, y: r };
 }
 
 function leashRange() {
@@ -422,19 +460,21 @@ function drawRanges(g, entities, vp) {
     for (let i = 0; i < entities.length; i++) {
         const ent = entities[i];
         if (!ent.tile || !tileInView(ent.tile, vp)) continue;
-        const r = engageRangeFor(ent);
         if (ent.type === 'player') {
-            drawRangeSquare(
+            const box = engageRangeXYFor(ent);
+            drawRangeBox(
                 g,
                 ent.tile.x,
                 ent.tile.y,
-                r,
+                box.x,
+                box.y,
                 vp,
                 engage.stroke,
                 engage.name,
                 engage.label
             );
         } else {
+            const r = engageRangeFor(ent);
             drawRangeSquare(
                 g,
                 ent.tile.x,

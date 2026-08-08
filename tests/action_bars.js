@@ -45,6 +45,7 @@ const {
     clearBar,
     describeSlotAction,
     slotAriaLabel,
+    slotHoverTitle,
     visibleRangeForBar,
     setBarPageOffset,
     shiftBarPage,
@@ -203,7 +204,43 @@ test('executeSlot uses Smart Cast when target Mode is smart_target and active ta
     assert.strictEqual(player.commandQueue[0].type, 'USE_ITEM_WITH');
     assert.strictEqual(player.commandQueue[0].itemId, 'rune_fireball');
     assert.strictEqual(player.commandQueue[0].target.id, 99);
+    assert.strictEqual(
+        player.commandQueue[0].centerMode,
+        'maximize',
+        'Smart Cast maximizes AoE hits'
+    );
     assert.strictEqual(uiState.activeActionCursor, null, 'No crosshair cursor prompted in Smart Cast mode');
+});
+
+test('executeSlot Active Target pins centerMode primary on attack target', () => {
+    const player = {
+        id: 1,
+        alive: true,
+        controlMode: 'manual',
+        commandQueue: [],
+        target: { id: 77, alive: true }
+    };
+    const slotId = state.docks.top[0].slots[2].id;
+    assignSlot(slotId, 'item', {
+        itemId: 'rune_fireball',
+        targetMode: 'active_target',
+        hotkey: 'F3'
+    });
+    executeSlot(state.slotsById.get(slotId), {
+        player,
+        itemDb: [
+            { id: 'rune_fireball', multiUse: true, type: 'rune', category: 'rune' }
+        ]
+    });
+    assert.strictEqual(player.commandQueue.length, 1);
+    assert.strictEqual(player.commandQueue[0].type, 'USE_ITEM_WITH');
+    assert.strictEqual(player.commandQueue[0].target.id, 77);
+    assert.strictEqual(
+        player.commandQueue[0].centerMode,
+        'primary',
+        'Active Target centers blast on the selected creature'
+    );
+    assert.strictEqual(uiState.activeActionCursor, null);
 });
 
 test('executeSlot falls back to cursor prompt when target Mode is cursor_prompt', () => {
@@ -229,7 +266,8 @@ test('executeSlot falls back to cursor prompt when target Mode is cursor_prompt'
                 id: 'deathburst',
                 source: 'rune',
                 runeItemId: 'rune_deathburst',
-                range: 6
+                range: 7,
+                allowFarUse: true
             }
         }
     });
@@ -251,13 +289,15 @@ test('resolveAllowTileAim: shaped rune allows tile; bolt does not', () => {
             id: 'deathburst',
             source: 'rune',
             runeItemId: 'deathburst_rune',
-            range: 6
+            range: 7,
+            allowFarUse: true
         },
         blaze_bomb_rune: {
             id: 'blaze_bomb_rune',
             source: 'rune',
             runeItemId: 'blaze_bomb_rune',
-            range: 4,
+            range: 7,
+            allowFarUse: true,
             shape: { type: 'area', code: 3 }
         }
     };
@@ -301,6 +341,7 @@ test('executeSlot handles spell Smart Cast vs self cast', () => {
     assert.strictEqual(player.commandQueue[0].type, 'CAST_SPELL');
     assert.strictEqual(player.commandQueue[0].spellId, 'flame_strike');
     assert.strictEqual(player.commandQueue[0].target.id, 101);
+    assert.strictEqual(player.commandQueue[0].centerMode, 'maximize');
 
     // Healing always self (even under smart_target)
     const selfSlotId = state.docks.bottom[0].slots[1].id; // "2"
@@ -1376,6 +1417,28 @@ test('slotAriaLabel describes empty and assigned slots', () => {
         { actionType: 'empty' },
         { actionType: 'item', itemId: 'b' }
     ] }, null, null).indexOf('Multi') >= 0, true);
+});
+
+test('slotHoverTitle shows action name for assigned slots', () => {
+    initActionBars({});
+    const empty = { actionType: 'empty', hotkey: 'F1' };
+    assert.strictEqual(slotHoverTitle(empty, null, null), '');
+    assert.ok(slotHoverTitle(empty, null, null, { locked: true }).indexOf('locked') >= 0);
+
+    const spellSlot = { actionType: 'spell', spellId: 'fireball', hotkey: 'F2' };
+    const book = [{ id: 'fireball', label: 'Fireball' }];
+    const title = slotHoverTitle(spellSlot, book, null);
+    assert.ok(title.indexOf('Fireball') >= 0, `expected Fireball in "${title}"`);
+    assert.ok(title.indexOf('F2') >= 0, `expected hotkey in "${title}"`);
+
+    const multiTitle = slotHoverTitle(
+        { actionType: 'multi', multiActions: [{ actionType: 'spell', spellId: 'fireball' }], hotkey: 'F3' },
+        book,
+        null,
+        { paintType: 'spell', paintSpellId: 'fireball' }
+    );
+    assert.ok(multiTitle.indexOf('Fireball') >= 0, `expected active sub name in "${multiTitle}"`);
+    assert.ok(multiTitle.indexOf('Multi') >= 0, `expected multi label in "${multiTitle}"`);
 });
 
 console.log(`\nAll ${passed} Action Bars tests passed successfully!`);

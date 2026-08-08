@@ -23,6 +23,9 @@ const {
 const {
     buildPresetInjectors
 } = require('../kernel/apps/game/presets_loader.js');
+const {
+    listActiveStatusIcons
+} = require('../kernel/apps/game/equipment_panel.js');
 const { setActiveMode } = require('../kernel/core/lib/modes.js');
 const { Settings } = require('../kernel/settings.js');
 const { Simulator } = require('../kernel/providers/simulator/simulator.js');
@@ -208,6 +211,31 @@ async function main() {
         );
     });
 
+    test('status_effects_demo fixture seeds conditions on members', () => {
+        setActiveMode('standard');
+        const ids = listScenarioIds();
+        assert.ok(
+            ids.indexOf('status_effects_demo') >= 0,
+            'status_effects_demo scenario registered'
+        );
+        const defaults = formDefaultsForScenario('status_effects_demo');
+        assert.ok(
+            Array.isArray(defaults.members) && defaults.members.length >= 1,
+            'fixture exposes members'
+        );
+        assert.ok(
+            Array.isArray(defaults.members[0].conditions) &&
+                defaults.members[0].conditions.length >= 5,
+            'fixture seeds multiple starting conditions'
+        );
+        const kinds = defaults.members[0].conditions.map((c) =>
+            String(c.type || c.kind || '')
+        );
+        assert.ok(kinds.indexOf('poison') >= 0, 'seeds poison');
+        assert.ok(kinds.indexOf('fire') >= 0, 'seeds fire/burning');
+        assert.ok(kinds.indexOf('slow') >= 0, 'seeds slow');
+    });
+
     test('openScenarioSettings restores Settings', () => {
         const prev = Settings.AI_CREATURE_LEASH;
         const restore = openScenarioSettings({ AI_CREATURE_LEASH: 2 });
@@ -265,6 +293,91 @@ async function main() {
         assert.strictEqual(sim.sessionState, 'party_wipe');
         log('wipe ok', { ticks: sim.tickCount });
     });
+
+    await testAsync(
+        'status_effects_demo applies conditions at spawn for status strip',
+        async () => {
+            setActiveMode('standard');
+            const injectors = buildPresetInjectors();
+            // Mimic Scenario Lab UI: form members without conditions; merge
+            // must re-attach fixture seeds so spawnParty can apply them.
+            const formMembers = [
+                {
+                    enabled: true,
+                    name: 'Status Subject',
+                    classId: 'guardian',
+                    profileId: 'guardian_starter',
+                    level: 50,
+                    isLeader: true,
+                    equipment: {},
+                    strategyId: 'guardian_aggro',
+                    controlMode: 'manual'
+                }
+            ];
+            const built = buildScenarioSimulatorOpts(
+                {
+                    scenarioId: 'status_effects_demo',
+                    seed: 7,
+                    members: formMembers
+                },
+                injectors,
+                null
+            );
+            const partyCfg =
+                built.simOpts.parties && built.simOpts.parties[0]
+                    ? built.simOpts.parties[0]
+                    : null;
+            assert.ok(partyCfg && partyCfg.members && partyCfg.members[0]);
+            assert.ok(
+                Array.isArray(partyCfg.members[0].conditions) &&
+                    partyCfg.members[0].conditions.length >= 5,
+                'merged party config keeps condition seeds'
+            );
+
+            const sim = new Simulator(built.simOpts);
+            await sim.start();
+            sim.active = true;
+
+            const party = sim.parties && sim.parties[0];
+            assert.ok(party && party.members && party.members[0], 'spawned party');
+            const player = party.members[0];
+            assert.ok(
+                Array.isArray(player.conditions) && player.conditions.length >= 5,
+                `expected seeded conditions on player, got ${
+                    player.conditions && player.conditions.length
+                }`
+            );
+            const kinds = new Set(
+                player.conditions.map((c) => c && c.kind).filter(Boolean)
+            );
+            assert.ok(kinds.has('poison'), 'poison active at t0');
+            assert.ok(kinds.has('fire'), 'burning active at t0');
+            assert.ok(kinds.has('slow'), 'slow active at t0');
+            assert.ok(kinds.has('haste'), 'haste active at t0');
+            assert.ok(kinds.has('invisible'), 'invisible active at t0');
+
+            const icons = listActiveStatusIcons(player);
+            assert.ok(icons.length >= 5, `status strip icons >= 5, got ${icons.length}`);
+            const iconKinds = icons.map((ic) => ic.kind);
+            assert.ok(iconKinds.indexOf('poison') >= 0);
+            assert.ok(iconKinds.indexOf('fire') >= 0);
+            assert.ok(iconKinds.indexOf('slow') >= 0);
+            // Slow uses red running figure (legacy paralysed / slow flag)
+            const slowIcon = icons.find((ic) => ic.kind === 'slow');
+            assert.ok(slowIcon);
+            assert.strictEqual(slowIcon.icon, 'fa-person-running');
+            assert.ok(
+                /e74c3c|red|ff/i.test(slowIcon.color),
+                'slow icon is reddish'
+            );
+
+            log('status_effects_demo spawn', {
+                conditionKinds: Array.from(kinds),
+                iconKinds,
+                ticks: sim.tickCount
+            });
+        }
+    );
 
     if (failed > 0) {
         console.error(`scenario_lab: ${failed} failed, ${passed} passed`);

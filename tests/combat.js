@@ -63,8 +63,14 @@ const {
     hasRune,
     spendRune,
     resolveRuneItemId,
-    tryAttack
+    tryAttack,
+    isSpellInRange
 } = require('../kernel/core/lib/ai/combat_actions.js');
+const {
+    isWithinSpellCastRange,
+    FAR_USE_RANGE_X,
+    FAR_USE_RANGE_Y
+} = require('../kernel/core/lib/combat/cast_range.js');
 const {
     countItemIdInInventoryTree,
     buildInventoryFromSeed
@@ -3034,6 +3040,146 @@ function testMmaMonkHeals() {
 }
 
 /**
+ * Rune cast range — far-use box (Δx≤7, Δy≤7, matches engage) + Chebyshev cap.
+ * Combat/area/field runes: range 7 + allowFarUse; purge_field: range 5.
+ */
+function testRuneCastRangeFarUse() {
+    assert.strictEqual(FAR_USE_RANGE_X, 7);
+    assert.strictEqual(FAR_USE_RANGE_Y, 7);
+
+    const spells = indexSpells(presets.loadSpells().spells);
+    const combat = spells.deathburst;
+    const field = spells.blaze_field_rune;
+    const barrier = spells.barrier_wall_rune;
+    const purge = spells.purge_field_rune;
+    assert.ok(combat && field && barrier && purge, 'rune presets present');
+    assert.strictEqual(combat.range, 7);
+    assert.strictEqual(combat.allowFarUse, true);
+    assert.strictEqual(field.range, 7);
+    assert.strictEqual(field.allowFarUse, true);
+    assert.strictEqual(barrier.range, 7);
+    assert.strictEqual(purge.range, 5);
+    assert.strictEqual(purge.allowFarUse, true);
+
+    const origin = { x: 50, y: 50, z: 7 };
+    // Far-use 7×7 + Chebyshev 7: edges OK, 8 blocked
+    assert.strictEqual(
+        isWithinSpellCastRange(origin, { x: 57, y: 50, z: 7 }, combat, 7),
+        true,
+        'dx=7 far-use OK'
+    );
+    assert.strictEqual(
+        isWithinSpellCastRange(origin, { x: 50, y: 57, z: 7 }, combat, 7),
+        true,
+        'dy=7 far-use OK'
+    );
+    assert.strictEqual(
+        isWithinSpellCastRange(origin, { x: 57, y: 57, z: 7 }, combat, 7),
+        true,
+        'corner 7×7 OK'
+    );
+    assert.strictEqual(
+        isWithinSpellCastRange(origin, { x: 50, y: 58, z: 7 }, combat, 7),
+        false,
+        'dy=8 exceeds far-use Y and Chebyshev 7'
+    );
+    assert.strictEqual(
+        isWithinSpellCastRange(origin, { x: 58, y: 50, z: 7 }, combat, 7),
+        false,
+        'dx=8 exceeds far-use X and Chebyshev 7'
+    );
+    // purge_field: Chebyshev 5 inside far-use box
+    assert.strictEqual(
+        isWithinSpellCastRange(origin, { x: 55, y: 50, z: 7 }, purge, 5),
+        true,
+        'purge dx=5 OK'
+    );
+    assert.strictEqual(
+        isWithinSpellCastRange(origin, { x: 56, y: 50, z: 7 }, purge, 5),
+        false,
+        'purge dx=6 blocked by range 5'
+    );
+    // isSpellInRange wiring for a living target
+    const caster = { tile: origin, alive: true };
+    const foe = {
+        tile: { x: 57, y: 50, z: 7 },
+        alive: true,
+        hp: { current: 100, max: 100 }
+    };
+    assert.strictEqual(isSpellInRange(caster, foe, combat, {}), true);
+    foe.tile = { x: 50, y: 58, z: 7 };
+    assert.strictEqual(
+        isSpellInRange(caster, foe, combat, {}),
+        false,
+        'isSpellInRange rejects dy=8'
+    );
+
+    log('rune cast range far-use ok');
+}
+
+/**
+ * Player engage area — configurable X/Y box, default 7×7 (= historical Chebyshev 7).
+ */
+function testEngageRangeXY() {
+    const { Settings } = require('../kernel/settings.js');
+    const {
+        resolveEngageRange,
+        isWithinEngageRange,
+        engageQueryRadius,
+        defaultEngageRangeXY
+    } = require('../kernel/core/lib/ai/engage_range.js');
+    const { normalizeStrategy } = require('../kernel/core/lib/ai/strategy.js');
+
+    assert.strictEqual(Settings.AI_ENGAGE_RANGE_X, 7);
+    assert.strictEqual(Settings.AI_ENGAGE_RANGE_Y, 7);
+    assert.strictEqual(Settings.AI_ENGAGE_RANGE, 7);
+
+    const def = defaultEngageRangeXY();
+    assert.deepStrictEqual(def, { x: 7, y: 7 });
+
+    const origin = { x: 10, y: 10, z: 7 };
+    assert.strictEqual(
+        isWithinEngageRange(origin, { x: 17, y: 17, z: 7 }, def),
+        true,
+        'corner 7×7 in engage'
+    );
+    assert.strictEqual(
+        isWithinEngageRange(origin, { x: 18, y: 10, z: 7 }, def),
+        false,
+        'dx=8 out of engage'
+    );
+
+    const square = resolveEngageRange({ engageRange: 8 });
+    assert.deepStrictEqual(square, { x: 8, y: 8 });
+    assert.strictEqual(engageQueryRadius(square), 8);
+
+    const rect = resolveEngageRange({ engageRangeX: 7, engageRangeY: 5 });
+    assert.deepStrictEqual(rect, { x: 7, y: 5 });
+    assert.strictEqual(
+        isWithinEngageRange(origin, { x: 10, y: 15, z: 7 }, rect),
+        true,
+        'dy=5 inside rect Y'
+    );
+    assert.strictEqual(
+        isWithinEngageRange(origin, { x: 10, y: 16, z: 7 }, rect),
+        false,
+        'dy=6 outside rect Y'
+    );
+
+    const norm = normalizeStrategy({ id: 't', engageRange: 7 });
+    assert.strictEqual(norm.engageRangeX, 7);
+    assert.strictEqual(norm.engageRangeY, 7);
+    assert.strictEqual(norm.engageRange, 7);
+
+    const fromPlayer = resolveEngageRange({
+        strategy: { engageRangeX: 4, engageRangeY: 4 }
+    });
+    assert.deepStrictEqual(fromPlayer, { x: 4, y: 4 });
+
+    log('engage range X/Y ok');
+}
+
+/**
  * Phase K — paralyze rune: heavy slow (speed ~0), 6s, immunities.paralyze.
  */
 function testParalyzeRuneAndImmunity() {
@@ -4817,6 +4963,8 @@ function main() {
     testHotRecoverySpells();
     testPhaseMStances();
     testMmaMonkHeals();
+    testRuneCastRangeFarUse();
+    testEngageRangeXY();
     testParalyzeRuneAndImmunity();
     testCureSpellsDispel();
     testHasteInvisibleSpellsAndSeeInvis();

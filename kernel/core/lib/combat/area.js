@@ -24,6 +24,7 @@ const {
     resolveMoveLock,
     applyMoveLock
 } = require('./resolve.js');
+const { isWithinSpellCastRange } = require('./cast_range.js');
 const Cooldowns = require('./cooldowns.js');
 const {
     getFieldKind,
@@ -121,7 +122,14 @@ function isSelfCenteredAreaSpell(spell) {
 /**
  * Choose blast center for an area shape.
  * Melee / self-centered (range ≤ 1): caster tile.
- * Ranged: best multi-hit center with LoS, else primary target tile (also LoS).
+ * Ranged modes (`centerMode`):
+ * - **primary** — center on primary tile when LoS is clear (manual castWith
+ *   tile aim, action-bar Active Target, wall lines). Legacy
+ *   Combat::doCombat(caster, toPos).
+ * - **maximize** — multi-hit ranking via `findTopAreaCenters` (action-bar
+ *   Smart Cast, player/creature AI). Default when no primary is set.
+ * Manual empty-tile aim (`primary._aimOnly`) always forces primary mode so
+ * the clicked sqm is the matrix origin (not a pack pivot nearer the caster).
  *
  * @param {object} opts
  * @param {object} opts.attacker
@@ -129,6 +137,7 @@ function isSelfCenteredAreaSpell(spell) {
  * @param {object} opts.spell
  * @param {object[]} [opts.candidates]
  * @param {object|null} [opts.tileMap]
+ * @param {'primary'|'maximize'} [opts.centerMode]
  * @returns {{x:number,y:number,z?:*}|null}
  */
 function resolveAreaCenter(opts) {
@@ -158,19 +167,31 @@ function resolveAreaCenter(opts) {
     const candidates = o.candidates || [];
     const tileMap = o.tileMap || null;
     const z = attacker.tile.z;
+    // Tile aim always pins the blast; otherwise honor explicit mode, then
+    // maximize when we have hostiles to rank, else fall back to primary tile.
+    const aimOnly = !!(primary && primary._aimOnly);
+    let centerMode = o.centerMode === 'primary' || o.centerMode === 'maximize'
+        ? o.centerMode
+        : null;
+    if (aimOnly) {
+        centerMode = 'primary';
+    } else if (!centerMode) {
+        centerMode = primary ? 'primary' : 'maximize';
+    }
 
-    // Prefer centers that maximize hits among targets in spell range
+    // Candidates in cast range (Chebyshev + optional far-use box for runes).
+    // Used by wall fallbacks and multi-hit ranking.
     const inRange = [];
     for (let i = 0; i < candidates.length; i++) {
         const e = candidates[i];
         if (!e || !e.tile || e.alive === false) continue;
         if (e.hp && e.hp.current <= 0) continue;
         if (String(e.tile.z) !== String(z)) continue;
-        const dx = Math.abs(e.tile.x - attacker.tile.x);
-        const dy = Math.abs(e.tile.y - attacker.tile.y);
-        if (Math.max(dx, dy) <= range) inRange.push(e);
+        if (isWithinSpellCastRange(attacker.tile, e.tile, spell, range)) {
+            inRange.push(e);
+        }
     }
-    if (primary && primary.tile && String(primary.tile.z) === String(z)) {
+    if (primary && primary.tile && !primary._aimOnly && String(primary.tile.z) === String(z)) {
         let hasP = false;
         for (let i = 0; i < inRange.length; i++) {
             if (inRange[i] === primary) {
@@ -178,11 +199,32 @@ function resolveAreaCenter(opts) {
                 break;
             }
         }
-        if (!hasP) {
-            const dx = Math.abs(primary.tile.x - attacker.tile.x);
-            const dy = Math.abs(primary.tile.y - attacker.tile.y);
-            if (Math.max(dx, dy) <= range) inRange.push(primary);
+        if (
+            !hasP &&
+            isWithinSpellCastRange(attacker.tile, primary.tile, spell, range)
+        ) {
+            inRange.push(primary);
         }
+    }
+
+    /**
+     * Clear LoS from caster to a tile (or open when no map).
+     * @param {{x:number,y:number,z?:*}} tile
+     * @returns {boolean}
+     */
+    function clearLosTo(tile) {
+        if (!tile) return false;
+        const tz = tile.z !== undefined ? tile.z : z;
+        if (!tileMap) return true;
+        return hasLineOfSight(
+            attacker.tile.x,
+            attacker.tile.y,
+            z,
+            tile.x,
+            tile.y,
+            tz,
+            tileMap
+        );
     }
 
     // Wall fields (and other direction-oriented area lines): center on the
@@ -202,17 +244,7 @@ function resolveAreaCenter(opts) {
         for (let i = 0; i < wallOrder.length; i++) {
             const e = wallOrder[i];
             if (!e || !e.tile) continue;
-            if (
-                hasLineOfSight(
-                    attacker.tile.x,
-                    attacker.tile.y,
-                    z,
-                    e.tile.x,
-                    e.tile.y,
-                    z,
-                    tileMap
-                )
-            ) {
+            if (clearLosTo(e.tile)) {
                 return {
                     x: e.tile.x,
                     y: e.tile.y,
@@ -222,7 +254,14 @@ function resolveAreaCenter(opts) {
         }
     }
 
-    if (spell.shape && inRange.length && !areaShapeUsesDirection(spell.shape)) {
+    // Maximize hits (Smart Cast / AI): rank multi-hit pivots among in-range
+    // hostiles. Skip for pure aim-only primaries (no living candidates).
+    if (
+        centerMode === 'maximize' &&
+        spell.shape &&
+        inRange.length &&
+        !areaShapeUsesDirection(spell.shape)
+    ) {
         const ranked = findTopAreaCenters(
             attacker.tile,
             inRange,
@@ -231,48 +270,26 @@ function resolveAreaCenter(opts) {
         );
         for (let i = 0; i < ranked.length; i++) {
             const c = ranked[i];
-            if (
-                hasLineOfSight(
-                    attacker.tile.x,
-                    attacker.tile.y,
-                    z,
-                    c.x,
-                    c.y,
-                    z,
-                    tileMap
-                )
-            ) {
+            if (clearLosTo(c)) {
                 return { x: c.x, y: c.y, z };
             }
         }
     }
 
-    // Last resort: sticky primary only when the ray is clear (or no map).
-    // Without this, ranged area could center behind solid walls after all
-    // ranked multi-hit centers failed LoS.
+    // Primary mode (Active Target, castWith tile, maximize fallback).
     if (primary && primary.tile) {
-        const pz =
-            primary.tile.z !== undefined ? primary.tile.z : z;
-        if (
-            !tileMap ||
-            hasLineOfSight(
-                attacker.tile.x,
-                attacker.tile.y,
-                z,
-                primary.tile.x,
-                primary.tile.y,
-                pz,
-                tileMap
-            )
-        ) {
+        const pz = primary.tile.z !== undefined ? primary.tile.z : z;
+        if (clearLosTo(primary.tile)) {
             return {
                 x: primary.tile.x,
                 y: primary.tile.y,
                 z: pz
             };
         }
+        // Aimed tile blocked — do not invent a different center.
         return null;
     }
+
     return { x: attacker.tile.x, y: attacker.tile.y, z };
 }
 
@@ -302,6 +319,7 @@ function waveOriginFromCaster(casterTile, direction) {
  * @param {object|null} [opts.tileMap]
  * @param {{x:number,y:number}} [opts.direction] override wave facing
  * @param {{x:number,y:number,z?:*}} [opts.center] override blast center
+ * @param {'primary'|'maximize'} [opts.centerMode] area blast center policy
  * @param {boolean} [opts.skipCasterLos=false] when true (delayed detonate),
  *   expand from planted center without re-checking caster→center LoS / floor
  * @returns {{
@@ -348,7 +366,8 @@ function computeSpellFootprint(opts) {
                 primary: o.primary || null,
                 spell,
                 candidates: o.candidates || [],
-                tileMap: o.tileMap || null
+                tileMap: o.tileMap || null,
+                centerMode: o.centerMode
             });
         }
         // Most area matrices are rotation-invariant; wall fields are lines and
@@ -663,6 +682,7 @@ function resolveShapedAttack(opts) {
         tileMap: o.tileMap || null,
         direction: o.direction,
         center: o.center,
+        centerMode: o.centerMode,
         skipCasterLos: o.skipDelay === true
     });
 

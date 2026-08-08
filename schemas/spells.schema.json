@@ -91,7 +91,11 @@
           "type": "integer",
           "minimum": 0,
           "maximum": 20,
-          "description": "Chebyshev range in tiles."
+          "description": "Chebyshev cast range in tiles. Far-use runes also apply the legacy Action box (Δx≤7, Δy≤5) when allowFarUse is true."
+        },
+        "allowFarUse": {
+          "type": "boolean",
+          "description": "Legacy far-use gate (Actions::canUseFar): require |Δx|≤7 and |Δy|≤5 in addition to Chebyshev ≤ range. Typical for player runes with allowFarUse(true)."
         },
         "mana": {
           "type": "number",

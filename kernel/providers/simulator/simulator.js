@@ -53,6 +53,7 @@ const {
     setActiveSessionConfig,
     seedPlayerExperience
 } = require('../../core/lib/character/progression.js');
+const { applyCondition } = require('../../core/lib/combat/conditions.js');
 const { EntityMarkersScript } = require('../../core/scripts/entity_markers.js');
 const { createGroundStore } = require('../../core/lib/character/ground_items.js');
 const {
@@ -2572,6 +2573,17 @@ class Simulator extends GameObject {
                 player.experience = Math.max(0, Math.floor(Number(def.experience)));
             } else {
                 seedPlayerExperience(player);
+            }
+
+            // Scenario Lab / party seed: apply starting combat conditions
+            // (poison, burning, slow, haste, …) so status UI and DoTs show at t0.
+            if (Array.isArray(def.conditions) && def.conditions.length) {
+                for (let ci = 0; ci < def.conditions.length; ci++) {
+                    const cDef = def.conditions[ci];
+                    if (cDef && typeof cDef === 'object') {
+                        applyCondition(player, cDef, { source: 'seed' });
+                    }
+                }
             }
 
             if (!this.tileMap.tryOccupy(spawnTile.x, spawnTile.y, z, player)) {
