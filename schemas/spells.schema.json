@@ -195,6 +195,29 @@
             }
           }
         },
+        "followupShapes": {
+          "type": "array",
+          "description": "Extra dual-combat footprints after the primary shape (legacy Sweeping Takedown outer at 75%). Same cast center/facing; separate rolls per target.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["shape"],
+            "properties": {
+              "shape": {
+                "type": "object",
+                "format": "spell_shape",
+                "additionalProperties": true,
+                "description": "Secondary footprint (same type conventions as shape)."
+              },
+              "damageScale": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 10,
+                "description": "Multiplier on post-mitigation damage for this pass (e.g. 0.75)."
+              }
+            }
+          }
+        },
         "legacyName": {
           "type": "string",
           "description": "Optional legacy display name for ports."

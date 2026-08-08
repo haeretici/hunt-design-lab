@@ -1,0 +1,48 @@
+{
+    "id": "mystic_veteran",
+    "label": "Mystic Veteran",
+    "vocation": "mystic",
+    "level": 90,
+    "promoted": true,
+    "skills": {
+        "axe": 18,
+        "club": 18,
+        "distance": 25,
+        "fishing": 10,
+        "fist": 85,
+        "magicLevel": 45,
+        "shielding": 70,
+        "sword": 72
+    },
+    "stats": {
+        "lifeLeech": 0,
+        "manaLeech": 0,
+        "critChance": 8,
+        "critDamage": 15
+    },
+    "equipment": {
+        "head": "coned_hat_of_enlightenment",
+        "chest": "demon_lord_oyoroi",
+        "legs": "legs_of_wisdom",
+        "boots": "arcane_sovereign_footwraps",
+        "weapon": "twin_battle_staff",
+        "shield": "",
+        "amulet": "onyx_pendant",
+        "ring": "butterfly_ring",
+        "backpack": "backpack"
+    },
+    "inventory": {
+        "backpack": [
+            { "itemId": "venom_field_rune", "count": 20 },
+            { "itemId": "spark_field_rune", "count": 15 },
+            { "itemId": "blaze_field_rune", "count": 12 },
+            { "itemId": "purge_field_rune", "count": 15 },
+            { "itemId": "venom_bomb_rune", "count": 12 },
+            { "itemId": "spark_bomb_rune", "count": 12 },
+            { "itemId": "venom_wall_rune", "count": 10 },
+            { "itemId": "spark_wall_rune", "count": 10 }
+        ]
+    },
+    "strategyId": "mystic_combo",
+    "notes": "docs/24 I4 — L90 late tier. Unlocks greater_rapid_strikes (L90) + soul_mend (L80); wide_takedown / chain_rebuke already at L60/70. Fist weapon twin_battle_staff L90 + mystic-tier cloth. Skills from deriveSkills policy v1 (level anchors)."
+}

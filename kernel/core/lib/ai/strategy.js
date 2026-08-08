@@ -71,7 +71,7 @@ const DEFAULT_STRATEGIES = {
             healSpellId: 'heal_light',
             monstersToEngage: 1,
             returnToRoute: true,
-            spellPriority: ['flurry_of_blows', 'double_jab']
+            spellPriority: ['rapid_strikes', 'twin_jab']
         },
         {
             id: 'adept_caster',

@@ -662,11 +662,24 @@ function testProductPartySkillGate() {
     assert.strictEqual(memberHasAuthoredSkills({ skills: {} }), false);
     assert.strictEqual(defaultProfileIdForClass('guardian'), 'guardian_starter');
     assert.strictEqual(defaultProfileIdForClass('adept'), 'adept_starter');
-    assert.strictEqual(defaultProfileIdForClass('mystic'), null);
+    assert.strictEqual(defaultProfileIdForClass('mystic'), 'mystic_starter');
     assert.strictEqual(
         DEFAULT_STARTER_PROFILE_BY_CLASS.scout,
         'scout_starter'
     );
+    assert.strictEqual(
+        DEFAULT_STARTER_PROFILE_BY_CLASS.mystic,
+        'mystic_starter'
+    );
+
+    // Mystic class-only row materializes into mystic_starter (create-char)
+    const mysticRow = materializePartyMember(
+        { name: 'Monk', classId: 'mystic', isLeader: true },
+        { loadPlayerProfile: (id) => presets.loadPlayerProfile(id) }
+    );
+    assert.ok(memberHasAuthoredSkills(mysticRow), 'mystic materialize binds starter');
+    assert.strictEqual(mysticRow.profileId, 'mystic_starter');
+    assert.ok(mysticRow.skills.fist > 0, 'mystic starter authors fist');
 
     // Assert still rejects skill-less bags (call after materialize in product paths)
     assert.throws(

@@ -1921,8 +1921,8 @@
             "damageAmplitude": 0.2616
         },
         {
-            "id": "swift_jab",
-            "label": "Swift Jab",
+            "id": "snap_jab",
+            "label": "Snap Jab",
             "kind": "strike",
             "element": "physical",
             "powerCurve": "melee_strike",
@@ -1945,8 +1945,8 @@
             "damageAmplitude": 0.1726
         },
         {
-            "id": "tiger_clash",
-            "label": "Tiger Clash",
+            "id": "fang_clash",
+            "label": "Fang Clash",
             "kind": "strike",
             "element": "physical",
             "powerCurve": "melee_strike",
@@ -1961,7 +1961,7 @@
                     "attack": 2
                 },
                 "spell": {
-                    "tiger_clash": 8
+                    "fang_clash": 8
                 }
             },
             "requiresTarget": true,
@@ -1972,8 +1972,8 @@
             "damageAmplitude": 0.2012
         },
         {
-            "id": "double_jab",
-            "label": "Double Jab",
+            "id": "twin_jab",
+            "label": "Twin Jab",
             "kind": "strike",
             "element": "physical",
             "powerCurve": "melee_strike",
@@ -1988,7 +1988,7 @@
                     "attack": 2
                 },
                 "spell": {
-                    "double_jab": 4
+                    "twin_jab": 4
                 }
             },
             "requiresTarget": true,
@@ -1999,8 +1999,8 @@
             "damageAmplitude": 0.2516
         },
         {
-            "id": "greater_tiger_clash",
-            "label": "Greater Tiger Clash",
+            "id": "greater_fang_clash",
+            "label": "Greater Fang Clash",
             "kind": "strike",
             "element": "physical",
             "powerCurve": "melee_strike",
@@ -2015,7 +2015,7 @@
                     "attack": 2
                 },
                 "spell": {
-                    "greater_tiger_clash": 8
+                    "greater_fang_clash": 8
                 }
             },
             "requiresTarget": true,
@@ -2026,8 +2026,8 @@
             "damageAmplitude": 0.2478
         },
         {
-            "id": "flurry_of_blows",
-            "label": "Flurry of Blows",
+            "id": "rapid_strikes",
+            "label": "Rapid Strikes",
             "kind": "strike",
             "element": "physical",
             "powerCurve": "melee_strike",
@@ -2042,14 +2042,14 @@
                     "attack": 2
                 },
                 "spell": {
-                    "flurry_of_blows": 4
+                    "rapid_strikes": 4
                 }
             },
             "requiresTarget": false,
             "shape": {
                 "type": "wave",
                 "spread": "custom",
-                "length": "flurry of blows"
+                "length": "rapid_strikes"
             },
             "vocations": [
                 "mystic"
@@ -2058,8 +2058,8 @@
             "damageAmplitude": 0.2532
         },
         {
-            "id": "sweeping_takedown",
-            "label": "Sweeping Takedown",
+            "id": "wide_takedown",
+            "label": "Wide Takedown",
             "kind": "strike",
             "element": "physical",
             "powerCurve": "melee_strike",
@@ -2074,15 +2074,25 @@
                     "attack": 2
                 },
                 "spell": {
-                    "sweeping_takedown": 8
+                    "wide_takedown": 8
                 }
             },
             "requiresTarget": false,
             "shape": {
                 "type": "wave",
                 "spread": "custom",
-                "length": "sweeping takedown"
+                "length": "wide_takedown"
             },
+            "followupShapes": [
+                {
+                    "shape": {
+                        "type": "wave",
+                        "spread": "custom",
+                        "length": "wide_takedown_outer"
+                    },
+                    "damageScale": 0.75
+                }
+            ],
             "vocations": [
                 "mystic"
             ],
@@ -2090,10 +2100,10 @@
             "damageAmplitude": 0.253
         },
         {
-            "id": "chained_penance",
-            "label": "Chained Penance",
+            "id": "chain_rebuke",
+            "label": "Chain Rebuke",
             "kind": "strike",
-            "element": "physical",
+            "element": "holy",
             "powerCurve": "melee_strike",
             "basePower": 70,
             "range": 3,
@@ -2106,7 +2116,7 @@
                     "attack": 2
                 },
                 "spell": {
-                    "chained_penance": 4
+                    "chain_rebuke": 4
                 }
             },
             "requiresTarget": true,
@@ -2122,10 +2132,10 @@
             "damageAmplitude": 0.2536
         },
         {
-            "id": "mystic_repulse",
-            "label": "Mystic Repulse",
+            "id": "spirit_repulse",
+            "label": "Spirit Repulse",
             "kind": "strike",
-            "element": "physical",
+            "element": "holy",
             "powerCurve": "melee_strike",
             "basePower": 72,
             "range": 7,
@@ -2138,7 +2148,7 @@
                     "attack": 2
                 },
                 "spell": {
-                    "mystic_repulse": 20
+                    "spirit_repulse": 20
                 }
             },
             "requiresTarget": true,
@@ -2149,8 +2159,8 @@
             "damageAmplitude": 0.2576
         },
         {
-            "id": "greater_flurry_of_blows",
-            "label": "Greater Flurry of Blows",
+            "id": "greater_rapid_strikes",
+            "label": "Greater Rapid Strikes",
             "kind": "strike",
             "element": "physical",
             "powerCurve": "melee_strike",
@@ -2165,14 +2175,14 @@
                     "attack": 2
                 },
                 "spell": {
-                    "greater_flurry_of_blows": 16
+                    "greater_rapid_strikes": 16
                 }
             },
             "requiresTarget": false,
             "shape": {
                 "type": "wave",
                 "spread": "custom",
-                "length": "greater flurry of blows"
+                "length": "greater_rapid_strikes"
             },
             "vocations": [
                 "mystic"
@@ -4412,8 +4422,8 @@
             }
         },
         {
-            "id": "spirit_mend",
-            "label": "Spirit Mend",
+            "id": "soul_mend",
+            "label": "Soul Mend",
             "kind": "heal",
             "element": "healing",
             "powerCurve": "magic_strike",
@@ -4428,7 +4438,7 @@
                     "healing": 1
                 },
                 "spell": {
-                    "spirit_mend": 1
+                    "soul_mend": 1
                 }
             },
             "requiresTarget": false,
@@ -4439,8 +4449,8 @@
             "damageAmplitude": 0.2629
         },
         {
-            "id": "mass_spirit_mend",
-            "label": "Mass Spirit Mend",
+            "id": "mass_soul_mend",
+            "label": "Mass Soul Mend",
             "kind": "heal",
             "element": "healing",
             "powerCurve": "magic_strike",
@@ -4455,7 +4465,7 @@
                     "healing": 1
                 },
                 "spell": {
-                    "mass_spirit_mend": 8
+                    "mass_soul_mend": 8
                 }
             },
             "requiresTarget": false,
@@ -4466,8 +4476,8 @@
             "damageAmplitude": 0.2905
         },
         {
-            "id": "restore_balance",
-            "label": "Restore Balance",
+            "id": "renew_balance",
+            "label": "Renew Balance",
             "kind": "heal",
             "element": "healing",
             "powerCurve": "magic_strike",
@@ -4482,7 +4492,7 @@
                     "healing": 1
                 },
                 "spell": {
-                    "restore_balance": 2
+                    "renew_balance": 2
                 }
             },
             "requiresTarget": true,
@@ -4491,6 +4501,91 @@
                 "mystic"
             ],
             "damageAmplitude": 0.156
+        },
+        {
+            "id": "even_contest",
+            "label": "Even Contest",
+            "kind": "support",
+            "range": 6,
+            "mana": 80,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "support": 2
+                },
+                "spell": {
+                    "even_contest": 10
+                }
+            },
+            "requiresTarget": false,
+            "level": 175,
+            "vocations": [
+                "mystic"
+            ],
+            "statusOnly": true,
+            "min": 0,
+            "max": 0,
+            "basePower": 0,
+            "shape": {
+                "type": "wave",
+                "spread": "custom",
+                "length": "even_contest"
+            },
+            "forceMeleeDurationSec": 16
+        },
+        {
+            "id": "crushing_finisher",
+            "label": "Crushing Finisher",
+            "kind": "strike",
+            "element": "physical",
+            "powerCurve": "melee_strike",
+            "basePower": 62,
+            "range": 1,
+            "mana": 210,
+            "hitChance": 100,
+            "isMelee": true,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                },
+                "spell": {
+                    "crushing_finisher": 24
+                }
+            },
+            "requiresTarget": true,
+            "level": 125,
+            "vocations": [
+                "mystic"
+            ]
+        },
+        {
+            "id": "rising_blow",
+            "label": "Rising Blow",
+            "kind": "strike",
+            "element": "physical",
+            "powerCurve": "melee_strike",
+            "basePower": 130,
+            "range": 1,
+            "mana": 325,
+            "hitChance": 100,
+            "isMelee": true,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                },
+                "spell": {
+                    "rising_blow": 60
+                }
+            },
+            "requiresTarget": true,
+            "level": 110,
+            "vocations": [
+                "mystic"
+            ]
         }
     ]
 }

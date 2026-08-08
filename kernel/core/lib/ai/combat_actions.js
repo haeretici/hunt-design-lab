@@ -1028,7 +1028,7 @@ function tryAttack(opts) {
     if (!isSpellInRange(attacker, defender || null, def, ctx)) return null;
     if (!canCast(attacker, def, ctx)) return null;
 
-    // Chain multi-hop (chained_penance, chivalrous_challenge, divine_dazzle, …).
+    // Chain multi-hop (chain_rebuke, chivalrous_challenge, divine_dazzle, …).
     // Prefer chain over shape if both are set (catalog should not combine).
     if (spellHasChain(def)) {
         const tileMap =

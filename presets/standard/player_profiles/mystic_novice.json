@@ -1,0 +1,36 @@
+{
+    "id": "mystic_novice",
+    "label": "Mystic Novice",
+    "vocation": "mystic",
+    "level": 12,
+    "promoted": false,
+    "skills": {
+        "axe": 10,
+        "club": 10,
+        "distance": 10,
+        "fishing": 10,
+        "fist": 22,
+        "magicLevel": 5,
+        "shielding": 18,
+        "sword": 19
+    },
+    "stats": {
+        "lifeLeech": 0,
+        "manaLeech": 0,
+        "critChance": 3,
+        "critDamage": 8
+    },
+    "equipment": {
+        "head": "light_bandana",
+        "chest": "plain_mystic_robe",
+        "legs": "",
+        "boots": "boots_of_enlightenment",
+        "weapon": "pair_of_mystic_fists",
+        "shield": "",
+        "amulet": "harmony_amulet",
+        "ring": "",
+        "backpack": "backpack"
+    },
+    "strategyId": "mystic_combo",
+    "notes": "docs/24 I4 — L12 tutorial tier. Spell gate: heal_light / snap_jab / fang_clash; no twin_jab (L14) / rapid_strikes (L35) / spirit_repulse (L30). Fist primary (pair_of_mystic_fists L10). Skills from deriveSkills policy v1 (level anchors)."
+}

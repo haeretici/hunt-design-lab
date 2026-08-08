@@ -409,6 +409,7 @@ function defaultMeleeAutoSpell() {
  * @param {boolean} [opts.skipMana=false]
  * @param {boolean} [opts.apply=true] mutate hp / cooldowns / mana
  * @param {boolean} [opts.grantWeaponSkillTry=true] false for AOE secondary targets
+ * @param {number} [opts.damageScale] multiply post-mitigation damage (followup shapes)
  * @param {object} [opts.sessionConfig] frozen progression session (Phase C/D)
  * @param {boolean} [opts.skillProgression]
  * @param {() => number} [opts.rng]
@@ -605,6 +606,11 @@ function resolveAttack(opts) {
         }
         if (defMods.damageReceivedMult !== 1) {
             final = Math.max(0, Math.floor(final * defMods.damageReceivedMult));
+        }
+        // Dual-combat outer ring (e.g. Sweeping Takedown 75% pass).
+        const dmgScale = Number(o.damageScale);
+        if (Number.isFinite(dmgScale) && dmgScale !== 1) {
+            final = Math.max(0, Math.floor(final * dmgScale));
         }
         if (final !== result.final) {
             result.final = final;

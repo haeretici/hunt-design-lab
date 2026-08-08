@@ -6,7 +6,7 @@
  *
  * Catalog: spell.chain = N | { maxTargets, distance?, backtracking? }
  * Engine maxTargets = total creatures damaged (including primary).
- * Default hop distance = 3 (chained_penance / executioners_throw family).
+ * Default hop distance = 3 (chain_rebuke / executioners_throw family).
  */
 
 'use strict';

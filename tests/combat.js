@@ -2938,30 +2938,30 @@ function testPhaseMStances() {
 }
 
 /**
- * MM-A — mystic monk heals: spirit_mend, mass_spirit_mend, restore_balance.
+ * MM-A — mystic monk heals: soul_mend, mass_soul_mend, renew_balance.
  */
 function testMmaMonkHeals() {
     const spells = indexSpells(presets.loadSpells().spells);
-    assert.ok(spells.spirit_mend, 'spirit_mend');
-    assert.ok(spells.mass_spirit_mend, 'mass_spirit_mend');
-    assert.ok(spells.restore_balance, 'restore_balance');
-    assert.strictEqual(spells.spirit_mend.kind, 'heal');
-    assert.strictEqual(spells.spirit_mend.mana, 210);
-    assert.strictEqual(spells.spirit_mend.level, 80);
-    assert.strictEqual(spells.spirit_mend.basePower, 250);
-    assert.strictEqual(spells.mass_spirit_mend.mana, 250);
-    assert.strictEqual(spells.mass_spirit_mend.level, 150);
-    assert.strictEqual(spells.mass_spirit_mend.cooldowns.spell.mass_spirit_mend, 8);
-    assert.strictEqual(spells.restore_balance.requiresTarget, true);
-    assert.strictEqual(spells.restore_balance.range, 7);
-    assert.strictEqual(spells.restore_balance.mana, 120);
+    assert.ok(spells.soul_mend, 'soul_mend');
+    assert.ok(spells.mass_soul_mend, 'mass_soul_mend');
+    assert.ok(spells.renew_balance, 'renew_balance');
+    assert.strictEqual(spells.soul_mend.kind, 'heal');
+    assert.strictEqual(spells.soul_mend.mana, 210);
+    assert.strictEqual(spells.soul_mend.level, 80);
+    assert.strictEqual(spells.soul_mend.basePower, 250);
+    assert.strictEqual(spells.mass_soul_mend.mana, 250);
+    assert.strictEqual(spells.mass_soul_mend.level, 150);
+    assert.strictEqual(spells.mass_soul_mend.cooldowns.spell.mass_soul_mend, 8);
+    assert.strictEqual(spells.renew_balance.requiresTarget, true);
+    assert.strictEqual(spells.renew_balance.range, 7);
+    assert.strictEqual(spells.renew_balance.mana, 120);
 
     const classes = presets.loadClasses().classes;
     const mystic = classes.find((c) => c.id === 'mystic');
     assert.ok(mystic);
-    assert.ok(mystic.spells.indexOf('spirit_mend') >= 0);
-    assert.ok(mystic.spells.indexOf('mass_spirit_mend') >= 0);
-    assert.ok(mystic.spells.indexOf('restore_balance') >= 0);
+    assert.ok(mystic.spells.indexOf('soul_mend') >= 0);
+    assert.ok(mystic.spells.indexOf('mass_soul_mend') >= 0);
+    assert.ok(mystic.spells.indexOf('renew_balance') >= 0);
 
     const cls = presets.getClass('mystic');
     const items = presets.loadEquipment().items;
@@ -2983,38 +2983,38 @@ function testMmaMonkHeals() {
         monk.combatStats.level = 150;
         monk.combatStats.magic = 50;
         monk.combatStats.spells = (monk.combatStats.spells || []).concat([
-            'spirit_mend',
-            'mass_spirit_mend',
-            'restore_balance'
+            'soul_mend',
+            'mass_soul_mend',
+            'renew_balance'
         ]);
     }
 
     const rMend = resolveAttack({
         attacker: monk,
         defender: monk,
-        spell: 'spirit_mend',
+        spell: 'soul_mend',
         spellBook: spells,
         rng: () => 0.5,
         skipCooldown: true
     });
-    assert.strictEqual(rMend.ok, true, rMend.reason || 'spirit_mend ok');
-    assert.ok(rMend.final > 0, 'spirit_mend heals');
+    assert.strictEqual(rMend.ok, true, rMend.reason || 'soul_mend ok');
+    assert.ok(rMend.final > 0, 'soul_mend heals');
     assert.ok(monk.hp.current > 100);
 
     monk.hp.current = 100;
     const rMass = resolveAttack({
         attacker: monk,
         defender: monk,
-        spell: 'mass_spirit_mend',
+        spell: 'mass_soul_mend',
         spellBook: spells,
         rng: () => 0.5,
         skipCooldown: true,
         skipMana: true
     });
-    assert.strictEqual(rMass.ok, true, rMass.reason || 'mass_spirit_mend ok');
+    assert.strictEqual(rMass.ok, true, rMass.reason || 'mass_soul_mend ok');
     assert.ok(rMass.final > 0);
 
-    // restore_balance on ally
+    // renew_balance on ally
     const ally = makeGuardianKnight();
     ally.tile = { x: 1, y: 0, z: 7 };
     ally.hp.current = 50;
@@ -3022,13 +3022,13 @@ function testMmaMonkHeals() {
     const rBal = resolveAttack({
         attacker: monk,
         defender: ally,
-        spell: 'restore_balance',
+        spell: 'renew_balance',
         spellBook: spells,
         rng: () => 0.5,
         skipCooldown: true,
         skipMana: true
     });
-    assert.strictEqual(rBal.ok, true, rBal.reason || 'restore_balance ok');
+    assert.strictEqual(rBal.ok, true, rBal.reason || 'renew_balance ok');
     assert.ok(rBal.final > 0);
     assert.ok(ally.hp.current > 50);
 
@@ -3037,6 +3037,192 @@ function testMmaMonkHeals() {
         mass: rMass.final,
         balance: rBal.final
     });
+}
+
+/**
+ * MM-B — even_contest: directional force-melee AoE (16s, no taunt).
+ * Multi-mob cone, stand-off, skip cases (already melee / summon / out of footprint).
+ */
+function testMmbBalancedBrawl() {
+    const {
+        isForceMeleeActive,
+        isCreatureChallenged
+    } = require('../kernel/core/lib/combat/resolve.js');
+    const {
+        ensureCreatureKit,
+        idealStandDistance
+    } = require('../kernel/core/lib/ai/creature_kit.js');
+    const { resolveShapedAttack } = require('../kernel/core/lib/combat/area.js');
+    const { Time } = require('../kernel/core/lib/time.js');
+
+    const spells = indexSpells(presets.loadSpells().spells);
+    const bb = spells.even_contest;
+    assert.ok(bb, 'even_contest preset exists');
+    assert.strictEqual(bb.kind, 'support');
+    assert.strictEqual(bb.mana, 80);
+    assert.strictEqual(bb.level, 175);
+    assert.strictEqual(bb.forceMeleeDurationSec, 16);
+    assert.ok(bb.tauntDurationSec == null, 'no taunt');
+    assert.ok(
+        bb.shape &&
+            bb.shape.type === 'wave' &&
+            bb.shape.spread === 'custom' &&
+            bb.shape.length === 'even_contest'
+    );
+
+    const classes = presets.loadClasses().classes;
+    const mystic = classes.find((c) => c.id === 'mystic');
+    assert.ok(
+        mystic && mystic.spells.indexOf('even_contest') >= 0,
+        'book has balanced brawl'
+    );
+
+    const monk = new Player({
+        name: 'Monk',
+        id: 901,
+        classId: 'mystic',
+        classDef: presets.getClass('mystic'),
+        level: 175
+    });
+    monk.tile = { x: 10, y: 10, z: 7 };
+    monk.hp.current = 100;
+    monk.hp.max = 2000;
+    if (monk.mp) monk.mp.current = 1000;
+    monk.combatStats = {
+        level: 175,
+        magic: 50,
+        spells: ['even_contest']
+    };
+
+    function makeMob(id, x, y, targetDistance) {
+        const m = new Creature({
+            id,
+            name: 'm' + id,
+            type: 'creature',
+            isMonster: true,
+            hp: 100,
+            tile: { x, y, z: 7 }
+        });
+        m.alive = true;
+        m.flags = { targetDistance };
+        m.targetDistance = targetDistance;
+        ensureCreatureKit(m);
+        m.kit.flags.targetDistance = targetDistance;
+        return m;
+    }
+
+    // Wave center = caster+facing; origin cell 2 not hit.
+    // Caster (10,10) east → center (11,10) empty; first hit (12,10).
+    const front = makeMob(902, 12, 10, 4); // in cone
+    const side = makeMob(903, 14, 11, 4); // SE lobe
+    const gap = makeMob(904, 11, 10, 4); // front origin (cell 2), not hit
+    const behind = makeMob(905, 8, 10, 4); // west — outside wave
+    const melee = makeMob(906, 13, 9, 1); // in cone, already melee
+    const summon = makeMob(907, 14, 10, 4);
+    summon.masterId = monk.id;
+
+    const candidates = [front, side, gap, behind, melee, summon];
+    const r = resolveShapedAttack({
+        attacker: monk,
+        primary: front,
+        candidates,
+        spell: bb,
+        spellBook: spells,
+        direction: { x: 1, y: 0 },
+        rng: () => 0.5,
+        skipCooldown: true,
+        skipMana: true
+    });
+    assert.strictEqual(r.ok, true, r.reason || 'even_contest cast ok');
+
+    const t0 =
+        Time && Time.timeSinceLevelLoad != null
+            ? Number(Time.timeSinceLevelLoad)
+            : 0;
+
+    // Force-melee on free ranged hostiles in the cone
+    assert.ok(isForceMeleeActive(front, t0), 'front force-melee');
+    assert.ok(isForceMeleeActive(side, t0), 'side force-melee');
+    assert.ok(
+        front.forceMeleeUntil >= t0 + 15.9,
+        'front forceMelee ~16s'
+    );
+    assert.strictEqual(idealStandDistance(front), 1, 'stand-off 1 while active');
+    assert.strictEqual(idealStandDistance(side), 1);
+
+    // No taunt / provoke from force-melee alone
+    assert.strictEqual(isCreatureChallenged(front, t0), false, 'no taunt');
+
+    // Skip / miss cases
+    assert.strictEqual(
+        isForceMeleeActive(gap, t0),
+        false,
+        'gap tile (+1) not forced'
+    );
+    assert.strictEqual(
+        isForceMeleeActive(behind, t0),
+        false,
+        'behind caster not in wave'
+    );
+    assert.strictEqual(
+        isForceMeleeActive(melee, t0),
+        false,
+        'already-melee no-op'
+    );
+    assert.strictEqual(
+        isForceMeleeActive(summon, t0),
+        false,
+        'summon not force-meleed'
+    );
+
+    // Hits include cone members; gap/behind should not be among resolve hits
+    const hitIds = (r.results || [])
+        .filter((x) => x && x.hit)
+        .map((x) => x.defender && x.defender.id);
+    assert.ok(hitIds.indexOf(front.id) >= 0, 'front hit');
+    assert.ok(hitIds.indexOf(side.id) >= 0, 'side hit');
+    assert.ok(hitIds.indexOf(gap.id) < 0, 'gap not hit');
+    assert.ok(hitIds.indexOf(behind.id) < 0, 'behind not hit');
+
+    // Expiry restores base stand-off
+    front.forceMeleeUntil = t0 - 1;
+    assert.strictEqual(isForceMeleeActive(front, t0), false, 'expired');
+    assert.strictEqual(idealStandDistance(front), 4, 'stand-off restored');
+
+    log('MM-B even_contest ok');
+}
+
+/**
+ * MM-C — mystic high-tier attacks: crushing_finisher, rising_blow.
+ */
+function testMmcMysticHighTierAttacks() {
+    const spells = indexSpells(presets.loadSpells().spells);
+    assert.ok(spells.crushing_finisher, 'crushing_finisher');
+    assert.ok(spells.rising_blow, 'rising_blow');
+
+    assert.strictEqual(spells.crushing_finisher.kind, 'strike');
+    assert.strictEqual(spells.crushing_finisher.element, 'physical');
+    assert.strictEqual(spells.crushing_finisher.mana, 210);
+    assert.strictEqual(spells.crushing_finisher.level, 125);
+    assert.strictEqual(spells.crushing_finisher.basePower, 62);
+    assert.strictEqual(spells.crushing_finisher.cooldowns.spell.crushing_finisher, 24);
+    assert.strictEqual(spells.crushing_finisher.cooldowns.primary.attack, 2);
+
+    assert.strictEqual(spells.rising_blow.kind, 'strike');
+    assert.strictEqual(spells.rising_blow.element, 'physical');
+    assert.strictEqual(spells.rising_blow.mana, 325);
+    assert.strictEqual(spells.rising_blow.level, 110);
+    assert.strictEqual(spells.rising_blow.basePower, 130);
+    assert.strictEqual(spells.rising_blow.cooldowns.spell.rising_blow, 60);
+    assert.strictEqual(spells.rising_blow.cooldowns.primary.attack, 2);
+
+    const classes = presets.loadClasses().classes;
+    const mystic = classes.find((c) => c.id === 'mystic');
+    assert.ok(mystic);
+    assert.ok(mystic.spells.indexOf('crushing_finisher') >= 0);
+    assert.ok(mystic.spells.indexOf('rising_blow') >= 0);
+
+    log('MM-C high-tier ST attacks ok');
 }
 
 /**
@@ -3545,6 +3731,94 @@ function testShapedBerserkMultiHit() {
     log('shaped rampage multi-hit ok', {
         hits: result.hits.length,
         tiles: result.affectedTiles.length
+    });
+}
+
+/**
+ * Wide Takedown: dual combat — center full damage + outer followup at 75%.
+ * Legacy AREA_SWEEPING_CENTER / AREA_SWEEPING_OUTER (non-overlapping footprints).
+ */
+function testSweepingTakedownDualCombat() {
+    const { resolveShapedAttack } = require('../kernel/core/lib/combat/area.js');
+    const player = makeGuardianKnight();
+    player.tile = { x: 10, y: 10, z: 7 };
+    player.mp.current = Math.max(player.mp.current || 0, 500);
+    const spells = indexSpells(presets.loadSpells().spells);
+    const spell = spells.wide_takedown;
+    assert.ok(spell, 'wide_takedown preset');
+    assert.ok(spell.shape && spell.shape.length === 'wide_takedown');
+    assert.ok(
+        Array.isArray(spell.followupShapes) && spell.followupShapes.length >= 1,
+        'followupShapes for outer pass'
+    );
+    assert.strictEqual(spell.followupShapes[0].damageScale, 0.75);
+
+    // Center pass: origin (front) is hit. Outer: further east (origin cell 2).
+    const near = makeDummy();
+    near.id = 101;
+    near.tile = { x: 11, y: 10, z: 7 }; // front origin — center only
+    near.hp = { current: 100000, max: 100000 };
+    const far = makeDummy();
+    far.id = 102;
+    far.tile = { x: 13, y: 10, z: 7 }; // outer forward band
+    far.hp = { current: 100000, max: 100000 };
+    const miss = makeDummy();
+    miss.id = 103;
+    miss.tile = { x: 8, y: 10, z: 7 }; // west of caster — outside both passes
+    miss.hp = { current: 100000, max: 100000 };
+
+    const hpNear = near.hp.current;
+    const hpFar = far.hp.current;
+    const hpMiss = miss.hp.current;
+    const mpBefore = player.mp.current;
+
+    const result = resolveShapedAttack({
+        attacker: player,
+        primary: near,
+        spell,
+        candidates: [near, far, miss],
+        direction: { x: 1, y: 0 },
+        rng: rngFromSeed(42)
+    });
+
+    assert.strictEqual(result.ok, true, result.reason || 'ok');
+    assert.ok(result.hits.some((h) => h.id === 101), 'near (center) hit');
+    assert.ok(result.hits.some((h) => h.id === 102), 'far (outer) hit');
+    assert.ok(!result.hits.some((h) => h.id === 103), 'miss not hit');
+    assert.ok(near.hp.current < hpNear, 'center target damaged');
+    assert.ok(far.hp.current < hpFar, 'outer target damaged');
+    assert.strictEqual(miss.hp.current, hpMiss, 'out-of-shape untouched');
+    assert.strictEqual(
+        player.mp.current,
+        mpBefore - spell.mana,
+        'mana spent once'
+    );
+
+    const dmgNear = hpNear - near.hp.current;
+    const dmgFar = hpFar - far.hp.current;
+    assert.ok(dmgNear > 0 && dmgFar > 0, 'both passes deal damage');
+    // Outer is 75% of its own roll (independent rng after center).
+    assert.ok(
+        dmgFar <= dmgNear * 1.15 + 5,
+        `outer (${dmgFar}) should be roughly ≤ center (${dmgNear}) with 0.75 scale`
+    );
+
+    const keys = new Set(result.affectedTiles.map((t) => `${t.x},${t.y}`));
+    assert.ok(keys.has('11,10'), 'VFX tiles include center origin');
+    assert.ok(
+        keys.has('13,10') || keys.has('14,10'),
+        'VFX tiles include outer forward'
+    );
+    assert.ok(
+        result.results.length >= 2,
+        'two resolveAttack results (center + outer)'
+    );
+
+    log('wide_takedown dual combat ok', {
+        dmgNear,
+        dmgFar,
+        tiles: result.affectedTiles.length,
+        results: result.results.length
     });
 }
 
@@ -4558,8 +4832,8 @@ function testChainAttackPickAndResolve() {
     const { tryAttack } = require('../kernel/core/lib/ai/combat_actions.js');
 
     const spells = indexSpells(presets.loadSpells().spells);
-    const spell = spells.chained_penance;
-    assert.ok(spell, 'chained_penance preset');
+    const spell = spells.chain_rebuke;
+    assert.ok(spell, 'chain_rebuke preset');
     assert.ok(spellHasChain(spell), 'chain flag');
     const spec = normalizeChainSpec(spell);
     assert.ok(spec);
@@ -4660,7 +4934,7 @@ function testChainAttackPickAndResolve() {
         );
     }
     assert.strictEqual(dummies[4].hp.current, dummies[4].hp.max, '5th unharmed');
-    assert.ok(Cooldowns.getRemaining(mystic, 'spell', 'chained_penance') > 0);
+    assert.ok(Cooldowns.getRemaining(mystic, 'spell', 'chain_rebuke') > 0);
 
     // Cooldown blocks second cast
     const blocked = resolveChainAttack({
@@ -4677,7 +4951,7 @@ function testChainAttackPickAndResolve() {
     const mystic2 = makeGuardianKnight();
     mystic2.tile = { x: 5, y: 5, z: 7 };
     mystic2.mp.current = 500;
-    mystic2.spells = ['chained_penance'];
+    mystic2.spells = ['chain_rebuke'];
     const t1 = makeDummy();
     t1.id = 401;
     t1.tile = { x: 6, y: 5, z: 7 };
@@ -4688,7 +4962,7 @@ function testChainAttackPickAndResolve() {
     const tryRes = tryAttack({
         attacker: mystic2,
         defender: t1,
-        spellId: 'chained_penance',
+        spellId: 'chain_rebuke',
         ctx: {
             spellBook,
             enemies: [t1, t2],
@@ -4963,6 +5237,8 @@ function main() {
     testHotRecoverySpells();
     testPhaseMStances();
     testMmaMonkHeals();
+    testMmbBalancedBrawl();
+    testMmcMysticHighTierAttacks();
     testRuneCastRangeFarUse();
     testEngageRangeXY();
     testParalyzeRuneAndImmunity();
@@ -4977,6 +5253,7 @@ function main() {
     testSpellMoveLock();
     testShapedBerserkMultiHit();
     testShapedFrontSweepWave();
+    testSweepingTakedownDualCombat();
     testChainAttackPickAndResolve();
     testWikiParityLightningGrenadeExecutioner();
     testHPAndMPRegeneration();

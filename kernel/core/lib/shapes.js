@@ -5,11 +5,15 @@
  * getAffectedTiles (inject tileMap for LoS / walls). Designer shape picker
  * uses listShapeCatalog + preview (no tileMap required).
  *
- * Cell values in matrices:
+ * Cell values in matrices (legacy createArea semantics):
  *   0 = empty
- *   1 = affected tile
- *   3 = origin / caster anchor
- *   2 = special (kept as-is from legacy; treated as non-hit for fill)
+ *   1 = affected (hit) tile
+ *   2 = origin only (not hit) — ring/burst holes; even_contest front origin
+ *   3 = origin + hit — standard waves/areas (berserk square, ice wave, …)
+ *
+ * Waves/beams: matrix origin is placed one step in front of the caster
+ * (legacy getCasterPosition). Area self-AoE: origin on caster tile.
+ * Matrices are east-authored; north-authored legacy tables are rotated 90° CW.
  */
 
 'use strict';
@@ -213,24 +217,56 @@ const AREA_WAVE_CUSTOM = {
         [0, 1, 1, 1, 1],
         [0, 0, 0, 1, 1]
     ],
-    'flurry of blows': [
-        [1, 1, 1, 0],
-        [1, 3, 1, 1],
-        [1, 1, 1, 0]
+    // Legacy AREA_FLURRY_OF_BLOWS (north) rotated 90° CW → east.
+    'rapid_strikes': [
+        [0, 0, 0, 0, 0, 0],
+        [0, 1, 1, 1, 0, 0],
+        [0, 0, 3, 1, 1, 0],
+        [0, 1, 1, 1, 0, 0],
+        [0, 0, 0, 0, 0, 0]
     ],
-    'sweeping takedown': [
-        [1, 1, 1, 1, 0],
-        [1, 1, 1, 1, 1],
-        [1, 3, 1, 1, 1],
-        [1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 0]
+    // Legacy AREA_SWEEPING_CENTER (north) rotated 90° CW → east.
+    // Full-damage pass of dual-combat Wide Takedown (outer is separate).
+    'wide_takedown': [
+        [0, 1, 1, 0, 0, 0],
+        [0, 1, 1, 1, 0, 0],
+        [0, 0, 3, 1, 0, 0],
+        [0, 1, 1, 1, 0, 0],
+        [0, 1, 1, 0, 0, 0]
     ],
-    'greater flurry of blows': [
-        [0, 1, 0, 0, 0],
-        [1, 1, 1, 1, 0],
-        [1, 3, 1, 1, 1],
-        [1, 1, 1, 1, 0],
-        [0, 1, 0, 0, 0]
+    // Legacy AREA_SWEEPING_OUTER (north) rotated 90° CW → east.
+    // Cell 2 = front origin not hit; 75% damage pass (spell.followupShapes).
+    'wide_takedown_outer': [
+        [0, 1, 1, 0],
+        [0, 0, 1, 1],
+        [2, 0, 1, 1],
+        [0, 0, 1, 1],
+        [0, 1, 1, 0]
+    ],
+    // Legacy AREA_GREATER_FLURRY_OF_BLOWS (north) rotated 90° CW → east.
+    'greater_rapid_strikes': [
+        [0, 0, 1, 0, 0, 0],
+        [0, 1, 1, 1, 1, 0],
+        [0, 0, 3, 1, 1, 1],
+        [0, 1, 1, 1, 1, 0],
+        [0, 0, 1, 0, 0, 0]
+    ],
+    // Legacy AREA_BALANCED_BRAWL (north) rotated 90° CW → east.
+    // Cell 2 = front-of-caster origin, not a hit (legacy createArea).
+    'even_contest': [
+        [1, 0, 0, 0, 0, 0, 0, 0],
+        [1, 1, 1, 0, 0, 0, 0, 0],
+        [1, 1, 1, 1, 0, 0, 0, 0],
+        [1, 1, 1, 1, 1, 0, 0, 0],
+        [1, 1, 1, 1, 1, 1, 0, 0],
+        [0, 0, 1, 1, 1, 1, 0, 0],
+        [0, 2, 1, 1, 1, 1, 1, 0],
+        [0, 0, 1, 1, 1, 1, 0, 0],
+        [1, 1, 1, 1, 1, 1, 0, 0],
+        [1, 1, 1, 1, 1, 0, 0, 0],
+        [1, 1, 1, 1, 0, 0, 0, 0],
+        [1, 1, 1, 0, 0, 0, 0, 0],
+        [1, 0, 0, 0, 0, 0, 0, 0]
     ]
 };
 
@@ -695,9 +731,9 @@ function orientDiagonalWallMatrix(baseNw, direction) {
 
 /**
  * Find matrix origin anchor: cell 3 (hit + origin) or cell 2 (origin only, not hit).
- * Legacy ring/burst matrices use 2 for the caster tile when the center is empty.
+ * Legacy ring/burst and even_contest use 2 when the origin tile is empty.
  * @param {number[][]} area
- * @returns {{ row: number, col: number }|null}
+ * @returns {{ row: number, col: number, cell: number }|null}
  */
 function findOriginInMatrix(area) {
     if (!Array.isArray(area)) return null;
@@ -706,8 +742,9 @@ function findOriginInMatrix(area) {
         const row = area[i];
         if (!Array.isArray(row)) continue;
         for (let j = 0; j < row.length; j++) {
-            if (row[j] === 3) return { row: i, col: j };
-            if (row[j] === 2 && !fallback2) fallback2 = { row: i, col: j };
+            const v = row[j];
+            if (v === 3) return { row: i, col: j, cell: 3 };
+            if (v === 2 && !fallback2) fallback2 = { row: i, col: j, cell: 2 };
         }
     }
     return fallback2;

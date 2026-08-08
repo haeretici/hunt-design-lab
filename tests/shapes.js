@@ -17,6 +17,7 @@ const {
     hasLineOfSight,
     entitiesOnTiles,
     findTopAreaCenters,
+    findOriginInMatrix,
     cardinalDirection,
     octantDirection,
     rotateOffset,
@@ -58,13 +59,101 @@ function testWaveMatrices() {
     const custom = getAreaArray('wave', {
         type: 'wave',
         spread: 'custom',
-        length: 'flurry of blows'
+        length: 'rapid_strikes'
     });
-    assert.ok(custom.length === 3);
+    assert.ok(custom.length === 5, 'legacy flurry east has 5 rows');
     assert.ok(hasOrigin(custom));
+
+    const bb = getAreaArray('wave', {
+        type: 'wave',
+        spread: 'custom',
+        length: 'even_contest'
+    });
+    assert.ok(bb.length === 13);
+    assert.ok(hasOrigin(bb));
+    const bbOrigin = findOriginInMatrix(bb);
+    assert.ok(bbOrigin && bbOrigin.cell === 2, 'even_contest origin is cell 2');
+    assert.strictEqual(bb[bbOrigin.row][bbOrigin.col], 2);
+    // Origin row: [0, 2, 1, …] — front not hit, first hit at origin+1 along axis
+    assert.strictEqual(bb[bbOrigin.row][bbOrigin.col + 1], 1);
+
+    const flurry = getAreaArray('wave', {
+        type: 'wave',
+        spread: 'custom',
+        length: 'rapid_strikes'
+    });
+    const fo = findOriginInMatrix(flurry);
+    assert.ok(fo && fo.cell === 3);
+    // Legacy flurry: origin is hit; cells behind origin (toward caster) exist as side hits only
+    assert.strictEqual(flurry[fo.row][fo.col], 3);
 
     const empty = getAreaArray('wave', { spread: 99, length: 99 });
     assert.deepStrictEqual(empty, []);
+}
+
+/**
+ * Legacy-aligned wave footprints (center = caster+facing).
+ * even_contest: origin cell 2 not hit; flurry: origin hit, caster tile not hit.
+ */
+function testLegacyMonkWaveFootprints() {
+    const caster = { x: 10, y: 10, z: 7 };
+    const front = { x: 11, y: 10, z: 7 };
+    const dir = { x: 1, y: 0 };
+
+    const bbTiles = getAffectedTiles({
+        caster,
+        center: front,
+        shape: { type: 'wave', spread: 'custom', length: 'even_contest' },
+        direction: dir
+    });
+    const bbKeys = new Set(bbTiles.map((t) => `${t.x},${t.y}`));
+    assert.ok(!bbKeys.has('10,10'), 'bb: caster not hit');
+    assert.ok(!bbKeys.has('11,10'), 'bb: front origin (cell 2) not hit');
+    assert.ok(bbKeys.has('12,10'), 'bb: first hit one step past origin');
+
+    const flurryTiles = getAffectedTiles({
+        caster,
+        center: front,
+        shape: { type: 'wave', spread: 'custom', length: 'rapid_strikes' },
+        direction: dir
+    });
+    const fk = new Set(flurryTiles.map((t) => `${t.x},${t.y}`));
+    assert.ok(fk.has('11,10'), 'flurry: front origin is hit');
+    assert.ok(!fk.has('10,10'), 'flurry: caster tile not hit');
+
+    // Berserk / rampage square: center is a hit tile (self filtered at resolve)
+    const square = getAffectedTiles({
+        caster,
+        center: caster,
+        shape: { type: 'area', code: 3 }
+    });
+    assert.ok(square.some((t) => t.x === 10 && t.y === 10), 'square1x1 center hit tile');
+
+    // Wide Takedown: center full + outer 75% (separate matrices, no tile overlap)
+    const stCenter = getAffectedTiles({
+        caster,
+        center: front,
+        shape: { type: 'wave', spread: 'custom', length: 'wide_takedown' },
+        direction: dir
+    });
+    const stOuter = getAffectedTiles({
+        caster,
+        center: front,
+        shape: {
+            type: 'wave',
+            spread: 'custom',
+            length: 'wide_takedown_outer'
+        },
+        direction: dir
+    });
+    const ck = new Set(stCenter.map((t) => `${t.x},${t.y}`));
+    const ok = new Set(stOuter.map((t) => `${t.x},${t.y}`));
+    assert.ok(ck.has('11,10'), 'sweeping center: front origin is hit');
+    assert.ok(!ok.has('11,10'), 'sweeping outer: origin cell 2 not hit');
+    assert.ok(ok.has('13,10') || ok.has('14,10'), 'sweeping outer: forward tiles hit');
+    for (const k of ck) {
+        assert.ok(!ok.has(k), `center/outer no overlap: ${k}`);
+    }
 }
 
 function testCatalog() {
@@ -95,8 +184,8 @@ function testCatalog() {
         'wave:2:4'
     );
     assert.strictEqual(
-        catalogIdForShape({ type: 'wave', spread: 'custom', length: 'flurry of blows' }),
-        'wave:custom:flurry of blows'
+        catalogIdForShape({ type: 'wave', spread: 'custom', length: 'rapid_strikes' }),
+        'wave:custom:rapid_strikes'
     );
 }
 
@@ -108,6 +197,7 @@ function testSummaryAndAscii() {
     assert.ok(formatShapeSummary({ type: 'wave', spread: 1, length: 3 }).includes('wave'));
     const ascii = matrixToAscii([[0, 1], [3, 1]]);
     assert.strictEqual(ascii, '.#\n@#');
+    assert.strictEqual(matrixToAscii([[2, 0, 1]]), '*.#');
 }
 
 function testRotateAndCardinal() {
@@ -456,7 +546,7 @@ function testEnergyBeamShapes() {
 
 /**
  * Guardrail: every shaped entry in standard spells.json must resolve to a
- * non-empty matrix with an origin cell (3).
+ * non-empty matrix with an origin cell (2 or 3).
  */
 function testAllStandardSpellShapesResolve() {
     const spellsPath = path.join(
@@ -481,7 +571,7 @@ function testAllStandardSpellShapesResolve() {
         );
         assert.ok(
             hasOrigin(matrix),
-            `spell ${spell.id} shape missing origin cell 3`
+            `spell ${spell.id} shape missing origin cell (2/3)`
         );
     }
     assert.ok(shaped >= 1, 'expected at least one shaped spell in standard pack');
@@ -500,6 +590,7 @@ function testAllStandardSpellShapesResolve() {
 function main() {
     testAreaMatrices();
     testWaveMatrices();
+    testLegacyMonkWaveFootprints();
     testCatalog();
     testSummaryAndAscii();
     testRotateAndCardinal();

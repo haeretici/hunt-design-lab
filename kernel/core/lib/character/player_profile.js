@@ -193,10 +193,9 @@ function memberFromPlayerProfile(profile, overrides) {
 const DEFAULT_STARTER_PROFILE_BY_CLASS = Object.freeze({
     guardian: 'guardian_starter',
     scout: 'scout_starter',
+    mystic: 'mystic_starter',
     adept: 'adept_starter',
     warden: 'warden_starter',
-    // No mystic_* profiles in standard yet — materialize leaves mystic class-only
-    // (assert fails until a profile is authored or skills are explicit).
     adventurer: 'test_weak_adventurer'
 });
 

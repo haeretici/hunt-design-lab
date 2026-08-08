@@ -1,0 +1,45 @@
+{
+    "id": "mystic_starter",
+    "label": "Mystic Starter",
+    "vocation": "mystic",
+    "level": 50,
+    "promoted": false,
+    "skills": {
+        "axe": 13,
+        "club": 13,
+        "distance": 15,
+        "fishing": 10,
+        "fist": 55,
+        "magicLevel": 25,
+        "shielding": 45,
+        "sword": 47
+    },
+    "stats": {
+        "lifeLeech": 0,
+        "manaLeech": 0,
+        "critChance": 5,
+        "critDamage": 10
+    },
+    "equipment": {
+        "head": "light_bandana",
+        "chest": "warlord_mystic_robe",
+        "legs": "legs_of_enlightenment",
+        "boots": "boots_of_enlightenment",
+        "weapon": "nunchaku_of_enlightenment",
+        "shield": "",
+        "amulet": "harmony_amulet",
+        "ring": "",
+        "backpack": "backpack"
+    },
+    "inventory": {
+        "backpack": [
+            { "itemId": "venom_field_rune", "count": 12 },
+            { "itemId": "spark_field_rune", "count": 8 },
+            { "itemId": "purge_field_rune", "count": 8 },
+            { "itemId": "venom_bomb_rune", "count": 6 },
+            { "itemId": "spark_bomb_rune", "count": 6 }
+        ]
+    },
+    "strategyId": "mystic_combo",
+    "notes": "Mid-tier (L50) mystic for party combat — docs/24 I4 baseline between novice L12 and veteran L90. Fist primary (nunchaku_of_enlightenment L50). Unlocks rapid_strikes (L35) / spirit_repulse (L30) / inflict_wound (L40); no wide_takedown (L60) / greater_rapid_strikes (L90). Skills from deriveSkills policy v1 (level anchors)."
+}

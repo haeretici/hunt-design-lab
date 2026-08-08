@@ -294,7 +294,7 @@ function resolveAreaCenter(opts) {
 }
 
 /**
- * Wave/beam origin = one step in front of caster (legacy).
+ * Wave/beam origin = one step in front of caster (legacy getCasterPosition).
  * @param {{x:number,y:number,z?:*}} casterTile
  * @param {{x:number,y:number}} direction
  * @returns {{x:number,y:number,z?:*}}
@@ -904,32 +904,99 @@ function resolveShapedAttack(opts) {
     let totalFinal = 0;
     let totalHpDelta = 0;
     let primaryResult = null;
+    /** @type {object[]} */
+    let allHits = hits.slice();
+    /** @type {{x:number,y:number,z?:*}[]} */
+    let allTiles = foot.affectedTiles.slice();
 
-    for (let i = 0; i < hits.length; i++) {
-        const defender = hits[i];
-        // Per-target: skip CD/mana (already spent); still apply HP
-        const r = resolveAttack({
-            attacker,
-            defender,
-            spell,
-            spellBook: o.spellBook,
-            rng: o.rng,
-            skipCooldown: true,
-            skipMana: true,
-            apply: applyMutations,
-            // Phase D: weapon skill tries on primary target only
-            grantWeaponSkillTry: defender === o.primary,
-            sessionConfig: o.sessionConfig,
-            skillProgression: o.skillProgression
-        });
-        results.push(r);
-        if (r.ok && r.hit) {
-            anyHit = true;
-            if (r.critical) anyCrit = true;
-            totalFinal += r.final || 0;
-            totalHpDelta += r.hpDelta || 0;
+    /**
+     * @param {object[]} defenders
+     * @param {number} [damageScale]
+     */
+    function resolveDefenders(defenders, damageScale) {
+        for (let i = 0; i < defenders.length; i++) {
+            const defender = defenders[i];
+            // Per-target: skip CD/mana (already spent); still apply HP
+            const r = resolveAttack({
+                attacker,
+                defender,
+                spell,
+                spellBook: o.spellBook,
+                rng: o.rng,
+                skipCooldown: true,
+                skipMana: true,
+                apply: applyMutations,
+                damageScale:
+                    damageScale != null && Number.isFinite(Number(damageScale))
+                        ? Number(damageScale)
+                        : undefined,
+                // Phase D: weapon skill tries on primary target only
+                grantWeaponSkillTry: defender === o.primary,
+                sessionConfig: o.sessionConfig,
+                skillProgression: o.skillProgression
+            });
+            results.push(r);
+            if (r.ok && r.hit) {
+                anyHit = true;
+                if (r.critical) anyCrit = true;
+                totalFinal += r.final || 0;
+                totalHpDelta += r.hpDelta || 0;
+            }
+            if (defender === o.primary && !primaryResult) primaryResult = r;
         }
-        if (defender === o.primary) primaryResult = r;
+    }
+
+    resolveDefenders(hits);
+
+    // Dual-combat followups (e.g. Sweeping Takedown outer at 75%).
+    // Same origin/facing; separate footprint; independent rolls scaled by damageScale.
+    const followups = Array.isArray(spell.followupShapes)
+        ? spell.followupShapes
+        : [];
+    for (let fi = 0; fi < followups.length; fi++) {
+        const fu = followups[fi];
+        if (!fu || !fu.shape || typeof fu.shape !== 'object') continue;
+        const fuSpell = Object.assign({}, spell, { shape: fu.shape });
+        const fuFoot = computeSpellFootprint({
+            attacker,
+            primary: o.primary || null,
+            spell: fuSpell,
+            candidates: o.candidates || [],
+            tileMap: o.tileMap || null,
+            direction: foot.direction,
+            center: foot.center,
+            centerMode: o.centerMode,
+            skipCasterLos: o.skipDelay === true
+        });
+        if (!fuFoot.affectedTiles || !fuFoot.affectedTiles.length) continue;
+
+        // Union tiles for VFX (fields stay primary-shape only).
+        const seen = new Set(
+            allTiles.map((t) => `${t.x},${t.y},${t.z != null ? t.z : z}`)
+        );
+        for (let t = 0; t < fuFoot.affectedTiles.length; t++) {
+            const tile = fuFoot.affectedTiles[t];
+            const key = `${tile.x},${tile.y},${tile.z != null ? tile.z : z}`;
+            if (!seen.has(key)) {
+                seen.add(key);
+                allTiles.push(tile);
+            }
+        }
+
+        let fuHits = entitiesOnTiles(pool, fuFoot.affectedTiles, z);
+        fuHits = expandShapedHitsWithStacks(
+            fuHits,
+            fuFoot.affectedTiles,
+            z,
+            attacker,
+            o.tileMap || null
+        );
+        for (let h = 0; h < fuHits.length; h++) {
+            if (allHits.indexOf(fuHits[h]) < 0) allHits.push(fuHits[h]);
+        }
+        const scale =
+            fu.damageScale != null ? Number(fu.damageScale) : 1;
+        resolveDefenders(fuHits, scale);
     }
 
     // Prefer primary result for single-target-compatible summary fields
@@ -946,11 +1013,11 @@ function resolveShapedAttack(opts) {
         range: summary ? summary.range : null,
         moveLock,
         multi: true,
-        affectedTiles: foot.affectedTiles,
+        affectedTiles: allTiles,
         center: foot.center,
         direction: foot.direction,
         results,
-        hits,
+        hits: allHits,
         skillProgress: summary ? summary.skillProgress : null,
         manaProgress: shapedManaProgress
     };
