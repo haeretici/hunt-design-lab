@@ -58,12 +58,19 @@
             "chance": 10,
             "range": 4,
             "element": "energy",
-            "min": 1941,
-            "max": 1941,
+            "min": 0,
+            "max": 0,
             "radius": 4,
             "target": false,
             "effect": "me_smallplants",
-            "shootEffect": "ani_poison"
+            "shootEffect": "ani_poison",
+            "statusOnly": true,
+            "condition": {
+                "type": "energy",
+                "totalDamage": 1941,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
         },
         {
             "id": "area_2",

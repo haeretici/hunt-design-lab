@@ -77,15 +77,22 @@
         },
         {
             "id": "condition_3",
-            "kind": "melee",
+            "kind": "status",
             "intervalMs": 5000,
             "chance": 18,
             "range": 1,
             "element": "earth",
-            "min": 4617,
-            "max": 5771,
+            "min": 0,
+            "max": 0,
             "target": false,
-            "effect": "me_hitbypoison"
+            "effect": "me_hitbypoison",
+            "statusOnly": true,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 5771,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
         },
         {
             "id": "area_4",

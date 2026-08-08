@@ -263,6 +263,16 @@ class EntityMarkersScript extends Script {
          */
         const drawEntity = (ent, rectColor, pad, showMana) => {
             if (!ent.tile || !ent.alive) return;
+            // Phase G2: invisible hostiles are not drawn (players cannot see them).
+            // Party members stay visible with reduced alpha for self-feedback.
+            const isInvis = !!(
+                ent.invisible ||
+                (Array.isArray(ent.conditions) &&
+                    ent.conditions.some((c) => c && c.kind === 'invisible'))
+            );
+            const isPlayer =
+                ent.type === 'player' || ent.isPlayer === true || showMana;
+            if (isInvis && !isPlayer) return;
             // Idle + has target: face them (step facing wins mid-slide)
             faceSpriteTowardTarget(ent);
             // Presentation pos slides toward logic tile over moveDelay (legacy)
@@ -288,6 +298,8 @@ class EntityMarkersScript extends Script {
 
             // Mob rarity aura (rare/champion/elite/boss); players / normals → null
             const rarityTier = resolveEntityRarityTier(ent);
+            // Player invis feedback: semi-transparent sprite (party can still see self)
+            const invisAlpha = isInvis && isPlayer ? 0.4 : 1;
 
             let layout = null;
             if (useSprites) {
@@ -322,6 +334,10 @@ class EntityMarkersScript extends Script {
                             rarityTier
                         );
                     }
+                    if (invisAlpha < 1) {
+                        g.save();
+                        g.globalAlpha = invisAlpha;
+                    }
                     layout = drawEntitySprite(
                         g,
                         img,
@@ -332,6 +348,9 @@ class EntityMarkersScript extends Script {
                         scale,
                         flipH
                     );
+                    if (invisAlpha < 1) {
+                        g.restore();
+                    }
                     if (layout && flash > 0) {
                         drawSpriteHitFlash(g, layout, flash);
                     }
@@ -349,8 +368,15 @@ class EntityMarkersScript extends Script {
                     false,
                     shadowOpts
                 );
+                if (invisAlpha < 1) {
+                    g.save();
+                    g.globalAlpha = invisAlpha;
+                }
                 g.fillStyle = rectColor;
                 g.fillRect(px + pad, py + pad, tw - pad * 2, th - pad * 2);
+                if (invisAlpha < 1) {
+                    g.restore();
+                }
                 if (rarityTier) {
                     drawRectRarityAura(
                         g,
@@ -520,15 +546,40 @@ function drawGroundItems(g, sim, view) {
                 const st = getFieldState(inst, Time.timeSinceLevelLoad);
                 const kind = st.kind || inst.fieldKind || 'fire';
                 let fill = 'rgba(220, 80, 40, 0.55)';
-                if (kind === 'poison') fill = 'rgba(80, 180, 70, 0.5)';
-                else if (kind === 'energy') fill = 'rgba(90, 140, 255, 0.5)';
-                else if (kind === 'fire' && st.stage === 2) {
+                let stroke = 'rgba(180, 40, 10, 0.7)';
+                if (kind === 'poison') {
+                    fill = 'rgba(80, 180, 70, 0.5)';
+                    stroke = 'rgba(40, 120, 40, 0.7)';
+                } else if (kind === 'energy') {
+                    fill = 'rgba(90, 140, 255, 0.5)';
+                    stroke = 'rgba(40, 80, 200, 0.7)';
+                } else if (kind === 'barrier') {
+                    // Barrier wall: cool cyan-violet solid with slow blink.
+                    fill = 'rgba(120, 160, 255, 0.55)';
+                    stroke = 'rgba(80, 120, 220, 0.85)';
+                } else if (kind === 'vine') {
+                    // Vine barrier: deep green solid with slow blink.
+                    fill = 'rgba(40, 140, 60, 0.55)';
+                    stroke = 'rgba(20, 90, 40, 0.85)';
+                } else if (kind === 'fire' && st.stage === 2) {
                     fill = 'rgba(220, 100, 30, 0.42)';
                 } else if (kind === 'fire' && st.stage === 3) {
                     fill = 'rgba(200, 120, 40, 0.28)';
                 } else if (kind === 'fire' && st.expired) {
                     fill = 'rgba(120, 80, 60, 0.15)';
                 }
+                // Obstacles: slow alpha blink (~0.55 Hz) so walls read as active VFX.
+                let alphaMul = 1;
+                if (kind === 'barrier' || kind === 'vine') {
+                    const t =
+                        typeof performance !== 'undefined' && performance.now
+                            ? performance.now() / 1000
+                            : Time.timeSinceLevelLoad;
+                    // 0.65–1.0 alpha envelope
+                    alphaMul = 0.65 + 0.35 * (0.5 + 0.5 * Math.sin(t * Math.PI * 1.1));
+                }
+                const prevAlpha = g.globalAlpha;
+                g.globalAlpha = prevAlpha * alphaMul;
                 const inset = Math.max(1, Math.floor(tw * 0.08));
                 g.fillStyle = fill;
                 g.fillRect(
@@ -538,12 +589,7 @@ function drawGroundItems(g, sim, view) {
                     th - inset * 2
                 );
                 // Soft edge ring
-                g.strokeStyle =
-                    kind === 'poison'
-                        ? 'rgba(40, 120, 40, 0.7)'
-                        : kind === 'energy'
-                          ? 'rgba(40, 80, 200, 0.7)'
-                          : 'rgba(180, 40, 10, 0.7)';
+                g.strokeStyle = stroke;
                 g.lineWidth = Math.max(1, Math.floor(tw / 16));
                 g.strokeRect(
                     basePx + inset,
@@ -551,6 +597,21 @@ function drawGroundItems(g, sim, view) {
                     tw - inset * 2,
                     th - inset * 2
                 );
+                // Obstacle inner cross-hatch hint (reads as solid wall)
+                if (kind === 'barrier' || kind === 'vine') {
+                    const pad = inset + Math.max(2, Math.floor(tw * 0.12));
+                    g.strokeStyle =
+                        kind === 'barrier'
+                            ? 'rgba(200, 220, 255, 0.45)'
+                            : 'rgba(160, 220, 160, 0.4)';
+                    g.beginPath();
+                    g.moveTo(basePx + pad, basePy + pad);
+                    g.lineTo(basePx + tw - pad, basePy + th - pad);
+                    g.moveTo(basePx + tw - pad, basePy + pad);
+                    g.lineTo(basePx + pad, basePy + th - pad);
+                    g.stroke();
+                }
+                g.globalAlpha = prevAlpha;
                 drawn = true;
             }
             if (!drawn && useSprites && artId) {

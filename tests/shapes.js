@@ -27,7 +27,7 @@ const {
 } = require('../kernel/core/lib/shapes.js');
 
 function hasOrigin(matrix) {
-    return matrix.some((row) => row.some((c) => c === 3));
+    return matrix.some((row) => row.some((c) => c === 3 || c === 2));
 }
 
 function testAreaMatrices() {
@@ -38,7 +38,7 @@ function testAreaMatrices() {
     const single = getAreaArray('area', 1);
     assert.deepStrictEqual(single, [[3]]);
 
-    const ew = getAreaArray('area', 'eternal winter');
+    const ew = getAreaArray('area', 'glacial_cataclysm');
     assert.ok(ew.length === 11);
     assert.ok(hasOrigin(ew));
 

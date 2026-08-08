@@ -536,6 +536,51 @@ function testPushStoresSpriteFields() {
     log('push stores sprite fields ok');
 }
 
+/**
+ * Delayed detonation after caster floor hop: FX floor must use result.center.z
+ * (plant floor), not attacker.tile.z.
+ */
+function testEffectsFromAttackPrefersResultCenterFloor() {
+    const attacker = {
+        tile: tile(10, 10, 1), // hopped to floor 1
+        type: 'player',
+        alive: true
+    };
+    const defender = {
+        tile: tile(3, 3, 0), // still on plant floor 0
+        type: 'creature',
+        alive: true
+    };
+    const result = {
+        ok: true,
+        hit: true,
+        final: 40,
+        multi: true,
+        center: { x: 3, y: 3, z: 0 },
+        affectedTiles: [
+            { x: 3, y: 3, z: 0 },
+            { x: 4, y: 3, z: 0 }
+        ],
+        spell: {
+            id: 'divine_grenade',
+            element: 'holy',
+            range: 7,
+            shape: { type: 'area', code: 4 },
+            delaySec: 3
+        }
+    };
+    const fx = effectsFromAttack(attacker, defender, result);
+    assert.ok(fx.length >= 1, 'shaped detonation emits FX');
+    const aoe = fx.find((e) => e.type === 'aoe');
+    assert.ok(aoe, 'aoe footprint present');
+    assert.strictEqual(
+        aoe.z,
+        0,
+        'FX floor is plant center.z, not caster floor 1'
+    );
+    log('effectsFromAttack prefers result.center.z ok');
+}
+
 function main() {
     testElementColor();
     testEffectsFromAttackRangedProjectile();
@@ -553,6 +598,7 @@ function main() {
     testProjectileRotationCompensatesArtTip();
     testResolveAmmoSpriteHelpers();
     testPushStoresSpriteFields();
+    testEffectsFromAttackPrefersResultCenterFloor();
     console.log('combat_effects: ok');
 }
 

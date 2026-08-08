@@ -455,6 +455,79 @@ final class BrowserPresetPack
                     self::addId($biomes, is_string($bid) || is_int($bid) ? (string) $bid : null);
                 }
             }
+            // Nested layout.arenaLoop (rare; product usually puts arenaLoop on hunt)
+            if (isset($layout['arenaLoop']) && is_array($layout['arenaLoop'])) {
+                self::collectArenaLoopRefs(
+                    $layout['arenaLoop'],
+                    $profiles,
+                    $pieces,
+                    $artSets
+                );
+            }
+        }
+
+        // Arena ↔ rest chain: shells + optional packs + alternating art
+        if (isset($obj['arenaLoop']) && is_array($obj['arenaLoop'])) {
+            self::collectArenaLoopRefs(
+                $obj['arenaLoop'],
+                $profiles,
+                $pieces,
+                $artSets
+            );
+        }
+
+        // layout.type arena_rest_chain with missing arenaLoop still needs defaults
+        $layoutType = '';
+        if (isset($obj['layout']) && is_array($obj['layout'])) {
+            $layoutType = strtolower((string) ($obj['layout']['type'] ?? $obj['layout']['kind'] ?? ''));
+        }
+        if (
+            ($layoutType === 'arena_rest_chain' || $layoutType === 'arena-rest-chain')
+            && (!isset($obj['arenaLoop']) || !is_array($obj['arenaLoop']))
+            && (!isset($obj['layout']['arenaLoop']) || !is_array($obj['layout']['arenaLoop']))
+        ) {
+            self::collectArenaLoopRefs([], $profiles, $pieces, $artSets);
+        }
+    }
+
+    /**
+     * Arena/rest shell profile + piece pack + artSet pointers.
+     * Defaults match kernel normalizeArenaLoop (arena_combat_shell / rest_area_shell).
+     *
+     * @param array<string, mixed> $loop
+     * @param array<string, true> $profiles
+     * @param array<string, true> $pieces
+     * @param array<string, true> $artSets
+     */
+    private static function collectArenaLoopRefs(
+        array $loop,
+        array &$profiles,
+        array &$pieces,
+        array &$artSets
+    ): void {
+        $arenaProfile = $loop['arenaProfileId'] ?? null;
+        $restProfile = $loop['restProfileId'] ?? null;
+        self::addId(
+            $profiles,
+            is_string($arenaProfile) && $arenaProfile !== ''
+                ? $arenaProfile
+                : 'arena_combat_shell'
+        );
+        self::addId(
+            $profiles,
+            is_string($restProfile) && $restProfile !== ''
+                ? $restProfile
+                : 'rest_area_shell'
+        );
+        self::addId($pieces, $loop['arenaPackId'] ?? null);
+        self::addId($pieces, $loop['restPackId'] ?? null);
+        self::addId($pieces, $loop['arenaPiecePack'] ?? null);
+        self::addId($pieces, $loop['restPiecePack'] ?? null);
+        self::addId($artSets, $loop['restArtSet'] ?? null);
+        if (isset($loop['artSets']) && is_array($loop['artSets'])) {
+            foreach ($loop['artSets'] as $aid) {
+                self::addId($artSets, is_string($aid) || is_int($aid) ? (string) $aid : null);
+            }
         }
     }
 

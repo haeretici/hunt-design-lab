@@ -13,6 +13,7 @@
  *   node bin/generate_sprite.js -g steampunk --seed 42 --iterations 3
  *   node bin/generate_sprite.js --model 'Grok 4.5 (High)'
  *   node bin/generate_sprite.js --config batch.json
+ *   node bin/generate_sprite.js -g rpg_fantasy --resplit-last
  */
 
 'use strict';
@@ -24,7 +25,8 @@ const {
     DEFAULT_GENRE,
     DEFAULT_KIND,
     ROOT,
-    listKindIds
+    listKindIds,
+    genrePaths
 } = require('../kernel/settings.js');
 const {
     buildBatch,
@@ -74,12 +76,21 @@ Options:
   --opaque-alpha         process_sprites: opaque alpha copy (no chroma key);
                          stamps opaqueAlpha=true on all catalog rows in this batch
   --no-record            Do not append names to done file
+  --resplit-last         Re-crop existing sprites.png onto the last sheet's roster
+                         (last rows×cols names from the done list). Overwrites only
+                         those original/ tiles, then reprocesses their variants.
+                         Implies --skip-agy and --no-record. iterations must be 1.
+                         (Any sprites.png split already force-reprocesses sheet stems.)
   -h, --help             Show help
 
 One-shot (copy from Batch Builder CLI box):
   node bin/generate_sprite.js -g steampunk --seed 42 --iterations 2 --model 'Gemini 3.6 Flash (High)'
   node bin/generate_sprite.js -g rpg_fantasy --kind equipment --category sword --seed 1
   node bin/generate_sprite.js -g rpg_fantasy --kind objects --seed 3 --model 'Grok 4.5 (High)'
+
+Re-split after fixing crop alignment on sprites.png (last batch only):
+  node bin/generate_sprite.js -g rpg_fantasy --resplit-last
+  node bin/generate_sprite.js -g rpg_fantasy --resplit-last --dry-run
 `);
 }
 
@@ -107,6 +118,7 @@ function parseArgs(argv) {
         skipInventory: false,
         opaqueAlpha: false,
         record: true,
+        resplitLast: false,
         help: false
     };
 
@@ -181,6 +193,9 @@ function parseArgs(argv) {
             case '--no-record':
                 opts.record = false;
                 break;
+            case '--resplit-last':
+                opts.resplitLast = true;
+                break;
             default:
                 throw new Error(`Unknown argument: ${a}`);
         }
@@ -189,7 +204,51 @@ function parseArgs(argv) {
     if (!Number.isFinite(opts.iterations) || opts.iterations < 1) {
         throw new Error('--iterations must be an integer >= 1');
     }
+    if (opts.resplitLast) {
+        // Re-crop the existing sheet onto the last recorded roster only.
+        opts.skipAgy = true;
+        opts.record = false;
+        if (opts.iterations !== 1) {
+            throw new Error('--resplit-last requires --iterations 1 (default)');
+        }
+    }
     return opts;
+}
+
+/**
+ * Last N non-empty done-list lines as ordered roster entries (technical + alias).
+ * Used by --resplit-last so tile order matches the sheet that was just generated.
+ * @param {string} doneFile
+ * @param {number} count
+ * @returns {Array<{technical: string, alias: string}>}
+ */
+function loadLastDoneEntries(doneFile, count) {
+    if (!doneFile || !fs.existsSync(doneFile)) {
+        throw new Error(
+            `Done list not found at ${doneFile || '(empty path)'}. ` +
+                'Cannot resolve the last sheet roster for --resplit-last.'
+        );
+    }
+    if (!Number.isFinite(count) || count < 1) {
+        throw new Error(`Invalid last-sheet count: ${count}`);
+    }
+    const lines = fs
+        .readFileSync(doneFile, 'utf8')
+        .split(/\r?\n/)
+        .map((l) => l.trim())
+        .filter(Boolean);
+    if (lines.length < count) {
+        throw new Error(
+            `Done list has ${lines.length} name(s); need at least ${count} ` +
+                `(rows×cols) to re-split the last sheet.`
+        );
+    }
+    return lines.slice(-count).map((line) => {
+        const tab = line.indexOf('\t');
+        const technical = (tab >= 0 ? line.slice(0, tab) : line).trim();
+        const alias = (tab >= 0 ? line.slice(tab + 1) : technical).trim() || technical;
+        return { technical, alias };
+    });
 }
 
 /**
@@ -411,10 +470,22 @@ function runOneIteration(batch, opts, meta) {
             const dest = path.join(batch.paths.original, `${stem}.png`);
             if (fs.existsSync(temp)) {
                 fs.renameSync(temp, dest);
-                console.log(`Created: ${dest}`);
+                console.log(
+                    opts.resplitLast ? `Overwrote: ${dest}` : `Created: ${dest}`
+                );
             } else {
                 console.warn(`Warning: missing tile ${temp}`);
             }
+        }
+        // Drop any leftover temp tiles (e.g. crop count > roster).
+        try {
+            for (const name of fs.readdirSync(batch.paths.original)) {
+                if (/^temp_tile_\d+\.png$/i.test(name)) {
+                    fs.unlinkSync(path.join(batch.paths.original, name));
+                }
+            }
+        } catch (_) {
+            /* ignore cleanup errors */
         }
         console.log(`${tag}Spritesheet successfully split and renamed.`);
     }
@@ -425,10 +496,26 @@ function runOneIteration(batch, opts, meta) {
         const modeNote = opaque
             ? 'opaque alpha copy (no chroma)'
             : 'chroma key + quantize';
-        console.log(`\n${tag}Processing sprites (${modeNote})...`);
+        // After any sprites.png crop, rewrite variants even if they already exist.
+        // Scope to this sheet's stems so the rest of original/ is not reprocessed.
+        const forceSheetAfterSplit = !opts.skipSplit;
+        const stems = batch.fileStems || [];
+        console.log(
+            `\n${tag}Processing sprites (${modeNote}${
+                forceSheetAfterSplit
+                    ? `; force ${stems.length || 'sheet'} stem(s) after split`
+                    : ''
+            })...`
+        );
         try {
             const pyArgs = [py, batch.paths.original];
             if (opaque) pyArgs.push('--opaque-alpha');
+            if (forceSheetAfterSplit) {
+                pyArgs.push('--force');
+                for (const stem of stems) {
+                    pyArgs.push('--only', stem);
+                }
+            }
             run('python3', pyArgs);
         } catch (e) {
             console.error(`${tag}Error: process_sprites.py failed: ${e.message}`);
@@ -489,12 +576,46 @@ function main() {
         process.exit(1);
     }
     if (rawConfig) {
+        if (opts.resplitLast) {
+            console.error(
+                'Error: --resplit-last cannot be combined with --config / --config-json. ' +
+                    'Roster comes from the last rows×cols entries of the done list.'
+            );
+            process.exit(1);
+        }
         batchOpts = batchOptsFromConfig(rawConfig, opts);
         if (opts.iterations > 1 && batchOpts.creatures && batchOpts.creatures.length) {
             console.error(
                 'Error: --iterations > 1 is incompatible with a frozen items list in config. ' +
                     'Use seed + flags (no items) so each iteration can grow the done list.'
             );
+            process.exit(1);
+        }
+    }
+
+    if (opts.resplitLast) {
+        const sheetCount = batchOpts.rows * batchOpts.cols;
+        let donePath = batchOpts.doneFile;
+        if (!donePath) {
+            try {
+                donePath = genrePaths(batchOpts.genre, batchOpts.kind).doneFile;
+            } catch (e) {
+                console.error(`Error resolving done list for --resplit-last: ${e.message}`);
+                process.exit(1);
+            }
+        }
+        try {
+            const lastItems = loadLastDoneEntries(donePath, sheetCount);
+            batchOpts.creatures = lastItems;
+            console.log(
+                `--resplit-last: re-cropping sprites.png onto last ${sheetCount} done-list name(s):`
+            );
+            for (const c of lastItems) {
+                console.log(`  - ${c.technical}`);
+            }
+            console.log(`Done list: ${donePath}`);
+        } catch (e) {
+            console.error(`Error: ${e.message}`);
             process.exit(1);
         }
     }

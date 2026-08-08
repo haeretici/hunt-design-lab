@@ -1,9 +1,14 @@
 /**
- * Elemental field hazards (fire, poison, energy) and combat triggers.
- * Contract: docs/26_elemental_fields_design.md.
+ * Elemental field hazards (fire, poison, energy) and solid obstacle fields
+ * (barrier wall / vine barrier). Contract: docs/26_elemental_fields_design.md.
  *
  * Short-lived fields register in a per-store expiry heap (≤ 24h duration).
  * Longer scenario props skip the heap and stay until replaced.
+ *
+ * Obstacle kinds block pathfinding by temporarily setting tile friction to
+ * FRICTION_BLOCKED (restored on remove/expire). They deal no entry damage.
+ * Placement stores {x,y,z} on the ground stack — floor hop by the caster does
+ * not move or cancel the obstacle (same as elemental fields / delayed casts).
  */
 
 'use strict';
@@ -14,10 +19,17 @@ const { applyCondition } = require('./conditions.js');
 const { tileKey } = require('../character/ground_items.js');
 const { createItemInstance, destroyItem } = require('../character/inventory.js');
 
+/** Match tilemap.FRICTION_BLOCKED — avoid requiring tilemap (circular). */
+const FRICTION_BLOCKED = 255;
+
 const FIELD_KINDS = {
     FIRE: 'fire',
     POISON: 'poison',
-    ENERGY: 'energy'
+    ENERGY: 'energy',
+    /** Solid path blocker (legacy magic wall). */
+    BARRIER: 'barrier',
+    /** Solid path blocker (legacy wild growth). */
+    VINE: 'vine'
 };
 
 const FIELD_SOURCES = {
@@ -30,14 +42,20 @@ const FIELD_MASKS = {
     FIRE: 1,
     POISON: 2,
     ENERGY: 4,
-    PLAYER: 8
+    PLAYER: 8,
+    /** Solid obstacle (barrier / vine) — always hard-blocks pathfinding. */
+    OBSTACLE: 16
 };
 
 /** Default combat durations (seconds). */
 const FIELD_DURATIONS_SEC = {
     fire: { stage1: 200, stage2: 348, total: 446 },
     poison: { active: 248, total: 248 },
-    energy: { active: 98, total: 98 }
+    energy: { active: 98, total: 98 },
+    // Legacy magic wall setDuration(16, 24) → mid 20s fixed for determinism.
+    barrier: { total: 20 },
+    // Legacy wild growth setDuration(30).
+    vine: { total: 30 }
 };
 
 /** Fields longer than this never enter the active expiry registry. */
@@ -46,18 +64,31 @@ const ACTIVE_FIELD_MAX_DURATION_SEC = 24 * 3600;
 const FIELD_ITEM_IDS = {
     fire: 'fire_field',
     poison: 'poison_field',
-    energy: 'energy_field'
+    energy: 'energy_field',
+    barrier: 'barrier_wall',
+    vine: 'vine_barrier'
 };
 
 const FIELD_DISPLAY_NAMES = {
     fire: 'Fire Field',
     poison: 'Poison Field',
-    energy: 'Energy Field'
+    energy: 'Energy Field',
+    barrier: 'Barrier Wall',
+    vine: 'Vine Barrier'
 };
 
 /**
+ * Solid path-blocking field kinds (no damage; block walk / A*).
+ * @param {string|null|undefined} kind
+ * @returns {boolean}
+ */
+function isObstacleFieldKind(kind) {
+    return kind === 'barrier' || kind === 'vine';
+}
+
+/**
  * @param {string|object|null|undefined} input
- * @returns {'fire'|'poison'|'energy'|null}
+ * @returns {'fire'|'poison'|'energy'|'barrier'|'vine'|null}
  */
 function getFieldKind(input) {
     if (input == null) return null;
@@ -88,6 +119,29 @@ function getFieldKind(input) {
         ) {
             return 'energy';
         }
+        // Solid obstacles (Phase K) — commercial-safe + legacy aliases.
+        if (
+            str === 'barrier' ||
+            str === 'barrier_wall' ||
+            str === 'barrier_field' ||
+            str === 'magic_wall' ||
+            str === 'magicwall' ||
+            str.startsWith('magicwall') ||
+            str.startsWith('magic_wall')
+        ) {
+            return 'barrier';
+        }
+        if (
+            str === 'vine' ||
+            str === 'vine_barrier' ||
+            str === 'vine_field' ||
+            str === 'wild_growth' ||
+            str === 'wildgrowth' ||
+            str.startsWith('wildgrowth') ||
+            str.startsWith('wild_growth')
+        ) {
+            return 'vine';
+        }
         return null;
     }
     if (typeof input === 'object') {
@@ -113,6 +167,17 @@ function isFieldItem(item) {
         return Boolean(getFieldKind(item.itemId));
     }
     return false;
+}
+
+/**
+ * Whether this field instance is a solid path blocker.
+ * @param {object|null|undefined} item
+ * @returns {boolean}
+ */
+function isObstacleField(item) {
+    if (!item) return false;
+    if (item.isObstacle === true) return true;
+    return isObstacleFieldKind(item.fieldKind || getFieldKind(item));
 }
 
 /**
@@ -425,9 +490,49 @@ function syncTileMapFieldMask(groundStore, x, y, z) {
         if (kind === 'fire') mask |= FIELD_MASKS.FIRE;
         else if (kind === 'poison') mask |= FIELD_MASKS.POISON;
         else if (kind === 'energy') mask |= FIELD_MASKS.ENERGY;
+        else if (isObstacleFieldKind(kind)) mask |= FIELD_MASKS.OBSTACLE;
         if (field.source === FIELD_SOURCES.PLAYER) mask |= FIELD_MASKS.PLAYER;
     }
     groundStore.tileMap.setTileFieldMask(x, y, tz, mask);
+}
+
+/**
+ * Set or restore tile friction when deploying / removing solid obstacles.
+ * Stores `savedFriction` on the field instance for exact restore.
+ * @param {object} groundStore
+ * @param {number} x
+ * @param {number} y
+ * @param {string|number} z
+ * @param {object} field
+ * @param {'block'|'restore'} mode
+ */
+function syncObstacleFriction(groundStore, x, y, z, field, mode) {
+    if (!field || !isObstacleField(field)) return;
+    const tileMap = groundStore && groundStore.tileMap;
+    if (!tileMap || typeof tileMap.getLayer !== 'function') return;
+    const layer = tileMap.getLayer(z);
+    if (!layer || !layer.friction) return;
+    const ix = Math.round(x);
+    const iy = Math.round(y);
+    if (ix < 0 || iy < 0 || ix >= layer.cols || iy >= layer.rows) return;
+    const idx =
+        typeof tileMap.index === 'function'
+            ? tileMap.index(ix, iy, layer.cols)
+            : iy * layer.cols + ix;
+    if (mode === 'block') {
+        if (field.savedFriction == null) {
+            field.savedFriction = layer.friction[idx];
+        }
+        layer.friction[idx] = FRICTION_BLOCKED;
+    } else if (mode === 'restore') {
+        if (field.savedFriction != null && Number.isFinite(Number(field.savedFriction))) {
+            // Only restore if we still own the block (another obstacle may have re-blocked).
+            if (layer.friction[idx] === FRICTION_BLOCKED) {
+                layer.friction[idx] = Number(field.savedFriction) & 0xff;
+            }
+        }
+        field.savedFriction = null;
+    }
 }
 
 /**
@@ -440,7 +545,9 @@ function syncTileMapFieldMask(groundStore, x, y, z) {
 function removeFieldFromTile(groundStore, x, y, z) {
     if (!groundStore || !groundStore.stacks || !groundStore.inventory) return false;
     const tz = z !== undefined && z !== null ? z : 0;
-    const key = tileKey(Math.round(x), Math.round(y), tz);
+    const tx = Math.round(x);
+    const ty = Math.round(y);
+    const key = tileKey(tx, ty, tz);
     const stack = groundStore.stacks[key];
     if (!Array.isArray(stack) || !stack.length) return false;
     let removed = false;
@@ -448,6 +555,7 @@ function removeFieldFromTile(groundStore, x, y, z) {
         const uid = stack[i];
         const item = groundStore.inventory.items[uid];
         if (item && isFieldItem(item)) {
+            syncObstacleFriction(groundStore, tx, ty, tz, item, 'restore');
             stack.splice(i, 1);
             destroyItem(groundStore.inventory, uid);
             removed = true;
@@ -456,7 +564,7 @@ function removeFieldFromTile(groundStore, x, y, z) {
     if (stack.length === 0) delete groundStore.stacks[key];
     if (removed) {
         unregisterActiveField(groundStore, key);
-        syncTileMapFieldMask(groundStore, x, y, tz);
+        syncTileMapFieldMask(groundStore, tx, ty, tz);
     }
     return removed;
 }
@@ -515,12 +623,21 @@ function deployFieldToTile(groundStore, x, y, z, opts) {
     item.weight = 0;
     item.immovable = true;
     item.immovableField = true;
+    // Floor stick: location z is fixed at plant time (caster floor hop does not move it).
     item.location = { kind: 'ground', x: tx, y: ty, z: tz };
+    if (isObstacleFieldKind(kind)) {
+        item.isObstacle = true;
+    }
 
     const key = tileKey(tx, ty, tz);
     if (!groundStore.stacks[key]) groundStore.stacks[key] = [];
     // New field is always top of stack (items already on tile stay below).
     groundStore.stacks[key].push(uid);
+
+    // Solid obstacles hard-block walkability until expiry / remove.
+    if (item.isObstacle) {
+        syncObstacleFriction(groundStore, tx, ty, tz, item, 'block');
+    }
 
     registerActiveField(groundStore, key, item);
     syncTileMapFieldMask(groundStore, tx, ty, tz);
@@ -561,6 +678,11 @@ function applyFieldEntryEffects(entity, field, currentTime) {
     }
     const state = getFieldState(field, currentTime);
     if (!state.active || state.expired) return { applied: false, active: false, damage: 0 };
+
+    // Solid obstacles: path blockers only — no step damage / status.
+    if (isObstacleFieldKind(state.kind) || isObstacleField(field)) {
+        return { applied: false, kind: state.kind, damage: 0, reason: 'obstacle' };
+    }
 
     let damage = 0;
     let conditionName = null;
@@ -825,9 +947,12 @@ module.exports = {
     FIELD_MASKS,
     FIELD_DURATIONS_SEC,
     FIELD_ITEM_IDS,
+    FIELD_DISPLAY_NAMES,
     ACTIVE_FIELD_MAX_DURATION_SEC,
     getFieldKind,
     isFieldItem,
+    isObstacleFieldKind,
+    isObstacleField,
     isPlayerEntity,
     isEntityImmuneToField,
     computeEntityAvoidFieldMask,
@@ -839,6 +964,7 @@ module.exports = {
     removeFieldFromTile,
     deployFieldToTile,
     syncTileMapFieldMask,
+    syncObstacleFriction,
     applyFieldEntryEffects,
     applyEnergyFieldExitEffect,
     checkAndCleanExpiredTileFields,

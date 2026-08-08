@@ -96,11 +96,18 @@
             "chance": 10,
             "range": 4,
             "element": "earth",
-            "min": 14,
-            "max": 16,
+            "min": 0,
+            "max": 0,
             "radius": 3,
             "target": false,
-            "effect": "me_poisonarea"
+            "effect": "me_poisonarea",
+            "statusOnly": true,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 16,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
         },
         {
             "id": "condition_4",
@@ -109,12 +116,19 @@
             "chance": 10,
             "range": 4,
             "element": "earth",
-            "min": 19,
-            "max": 22,
+            "min": 0,
+            "max": 0,
             "length": 6,
             "spread": 0,
             "target": false,
-            "effect": "me_poisonarea"
+            "effect": "me_poisonarea",
+            "statusOnly": true,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 22,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
         },
         {
             "id": "slow_5",

@@ -6,8 +6,10 @@ const damage = require('./damage.js');
 const cooldowns = require('./cooldowns.js');
 const resolve = require('./resolve.js');
 const area = require('./area.js');
+const chain = require('./chain.js');
 const conditions = require('./conditions.js');
 const elementalFields = require('./elemental_fields.js');
+const delayedCast = require('./delayed_cast.js');
 
 module.exports = {
     ...damage,
@@ -15,6 +17,8 @@ module.exports = {
     ...cooldowns,
     ...resolve,
     ...area,
+    ...chain,
     ...conditions,
-    ...elementalFields
+    ...elementalFields,
+    ...delayedCast
 };

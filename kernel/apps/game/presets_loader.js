@@ -132,12 +132,46 @@ function uniqueIds(ids) {
  *   biomeIds: string[]
  * }}
  */
+/**
+ * Arena/rest shell + pack + art pointers (matches kernel normalizeArenaLoop defaults).
+ * @param {object|null|undefined} loop
+ * @param {string[]} profileIds
+ * @param {string[]} pieceIds
+ * @param {string[]} [artSetIds]
+ */
+function collectArenaLoopDeps(loop, profileIds, pieceIds, artSetIds) {
+    const r = loop && typeof loop === 'object' ? loop : {};
+    profileIds.push(
+        r.arenaProfileId != null && String(r.arenaProfileId) !== ''
+            ? String(r.arenaProfileId)
+            : 'arena_combat_shell'
+    );
+    profileIds.push(
+        r.restProfileId != null && String(r.restProfileId) !== ''
+            ? String(r.restProfileId)
+            : 'rest_area_shell'
+    );
+    if (r.arenaPackId != null) pieceIds.push(r.arenaPackId);
+    if (r.restPackId != null) pieceIds.push(r.restPackId);
+    if (r.arenaPiecePack != null) pieceIds.push(r.arenaPiecePack);
+    if (r.restPiecePack != null) pieceIds.push(r.restPiecePack);
+    if (Array.isArray(artSetIds)) {
+        if (r.restArtSet != null) artSetIds.push(r.restArtSet);
+        if (Array.isArray(r.artSets)) {
+            for (let i = 0; i < r.artSets.length; i++) {
+                if (r.artSets[i] != null) artSetIds.push(r.artSets[i]);
+            }
+        }
+    }
+}
+
 function collectLayoutDepsFromHunts(rawHunts) {
     const profileIds = [];
     const pieceIds = [];
     const populationIds = [];
     const markerIds = [];
     const biomeIds = [];
+    const artSetIds = [];
 
     const list = Array.isArray(rawHunts) ? rawHunts : [];
     for (let i = 0; i < list.length; i++) {
@@ -147,8 +181,39 @@ function collectLayoutDepsFromHunts(rawHunts) {
         if (hunt.markersId != null) markerIds.push(hunt.markersId);
         if (hunt.biomeId != null) biomeIds.push(hunt.biomeId);
         else if (hunt.biome != null) biomeIds.push(hunt.biome);
+        if (hunt.artSet != null) artSetIds.push(hunt.artSet);
 
         const layout = hunt.layout;
+        const layoutType = layout
+            ? String(layout.type || layout.kind || '').toLowerCase()
+            : '';
+        const isArenaRest =
+            layoutType === 'arena_rest_chain' ||
+            layoutType === 'arena-rest-chain';
+
+        // Hunt-level or nested layout.arenaLoop (shells default when omitted)
+        if (hunt.arenaLoop && typeof hunt.arenaLoop === 'object') {
+            collectArenaLoopDeps(
+                hunt.arenaLoop,
+                profileIds,
+                pieceIds,
+                artSetIds
+            );
+        } else if (
+            layout &&
+            layout.arenaLoop &&
+            typeof layout.arenaLoop === 'object'
+        ) {
+            collectArenaLoopDeps(
+                layout.arenaLoop,
+                profileIds,
+                pieceIds,
+                artSetIds
+            );
+        } else if (isArenaRest) {
+            collectArenaLoopDeps(null, profileIds, pieceIds, artSetIds);
+        }
+
         if (!layout || typeof layout !== 'object') continue;
 
         const profileId =
@@ -161,6 +226,7 @@ function collectLayoutDepsFromHunts(rawHunts) {
         if (layout.piecePack != null) pieceIds.push(layout.piecePack);
         if (layout.biomeId != null) biomeIds.push(layout.biomeId);
         else if (layout.biome != null) biomeIds.push(layout.biome);
+        if (layout.artSet != null) artSetIds.push(layout.artSet);
 
         if (layout.profile && typeof layout.profile === 'object') {
             if (layout.profile.piecePack != null) {
@@ -185,7 +251,8 @@ function collectLayoutDepsFromHunts(rawHunts) {
         pieceIds: uniqueIds(pieceIds),
         populationIds: uniqueIds(populationIds),
         markerIds: uniqueIds(markerIds),
-        biomeIds: uniqueIds(biomeIds)
+        biomeIds: uniqueIds(biomeIds),
+        artSetIds: uniqueIds(artSetIds)
     };
 }
 
@@ -228,6 +295,8 @@ async function ensureLayoutDepsForBrowser(rawHunts) {
         if (profile.biomeId != null) biomeIds.push(profile.biomeId);
     }
 
+    const artSetIds = Array.isArray(deps.artSetIds) ? deps.artSetIds.slice() : [];
+
     await Promise.all([
         ...uniqueIds(pieceIds).map((id) =>
             ensurePresetCached(`pieces/${id}.json`)
@@ -240,6 +309,9 @@ async function ensureLayoutDepsForBrowser(rawHunts) {
         ),
         ...uniqueIds(biomeIds).map((id) =>
             ensurePresetCached(`biomes/${id}.json`)
+        ),
+        ...uniqueIds(artSetIds).map((id) =>
+            ensurePresetCached(`art_sets/${id}.json`)
         )
     ]);
 }

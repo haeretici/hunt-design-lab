@@ -100,11 +100,18 @@
             "chance": 20,
             "range": 4,
             "element": "energy",
-            "min": 3720,
-            "max": 3720,
+            "min": 0,
+            "max": 0,
             "radius": 7,
             "target": false,
-            "effect": "me_blockhit"
+            "effect": "me_blockhit",
+            "statusOnly": true,
+            "condition": {
+                "type": "energy",
+                "totalDamage": 3720,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
         },
         {
             "id": "condition_5",
@@ -113,12 +120,19 @@
             "chance": 20,
             "range": 4,
             "element": "physical",
-            "min": 3720,
-            "max": 3720,
+            "min": 0,
+            "max": 0,
             "length": 9,
             "spread": 0,
             "target": false,
-            "effect": "me_blockhit"
+            "effect": "me_blockhit",
+            "statusOnly": true,
+            "condition": {
+                "type": "bleed",
+                "totalDamage": 3720,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
         }
     ],
     "race": "undead",

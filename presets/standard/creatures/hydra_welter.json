@@ -58,12 +58,19 @@
             "chance": 17,
             "range": 4,
             "element": "earth",
-            "min": 1299,
-            "max": 1714,
+            "min": 0,
+            "max": 0,
             "length": 8,
             "spread": 3,
             "target": false,
-            "effect": "me_smallplants"
+            "effect": "me_smallplants",
+            "statusOnly": true,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 1714,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
         },
         {
             "id": "wave_2",

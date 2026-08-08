@@ -477,20 +477,21 @@ function testFrictionNotPathCost() {
 }
 
 /**
- * Party ally-pass: swap on 1-wide corridor, yield-aside on open floor.
- * Requires tileMap.resolveEntity + shared party refs (same as Simulator).
+ * Party stack-through corridor (Phase A): no ally swap/yield; players join stacks.
+ * Creatures still hard-block player enter on step.
  */
-function testAllySwapAndYield() {
+function testPlayerStackCorridor() {
     const party = { id: 'test_party' };
 
-    // ── 1-wide corridor: leader swaps past follower ──────────────────
-    // Layout: L . F . . goal   all on one row (must swap, no detour)
+    // ── 1-wide corridor: leader stacks through follower toward goal ──
+    // Layout: L . F . . goal
     const corridor = openFloor(6, 1);
     const entities = new Map();
     corridor.resolveEntity = (id) => entities.get(id) || null;
 
     const leader = {
         id: 1,
+        type: 'player',
         isLeader: true,
         alive: true,
         party,
@@ -500,6 +501,7 @@ function testAllySwapAndYield() {
     };
     const follower = {
         id: 2,
+        type: 'player',
         isLeader: false,
         alive: true,
         party,
@@ -509,10 +511,9 @@ function testAllySwapAndYield() {
     };
     entities.set(1, leader);
     entities.set(2, follower);
-    assert.ok(corridor.tryOccupy(0, 0, 0, 1));
-    assert.ok(corridor.tryOccupy(2, 0, 0, 2));
+    assert.ok(corridor.tryOccupy(0, 0, 0, leader));
+    assert.ok(corridor.tryOccupy(2, 0, 0, follower));
 
-    // Walk leader toward x=5; after a few steps must pass the follower
     let steps = 0;
     while (leader.tile.x < 5 && steps < 40) {
         assert.ok(
@@ -521,22 +522,26 @@ function testAllySwapAndYield() {
         );
         steps++;
     }
-    assert.strictEqual(leader.tile.x, 5, 'leader reaches goal via swap');
+    assert.strictEqual(leader.tile.x, 5, 'leader reaches goal via stack path');
     assert.strictEqual(corridor.getOccupant(5, 0, 0), 1);
-    // Follower was displaced at least once (not still only at x=2 with leader past)
+    // Follower may still be on x=2 (was stacked-through, not swapped)
     assert.ok(
-        follower.tile.x !== 2 || corridor.getOccupant(2, 0, 0) !== 2,
-        'follower moved during pass'
+        follower.tile.x === 2 || corridor.getCombatants(2, 0, 0).indexOf(2) >= 0,
+        'follower remains on corridor (stack, not swap)'
     );
-    log('ally swap corridor ok', {
+    log('player stack corridor ok', {
         steps,
         leaderX: leader.tile.x,
         followerX: follower.tile.x
     });
 
-    // ── Yield: follower cannot swap leader; leader steps aside on 2-row ─
+    // ── Follower can stack onto leader tile (same tile success) ──────
+    const open2 = openFloor(4, 1);
+    const ents3 = new Map();
+    open2.resolveEntity = (id) => ents3.get(id) || null;
     const follower2 = {
         id: 12,
+        type: 'player',
         isLeader: false,
         alive: true,
         party,
@@ -546,6 +551,7 @@ function testAllySwapAndYield() {
     };
     const leader2 = {
         id: 13,
+        type: 'player',
         isLeader: true,
         alive: true,
         party,
@@ -553,71 +559,22 @@ function testAllySwapAndYield() {
         path: [],
         speed: 220
     };
-    const open2 = openFloor(4, 2);
-    const ents3 = new Map();
-    open2.resolveEntity = (id) => ents3.get(id) || null;
     ents3.set(12, follower2);
     ents3.set(13, leader2);
-    assert.ok(open2.tryOccupy(0, 0, 0, 12));
-    assert.ok(open2.tryOccupy(1, 0, 0, 13));
+    assert.ok(open2.tryOccupy(0, 0, 0, follower2));
+    assert.ok(open2.tryOccupy(1, 0, 0, leader2));
+    assert.ok(open2.followPath(follower2, 1, 0, 0));
+    assert.strictEqual(follower2.tile.x, 1, 'follower joined leader tile');
+    assert.deepStrictEqual(open2.getCombatants(1, 0, 0).sort(), [12, 13]);
+    log('follower stack onto leader ok');
 
-    // Follower paths through leader tile → leader yields aside (swap denied)
-    assert.ok(open2.followPath(follower2, 3, 0, 0));
-    assert.ok(
-        open2.getOccupant(1, 0, 0) !== 13 || follower2.tile.x >= 1,
-        'yield freed the blocked step for follower approach'
-    );
-    // Not a swap: leader must not be on follower's old tile only (may be aside)
-    assert.ok(
-        !(leader2.tile.x === 0 && leader2.tile.y === 0 && follower2.tile.x === 1),
-        'follower must not swap onto leader (yield-aside instead)'
-    );
-    log('ally yield ok', {
-        follower: follower2.tile,
-        leader: leader2.tile
-    });
-
-    // ── Follower cannot pass leader when no free yield tile ───────────
-    // Walkable only x=0,1 (blocked x=2) so leader has nowhere to yield.
-    const narrow = new TileMap();
-    narrow.loadFloorFromFriction(0, 3, 1, new Uint8Array([100, 100, 255]));
-    const ents4 = new Map();
-    narrow.resolveEntity = (id) => ents4.get(id) || null;
-    const flw = {
-        id: 20,
-        isLeader: false,
-        alive: true,
-        party,
-        tile: { x: 0, y: 0, z: 0 },
-        path: [],
-        speed: 220
-    };
-    const ldr = {
-        id: 21,
-        isLeader: true,
-        alive: true,
-        party,
-        tile: { x: 1, y: 0, z: 0 },
-        path: [],
-        speed: 220
-    };
-    ents4.set(20, flw);
-    ents4.set(21, ldr);
-    assert.ok(narrow.tryOccupy(0, 0, 0, 20));
-    assert.ok(narrow.tryOccupy(1, 0, 0, 21));
-    // Swap denied + yield impossible → both stay put
-    narrow.followPath(flw, 2, 0, 0);
-    assert.strictEqual(ldr.tile.x, 1, 'leader not swapped by follower');
-    assert.strictEqual(ldr.tile.y, 0);
-    assert.strictEqual(flw.tile.x, 0, 'follower still blocked without yield room');
-    log('follower cannot swap leader ok');
-
-    // ── Non-ally (creature) is not swapped ───────────────────────────
+    // ── Creature still blocks player enter (no stack / no swap) ──────
     const combat = openFloor(3, 1);
     const ents5 = new Map();
     combat.resolveEntity = (id) => ents5.get(id) || null;
     const hero = {
         id: 30,
+        type: 'player',
         isLeader: true,
         alive: true,
         party,
@@ -627,24 +584,31 @@ function testAllySwapAndYield() {
     };
     const rat = {
         id: 31,
+        type: 'creature',
         alive: true,
-        // no party
         tile: { x: 1, y: 0, z: 0 },
         path: [],
-        speed: 220
+        speed: 220,
+        hp: { current: 10, max: 10 }
     };
     ents5.set(30, hero);
     ents5.set(31, rat);
-    assert.ok(combat.tryOccupy(0, 0, 0, 30));
-    assert.ok(combat.tryOccupy(1, 0, 0, 31));
+    assert.ok(combat.tryOccupy(0, 0, 0, hero));
+    assert.ok(combat.tryOccupy(1, 0, 0, rat));
     combat.followPath(hero, 2, 0, 0);
-    assert.strictEqual(hero.tile.x, 0, 'no swap with creature');
+    assert.strictEqual(hero.tile.x, 0, 'player cannot enter creature tile');
     assert.strictEqual(rat.tile.x, 1);
-    log('no creature swap ok');
+    log('creature still blocks player ok');
+
+    // Ally-pass APIs removed
+    assert.strictEqual(typeof corridor.swapEntityTiles, 'undefined');
+    assert.strictEqual(typeof corridor.tryYieldAside, 'undefined');
+    assert.strictEqual(typeof corridor._tryAllyPass, 'undefined');
 }
 
 function testElementalFieldAvoidance() {
     log('Running testElementalFieldAvoidance...');
+    Time.resetTimeSinceLevelLoad();
     const map = openFloor(4, 3);
     // Block row 0 and row 1 of column 1 with fire field (mask = 1 = FIRE)
     map.setTileFieldMask(1, 0, 0, 1);
@@ -704,11 +668,11 @@ function testElementalFieldAvoidance() {
     const successInBattleUnprovoked = map.followPath(monster, 3, 0, 0);
     assert.strictEqual(successInBattleUnprovoked, false, 'Legacy parity: unprovoked inBattle monster safe-spots behind fire wall');
 
-    monster.provokedUntil = 10.0; // Simulate player attack across wall
+    monster.provokedUntil = Time.timeSinceLevelLoad + 10; // Simulate player attack across wall
     monster.path = [];
     const successProvoked = map.followPath(monster, 3, 0, 0);
     assert.strictEqual(successProvoked, true, 'Provoked monster falls back to walking through fire field using penalty weighting');
-    assert.ok(monster._hazardRouteUntil > 0, 'Hazard route cache timer is set upon successful fallback');
+    assert.ok(monster._hazardRouteUntil > 0, 'Hazard route cache timer is set upon successful soft-field path');
 
     // S06-01 Option B: summons do not free-cross by master distance / inBattle
     const farMaster = {
@@ -734,7 +698,7 @@ function testElementalFieldAvoidance() {
         'Legacy-strict: unprovoked summon does not cross fields even if master is far / inBattle'
     );
 
-    summon.provokedUntil = 10.0;
+    summon.provokedUntil = Time.timeSinceLevelLoad + 10;
     summon.path = [];
     summon._hazardRouteUntil = 0;
     const successSummonProvoked = map.followPath(summon, 3, 0, 0);
@@ -753,6 +717,7 @@ function testElementalFieldAvoidance() {
  */
 function testSummonMasterIdOnlyNoFieldFreePass() {
     log('Running testSummonMasterIdOnlyNoFieldFreePass...');
+    Time.resetTimeSinceLevelLoad();
     const map = openFloor(4, 3);
     map.setTileFieldMask(1, 0, 0, 1);
     map.setTileFieldMask(1, 1, 0, 1);
@@ -785,7 +750,7 @@ function testSummonMasterIdOnlyNoFieldFreePass() {
         'masterId-only summon does not free-cross fields via path-goal distance'
     );
 
-    summon.provokedUntil = 10.0;
+    summon.provokedUntil = Time.timeSinceLevelLoad + 10;
     summon.path = [];
     summon._hazardRouteUntil = 0;
     const afterHit = map.followPath(summon, 3, 0, 0);
@@ -1027,6 +992,344 @@ function testFieldPenaltyMinimalExposure() {
     log('testFieldPenaltyMinimalExposure: ok');
 }
 
+/**
+ * 4C: single A* with soft cost on push-enterable creature tiles; hard block otherwise.
+ */
+function testStackPolicySoftOccupant() {
+    log('Running testStackPolicySoftOccupant...');
+    const map = openFloor(5, 1);
+    const ents = new Map();
+    map.resolveEntity = (id) => ents.get(id) || null;
+
+    const pusher = {
+        id: 1,
+        type: 'creature',
+        alive: true,
+        tile: { x: 0, y: 0, z: 0 },
+        path: [],
+        speed: 200,
+        flags: { canPushCreatures: true },
+        hp: { current: 20, max: 20 }
+    };
+    const blocker = {
+        id: 2,
+        type: 'creature',
+        alive: true,
+        tile: { x: 2, y: 0, z: 0 },
+        path: [],
+        speed: 100,
+        flags: { pushable: true },
+        hp: { current: 20, max: 20 }
+    };
+    ents.set(1, pusher);
+    ents.set(2, blocker);
+    assert.ok(map.tryOccupy(0, 0, 0, pusher));
+    assert.ok(map.tryOccupy(2, 0, 0, blocker));
+
+    let searchCount = 0;
+    const orig = map.search.bind(map);
+    map.search = function (...args) {
+        searchCount += 1;
+        return orig(...args);
+    };
+
+    // Soft path through pushable intermediate
+    const softPath = map.search(
+        pusher.tile,
+        { x: 4, y: 0, z: 0 },
+        {
+            allowDiagonal: false,
+            mover: pusher,
+            useStackPolicy: true,
+            occupantStepPenalty: 4
+        }
+    );
+    assert.ok(softPath, 'pusher paths through pushable tile');
+    assert.ok(
+        softPath.some((p) => p.x === 2 && p.y === 0),
+        'path includes occupied soft tile'
+    );
+
+    // Without push: hard block
+    const meek = {
+        id: 3,
+        type: 'creature',
+        alive: true,
+        flags: {},
+        tile: { x: 0, y: 0, z: 0 }
+    };
+    ents.set(3, meek);
+    const hard = map.search(
+        { x: 0, y: 0, z: 0 },
+        { x: 4, y: 0, z: 0 },
+        {
+            allowDiagonal: false,
+            mover: meek,
+            useStackPolicy: true,
+            occupantStepPenalty: 4
+        }
+    );
+    assert.strictEqual(hard, null, 'no canPushCreatures → hard block');
+
+    // followPath package is one search
+    searchCount = 0;
+    Time.resetTimeSinceLevelLoad();
+    const prevSec = Settings.AI_REPATH_INTERVAL_SEC;
+    Settings.AI_REPATH_INTERVAL_SEC = 0;
+    try {
+        map.followPath(pusher, 4, 0, 0);
+        assert.strictEqual(searchCount, 1, 'one A* per repath package');
+    } finally {
+        Settings.AI_REPATH_INTERVAL_SEC = prevSec;
+    }
+    log('testStackPolicySoftOccupant: ok');
+}
+
+/**
+ * Creature stepToward uses AI_CREATURE_PATH_MAX_DISTANCE.
+ * Players / party keep PATH_MAX_DISTANCE (Phase F1).
+ */
+function testCreaturePathMaxDistance() {
+    const { stepToward } = require('../kernel/core/lib/ai/combat_actions.js');
+    const prev = Settings.AI_CREATURE_PATH_MAX_DISTANCE;
+    Settings.AI_CREATURE_PATH_MAX_DISTANCE = 3;
+
+    const map = openFloor(20, 1);
+    let seenCap = null;
+    const orig = map.followPath.bind(map);
+    map.followPath = function (entity, tx, ty, tz, maxDistance) {
+        seenCap = maxDistance;
+        return orig(entity, tx, ty, tz, maxDistance);
+    };
+
+    const creature = {
+        id: 50,
+        type: 'creature',
+        alive: true,
+        tile: { x: 0, y: 0, z: 0 },
+        path: [],
+        speed: 220,
+        moveDelay: 0,
+        canStep() {
+            return true;
+        }
+    };
+    map.tryOccupy(0, 0, 0, creature);
+    stepToward(creature, { x: 15, y: 0, z: 0 }, map);
+    assert.strictEqual(seenCap, 3, 'creature path cap from Settings');
+
+    const player = {
+        id: 51,
+        type: 'player',
+        alive: true,
+        tile: { x: 0, y: 0, z: 0 },
+        path: [],
+        speed: 220,
+        moveDelay: 0,
+        canStep() {
+            return true;
+        }
+    };
+    map.clearOccupancy(0);
+    map.tryOccupy(0, 0, 0, player);
+    seenCap = null;
+    stepToward(player, { x: 15, y: 0, z: 0 }, map);
+    assert.strictEqual(
+        seenCap,
+        Settings.PATH_MAX_DISTANCE,
+        'player keeps PATH_MAX_DISTANCE'
+    );
+
+    // Party followPath (no maxDistance arg) must not inherit creature 12
+    seenCap = null;
+    map.followPath = function (entity, tx, ty, tz, maxDistance) {
+        seenCap = maxDistance;
+        return orig(entity, tx, ty, tz, maxDistance);
+    };
+    const partyMember = {
+        id: 52,
+        type: 'player',
+        alive: true,
+        tile: { x: 0, y: 0, z: 0 },
+        path: [],
+        speed: 220,
+        moveDelay: 0,
+        canStep() {
+            return true;
+        }
+    };
+    map.clearOccupancy(0);
+    map.tryOccupy(0, 0, 0, partyMember);
+    map.followPath(partyMember, 8, 0, 0);
+    assert.ok(
+        seenCap === undefined ||
+            seenCap === Settings.PATH_MAX_DISTANCE ||
+            seenCap === 100,
+        'party followPath uses full local cap, not creature 12 (got ' +
+            seenCap +
+            ')'
+    );
+    assert.ok(
+        partyMember.path.length > 0 ||
+            (partyMember.tile.x === 8 && partyMember.tile.y === 0),
+        'party path progresses'
+    );
+
+    Settings.AI_CREATURE_PATH_MAX_DISTANCE = prev;
+    log('testCreaturePathMaxDistance: ok');
+}
+
+/**
+ * Phase F2: free adjacent goal (flee/circle/random) must not run full A*.
+ * Blocked adjacent still may search for a detour.
+ */
+function testAdjacentMicroStepSkipsAstar() {
+    const {
+        stepToward,
+        stepRandomAdjacent,
+        tryMeleeCircleStep
+    } = require('../kernel/core/lib/ai/combat_actions.js');
+    const {
+        resetPathBudgetStats,
+        pathBudgetStats
+    } = require('../kernel/core/lib/path_budget.js');
+
+    const map = openFloor(8, 8);
+    let searchCount = 0;
+    const origSearch = map.search.bind(map);
+    map.search = function (...args) {
+        searchCount += 1;
+        return origSearch(...args);
+    };
+
+    const creature = {
+        id: 60,
+        type: 'creature',
+        alive: true,
+        tile: { x: 3, y: 3, z: 0 },
+        path: [],
+        speed: 220,
+        moveDelay: 0,
+        canStep() {
+            return this.moveDelay <= 0;
+        }
+    };
+    map.tryOccupy(3, 3, 0, creature);
+
+    resetPathBudgetStats();
+    searchCount = 0;
+    const moved = stepToward(creature, { x: 4, y: 3, z: 0 }, map);
+    assert.strictEqual(moved, true, 'adjacent stepToward moves');
+    assert.strictEqual(searchCount, 0, 'adjacent free goal skips A*');
+    assert.strictEqual(creature.tile.x, 4);
+    assert.strictEqual(creature.tile.y, 3);
+    const stats1 = pathBudgetStats();
+    assert.strictEqual(
+        stats1.repathsFrame,
+        0,
+        'micro-step does not consume repath package'
+    );
+
+    // Far goal still runs A*
+    creature.path = [];
+    creature.moveDelay = 0;
+    searchCount = 0;
+    stepToward(creature, { x: 7, y: 3, z: 0 }, map);
+    assert.ok(searchCount >= 1, 'non-adjacent goal still A*');
+
+    // Random adjacent free step
+    creature.path = [];
+    creature.moveDelay = 0;
+    map.clearOccupancy(0);
+    creature.tile = { x: 3, y: 3, z: 0 };
+    map.tryOccupy(3, 3, 0, creature);
+    searchCount = 0;
+    const rng = () => 0; // first free neighbor in scan order
+    const randMoved = stepRandomAdjacent(creature, map, rng);
+    assert.strictEqual(randMoved, true, 'random adjacent steps');
+    assert.strictEqual(searchCount, 0, 'random adjacent skips A*');
+
+    // Melee circle
+    map.clearOccupancy(0);
+    creature.tile = { x: 3, y: 3, z: 0 };
+    creature.path = [];
+    creature.moveDelay = 0;
+    map.tryOccupy(3, 3, 0, creature);
+    const target = {
+        id: 61,
+        type: 'player',
+        alive: true,
+        tile: { x: 4, y: 3, z: 0 }
+    };
+    map.tryOccupy(4, 3, 0, target);
+    searchCount = 0;
+    const circle = tryMeleeCircleStep(creature, target, map, {
+        chance: 100,
+        rng: () => 0,
+        isDue: () => true
+    });
+    assert.ok(
+        circle === 'moved' ||
+            circle === 'blocked' ||
+            circle === 'no_candidates',
+        'circle returns a known status'
+    );
+    if (circle === 'moved') {
+        assert.strictEqual(searchCount, 0, 'circle move skips A*');
+    }
+
+    // Blocked adjacent still may A* (goal not free to enter)
+    const wallMap = openFloor(6, 3);
+    const layer = wallMap.layers[0] || wallMap.layers['0'];
+    const cols = layer.cols;
+    // Block (2,1) so direct adjacent from (1,1) to (2,1) is not free
+    layer.friction[1 * cols + 2] = FRICTION_BLOCKED;
+    let wallSearch = 0;
+    const wallOrig = wallMap.search.bind(wallMap);
+    wallMap.search = function (...args) {
+        wallSearch += 1;
+        return wallOrig(...args);
+    };
+    const trapped = {
+        id: 62,
+        type: 'creature',
+        alive: true,
+        tile: { x: 1, y: 1, z: 0 },
+        path: [],
+        speed: 220,
+        moveDelay: 0,
+        canStep() {
+            return true;
+        }
+    };
+    wallMap.tryOccupy(1, 1, 0, trapped);
+    // Goal adjacent but not enterable → fall through to A*
+    wallMap.followPath(trapped, 2, 1, 0);
+    assert.ok(wallSearch >= 1, 'blocked adjacent still runs A*');
+
+    log('testAdjacentMicroStepSkipsAstar: ok');
+}
+
+/**
+ * Phase F4: policy A — kernel default budget 0 (unlimited optional).
+ */
+function testPathBudgetPolicyADefault() {
+    assert.strictEqual(
+        Settings.AI_PATH_BUDGET_PER_FRAME,
+        0,
+        'golden/CI/normal default AI_PATH_BUDGET_PER_FRAME is 0'
+    );
+    const {
+        resolvePathBudgetLimit
+    } = require('../kernel/core/lib/path_budget.js');
+    assert.strictEqual(
+        resolvePathBudgetLimit(),
+        0,
+        'resolvePathBudgetLimit treats 0 as unlimited'
+    );
+    log('testPathBudgetPolicyADefault: ok');
+}
+
 function testBenchmarkOptional() {
     if (!VERBOSE) return;
     const map = openFloor(80, 80);
@@ -1061,11 +1364,15 @@ function main() {
     testFollowPathAndRepath();
     testPathfinderClass();
     testFrictionNotPathCost();
-    testAllySwapAndYield();
+    testPlayerStackCorridor();
     testElementalFieldAvoidance();
     testSummonMasterIdOnlyNoFieldFreePass();
     testMultiTickFieldSafeSpotAndProvoke();
     testFieldPenaltyMinimalExposure();
+    testStackPolicySoftOccupant();
+    testCreaturePathMaxDistance();
+    testAdjacentMicroStepSkipsAstar();
+    testPathBudgetPolicyADefault();
     testBenchmarkOptional();
     console.log('pathfinder: ok');
 }

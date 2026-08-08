@@ -87,11 +87,18 @@
             "chance": 17,
             "range": 4,
             "element": "earth",
-            "min": 106,
-            "max": 141,
+            "min": 0,
+            "max": 0,
             "radius": 4,
             "target": false,
-            "effect": "me_magic_green"
+            "effect": "me_magic_green",
+            "statusOnly": true,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 141,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
         }
     ],
     "defenseSpells": [

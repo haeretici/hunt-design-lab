@@ -28,12 +28,15 @@
         "weapon": "iron_longsword",
         "shield": "oak_shield",
         "amulet": "",
-        "ring": "",
+        "ring": "stealth_ring",
         "backpack": "backpack"
     },
     "inventory": {
         "backpack": [
-            { "itemId": "two_handed_sword", "count": 1 }
+            {
+                "itemId": "two_handed_sword",
+                "count": 1
+            }
         ]
     },
     "strategyId": "guardian_aggro",

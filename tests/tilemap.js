@@ -67,7 +67,7 @@ function testSyntheticGridEncoding() {
     const layer = map.loadFloorFromRgba('test', cols, rows, rgba);
 
     assert.ok(layer.friction instanceof Uint8Array, 'friction is Uint8Array');
-    assert.ok(layer.occupancy instanceof Int16Array, 'occupancy is Int16Array');
+    assert.ok(layer.occupancy instanceof Int32Array, 'occupancy is Int32Array');
     assert.strictEqual(layer.cols, 3);
     assert.strictEqual(layer.rows, 2);
     assert.strictEqual(layer.friction.length, 6);
@@ -231,7 +231,303 @@ function testFirstClassStairs() {
 
     const listed = map.listStairs();
     assert.ok(listed.length >= 2, 'both directions listed');
+
+    // Party stack: second hop joins exact dest pad (player–player stack)
+    {
+        const map2 = new TileMap('stairs_party');
+        const open2 = new Uint8Array(25);
+        open2.fill(100);
+        map2.loadFloorFromFriction(0, 5, 5, open2);
+        map2.loadFloorFromFriction(1, 5, 5, open2);
+        map2.addStair(
+            { x: 2, y: 2, z: 0 },
+            { x: 2, y: 2, z: 1 },
+            { dir: 'down', link: 'portal', bidirectional: false }
+        );
+        const ents = new Map();
+        map2.resolveEntity = (id) => ents.get(id) || null;
+        const a = {
+            id: 11,
+            type: 'player',
+            tile: { x: 2, y: 2, z: 1 },
+            path: [],
+            alive: true
+        };
+        const b = {
+            id: 12,
+            type: 'player',
+            tile: { x: 2, y: 2, z: 0 },
+            path: [],
+            alive: true
+        };
+        ents.set(11, a);
+        ents.set(12, b);
+        assert.ok(map2.tryOccupy(2, 2, 1, a), 'first member already on dest');
+        assert.ok(map2.tryOccupy(2, 2, 0, b), 'second on from pad');
+        assert.ok(
+            map2.tryUseStair(b, null),
+            'second hop succeeds when dest occupied'
+        );
+        assert.strictEqual(String(b.tile.z), '1', 'second member changes floor');
+        assert.strictEqual(b.tile.x, 2, 'exact dest x');
+        assert.strictEqual(b.tile.y, 2, 'exact dest y');
+        assert.deepStrictEqual(
+            map2.getCombatants(2, 2, 1),
+            [11, 12],
+            'both players stacked on pad'
+        );
+        assert.strictEqual(
+            map2.getFirstOccupant(2, 2, 1),
+            11,
+            'first still tile controller'
+        );
+    }
+
     log('first-class stairs ok', listed.length);
+}
+
+/**
+ * Phase A: hybrid player stacks, noPlayerStack, mixed stair, creature block.
+ */
+function testPlayerTileStack() {
+    const map = new TileMap('stack');
+    const open = new Uint8Array(9);
+    open.fill(100);
+    map.loadFloorFromFriction(0, 3, 3, open);
+    const ents = new Map();
+    map.resolveEntity = (id) => ents.get(id) || null;
+
+    function mkPlayer(id, x, y) {
+        const p = {
+            id,
+            type: 'player',
+            alive: true,
+            tile: { x, y, z: 0 },
+            path: [],
+            speed: 200
+        };
+        ents.set(id, p);
+        return p;
+    }
+    function mkCreature(id, x, y, extra) {
+        const c = Object.assign(
+            {
+                id,
+                type: 'creature',
+                alive: true,
+                tile: { x, y, z: 0 },
+                path: [],
+                speed: 100,
+                hp: { current: 50, max: 50 },
+                flags: {}
+            },
+            extra || {}
+        );
+        ents.set(id, c);
+        return c;
+    }
+
+    const p1 = mkPlayer(1, 0, 0);
+    const p2 = mkPlayer(2, 1, 0);
+    assert.ok(map.tryOccupy(0, 0, 0, p1));
+    assert.ok(map.canEnter(0, 0, 0, p2), 'player may join player tile');
+    assert.ok(map.moveEntityToTile(p2, 0, 0, 0));
+    assert.deepStrictEqual(map.getCombatants(0, 0, 0), [1, 2]);
+    assert.strictEqual(map.getFirstOccupant(0, 0, 0), 1);
+    assert.strictEqual(map.getOccupant(0, 0, 0), 1);
+
+    // Promote on leave
+    assert.ok(map.leaveTile(0, 0, 0, p1));
+    assert.deepStrictEqual(map.getCombatants(0, 0, 0), [2]);
+    assert.strictEqual(map.getFirstOccupant(0, 0, 0), 2);
+    assert.ok(!map.playerStacks.has(map.tileStackKey(0, 0, 0)));
+
+    // Creature cannot enter player tile
+    const rat = mkCreature(10, 2, 0);
+    assert.ok(map.tryOccupy(2, 0, 0, rat));
+    assert.strictEqual(map.canEnter(0, 0, 0, rat), false, 'creature vs player');
+    assert.strictEqual(map.moveEntityToTile(rat, 0, 0, 0), false);
+
+    // Player cannot normal-walk onto creature
+    const p3 = mkPlayer(3, 1, 1);
+    assert.ok(map.tryOccupy(1, 1, 0, p3));
+    assert.strictEqual(map.canEnter(2, 0, 0, p3), false, 'player vs creature walk');
+
+    // noPlayerStack denies second player
+    map.clearOccupancy(0);
+    ents.clear();
+    const a = mkPlayer(21, 0, 0);
+    const b = mkPlayer(22, 1, 0);
+    map.setNoPlayerStack(0, 0, 0, true);
+    assert.ok(map.tryOccupy(0, 0, 0, a));
+    assert.strictEqual(map.canEnter(0, 0, 0, b), false, 'noPlayerStack');
+    assert.strictEqual(map.moveEntityToTile(b, 0, 0, 0), false);
+
+    // Max stack
+    map.setNoPlayerStack(0, 0, 0, false);
+    map.clearOccupancy(0);
+    ents.clear();
+    const prevMax = Settings.PLAYER_TILE_MAX_STACK;
+    Settings.PLAYER_TILE_MAX_STACK = 2;
+    try {
+        const m1 = mkPlayer(31, 0, 0);
+        const m2 = mkPlayer(32, 1, 0);
+        const m3 = mkPlayer(33, 2, 0);
+        assert.ok(map.tryOccupy(0, 0, 0, m1));
+        assert.ok(map.moveEntityToTile(m2, 0, 0, 0));
+        assert.strictEqual(map.canEnter(0, 0, 0, m3), false, 'max stack 2');
+    } finally {
+        Settings.PLAYER_TILE_MAX_STACK = prevMax;
+    }
+
+    // Mixed stair: player lands on creature
+    map.clearOccupancy(0);
+    ents.clear();
+    map.loadFloorFromFriction(1, 3, 3, open);
+    map.addStair(
+        { x: 1, y: 1, z: 0 },
+        { x: 1, y: 1, z: 1 },
+        { bidirectional: false }
+    );
+    const beast = mkCreature(40, 1, 1, { tile: { x: 1, y: 1, z: 1 } });
+    const climber = mkPlayer(41, 1, 1);
+    climber.tile = { x: 1, y: 1, z: 0 };
+    assert.ok(map.tryOccupy(1, 1, 1, beast));
+    assert.ok(map.tryOccupy(1, 1, 0, climber));
+    assert.ok(map.tryUseStair(climber, null), 'stair mixed onto creature');
+    assert.deepStrictEqual(map.getCombatants(1, 1, 1), [40, 41]);
+    assert.strictEqual(map.getFirstOccupant(1, 1, 1), 40);
+    // Second creature cannot enter mixed
+    const other = mkCreature(42, 0, 0, { tile: { x: 0, y: 0, z: 1 } });
+    assert.ok(map.tryOccupy(0, 0, 1, other));
+    assert.strictEqual(map.canEnter(1, 1, 1, other), false, 'no second creature on mixed');
+
+    // Leave creature from mixed → players remain
+    assert.ok(map.leaveTile(1, 1, 1, beast));
+    assert.deepStrictEqual(map.getCombatants(1, 1, 1), [41]);
+
+    log('player tile stack ok');
+}
+
+/**
+ * Phase A: canPushCreatures / pushable / crush / summons.
+ */
+function testCreaturePush() {
+    const map = new TileMap('push');
+    const open = new Uint8Array(25);
+    open.fill(100);
+    map.loadFloorFromFriction(0, 5, 5, open);
+    const ents = new Map();
+    map.resolveEntity = (id) => ents.get(id) || null;
+
+    function mk(id, x, y, opts) {
+        const o = opts || {};
+        const c = {
+            id,
+            type: 'creature',
+            alive: true,
+            tile: { x, y, z: 0 },
+            path: [],
+            speed: 100,
+            hp: { current: 40, max: 40 },
+            flags: {
+                canPushCreatures: o.canPushCreatures === true,
+                pushable: o.pushable !== false
+            },
+            masterId: o.masterId != null && o.masterId > 0 ? o.masterId : null
+        };
+        if (o.pushable === false) c.flags.pushable = false;
+        if (o.canPushCreatures === true) c.flags.canPushCreatures = true;
+        ents.set(id, c);
+        return c;
+    }
+
+    // Pusher shoves pushable into free neighbor
+    const pusher = mk(1, 0, 2, { canPushCreatures: true });
+    const victim = mk(2, 1, 2, { pushable: true });
+    assert.ok(map.tryOccupy(0, 2, 0, pusher));
+    assert.ok(map.tryOccupy(1, 2, 0, victim));
+    assert.ok(map.canEnter(1, 2, 0, pusher), 'pusher can enter pushable tile');
+    assert.ok(map.moveEntityToTile(pusher, 1, 2, 0), 'push enter');
+    assert.strictEqual(map.getOccupant(1, 2, 0), 1, 'pusher owns tile');
+    assert.strictEqual(map.getCombatants(1, 2, 0).length, 1, 'no creature stack');
+    assert.ok(
+        victim.tile.x !== 1 || victim.tile.y !== 2,
+        'victim shoved off'
+    );
+    assert.strictEqual(victim.alive, true, 'shove not crush when free neighbor');
+
+    // Unpushable blocks
+    map.clearOccupancy(0);
+    ents.clear();
+    const p2 = mk(3, 0, 0, { canPushCreatures: true });
+    const rock = mk(4, 1, 0, { pushable: false });
+    assert.ok(map.tryOccupy(0, 0, 0, p2));
+    assert.ok(map.tryOccupy(1, 0, 0, rock));
+    assert.strictEqual(map.canEnter(1, 0, 0, p2), false, 'unpushable hard block');
+
+    // Summon cannot push
+    map.clearOccupancy(0);
+    ents.clear();
+    const sum = mk(5, 0, 1, { canPushCreatures: true, masterId: 99 });
+    const prey = mk(6, 1, 1, { pushable: true });
+    assert.ok(map.tryOccupy(0, 1, 0, sum));
+    assert.ok(map.tryOccupy(1, 1, 0, prey));
+    assert.strictEqual(map.canEnter(1, 1, 0, sum), false, 'summon cannot push');
+
+    // No canPushCreatures flag → deny
+    map.clearOccupancy(0);
+    ents.clear();
+    const meek = mk(7, 0, 2, {});
+    const soft = mk(8, 1, 2, { pushable: true });
+    assert.ok(map.tryOccupy(0, 2, 0, meek));
+    assert.ok(map.tryOccupy(1, 2, 0, soft));
+    assert.strictEqual(map.canEnter(1, 2, 0, meek), false, 'no push flag');
+
+    // Crush when no free *orthogonal* neighbor (legacy shove is N/W/E/S only).
+    // Diagonal approach: after mover leaves origin, origin is diagonal to victim
+    // so it is not a valid shove target → crush.
+    map.clearOccupancy(0);
+    ents.clear();
+    const fr = new Uint8Array(9);
+    fr.fill(255);
+    fr[0 * 3 + 0] = 100; // (0,0) crusher
+    fr[1 * 3 + 1] = 100; // (1,1) victim
+    map.loadFloorFromFriction(0, 3, 3, fr);
+    const crush = mk(11, 0, 0, { canPushCreatures: true });
+    const doomed = mk(12, 1, 1, { pushable: true });
+    assert.ok(map.tryOccupy(0, 0, 0, crush));
+    assert.ok(map.tryOccupy(1, 1, 0, doomed));
+    assert.ok(map.moveEntityToTile(crush, 1, 1, 0), 'crush enter');
+    assert.strictEqual(map.getOccupant(1, 1, 0), 11);
+    assert.strictEqual(doomed.alive, false, 'crushed');
+    assert.strictEqual(doomed.hp.current, 0);
+    assert.strictEqual(map.getOccupant(0, 0, 0), 0, 'crusher left origin');
+
+    // Player tile never pushable
+    {
+        const fr2 = new Uint8Array(9);
+        fr2.fill(100);
+        map.loadFloorFromFriction(0, 3, 3, fr2);
+    }
+    map.clearOccupancy(0);
+    ents.clear();
+    const bully = mk(20, 0, 0, { canPushCreatures: true });
+    const hero = {
+        id: 21,
+        type: 'player',
+        alive: true,
+        tile: { x: 1, y: 0, z: 0 },
+        path: [],
+        speed: 200
+    };
+    ents.set(20, bully);
+    ents.set(21, hero);
+    assert.ok(map.tryOccupy(0, 0, 0, bully));
+    assert.ok(map.tryOccupy(1, 0, 0, hero));
+    assert.strictEqual(map.canEnter(1, 0, 0, bully), false, 'never push player');
+
+    log('creature push ok');
 }
 
 /**
@@ -553,6 +849,8 @@ async function main() {
     testSyntheticGridEncoding();
     testOccupancyHelpers();
     testFirstClassStairs();
+    testPlayerTileStack();
+    testCreaturePush();
     testCameraTileZSelectsFloor();
     testRenderCacheMath();
     testRenderCacheBlitAndRebuild();

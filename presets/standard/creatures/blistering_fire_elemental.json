@@ -80,11 +80,18 @@
             "chance": 12,
             "range": 4,
             "element": "fire",
-            "min": 21,
-            "max": 83,
+            "min": 0,
+            "max": 0,
             "radius": 6,
             "target": false,
-            "effect": "me_firearea"
+            "effect": "me_firearea",
+            "statusOnly": true,
+            "condition": {
+                "type": "fire",
+                "totalDamage": 83,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
         },
         {
             "id": "firefield_3",

@@ -76,8 +76,10 @@ widgets/engine_tweakings/
 | Click **Engine Tweakings** | Opens resizable popup |
 | Click again while open | Focus + **re-push live Settings** (no full reload) |
 | Parent reload / leave | Popup closes |
-| Change a control | Parent updates `Settings` immediately |
+| Change a control | Parent updates `Settings` / `uiState` / action-bar layout immediately |
 | **Scale (Zoom)** | Sets square `tileWidth`/`tileHeight` (8–48 px); `localStorage` `camera_settings` |
+| **Action Bars** | Top/Bottom/Left/Right toolbars 0–3; live `setLayoutCounts` + `hdl_action_bars` |
+| **Mouse Controls** | Classic / Regular / Left Smart-Click + Classic loot sub-mode (stub); `localStorage` `hdl_mouse_controls` via `ui_state` |
 | **Play speed / scrubber / transport** | Same as hunt sidebar; child sends `command` messages; parent owns session |
 
 Channel: `hunt-design-lab-tweaks`. Window name: `hunt_design_lab_tweakings`.

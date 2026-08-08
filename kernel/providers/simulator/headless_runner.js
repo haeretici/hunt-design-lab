@@ -517,6 +517,25 @@ function resolveHuntConfig(input) {
         (Array.isArray(config.floorMeta) ? config.floorMeta : null) ||
         (hunt && Array.isArray(hunt.floorMeta) ? hunt.floorMeta : null);
 
+    const arenaLoop =
+        (config.arenaLoop && typeof config.arenaLoop === 'object'
+            ? config.arenaLoop
+            : null) ||
+        (hunt && hunt.arenaLoop && typeof hunt.arenaLoop === 'object'
+            ? hunt.arenaLoop
+            : null);
+
+    const perFloorWaypoints =
+        (config.perFloorWaypoints &&
+        typeof config.perFloorWaypoints === 'object'
+            ? config.perFloorWaypoints
+            : null) ||
+        (hunt &&
+        hunt.perFloorWaypoints &&
+        typeof hunt.perFloorWaypoints === 'object'
+            ? hunt.perFloorWaypoints
+            : null);
+
     return {
         seed,
         floor,
@@ -546,6 +565,9 @@ function resolveHuntConfig(input) {
         noAttackTimeoutSec,
         pacingBudget,
         layoutMeta,
+        floorMeta,
+        arenaLoop,
+        perFloorWaypoints,
         recordSteps,
         stopOnEnd,
         commandHistory: Array.isArray(config.commandHistory)

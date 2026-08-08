@@ -47,6 +47,19 @@ const AREA_DIAMOND_6 = [
     [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0]
 ];
 
+/** Ring burst: outer ring hits; center hole; cell 2 = origin only (not hit). */
+const AREA_RING1_BURST3 = [
+    [0, 0, 0, 1, 1, 1, 0, 0, 0],
+    [0, 0, 1, 1, 1, 1, 1, 0, 0],
+    [0, 1, 1, 1, 1, 1, 1, 1, 0],
+    [1, 1, 1, 0, 0, 0, 1, 1, 1],
+    [1, 1, 1, 0, 2, 0, 1, 1, 1],
+    [1, 1, 1, 0, 0, 0, 1, 1, 1],
+    [0, 1, 1, 1, 1, 1, 1, 1, 0],
+    [0, 0, 1, 1, 1, 1, 1, 0, 0],
+    [0, 0, 0, 1, 1, 1, 0, 0, 0]
+];
+
 const AREA_BEAM_0_RIGHT = {
     1: [[3]],
     2: [[3, 1]],
@@ -361,7 +374,8 @@ const AREA_ENTRIES = [
     { code: 7, label: "Circle 5×5 (Hell's Core)", matrix: AREA_CIRCLE5X5 },
     { code: 8, label: 'Circle 6×6 (Wrath of Nature)', matrix: AREA_CIRCLE6X6 },
     { code: 9, label: 'Diamond 6 (Rage of the Skies)', matrix: AREA_DIAMOND_6 },
-    { code: 'eternal winter', label: 'Diamond 5 (Eternal Winter)', matrix: AREA_DIAMOND_5 },
+    { code: 'glacial_cataclysm', label: 'Diamond 5 (Glacial Cataclysm)', matrix: AREA_DIAMOND_5 },
+    { code: 'ring1_burst3', label: 'Ring burst 3 (Ice/Terra Burst)', matrix: AREA_RING1_BURST3 },
     // Wall fields (player runes); oriented via direction in getAffectedTiles
     { code: 'wall_field', label: 'Wall field (5)', matrix: AREA_WALLFIELD },
     { code: 'wall_field_energy', label: 'Wall field energy (7)', matrix: AREA_WALLFIELD_ENERGY },
@@ -680,20 +694,23 @@ function orientDiagonalWallMatrix(baseNw, direction) {
 }
 
 /**
- * Find matrix cell marked 3 (origin anchor).
+ * Find matrix origin anchor: cell 3 (hit + origin) or cell 2 (origin only, not hit).
+ * Legacy ring/burst matrices use 2 for the caster tile when the center is empty.
  * @param {number[][]} area
  * @returns {{ row: number, col: number }|null}
  */
 function findOriginInMatrix(area) {
     if (!Array.isArray(area)) return null;
+    let fallback2 = null;
     for (let i = 0; i < area.length; i++) {
         const row = area[i];
         if (!Array.isArray(row)) continue;
         for (let j = 0; j < row.length; j++) {
             if (row[j] === 3) return { row: i, col: j };
+            if (row[j] === 2 && !fallback2) fallback2 = { row: i, col: j };
         }
     }
-    return null;
+    return fallback2;
 }
 
 /**

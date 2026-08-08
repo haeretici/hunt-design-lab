@@ -95,12 +95,19 @@
             "chance": 40,
             "range": 4,
             "element": "physical",
-            "min": 239,
-            "max": 319,
+            "min": 0,
+            "max": 0,
             "radius": 4,
             "target": true,
             "effect": "me_drawblood",
-            "shootEffect": "ani_throwingknife"
+            "shootEffect": "ani_throwingknife",
+            "statusOnly": true,
+            "condition": {
+                "type": "bleed",
+                "totalDamage": 319,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
         }
     ],
     "race": "blood",

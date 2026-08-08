@@ -147,6 +147,18 @@ const Settings = {
      */
     FRICTION_BLOCKED: 255,
     /**
+     * Max players that may share one tile (join-order stack). 0 = unlimited.
+     * Creature in a mixed stair stack does not consume a player slot.
+     * See docs/28_player_tile_stack_plan.md.
+     */
+    PLAYER_TILE_MAX_STACK: 10,
+    /**
+     * When a canPushCreatures mover cannot shove a pushable monster to a free
+     * orthogonal neighbor, crush (zero HP) that target so the mover can enter.
+     * Legacy-shaped; optional off later for balance authors.
+     */
+    CREATURE_PUSH_CRUSH: true,
+    /**
      * Local A* caps (Stage 2 Pathfinder). Nodes outside |Δx|/|Δy| from start
      * are skipped; expanded-node budget hard-fails the search.
      * Legacy defaults: 100 / 512.
@@ -322,22 +334,51 @@ const Settings = {
      *   (findNearest over nearby enemies) while sticky target is still valid
      *   but outside hold band. 0 = every call (pre-12G.1). Lose / death always
      *   re-scan immediately.
-     * AI_REPATH_INTERVAL_TICKS — min logic ticks between full A* repaths in
-     *   TileMap.followPath when the goal tile moved. 1 (or less) = every need
-     *   (pre-12G.1). Empty path / blocked step always repaths.
-     * AI_PATH_BUDGET_PER_FRAME — max optional (moving-goal) full A* repaths per
-     *   logic frame across all entities (Etapa 5). 0 = unlimited. Empty path
-     *   and blocked-step repaths are critical and never consume this budget.
-     *   When exhausted, entities keep their stale path for that frame.
+     * AI_REPATH_INTERVAL_SEC — min logic seconds between optional (moving-goal)
+     *   full A* repath packages in TileMap.followPath. Default 2.0 (server-shaped
+     *   Option B). When > 0, wins over AI_REPATH_INTERVAL_TICKS. Empty path /
+     *   blocked-step repaths are critical and ignore this gate (see fail-backoff).
+     * AI_REPATH_INTERVAL_TICKS — tick-based optional repath throttle; used only
+     *   when AI_REPATH_INTERVAL_SEC is 0 / unset (compat / tests). ≤1 = every need.
+     * AI_REPATH_FAIL_BACKOFF_SEC — after a failed critical repath (still no path),
+     *   suppress further critical A* for this many logic seconds (default 0.25).
+     *   Clears on new goal tile, successful path, or forceDue.
+     * AI_PATH_BUDGET_PER_FRAME — max optional repath packages per logic frame
+     *   (Etapa 5 / policy A). 0 = unlimited (golden/CI/normal hunts). Stress /
+     *   server-shaped presets pin 48. Critical never consumes budget.
+     * AI_CREATURE_PATH_MAX_DISTANCE — Chebyshev A* cap for creature/summon
+     *   stepToward / followPath (default 12). Players keep PATH_MAX_DISTANCE.
+     * AI_CREATURE_THINK_INTERVAL_SEC — min logic seconds between creature/summon
+     *   full brain ticks when free of moveDelay (default 1.0). Attack kit still
+     *   runs when brain is gated (see hunt_ai tryEngagedAttacks).
+     * AI_OCCUPANT_STEP_PENALTY — soft A* step cost on enterable creature-occupied
+     *   intermediates (4C; default ~4× base cardinal step). Players stack free.
+     * AI_FOLLOW_TRAIL_SLOTS — FollowLeader same-floor: path to a slot N steps
+     *   before rawGoal on the A* path (legacy trail) instead of always the
+     *   leader tile. false = Phase C stack-on-leader goal.
+     * AI_FOLLOW_SLOT_SPACING — tiles per follower slot index on that path (1).
+     * AI_FOLLOW_MAX_LAG — if Chebyshev to leader exceeds this, skip trail and
+     *   path to rawGoal with long-path catch-up (default 12).
+     * AI_FOLLOW_PEACEFUL_WP — reserved v1.1: rawGoal = leader waypoint when
+     *   quiet and near (see resolveFollowRawGoal). Default false / unused.
      */
     AI_RETARGET_INTERVAL: 0,
+    AI_REPATH_INTERVAL_SEC: 2.0,
     AI_REPATH_INTERVAL_TICKS: 1,
+    AI_REPATH_FAIL_BACKOFF_SEC: 0.25,
     AI_PATH_BUDGET_PER_FRAME: 0,
+    AI_CREATURE_PATH_MAX_DISTANCE: 12,
+    AI_CREATURE_THINK_INTERVAL_SEC: 1.0,
+    AI_OCCUPANT_STEP_PENALTY: 4,
+    AI_FOLLOW_TRAIL_SLOTS: true,
+    AI_FOLLOW_SLOT_SPACING: 1,
+    AI_FOLLOW_MAX_LAG: 12,
+    AI_FOLLOW_PEACEFUL_WP: false,
     /** Seconds after taking damage that a creature will cross avoided fields (penalty path). */
     AI_PROVOKED_WINDOW_SEC: 5.0,
     /** Extra A* step cost for hazard tiles when provoked / forced-brain field crossing. */
     AI_FIELD_STEP_PENALTY: 10,
-    /** After a successful hazard fallback path, skip doomed clean A* for this many seconds. */
+    /** After a successful hazard soft-path, remember soft mode for this many seconds. */
     AI_HAZARD_CACHE_SEC: 2.0,
     /**
      * Unused by pathfinding after S06-01 Option B (summons = wild for fields).
@@ -464,6 +505,14 @@ const Settings = {
         additiveBonus: 0,
         prey: 0,
         xpBoost: 0
+    },
+    /**
+     * Skill try session knobs (Phase D pins). Defaults neutral.
+     * @type {{ stageMult: number, skillPrey: number }}
+     */
+    skillRates: {
+        stageMult: 1,
+        skillPrey: 0
     },
     /** Set by engine.js → Application */
     app: null

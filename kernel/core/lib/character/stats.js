@@ -78,8 +78,8 @@ const MELEE_SKILL_ALIASES = ['sword', 'axe', 'club', 'fist'];
 
 /**
  * Melee skill subtypes used by formula / skillKey (legacy weapon skill names).
- * sword/axe/club still resolve primary value from skills.melee (collapsed bag);
- * fist uses skills.fist.
+ * Combat primary value: prefer bag[subtype] when present; else collapsed skills.melee.
+ * Fist prefers skills.fist, then melee. See resolvePrimarySkillValue + docs/27 §D.2.
  */
 const MELEE_WEAPON_SKILLS = ['sword', 'axe', 'club', 'fist'];
 
@@ -300,9 +300,9 @@ function resolveWeaponSkillFromItem(item) {
 
 /**
  * Normalize a skill bag (class, profile, or overrides) to engine keys.
- * Profile vocabulary: sword/axe/club/fist → melee (max of present),
+ * Profile standard: sword/axe/club/fist kept when present (subtype-first combat);
+ * collapsed `melee` = explicit melee or max of subtypes (compat / class floors);
  * magicLevel → magic; distance/shielding pass through.
- * Explicit engine keys (melee/magic) win when set.
  *
  * @param {object|null|undefined} skills
  * @returns {Record<string, number>|null} only keys that were present / derived
@@ -318,6 +318,15 @@ function normalizeSkillBag(skills) {
         if (Number.isFinite(f)) out.fist = f;
     }
 
+    // Preserve sword/axe/club separately when authored or trained (Phase D).
+    for (let i = 0; i < MELEE_SKILL_ALIASES.length; i++) {
+        const k = MELEE_SKILL_ALIASES[i];
+        if (k === 'fist') continue;
+        if (skills[k] == null || skills[k] === '') continue;
+        const n = Number(skills[k]);
+        if (Number.isFinite(n)) out[k] = Math.max(0, n);
+    }
+
     if (skills.melee != null && skills.melee !== '') {
         out.melee = Math.max(0, Number(skills.melee) || 0);
     } else {
@@ -330,6 +339,13 @@ function normalizeSkillBag(skills) {
             if (best == null || n > best) best = n;
         }
         if (best != null) out.melee = Math.max(0, best);
+    }
+
+    // Collapsed melee at least max of preserved subtypes
+    if (out.melee != null) {
+        for (const k of ['sword', 'axe', 'club']) {
+            if (out[k] != null) out.melee = Math.max(out.melee, out[k]);
+        }
     }
 
     if (skills.distance != null && skills.distance !== '') {
@@ -995,8 +1011,12 @@ function resolveSkillKeyFromGear(unarmed, gear, gearFamily, cls) {
 }
 
 /**
- * Map skillKey to numeric primary skill for damage formulas.
- * sword/axe/club share the collapsed `skills.melee` bag (profile max).
+ * Map skillKey to numeric primary skill for damage / block formulas.
+ *
+ * **Standard policy (locked):** always prefer the weapon **subtype** bag when
+ * present on the player/effective skills; only then fall back to collapsed
+ * `skills.melee`. Product profiles author sword/axe/club (not melee alone).
+ *
  * @param {string} skillKey
  * @param {object} skills effective skills bag
  * @returns {number}
@@ -1006,7 +1026,11 @@ function resolvePrimarySkillValue(skillKey, skills) {
     if (skillKey === 'magic') return bag.magic || 0;
     if (skillKey === 'distance') return bag.distance || 0;
     if (skillKey === 'fist') return bag.fist != null ? bag.fist : bag.melee || 0;
-    // sword | axe | club | melee | unknown
+    if (skillKey === 'sword' || skillKey === 'axe' || skillKey === 'club') {
+        if (bag[skillKey] != null) return bag[skillKey];
+        return bag.melee || 0;
+    }
+    // melee | unknown — collapsed bag (compat / class floors)
     return bag.melee || 0;
 }
 
@@ -1056,13 +1080,21 @@ function buildEffectiveStats(classDef, equipmentRollup, opts) {
     // Fist: explicit profile/class value, else mirror melee (most packs only author melee)
     const fistBase =
         baseSkills.fist != null ? Number(baseSkills.fist) || 0 : baseSkills.melee;
+    const meleeGear = gear.skillBonuses.melee || 0;
     const skills = {
-        melee: baseSkills.melee + (gear.skillBonuses.melee || 0),
+        melee: baseSkills.melee + meleeGear,
         distance: baseSkills.distance + (gear.skillBonuses.distance || 0),
         shielding: baseSkills.shielding + (gear.skillBonuses.shielding || 0),
         magic: baseSkills.magic + (gear.skillBonuses.magic || 0),
         fist: fistBase + (gear.skillBonuses.fist || 0)
     };
+    // Phase D: preserve trained sword/axe/club when present on profile bag
+    for (const k of ['sword', 'axe', 'club']) {
+        if (baseSkills[k] != null && baseSkills[k] !== '') {
+            skills[k] = Math.max(0, Number(baseSkills[k]) || 0) + meleeGear;
+            skills.melee = Math.max(skills.melee, skills[k]);
+        }
+    }
     const absoluteSkills = normalizeSkillBag(options.skillOverrides);
     if (absoluteSkills) {
         Object.assign(skills, absoluteSkills);

@@ -27,6 +27,7 @@ const validate = require('./validate.js');
 const procedural = require('./layout/procedural.js');
 const fixed = require('./layout/fixed.js');
 const multifloor = require('./layout/multifloor.js');
+const arenaRestChain = require('./layout/arena_rest_chain.js');
 const macro = require('./layout/macro.js');
 const tester = require('./tester.js');
 const biome = require('./biome.js');
@@ -103,6 +104,13 @@ module.exports = {
     pairStairLinks: multifloor.pairStairLinks,
     resolveMultiFloorHuntLayout: multifloor.resolveMultiFloorHuntLayout,
     floorSeed: multifloor.floorSeed,
+
+    arenaRestChain,
+    generateArenaRestChain: arenaRestChain.generateArenaRestChain,
+    resolveArenaRestChainHuntLayout:
+        arenaRestChain.resolveArenaRestChainHuntLayout,
+    normalizeArenaLoop: arenaRestChain.normalizeArenaLoop,
+    walkableAabb: arenaRestChain.walkableAabb,
 
     macro,
     DEFAULT_TARGET_SEGMENT_SEC: macro.DEFAULT_TARGET_SEGMENT_SEC,

@@ -199,9 +199,10 @@
             "procedural",
             "fixed",
             "multifloor",
-            "multi_biome"
+            "multi_biome",
+            "arena_rest_chain"
           ],
-          "description": "Layout mode: single-floor procedural/fixed, multifloor chain, or multi_biome macro segments."
+          "description": "Layout mode: single-floor procedural/fixed, multifloor chain, multi_biome macro segments, or arena_rest_chain (selective rest portals)."
         },
         "profileId": {
           "type": "string",
@@ -341,6 +342,66 @@
     "defaultPartyId": {
       "type": "string",
       "description": "Optional UI/CLI default party preset id (presets/<mode>/parties/<id>.json). Session party is selected at runtime; hunts no longer embed members."
+    },
+    "arenaLoop": {
+      "type": "object",
+      "description": "Arena ↔ rest chain loop (layout.type arena_rest_chain). Stamps waves.wavesPerArena / pauseOnArenaBoundary at resolve.",
+      "additionalProperties": true,
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "When false, host may ignore arena-loop FSM (generator still may expand)."
+        },
+        "wavesPerArena": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Waves per arena stage. Stamped onto waves.wavesPerArena at resolve."
+        },
+        "maxArenas": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 8,
+          "description": "Pre-generated arena count (floor count = 2*maxArenas-1)."
+        },
+        "artSets": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Art set ids cycled per arena (rest inherits prior arena unless restArtSet set)."
+        },
+        "restArtSet": {
+          "type": ["string", "null"],
+          "description": "Optional override art for rest floors; default inherits prior arena artSet."
+        },
+        "arenaProfileId": {
+          "type": "string",
+          "description": "Fixed shell profile for arena floors (e.g. arena_combat_shell)."
+        },
+        "restProfileId": {
+          "type": "string",
+          "description": "Fixed shell profile for rest floors (e.g. rest_area_shell)."
+        },
+        "portalNearRadius": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Host death-portal pad picker radius near death tile."
+        },
+        "deathPortal": {
+          "type": "boolean",
+          "default": true,
+          "description": "Product true: no resolve-time arena→rest links (dynamic pad at stage clear). Debug false: static arena→rest links."
+        },
+        "oneWayDeathPortal": {
+          "type": "boolean",
+          "default": true,
+          "description": "Host death pad is one-way (bidirectional false)."
+        },
+        "pauseCombatUntilPortal": {
+          "type": "boolean",
+          "default": true,
+          "description": "Stamp waves.pauseOnArenaBoundary; host holds combat until portal hop."
+        }
+      }
     },
     "limits": {
       "type": "object",

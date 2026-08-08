@@ -344,6 +344,10 @@ class Creature extends GameObject {
             this.resists = Object.assign({}, DEFAULT_RESISTS, template.resists);
         }
         if (template.canBlock !== undefined) this.canBlock = !!template.canBlock;
+        // immunities.invisible → canSeeInvisibility (legacy monster isImmune CONDITION_INVISIBLE)
+        if (template.immunities && typeof template.immunities === 'object') {
+            this.immunities = Object.assign({}, template.immunities);
+        }
 
         // Kit fields (multi-attack, strategies, range/flee)
         if (template.flags) this.flags = template.flags;

@@ -17,12 +17,24 @@ const {
     SHIELD_BLOCK_MAX_PER_WINDOW,
     SHIELD_BLOCK_WINDOW_SEC
 } = require('../character/stats.js');
+const {
+    processAttackSkillProgression,
+    processManaSkillProgression
+} = require('../character/progression.js');
+const {
+    removeConditions,
+    removeCondition,
+    applyCondition,
+    conditionDefFromSpell,
+    isInvisible,
+    getAttributeMods
+} = require('./conditions.js');
 
 /**
  * @typedef {object} SpellDef
  * @property {string} id
  * @property {string} [label]
- * @property {string} [kind] auto | strike | spell | heal
+ * @property {string} [kind] auto | strike | spell | heal | support
  * @property {string} [element]
  * @property {string} [powerCurve]
  * @property {number} [basePower]
@@ -33,7 +45,190 @@ const {
  * @property {number} [moveLock] post-cast self root seconds (omit → Settings.SPELL_MOVE_LOCK_DEFAULT; 0 = none)
  * @property {object} [cooldowns]
  * @property {boolean} [isMelee]
+ * @property {string[]} [dispel] condition kinds to clear on defender (cure spells)
+ * @property {object} [condition] buff/debuff applied on hit (haste / invisible / …)
+ * @property {boolean} [statusOnly] no meaningful direct damage (min/max 0)
+ * @property {number} [tauntDurationSec] force creature target onto caster (legacy challenge)
+ * @property {number} [forceMeleeDurationSec] force creature stand-off to 1 for this many seconds (legacy changeTargetDistance)
+ * @property {boolean} [chainOnlyRanged] chain hops only free (non-summon) hostiles with base targetDistance > 1
  */
+
+/**
+ * Whether the defender is a challengeable hostile (not player, not summon).
+ * Mirrors legacy Monster::challengeCreature (summons return false).
+ * @param {object|null|undefined} entity
+ * @returns {boolean}
+ */
+function isChallengeableCreature(entity) {
+    if (!entity || entity.alive === false) return false;
+    if (entity.type === 'player') return false;
+    if (entity.isPlayer === true) return false;
+    // Party / player-owned summons are not taunted (legacy isSummon).
+    if (entity.masterId != null && Number(entity.masterId) > 0) return false;
+    return true;
+}
+
+/**
+ * @returns {number} Time.timeSinceLevelLoad or 0
+ */
+function combatNow() {
+    return Time && Time.timeSinceLevelLoad != null
+        ? Number(Time.timeSinceLevelLoad)
+        : 0;
+}
+
+/**
+ * Force a creature's combat target onto the challenger for a duration.
+ * Legacy: doChallengeCreature → selectTarget + challengeFocusDuration (default 6s).
+ *
+ * @param {object} creature defender (hostile)
+ * @param {object} challenger caster (player)
+ * @param {number} [durationSec=6]
+ * @returns {boolean} true when taunt applied
+ */
+function applyChallengeTaunt(creature, challenger, durationSec) {
+    if (!isChallengeableCreature(creature) || !challenger) return false;
+    if (creature === challenger) return false;
+
+    const dur =
+        durationSec != null && Number.isFinite(Number(durationSec))
+            ? Math.max(0, Number(durationSec))
+            : 6;
+    if (!(dur > 0)) return false;
+
+    const now = combatNow();
+
+    creature.challengedById =
+        challenger.id != null ? challenger.id : null;
+    creature.challengeUntil = now + dur;
+    creature.targetId = challenger.id != null ? challenger.id : null;
+    creature.target = challenger;
+
+    // Safe-spot / field routing window tracks the taunt window at least.
+    const prevProv = Number(creature.provokedUntil) || 0;
+    creature.provokedUntil = Math.max(prevProv, now + dur);
+    return true;
+}
+
+/**
+ * True while challenge focus still locks target selection.
+ * @param {object|null|undefined} creature
+ * @param {number} [now]
+ * @returns {boolean}
+ */
+function isCreatureChallenged(creature, now) {
+    if (!creature) return false;
+    const until = Number(creature.challengeUntil) || 0;
+    if (!(until > 0)) return false;
+    const t =
+        typeof now === 'number' && Number.isFinite(now)
+            ? now
+            : combatNow();
+    if (t >= until) {
+        creature.challengeUntil = 0;
+        creature.challengedById = null;
+        return false;
+    }
+    return true;
+}
+
+/**
+ * Force creature stand-off to melee (targetDistance = 1) for a duration.
+ * Legacy: Monster::changeTargetDistance(1, durationMs) + challengeMeleeDuration.
+ * Only applies when the creature's base stand-off is greater than 1 (ranged).
+ *
+ * @param {object} creature
+ * @param {number} [durationSec=12]
+ * @param {number} [distance=1]
+ * @returns {boolean}
+ */
+function applyForceMelee(creature, durationSec, distance) {
+    if (!isChallengeableCreature(creature)) return false;
+    // Reward bosses are immune (legacy changeTargetDistance).
+    if (
+        creature.isRewardBoss === true ||
+        (creature.flags && creature.flags.rewardBoss === true) ||
+        (creature.kit &&
+            creature.kit.flags &&
+            creature.kit.flags.rewardBoss === true)
+    ) {
+        return false;
+    }
+
+    const baseTd = baseTargetDistance(creature);
+    const dist =
+        distance != null && Number.isFinite(Number(distance))
+            ? Math.max(1, Math.floor(Number(distance)))
+            : 1;
+    // Only pull ranged → melee; melee already at 1 is a no-op for icons/AI.
+    if (!(baseTd > dist)) return false;
+
+    const dur =
+        durationSec != null && Number.isFinite(Number(durationSec))
+            ? Math.max(0, Number(durationSec))
+            : 12;
+    if (!(dur > 0)) return false;
+
+    const now = combatNow();
+    creature.forceMeleeUntil = now + dur;
+    creature.forceMeleeDistance = dist;
+    return true;
+}
+
+/**
+ * Base (template) stand-off distance, ignoring temporary force-melee.
+ * @param {object|null|undefined} creature
+ * @returns {number}
+ */
+function baseTargetDistance(creature) {
+    if (!creature) return 1;
+    if (creature.kit && creature.kit.flags && creature.kit.flags.targetDistance != null) {
+        return Math.max(1, creature.kit.flags.targetDistance | 0);
+    }
+    if (creature.flags && creature.flags.targetDistance != null) {
+        return Math.max(1, creature.flags.targetDistance | 0);
+    }
+    if (creature.targetDistance != null) {
+        return Math.max(1, creature.targetDistance | 0);
+    }
+    return 1;
+}
+
+/**
+ * Effective temporary stand-off override while force-melee is active.
+ * Clears expired locks.
+ * @param {object|null|undefined} creature
+ * @param {number} [now]
+ * @returns {number|null} forced distance, or null when inactive
+ */
+function getForcedTargetDistance(creature, now) {
+    if (!creature) return null;
+    const until = Number(creature.forceMeleeUntil) || 0;
+    if (!(until > 0)) return null;
+    const t =
+        typeof now === 'number' && Number.isFinite(now)
+            ? now
+            : combatNow();
+    if (t >= until) {
+        creature.forceMeleeUntil = 0;
+        creature.forceMeleeDistance = null;
+        return null;
+    }
+    const d = creature.forceMeleeDistance;
+    return d != null && Number.isFinite(Number(d))
+        ? Math.max(1, Math.floor(Number(d)))
+        : 1;
+}
+
+/**
+ * True while force-melee (challengeMeleeDuration) is active.
+ * @param {object|null|undefined} creature
+ * @param {number} [now]
+ * @returns {boolean}
+ */
+function isForceMeleeActive(creature, now) {
+    return getForcedTargetDistance(creature, now) != null;
+}
 
 /**
  * Effective post-cast movement lock for a spell (seconds).
@@ -120,6 +315,32 @@ function spendMana(attacker, manaCost) {
 }
 
 /**
+ * Whether entity is a player (not a hostile creature).
+ * @param {object|null|undefined} entity
+ * @returns {boolean}
+ */
+function isPlayerEntity(entity) {
+    if (!entity) return false;
+    if (entity.type === 'player') return true;
+    if (entity.isPlayer === true) return true;
+    return false;
+}
+
+/**
+ * Legacy parity (Monster::drainHealth): real damage breaks monster invisibility.
+ * Players keep invis when hit (player drainHealth does not strip CONDITION_INVISIBLE).
+ *
+ * @param {object|null|undefined} entity
+ * @param {number} damageAmount positive damage taken
+ */
+function breakInvisibilityOnDamage(entity, damageAmount) {
+    if (!entity || !(Number(damageAmount) > 0)) return;
+    if (isPlayerEntity(entity)) return;
+    if (!isInvisible(entity) && !entity.invisible) return;
+    removeCondition(entity, 'invisible');
+}
+
+/**
  * Apply final damage to defender hp (mutates). Healing element restores.
  * @param {object} defender
  * @param {number} amount
@@ -141,6 +362,11 @@ function applyHpDelta(defender, amount, element) {
     defender.hp.current = Math.max(0, before - amount);
     if (defender.hp.current <= 0) {
         defender.alive = false;
+    }
+    const dealt = before - defender.hp.current;
+    // AoE / single-target / DoT that reduce HP cancel monster invis (legacy).
+    if (dealt > 0) {
+        breakInvisibilityOnDamage(defender, dealt);
     }
     return defender.hp.current - before;
 }
@@ -182,6 +408,9 @@ function defaultMeleeAutoSpell() {
  * @param {boolean} [opts.skipCooldown=false]
  * @param {boolean} [opts.skipMana=false]
  * @param {boolean} [opts.apply=true] mutate hp / cooldowns / mana
+ * @param {boolean} [opts.grantWeaponSkillTry=true] false for AOE secondary targets
+ * @param {object} [opts.sessionConfig] frozen progression session (Phase C/D)
+ * @param {boolean} [opts.skillProgression]
  * @param {() => number} [opts.rng]
  * @returns {{
  *   ok: boolean,
@@ -193,7 +422,8 @@ function defaultMeleeAutoSpell() {
  *   hpDelta: number,
  *   breakdown: object|null,
  *   range: {min:number,max:number}|null,
- *   moveLock: number
+ *   moveLock: number,
+ *   skillProgress?: object|null
  * }}
  */
 function resolveAttack(opts) {
@@ -254,10 +484,14 @@ function resolveAttack(opts) {
                   attacker.hitChance != null ? attacker.hitChance : 100
           };
 
+    const atkMods = getAttributeMods(attacker);
+    const defMods = getAttributeMods(defender);
+
     // Shield block: at most SHIELD_BLOCK_MAX_PER_WINDOW (2) per SHIELD_BLOCK_WINDOW_SEC (2s).
     // Window is ticked on entity update; also accept null hits as unlimited for pure bags.
     const canBlock =
         defender.canBlock !== false &&
+        !defMods.disableDefense &&
         (defender.shieldingHits == null ||
             defender.shieldingHits < SHIELD_BLOCK_MAX_PER_WINDOW);
 
@@ -270,6 +504,23 @@ function resolveAttack(opts) {
               maxBlock: defender.maxBlock || 0,
               canBlock
           };
+
+    // Protector-style shielding skill% → scale maxBlock / mitigation (approx).
+    if (defMods.skillMult && defMods.skillMult.shielding != null) {
+        const shM = defMods.skillMult.shielding;
+        defBag.maxBlock = Math.max(
+            0,
+            Math.floor((Number(defBag.maxBlock) || 0) * shM)
+        );
+        defBag.mitigation = Math.min(
+            100,
+            Math.max(0, (Number(defBag.mitigation) || 0) * shM)
+        );
+    }
+    if (defMods.disableDefense) {
+        defBag.canBlock = false;
+        defBag.maxBlock = 0;
+    }
 
     const isMelee =
         spell.isMelee != null
@@ -292,6 +543,43 @@ function resolveAttack(opts) {
         hitChance = Number(atkBag.hitChance);
     }
 
+    // Phase M: stance skill% — melee/fist for melee family, distance for bows, magic for ML.
+    if (atkMods.skillMult) {
+        const sm = atkMods.skillMult;
+        if (isDistanceAuto && sm.distance != null) {
+            atkBag.skill = Math.max(
+                0,
+                (Number(atkBag.skill) || 0) * sm.distance
+            );
+        } else if (
+            !isDistanceAuto &&
+            spell.powerCurve !== 'magic_strike' &&
+            spell.kind !== 'heal'
+        ) {
+            const meleeM =
+                sm.melee != null
+                    ? sm.melee
+                    : sm.sword != null
+                      ? sm.sword
+                      : sm.axe != null
+                        ? sm.axe
+                        : sm.club != null
+                          ? sm.club
+                          : sm.fist != null
+                            ? sm.fist
+                            : null;
+            if (meleeM != null) {
+                atkBag.skill = Math.max(
+                    0,
+                    (Number(atkBag.skill) || 0) * meleeM
+                );
+            }
+        }
+        if (sm.magic != null) {
+            atkBag.magic = Math.max(0, (Number(atkBag.magic) || 0) * sm.magic);
+        }
+    }
+
     const result = computeDamage({
         powerCurve: spell.powerCurve,
         basePower: spell.basePower,
@@ -308,9 +596,37 @@ function resolveAttack(opts) {
         rng: o.rng
     });
 
+    // Stance damage dealt / received (not healing).
+    const spellElement = spell.element || 'physical';
+    if (result.hit && result.final > 0 && spellElement !== 'healing') {
+        let final = result.final;
+        if (atkMods.damageDealtMult !== 1) {
+            final = Math.max(0, Math.floor(final * atkMods.damageDealtMult));
+        }
+        if (defMods.damageReceivedMult !== 1) {
+            final = Math.max(0, Math.floor(final * defMods.damageReceivedMult));
+        }
+        if (final !== result.final) {
+            result.final = final;
+            if (result.breakdown) {
+                result.breakdown.final = final;
+            }
+        }
+    }
+
     const applyMutations = o.apply !== false;
     let hpDelta = 0;
+    let conditionsRemoved = 0;
+    /** @type {object|null} */
+    let conditionApplied = null;
+    let tauntApplied = false;
+    let forceMeleeApplied = false;
     const moveLock = resolveMoveLock(spell);
+    /** @type {object|null} */
+    let skillProgress = null;
+    /** @type {object|null} */
+    let manaProgress = null;
+    let blockChargeSpent = false;
 
     if (applyMutations) {
         if (!o.skipCooldown) {
@@ -318,6 +634,13 @@ function resolveAttack(opts) {
         }
         if (!o.skipMana) {
             spendMana(attacker, manaCost);
+            // Phase D: mana → magic level (hit not required)
+            if (manaCost > 0) {
+                manaProgress = processManaSkillProgression(attacker, manaCost, {
+                    sessionConfig: o.sessionConfig,
+                    skillProgression: o.skillProgression
+                });
+            }
         }
         // Post-cast self root: same-tick combatMove is gated by canStep/moveDelay.
         applyMoveLock(attacker, moveLock);
@@ -327,10 +650,68 @@ function resolveAttack(opts) {
                 result.final,
                 spell.element || 'physical'
             );
-            // Sole owner of AI provocation window (safe-spotting / field routing).
-            // Do not re-stamp in Simulator.recordAttack.
-            const winSec = Settings.AI_PROVOKED_WINDOW_SEC != null ? Number(Settings.AI_PROVOKED_WINDOW_SEC) : 5.0;
-            const now = Time && Time.timeSinceLevelLoad != null ? Number(Time.timeSinceLevelLoad) : 0;
+        }
+        // Cure / dispel: clear listed condition kinds on the defender (self for cures).
+        if (result.hit && Array.isArray(spell.dispel) && spell.dispel.length) {
+            conditionsRemoved = removeConditions(defender, spell.dispel);
+        }
+        // Buffs / DoTs (haste, invisible, utori *) — apply on hit (incl. statusOnly 0 dmg).
+        if (result.hit && spell.condition) {
+            const def = conditionDefFromSpell(spell.condition, defender);
+            if (def) {
+                conditionApplied = applyCondition(defender, def, {
+                    source: spell.id || 'spell'
+                });
+            }
+        }
+        // Taunt / challenge: force creature target onto caster (0 dmg statusOnly OK).
+        if (
+            result.hit &&
+            defender !== attacker &&
+            spell.tauntDurationSec != null &&
+            Number(spell.tauntDurationSec) > 0
+        ) {
+            tauntApplied = applyChallengeTaunt(
+                defender,
+                attacker,
+                Number(spell.tauntDurationSec)
+            );
+        }
+        // Force melee stand-off (chivalrous_challenge / divine_dazzle).
+        if (
+            result.hit &&
+            defender !== attacker &&
+            spell.forceMeleeDurationSec != null &&
+            Number(spell.forceMeleeDurationSec) > 0
+        ) {
+            forceMeleeApplied = applyForceMelee(
+                defender,
+                Number(spell.forceMeleeDurationSec),
+                1
+            );
+        }
+        // Sole owner of AI provocation window (safe-spotting / field routing).
+        // Direct damage OR hostile DoT apply both count (statusOnly DoTs are 0 final).
+        // Taunt also stamps provokedUntil inside applyChallengeTaunt.
+        // Force-melee alone (divine_dazzle) does not open the provoke window.
+        // Do not re-stamp in Simulator.recordAttack.
+        if (
+            result.hit &&
+            defender !== attacker &&
+            !tauntApplied &&
+            (result.final > 0 ||
+                (conditionApplied &&
+                    conditionApplied.remainingDamage != null &&
+                    conditionApplied.remainingDamage > 0))
+        ) {
+            const winSec =
+                Settings.AI_PROVOKED_WINDOW_SEC != null
+                    ? Number(Settings.AI_PROVOKED_WINDOW_SEC)
+                    : 5.0;
+            const now =
+                Time && Time.timeSinceLevelLoad != null
+                    ? Number(Time.timeSinceLevelLoad)
+                    : 0;
             defender.provokedUntil = now + winSec;
         }
         // Count each allowed melee-physical block attempt (legacy parity),
@@ -343,10 +724,30 @@ function resolveAttack(opts) {
             (defBag.maxBlock || 0) > 0
         ) {
             defender.shieldingHits = (defender.shieldingHits || 0) + 1;
+            blockChargeSpent = true;
             if (!(defender.shieldingTimer > 0)) {
                 defender.shieldingTimer = SHIELD_BLOCK_WINDOW_SEC;
             }
         }
+
+        // Phase D: blood bucket, weapon tries, shield full-zero tries
+        skillProgress = processAttackSkillProgression(
+            attacker,
+            defender,
+            {
+                ok: true,
+                hit: result.hit,
+                final: result.final,
+                breakdown: result.breakdown,
+                spell
+            },
+            {
+                sessionConfig: o.sessionConfig,
+                skillProgression: o.skillProgression,
+                grantWeaponSkillTry: o.grantWeaponSkillTry !== false,
+                blockChargeSpent
+            }
+        );
     }
 
     return {
@@ -357,9 +758,15 @@ function resolveAttack(opts) {
         critical: result.critical,
         final: result.final,
         hpDelta,
+        conditionsRemoved,
+        conditionApplied,
+        tauntApplied,
+        forceMeleeApplied,
         breakdown: result.breakdown,
         range: result.range,
-        moveLock
+        moveLock,
+        skillProgress,
+        manaProgress
     };
 }
 
@@ -399,6 +806,13 @@ module.exports = {
     hasMana,
     spendMana,
     applyHpDelta,
+    applyChallengeTaunt,
+    isCreatureChallenged,
+    isChallengeableCreature,
+    applyForceMelee,
+    baseTargetDistance,
+    getForcedTargetDistance,
+    isForceMeleeActive,
     resolveMoveLock,
     applyMoveLock,
     defaultMeleeAutoSpell,

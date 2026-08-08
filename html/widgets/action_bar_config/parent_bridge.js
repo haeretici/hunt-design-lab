@@ -79,6 +79,7 @@ function createActionBarParentBridge(opts) {
             activeProfileId: activePid,
             activePlayerClass: String(classId).toLowerCase(),
             docks: state.docks || {},
+            layoutCounts: state.layoutCounts || { top: 1, bottom: 1, left: 1, right: 1 },
             profiles: Object.keys(state.profiles || {}),
             spellBook: spellBook || {},
             itemDb: itemDb || [],
@@ -103,6 +104,8 @@ function createActionBarParentBridge(opts) {
             docksSig[areas[i]] = bars.map(b => ({
                 id: b.id,
                 orientation: b.orientation,
+                pageOffset: b.pageOffset || 0,
+                locked: !!b.locked,
                 slots: (b.slots || []).map(s => ({
                     id: s.id,
                     index: s.index,
@@ -111,6 +114,9 @@ function createActionBarParentBridge(opts) {
                     itemId: s.itemId,
                     spellId: s.spellId,
                     command: s.command,
+                    text: s.text,
+                    passiveId: s.passiveId,
+                    multiActions: s.multiActions,
                     targetMode: s.targetMode
                 }))
             }));
@@ -119,6 +125,7 @@ function createActionBarParentBridge(opts) {
             activeProfileId: stateObj.activeProfileId,
             activePlayerClass: stateObj.activePlayerClass,
             docks: docksSig,
+            layoutCounts: stateObj.layoutCounts,
             profiles: stateObj.profiles,
             spellBook: stateObj.spellBook,
             itemDb: stateObj.itemDb,
@@ -239,21 +246,46 @@ function createActionBarParentBridge(opts) {
                         actionBars.saveToStorage();
                     } else {
                         try {
-                            const LS_KEY_V2 = 'hdl_action_bars';
+                            const LS_KEY = 'hdl_action_bars';
                             if (typeof window !== 'undefined' && window.localStorage) {
-                                const payloadV2 = JSON.stringify({
-                                    profiles: actionBars.state.profiles,
-                                    activeProfileId: actionBars.state.activeProfileId
-                                });
-                                window.localStorage.setItem(LS_KEY_V2, payloadV2);
-                                try { window.localStorage.removeItem('hdl_keymap'); } catch (_) {}
-                                try { window.localStorage.removeItem('huntdl_action_bars_layout'); } catch (_) {}
+                                const payload = JSON.stringify(
+                                    typeof actionBars.buildStoragePayload === 'function'
+                                        ? actionBars.buildStoragePayload()
+                                        : {
+                                            layoutCounts: actionBars.state.layoutCounts,
+                                            profiles: actionBars.state.profiles,
+                                            activeProfileId: actionBars.state.activeProfileId,
+                                            barStash: actionBars.state.barStash
+                                        }
+                                );
+                                window.localStorage.setItem(LS_KEY, payload);
                             }
                             if (actionBars.state.debouncedIdbSaver) {
                                 actionBars.state.debouncedIdbSaver();
                             }
                         } catch (_) {}
                     }
+                    sendState(true);
+                }
+                break;
+            case 'set_layout_counts':
+                if (data.layoutCounts && typeof data.layoutCounts === 'object' &&
+                    typeof actionBars.setLayoutCounts === 'function') {
+                    actionBars.setLayoutCounts(data.layoutCounts);
+                    sendState(true);
+                }
+                break;
+            case 'set_bar_locked':
+                if (data.barId && typeof actionBars.setBarLocked === 'function') {
+                    actionBars.setBarLocked(data.barId, !!data.locked);
+                    sendState(true);
+                }
+                break;
+            case 'clear_bar':
+                if (data.barId && typeof actionBars.clearBar === 'function') {
+                    actionBars.clearBar(data.barId, {
+                        clearHotkeys: !!data.clearHotkeys
+                    });
                     sendState(true);
                 }
                 break;
@@ -330,8 +362,8 @@ function createActionBarParentBridge(opts) {
         }
 
         const features = [
-            'width=880',
-            'height=760',
+            'width=980',
+            'height=820',
             'menubar=no',
             'toolbar=no',
             'location=no',

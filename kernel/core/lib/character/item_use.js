@@ -250,34 +250,19 @@ function applyManaDelta(entity, amount) {
 
 /**
  * Clear matching condition kinds (e.g. poison for antidote).
+ * Delegates to conditions.removeConditions (shared with cure spells).
  * @param {object} entity
  * @param {string[]} kinds
  * @returns {number} removed count
  */
 function dispelConditions(entity, kinds) {
     if (!entity || !Array.isArray(kinds) || !kinds.length) return 0;
-    if (!Array.isArray(entity.conditions) || !entity.conditions.length) return 0;
-    const want = new Set(kinds.map((k) => String(k).toLowerCase()));
-    let removed = 0;
-    const next = [];
-    for (let i = 0; i < entity.conditions.length; i++) {
-        const c = entity.conditions[i];
-        if (c && want.has(String(c.kind || c.type || '').toLowerCase())) {
-            removed += 1;
-        } else {
-            next.push(c);
-        }
+    try {
+        const { removeConditions } = require('../combat/conditions.js');
+        return removeConditions(entity, kinds);
+    } catch (_) {
+        return 0;
     }
-    if (removed) {
-        entity.conditions = next;
-        try {
-            const { recomputeDerived } = require('../combat/conditions.js');
-            recomputeDerived(entity);
-        } catch (_) {
-            /* optional */
-        }
-    }
-    return removed;
 }
 
 /**

@@ -124,6 +124,12 @@ function huntToSimulatorOpts(resolved, extra) {
                 ? r.layoutMeta
                 : null,
         floorMeta: Array.isArray(r.floorMeta) ? r.floorMeta : null,
+        arenaLoop:
+            r.arenaLoop && typeof r.arenaLoop === 'object' ? r.arenaLoop : null,
+        perFloorWaypoints:
+            r.perFloorWaypoints && typeof r.perFloorWaypoints === 'object'
+                ? r.perFloorWaypoints
+                : null,
         commandHistory: Array.isArray(x.commandHistory)
             ? x.commandHistory.slice()
             : Array.isArray(r.commandHistory)
@@ -200,6 +206,8 @@ const SIMULATOR_HUNT_FIELD_KEYS = Object.freeze([
     'pacingBudget',
     'layoutMeta',
     'floorMeta',
+    'arenaLoop',
+    'perFloorWaypoints',
     'inventoryPractice',
     'commandHistory',
     'forceAiControl'

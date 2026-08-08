@@ -74,12 +74,19 @@
             "chance": 15,
             "range": 4,
             "element": "earth",
-            "min": 3,
-            "max": 41,
+            "min": 0,
+            "max": 0,
             "length": 8,
             "spread": 3,
             "target": false,
-            "effect": "me_poisonarea"
+            "effect": "me_poisonarea",
+            "statusOnly": true,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 41,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
         }
     ],
     "defenseSpells": [

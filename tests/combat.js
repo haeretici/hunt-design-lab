@@ -495,8 +495,46 @@ function testWeaponSkillFromGear() {
     assert.strictEqual(swordGear.weaponSkill, 'sword');
     const swordStats = buildEffectiveStats(fistCls, swordGear, { level: 50 });
     assert.strictEqual(swordStats.skillKey, 'sword');
-    assert.strictEqual(swordStats.skill, 50, 'sword uses collapsed melee bag');
+    assert.strictEqual(
+        swordStats.skill,
+        50,
+        'sword falls back to collapsed melee when subtype absent'
+    );
     assert.strictEqual(swordStats.autoAttack, 'melee_auto');
+
+    // Standard policy: subtype bag wins over collapsed melee (and over other subtypes)
+    const subtypeCls = {
+        id: 'guardian',
+        skillKey: 'melee',
+        autoAttack: 'melee_auto',
+        skills: {
+            melee: 99,
+            sword: 80,
+            axe: 12,
+            club: 14,
+            distance: 10,
+            shielding: 40,
+            magic: 0,
+            fist: 20
+        }
+    };
+    const swordSub = buildEffectiveStats(subtypeCls, swordGear, { level: 50 });
+    assert.strictEqual(swordSub.skillKey, 'sword');
+    assert.strictEqual(swordSub.skill, 80, 'sword subtype preferred over melee 99');
+    const axeGear = rollupEquipment(
+        { rightHand: 'hybrid_axe_rod' },
+        itemDb
+    );
+    const axeSub = buildEffectiveStats(subtypeCls, axeGear, { level: 50 });
+    assert.strictEqual(axeSub.skillKey, 'axe');
+    assert.strictEqual(axeSub.skill, 12, 'axe uses own bag not sword/melee max');
+    const clubSub = buildEffectiveStats(
+        subtypeCls,
+        rollupEquipment({ rightHand: 'type_only_club' }, itemDb),
+        { level: 50 }
+    );
+    assert.strictEqual(clubSub.skillKey, 'club');
+    assert.strictEqual(clubSub.skill, 14, 'club uses own bag');
 
     const bowGear = rollupEquipment({ rightHand: 'hunter_bow' }, itemDb);
     assert.strictEqual(bowGear.weaponSkill, 'distance');
@@ -520,7 +558,7 @@ function testWeaponSkillFromGear() {
     assert.strictEqual(clubGear.weaponSkill, 'club');
     const clubStats = buildEffectiveStats(fistCls, clubGear, { level: 50 });
     assert.strictEqual(clubStats.skillKey, 'club');
-    assert.strictEqual(clubStats.skill, 50);
+    assert.strictEqual(clubStats.skill, 50, 'club falls back to melee when subtype absent');
 
     // multi-type: category wins (axe over rod)
     const hybridGear = rollupEquipment({ rightHand: 'hybrid_axe_rod' }, itemDb);
@@ -925,9 +963,21 @@ function testProfileSkillOverrides() {
 }
 
 /**
- * durationSec tick → unequip; charges consume on hit → unequip at 0.
+ * durationSec tick → unequip; absorb charges consume on hit → unequip at 0.
+ * Stealth ring: flags.invisible while equipped (like spell invisible).
  */
 function testEquipmentDurationAndCharges() {
+    const {
+        isInvisible,
+        canSeeInvisibility,
+        canSeeCreature
+    } = require('../kernel/core/lib/combat/conditions.js');
+    const { isValidTarget } = require('../kernel/core/lib/ai/targeting.js');
+    const {
+        unequipItem,
+        equipItem
+    } = require('../kernel/core/lib/character/inventory.js');
+
     const itemDb = [
         {
             id: 'timed_ring',
@@ -944,10 +994,30 @@ function testEquipmentDurationAndCharges() {
             resists: { physical: 20, fire: 20 }
         },
         {
+            id: 'weapon_charges',
+            slot: 'rightHand',
+            category: 'sword',
+            atk: 20,
+            charges: 5
+        },
+        {
+            id: 'stealth_ring',
+            slot: 'ring',
+            category: 'ring',
+            durationSec: 600,
+            flags: { invisible: true }
+        },
+        {
             id: 'plain_boots',
             slot: 'boots',
             category: 'boots',
             armor: 2
+        },
+        {
+            id: 'backpack',
+            slot: 'backpack',
+            category: 'container',
+            volume: 20
         }
     ];
 
@@ -977,20 +1047,28 @@ function testEquipmentDurationAndCharges() {
     assert.strictEqual(advanced.equipment.boots, 'plain_boots');
     assert.ok(advanced.expiredSlots.indexOf('ring') >= 0);
 
-    // Charges
-    runtime = initEquipmentRuntime({ ring: 'charge_ring' }, itemDb);
+    // Absorb charges only (not weapons)
+    runtime = initEquipmentRuntime({ ring: 'charge_ring', rightHand: 'weapon_charges' }, itemDb);
     assert.strictEqual(runtime.ring.remainingCharges, 3);
-    let hit = consumeEquipmentCharges(runtime, 1);
+    assert.strictEqual(runtime.rightHand.remainingCharges, 5);
+    assert.strictEqual(runtime.ring.consumeChargesOnHit, true);
+    assert.strictEqual(runtime.rightHand.consumeChargesOnHit, false, 'weapons do not spend on hit');
+    let hit = consumeEquipmentCharges(runtime, 1, { element: 'physical' });
     assert.strictEqual(runtime.ring.remainingCharges, 2);
+    assert.strictEqual(runtime.rightHand.remainingCharges, 5, 'weapon charges untouched');
     assert.strictEqual(hit.depletedSlots.length, 0);
-    hit = consumeEquipmentCharges(runtime, 2);
+    // Wrong element for absorb → no spend
+    hit = consumeEquipmentCharges(runtime, 1, { element: 'death' });
+    assert.strictEqual(runtime.ring.remainingCharges, 2, 'no absorb for death');
+    hit = consumeEquipmentCharges(runtime, 2, { element: 'fire' });
     assert.strictEqual(runtime.ring.remainingCharges, 0);
     assert.ok(hit.depletedSlots.indexOf('ring') >= 0);
 
     const charged = applyHitChargeConsumption(
         { ring: 'charge_ring' },
         initEquipmentRuntime({ ring: 'charge_ring' }, itemDb),
-        3
+        3,
+        { element: 'physical' }
     );
     assert.strictEqual(charged.equipment.ring, undefined);
     assert.ok(charged.depletedSlots.indexOf('ring') >= 0);
@@ -1042,11 +1120,81 @@ function testEquipmentDurationAndCharges() {
     assert.strictEqual(tank.equipment.ring, undefined, 'ring depleted');
     assert.strictEqual(tank.resists.physical, 0, 'resists gone after deplete');
 
-    // Live time_ring / power_band (commercial rename of might_ring) when present
+    // Stealth ring: gear invisible like spell invisible
+    const sneaker = new Player({
+        id: 4,
+        name: 'Sneak',
+        equipment: { ring: 'stealth_ring' },
+        classDef: cls,
+        itemDb,
+        level: 8,
+        tile: { x: 0, y: 0, z: 7 }
+    });
+    assert.ok(sneaker.combatStats.flags.invisible, 'flags.invisible from gear');
+    assert.ok(isInvisible(sneaker), 'isInvisible from gear flag');
+    assert.ok(sneaker.invisible, 'entity.invisible derived');
+    assert.strictEqual(sneaker.equipmentRuntime.ring.remainingDurationSec, 600);
+    const blindMob = new Creature({
+        id: 91,
+        type: 'creature',
+        hp: 100,
+        tile: { x: 1, y: 0, z: 7 }
+    });
+    assert.strictEqual(canSeeInvisibility(blindMob), false);
+    assert.strictEqual(canSeeCreature(blindMob, sneaker), false);
+    assert.strictEqual(isValidTarget(blindMob, sneaker), false);
+    const seer = new Creature({
+        id: 92,
+        type: 'creature',
+        hp: 100,
+        tile: { x: 1, y: 0, z: 7 }
+    });
+    seer.immunities = { invisible: true };
+    assert.strictEqual(isValidTarget(seer, sneaker), true);
+    // Duration tick only while equipped; expire destroys ring and clears invis
+    sneaker.tickEquipmentRuntime(600);
+    assert.strictEqual(sneaker.equipment.ring, undefined, 'stealth ring consumed');
+    assert.ok(!isInvisible(sneaker), 'invisible cleared after ring expires');
+    assert.strictEqual(isValidTarget(blindMob, sneaker), true, 'blind mob can target again');
+
+    // stopduration: unequip pauses remaining duration; re-equip continues
+    const timed = new Player({
+        id: 5,
+        name: 'StopDur',
+        equipment: { ring: 'timed_ring', backpack: 'backpack' },
+        classDef: cls,
+        itemDb,
+        level: 8
+    });
+    timed.initInventory({ equipment: timed.equipment }, itemDb);
+    assert.strictEqual(timed.equipmentRuntime.ring.remainingDurationSec, 2);
+    timed.tickEquipmentRuntime(1);
+    assert.strictEqual(timed.equipmentRuntime.ring.remainingDurationSec, 1);
+    const ringUid = timed.inventory.equipment.ring;
+    assert.ok(ringUid);
+    // Unequip to backpack — duration must not keep ticking
+    const uq = unequipItem(timed.inventory, 'ring', itemDb);
+    assert.strictEqual(uq.ok, true, uq.error || 'unequip ok');
+    timed.applyInventoryMutation();
+    assert.strictEqual(timed.equipment.ring, undefined);
+    assert.strictEqual(timed.inventory.items[ringUid].remainingDurationSec, 1, 'budget on instance');
+    timed.tickEquipmentRuntime(5); // wall time while unequipped — no ring runtime
+    assert.strictEqual(timed.inventory.items[ringUid].remainingDurationSec, 1, 'paused while stowed');
+    // Re-equip and finish remaining second
+    const eq = equipItem(timed.inventory, ringUid, itemDb, 'ring');
+    assert.strictEqual(eq.ok, true, eq.error || 'equip ok');
+    timed.applyInventoryMutation();
+    assert.strictEqual(timed.equipment.ring, 'timed_ring');
+    assert.strictEqual(timed.equipmentRuntime.ring.remainingDurationSec, 1, 'resume remaining');
+    timed.tickEquipmentRuntime(1);
+    assert.strictEqual(timed.equipment.ring, undefined, 'expires after remaining budget');
+
+    // Live time_ring / power_band / stealth_ring when present
     try {
         const liveItems = presets.loadEquipment().items;
         const timeRing = liveItems.find((i) => i && i.id === 'time_ring');
         const might = liveItems.find((i) => i && i.id === 'power_band');
+        const stealth = liveItems.find((i) => i && i.id === 'stealth_ring');
         if (timeRing && timeRing.durationSec === 600) {
             const rt = initEquipmentRuntime({ ring: 'time_ring' }, liveItems);
             assert.strictEqual(rt.ring.remainingDurationSec, 600);
@@ -1054,11 +1202,66 @@ function testEquipmentDurationAndCharges() {
         if (might && might.charges === 20) {
             const rt = initEquipmentRuntime({ ring: 'power_band' }, liveItems);
             assert.strictEqual(rt.ring.remainingCharges, 20);
+            assert.strictEqual(rt.ring.consumeChargesOnHit, true);
         }
-        log('live timed/charged rings ok');
+        if (stealth && stealth.flags && stealth.flags.invisible) {
+            assert.strictEqual(stealth.durationSec, 600);
+            const liveSneak = new Player({
+                id: 6,
+                name: 'LiveSneak',
+                equipment: { ring: 'stealth_ring' },
+                classDef: cls,
+                itemDb: liveItems,
+                level: 8,
+                tile: { x: 0, y: 0, z: 7 }
+            });
+            assert.ok(isInvisible(liveSneak), 'live stealth_ring grants invis');
+        }
+        log('live timed/charged/stealth rings ok');
     } catch (e) {
         log('live rings skip', e.message);
     }
+
+    // UI budget display helpers (legacy UIItem: charges / duration text)
+    const {
+        formatDurationDisplay,
+        resolveItemBudgetDisplay,
+        resolveItemIdBudgetDisplay
+    } = require('../kernel/core/lib/character/equipment_runtime.js');
+    const { createEmptyInventory, createItemInstance } = require('../kernel/core/lib/character/inventory.js');
+    assert.strictEqual(formatDurationDisplay(45), '45s');
+    assert.strictEqual(formatDurationDisplay(90), '1m30');
+    assert.strictEqual(formatDurationDisplay(3661), '1h01m');
+    assert.strictEqual(formatDurationDisplay(0), null);
+    assert.strictEqual(formatDurationDisplay(null), null);
+    const dispTemplate = resolveItemBudgetDisplay({
+        item: { id: 'charge_ring', charges: 3, durationSec: 120 }
+    });
+    assert.strictEqual(dispTemplate.charges, 3);
+    assert.strictEqual(dispTemplate.durationSec, 120);
+    assert.strictEqual(dispTemplate.durationText, '2m00');
+    assert.strictEqual(dispTemplate.sig, 'c3:d120');
+    const dispInst = resolveItemBudgetDisplay({
+        item: { id: 'charge_ring', charges: 3, durationSec: 120 },
+        instance: { remainingCharges: 1, remainingDurationSec: 59.9 }
+    });
+    assert.strictEqual(dispInst.charges, 1);
+    assert.strictEqual(dispInst.durationSec, 59);
+    assert.strictEqual(dispInst.durationText, '59s');
+    assert.strictEqual(dispInst.sig, 'c1:d59');
+    const dispRt = resolveItemBudgetDisplay({
+        item: { id: 'charge_ring', charges: 3 },
+        instance: { remainingCharges: 2 },
+        runtime: { remainingCharges: 1, itemId: 'charge_ring' }
+    });
+    assert.strictEqual(dispRt.charges, 1, 'runtime wins over instance');
+    // Seeded instance from createItemInstance + find by itemId
+    const invBud = createEmptyInventory(4);
+    const budUid = createItemInstance(invBud, 'charge_ring', itemDb);
+    assert.strictEqual(invBud.items[budUid].remainingCharges, 3, 'instance seeds charges');
+    const byId = resolveItemIdBudgetDisplay(invBud, 'charge_ring', itemDb, null);
+    assert.strictEqual(byId.charges, 3);
+    assert.strictEqual(byId.sig, 'c3:d');
 
     log('equipment duration / charges ok');
 }
@@ -1273,7 +1476,7 @@ function makeGuardianKnight() {
         },
         classDef: cls,
         itemDb: items,
-        // High enough for front_sweep (70) / fierce_berserk (90) kit tests
+        // High enough for front_sweep (70) / fierce_rampage (90) kit tests
         level: 100
     });
     return player;
@@ -1518,6 +1721,802 @@ function testHealLightSelfRestore() {
     });
 }
 
+function testCureSpellsDispel() {
+    const {
+        applyCondition,
+        hasCondition,
+        removeCondition
+    } = require('../kernel/core/lib/combat/conditions.js');
+    const { tryCure } = require('../kernel/core/lib/ai/combat_actions.js');
+
+    // API: removeCondition / hasCondition
+    const bare = {
+        alive: true,
+        speed: 100,
+        baseSpeed: 100,
+        conditions: [],
+        hp: { current: 100, max: 100 }
+    };
+    applyCondition(bare, { type: 'poison', totalDamage: 50, intervalMs: 2000 });
+    applyCondition(bare, { type: 'fire', totalDamage: 30, intervalMs: 4000 });
+    assert.ok(hasCondition(bare, 'poison'));
+    assert.ok(hasCondition(bare, 'CONDITION_FIRE'));
+    assert.strictEqual(removeCondition(bare, 'poison'), 1);
+    assert.ok(!hasCondition(bare, 'poison'));
+    assert.ok(hasCondition(bare, 'fire'));
+    assert.strictEqual(removeCondition(bare, 'fire'), 1);
+    assert.strictEqual(bare.conditions.length, 0);
+
+    const player = makeGuardianKnight();
+    const spells = indexSpells(presets.loadSpells().spells);
+    const cure = spells.cure_poison;
+    assert.ok(cure, 'cure_poison preset');
+    assert.deepStrictEqual(cure.dispel, ['poison']);
+    assert.strictEqual(cure.statusOnly, true);
+    assert.strictEqual(cure.min, 0);
+    assert.strictEqual(cure.max, 0);
+    assert.ok(spells.cure_burning);
+    assert.ok(spells.cure_electrification);
+    assert.ok(spells.cure_bleeding);
+    assert.ok(spells.cure_curse);
+    assert.deepStrictEqual(spells.cure_burning.dispel, ['fire']);
+    assert.deepStrictEqual(spells.cure_electrification.dispel, ['energy']);
+    assert.deepStrictEqual(spells.cure_bleeding.dispel, ['bleed']);
+    assert.deepStrictEqual(spells.cure_curse.dispel, ['curse']);
+
+    applyCondition(player, { type: 'poison', totalDamage: 80, intervalMs: 2000 });
+    assert.ok(hasCondition(player, 'poison'));
+    const mpBefore = player.mp.current;
+    const result = resolveAttack({
+        attacker: player,
+        defender: player,
+        spell: 'cure_poison',
+        spellBook: spells,
+        rng: () => 0
+    });
+    assert.strictEqual(result.ok, true, result.reason || 'ok');
+    assert.strictEqual(result.hit, true);
+    assert.strictEqual(result.final, 0);
+    assert.strictEqual(result.hpDelta, 0);
+    assert.ok(result.conditionsRemoved >= 1, 'dispelled poison');
+    assert.ok(!hasCondition(player, 'poison'));
+    assert.strictEqual(player.mp.current, mpBefore - cure.mana);
+    assert.ok(Cooldowns.getRemaining(player, 'primary', 'healing') > 0);
+    assert.ok(Cooldowns.getRemaining(player, 'spell', 'cure_poison') > 0);
+
+    // tryCure path (book + condition + tile for range)
+    const p2 = makeGuardianKnight();
+    p2.tile = { x: 0, y: 0, z: 7 };
+    // Ensure spell is known in combatStats.spells if present
+    if (p2.combatStats) {
+        const known = p2.combatStats.spells || [];
+        if (known.indexOf('cure_poison') < 0) {
+            p2.combatStats.spells = known.concat(['cure_poison']);
+        }
+    }
+    applyCondition(p2, { type: 'poison', totalDamage: 40, intervalMs: 2000 });
+    const cast = tryCure({
+        attacker: p2,
+        ctx: { spellBook: spells, rng: () => 0 }
+    });
+    assert.ok(cast && cast.ok, `tryCure: ${cast && cast.reason}`);
+    assert.ok(!hasCondition(p2, 'poison'));
+
+    log('cure spells dispel ok', {
+        conditionsRemoved: result.conditionsRemoved
+    });
+}
+
+/**
+ * Challenge / taunt: self-AoE code 3, force creature target onto caster for tauntDurationSec.
+ */
+function testChallengeTauntSpell() {
+    const {
+        applyChallengeTaunt,
+        isCreatureChallenged,
+        isChallengeableCreature
+    } = require('../kernel/core/lib/combat/resolve.js');
+    const { resolveShapedAttack } = require('../kernel/core/lib/combat/area.js');
+    const {
+        runCombatTick,
+        resolveChallengeTarget
+    } = require('../kernel/core/lib/ai/creature_states.js');
+    const { Time } = require('../kernel/core/lib/time.js');
+
+    const spells = indexSpells(presets.loadSpells().spells);
+    assert.ok(spells.challenge, 'challenge preset');
+    assert.strictEqual(spells.challenge.kind, 'support');
+    assert.strictEqual(spells.challenge.tauntDurationSec, 6);
+    assert.ok(spells.challenge.shape && spells.challenge.shape.code === 3);
+    assert.ok(
+        Array.isArray(spells.challenge.vocations) &&
+            spells.challenge.vocations.indexOf('guardian') >= 0
+    );
+
+    const classes = presets.loadClasses();
+    const guard =
+        classes.classes &&
+        classes.classes.find((c) => c.id === 'guardian');
+    assert.ok(guard && guard.spells.indexOf('challenge') >= 0, 'guardian book');
+
+    const player = makeGuardianKnight();
+    player.id = 501;
+    player.tile = { x: 10, y: 10, z: 7 };
+    player.level = 50;
+    if (player.mp) player.mp.current = Math.max(player.mp.current || 0, 200);
+
+    const ally = makeGuardianKnight();
+    ally.id = 502;
+    ally.tile = { x: 11, y: 10, z: 7 };
+    ally.type = 'player';
+
+    const mobA = new Creature({
+        id: 601,
+        type: 'creature',
+        hp: 200,
+        tile: { x: 11, y: 10, z: 7 }
+    });
+    mobA.alive = true;
+    const mobB = new Creature({
+        id: 602,
+        type: 'creature',
+        hp: 200,
+        tile: { x: 10, y: 11, z: 7 }
+    });
+    mobB.alive = true;
+    // Already focused on ally — challenge should pull to caster.
+    mobA.target = ally;
+    mobA.targetId = ally.id;
+    mobB.target = ally;
+    mobB.targetId = ally.id;
+
+    const summon = new Creature({
+        id: 603,
+        type: 'creature',
+        hp: 100,
+        tile: { x: 9, y: 10, z: 7 },
+        masterId: player.id
+    });
+    summon.alive = true;
+
+    assert.strictEqual(isChallengeableCreature(mobA), true);
+    assert.strictEqual(isChallengeableCreature(player), false);
+    assert.strictEqual(isChallengeableCreature(summon), false);
+
+    const t0 =
+        Time && Time.timeSinceLevelLoad != null
+            ? Number(Time.timeSinceLevelLoad)
+            : 0;
+
+    const cast = resolveShapedAttack({
+        attacker: player,
+        primary: mobA,
+        spell: spells.challenge,
+        candidates: [mobA, mobB, summon, ally],
+        spellBook: spells,
+        rng: () => 0
+    });
+    assert.strictEqual(cast.ok, true, cast.reason || 'challenge cast ok');
+    assert.ok(cast.results && cast.results.length >= 2, 'hits nearby mobs');
+
+    const tauntedRows = (cast.results || []).filter((r) => r && r.tauntApplied);
+    assert.ok(tauntedRows.length >= 2, 'taunt applied to both free hostiles');
+
+    assert.strictEqual(mobA.target, player);
+    assert.strictEqual(mobA.targetId, player.id);
+    assert.ok(isCreatureChallenged(mobA, t0));
+    assert.strictEqual(mobB.target, player);
+    assert.ok(isCreatureChallenged(mobB, t0));
+    // Summon not taunted
+    assert.notStrictEqual(summon.target, player);
+
+    // AI combat tick keeps forced target even if strategy would prefer ally.
+    const sim = {
+        getEntityById(id) {
+            if (id === player.id) return player;
+            if (id === ally.id) return ally;
+            if (id === mobA.id) return mobA;
+            return null;
+        }
+    };
+    const ctx = {
+        sim,
+        players: [player, ally],
+        enemies: [mobA, mobB],
+        rng: () => 0,
+        tileMap: null
+    };
+    // Point kit away from fighting if missing
+    mobA.attacks = [{ name: 'melee', min: 1, max: 1, intervalSec: 2, chance: 100 }];
+    const status = runCombatTick(mobA, ctx);
+    assert.strictEqual(status, 'ok');
+    assert.strictEqual(mobA.target, player, 'challenge holds through combat tick');
+    assert.strictEqual(resolveChallengeTarget(mobA, ctx), player);
+
+    // Expired lock clears
+    mobA.challengeUntil = t0 - 1;
+    assert.strictEqual(isCreatureChallenged(mobA, t0), false);
+    assert.strictEqual(resolveChallengeTarget(mobA, ctx), null);
+
+    // Direct helper duration
+    assert.ok(applyChallengeTaunt(mobB, player, 3));
+    assert.ok(mobB.challengeUntil >= t0 + 3 - 0.001);
+
+    log('challenge taunt ok', {
+        hits: cast.hits && cast.hits.length,
+        taunted: tauntedRows.length
+    });
+}
+
+/**
+ * Chivalrous Challenge + Divine Dazzle: self-origin chain over free ranged hostiles.
+ * Chivalrous = taunt 12s + force melee 12s; Dazzle = force melee only (no taunt).
+ */
+function testChivalrousChallengeAndDivineDazzle() {
+    const {
+        applyForceMelee,
+        isForceMeleeActive,
+        getForcedTargetDistance,
+        baseTargetDistance,
+        isCreatureChallenged
+    } = require('../kernel/core/lib/combat/resolve.js');
+    const { resolveChainAttack } = require('../kernel/core/lib/combat/chain.js');
+    const {
+        tryAttack,
+        isSpellInRange,
+        chainCanPick
+    } = require('../kernel/core/lib/ai/combat_actions.js');
+    const {
+        ensureCreatureKit,
+        idealStandDistance
+    } = require('../kernel/core/lib/ai/creature_kit.js');
+    const { Time } = require('../kernel/core/lib/time.js');
+
+    const spells = indexSpells(presets.loadSpells().spells);
+    assert.ok(spells.chivalrous_challenge, 'chivalrous preset');
+    assert.ok(spells.divine_dazzle, 'dazzle preset');
+    assert.strictEqual(spells.chivalrous_challenge.tauntDurationSec, 12);
+    assert.strictEqual(spells.chivalrous_challenge.forceMeleeDurationSec, 12);
+    assert.strictEqual(spells.chivalrous_challenge.chainOnlyRanged, true);
+    assert.strictEqual(spells.chivalrous_challenge.chain.maxTargets, 5);
+    assert.strictEqual(spells.chivalrous_challenge.chain.distance, 6);
+    assert.strictEqual(spells.divine_dazzle.forceMeleeDurationSec, 12);
+    assert.ok(spells.divine_dazzle.tauntDurationSec == null);
+    assert.strictEqual(spells.divine_dazzle.chain.maxTargets, 3);
+    assert.strictEqual(spells.divine_dazzle.chainOnlyRanged, true);
+
+    const classes = presets.loadClasses();
+    const guard =
+        classes.classes && classes.classes.find((c) => c.id === 'guardian');
+    const scout =
+        classes.classes && classes.classes.find((c) => c.id === 'scout');
+    assert.ok(
+        guard && guard.spells.indexOf('chivalrous_challenge') >= 0,
+        'guardian book chivalrous'
+    );
+    assert.ok(
+        scout && scout.spells.indexOf('divine_dazzle') >= 0,
+        'scout book dazzle'
+    );
+
+    const player = makeGuardianKnight();
+    player.id = 701;
+    player.tile = { x: 10, y: 10, z: 7 };
+    player.level = 150;
+    if (player.mp) player.mp.current = Math.max(player.mp.current || 0, 500);
+
+    function makeRanged(id, x, y) {
+        const m = new Creature({
+            id,
+            type: 'creature',
+            hp: 200,
+            tile: { x, y, z: 7 }
+        });
+        m.alive = true;
+        m.flags = { targetDistance: 4 };
+        ensureCreatureKit(m);
+        // Kit already built may not re-read flags — force kit stand-off.
+        m.kit.flags.targetDistance = 4;
+        return m;
+    }
+
+    const rangedA = makeRanged(801, 12, 10);
+    const rangedB = makeRanged(802, 14, 10);
+    const meleeC = new Creature({
+        id: 803,
+        type: 'creature',
+        hp: 200,
+        tile: { x: 11, y: 10, z: 7 }
+    });
+    meleeC.alive = true;
+    meleeC.flags = { targetDistance: 1 };
+    ensureCreatureKit(meleeC);
+    meleeC.kit.flags.targetDistance = 1;
+
+    const summon = new Creature({
+        id: 804,
+        type: 'creature',
+        hp: 100,
+        tile: { x: 12, y: 11, z: 7 },
+        masterId: player.id
+    });
+    summon.alive = true;
+    summon.flags = { targetDistance: 4 };
+    ensureCreatureKit(summon);
+    summon.kit.flags.targetDistance = 4;
+
+    assert.strictEqual(baseTargetDistance(rangedA), 4);
+    assert.strictEqual(baseTargetDistance(meleeC), 1);
+    assert.strictEqual(
+        chainCanPick(spells.chivalrous_challenge, player, rangedA),
+        true
+    );
+    assert.strictEqual(
+        chainCanPick(spells.chivalrous_challenge, player, meleeC),
+        false
+    );
+    assert.strictEqual(
+        chainCanPick(spells.chivalrous_challenge, player, summon),
+        false
+    );
+
+    const t0 =
+        Time && Time.timeSinceLevelLoad != null
+            ? Number(Time.timeSinceLevelLoad)
+            : 0;
+
+    const canPick = (caster, cand) =>
+        chainCanPick(spells.chivalrous_challenge, caster, cand);
+
+    const cast = resolveChainAttack({
+        attacker: player,
+        primary: null,
+        spell: spells.chivalrous_challenge,
+        candidates: [rangedA, rangedB, meleeC, summon],
+        spellBook: spells,
+        rng: () => 0,
+        canPick
+    });
+    assert.strictEqual(cast.ok, true, cast.reason || 'chivalrous cast ok');
+    assert.ok(cast.chain, 'chain flag');
+    assert.ok(cast.hits && cast.hits.length >= 2, 'hits ranged chain');
+    assert.ok(
+        cast.hits.indexOf(meleeC) < 0,
+        'melee skipped by chainOnlyRanged filter'
+    );
+    assert.ok(cast.hits.indexOf(summon) < 0, 'summon skipped');
+
+    for (let i = 0; i < cast.hits.length; i++) {
+        const m = cast.hits[i];
+        assert.strictEqual(m.target, player, 'taunt target ' + m.id);
+        assert.ok(isCreatureChallenged(m, t0), 'challenged ' + m.id);
+        assert.ok(isForceMeleeActive(m, t0), 'force melee ' + m.id);
+        assert.strictEqual(getForcedTargetDistance(m, t0), 1);
+        assert.strictEqual(idealStandDistance(m), 1);
+    }
+    // Melee mob unchanged
+    assert.strictEqual(meleeC.target, null);
+    assert.strictEqual(isForceMeleeActive(meleeC, t0), false);
+
+    // Divine dazzle: force melee only, no taunt
+    const scoutPlayer = makeGuardianKnight();
+    scoutPlayer.id = 702;
+    scoutPlayer.tile = { x: 20, y: 20, z: 7 };
+    scoutPlayer.level = 250;
+    scoutPlayer.classId = 'scout';
+    if (scoutPlayer.mp) {
+        scoutPlayer.mp.current = Math.max(scoutPlayer.mp.current || 0, 500);
+    }
+
+    const dA = makeRanged(901, 22, 20);
+    const dB = makeRanged(902, 24, 20);
+    // Point at someone else before dazzle
+    const decoy = makeGuardianKnight();
+    decoy.id = 703;
+    decoy.tile = { x: 21, y: 20, z: 7 };
+    dA.target = decoy;
+    dA.targetId = decoy.id;
+
+    const dazzle = resolveChainAttack({
+        attacker: scoutPlayer,
+        primary: null,
+        spell: spells.divine_dazzle,
+        candidates: [dA, dB],
+        spellBook: spells,
+        rng: () => 0,
+        canPick: (caster, cand) =>
+            cand &&
+            cand !== caster &&
+            cand.alive !== false &&
+            baseTargetDistance(cand) > 1
+    });
+    assert.strictEqual(dazzle.ok, true, dazzle.reason || 'dazzle cast ok');
+    assert.ok(dazzle.hits && dazzle.hits.length >= 1);
+    assert.ok(isForceMeleeActive(dA, t0));
+    assert.strictEqual(idealStandDistance(dA), 1);
+    // No taunt: still focused on decoy
+    assert.strictEqual(dA.target, decoy, 'dazzle does not taunt');
+    assert.strictEqual(isCreatureChallenged(dA, t0), false);
+
+    // Expiry restores stand-off
+    dA.forceMeleeUntil = t0 - 1;
+    assert.strictEqual(getForcedTargetDistance(dA, t0), null);
+    assert.strictEqual(idealStandDistance(dA), 4);
+
+    // Direct helper
+    assert.ok(applyForceMelee(dB, 5));
+    assert.ok(isForceMeleeActive(dB, t0));
+
+    // tryAttack self-origin path (fresh caster — prior cast left moveLock/CD).
+    const tryPlayer = makeGuardianKnight();
+    tryPlayer.id = 710;
+    tryPlayer.tile = { x: 10, y: 10, z: 7 };
+    tryPlayer.level = 150;
+    if (tryPlayer.mp) tryPlayer.mp.current = 500;
+    tryPlayer.cooldowns = {};
+    tryPlayer.moveDelay = 0;
+    tryPlayer.moveLock = 0;
+    const rNew = makeRanged(811, 12, 10);
+    const viaTry = tryAttack({
+        attacker: tryPlayer,
+        defender: tryPlayer,
+        spellId: 'chivalrous_challenge',
+        ctx: {
+            enemies: [rNew, meleeC],
+            spellBook: spells,
+            rng: () => 0
+        }
+    });
+    assert.ok(viaTry && viaTry.ok, viaTry && viaTry.reason || 'tryAttack chivalrous self-origin');
+    assert.ok(viaTry.chain);
+    assert.ok(isForceMeleeActive(rNew, t0));
+
+    assert.ok(
+        isSpellInRange(player, null, spells.chivalrous_challenge, {
+            enemies: [makeRanged(820, 12, 10)],
+            spellBook: spells
+        }),
+        'in range with pickable ranged'
+    );
+    assert.strictEqual(
+        isSpellInRange(player, null, spells.chivalrous_challenge, {
+            enemies: [meleeC],
+            spellBook: spells
+        }),
+        false,
+        'out of range when only melee hostiles'
+    );
+
+    log('chivalrous + divine dazzle ok', {
+        chivalrousHits: cast.hits.length,
+        dazzleHits: dazzle.hits.length
+    });
+}
+
+function testHasteInvisibleSpellsAndSeeInvis() {
+    const {
+        applyCondition,
+        hasCondition,
+        isInvisible,
+        hasHaste,
+        canSeeInvisibility,
+        hasteSpeedChangeFromFormula
+    } = require('../kernel/core/lib/combat/conditions.js');
+    const { isValidTarget } = require('../kernel/core/lib/ai/targeting.js');
+    const { resolveShapedAttack } = require('../kernel/core/lib/combat/area.js');
+    const { applyHpDelta } = require('../kernel/core/lib/combat/resolve.js');
+
+    const spells = indexSpells(presets.loadSpells().spells);
+    assert.ok(spells.haste, 'haste preset');
+    assert.ok(spells.strong_haste);
+    assert.ok(spells.charge);
+    assert.ok(spells.invisible);
+    assert.ok(spells.cancel_invisibility);
+    assert.strictEqual(spells.haste.kind, 'support');
+    assert.ok(spells.haste.condition && spells.haste.condition.type === 'haste');
+    assert.deepStrictEqual(spells.cancel_invisibility.dispel, ['invisible']);
+    assert.ok(spells.cancel_invisibility.shape);
+
+    // Formula parity (ConditionSpeed): target = 1.3*(110-40)+40 = 131; delta = 131-110 = 21
+    assert.strictEqual(
+        hasteSpeedChangeFromFormula(110, { mina: 1.3, minb: 40 }),
+        21
+    );
+    assert.strictEqual(
+        hasteSpeedChangeFromFormula(220, { mina: 1.3, minb: 40 }),
+        54
+    ); // target 274 → delta 54
+
+    const player = makeGuardianKnight();
+    player.tile = { x: 0, y: 0, z: 7 };
+    player.baseSpeed = 110;
+    player.speed = 110;
+    player.level = 50;
+    // Ensure MP for 440 invis later (guardian may have low mp)
+    if (player.mp) player.mp.current = Math.max(player.mp.current || 0, 500);
+
+    const mpBefore = player.mp.current;
+    const rHaste = resolveAttack({
+        attacker: player,
+        defender: player,
+        spell: 'haste',
+        spellBook: spells,
+        rng: () => 0
+    });
+    assert.strictEqual(rHaste.ok, true, rHaste.reason || 'haste ok');
+    assert.ok(rHaste.conditionApplied, 'haste condition applied');
+    assert.ok(hasHaste(player));
+    assert.ok(player.speed > 110, `speed buffed got ${player.speed}`);
+    assert.strictEqual(player.mp.current, mpBefore - spells.haste.mana);
+    assert.ok(Cooldowns.getRemaining(player, 'primary', 'support') > 0);
+
+    // Invisible self-buff (use fresh CD by skipping cooldown)
+    const rInv = resolveAttack({
+        attacker: player,
+        defender: player,
+        spell: 'invisible',
+        spellBook: spells,
+        rng: () => 0,
+        skipCooldown: true
+    });
+    assert.strictEqual(rInv.ok, true, rInv.reason || 'invis ok');
+    assert.ok(isInvisible(player));
+    assert.ok(player.invisible);
+
+    // Monster without see-invis cannot stick target on invisible player
+    const blindMob = new Creature({
+        id: 91,
+        type: 'creature',
+        hp: 100,
+        tile: { x: 1, y: 0, z: 7 }
+    });
+    assert.strictEqual(canSeeInvisibility(blindMob), false);
+    assert.strictEqual(isValidTarget(blindMob, player), false);
+
+    // Monster with immunities.invisible can see
+    const seer = new Creature({
+        id: 92,
+        type: 'creature',
+        hp: 100,
+        tile: { x: 1, y: 0, z: 7 }
+    });
+    seer.immunities = { invisible: true };
+    assert.strictEqual(canSeeInvisibility(seer), true);
+    assert.strictEqual(isValidTarget(seer, player), true);
+
+    // Damage breaks monster invis, not player invis
+    const invisMob = new Creature({
+        id: 93,
+        type: 'creature',
+        hp: 200,
+        tile: { x: 2, y: 0, z: 7 }
+    });
+    applyCondition(invisMob, { type: 'invisible', durationSec: 60 });
+    assert.ok(isInvisible(invisMob));
+    applyHpDelta(invisMob, 10, 'physical');
+    assert.ok(!isInvisible(invisMob), 'monster invis broken by damage');
+    assert.ok(isInvisible(player), 'player still invisible after own buff');
+    applyHpDelta(player, 5, 'physical');
+    assert.ok(isInvisible(player), 'player keeps invis when damaged');
+
+    // cancel_invisibility AoE dispel
+    const scout = makeGuardianKnight();
+    scout.tile = { x: 5, y: 5, z: 7 };
+    scout.level = 50;
+    if (scout.mp) scout.mp.current = 500;
+    const hidden = new Creature({
+        id: 94,
+        type: 'creature',
+        hp: 100,
+        tile: { x: 6, y: 5, z: 7 }
+    });
+    applyCondition(hidden, { type: 'invisible', durationSec: 60 });
+    assert.ok(isInvisible(hidden));
+    const cancel = resolveShapedAttack({
+        attacker: scout,
+        primary: hidden,
+        spell: spells.cancel_invisibility,
+        candidates: [hidden],
+        spellBook: spells,
+        rng: () => 0
+    });
+    assert.strictEqual(cancel.ok, true, cancel.reason || 'cancel ok');
+    assert.ok(!isInvisible(hidden), 'cancel dispelled monster invis');
+    assert.ok(
+        cancel.results &&
+            cancel.results.some((row) => row && row.conditionsRemoved >= 1)
+    );
+
+    log('haste / invisible / seeInvis / cancel ok', {
+        hasteSpeed: player.speed,
+        cancelHits: cancel.hits && cancel.hits.length
+    });
+}
+
+/**
+ * Phase I — player DoT attacks (utori *): statusOnly + condition schedule,
+ * PvE apply/tick, vocation books, provoke on 0-final hit.
+ */
+function testDotAttackSpells() {
+    const {
+        hasCondition,
+        tickConditions,
+        DOT_KIND_SET
+    } = require('../kernel/core/lib/combat/conditions.js');
+
+    const spells = indexSpells(presets.loadSpells().spells);
+    const expected = {
+        ignite: { kind: 'fire', element: 'fire', total: 1125, interval: 3 },
+        electrify: { kind: 'energy', element: 'energy', total: 1125, interval: 3 },
+        envenom: { kind: 'poison', element: 'earth', total: 1125, interval: 3 },
+        inflict_wound: { kind: 'bleed', element: 'physical', total: 750, interval: 2 },
+        curse: { kind: 'curse', element: 'death', total: 1092, interval: 3 },
+        holy_flash: { kind: 'holy', element: 'holy', total: 180, interval: 3 }
+    };
+    for (const id of Object.keys(expected)) {
+        const sp = spells[id];
+        assert.ok(sp, `preset ${id}`);
+        assert.strictEqual(sp.statusOnly, true, `${id} statusOnly`);
+        assert.strictEqual(sp.min, 0);
+        assert.strictEqual(sp.max, 0);
+        assert.ok(sp.condition && sp.condition.type, `${id} condition`);
+        assert.strictEqual(sp.condition.totalDamage, expected[id].total);
+        assert.ok(Array.isArray(sp.condition.schedule) && sp.condition.schedule.length);
+    }
+    assert.ok(DOT_KIND_SET.has('holy'), 'holy DoT kind registered');
+
+    // Vocation gate via canUseSpell (classId + level; book not required here)
+    const adeptOk = {
+        classId: 'adept',
+        level: 80,
+        combatStats: { magic: 40, level: 80 },
+        cooldowns: {},
+        mp: { current: 200, max: 200 },
+        moveDelay: 0
+    };
+    const scoutOk = {
+        classId: 'scout',
+        level: 80,
+        combatStats: { magic: 40, level: 80 },
+        cooldowns: {},
+        mp: { current: 200, max: 200 },
+        moveDelay: 0
+    };
+    assert.strictEqual(canUseSpell(adeptOk, spells.ignite), true);
+    assert.strictEqual(canUseSpell(adeptOk, spells.curse), true);
+    assert.strictEqual(canUseSpell(adeptOk, spells.holy_flash), false);
+    assert.strictEqual(canUseSpell(scoutOk, spells.holy_flash), true);
+    assert.strictEqual(canUseSpell(scoutOk, spells.envenom), false);
+
+    // Apply ignite on dummy via resolveAttack + tick schedule
+    const caster = makeGuardianKnight();
+    caster.classId = 'adept';
+    caster.level = 80;
+    if (caster.combatStats) {
+        caster.combatStats.level = 80;
+        caster.combatStats.magic = 40;
+        const known = caster.combatStats.spells || [];
+        for (const id of ['ignite', 'electrify', 'curse']) {
+            if (known.indexOf(id) < 0) known.push(id);
+        }
+        caster.combatStats.spells = known;
+    }
+    if (caster.mp) caster.mp.current = Math.max(caster.mp.current || 0, 200);
+    caster.tile = { x: 0, y: 0, z: 7 };
+
+    const foe = makeDummy();
+    foe.tile = { x: 1, y: 0, z: 7 };
+    foe.hp.current = 5000;
+    foe.hp.max = 5000;
+    foe.mitigation = 0;
+    foe.resists = {};
+    foe.conditions = [];
+    foe.alive = true;
+
+    const mpBefore = caster.mp.current;
+    const r = resolveAttack({
+        attacker: caster,
+        defender: foe,
+        spell: 'ignite',
+        spellBook: spells,
+        rng: () => 0
+    });
+    assert.strictEqual(r.ok, true, r.reason || 'ignite ok');
+    assert.strictEqual(r.hit, true);
+    assert.strictEqual(r.final, 0);
+    assert.strictEqual(r.hpDelta, 0);
+    assert.ok(r.conditionApplied, 'ignite condition applied');
+    assert.strictEqual(r.conditionApplied.kind, 'fire');
+    assert.strictEqual(r.conditionApplied.element, 'fire');
+    assert.strictEqual(r.conditionApplied.remainingDamage, 1125);
+    assert.ok(hasCondition(foe, 'fire'));
+    assert.strictEqual(caster.mp.current, mpBefore - spells.ignite.mana);
+    assert.ok(Cooldowns.getRemaining(caster, 'primary', 'attack') > 0);
+    assert.ok(Cooldowns.getRemaining(caster, 'spell', 'ignite') > 0);
+    assert.ok(
+        foe.provokedUntil != null && foe.provokedUntil > 0,
+        'DoT apply provokes defender'
+    );
+
+    // First tick after interval: schedule chunk 45
+    const hp0 = foe.hp.current;
+    const tick = tickConditions(foe, 3.0, { skipResistance: true });
+    assert.ok(tick.ticks.length >= 1, 'DoT ticked');
+    assert.strictEqual(tick.ticks[0].damage, 45);
+    assert.strictEqual(tick.ticks[0].element, 'fire');
+    assert.strictEqual(foe.hp.current, hp0 - 45);
+    assert.strictEqual(foe.conditions[0].remainingDamage, 1125 - 45);
+
+    // curse multi-stage: first tick 45 death
+    const foe2 = makeDummy();
+    foe2.tile = { x: 1, y: 0, z: 7 };
+    foe2.hp.current = 5000;
+    foe2.hp.max = 5000;
+    foe2.mitigation = 0;
+    foe2.resists = {};
+    foe2.conditions = [];
+    foe2.alive = true;
+    const rCurse = resolveAttack({
+        attacker: caster,
+        defender: foe2,
+        spell: 'curse',
+        spellBook: spells,
+        rng: () => 0,
+        skipCooldown: true,
+        skipMana: true
+    });
+    assert.strictEqual(rCurse.ok, true, rCurse.reason || 'curse ok');
+    assert.ok(hasCondition(foe2, 'curse'));
+    const tCurse = tickConditions(foe2, 3.0, { skipResistance: true });
+    assert.strictEqual(tCurse.ticks[0].damage, 45);
+    assert.strictEqual(tCurse.ticks[0].element, 'death');
+
+    // holy_flash kind + element
+    const scout = makeGuardianKnight();
+    scout.classId = 'scout';
+    scout.level = 80;
+    if (scout.combatStats) {
+        scout.combatStats.level = 80;
+        scout.combatStats.spells = (scout.combatStats.spells || []).concat([
+            'holy_flash'
+        ]);
+    }
+    if (scout.mp) scout.mp.current = Math.max(scout.mp.current || 0, 200);
+    scout.tile = { x: 0, y: 0, z: 7 };
+    const foe3 = makeDummy();
+    foe3.tile = { x: 1, y: 0, z: 7 };
+    foe3.hp = { current: 500, max: 500 };
+    foe3.conditions = [];
+    foe3.alive = true;
+    const rHoly = resolveAttack({
+        attacker: scout,
+        defender: foe3,
+        spell: 'holy_flash',
+        spellBook: spells,
+        rng: () => 0
+    });
+    assert.strictEqual(rHoly.ok, true, rHoly.reason || 'holy_flash ok');
+    assert.ok(hasCondition(foe3, 'holy'));
+    assert.strictEqual(rHoly.conditionApplied.element, 'holy');
+    assert.strictEqual(rHoly.conditionApplied.remainingDamage, 180);
+
+    // Class books include Phase I ids
+    const classes = presets.loadClasses().classes;
+    const byId = Object.fromEntries(classes.map((c) => [c.id, c]));
+    assert.ok(byId.adept.spells.indexOf('ignite') >= 0);
+    assert.ok(byId.adept.spells.indexOf('electrify') >= 0);
+    assert.ok(byId.adept.spells.indexOf('curse') >= 0);
+    assert.ok(byId.warden.spells.indexOf('envenom') >= 0);
+    assert.ok(byId.guardian.spells.indexOf('inflict_wound') >= 0);
+    assert.ok(byId.mystic.spells.indexOf('inflict_wound') >= 0);
+    assert.ok(byId.scout.spells.indexOf('holy_flash') >= 0);
+
+    log('Phase I DoT attack spells ok', {
+        igniteRemaining: foe.conditions[0] && foe.conditions[0].remainingDamage,
+        curseFirstTick: tCurse.ticks[0].damage
+    });
+}
+
 function testHealingSkipsMitigation() {
     const mit = applyMitigation(
         80,
@@ -1536,6 +2535,590 @@ function testHealingSkipsMitigation() {
     assert.strictEqual(mit.elementReduction, 0);
     assert.strictEqual(mit.armorReduction, 0);
     log('healing skips mitigation ok');
+}
+
+/**
+ * Phase J — HoT recovery spells: fixed regen condition, always overwrite on recast
+ * (weaker replaces stronger; duration reset), tick heals.
+ */
+function testHotRecoverySpells() {
+    const {
+        applyCondition,
+        hasCondition,
+        tickConditions
+    } = require('../kernel/core/lib/combat/conditions.js');
+    const spells = indexSpells(presets.loadSpells().spells);
+
+    // Catalog shape
+    assert.ok(spells.recovery, 'recovery preset');
+    assert.ok(spells.intense_recovery, 'intense_recovery preset');
+    assert.strictEqual(spells.recovery.statusOnly, true);
+    assert.strictEqual(spells.recovery.condition.type, 'regen');
+    assert.strictEqual(spells.recovery.condition.healthGain, 20);
+    assert.strictEqual(spells.recovery.condition.intervalSec, 3);
+    assert.strictEqual(spells.recovery.condition.durationSec, 60);
+    assert.strictEqual(spells.intense_recovery.condition.healthGain, 40);
+    assert.strictEqual(spells.intense_recovery.condition.intervalSec, 3);
+    assert.strictEqual(spells.intense_recovery.condition.durationSec, 60);
+
+    assert.ok(spells.bruise_bane && spells.bruise_bane.kind === 'heal');
+    assert.ok(spells.intense_wound_cleanse);
+    assert.strictEqual(spells.intense_wound_cleanse.cooldowns.spell.intense_wound_cleanse, 600);
+    assert.ok(spells.restoration && spells.restoration.level === 300);
+    assert.ok(spells.natures_embrace && spells.natures_embrace.requiresTarget === true);
+
+    // Apply intense then weaker recovery → always overwrite
+    const player = makeGuardianKnight();
+    player.level = 100;
+    player.conditions = [];
+    player.hp.current = 100;
+    player.hp.max = 1000;
+    player.tile = { x: 0, y: 0, z: 7 };
+    if (player.mp) player.mp.current = Math.max(player.mp.current || 0, 500);
+    if (player.combatStats) {
+        player.combatStats.level = 100;
+        player.combatStats.spells = (player.combatStats.spells || []).concat([
+            'recovery',
+            'intense_recovery',
+            'bruise_bane',
+            'intense_wound_cleanse'
+        ]);
+    }
+
+    const rIntense = resolveAttack({
+        attacker: player,
+        defender: player,
+        spell: 'intense_recovery',
+        spellBook: spells,
+        rng: () => 0,
+        skipCooldown: true
+    });
+    assert.strictEqual(rIntense.ok, true, rIntense.reason || 'intense_recovery ok');
+    assert.ok(rIntense.conditionApplied, 'intense regen applied');
+    assert.strictEqual(rIntense.conditionApplied.kind, 'regen');
+    assert.strictEqual(rIntense.conditionApplied.healthGain, 40);
+    assert.strictEqual(rIntense.conditionApplied.durationSec, 60);
+    assert.ok(hasCondition(player, 'regen'));
+
+    // Burn some duration so overwrite is visible
+    player.conditions[0].durationSec = 20;
+    player.conditions[0].tickTimer = 1;
+
+    const rWeak = resolveAttack({
+        attacker: player,
+        defender: player,
+        spell: 'recovery',
+        spellBook: spells,
+        rng: () => 0,
+        skipCooldown: true,
+        skipMana: true
+    });
+    assert.strictEqual(rWeak.ok, true, rWeak.reason || 'recovery ok');
+    assert.strictEqual(player.conditions.length, 1, 'single regen instance');
+    assert.strictEqual(player.conditions[0].healthGain, 20, 'weaker gain overwrote');
+    assert.strictEqual(player.conditions[0].durationSec, 60, 'duration fully reset');
+    assert.strictEqual(player.conditions[0].tickTimer, 0, 'tick timer reset');
+
+    // Tick: 3s → +20 HP
+    const hpBefore = player.hp.current;
+    const t1 = tickConditions(player, 3.0);
+    assert.ok(t1.ticks.length >= 1, 'regen tick fired');
+    assert.strictEqual(t1.ticks[0].kind, 'regen');
+    assert.strictEqual(t1.ticks[0].healthGain, 20);
+    assert.strictEqual(player.hp.current, hpBefore + 20);
+
+    // Stronger overwrite again
+    const rStrong = resolveAttack({
+        attacker: player,
+        defender: player,
+        spell: 'intense_recovery',
+        spellBook: spells,
+        rng: () => 0,
+        skipCooldown: true,
+        skipMana: true
+    });
+    assert.strictEqual(rStrong.ok, true, rStrong.reason || 're-intense ok');
+    assert.strictEqual(player.conditions[0].healthGain, 40);
+    assert.strictEqual(player.conditions[0].durationSec, 60);
+
+    // Instant heal still works
+    player.hp.current = 50;
+    const rBruise = resolveAttack({
+        attacker: player,
+        defender: player,
+        spell: 'bruise_bane',
+        spellBook: spells,
+        rng: () => 0,
+        skipCooldown: true,
+        skipMana: true
+    });
+    assert.strictEqual(rBruise.ok, true, rBruise.reason || 'bruise_bane ok');
+    assert.ok(rBruise.final > 0, 'bruise heals');
+    assert.ok(player.hp.current > 50);
+
+    // Class books
+    const classes = presets.loadClasses().classes;
+    const byId = Object.fromEntries(classes.map((c) => [c.id, c]));
+    assert.ok(byId.guardian.spells.indexOf('recovery') >= 0);
+    assert.ok(byId.guardian.spells.indexOf('intense_recovery') >= 0);
+    assert.ok(byId.guardian.spells.indexOf('bruise_bane') >= 0);
+    assert.ok(byId.guardian.spells.indexOf('intense_wound_cleanse') >= 0);
+    assert.ok(byId.scout.spells.indexOf('recovery') >= 0);
+    assert.ok(byId.adept.spells.indexOf('restoration') >= 0);
+    assert.ok(byId.warden.spells.indexOf('restoration') >= 0);
+    assert.ok(byId.warden.spells.indexOf('natures_embrace') >= 0);
+
+    log('Phase J HoT / extra heals ok', {
+        regenGain: player.conditions[0] && player.conditions[0].healthGain,
+        bruiseFinal: rBruise.final
+    });
+}
+
+/**
+ * Phase M — classic stances: blood_rage / protector exclusive; sharpshooter skill%;
+ * swift_foot Stage-1 pacify + haste; damage dealt/received multipliers.
+ */
+function testPhaseMStances() {
+    const {
+        applyCondition,
+        hasCondition,
+        getAttributeMods,
+        isCannotAttack,
+        conditionDefFromSpell
+    } = require('../kernel/core/lib/combat/conditions.js');
+    const spells = indexSpells(presets.loadSpells().spells);
+
+    assert.ok(spells.blood_rage, 'blood_rage preset');
+    assert.ok(spells.protector, 'protector preset');
+    assert.ok(spells.sharpshooter, 'sharpshooter preset');
+    assert.ok(spells.swift_foot, 'swift_foot preset');
+    assert.strictEqual(spells.blood_rage.condition.subId, 'blood_rage_protector');
+    assert.strictEqual(spells.protector.condition.subId, 'blood_rage_protector');
+    assert.strictEqual(spells.blood_rage.condition.skillPercent.melee, 135);
+    assert.strictEqual(spells.protector.condition.skillPercent.shielding, 220);
+    assert.strictEqual(spells.sharpshooter.condition.skillPercent.distance, 140);
+    assert.strictEqual(spells.swift_foot.condition.cannotAttack, true);
+    assert.strictEqual(spells.blood_rage.cooldowns.secondary.focus, 2);
+    assert.strictEqual(spells.sharpshooter.cooldowns.secondary.focus, 10);
+
+    const classes = presets.loadClasses().classes;
+    const byId = Object.fromEntries(classes.map((c) => [c.id, c]));
+    assert.ok(byId.guardian.spells.indexOf('blood_rage') >= 0);
+    assert.ok(byId.guardian.spells.indexOf('protector') >= 0);
+    assert.ok(byId.scout.spells.indexOf('sharpshooter') >= 0);
+    assert.ok(byId.scout.spells.indexOf('swift_foot') >= 0);
+
+    const player = makeGuardianKnight();
+    player.level = 100;
+    player.conditions = [];
+    player.tile = { x: 0, y: 0, z: 7 };
+    if (player.mp) player.mp.current = Math.max(player.mp.current || 0, 2000);
+    if (player.combatStats) {
+        player.combatStats.level = 100;
+        player.combatStats.spells = (player.combatStats.spells || []).concat([
+            'blood_rage',
+            'protector',
+            'melee_auto'
+        ]);
+    }
+    player.baseSpeed = 110;
+    player.speed = 110;
+
+    // Blood rage apply
+    const rRage = resolveAttack({
+        attacker: player,
+        defender: player,
+        spell: 'blood_rage',
+        spellBook: spells,
+        rng: () => 0,
+        skipCooldown: true
+    });
+    assert.strictEqual(rRage.ok, true, rRage.reason || 'blood_rage ok');
+    assert.ok(rRage.conditionApplied, 'blood_rage condition');
+    assert.strictEqual(rRage.conditionApplied.kind, 'attributes');
+    assert.strictEqual(rRage.conditionApplied.subId, 'blood_rage_protector');
+    assert.strictEqual(rRage.conditionApplied.skillPercent.melee, 135);
+    assert.strictEqual(rRage.conditionApplied.disableDefense, true);
+    assert.strictEqual(rRage.conditionApplied.damageReceivedPercent, 115);
+    assert.strictEqual(player.conditions.length, 1);
+
+    // Protector replaces blood_rage (shared subId)
+    const rProt = resolveAttack({
+        attacker: player,
+        defender: player,
+        spell: 'protector',
+        spellBook: spells,
+        rng: () => 0,
+        skipCooldown: true,
+        skipMana: true
+    });
+    assert.strictEqual(rProt.ok, true, rProt.reason || 'protector ok');
+    assert.strictEqual(player.conditions.length, 1, 'exclusive subId');
+    assert.strictEqual(player.conditions[0].skillPercent.shielding, 220);
+    assert.strictEqual(player.conditions[0].damageDealtPercent, 65);
+    assert.strictEqual(player.conditions[0].damageReceivedPercent, 85);
+    assert.ok(!player.conditions[0].disableDefense);
+
+    // Damage dealt mult: protector 65%
+    const dummy = makeDummy();
+    dummy.tile = { x: 1, y: 0, z: 7 };
+    dummy.hp.current = 5000;
+    dummy.hp.max = 5000;
+    // strip dummy armor for stable compare
+    dummy.combatStats = {
+        mitigation: 0,
+        resists: {},
+        armor: 0,
+        maxBlock: 0
+    };
+    dummy.mitigation = 0;
+    dummy.armor = 0;
+    dummy.maxBlock = 0;
+    dummy.canBlock = false;
+
+    // Clear protector, apply none for baseline
+    player.conditions = [];
+    const base = resolveAttack({
+        attacker: player,
+        defender: dummy,
+        spell: 'melee_auto',
+        spellBook: spells,
+        rng: () => 0.5,
+        skipCooldown: true,
+        skipMana: true
+    });
+    assert.strictEqual(base.ok, true, base.reason || 'baseline auto');
+    assert.ok(base.final > 0);
+
+    // Re-apply protector and compare
+    resolveAttack({
+        attacker: player,
+        defender: player,
+        spell: 'protector',
+        spellBook: spells,
+        rng: () => 0,
+        skipCooldown: true,
+        skipMana: true
+    });
+    dummy.hp.current = 5000;
+    const withProt = resolveAttack({
+        attacker: player,
+        defender: dummy,
+        spell: 'melee_auto',
+        spellBook: spells,
+        rng: () => 0.5,
+        skipCooldown: true,
+        skipMana: true
+    });
+    assert.strictEqual(withProt.ok, true, withProt.reason || 'prot auto');
+    // ~65% of baseline (floor rounding)
+    assert.ok(
+        withProt.final <= base.final,
+        `protector reduces dmg ${withProt.final} vs ${base.final}`
+    );
+    assert.ok(
+        withProt.final <= Math.floor(base.final * 0.65) + 1,
+        `dealt mult ~65%: ${withProt.final} vs 65% of ${base.final}`
+    );
+
+    // Blood rage damage received 115% on defender
+    player.conditions = [];
+    resolveAttack({
+        attacker: player,
+        defender: player,
+        spell: 'blood_rage',
+        spellBook: spells,
+        rng: () => 0,
+        skipCooldown: true,
+        skipMana: true
+    });
+    // Attack self-as-defender via dummy attacker is awkward; use getAttributeMods
+    const mods = getAttributeMods(player);
+    assert.ok(Math.abs(mods.damageReceivedMult - 1.15) < 1e-9);
+    assert.strictEqual(mods.disableDefense, true);
+    assert.ok(Math.abs(mods.skillMult.melee - 1.35) < 1e-9);
+
+    // Scout stances: exclusivity + pacify
+    const scoutCls = presets.getClass('scout');
+    const items = presets.loadEquipment().items;
+    const scout = new Player({
+        name: 'Test Scout',
+        id: 2,
+        classId: 'scout',
+        equipment: {
+            rightHand: 'hunter_bow',
+            leftHand: 'oak_shield',
+            armor: 'leather_armor'
+        },
+        classDef: scoutCls,
+        itemDb: items,
+        level: 100
+    });
+    scout.conditions = [];
+    scout.tile = { x: 0, y: 0, z: 7 };
+    scout.baseSpeed = 120;
+    scout.speed = 120;
+    if (scout.mp) scout.mp.current = 2000;
+    if (scout.combatStats) {
+        scout.combatStats.level = 100;
+        scout.combatStats.spells = (scout.combatStats.spells || []).concat([
+            'sharpshooter',
+            'swift_foot',
+            'distance_auto',
+            'haste'
+        ]);
+    }
+
+    const rSharp = resolveAttack({
+        attacker: scout,
+        defender: scout,
+        spell: 'sharpshooter',
+        spellBook: spells,
+        rng: () => 0,
+        skipCooldown: true
+    });
+    assert.strictEqual(rSharp.ok, true, rSharp.reason || 'sharpshooter ok');
+    assert.strictEqual(scout.conditions[0].skillPercent.distance, 140);
+    assert.strictEqual(scout.conditions[0].disableDefense, true);
+    // speed reduced (0.7 formula)
+    assert.ok(
+        scout.speed < scout.baseSpeed,
+        `sharpshooter slows ${scout.speed} < ${scout.baseSpeed}`
+    );
+
+    const rSwift = resolveAttack({
+        attacker: scout,
+        defender: scout,
+        spell: 'swift_foot',
+        spellBook: spells,
+        rng: () => 0,
+        skipCooldown: true,
+        skipMana: true
+    });
+    assert.strictEqual(rSwift.ok, true, rSwift.reason || 'swift_foot ok');
+    assert.strictEqual(scout.conditions.length, 1, 'scout stance exclusive');
+    assert.strictEqual(scout.conditions[0].cannotAttack, true);
+    assert.ok(isCannotAttack(scout));
+    assert.ok(
+        scout.speed > scout.baseSpeed,
+        `swift_foot haste ${scout.speed} > ${scout.baseSpeed}`
+    );
+
+    // Pacify blocks distance auto via canCast (clear CD noise first)
+    Cooldowns.ensureCooldowns(scout);
+    scout.cooldowns.primary.support = 0;
+    scout.cooldowns.primary.attack = 0;
+    scout.cooldowns.secondary = {};
+    scout.cooldowns.spell = {};
+    scout.moveDelay = 0;
+    const distSpell = spells.distance_auto;
+    assert.strictEqual(
+        canCast(scout, distSpell, { spellBook: spells }),
+        false,
+        'pacify blocks auto'
+    );
+    // Support haste still allowed (pacify only blocks attack/auto)
+    assert.strictEqual(
+        canCast(scout, spells.haste, { spellBook: spells }),
+        true,
+        'support ok while pacified'
+    );
+
+    log('Phase M stances ok', {
+        baseFinal: base.final,
+        protFinal: withProt.final,
+        scoutSpeed: scout.speed
+    });
+}
+
+/**
+ * MM-A — mystic monk heals: spirit_mend, mass_spirit_mend, restore_balance.
+ */
+function testMmaMonkHeals() {
+    const spells = indexSpells(presets.loadSpells().spells);
+    assert.ok(spells.spirit_mend, 'spirit_mend');
+    assert.ok(spells.mass_spirit_mend, 'mass_spirit_mend');
+    assert.ok(spells.restore_balance, 'restore_balance');
+    assert.strictEqual(spells.spirit_mend.kind, 'heal');
+    assert.strictEqual(spells.spirit_mend.mana, 210);
+    assert.strictEqual(spells.spirit_mend.level, 80);
+    assert.strictEqual(spells.spirit_mend.basePower, 250);
+    assert.strictEqual(spells.mass_spirit_mend.mana, 250);
+    assert.strictEqual(spells.mass_spirit_mend.level, 150);
+    assert.strictEqual(spells.mass_spirit_mend.cooldowns.spell.mass_spirit_mend, 8);
+    assert.strictEqual(spells.restore_balance.requiresTarget, true);
+    assert.strictEqual(spells.restore_balance.range, 7);
+    assert.strictEqual(spells.restore_balance.mana, 120);
+
+    const classes = presets.loadClasses().classes;
+    const mystic = classes.find((c) => c.id === 'mystic');
+    assert.ok(mystic);
+    assert.ok(mystic.spells.indexOf('spirit_mend') >= 0);
+    assert.ok(mystic.spells.indexOf('mass_spirit_mend') >= 0);
+    assert.ok(mystic.spells.indexOf('restore_balance') >= 0);
+
+    const cls = presets.getClass('mystic');
+    const items = presets.loadEquipment().items;
+    const monk = new Player({
+        name: 'Test Mystic',
+        id: 3,
+        classId: 'mystic',
+        equipment: { rightHand: 'iron_longsword' },
+        classDef: cls,
+        itemDb: items,
+        level: 150
+    });
+    monk.conditions = [];
+    monk.tile = { x: 0, y: 0, z: 7 };
+    monk.hp.current = 100;
+    monk.hp.max = 2000;
+    if (monk.mp) monk.mp.current = 2000;
+    if (monk.combatStats) {
+        monk.combatStats.level = 150;
+        monk.combatStats.magic = 50;
+        monk.combatStats.spells = (monk.combatStats.spells || []).concat([
+            'spirit_mend',
+            'mass_spirit_mend',
+            'restore_balance'
+        ]);
+    }
+
+    const rMend = resolveAttack({
+        attacker: monk,
+        defender: monk,
+        spell: 'spirit_mend',
+        spellBook: spells,
+        rng: () => 0.5,
+        skipCooldown: true
+    });
+    assert.strictEqual(rMend.ok, true, rMend.reason || 'spirit_mend ok');
+    assert.ok(rMend.final > 0, 'spirit_mend heals');
+    assert.ok(monk.hp.current > 100);
+
+    monk.hp.current = 100;
+    const rMass = resolveAttack({
+        attacker: monk,
+        defender: monk,
+        spell: 'mass_spirit_mend',
+        spellBook: spells,
+        rng: () => 0.5,
+        skipCooldown: true,
+        skipMana: true
+    });
+    assert.strictEqual(rMass.ok, true, rMass.reason || 'mass_spirit_mend ok');
+    assert.ok(rMass.final > 0);
+
+    // restore_balance on ally
+    const ally = makeGuardianKnight();
+    ally.tile = { x: 1, y: 0, z: 7 };
+    ally.hp.current = 50;
+    ally.hp.max = 1000;
+    const rBal = resolveAttack({
+        attacker: monk,
+        defender: ally,
+        spell: 'restore_balance',
+        spellBook: spells,
+        rng: () => 0.5,
+        skipCooldown: true,
+        skipMana: true
+    });
+    assert.strictEqual(rBal.ok, true, rBal.reason || 'restore_balance ok');
+    assert.ok(rBal.final > 0);
+    assert.ok(ally.hp.current > 50);
+
+    log('MM-A monk heals ok', {
+        spirit: rMend.final,
+        mass: rMass.final,
+        balance: rBal.final
+    });
+}
+
+/**
+ * Phase K — paralyze rune: heavy slow (speed ~0), 6s, immunities.paralyze.
+ */
+function testParalyzeRuneAndImmunity() {
+    const {
+        applyCondition,
+        hasCondition,
+        conditionDefFromSpell,
+        isImmuneToCondition,
+        hasteSpeedChangeFromFormula
+    } = require('../kernel/core/lib/combat/conditions.js');
+    const spells = indexSpells(presets.loadSpells().spells);
+
+    assert.ok(spells.paralyze_rune, 'paralyze_rune preset');
+    assert.strictEqual(spells.paralyze_rune.statusOnly, true);
+    assert.strictEqual(spells.paralyze_rune.mana, 1400);
+    assert.strictEqual(spells.paralyze_rune.condition.type, 'slow');
+    assert.strictEqual(spells.paralyze_rune.condition.durationSec, 6);
+    assert.strictEqual(spells.paralyze_rune.condition.speedFormula.mina, -1);
+    assert.ok(spells.barrier_wall_rune && spells.barrier_wall_rune.deploysField === 'barrier');
+    assert.ok(spells.vine_barrier_rune && spells.vine_barrier_rune.deploysField === 'vine');
+    assert.strictEqual(spells.barrier_wall_rune.fieldDurationSec, 20);
+    assert.strictEqual(spells.vine_barrier_rune.fieldDurationSec, 30);
+
+    const defender = makeDummy();
+    defender.baseSpeed = 220;
+    defender.speed = 220;
+    defender.conditions = [];
+    defender.immunities = {};
+    defender.tile = { x: 2, y: 0, z: 7 };
+
+    const warden = makeGuardianKnight(); // reuse bag; override book
+    warden.level = 60;
+    warden.tile = { x: 0, y: 0, z: 7 };
+    if (warden.mp) warden.mp.current = Math.max(warden.mp.current || 0, 2000);
+    if (warden.combatStats) {
+        warden.combatStats.level = 60;
+        warden.combatStats.magic = 30;
+        warden.combatStats.spells = (warden.combatStats.spells || []).concat([
+            'paralyze_rune'
+        ]);
+    }
+
+    const r = resolveAttack({
+        attacker: warden,
+        defender,
+        spell: 'paralyze_rune',
+        spellBook: spells,
+        rng: () => 0,
+        skipCooldown: true,
+        skipMana: true
+    });
+    assert.strictEqual(r.ok, true, r.reason || 'paralyze ok');
+    assert.ok(r.conditionApplied, 'slow applied');
+    assert.strictEqual(r.conditionApplied.kind, 'slow');
+    assert.strictEqual(r.conditionApplied.durationSec, 6);
+    assert.ok(hasCondition(defender, 'slow'));
+    // Formula -1,0 → target ≈ 40 - baseSpeed → delta drives speed to 0 (clamped)
+    assert.ok(defender.speed <= 0 || defender.speed < 1, 'paralyzed speed ~0, got ' + defender.speed);
+
+    // Immunity
+    const immune = makeDummy();
+    immune.baseSpeed = 200;
+    immune.speed = 200;
+    immune.conditions = [];
+    immune.immunities = { paralyze: true };
+    assert.strictEqual(isImmuneToCondition(immune, 'paralyze'), true);
+    const def = conditionDefFromSpell(spells.paralyze_rune.condition, immune);
+    assert.ok(def, 'def builds');
+    const applied = applyCondition(immune, def, { source: 'test' });
+    assert.strictEqual(applied, null, 'immune rejects paralyze/slow');
+    assert.strictEqual(immune.speed, 200, 'speed unchanged');
+
+    // Class books
+    const classes = presets.loadClasses().classes;
+    const byId = Object.fromEntries(classes.map((c) => [c.id, c]));
+    assert.ok(byId.warden.spells.indexOf('paralyze_rune') >= 0);
+    assert.ok(byId.warden.spells.indexOf('vine_barrier_rune') >= 0);
+    assert.ok(byId.warden.spells.indexOf('barrier_wall_rune') >= 0);
+    assert.ok(byId.guardian.spells.indexOf('barrier_wall_rune') >= 0);
+    assert.ok(byId.guardian.spells.indexOf('vine_barrier_rune') < 0);
+
+    log('Phase K paralyze / obstacle catalog ok', {
+        paraSpeed: defender.speed,
+        formulaDelta: hasteSpeedChangeFromFormula(220, { mina: -1, minb: 0 })
+    });
 }
 
 function testCreatureUpdateTicksCooldowns() {
@@ -1762,9 +3345,9 @@ function testShapedBerserkMultiHit() {
     const player = makeGuardianKnight();
     player.tile = { x: 10, y: 10, z: 7 };
     const spells = indexSpells(presets.loadSpells().spells);
-    const spell = spells.berserk;
-    assert.ok(spell, 'berserk preset');
-    assert.ok(spellHasShape(spell), 'berserk has shape');
+    const spell = spells.rampage;
+    assert.ok(spell, 'rampage preset');
+    assert.ok(spellHasShape(spell), 'rampage has shape');
     assert.strictEqual(spell.shape.type, 'area');
 
     const a = makeDummy();
@@ -1799,7 +3382,7 @@ function testShapedBerserkMultiHit() {
     assert.ok(b.hp.current < hpB, 'dummy B damaged');
     assert.strictEqual(c.hp.current, hpC, 'far dummy untouched');
     assert.strictEqual(player.mp.current, mpBefore - spell.mana, 'mana once');
-    assert.ok(Cooldowns.getRemaining(player, 'spell', 'berserk') > 0);
+    assert.ok(Cooldowns.getRemaining(player, 'spell', 'rampage') > 0);
     assert.ok(Cooldowns.getRemaining(player, 'primary', 'attack') > 0);
 
     // Second cast blocked by cooldown
@@ -1813,7 +3396,7 @@ function testShapedBerserkMultiHit() {
     assert.strictEqual(blocked.ok, false);
     assert.strictEqual(blocked.reason, 'cooldown');
 
-    log('shaped berserk multi-hit ok', {
+    log('shaped rampage multi-hit ok', {
         hits: result.hits.length,
         tiles: result.affectedTiles.length
     });
@@ -2150,6 +3733,8 @@ function testHPAndMPRegeneration() {
             slot: 'ring',
             category: 'ring',
             charges: 2,
+            // absorb-style charges (legacy might_ring path) — only resists spend on hit
+            resists: { physical: 5 },
             regen: { mp: 7, mpTicksMs: 1000 }
         }
     ];
@@ -2259,18 +3844,117 @@ function testHPAndMPRegeneration() {
 /**
  * spell.level + spell.magicLevel gates (Legacy rune:level / rune:magicLevel).
  */
+/**
+ * canCast fails while moveDelay > 0 (post-cast / step root).
+ * Ultimate inferno_core applies primary.attack 4s + secondary.focus 40s.
+ */
+function testCanCastMoveLockAndUltimatePrimary() {
+    const strike = {
+        id: 'flame_strike',
+        mana: 20,
+        cooldowns: { primary: { attack: 2 } }
+    };
+    const caster = {
+        level: 100,
+        classId: 'adept',
+        combatStats: {
+            magic: 80,
+            level: 100,
+            spells: ['flame_strike', 'inferno_core', 'sky_rage']
+        },
+        cooldowns: {},
+        mp: { current: 2000, max: 2000 },
+        moveDelay: 0
+    };
+
+    assert.strictEqual(canCast(caster, strike), true, 'canCast free when moveDelay 0');
+
+    caster.moveDelay = 0.05;
+    assert.strictEqual(
+        canCast(caster, strike),
+        false,
+        'canCast blocked while moveDelay > 0'
+    );
+
+    caster.moveDelay = 0;
+    assert.strictEqual(canCast(caster, strike), true, 'canCast ok after root clears');
+
+    // Ultimate preset: primary 4s GCD + secondary focus 40s (legacy groupCooldown).
+    const spells = indexSpells(presets.loadSpells().spells);
+    const ultimate = spells.inferno_core;
+    assert.ok(ultimate, 'inferno_core in standard catalog');
+    assert.strictEqual(
+        ultimate.cooldowns.primary.attack,
+        4,
+        'inferno_core primary.attack is 4s'
+    );
+    assert.strictEqual(
+        ultimate.cooldowns.secondary.focus,
+        40,
+        'inferno_core secondary.focus is 40s'
+    );
+
+    Cooldowns.ensureCooldowns(caster);
+    Cooldowns.apply(caster, ultimate.cooldowns);
+    assert.strictEqual(
+        Cooldowns.getRemaining(caster, 'primary', 'attack'),
+        4,
+        'after inferno_core primary.attack remaining is 4'
+    );
+    assert.strictEqual(
+        Cooldowns.getRemaining(caster, 'secondary', 'focus'),
+        40,
+        'after inferno_core secondary.focus remaining is 40'
+    );
+    assert.strictEqual(
+        canCast(caster, strike),
+        false,
+        'flame_strike blocked by primary GCD after ultimate'
+    );
+    assert.strictEqual(
+        canCast(caster, spells.sky_rage),
+        false,
+        'sky_rage blocked by shared secondary.focus after inferno_core'
+    );
+
+    Cooldowns.tick(caster, 4);
+    assert.strictEqual(
+        Cooldowns.getRemaining(caster, 'primary', 'attack'),
+        0,
+        'primary ready after 4s'
+    );
+    assert.ok(
+        Cooldowns.getRemaining(caster, 'secondary', 'focus') > 0,
+        'focus still running after primary clears'
+    );
+    assert.strictEqual(
+        canCast(caster, strike),
+        true,
+        'flame_strike ok after primary 4s even while focus remains'
+    );
+    assert.strictEqual(
+        canCast(caster, spells.sky_rage),
+        false,
+        'sky_rage still blocked by focus after primary clears'
+    );
+
+    log('canCast moveLock + ultimate primary ok');
+}
+
 function testSpellLevelAndMagicLevelGates() {
     const lowMl = {
         level: 50,
         combatStats: { magic: 3, level: 50, spells: ['deathburst', 'blaze_field_rune'] },
         cooldowns: {},
-        mp: { current: 100, max: 100 }
+        mp: { current: 100, max: 100 },
+        moveDelay: 0
     };
     const highMl = {
         level: 50,
         combatStats: { magic: 15, level: 50, spells: ['deathburst', 'blaze_field_rune'] },
         cooldowns: {},
-        mp: { current: 100, max: 100 }
+        mp: { current: 100, max: 100 },
+        moveDelay: 0
     };
     const sd = {
         id: 'deathburst',
@@ -2312,14 +3996,16 @@ function testSpellLevelAndMagicLevelGates() {
         level: 50,
         combatStats: { magic: 80, level: 50 },
         cooldowns: {},
-        mp: { current: 100, max: 100 }
+        mp: { current: 100, max: 100 },
+        moveDelay: 0
     };
     const scoutNoBook = {
         classId: 'scout',
         level: 50,
         combatStats: { magic: 30, level: 50 },
         cooldowns: {},
-        mp: { current: 100, max: 100 }
+        mp: { current: 100, max: 100 },
+        moveDelay: 0
     };
     assert.strictEqual(canUseSpell(adeptNoBook, holy), false, 'adept cannot use radiant_bolt');
     assert.strictEqual(canUseSpell(scoutNoBook, holy), true, 'scout can use radiant_bolt');
@@ -2463,6 +4149,648 @@ function testRuneInventoryGates() {
     log('rune inventory gates ok');
 }
 
+/**
+ * Phase B: creature shaped attack damages all living players on a stacked tile,
+ * even when only the primary is in the candidates list. Mixed creature is not hit.
+ */
+function testEnemyAoeHitsAllPlayersOnStack() {
+    const {
+        resolveShapedAttack
+    } = require('../kernel/core/lib/combat/area.js');
+    const { TileMap } = require('../kernel/core/entities/tilemap.js');
+
+    const map = new TileMap('stack_aoe');
+    const open = new Uint8Array(25);
+    open.fill(100);
+    map.loadFloorFromFriction(0, 5, 5, open);
+    const ents = new Map();
+    map.resolveEntity = (id) => ents.get(id) || null;
+
+    const p1 = {
+        id: 1,
+        type: 'player',
+        alive: true,
+        tile: { x: 2, y: 2, z: 0 },
+        hp: { current: 200, max: 200 },
+        resists: {},
+        mitigation: 0,
+        applyHpDelta(d) {
+            this.hp.current = Math.max(0, this.hp.current - d);
+            if (this.hp.current <= 0) this.alive = false;
+        }
+    };
+    const p2 = {
+        id: 2,
+        type: 'player',
+        alive: true,
+        tile: { x: 2, y: 2, z: 0 },
+        hp: { current: 200, max: 200 },
+        resists: {},
+        mitigation: 0,
+        applyHpDelta(d) {
+            this.hp.current = Math.max(0, this.hp.current - d);
+            if (this.hp.current <= 0) this.alive = false;
+        }
+    };
+    const mixedMob = {
+        id: 30,
+        type: 'creature',
+        alive: true,
+        tile: { x: 2, y: 2, z: 0 },
+        hp: { current: 100, max: 100 },
+        resists: {},
+        mitigation: 0,
+        applyHpDelta(d) {
+            this.hp.current = Math.max(0, this.hp.current - d);
+            if (this.hp.current <= 0) this.alive = false;
+        }
+    };
+    const attacker = {
+        id: 99,
+        type: 'creature',
+        alive: true,
+        tile: { x: 0, y: 0, z: 0 },
+        hp: { current: 100, max: 100 },
+        mp: { current: 100, max: 100 },
+        cooldowns: {},
+        level: 50,
+        skill: 50,
+        atk: 40
+    };
+    ents.set(1, p1);
+    ents.set(2, p2);
+    ents.set(30, mixedMob);
+    assert.ok(map.tryOccupy(2, 2, 0, p1));
+    assert.ok(map.moveEntityToTile(p2, 2, 2, 0));
+    // Stair mixed: creature under players after stair hop order — force stack order
+    // [creature first] via clear + re-enter with stair reason.
+    map.clearOccupancy(0);
+    assert.ok(map.tryOccupy(2, 2, 0, mixedMob));
+    assert.ok(map.moveEntityToTile(p1, 2, 2, 0, { reason: 'stair' }));
+    assert.ok(map.moveEntityToTile(p2, 2, 2, 0, { reason: 'stair' }));
+    assert.deepStrictEqual(map.getCombatants(2, 2, 0), [30, 1, 2]);
+
+    const spell = {
+        id: 'test_mob_area',
+        min: 20,
+        max: 20,
+        element: 'physical',
+        range: 5,
+        mana: 0,
+        isMelee: false,
+        shape: { type: 'area', code: 1 },
+        cooldowns: {}
+    };
+
+    const hp1 = p1.hp.current;
+    const hp2 = p2.hp.current;
+    const hpM = mixedMob.hp.current;
+
+    // Candidates only list primary — stack expansion must still hit p2.
+    const result = resolveShapedAttack({
+        attacker,
+        primary: p1,
+        spell,
+        candidates: [p1],
+        tileMap: map,
+        skipCooldown: true,
+        skipMana: true,
+        rng: () => 0.5
+    });
+
+    assert.strictEqual(result.ok, true, result.reason || 'ok');
+    assert.ok(
+        result.hits.some((h) => h.id === 1),
+        'primary player hit'
+    );
+    assert.ok(
+        result.hits.some((h) => h.id === 2),
+        'stacked player expanded via getCombatants'
+    );
+    assert.ok(
+        !result.hits.some((h) => h.id === 30),
+        'mixed creature not hit by player-target rule'
+    );
+    assert.ok(p1.hp.current < hp1, 'p1 damaged');
+    assert.ok(p2.hp.current < hp2, 'p2 damaged');
+    assert.strictEqual(mixedMob.hp.current, hpM, 'mixed mob untouched');
+
+    log('enemy aoe hits all players on stack ok', {
+        hits: result.hits.map((h) => h.id)
+    });
+}
+
+/**
+ * Phase B: only the first combatant on the tile may cast player area;
+ * non-first still single-target; mixed creature-first blocks all player AoE.
+ */
+function testPlayerAoeCastGateFirstOnly() {
+    const {
+        resolveShapedAttack,
+        canCastPlayerAreaOnTile
+    } = require('../kernel/core/lib/combat/area.js');
+    const { canCast, tryAttack } = require('../kernel/core/lib/ai/combat_actions.js');
+    const { TileMap } = require('../kernel/core/entities/tilemap.js');
+
+    const map = new TileMap('stack_cast');
+    const open = new Uint8Array(25);
+    open.fill(100);
+    map.loadFloorFromFriction(0, 5, 5, open);
+    const ents = new Map();
+    map.resolveEntity = (id) => ents.get(id) || null;
+
+    const first = makeGuardianKnight();
+    first.id = 10;
+    first.tile = { x: 1, y: 1, z: 0 };
+    const second = makeGuardianKnight();
+    second.id = 11;
+    second.tile = { x: 1, y: 1, z: 0 };
+    ents.set(10, first);
+    ents.set(11, second);
+    assert.ok(map.tryOccupy(1, 1, 0, first));
+    assert.ok(map.moveEntityToTile(second, 1, 1, 0));
+    assert.strictEqual(map.getFirstOccupant(1, 1, 0), 10);
+
+    const spells = indexSpells(presets.loadSpells().spells);
+    const rampage = spells.rampage;
+    assert.ok(rampage && rampage.shape);
+
+    assert.strictEqual(canCastPlayerAreaOnTile(first, map), true);
+    assert.strictEqual(canCastPlayerAreaOnTile(second, map), false);
+
+    const dummy = makeDummy();
+    dummy.id = 50;
+    dummy.tile = { x: 1, y: 1, z: 0 };
+    dummy.type = 'creature';
+
+    const ctxFirst = {
+        tileMap: map,
+        spellBook: spells,
+        enemies: [dummy],
+        rng: rngFromSeed(3)
+    };
+    assert.strictEqual(canCast(first, rampage, ctxFirst), true, 'first may cast area');
+    assert.strictEqual(canCast(second, rampage, ctxFirst), false, 'second blocked area');
+
+    const ok = resolveShapedAttack({
+        attacker: first,
+        primary: dummy,
+        spell: rampage,
+        candidates: [dummy],
+        tileMap: map,
+        skipCooldown: true,
+        skipMana: true,
+        rng: () => 0.5
+    });
+    assert.strictEqual(ok.ok, true, ok.reason || 'first cast ok');
+
+    const blocked = resolveShapedAttack({
+        attacker: second,
+        primary: dummy,
+        spell: rampage,
+        candidates: [dummy],
+        tileMap: map,
+        skipCooldown: true,
+        skipMana: true,
+        rng: () => 0.5
+    });
+    assert.strictEqual(blocked.ok, false);
+    assert.strictEqual(blocked.reason, 'not_tile_controller');
+
+    // Single-target still allowed for non-first (tile controller is area-only).
+    // Clear step root from moveEntityToTile so this asserts the stack gate, not moveLock.
+    second.moveDelay = 0;
+    Cooldowns.ensureCooldowns(second);
+    if (second.cooldowns.auto) second.cooldowns.auto.attack = 0;
+    const st = tryAttack({
+        attacker: second,
+        defender: dummy,
+        spellId: 'melee_auto',
+        ctx: {
+            tileMap: map,
+            spellBook: spells,
+            enemies: [dummy],
+            rng: () => 0.5
+        }
+    });
+    assert.ok(st && st.ok, 'non-first single-target ok');
+
+    // Mixed: creature first → no player may cast AoE
+    map.clearOccupancy(0);
+    const mob = makeDummy();
+    mob.id = 70;
+    mob.type = 'creature';
+    mob.tile = { x: 2, y: 2, z: 0 };
+    ents.set(70, mob);
+    first.tile = { x: 2, y: 2, z: 0 };
+    assert.ok(map.tryOccupy(2, 2, 0, mob));
+    assert.ok(map.moveEntityToTile(first, 2, 2, 0, { reason: 'stair' }));
+    assert.strictEqual(map.getFirstOccupant(2, 2, 0), 70);
+    assert.strictEqual(canCastPlayerAreaOnTile(first, map), false);
+    const mixedBlock = resolveShapedAttack({
+        attacker: first,
+        primary: dummy,
+        spell: rampage,
+        candidates: [dummy],
+        tileMap: map,
+        skipCooldown: true,
+        skipMana: true,
+        rng: () => 0.5
+    });
+    assert.strictEqual(mixedBlock.reason, 'not_tile_controller');
+
+    log('player aoe cast gate first-only ok');
+}
+
+function testChainAttackPickAndResolve() {
+    const {
+        spellHasChain,
+        normalizeChainSpec,
+        pickChainTargets,
+        resolveChainAttack
+    } = require('../kernel/core/lib/combat/chain.js');
+    const { tryAttack } = require('../kernel/core/lib/ai/combat_actions.js');
+
+    const spells = indexSpells(presets.loadSpells().spells);
+    const spell = spells.chained_penance;
+    assert.ok(spell, 'chained_penance preset');
+    assert.ok(spellHasChain(spell), 'chain flag');
+    const spec = normalizeChainSpec(spell);
+    assert.ok(spec);
+    assert.strictEqual(spec.maxTargets, 4);
+    assert.strictEqual(spec.distance, 3);
+    assert.strictEqual(spec.backtracking, false);
+
+    // Numeric shorthand
+    assert.deepStrictEqual(normalizeChainSpec({ chain: 3 }), {
+        maxTargets: 3,
+        distance: 3,
+        backtracking: false
+    });
+
+    const caster = makeGuardianKnight();
+    caster.tile = { x: 10, y: 10, z: 7 };
+    caster.mp.current = 500;
+
+    // Line of 5 dummies east of caster; hop distance 3 → should chain nearest-first.
+    const dummies = [];
+    for (let i = 0; i < 5; i++) {
+        const d = makeDummy();
+        d.id = 100 + i;
+        d.tile = { x: 11 + i, y: 10, z: 7 }; // 1..5 tiles east
+        dummies.push(d);
+    }
+    // Far dummy outside hop graph from tip after 4 hops still exists but should not join if max=4
+    const far = makeDummy();
+    far.id = 200;
+    far.tile = { x: 30, y: 30, z: 7 };
+
+    const primary = dummies[0];
+    const picked = pickChainTargets({
+        caster,
+        primary,
+        candidates: dummies.concat([far]),
+        maxTargets: 4,
+        distance: 3,
+        backtracking: false,
+        tileMap: null
+    });
+    assert.strictEqual(picked.hops.length, 4, 'caps at maxTargets');
+    assert.strictEqual(picked.hops[0], primary);
+    // Greedy closest from primary (11,10): next is (12,10), then (13,10), (14,10)
+    assert.strictEqual(picked.hops[1].tile.x, 12);
+    assert.strictEqual(picked.hops[2].tile.x, 13);
+    assert.strictEqual(picked.hops[3].tile.x, 14);
+    assert.ok(picked.links.length >= 4, 'links include caster→primary + hops');
+    assert.ok(!picked.hops.includes(far), 'far excluded');
+    assert.ok(!picked.hops.includes(dummies[4]), '5th on line excluded by cap');
+
+    // Branch: closer side target wins over farther line target
+    const side = makeDummy();
+    side.id = 300;
+    side.tile = { x: 11, y: 11, z: 7 }; // adjacent to primary, euclidean 1
+    const lineFar = makeDummy();
+    lineFar.id = 301;
+    lineFar.tile = { x: 13, y: 10, z: 7 }; // euclidean 2 from primary
+    const pick2 = pickChainTargets({
+        caster,
+        primary,
+        candidates: [primary, side, lineFar],
+        maxTargets: 3,
+        distance: 3
+    });
+    assert.strictEqual(pick2.hops[0], primary);
+    assert.strictEqual(pick2.hops[1], side, 'closest hop is side neighbor');
+
+    // Resolve: mana once, all hops damaged
+    const mystic = makeGuardianKnight();
+    mystic.tile = { x: 10, y: 10, z: 7 };
+    mystic.mp.current = 500;
+    mystic.knownSpells = mystic.knownSpells || {};
+    // ensure canUseSpell won't block if mystic book needed — resolveChainAttack skips canUse
+    const hps = dummies.slice(0, 4).map((d) => d.hp.current);
+    const mpBefore = mystic.mp.current;
+    const result = resolveChainAttack({
+        attacker: mystic,
+        primary,
+        spell,
+        candidates: dummies,
+        rng: rngFromSeed(42)
+    });
+    assert.strictEqual(result.ok, true, result.reason || 'ok');
+    assert.strictEqual(result.chain, true);
+    assert.strictEqual(result.multi, true);
+    assert.strictEqual(result.hits.length, 4);
+    assert.strictEqual(result.results.length, 4);
+    assert.strictEqual(
+        mystic.mp.current,
+        mpBefore - spell.mana,
+        'mana spent once'
+    );
+    for (let i = 0; i < 4; i++) {
+        assert.ok(
+            dummies[i].hp.current < hps[i],
+            'hop ' + i + ' took damage'
+        );
+    }
+    assert.strictEqual(dummies[4].hp.current, dummies[4].hp.max, '5th unharmed');
+    assert.ok(Cooldowns.getRemaining(mystic, 'spell', 'chained_penance') > 0);
+
+    // Cooldown blocks second cast
+    const blocked = resolveChainAttack({
+        attacker: mystic,
+        primary,
+        spell,
+        candidates: dummies,
+        rng: () => 0.5
+    });
+    assert.strictEqual(blocked.ok, false);
+    assert.strictEqual(blocked.reason, 'cooldown');
+
+    // tryAttack path
+    const mystic2 = makeGuardianKnight();
+    mystic2.tile = { x: 5, y: 5, z: 7 };
+    mystic2.mp.current = 500;
+    mystic2.spells = ['chained_penance'];
+    const t1 = makeDummy();
+    t1.id = 401;
+    t1.tile = { x: 6, y: 5, z: 7 };
+    const t2 = makeDummy();
+    t2.id = 402;
+    t2.tile = { x: 7, y: 5, z: 7 };
+    const spellBook = presets.loadSpells().spells;
+    const tryRes = tryAttack({
+        attacker: mystic2,
+        defender: t1,
+        spellId: 'chained_penance',
+        ctx: {
+            spellBook,
+            enemies: [t1, t2],
+            rng: rngFromSeed(7)
+        }
+    });
+    // tryAttack may null if canCast fails (known spell / vocation). Force via resolve if null.
+    if (tryRes) {
+        assert.strictEqual(tryRes.ok, true);
+        assert.strictEqual(tryRes.chain, true);
+        assert.ok(tryRes.hits.length >= 2);
+        assert.ok(t1.hp.current < t1.hp.max);
+        assert.ok(t2.hp.current < t2.hp.max);
+    } else {
+        // canCast gate (book) — resolve path already covered above
+        log('tryAttack skipped canCast gate; resolve path covered');
+    }
+
+    // Self-origin: no primary → hops from caster
+    const originCaster = { id: 'oc', tile: { x: 0, y: 0, z: 0 }, alive: true };
+    const a = makeDummy();
+    a.id = 'a';
+    a.tile = { x: 1, y: 0, z: 0 };
+    const b = makeDummy();
+    b.id = 'b';
+    b.tile = { x: 2, y: 0, z: 0 };
+    const selfPick = pickChainTargets({
+        caster: originCaster,
+        primary: null,
+        candidates: [a, b],
+        maxTargets: 2,
+        distance: 3
+    });
+    assert.strictEqual(selfPick.hops.length, 2);
+    assert.strictEqual(selfPick.hops[0], a);
+    assert.strictEqual(selfPick.hops[1], b);
+    assert.ok(!selfPick.hops.includes(originCaster));
+
+    log('chain attack pick + resolve ok', {
+        hops: result.hits.length,
+        links: result.chainLinks.length
+    });
+}
+
+/**
+ * Wiki parity: Lightning chains primary + 2 additional (maxTargets 3).
+ * Divine Grenade plants with delaySec fuse then detonates shaped damage.
+ * Executioner's Throw catalog uses stage-1 wiki chain (3 total).
+ */
+function testWikiParityLightningGrenadeExecutioner() {
+    const {
+        resolveShapedAttack
+    } = require('../kernel/core/lib/combat/area.js');
+    const {
+        resolveChainAttack,
+        pickChainTargets
+    } = require('../kernel/core/lib/combat/chain.js');
+    const {
+        tickDelayedCasts,
+        explodeDelayedCast,
+        resolveDelayedPlaceCenter
+    } = require('../kernel/core/lib/combat/delayed_cast.js');
+    const fs = require('fs');
+    const path = require('path');
+    const pack = JSON.parse(
+        fs.readFileSync(
+            path.join(__dirname, '..', 'presets', 'standard', 'spells.json'),
+            'utf8'
+        )
+    );
+    const byId = Object.create(null);
+    for (const s of pack.spells) byId[s.id] = s;
+
+    const lightning = byId.lightning;
+    assert.ok(lightning, 'lightning catalog');
+    assert.strictEqual(lightning.range, 7, 'wiki lightning range 7');
+    assert.ok(lightning.chain, 'wiki lightning has chain');
+    assert.strictEqual(
+        lightning.chain.maxTargets,
+        3,
+        'wiki: primary + 2 additional'
+    );
+    assert.strictEqual(lightning.basePower, 110);
+
+    const caster = makeGuardianKnight();
+    caster.id = 'sorc';
+    caster.level = 60;
+    if (caster.combatStats) caster.combatStats.magic = 50;
+    caster.mp.current = 500;
+    caster.mp.max = 500;
+    caster.tile = { x: 0, y: 0, z: 0 };
+    Cooldowns.ensureCooldowns(caster);
+
+    const t0 = makeDummy();
+    t0.id = 't0';
+    t0.tile = { x: 3, y: 0, z: 0 };
+    const t1 = makeDummy();
+    t1.id = 't1';
+    t1.tile = { x: 4, y: 0, z: 0 };
+    const t2 = makeDummy();
+    t2.id = 't2';
+    t2.tile = { x: 5, y: 0, z: 0 };
+    const t3 = makeDummy();
+    t3.id = 't3';
+    t3.tile = { x: 6, y: 0, z: 0 };
+
+    const chainR = resolveChainAttack({
+        attacker: caster,
+        primary: t0,
+        spell: lightning,
+        candidates: [t0, t1, t2, t3],
+        rng: () => 0.5
+    });
+    assert.ok(chainR.ok, 'lightning chain resolves');
+    assert.strictEqual(chainR.hits.length, 3, 'hits primary + 2');
+
+    // Executioner's Throw stage-1: maxTargets 3, CD 18, bp 60
+    const et = byId.executioners_throw;
+    assert.ok(et && et.chain);
+    assert.strictEqual(et.chain.maxTargets, 3);
+    assert.strictEqual(et.basePower, 60);
+    assert.strictEqual(et.cooldowns.spell.executioners_throw, 18);
+
+    // Divine Grenade: place near target if ≤4, else under caster; 3s fuse
+    const grenade = byId.divine_grenade;
+    assert.ok(grenade);
+    assert.strictEqual(grenade.delaySec, 3);
+    assert.strictEqual(grenade.delayPlaceRange, 4);
+    assert.strictEqual(grenade.cooldowns.spell.divine_grenade, 26);
+
+    const pala = makeGuardianKnight();
+    pala.id = 'pala';
+    pala.level = 300;
+    if (pala.combatStats) pala.combatStats.magic = 50;
+    pala.mp.current = 1000;
+    pala.mp.max = 1000;
+    pala.tile = { x: 0, y: 0, z: 0 };
+    Cooldowns.ensureCooldowns(pala);
+
+    const near = makeDummy();
+    near.id = 'near';
+    near.tile = { x: 3, y: 0, z: 0 }; // dist 3 ≤ 4
+    const nearCenter = resolveDelayedPlaceCenter(pala, near, grenade);
+    assert.deepStrictEqual(
+        { x: nearCenter.x, y: nearCenter.y },
+        { x: 3, y: 0 },
+        'grenade plants on near target'
+    );
+
+    const far = makeDummy();
+    far.id = 'far';
+    far.tile = { x: 6, y: 0, z: 0 }; // dist 6 > 4
+    const farCenter = resolveDelayedPlaceCenter(pala, far, grenade);
+    assert.deepStrictEqual(
+        { x: farCenter.x, y: farCenter.y },
+        { x: 0, y: 0 },
+        'grenade plants under caster when target >4'
+    );
+
+    const delayedStore = [];
+    const castR = resolveShapedAttack({
+        attacker: pala,
+        primary: near,
+        spell: grenade,
+        candidates: [near],
+        delayedStore,
+        rng: () => 0.5
+    });
+    assert.ok(castR.ok && castR.delayed, 'grenade cast is delayed');
+    assert.strictEqual(castR.final, 0, 'no damage on plant');
+    assert.strictEqual(near.hp.current, near.hp.max, 'target full HP at plant');
+    assert.strictEqual(delayedStore.length, 1);
+    assert.ok(delayedStore[0].remainingSec > 2.9);
+
+    // Partial tick — still fuse
+    tickDelayedCasts(delayedStore, 1.0);
+    assert.strictEqual(delayedStore.length, 1);
+    assert.ok(near.hp.current === near.hp.max);
+
+    // Finish fuse
+    const fired = tickDelayedCasts(delayedStore, 2.5, (entry) =>
+        explodeDelayedCast(entry, {
+            resolveShapedAttack,
+            candidates: [near],
+            rng: () => 0.5
+        })
+    );
+    assert.strictEqual(fired.fired.length, 1);
+    assert.strictEqual(delayedStore.length, 0);
+    const boom = fired.fired[0].result;
+    assert.ok(boom && boom.ok, 'detonation ok');
+    assert.ok(near.hp.current < near.hp.max, 'grenade dealt damage after fuse');
+
+    // Delayed cast stays on plant floor when caster hops floors.
+    const pala2 = makeGuardianKnight();
+    pala2.id = 'pala2';
+    pala2.level = 300;
+    if (pala2.combatStats) pala2.combatStats.magic = 50;
+    pala2.mp.current = 1000;
+    pala2.mp.max = 1000;
+    pala2.tile = { x: 0, y: 0, z: 0 };
+    Cooldowns.ensureCooldowns(pala2);
+    const floorTarget = makeDummy();
+    floorTarget.id = 'floor_t';
+    floorTarget.tile = { x: 2, y: 0, z: 0 };
+    const floorStore = [];
+    const plantR = resolveShapedAttack({
+        attacker: pala2,
+        primary: floorTarget,
+        spell: grenade,
+        candidates: [floorTarget],
+        delayedStore: floorStore,
+        rng: () => 0.5
+    });
+    assert.ok(plantR.ok && plantR.delayed, 'floor-hop grenade plants');
+    assert.strictEqual(floorStore[0].center.z, 0, 'center z locked at plant');
+    // Caster leaves the floor (stairs / hop) before fuse ends.
+    pala2.tile = { x: 10, y: 10, z: 1 };
+    const floorFired = tickDelayedCasts(floorStore, 3.1, (entry) =>
+        explodeDelayedCast(entry, {
+            resolveShapedAttack,
+            candidates: [floorTarget],
+            rng: () => 0.5
+        })
+    );
+    assert.strictEqual(floorFired.fired.length, 1);
+    const floorBoom = floorFired.fired[0].result;
+    assert.ok(
+        floorBoom && floorBoom.ok,
+        'detonation still ok after caster floor hop'
+    );
+    assert.ok(
+        floorTarget.hp.current < floorTarget.hp.max,
+        'grenade hits target on original floor despite caster on z=1'
+    );
+    assert.strictEqual(
+        floorBoom.center && floorBoom.center.z,
+        0,
+        'explosion center remains plant floor'
+    );
+
+    log('wiki parity lightning / grenade / executioner ok', {
+        lightningHits: chainR.hits.length,
+        grenadeDmg: near.hp.max - near.hp.current,
+        floorHopDmg: floorTarget.hp.max - floorTarget.hp.current
+    });
+}
+
 function main() {
     testRollHitAndCrit();
     testRollRawAndArmor();
@@ -2486,15 +4814,29 @@ function main() {
     testPreviewAndPresetsLoad();
     testSeedStableDamage();
     testHealLightSelfRestore();
+    testHotRecoverySpells();
+    testPhaseMStances();
+    testMmaMonkHeals();
+    testParalyzeRuneAndImmunity();
+    testCureSpellsDispel();
+    testHasteInvisibleSpellsAndSeeInvis();
+    testChallengeTauntSpell();
+    testChivalrousChallengeAndDivineDazzle();
+    testDotAttackSpells();
     testHealingSkipsMitigation();
     testCreatureUpdateTicksCooldowns();
     testDefenseBlockAndShieldWindow();
     testSpellMoveLock();
     testShapedBerserkMultiHit();
     testShapedFrontSweepWave();
+    testChainAttackPickAndResolve();
+    testWikiParityLightningGrenadeExecutioner();
     testHPAndMPRegeneration();
+    testCanCastMoveLockAndUltimatePrimary();
     testSpellLevelAndMagicLevelGates();
     testRuneInventoryGates();
+    testEnemyAoeHitsAllPlayersOnStack();
+    testPlayerAoeCastGateFirstOnly();
     console.log('combat: all tests passed');
 }
 

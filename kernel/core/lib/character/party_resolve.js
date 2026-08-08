@@ -15,7 +15,11 @@
 
 'use strict';
 
-const { expandParties } = require('./player_profile.js');
+const {
+    expandParties,
+    materializeParties,
+    assertPartyMembersHaveSkillSource
+} = require('./player_profile.js');
 
 /** Product default when mode has no defaults.partyId. */
 const DEFAULT_PARTY_ID = 'starter_duo';
@@ -165,6 +169,7 @@ function resolveSessionParties(config, opts) {
     }
 
     if (!parties || !parties.length) {
+        // Last-chance product fallback: profile-backed starter (not class floors)
         parties = [
             {
                 name: 'HuntParty',
@@ -172,10 +177,8 @@ function resolveSessionParties(config, opts) {
                 members: [
                     {
                         name: 'Guardian',
-                        classId: 'guardian',
-                        isLeader: true,
-                        strategyId: 'guardian_aggro',
-                        level: 50
+                        profileId: 'guardian_starter',
+                        isLeader: true
                     }
                 ]
             }
@@ -186,13 +189,28 @@ function resolveSessionParties(config, opts) {
         loopWaypoints
     });
 
-    // Expand any remaining profileId refs (explicit config.parties may be raw)
+    // Character-first: expand profileId, then auto-bind class starter profiles
+    // for any remaining skill-less rows (create-char analog). Hard-fail only
+    // when materialize cannot produce an authored skills bag (§7.2).
     try {
         parties = expandParties(parties, {
             loadPlayerProfile: loaders.loadPlayerProfile || undefined
         });
+        parties = materializeParties(parties, {
+            loadPlayerProfile: loaders.loadPlayerProfile || undefined,
+            autoStarterProfile: true
+        });
     } catch (_) {
         /* keep as-is */
+    }
+
+    // Product gate (§7.2): after materialize, every enabled member must have skills
+    if (o.skipSkillSourceAssert !== true) {
+        for (let pi = 0; pi < parties.length; pi++) {
+            assertPartyMembersHaveSkillSource(parties[pi], {
+                context: `resolveSessionParties party[${pi}]`
+            });
+        }
     }
 
     return parties;

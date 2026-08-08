@@ -1,19 +1,39 @@
 {
-    "id": "gazer",
-    "label": "Gazer",
-    "source": "pipeline",
+    "id": "skullgazer",
+    "label": "Skullgazer",
+    "notes": "A skullgazer.",
+    "customSprite": "desperate_soul",
     "displayScale": 1,
-    "notes": "A gazer.",
     "hp": 260,
     "hpMax": 260,
     "speed": 85,
     "level": 291,
+    "threatDps": 21.25,
+    "burstDps": 21.25,
+    "avgHit": 31.4815,
+    "maxHit": 170,
     "armor": 10,
     "mitigation": 0,
-    "maxBlock": 0,
     "exp": 170,
     "lootValue": 0,
     "aggro": true,
+    "canBlock": false,
+    "manaCost": 0,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "summon": {
+        "maxSummons": 6,
+        "summons": [
+            {
+                "name": "Skeleton",
+                "id": "skeleton",
+                "chance": 20,
+                "interval": 2000,
+                "count": 6
+            }
+        ]
+    },
     "resists": {
         "physical": 0,
         "fire": -10,
@@ -23,10 +43,103 @@
         "holy": 0,
         "death": 0
     },
-    "canBlock": false,
-    "strategiesTarget": {
-        "nearest": 100
-    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "element": "physical",
+            "intervalMs": 2000,
+            "chance": 100,
+            "min": 0,
+            "max": 17
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "element": "energy",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 7,
+            "min": 51,
+            "max": 153,
+            "target": false,
+            "shootEffect": "ani_energy"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "element": "fire",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 7,
+            "min": 85,
+            "max": 153,
+            "target": false,
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "ranged_3",
+            "kind": "ranged",
+            "element": "death",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 7,
+            "min": 102,
+            "max": 170,
+            "target": false,
+            "effect": "me_smallclouds",
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "ranged_4",
+            "kind": "ranged",
+            "element": "earth",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 7,
+            "min": 17,
+            "max": 153,
+            "target": false,
+            "shootEffect": "ani_poison"
+        },
+        {
+            "id": "ranged_5",
+            "kind": "ranged",
+            "element": "death",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 7,
+            "min": 17,
+            "max": 170,
+            "target": false,
+            "shootEffect": "ani_death"
+        },
+        {
+            "id": "ranged_6",
+            "kind": "ranged",
+            "element": "lifedrain",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 7,
+            "min": 0,
+            "max": 153,
+            "target": false,
+            "effect": "me_magic_red",
+            "shootEffect": "31"
+        },
+        {
+            "id": "ranged_7",
+            "kind": "ranged",
+            "element": "manadrain",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 7,
+            "min": 17,
+            "max": 119,
+            "target": false,
+            "shootEffect": "31"
+        }
+    ],
     "flags": {
         "targetDistance": 4,
         "runHealth": 0,
@@ -47,102 +160,8 @@
         "canWalkOnFire": false,
         "canWalkOnPoison": false
     },
-    "attacks": [
-        {
-            "id": "melee_0",
-            "kind": "melee",
-            "intervalMs": 2000,
-            "chance": 100,
-            "range": 1,
-            "element": "physical",
-            "min": 0,
-            "max": 17
-        },
-        {
-            "id": "ranged_1",
-            "kind": "ranged",
-            "intervalMs": 2000,
-            "chance": 5,
-            "range": 7,
-            "element": "energy",
-            "min": 51,
-            "max": 153,
-            "target": false,
-            "shootEffect": "ani_energy"
-        },
-        {
-            "id": "ranged_2",
-            "kind": "ranged",
-            "intervalMs": 2000,
-            "chance": 5,
-            "range": 7,
-            "element": "fire",
-            "min": 85,
-            "max": 153,
-            "target": false,
-            "shootEffect": "ani_fire"
-        },
-        {
-            "id": "ranged_3",
-            "kind": "ranged",
-            "intervalMs": 2000,
-            "chance": 5,
-            "range": 7,
-            "element": "death",
-            "min": 102,
-            "max": 170,
-            "target": false,
-            "effect": "me_smallclouds",
-            "shootEffect": "ani_suddendeath"
-        },
-        {
-            "id": "ranged_4",
-            "kind": "ranged",
-            "intervalMs": 2000,
-            "chance": 5,
-            "range": 7,
-            "element": "earth",
-            "min": 17,
-            "max": 153,
-            "target": false,
-            "shootEffect": "ani_poison"
-        },
-        {
-            "id": "ranged_5",
-            "kind": "ranged",
-            "intervalMs": 2000,
-            "chance": 5,
-            "range": 7,
-            "element": "death",
-            "min": 17,
-            "max": 170,
-            "target": false,
-            "shootEffect": "ani_death"
-        },
-        {
-            "id": "ranged_6",
-            "kind": "ranged",
-            "intervalMs": 2000,
-            "chance": 5,
-            "range": 7,
-            "element": "lifedrain",
-            "min": 0,
-            "max": 153,
-            "target": false,
-            "effect": "me_magic_red"
-        },
-        {
-            "id": "ranged_7",
-            "kind": "ranged",
-            "intervalMs": 2000,
-            "chance": 5,
-            "range": 7,
-            "element": "manadrain",
-            "min": 17,
-            "max": 119,
-            "target": false
-        }
-    ],
+    "source": "pipeline",
+    "maxBlock": 0,
     "race": "venom",
     "loot": [
         {
@@ -184,23 +203,5 @@
         "outfit": false,
         "invisible": true,
         "bleed": false
-    },
-    "customSprite": "desperate_soul",
-    "threatDps": 21.25,
-    "burstDps": 21.25,
-    "avgHit": 31.4815,
-    "maxHit": 170,
-    "manaCost": 0,
-    "summon": {
-        "maxSummons": 6,
-        "summons": [
-            {
-                "name": "Skeleton",
-                "id": "skeleton",
-                "chance": 20,
-                "interval": 2000,
-                "count": 6
-            }
-        ]
     }
 }

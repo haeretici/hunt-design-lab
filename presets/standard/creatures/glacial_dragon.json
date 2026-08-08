@@ -1,0 +1,289 @@
+{
+    "id": "glacial_dragon",
+    "label": "Glacial Dragon",
+    "notes": "An glacial dragon.",
+    "customSprite": "wild_desert_dragon",
+    "displayScale": 1,
+    "hp": 1800,
+    "hpMax": 1800,
+    "speed": 106,
+    "level": 484,
+    "threatDps": 62.025,
+    "burstDps": 62.025,
+    "avgHit": 95.4231,
+    "maxHit": 281,
+    "armor": 38,
+    "mitigation": 1.07,
+    "exp": 2100,
+    "lootValue": 300.86115901252,
+    "aggro": true,
+    "canBlock": false,
+    "manaCost": 0,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "bestiary": {
+        "class": "Dragon",
+        "toKill": 1000,
+        "firstUnlock": 50,
+        "secondUnlock": 500,
+        "charmsPoints": 25,
+        "stars": 3,
+        "occurrence": 0
+    },
+    "resists": {
+        "physical": 5,
+        "fire": 100,
+        "ice": 100,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 10
+    },
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 10,
+            "min": 150,
+            "max": 200,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 15,
+            "speedChange": 290,
+            "durationSec": 5,
+            "effect": "me_magic_red"
+        }
+    ],
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "element": "physical",
+            "intervalMs": 2000,
+            "chance": 100,
+            "min": 0,
+            "max": 167
+        },
+        {
+            "id": "wave_1",
+            "kind": "wave",
+            "element": "lifedrain",
+            "intervalMs": 2000,
+            "chance": 10,
+            "length": 8,
+            "spread": 3,
+            "min": 130,
+            "max": 281,
+            "target": false,
+            "effect": "me_poff"
+        },
+        {
+            "id": "slow_2",
+            "kind": "status",
+            "element": "physical",
+            "intervalMs": 2000,
+            "chance": 5,
+            "min": 0,
+            "max": 0,
+            "target": false,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -700,
+                "durationSec": 12
+            },
+            "effect": "me_poff"
+        },
+        {
+            "id": "slow_3",
+            "kind": "status",
+            "element": "physical",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 0,
+            "max": 0,
+            "target": false,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -850,
+                "durationSec": 18
+            },
+            "effect": "me_iceattack"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "element": "ice",
+            "intervalMs": 2000,
+            "chance": 5,
+            "range": 4,
+            "radius": 3,
+            "min": 44,
+            "max": 89,
+            "target": false,
+            "effect": "me_icetornado",
+            "shootEffect": "31"
+        },
+        {
+            "id": "area_5",
+            "kind": "area",
+            "element": "ice",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "radius": 4,
+            "min": 74,
+            "max": 178,
+            "target": true,
+            "effect": "me_icearea",
+            "shootEffect": "31"
+        },
+        {
+            "id": "wave_6",
+            "kind": "wave",
+            "element": "physical",
+            "intervalMs": 2000,
+            "chance": 5,
+            "length": 1,
+            "spread": 3,
+            "min": 0,
+            "max": 163,
+            "target": false,
+            "effect": "me_poff"
+        },
+        {
+            "id": "slow_7",
+            "kind": "status",
+            "element": "physical",
+            "intervalMs": 2000,
+            "chance": 20,
+            "min": 0,
+            "max": 0,
+            "target": true,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -600,
+                "durationSec": 12
+            },
+            "effect": "me_icearea"
+        }
+    ],
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 250,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "source": "pipeline",
+    "maxBlock": 0,
+    "race": "undead",
+    "loot": [
+        {
+            "name": "gold coin",
+            "chance": 99110,
+            "maxCount": 207
+        },
+        {
+            "name": "dragon ham",
+            "chance": 83040,
+            "maxCount": 2
+        },
+        {
+            "name": "green mushroom",
+            "chance": 10710
+        },
+        {
+            "chance": 6250,
+            "name": "ice cube"
+        },
+        {
+            "chance": 8500,
+            "name": "book"
+        },
+        {
+            "name": "power bolt",
+            "chance": 5360,
+            "maxCount": 6
+        },
+        {
+            "name": "golden mug",
+            "chance": 5360
+        },
+        {
+            "chance": 2680,
+            "name": "voltaic ring"
+        },
+        {
+            "name": "small sapphire",
+            "chance": 1790
+        },
+        {
+            "name": "strange helmet",
+            "chance": 890
+        },
+        {
+            "name": "life crystal",
+            "chance": 890
+        },
+        {
+            "name": "shard",
+            "chance": 520
+        },
+        {
+            "name": "ice rapier",
+            "chance": 310
+        },
+        {
+            "name": "tower shield",
+            "chance": 290
+        },
+        {
+            "name": "royal helmet",
+            "chance": 230
+        },
+        {
+            "name": "dragon scale mail",
+            "chance": 100
+        },
+        {
+            "name": "dragon slayer",
+            "chance": 100
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    }
+}

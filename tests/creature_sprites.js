@@ -55,6 +55,9 @@ test('technicalToFileStem and idToFileStem', () => {
     );
     assert.strictEqual(idToFileStem('ashen_dwarf_priest'), 'Ashen_Dwarf_Priest');
     assert.strictEqual(idToFileStem('Obsidian_Dwarf_Warden'), 'Obsidian_Dwarf_Warden');
+    // Numbered variants must keep digits (smart update / Gazer 2 → Gazer_2, not Gazer)
+    assert.strictEqual(technicalToFileStem('Gazer 2'), 'Gazer_2');
+    assert.strictEqual(idToFileStem('gazer_2'), 'Gazer_2');
 });
 
 test('genreFolder and normalizeVariant', () => {

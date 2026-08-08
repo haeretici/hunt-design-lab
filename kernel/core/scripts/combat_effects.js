@@ -126,12 +126,19 @@ function withSpellId(opts, spellId) {
 }
 
 /**
- * Floor z for FX (prefer impact / defender, then attacker).
+ * Floor z for FX.
+ * Prefer planted/result center (delayed grenade fuse, multi-floor AoE), then
+ * impact/defender, then attacker. Center wins so detonation after a caster
+ * floor hop still paints on the plant floor.
+ *
  * @param {{ z?: string|number }|null} aTile
  * @param {{ z?: string|number }|null} dTile
+ * @param {{ center?: { z?: string|number } }|null} [result]
  * @returns {string|number|undefined}
  */
-function floorZFromTiles(aTile, dTile) {
+function floorZFromTiles(aTile, dTile, result) {
+    const c = result && result.center;
+    if (c && c.z !== undefined && c.z !== null) return c.z;
     if (dTile && dTile.z !== undefined && dTile.z !== null) return dTile.z;
     if (aTile && aTile.z !== undefined && aTile.z !== null) return aTile.z;
     return undefined;
@@ -289,7 +296,7 @@ function effectsFromAttack(attacker, defender, result) {
     const spellId = spellIdForDebug(spell);
     const aTile = attacker ? (getVisualTilePos(attacker) || attacker.tile) : null;
     const dTile = defender ? (getVisualTilePos(defender) || defender.tile) : null;
-    const floorZ = floorZFromTiles(aTile, dTile);
+    const floorZ = floorZFromTiles(aTile, dTile, result);
 
     // Secondary samples of a multi-target cast: death only (footprint already drawn)
     const secondaryMulti = result.multi === false;
@@ -334,8 +341,46 @@ function effectsFromAttack(attacker, defender, result) {
             shapeType === 'beam');
 
     if (!secondaryMulti) {
+        // Chain hop bolts (legacy chain effect between successive targets)
+        const chainLinks =
+            result.chain && Array.isArray(result.chainLinks)
+                ? result.chainLinks
+                : null;
+        if (chainLinks && chainLinks.length) {
+            for (let li = 0; li < chainLinks.length; li++) {
+                const L = chainLinks[li];
+                if (!L || !L.from || !L.to) continue;
+                out.push(
+                    withSpellId(
+                        withFloorZ(
+                            {
+                                type: 'projectile',
+                                x0: L.from.x,
+                                y0: L.from.y,
+                                x1: L.to.x,
+                                y1: L.to.y,
+                                sx: L.from.x,
+                                sy: L.from.y,
+                                color,
+                                life: 0.18
+                            },
+                            floorZ
+                        ),
+                        spellId
+                    )
+                );
+            }
+        }
+
         // Projectile: ranged non-melee bolt/shot (not for shaped AoE/wave)
-        if (aTile && dTile && !isMelee && range > 1 && !isShaped) {
+        if (
+            aTile &&
+            dTile &&
+            !isMelee &&
+            range > 1 &&
+            !isShaped &&
+            !(chainLinks && chainLinks.length)
+        ) {
             /** @type {object} */
             const projOpts = {
                 type: 'projectile',
@@ -361,7 +406,7 @@ function effectsFromAttack(attacker, defender, result) {
         }
 
         // Melee / auto swing: short slash toward impact (single-target only)
-        if (dTile && isMelee && !isShaped) {
+        if (dTile && isMelee && !isShaped && !(chainLinks && chainLinks.length)) {
             const sx = aTile ? aTile.x : dTile.x;
             const sy = aTile ? aTile.y : dTile.y;
             out.push(
@@ -578,7 +623,7 @@ class CombatEffectsScript extends Script {
     }
 
     onGUI(g) {
-        if (Settings.HEADLESS || !g || !this.entries.length) return;
+        if (Settings.HEADLESS || !g) return;
         const sim = this.level || this.parent;
         const tw = Settings.tileWidth || 32;
         const th = Settings.tileHeight || 32;
@@ -591,28 +636,96 @@ class CombatEffectsScript extends Script {
                   ? String(Settings.cameraTileZ)
                   : null;
 
-        for (let i = 0; i < this.entries.length; i++) {
-            const e = this.entries[i];
-            if (
-                viewZ != null &&
-                e.z !== undefined &&
-                e.z !== null &&
-                String(e.z) !== viewZ
-            ) {
-                continue;
-            }
-            const t = e.life > 0 ? Math.min(1, e.age / e.life) : 1;
-            if (e.type === 'projectile') {
-                drawProjectile(g, e, t, tw, th, ox, oy);
-            } else if (e.type === 'melee') {
-                drawMelee(g, e, t, tw, th, ox, oy);
-            } else if (e.type === 'aoe') {
-                drawAoe(g, e, t, tw, th, ox, oy);
-            } else if (e.type === 'death') {
-                drawDeath(g, e, t, tw, th, ox, oy);
+        if (this.entries.length) {
+            for (let i = 0; i < this.entries.length; i++) {
+                const e = this.entries[i];
+                if (
+                    viewZ != null &&
+                    e.z !== undefined &&
+                    e.z !== null &&
+                    String(e.z) !== viewZ
+                ) {
+                    continue;
+                }
+                const t = e.life > 0 ? Math.min(1, e.age / e.life) : 1;
+                if (e.type === 'projectile') {
+                    drawProjectile(g, e, t, tw, th, ox, oy);
+                } else if (e.type === 'melee') {
+                    drawMelee(g, e, t, tw, th, ox, oy);
+                } else if (e.type === 'aoe') {
+                    drawAoe(g, e, t, tw, th, ox, oy);
+                } else if (e.type === 'death') {
+                    drawDeath(g, e, t, tw, th, ox, oy);
+                }
             }
         }
+
+        // Delayed-cast fuse markers (divine grenade, etc.): live from
+        // sim.pendingDelayedCasts so the blink stays on the plant floor even
+        // if the caster hops away (legacy CONST_ME_* until explode).
+        drawDelayedFuseMarkers(g, sim, viewZ, tw, th, ox, oy);
+
         g.globalAlpha = 1;
+    }
+}
+
+/**
+ * Slow-blink tile markers for pending delayed casts on the plant floor.
+ * Independent of caster.tile.z — only center.{x,y,z} and remainingSec matter.
+ *
+ * @param {CanvasRenderingContext2D} g
+ * @param {object|null|undefined} sim
+ * @param {string|null} viewZ
+ * @param {number} tw
+ * @param {number} th
+ * @param {number} ox
+ * @param {number} oy
+ */
+function drawDelayedFuseMarkers(g, sim, viewZ, tw, th, ox, oy) {
+    const pending =
+        sim && Array.isArray(sim.pendingDelayedCasts)
+            ? sim.pendingDelayedCasts
+            : null;
+    if (!pending || !pending.length) return;
+
+    const tNow =
+        typeof performance !== 'undefined' && performance.now
+            ? performance.now() / 1000
+            : Time.timeSinceLevelLoad;
+    // ~0.55 Hz slow blink (same envelope as barrier/vine overlays)
+    const alphaMul = 0.55 + 0.45 * (0.5 + 0.5 * Math.sin(tNow * Math.PI * 1.1));
+
+    for (let i = 0; i < pending.length; i++) {
+        const e = pending[i];
+        if (!e || !e.center) continue;
+        if (!(Number(e.remainingSec) > 0)) continue;
+        const c = e.center;
+        const cz = c.z !== undefined && c.z !== null ? c.z : 0;
+        if (viewZ != null && String(cz) !== viewZ) continue;
+
+        const spell = e.spell || {};
+        const color = elementColor(spell.element || 'holy');
+        const inset = Math.max(1, Math.floor(tw * 0.12));
+        const px = (Number(c.x) - ox) * tw + inset;
+        const py = (Number(c.y) - oy) * th + inset;
+        const w = tw - inset * 2;
+        const h = th - inset * 2;
+
+        g.globalAlpha = alphaMul * 0.55;
+        g.fillStyle = color;
+        g.fillRect(px, py, w, h);
+        g.globalAlpha = alphaMul * 0.9;
+        g.strokeStyle = color;
+        g.lineWidth = Math.max(1, Math.floor(tw / 16));
+        g.strokeRect(px + 0.5, py + 0.5, w - 1, h - 1);
+        // Small center pulse so fuse reads as a planted charge, not a field.
+        const cx = (Number(c.x) - ox) * tw + tw / 2;
+        const cy = (Number(c.y) - oy) * th + th / 2;
+        const r = Math.min(tw, th) * (0.12 + 0.04 * alphaMul);
+        g.globalAlpha = alphaMul;
+        g.beginPath();
+        g.arc(cx, cy, r, 0, Math.PI * 2);
+        g.fill();
     }
 }
 

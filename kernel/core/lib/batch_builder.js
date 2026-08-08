@@ -23,6 +23,7 @@ const {
     listKindIds
 } = require('../../settings.js');
 const { generateAssetNames, parseDoneList } = require('./asset_names.js');
+const { technicalToFileStem } = require('./creature_manifest.js');
 
 const DEFAULT_GRID = { rows: 4, cols: 4 };
 
@@ -484,8 +485,15 @@ function buildPrompt({
  * Sanitize technical name for filesystem (letters only → underscores).
  * @param {string} name
  */
+/**
+ * Technical phrase → PNG file stem. Keeps digits so numbered variants
+ * (`Gazer 2` → `Gazer_2`) do not collide with the base name (`Gazer`).
+ * Delegates to technicalToFileStem (same rules as catalog / inventory).
+ * @param {string} name
+ * @returns {string}
+ */
 function cleanFileStem(name) {
-    return name.replace(/[^a-zA-Z]+/g, '_').replace(/^_|_$/g, '');
+    return technicalToFileStem(name);
 }
 
 /**

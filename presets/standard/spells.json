@@ -205,7 +205,8 @@
                 "adept",
                 "warden"
             ],
-            "damageAmplitude": 0.1893
+            "damageAmplitude": 0.1893,
+            "level": 16
         },
         {
             "id": "ember_bolt",
@@ -232,7 +233,8 @@
                 "adept",
                 "warden"
             ],
-            "damageAmplitude": 0.1839
+            "damageAmplitude": 0.1839,
+            "level": 8
         },
         {
             "id": "strong_ice_strike",
@@ -240,7 +242,7 @@
             "kind": "spell",
             "element": "ice",
             "powerCurve": "magic_strike",
-            "basePower": 90,
+            "basePower": 115,
             "range": 3,
             "mana": 60,
             "hitChance": 100,
@@ -259,7 +261,7 @@
             "vocations": [
                 "warden"
             ],
-            "damageAmplitude": 0.238
+            "damageAmplitude": 0.2659
         },
         {
             "id": "strong_terra_strike",
@@ -267,7 +269,7 @@
             "kind": "spell",
             "element": "earth",
             "powerCurve": "magic_strike",
-            "basePower": 90,
+            "basePower": 115,
             "range": 3,
             "mana": 60,
             "hitChance": 100,
@@ -286,7 +288,7 @@
             "vocations": [
                 "warden"
             ],
-            "damageAmplitude": 0.238
+            "damageAmplitude": 0.2659
         },
         {
             "id": "strong_flame_strike",
@@ -294,7 +296,7 @@
             "kind": "spell",
             "element": "fire",
             "powerCurve": "magic_strike",
-            "basePower": 90,
+            "basePower": 125,
             "range": 3,
             "mana": 60,
             "hitChance": 100,
@@ -313,7 +315,7 @@
             "vocations": [
                 "adept"
             ],
-            "damageAmplitude": 0.238
+            "damageAmplitude": 0.2753
         },
         {
             "id": "strong_energy_strike",
@@ -321,7 +323,7 @@
             "kind": "spell",
             "element": "energy",
             "powerCurve": "magic_strike",
-            "basePower": 90,
+            "basePower": 125,
             "range": 3,
             "mana": 60,
             "hitChance": 100,
@@ -340,7 +342,7 @@
             "vocations": [
                 "adept"
             ],
-            "damageAmplitude": 0.238
+            "damageAmplitude": 0.2753
         },
         {
             "id": "mud_strike",
@@ -364,7 +366,8 @@
                 "adept",
                 "warden"
             ],
-            "damageAmplitude": 0.1639
+            "damageAmplitude": 0.1639,
+            "level": 1
         },
         {
             "id": "buzz",
@@ -388,11 +391,12 @@
                 "adept",
                 "warden"
             ],
-            "damageAmplitude": 0.1639
+            "damageAmplitude": 0.1639,
+            "level": 1
         },
         {
-            "id": "apprentice_strike",
-            "label": "Apprentice's Strike",
+            "id": "novice_strike",
+            "label": "Novice Strike",
             "kind": "spell",
             "element": "fire",
             "powerCurve": "magic_strike",
@@ -517,7 +521,7 @@
             "kind": "spell",
             "element": "energy",
             "powerCurve": "magic_strike",
-            "basePower": 170,
+            "basePower": 155,
             "range": 8,
             "mana": 110,
             "hitChance": 100,
@@ -541,7 +545,7 @@
                 "adept"
             ],
             "level": 29,
-            "damageAmplitude": 0.2888
+            "damageAmplitude": 0.2876
         },
         {
             "id": "terra_wave",
@@ -636,7 +640,8 @@
             "vocations": [
                 "warden"
             ],
-            "damageAmplitude": 0.2864
+            "damageAmplitude": 0.2864,
+            "level": 40
         },
         {
             "id": "great_fire_wave",
@@ -699,7 +704,8 @@
             "vocations": [
                 "adept"
             ],
-            "damageAmplitude": 0.1508
+            "damageAmplitude": 0.1508,
+            "level": 1
         },
         {
             "id": "chill_out",
@@ -730,7 +736,8 @@
             "vocations": [
                 "warden"
             ],
-            "damageAmplitude": 0.1508
+            "damageAmplitude": 0.1508,
+            "level": 1
         },
         {
             "id": "sky_rage",
@@ -800,7 +807,7 @@
             "kind": "spell",
             "element": "earth",
             "powerCurve": "magic_strike",
-            "basePower": 150,
+            "basePower": 175,
             "range": 0,
             "mana": 700,
             "hitChance": 100,
@@ -823,11 +830,11 @@
                 "warden"
             ],
             "level": 55,
-            "damageAmplitude": 0.2864
+            "damageAmplitude": 0.291
         },
         {
-            "id": "eternal_winter",
-            "label": "Eternal Winter",
+            "id": "glacial_cataclysm",
+            "label": "Glacial Cataclysm",
             "kind": "spell",
             "element": "ice",
             "powerCurve": "magic_strike",
@@ -848,7 +855,7 @@
             "requiresTarget": false,
             "shape": {
                 "type": "area",
-                "code": "eternal winter"
+                "code": "glacial_cataclysm"
             },
             "vocations": [
                 "warden"
@@ -1270,7 +1277,7 @@
             "moveLock": 0.05,
             "cooldowns": {
                 "primary": {
-                    "healing": 2
+                    "healing": 1
                 },
                 "spell": {
                     "magic_patch": 1
@@ -1300,10 +1307,10 @@
             "moveLock": 0.05,
             "cooldowns": {
                 "primary": {
-                    "healing": 2
+                    "healing": 1
                 },
                 "spell": {
-                    "heal_light": 4
+                    "heal_light": 1
                 }
             },
             "requiresTarget": false,
@@ -1330,7 +1337,7 @@
             "moveLock": 0.05,
             "cooldowns": {
                 "primary": {
-                    "healing": 2
+                    "healing": 1
                 },
                 "spell": {
                     "heal_intense": 1
@@ -1360,7 +1367,7 @@
             "moveLock": 0.05,
             "cooldowns": {
                 "primary": {
-                    "healing": 2
+                    "healing": 1
                 },
                 "spell": {
                     "heal_ultimate": 1
@@ -1380,7 +1387,7 @@
             "kind": "heal",
             "element": "healing",
             "powerCurve": "magic_strike",
-            "basePower": 150,
+            "basePower": 70,
             "range": 1,
             "mana": 40,
             "hitChance": 100,
@@ -1399,7 +1406,7 @@
                 "guardian"
             ],
             "level": 8,
-            "damageAmplitude": 0.2864
+            "damageAmplitude": 0.205
         },
         {
             "id": "fair_wound_cleanse",
@@ -1407,9 +1414,9 @@
             "kind": "heal",
             "element": "healing",
             "powerCurve": "magic_strike",
-            "basePower": 450,
+            "basePower": 225,
             "range": 1,
-            "mana": 0,
+            "mana": 90,
             "hitChance": 100,
             "isMelee": false,
             "moveLock": 0.05,
@@ -1425,7 +1432,8 @@
             "vocations": [
                 "guardian"
             ],
-            "damageAmplitude": 0.1987
+            "level": 300,
+            "damageAmplitude": 0.2766
         },
         {
             "id": "mass_heal",
@@ -1441,10 +1449,10 @@
             "moveLock": 0.05,
             "cooldowns": {
                 "primary": {
-                    "healing": 2
+                    "healing": 1
                 },
                 "spell": {
-                    "mass_heal": 1
+                    "mass_heal": 2
                 }
             },
             "requiresTarget": false,
@@ -1468,7 +1476,7 @@
             "moveLock": 0.05,
             "cooldowns": {
                 "primary": {
-                    "healing": 2
+                    "healing": 1
                 },
                 "spell": {
                     "heal_friend": 1
@@ -1495,7 +1503,7 @@
             "moveLock": 0.05,
             "cooldowns": {
                 "primary": {
-                    "healing": 2
+                    "healing": 1
                 },
                 "spell": {
                     "divine_heal": 1
@@ -1509,12 +1517,12 @@
             "damageAmplitude": 0.2629
         },
         {
-            "id": "salvation",
-            "label": "Salvation",
+            "id": "sacred_mending",
+            "label": "Sacred Mending",
             "kind": "heal",
             "element": "healing",
             "powerCurve": "magic_strike",
-            "basePower": 400,
+            "basePower": 500,
             "range": 1,
             "mana": 210,
             "hitChance": 100,
@@ -1522,10 +1530,10 @@
             "moveLock": 0.05,
             "cooldowns": {
                 "primary": {
-                    "healing": 2
+                    "healing": 1
                 },
                 "spell": {
-                    "salvation": 1
+                    "sacred_mending": 1
                 }
             },
             "requiresTarget": false,
@@ -1533,7 +1541,7 @@
                 "scout"
             ],
             "level": 60,
-            "damageAmplitude": 0.198
+            "damageAmplitude": 0.2159
         },
         {
             "id": "divine_missile",
@@ -1560,12 +1568,12 @@
             "damageAmplitude": 0.1899
         },
         {
-            "id": "divine_caldera",
-            "label": "Divine Caldera",
+            "id": "radiant_crater",
+            "label": "Radiant Crater",
             "kind": "spell",
             "element": "holy",
             "powerCurve": "magic_strike",
-            "basePower": 140,
+            "basePower": 150,
             "range": 0,
             "mana": 160,
             "hitChance": 100,
@@ -1576,7 +1584,7 @@
                     "attack": 2
                 },
                 "spell": {
-                    "divine_caldera": 4
+                    "radiant_crater": 4
                 }
             },
             "requiresTarget": false,
@@ -1588,16 +1596,16 @@
                 "scout"
             ],
             "level": 50,
-            "damageAmplitude": 0.2817
+            "damageAmplitude": 0.2864
         },
         {
-            "id": "lesser_ethereal_spear",
-            "label": "Lesser Ethereal Spear",
+            "id": "lesser_spirit_javelin",
+            "label": "Lesser Spirit Javelin",
             "kind": "strike",
             "element": "physical",
             "powerCurve": "magic_strike",
             "basePower": 9,
-            "range": 5,
+            "range": 7,
             "mana": 6,
             "hitChance": 100,
             "isMelee": false,
@@ -1611,16 +1619,17 @@
             "vocations": [
                 "scout"
             ],
-            "damageAmplitude": 0.1462
+            "damageAmplitude": 0.1462,
+            "level": 1
         },
         {
-            "id": "ethereal_spear",
-            "label": "Ethereal Spear",
+            "id": "spirit_javelin",
+            "label": "Spirit Javelin",
             "kind": "strike",
             "element": "physical",
             "powerCurve": "magic_strike",
             "basePower": 25,
-            "range": 5,
+            "range": 7,
             "mana": 25,
             "hitChance": 100,
             "isMelee": false,
@@ -1638,13 +1647,13 @@
             "damageAmplitude": 0.1746
         },
         {
-            "id": "strong_ethereal_spear",
-            "label": "Strong Ethereal Spear",
+            "id": "strong_spirit_javelin",
+            "label": "Strong Spirit Javelin",
             "kind": "strike",
             "element": "physical",
             "powerCurve": "magic_strike",
             "basePower": 38,
-            "range": 5,
+            "range": 7,
             "mana": 55,
             "hitChance": 100,
             "isMelee": false,
@@ -1681,11 +1690,12 @@
                     "piercing_shot": 4
                 }
             },
-            "notes": "Generic distance strike (older presets). Prefer ethereal_spear family in legacy loadouts.",
+            "notes": "Generic distance strike (older presets). Prefer spirit_javelin family in legacy loadouts.",
             "vocations": [
                 "scout"
             ],
-            "damageAmplitude": 0.2493
+            "damageAmplitude": 0.2493,
+            "level": 15
         },
         {
             "id": "lesser_front_sweep",
@@ -1716,7 +1726,8 @@
             "vocations": [
                 "guardian"
             ],
-            "damageAmplitude": 0.1853
+            "damageAmplitude": 0.1853,
+            "level": 1
         },
         {
             "id": "front_sweep",
@@ -1724,7 +1735,7 @@
             "kind": "strike",
             "element": "physical",
             "powerCurve": "melee_strike",
-            "basePower": 72,
+            "basePower": 80,
             "range": 1,
             "mana": 200,
             "hitChance": 100,
@@ -1748,7 +1759,7 @@
                 "guardian"
             ],
             "level": 70,
-            "damageAmplitude": 0.2576
+            "damageAmplitude": 0.2587
         },
         {
             "id": "brutal_strike",
@@ -1805,8 +1816,8 @@
             "damageAmplitude": 0.2549
         },
         {
-            "id": "ground_shaker",
-            "label": "Ground Shaker",
+            "id": "tremor_slam",
+            "label": "Tremor Slam",
             "kind": "strike",
             "element": "physical",
             "powerCurve": "melee_strike",
@@ -1821,13 +1832,13 @@
                     "attack": 2
                 },
                 "spell": {
-                    "ground_shaker": 8
+                    "tremor_slam": 8
                 }
             },
             "requiresTarget": false,
             "shape": {
                 "type": "area",
-                "code": 4
+                "code": 5
             },
             "vocations": [
                 "guardian"
@@ -1836,8 +1847,8 @@
             "damageAmplitude": 0.2549
         },
         {
-            "id": "berserk",
-            "label": "Berserk",
+            "id": "rampage",
+            "label": "Rampage",
             "kind": "strike",
             "element": "physical",
             "powerCurve": "melee_strike",
@@ -1852,7 +1863,7 @@
                     "attack": 2
                 },
                 "spell": {
-                    "berserk": 4
+                    "rampage": 4
                 }
             },
             "requiresTarget": false,
@@ -1867,8 +1878,8 @@
             "damageAmplitude": 0.2478
         },
         {
-            "id": "fierce_berserk",
-            "label": "Fierce Berserk",
+            "id": "fierce_rampage",
+            "label": "Fierce Rampage",
             "kind": "strike",
             "element": "physical",
             "powerCurve": "melee_strike",
@@ -1883,7 +1894,7 @@
                     "attack": 2
                 },
                 "spell": {
-                    "fierce_berserk": 6
+                    "fierce_rampage": 6
                 }
             },
             "requiresTarget": false,
@@ -1929,7 +1940,7 @@
             "powerCurve": "melee_strike",
             "basePower": 15,
             "range": 1,
-            "mana": 18,
+            "mana": 3,
             "hitChance": 100,
             "isMelee": true,
             "moveLock": 0.05,
@@ -1956,7 +1967,7 @@
             "powerCurve": "melee_strike",
             "basePower": 40,
             "range": 1,
-            "mana": 35,
+            "mana": 30,
             "hitChance": 100,
             "isMelee": true,
             "moveLock": 0.05,
@@ -2010,7 +2021,7 @@
             "powerCurve": "melee_strike",
             "basePower": 55,
             "range": 3,
-            "mana": 125,
+            "mana": 110,
             "hitChance": 100,
             "isMelee": true,
             "moveLock": 0.05,
@@ -2042,7 +2053,7 @@
             "powerCurve": "melee_strike",
             "basePower": 48,
             "range": 4,
-            "mana": 195,
+            "mana": 210,
             "hitChance": 100,
             "isMelee": true,
             "moveLock": 0.05,
@@ -2087,7 +2098,11 @@
                 }
             },
             "requiresTarget": true,
-            "chain": 4,
+            "chain": {
+                "maxTargets": 4,
+                "distance": 3,
+                "backtracking": false
+            },
             "vocations": [
                 "mystic"
             ],
@@ -2102,7 +2117,7 @@
             "powerCurve": "melee_strike",
             "basePower": 72,
             "range": 7,
-            "mana": 175,
+            "mana": 150,
             "hitChance": 100,
             "isMelee": true,
             "moveLock": 0.05,
@@ -2129,7 +2144,7 @@
             "powerCurve": "melee_strike",
             "basePower": 86,
             "range": 3,
-            "mana": 315,
+            "mana": 300,
             "hitChance": 100,
             "isMelee": true,
             "moveLock": 0.05,
@@ -2531,6 +2546,1926 @@
             "field": "energy",
             "deploysField": "energy",
             "magicLevel": 9
+        },
+        {
+            "id": "light",
+            "label": "Light",
+            "kind": "support",
+            "mana": 20,
+            "range": 0,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "support": 2
+                },
+                "spell": {
+                    "light": 2
+                }
+            },
+            "requiresTarget": false,
+            "level": 8,
+            "vocations": [
+                "guardian",
+                "scout",
+                "mystic",
+                "adept",
+                "warden"
+            ],
+            "statusOnly": true,
+            "min": 0,
+            "max": 0,
+            "stub": true,
+            "stubReason": "no_light_model"
+        },
+        {
+            "id": "great_light",
+            "label": "Great Light",
+            "kind": "support",
+            "mana": 60,
+            "range": 0,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "support": 2
+                },
+                "spell": {
+                    "great_light": 2
+                }
+            },
+            "requiresTarget": false,
+            "level": 13,
+            "vocations": [
+                "guardian",
+                "scout",
+                "mystic",
+                "adept",
+                "warden"
+            ],
+            "statusOnly": true,
+            "min": 0,
+            "max": 0,
+            "stub": true,
+            "stubReason": "no_light_model"
+        },
+        {
+            "id": "ultimate_light",
+            "label": "Ultimate Light",
+            "kind": "support",
+            "mana": 140,
+            "range": 0,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "support": 2
+                },
+                "spell": {
+                    "ultimate_light": 2
+                }
+            },
+            "requiresTarget": false,
+            "level": 26,
+            "vocations": [
+                "adept",
+                "warden"
+            ],
+            "statusOnly": true,
+            "min": 0,
+            "max": 0,
+            "stub": true,
+            "stubReason": "no_light_model"
+        },
+        {
+            "id": "levitate",
+            "label": "Levitate",
+            "kind": "support",
+            "mana": 50,
+            "range": 0,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "support": 2
+                },
+                "spell": {
+                    "levitate": 2
+                }
+            },
+            "requiresTarget": false,
+            "level": 12,
+            "vocations": [
+                "guardian",
+                "scout",
+                "mystic",
+                "adept",
+                "warden"
+            ],
+            "statusOnly": true,
+            "min": 0,
+            "max": 0,
+            "stub": true,
+            "stubReason": "no_spell_elevation"
+        },
+        {
+            "id": "magic_rope",
+            "label": "Magic Rope",
+            "kind": "support",
+            "mana": 20,
+            "range": 0,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "support": 2
+                },
+                "spell": {
+                    "magic_rope": 2
+                }
+            },
+            "requiresTarget": false,
+            "level": 9,
+            "vocations": [
+                "guardian",
+                "scout",
+                "mystic",
+                "adept",
+                "warden"
+            ],
+            "statusOnly": true,
+            "min": 0,
+            "max": 0,
+            "stub": true,
+            "stubReason": "no_rope_spots"
+        },
+        {
+            "id": "find_person",
+            "label": "Find Person",
+            "kind": "support",
+            "mana": 20,
+            "range": 0,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "support": 2
+                },
+                "spell": {
+                    "find_person": 2
+                }
+            },
+            "requiresTarget": false,
+            "level": 8,
+            "vocations": [
+                "guardian",
+                "scout",
+                "mystic",
+                "adept",
+                "warden"
+            ],
+            "statusOnly": true,
+            "min": 0,
+            "max": 0,
+            "stub": true,
+            "stubReason": "no_player_tracking"
+        },
+        {
+            "id": "find_fiend",
+            "label": "Find Fiend",
+            "kind": "support",
+            "mana": 20,
+            "range": 0,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "support": 2
+                },
+                "spell": {
+                    "find_fiend": 2
+                }
+            },
+            "requiresTarget": false,
+            "level": 25,
+            "vocations": [
+                "guardian",
+                "scout",
+                "mystic",
+                "adept",
+                "warden"
+            ],
+            "statusOnly": true,
+            "min": 0,
+            "max": 0,
+            "stub": true,
+            "stubReason": "no_fiend_tracking"
+        },
+        {
+            "id": "create_food",
+            "label": "Create Food",
+            "kind": "support",
+            "mana": 120,
+            "range": 0,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "support": 2
+                },
+                "spell": {
+                    "create_food": 2
+                }
+            },
+            "requiresTarget": false,
+            "level": 14,
+            "vocations": [
+                "warden"
+            ],
+            "statusOnly": true,
+            "min": 0,
+            "max": 0,
+            "stub": true,
+            "stubReason": "no_food_economy"
+        },
+        {
+            "id": "creature_illusion",
+            "label": "Creature Illusion",
+            "kind": "support",
+            "mana": 100,
+            "range": 0,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "support": 2
+                },
+                "spell": {
+                    "creature_illusion": 2
+                }
+            },
+            "requiresTarget": false,
+            "level": 23,
+            "vocations": [
+                "adept",
+                "warden"
+            ],
+            "statusOnly": true,
+            "min": 0,
+            "max": 0,
+            "stub": true,
+            "stubReason": "no_outfit_disguise"
+        },
+        {
+            "id": "cure_poison",
+            "label": "Cure Poison",
+            "kind": "heal",
+            "element": "healing",
+            "range": 1,
+            "mana": 30,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "healing": 1
+                },
+                "spell": {
+                    "cure_poison": 6
+                }
+            },
+            "requiresTarget": false,
+            "level": 10,
+            "vocations": [
+                "guardian",
+                "scout",
+                "mystic",
+                "adept",
+                "warden"
+            ],
+            "statusOnly": true,
+            "min": 0,
+            "max": 0,
+            "basePower": 0,
+            "dispel": [
+                "poison"
+            ]
+        },
+        {
+            "id": "cure_burning",
+            "label": "Cure Burning",
+            "kind": "heal",
+            "element": "healing",
+            "range": 1,
+            "mana": 30,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "healing": 1
+                },
+                "spell": {
+                    "cure_burning": 6
+                }
+            },
+            "requiresTarget": false,
+            "level": 30,
+            "vocations": [
+                "warden"
+            ],
+            "statusOnly": true,
+            "min": 0,
+            "max": 0,
+            "basePower": 0,
+            "dispel": [
+                "fire"
+            ]
+        },
+        {
+            "id": "cure_electrification",
+            "label": "Cure Electrification",
+            "kind": "heal",
+            "element": "healing",
+            "range": 1,
+            "mana": 30,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "healing": 1
+                },
+                "spell": {
+                    "cure_electrification": 6
+                }
+            },
+            "requiresTarget": false,
+            "level": 22,
+            "vocations": [
+                "warden"
+            ],
+            "statusOnly": true,
+            "min": 0,
+            "max": 0,
+            "basePower": 0,
+            "dispel": [
+                "energy"
+            ]
+        },
+        {
+            "id": "cure_bleeding",
+            "label": "Cure Bleeding",
+            "kind": "heal",
+            "element": "healing",
+            "range": 1,
+            "mana": 30,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "healing": 1
+                },
+                "spell": {
+                    "cure_bleeding": 6
+                }
+            },
+            "requiresTarget": false,
+            "level": 45,
+            "vocations": [
+                "warden",
+                "guardian"
+            ],
+            "statusOnly": true,
+            "min": 0,
+            "max": 0,
+            "basePower": 0,
+            "dispel": [
+                "bleed"
+            ]
+        },
+        {
+            "id": "cure_curse",
+            "label": "Cure Curse",
+            "kind": "heal",
+            "element": "healing",
+            "range": 1,
+            "mana": 40,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "healing": 1
+                },
+                "spell": {
+                    "cure_curse": 6
+                }
+            },
+            "requiresTarget": false,
+            "level": 80,
+            "vocations": [
+                "scout"
+            ],
+            "statusOnly": true,
+            "min": 0,
+            "max": 0,
+            "basePower": 0,
+            "dispel": [
+                "curse"
+            ]
+        },
+        {
+            "id": "haste",
+            "label": "Haste",
+            "kind": "support",
+            "range": 0,
+            "mana": 60,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "support": 2
+                },
+                "spell": {
+                    "haste": 2
+                }
+            },
+            "requiresTarget": false,
+            "level": 14,
+            "vocations": [
+                "guardian",
+                "scout",
+                "mystic",
+                "adept",
+                "warden"
+            ],
+            "statusOnly": true,
+            "min": 0,
+            "max": 0,
+            "basePower": 0,
+            "condition": {
+                "type": "haste",
+                "durationSec": 30,
+                "speedFormula": {
+                    "mina": 1.3,
+                    "minb": 40,
+                    "maxa": 1.3,
+                    "maxb": 40
+                }
+            }
+        },
+        {
+            "id": "strong_haste",
+            "label": "Strong Haste",
+            "kind": "support",
+            "range": 0,
+            "mana": 100,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "support": 2
+                },
+                "spell": {
+                    "strong_haste": 2
+                }
+            },
+            "requiresTarget": false,
+            "level": 20,
+            "vocations": [
+                "mystic",
+                "adept",
+                "warden"
+            ],
+            "statusOnly": true,
+            "min": 0,
+            "max": 0,
+            "basePower": 0,
+            "condition": {
+                "type": "haste",
+                "durationSec": 22,
+                "speedFormula": {
+                    "mina": 1.7,
+                    "minb": 40,
+                    "maxa": 1.7,
+                    "maxb": 40
+                }
+            }
+        },
+        {
+            "id": "charge",
+            "label": "Charge",
+            "kind": "support",
+            "range": 0,
+            "mana": 100,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "support": 2
+                },
+                "spell": {
+                    "charge": 2
+                }
+            },
+            "requiresTarget": false,
+            "level": 25,
+            "vocations": [
+                "guardian"
+            ],
+            "statusOnly": true,
+            "min": 0,
+            "max": 0,
+            "basePower": 0,
+            "condition": {
+                "type": "haste",
+                "durationSec": 5,
+                "speedFormula": {
+                    "mina": 1.9,
+                    "minb": 40,
+                    "maxa": 1.9,
+                    "maxb": 40
+                }
+            }
+        },
+        {
+            "id": "invisible",
+            "label": "Invisibility",
+            "kind": "support",
+            "range": 0,
+            "mana": 440,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "support": 2
+                },
+                "spell": {
+                    "invisible": 2
+                }
+            },
+            "requiresTarget": false,
+            "level": 35,
+            "vocations": [
+                "adept",
+                "warden"
+            ],
+            "statusOnly": true,
+            "min": 0,
+            "max": 0,
+            "basePower": 0,
+            "condition": {
+                "type": "invisible",
+                "durationSec": 200
+            }
+        },
+        {
+            "id": "cancel_invisibility",
+            "label": "Cancel Invisibility",
+            "kind": "support",
+            "range": 1,
+            "mana": 200,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "support": 2
+                },
+                "spell": {
+                    "cancel_invisibility": 2
+                }
+            },
+            "requiresTarget": false,
+            "level": 26,
+            "vocations": [
+                "scout"
+            ],
+            "statusOnly": true,
+            "min": 0,
+            "max": 0,
+            "basePower": 0,
+            "shape": {
+                "type": "area",
+                "code": 5
+            },
+            "dispel": [
+                "invisible"
+            ]
+        },
+        {
+            "id": "ultimate_flame_strike",
+            "label": "Ultimate Flame Strike",
+            "kind": "spell",
+            "element": "fire",
+            "powerCurve": "magic_strike",
+            "basePower": 210,
+            "range": 3,
+            "mana": 100,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                },
+                "secondary": {
+                    "ultimatestrikes": 30
+                }
+            },
+            "requiresTarget": true,
+            "level": 90,
+            "vocations": [
+                "adept"
+            ],
+            "damageAmplitude": 0.2831
+        },
+        {
+            "id": "ultimate_ice_strike",
+            "label": "Ultimate Ice Strike",
+            "kind": "spell",
+            "element": "ice",
+            "powerCurve": "magic_strike",
+            "basePower": 195,
+            "range": 3,
+            "mana": 100,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                },
+                "secondary": {
+                    "ultimatestrikes": 30
+                }
+            },
+            "requiresTarget": true,
+            "level": 100,
+            "vocations": [
+                "warden"
+            ],
+            "damageAmplitude": 0.2875
+        },
+        {
+            "id": "ultimate_terra_strike",
+            "label": "Ultimate Earth Strike",
+            "kind": "spell",
+            "element": "earth",
+            "powerCurve": "magic_strike",
+            "basePower": 195,
+            "range": 3,
+            "mana": 100,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                },
+                "secondary": {
+                    "ultimatestrikes": 30
+                }
+            },
+            "requiresTarget": true,
+            "level": 90,
+            "vocations": [
+                "warden"
+            ],
+            "damageAmplitude": 0.2875
+        },
+        {
+            "id": "ultimate_energy_strike",
+            "label": "Ultimate Energy Strike",
+            "kind": "spell",
+            "element": "energy",
+            "powerCurve": "magic_strike",
+            "basePower": 210,
+            "range": 3,
+            "mana": 100,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                },
+                "secondary": {
+                    "ultimatestrikes": 30
+                }
+            },
+            "requiresTarget": true,
+            "level": 100,
+            "vocations": [
+                "adept"
+            ],
+            "damageAmplitude": 0.2831
+        },
+        {
+            "id": "annihilation",
+            "label": "Annihilation",
+            "kind": "strike",
+            "element": "physical",
+            "powerCurve": "melee_strike",
+            "basePower": 125,
+            "range": 1,
+            "mana": 300,
+            "hitChance": 100,
+            "isMelee": true,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                },
+                "spell": {
+                    "annihilation": 30
+                }
+            },
+            "requiresTarget": true,
+            "level": 110,
+            "vocations": [
+                "guardian"
+            ],
+            "damageAmplitude": 0.2699
+        },
+        {
+            "id": "executioners_throw",
+            "label": "Executioner's Throw",
+            "kind": "strike",
+            "element": "physical",
+            "powerCurve": "melee_strike",
+            "basePower": 60,
+            "range": 5,
+            "mana": 225,
+            "hitChance": 100,
+            "isMelee": true,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                },
+                "spell": {
+                    "executioners_throw": 18
+                }
+            },
+            "requiresTarget": true,
+            "chain": {
+                "maxTargets": 3,
+                "distance": 3,
+                "backtracking": false
+            },
+            "level": 300,
+            "vocations": [
+                "guardian"
+            ],
+            "damageAmplitude": 0.2517
+        },
+        {
+            "id": "great_death_beam",
+            "label": "Great Death Beam",
+            "kind": "spell",
+            "element": "death",
+            "powerCurve": "magic_strike",
+            "basePower": 155,
+            "range": 8,
+            "mana": 140,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                },
+                "secondary": {
+                    "greatbeams": 6
+                },
+                "spell": {
+                    "great_death_beam": 10
+                }
+            },
+            "requiresTarget": false,
+            "shape": {
+                "type": "wave",
+                "spread": 0,
+                "length": 8
+            },
+            "level": 300,
+            "vocations": [
+                "adept"
+            ],
+            "damageAmplitude": 0.2876
+        },
+        {
+            "id": "ice_burst",
+            "label": "Ice Burst",
+            "kind": "spell",
+            "element": "ice",
+            "powerCurve": "magic_strike",
+            "basePower": 115,
+            "range": 0,
+            "mana": 230,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                },
+                "secondary": {
+                    "burstsofnature": 22
+                }
+            },
+            "requiresTarget": false,
+            "shape": {
+                "type": "area",
+                "code": "ring1_burst3"
+            },
+            "level": 300,
+            "vocations": [
+                "warden"
+            ],
+            "damageAmplitude": 0.2659
+        },
+        {
+            "id": "terra_burst",
+            "label": "Terra Burst",
+            "kind": "spell",
+            "element": "earth",
+            "powerCurve": "magic_strike",
+            "basePower": 115,
+            "range": 0,
+            "mana": 230,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                },
+                "secondary": {
+                    "burstsofnature": 22
+                }
+            },
+            "requiresTarget": false,
+            "shape": {
+                "type": "area",
+                "code": "ring1_burst3"
+            },
+            "level": 300,
+            "vocations": [
+                "warden"
+            ],
+            "damageAmplitude": 0.2659
+        },
+        {
+            "id": "lightning",
+            "label": "Lightning",
+            "kind": "spell",
+            "element": "energy",
+            "powerCurve": "magic_strike",
+            "basePower": 110,
+            "range": 7,
+            "mana": 60,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                },
+                "spell": {
+                    "lightning": 8
+                }
+            },
+            "requiresTarget": true,
+            "level": 55,
+            "vocations": [
+                "adept"
+            ],
+            "damageAmplitude": 0.2607,
+            "chain": {
+                "maxTargets": 3,
+                "distance": 3,
+                "backtracking": false
+            }
+        },
+        {
+            "id": "divine_grenade",
+            "label": "Divine Grenade",
+            "kind": "spell",
+            "element": "holy",
+            "powerCurve": "magic_strike",
+            "basePower": 190,
+            "range": 7,
+            "mana": 160,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                },
+                "spell": {
+                    "divine_grenade": 26
+                }
+            },
+            "requiresTarget": true,
+            "shape": {
+                "type": "area",
+                "code": 4
+            },
+            "level": 300,
+            "vocations": [
+                "scout"
+            ],
+            "damageAmplitude": 0.2876,
+            "delaySec": 3,
+            "delayPlaceRange": 4
+        },
+        {
+            "id": "ignite",
+            "label": "Ignite",
+            "kind": "spell",
+            "element": "fire",
+            "range": 3,
+            "mana": 30,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                },
+                "spell": {
+                    "ignite": 30
+                }
+            },
+            "requiresTarget": true,
+            "level": 26,
+            "vocations": [
+                "adept"
+            ],
+            "statusOnly": true,
+            "min": 0,
+            "max": 0,
+            "basePower": 0,
+            "condition": {
+                "type": "fire",
+                "totalDamage": 1125,
+                "intervalSec": 3,
+                "schedule": [
+                    {
+                        "turns": 25,
+                        "damage": 45,
+                        "intervalSec": 3
+                    }
+                ]
+            }
+        },
+        {
+            "id": "electrify",
+            "label": "Electrify",
+            "kind": "spell",
+            "element": "energy",
+            "range": 3,
+            "mana": 30,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                },
+                "spell": {
+                    "electrify": 30
+                }
+            },
+            "requiresTarget": true,
+            "level": 34,
+            "vocations": [
+                "adept"
+            ],
+            "statusOnly": true,
+            "min": 0,
+            "max": 0,
+            "basePower": 0,
+            "condition": {
+                "type": "energy",
+                "totalDamage": 1125,
+                "intervalSec": 3,
+                "schedule": [
+                    {
+                        "turns": 25,
+                        "damage": 45,
+                        "intervalSec": 3
+                    }
+                ]
+            }
+        },
+        {
+            "id": "envenom",
+            "label": "Envenom",
+            "kind": "spell",
+            "element": "earth",
+            "range": 3,
+            "mana": 30,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                },
+                "spell": {
+                    "envenom": 40
+                }
+            },
+            "requiresTarget": true,
+            "level": 50,
+            "vocations": [
+                "warden"
+            ],
+            "statusOnly": true,
+            "min": 0,
+            "max": 0,
+            "basePower": 0,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 1125,
+                "intervalSec": 3,
+                "schedule": [
+                    {
+                        "turns": 25,
+                        "damage": 45,
+                        "intervalSec": 3
+                    }
+                ]
+            }
+        },
+        {
+            "id": "inflict_wound",
+            "label": "Inflict Wound",
+            "kind": "spell",
+            "element": "physical",
+            "range": 1,
+            "mana": 30,
+            "hitChance": 100,
+            "isMelee": true,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                },
+                "spell": {
+                    "inflict_wound": 30
+                }
+            },
+            "requiresTarget": true,
+            "level": 40,
+            "vocations": [
+                "guardian",
+                "mystic"
+            ],
+            "statusOnly": true,
+            "min": 0,
+            "max": 0,
+            "basePower": 0,
+            "condition": {
+                "type": "bleed",
+                "totalDamage": 750,
+                "intervalSec": 2,
+                "schedule": [
+                    {
+                        "turns": 15,
+                        "damage": 50,
+                        "intervalSec": 2
+                    }
+                ]
+            }
+        },
+        {
+            "id": "curse",
+            "label": "Curse",
+            "kind": "spell",
+            "element": "death",
+            "range": 3,
+            "mana": 30,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                },
+                "spell": {
+                    "curse": 40
+                }
+            },
+            "requiresTarget": true,
+            "level": 75,
+            "vocations": [
+                "adept"
+            ],
+            "statusOnly": true,
+            "min": 0,
+            "max": 0,
+            "basePower": 0,
+            "condition": {
+                "type": "curse",
+                "totalDamage": 1092,
+                "intervalSec": 3,
+                "schedule": [
+                    {
+                        "turns": 1,
+                        "damage": 45,
+                        "intervalSec": 3
+                    },
+                    {
+                        "turns": 1,
+                        "damage": 40,
+                        "intervalSec": 3
+                    },
+                    {
+                        "turns": 1,
+                        "damage": 35,
+                        "intervalSec": 3
+                    },
+                    {
+                        "turns": 1,
+                        "damage": 34,
+                        "intervalSec": 3
+                    },
+                    {
+                        "turns": 2,
+                        "damage": 33,
+                        "intervalSec": 3
+                    },
+                    {
+                        "turns": 2,
+                        "damage": 32,
+                        "intervalSec": 3
+                    },
+                    {
+                        "turns": 2,
+                        "damage": 31,
+                        "intervalSec": 3
+                    },
+                    {
+                        "turns": 2,
+                        "damage": 30,
+                        "intervalSec": 3
+                    },
+                    {
+                        "turns": 3,
+                        "damage": 29,
+                        "intervalSec": 3
+                    },
+                    {
+                        "turns": 3,
+                        "damage": 25,
+                        "intervalSec": 3
+                    },
+                    {
+                        "turns": 3,
+                        "damage": 24,
+                        "intervalSec": 3
+                    },
+                    {
+                        "turns": 4,
+                        "damage": 23,
+                        "intervalSec": 3
+                    },
+                    {
+                        "turns": 4,
+                        "damage": 20,
+                        "intervalSec": 3
+                    },
+                    {
+                        "turns": 5,
+                        "damage": 19,
+                        "intervalSec": 3
+                    },
+                    {
+                        "turns": 5,
+                        "damage": 15,
+                        "intervalSec": 3
+                    },
+                    {
+                        "turns": 6,
+                        "damage": 10,
+                        "intervalSec": 3
+                    },
+                    {
+                        "turns": 10,
+                        "damage": 5,
+                        "intervalSec": 3
+                    }
+                ]
+            }
+        },
+        {
+            "id": "holy_flash",
+            "label": "Holy Flash",
+            "kind": "spell",
+            "element": "holy",
+            "range": 3,
+            "mana": 30,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                },
+                "spell": {
+                    "holy_flash": 40
+                }
+            },
+            "requiresTarget": true,
+            "level": 70,
+            "vocations": [
+                "scout"
+            ],
+            "statusOnly": true,
+            "min": 0,
+            "max": 0,
+            "basePower": 0,
+            "condition": {
+                "type": "holy",
+                "totalDamage": 180,
+                "intervalSec": 3,
+                "schedule": [
+                    {
+                        "turns": 9,
+                        "damage": 20,
+                        "intervalSec": 3
+                    }
+                ]
+            }
+        },
+        {
+            "id": "bruise_bane",
+            "label": "Bruise Bane",
+            "kind": "heal",
+            "element": "healing",
+            "powerCurve": "magic_strike",
+            "basePower": 25,
+            "range": 1,
+            "mana": 10,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "healing": 1
+                },
+                "spell": {
+                    "bruise_bane": 1
+                }
+            },
+            "requiresTarget": false,
+            "vocations": [
+                "guardian"
+            ],
+            "level": 1,
+            "damageAmplitude": 0.12
+        },
+        {
+            "id": "intense_wound_cleanse",
+            "label": "Intense Wound Cleanse",
+            "kind": "heal",
+            "element": "healing",
+            "powerCurve": "magic_strike",
+            "basePower": 500,
+            "range": 1,
+            "mana": 200,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "healing": 1
+                },
+                "spell": {
+                    "intense_wound_cleanse": 600
+                }
+            },
+            "requiresTarget": false,
+            "vocations": [
+                "guardian"
+            ],
+            "level": 80,
+            "damageAmplitude": 0.14
+        },
+        {
+            "id": "restoration",
+            "label": "Restoration",
+            "kind": "heal",
+            "element": "healing",
+            "powerCurve": "magic_strike",
+            "basePower": 350,
+            "range": 1,
+            "mana": 260,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "healing": 1
+                },
+                "spell": {
+                    "restoration": 6
+                }
+            },
+            "requiresTarget": false,
+            "vocations": [
+                "adept",
+                "warden"
+            ],
+            "level": 300,
+            "damageAmplitude": 0.12
+        },
+        {
+            "id": "natures_embrace",
+            "label": "Nature's Embrace",
+            "kind": "heal",
+            "element": "healing",
+            "powerCurve": "magic_strike",
+            "basePower": 450,
+            "range": 1,
+            "mana": 400,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "healing": 1
+                },
+                "spell": {
+                    "natures_embrace": 60
+                }
+            },
+            "requiresTarget": true,
+            "vocations": [
+                "warden"
+            ],
+            "level": 300,
+            "damageAmplitude": 0.16
+        },
+        {
+            "id": "recovery",
+            "label": "Recovery",
+            "kind": "heal",
+            "element": "healing",
+            "range": 1,
+            "mana": 75,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "healing": 1
+                },
+                "spell": {
+                    "recovery": 60
+                }
+            },
+            "requiresTarget": false,
+            "level": 50,
+            "vocations": [
+                "guardian",
+                "scout"
+            ],
+            "statusOnly": true,
+            "min": 0,
+            "max": 0,
+            "basePower": 0,
+            "condition": {
+                "type": "regen",
+                "healthGain": 20,
+                "intervalSec": 3,
+                "durationSec": 60
+            }
+        },
+        {
+            "id": "intense_recovery",
+            "label": "Intense Recovery",
+            "kind": "heal",
+            "element": "healing",
+            "range": 1,
+            "mana": 165,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "healing": 1
+                },
+                "spell": {
+                    "intense_recovery": 60
+                }
+            },
+            "requiresTarget": false,
+            "level": 100,
+            "vocations": [
+                "guardian",
+                "scout"
+            ],
+            "statusOnly": true,
+            "min": 0,
+            "max": 0,
+            "basePower": 0,
+            "condition": {
+                "type": "regen",
+                "healthGain": 40,
+                "intervalSec": 3,
+                "durationSec": 60
+            }
+        },
+        {
+            "id": "barrier_wall_rune",
+            "label": "Barrier Wall Rune",
+            "kind": "spell",
+            "element": "energy",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "range": 4,
+            "mana": 0,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                },
+                "spell": {
+                    "barrier_wall_rune": 2
+                }
+            },
+            "requiresTarget": true,
+            "source": "rune",
+            "rune": "magic wall",
+            "runeItemId": "barrier_wall_rune",
+            "level": 32,
+            "magicLevel": 9,
+            "vocations": [
+                "guardian",
+                "scout",
+                "mystic",
+                "adept",
+                "warden"
+            ],
+            "shape": {
+                "type": "area",
+                "code": 1
+            },
+            "field": "barrier",
+            "deploysField": "barrier",
+            "fieldDurationSec": 20
+        },
+        {
+            "id": "vine_barrier_rune",
+            "label": "Vine Barrier Rune",
+            "kind": "spell",
+            "element": "earth",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "range": 4,
+            "mana": 0,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "attack": 2
+                },
+                "spell": {
+                    "vine_barrier_rune": 2
+                }
+            },
+            "requiresTarget": true,
+            "source": "rune",
+            "rune": "wild growth",
+            "runeItemId": "vine_barrier_rune",
+            "level": 27,
+            "magicLevel": 8,
+            "vocations": [
+                "warden"
+            ],
+            "shape": {
+                "type": "area",
+                "code": 1
+            },
+            "field": "vine",
+            "deploysField": "vine",
+            "fieldDurationSec": 30
+        },
+        {
+            "id": "paralyze_rune",
+            "label": "Paralyze Rune",
+            "kind": "support",
+            "element": "physical",
+            "min": 0,
+            "max": 0,
+            "statusOnly": true,
+            "range": 4,
+            "mana": 1400,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "support": 2
+                },
+                "spell": {
+                    "paralyze_rune": 6
+                }
+            },
+            "requiresTarget": true,
+            "source": "rune",
+            "rune": "paralyze",
+            "runeItemId": "paralyze_rune",
+            "level": 54,
+            "magicLevel": 18,
+            "vocations": [
+                "warden"
+            ],
+            "condition": {
+                "type": "slow",
+                "durationSec": 6,
+                "speedFormula": {
+                    "mina": -1,
+                    "minb": 0,
+                    "maxa": -1,
+                    "maxb": 0
+                }
+            }
+        },
+        {
+            "id": "challenge",
+            "label": "Challenge",
+            "kind": "support",
+            "range": 1,
+            "mana": 30,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "support": 2
+                },
+                "spell": {
+                    "challenge": 2
+                }
+            },
+            "requiresTarget": false,
+            "level": 20,
+            "vocations": [
+                "guardian"
+            ],
+            "statusOnly": true,
+            "min": 0,
+            "max": 0,
+            "basePower": 0,
+            "shape": {
+                "type": "area",
+                "code": 3
+            },
+            "tauntDurationSec": 6
+        },
+        {
+            "id": "chivalrous_challenge",
+            "label": "Chivalrous Challenge",
+            "kind": "support",
+            "range": 6,
+            "mana": 80,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "support": 2
+                },
+                "spell": {
+                    "chivalrous_challenge": 2
+                }
+            },
+            "requiresTarget": false,
+            "level": 150,
+            "vocations": [
+                "guardian"
+            ],
+            "statusOnly": true,
+            "min": 0,
+            "max": 0,
+            "basePower": 0,
+            "chain": {
+                "maxTargets": 5,
+                "distance": 6,
+                "backtracking": false
+            },
+            "chainOnlyRanged": true,
+            "tauntDurationSec": 12,
+            "forceMeleeDurationSec": 12
+        },
+        {
+            "id": "divine_dazzle",
+            "label": "Divine Dazzle",
+            "kind": "support",
+            "range": 6,
+            "mana": 80,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "support": 2
+                },
+                "spell": {
+                    "divine_dazzle": 16
+                }
+            },
+            "requiresTarget": false,
+            "level": 250,
+            "vocations": [
+                "scout"
+            ],
+            "statusOnly": true,
+            "min": 0,
+            "max": 0,
+            "basePower": 0,
+            "chain": {
+                "maxTargets": 3,
+                "distance": 6,
+                "backtracking": false
+            },
+            "chainOnlyRanged": true,
+            "forceMeleeDurationSec": 12
+        },
+        {
+            "id": "blood_rage",
+            "label": "Blood Rage",
+            "kind": "support",
+            "range": 0,
+            "mana": 290,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "support": 2
+                },
+                "secondary": {
+                    "focus": 2
+                },
+                "spell": {
+                    "blood_rage": 2
+                }
+            },
+            "requiresTarget": false,
+            "level": 60,
+            "vocations": [
+                "guardian"
+            ],
+            "statusOnly": true,
+            "min": 0,
+            "max": 0,
+            "basePower": 0,
+            "condition": {
+                "type": "attributes",
+                "subId": "blood_rage_protector",
+                "durationSec": 10,
+                "skillPercent": {
+                    "melee": 135
+                },
+                "damageReceivedPercent": 115,
+                "disableDefense": true
+            }
+        },
+        {
+            "id": "protector",
+            "label": "Protector",
+            "kind": "support",
+            "range": 0,
+            "mana": 200,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "support": 2
+                },
+                "secondary": {
+                    "focus": 2
+                },
+                "spell": {
+                    "protector": 2
+                }
+            },
+            "requiresTarget": false,
+            "level": 55,
+            "vocations": [
+                "guardian"
+            ],
+            "statusOnly": true,
+            "min": 0,
+            "max": 0,
+            "basePower": 0,
+            "condition": {
+                "type": "attributes",
+                "subId": "blood_rage_protector",
+                "durationSec": 13,
+                "skillPercent": {
+                    "shielding": 220
+                },
+                "damageDealtPercent": 65,
+                "damageReceivedPercent": 85
+            }
+        },
+        {
+            "id": "sharpshooter",
+            "label": "Sharpshooter",
+            "kind": "support",
+            "range": 0,
+            "mana": 450,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "support": 2
+                },
+                "secondary": {
+                    "focus": 10
+                },
+                "spell": {
+                    "sharpshooter": 10
+                }
+            },
+            "requiresTarget": false,
+            "level": 60,
+            "vocations": [
+                "scout"
+            ],
+            "statusOnly": true,
+            "min": 0,
+            "max": 0,
+            "basePower": 0,
+            "condition": {
+                "type": "attributes",
+                "subId": "scout_stance",
+                "durationSec": 10,
+                "skillPercent": {
+                    "distance": 140
+                },
+                "disableDefense": true,
+                "speedFormula": {
+                    "mina": 0.7,
+                    "minb": 56,
+                    "maxa": 0.7,
+                    "maxb": 56
+                }
+            }
+        },
+        {
+            "id": "swift_foot",
+            "label": "Swift Foot",
+            "kind": "support",
+            "range": 0,
+            "mana": 400,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "support": 2
+                },
+                "secondary": {
+                    "focus": 10
+                },
+                "spell": {
+                    "swift_foot": 10
+                }
+            },
+            "requiresTarget": false,
+            "level": 55,
+            "vocations": [
+                "scout"
+            ],
+            "statusOnly": true,
+            "min": 0,
+            "max": 0,
+            "basePower": 0,
+            "condition": {
+                "type": "attributes",
+                "subId": "scout_stance",
+                "durationSec": 10,
+                "cannotAttack": true,
+                "speedFormula": {
+                    "mina": 1.8,
+                    "minb": 72,
+                    "maxa": 1.8,
+                    "maxb": 72
+                }
+            }
+        },
+        {
+            "id": "spirit_mend",
+            "label": "Spirit Mend",
+            "kind": "heal",
+            "element": "healing",
+            "powerCurve": "magic_strike",
+            "basePower": 250,
+            "range": 1,
+            "mana": 210,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "healing": 1
+                },
+                "spell": {
+                    "spirit_mend": 1
+                }
+            },
+            "requiresTarget": false,
+            "level": 80,
+            "vocations": [
+                "mystic"
+            ],
+            "damageAmplitude": 0.2629
+        },
+        {
+            "id": "mass_spirit_mend",
+            "label": "Mass Spirit Mend",
+            "kind": "heal",
+            "element": "healing",
+            "powerCurve": "magic_strike",
+            "basePower": 200,
+            "range": 1,
+            "mana": 250,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "healing": 1
+                },
+                "spell": {
+                    "mass_spirit_mend": 8
+                }
+            },
+            "requiresTarget": false,
+            "level": 150,
+            "vocations": [
+                "mystic"
+            ],
+            "damageAmplitude": 0.2905
+        },
+        {
+            "id": "restore_balance",
+            "label": "Restore Balance",
+            "kind": "heal",
+            "element": "healing",
+            "powerCurve": "magic_strike",
+            "basePower": 280,
+            "range": 7,
+            "mana": 120,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "healing": 1
+                },
+                "spell": {
+                    "restore_balance": 2
+                }
+            },
+            "requiresTarget": true,
+            "level": 18,
+            "vocations": [
+                "mystic"
+            ],
+            "damageAmplitude": 0.156
         }
     ]
 }

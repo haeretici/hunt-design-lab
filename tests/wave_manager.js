@@ -94,6 +94,9 @@ function testNormalizeArrayShape() {
     assert.strictEqual(cfg.holdRoute, true);
     assert.strictEqual(cfg.list[0].entries[0].count, 2);
     assert.strictEqual(cfg.list[1].id, 'boss');
+    // Array-shaped hunts never set multi-arena fields → classic defaults.
+    assert.strictEqual(cfg.wavesPerArena, null);
+    assert.strictEqual(cfg.pauseOnArenaBoundary, false);
     log('normalize array ok');
 }
 
@@ -113,7 +116,29 @@ function testNormalizeObjectShape() {
     assert.strictEqual(cfg.endOnComplete, false);
     assert.strictEqual(cfg.holdRoute, false);
     assert.strictEqual(cfg.packClustering, false);
+    // Classic hunts: multi-arena flags default off / null
+    assert.strictEqual(cfg.wavesPerArena, null);
+    assert.strictEqual(cfg.pauseOnArenaBoundary, false);
     assert.ok(Array.isArray(cfg.regions) && cfg.regions.length === 1);
+
+    const multiArena = normalizeWavesConfig({
+        wavesPerArena: 3,
+        pauseOnArenaBoundary: true,
+        list: [
+            { id: 'a', entries: [{ creatureId: 'rat' }] },
+            { id: 'b', entries: [{ creatureId: 'orc' }] },
+            { id: 'c', entries: [{ creatureId: 'spider' }] }
+        ]
+    });
+    assert.strictEqual(multiArena.wavesPerArena, 3);
+    assert.strictEqual(multiArena.pauseOnArenaBoundary, true);
+    // Invalid / sub-1 wavesPerArena collapses to null
+    const badWpa = normalizeWavesConfig({
+        wavesPerArena: 0,
+        list: [{ id: 'a', entries: [{ creatureId: 'rat' }] }]
+    });
+    assert.strictEqual(badWpa.wavesPerArena, null);
+    assert.strictEqual(badWpa.pauseOnArenaBoundary, false);
 
     const clustered = normalizeWavesConfig({
         packClustering: true,
@@ -543,6 +568,307 @@ function testWaveControllerFsm() {
     log('wave controller fsm ok');
 }
 
+/**
+ * Classic hunts (pauseOnArenaBoundary unset/false): still auto-intermission.
+ * No awaiting_portal even when wavesPerArena is present without the pause flag.
+ */
+function testClassicHuntUnchangedWithoutBoundaryPause() {
+    const map = openFloor(12, 12, 100);
+    const makeList = () => [
+        { id: 'a', entries: [{ creatureId: 'rat', count: 1 }] },
+        { id: 'b', entries: [{ creatureId: 'orc', count: 1 }] },
+        { id: 'c', entries: [{ creatureId: 'spider', count: 1 }] }
+    ];
+    const tickOpts = (time, waveClear) => ({
+        time,
+        waveClear,
+        tileMap: map,
+        rng: () => 0.3,
+        defaultZ: 0
+    });
+
+    function clearToIntermission(cfg) {
+        const wc = new WaveController(cfg);
+        wc.begin(0);
+        let r = wc.tick(tickOpts(0, false));
+        assert.strictEqual(wc.phase, 'active');
+        r = wc.tick(tickOpts(1, true));
+        assert.strictEqual(wc.phase, 'intermission', 'classic clear → intermission');
+        assert.ok(r.events.some((e) => e.kind === 'wave_intermission'));
+        assert.ok(!r.events.some((e) => e.kind === 'wave_boundary'));
+        assert.ok(Number.isFinite(wc.readyAt));
+        assert.strictEqual(wc.arenasCleared(), 0);
+        return wc;
+    }
+
+    // Unset flags (defaults)
+    clearToIntermission(
+        normalizeWavesConfig({
+            delaySec: 1,
+            startDelaySec: 0,
+            list: makeList()
+        })
+    );
+
+    // wavesPerArena alone without pause: must still intermission at modulus
+    // (wavesCompleted % 2 === 0 would fire boundary if pause flag were ignored).
+    const wpaNoPause = normalizeWavesConfig({
+        delaySec: 1,
+        startDelaySec: 0,
+        wavesPerArena: 2,
+        pauseOnArenaBoundary: false,
+        list: makeList()
+    });
+    assert.strictEqual(wpaNoPause.wavesPerArena, 2);
+    assert.strictEqual(wpaNoPause.pauseOnArenaBoundary, false);
+
+    const wc = new WaveController(wpaNoPause);
+    wc.begin(0);
+    let r = wc.tick(tickOpts(0, false));
+    assert.strictEqual(wc.phase, 'active');
+    assert.strictEqual(wc.waveIndex, 0);
+
+    // Clear wave 0 → intermission (1 % 2 !== 0; classic path)
+    r = wc.tick(tickOpts(1, true));
+    assert.strictEqual(wc.phase, 'intermission');
+    assert.ok(r.events.some((e) => e.kind === 'wave_intermission'));
+    assert.ok(!r.events.some((e) => e.kind === 'wave_boundary'));
+    assert.ok(Number.isFinite(wc.readyAt));
+
+    // Start wave 1
+    r = wc.tick(tickOpts(2.01, true));
+    assert.strictEqual(wc.phase, 'active');
+    assert.strictEqual(wc.waveIndex, 1);
+
+    // Clear wave 1: wavesCompleted === 2 and wpa === 2 — modulus boundary
+    // would pause if pauseOnArenaBoundary were wrongly treated as on.
+    r = wc.tick(tickOpts(3, true));
+    assert.strictEqual(
+        wc.phase,
+        'intermission',
+        'wpa without pause must not enter awaiting_portal at modulus'
+    );
+    assert.notStrictEqual(wc.phase, 'awaiting_portal');
+    assert.ok(Number.isFinite(wc.readyAt), 'readyAt stays finite (not +Infinity hold)');
+    assert.ok(r.events.some((e) => e.kind === 'wave_intermission'));
+    assert.ok(
+        !r.events.some((e) => e.kind === 'wave_boundary'),
+        'no wave_boundary when pauseOnArenaBoundary is false'
+    );
+    assert.strictEqual(wc.wavesCompleted, 2);
+    assert.strictEqual(r.complete, false);
+
+    log('classic hunt unchanged without boundary pause ok');
+}
+
+/**
+ * pauseOnArenaBoundary + wavesPerArena: stage clear → awaiting_portal,
+ * readyAt = +Infinity (no auto-advance), resumeAfterPortal starts next wave.
+ * Final wave emits waves_complete (not wave_boundary). KD3 index math.
+ */
+function testAwaitingPortalBoundaryPause() {
+    const map = openFloor(12, 12, 100);
+    const cfg = normalizeWavesConfig({
+        delaySec: 0.05, // short delay would race without boundary pause
+        startDelaySec: 0,
+        wavesPerArena: 2,
+        pauseOnArenaBoundary: true,
+        list: [
+            { id: 'a0', entries: [{ creatureId: 'rat', count: 1 }] },
+            { id: 'a1', entries: [{ creatureId: 'orc', count: 1 }] },
+            { id: 'b0', entries: [{ creatureId: 'spider', count: 1 }] },
+            { id: 'b1', entries: [{ creatureId: 'snake', count: 1 }] }
+        ]
+    });
+    assert.strictEqual(cfg.wavesPerArena, 2);
+    assert.strictEqual(cfg.pauseOnArenaBoundary, true);
+
+    const wc = new WaveController(cfg);
+    wc.begin(0);
+    assert.strictEqual(wc.arenasCleared(), 0);
+    assert.strictEqual(wc.currentArenaIndex(), 0); // waveIndex -1 → max(0,-1)=0
+
+    const tick = (time, waveClear) =>
+        wc.tick({
+            time,
+            waveClear,
+            tileMap: map,
+            rng: () => 0.3,
+            defaultZ: 0
+        });
+
+    // Wave 0 start
+    let r = tick(0, false);
+    assert.strictEqual(wc.phase, 'active');
+    assert.strictEqual(wc.waveIndex, 0);
+    assert.strictEqual(wc.currentArenaIndex(), 0);
+    assert.ok(r.spawnRows && r.spawnRows[0].creatureId === 'rat');
+
+    // Clear wave 0 (not a boundary: 1 % 2 !== 0) → intermission
+    r = tick(1, true);
+    assert.strictEqual(wc.phase, 'intermission');
+    assert.strictEqual(wc.wavesCompleted, 1);
+    assert.strictEqual(wc.arenasCleared(), 0);
+    assert.ok(r.events.some((e) => e.kind === 'wave_intermission'));
+    assert.ok(!r.events.some((e) => e.kind === 'wave_boundary'));
+
+    // Wave 1 start
+    r = tick(1.1, true);
+    assert.strictEqual(wc.phase, 'active');
+    assert.strictEqual(wc.waveIndex, 1);
+    assert.strictEqual(wc.currentArenaIndex(), 0); // floor(1/2)=0
+    assert.ok(r.spawnRows && r.spawnRows[0].creatureId === 'orc');
+
+    // Clear wave 1 → arena boundary (2 % 2 === 0)
+    r = tick(2, true);
+    assert.strictEqual(wc.phase, 'awaiting_portal');
+    assert.strictEqual(wc.readyAt, Infinity);
+    assert.strictEqual(wc.wavesCompleted, 2);
+    assert.strictEqual(wc.arenasCleared(), 1);
+    // waveIndex still last cleared (1); do not use wavesCompleted-1 for current arena
+    assert.strictEqual(wc.waveIndex, 1);
+    assert.strictEqual(wc.currentArenaIndex(), 0);
+    assert.ok(r.events.some((e) => e.kind === 'wave_clear'));
+    const boundary = r.events.find((e) => e.kind === 'wave_boundary');
+    assert.ok(boundary, 'wave_boundary emitted');
+    assert.strictEqual(boundary.wavesCompleted, 2);
+    assert.strictEqual(boundary.arenaIndex, 1);
+    assert.strictEqual(r.spawnRows, null);
+    assert.strictEqual(r.complete, false);
+    assert.ok(!r.events.some((e) => e.kind === 'wave_intermission'));
+    assert.ok(!r.events.some((e) => e.kind === 'waves_complete'));
+
+    // Time far past delaySec: must not auto-advance
+    r = tick(100, true);
+    assert.strictEqual(wc.phase, 'awaiting_portal');
+    assert.strictEqual(wc.readyAt, Infinity);
+    assert.strictEqual(r.spawnRows, null);
+    assert.strictEqual(wc.waveIndex, 1);
+
+    // resumeAfterPortal only valid in awaiting_portal
+    assert.strictEqual(wc.resumeAfterPortal(100), true);
+    assert.strictEqual(wc.phase, 'intermission');
+    assert.strictEqual(wc.readyAt, 100);
+    assert.strictEqual(wc.resumeAfterPortal(101), false); // not awaiting
+
+    // Next tick starts waveIndex+1 = 2 (arena 1)
+    r = tick(100, false);
+    assert.strictEqual(wc.phase, 'active');
+    assert.strictEqual(wc.waveIndex, 2);
+    assert.strictEqual(wc.currentArenaIndex(), 1); // floor(2/2)=1
+    assert.ok(r.spawnRows && r.spawnRows[0].creatureId === 'spider');
+    assert.ok(r.events.some((e) => e.kind === 'wave_start'));
+
+    // Clear wave 2 → intermission (3 % 2 !== 0)
+    r = tick(101, true);
+    assert.strictEqual(wc.phase, 'intermission');
+    assert.strictEqual(wc.wavesCompleted, 3);
+    assert.strictEqual(wc.arenasCleared(), 1);
+
+    // Wave 3 (final of arena 1 and of full list)
+    r = tick(101.1, true);
+    assert.strictEqual(wc.phase, 'active');
+    assert.strictEqual(wc.waveIndex, 3);
+    assert.strictEqual(wc.currentArenaIndex(), 1);
+    assert.ok(r.spawnRows && r.spawnRows[0].creatureId === 'snake');
+
+    // Final clear → waves_complete, NOT wave_boundary (KD4 full list)
+    r = tick(102, true);
+    assert.strictEqual(wc.phase, 'complete');
+    assert.ok(r.complete);
+    assert.strictEqual(wc.wavesCompleted, 4);
+    assert.strictEqual(wc.arenasCleared(), 2);
+    assert.ok(r.events.some((e) => e.kind === 'waves_complete'));
+    assert.ok(!r.events.some((e) => e.kind === 'wave_boundary'));
+    assert.ok(r.events.some((e) => e.kind === 'wave_clear'));
+
+    // Snapshot carries boundary fields
+    const snap = wc.snapshot();
+    assert.strictEqual(snap.phase, 'complete');
+    assert.strictEqual(snap.wavesPerArena, 2);
+    assert.strictEqual(snap.pauseOnArenaBoundary, true);
+    assert.strictEqual(snap.arenasCleared, 2);
+
+    log('awaiting_portal boundary pause ok');
+}
+
+/**
+ * KD3 helpers: arenasCleared vs currentArenaIndex use different numerators.
+ */
+function testArenaIndexHelpers() {
+    const cfg = normalizeWavesConfig({
+        delaySec: 0,
+        startDelaySec: 0,
+        wavesPerArena: 3,
+        pauseOnArenaBoundary: true,
+        list: [
+            { id: 'w0', entries: [{ creatureId: 'a' }] },
+            { id: 'w1', entries: [{ creatureId: 'b' }] },
+            { id: 'w2', entries: [{ creatureId: 'c' }] },
+            { id: 'w3', entries: [{ creatureId: 'd' }] },
+            { id: 'w4', entries: [{ creatureId: 'e' }] },
+            { id: 'w5', entries: [{ creatureId: 'f' }] }
+        ]
+    });
+    const map = openFloor(8, 8, 100);
+    const wc = new WaveController(cfg);
+    wc.begin(0);
+
+    // No wavesPerArena → helpers return 0
+    const classic = new WaveController(
+        normalizeWavesConfig({
+            list: [{ id: 'x', entries: [{ creatureId: 'rat' }] }]
+        })
+    );
+    assert.strictEqual(classic.arenasCleared(), 0);
+    assert.strictEqual(classic.currentArenaIndex(), 0);
+
+    const step = (time, clear) =>
+        wc.tick({
+            time,
+            waveClear: clear,
+            tileMap: map,
+            rng: () => 0.2,
+            defaultZ: 0
+        });
+
+    // Start w0
+    step(0, false);
+    assert.strictEqual(wc.waveIndex, 0);
+    assert.strictEqual(wc.wavesCompleted, 0);
+    assert.strictEqual(wc.arenasCleared(), 0);
+    assert.strictEqual(wc.currentArenaIndex(), 0);
+
+    // Clear w0, w1 → intermissions; start w2
+    step(1, true); // clear 0
+    step(1, true); // start 1
+    assert.strictEqual(wc.waveIndex, 1);
+    assert.strictEqual(wc.currentArenaIndex(), 0);
+    step(2, true); // clear 1
+    step(2, true); // start 2
+    assert.strictEqual(wc.waveIndex, 2);
+    assert.strictEqual(wc.wavesCompleted, 2);
+    assert.strictEqual(wc.arenasCleared(), 0); // floor(2/3)=0
+    assert.strictEqual(wc.currentArenaIndex(), 0); // floor(2/3)=0
+
+    // Clear w2 → boundary (3%3===0)
+    step(3, true);
+    assert.strictEqual(wc.phase, 'awaiting_portal');
+    assert.strictEqual(wc.wavesCompleted, 3);
+    assert.strictEqual(wc.arenasCleared(), 1);
+    // Still on cleared waveIndex 2 → current arena 0 (not wavesCompleted-1 → 2)
+    assert.strictEqual(wc.waveIndex, 2);
+    assert.strictEqual(wc.currentArenaIndex(), 0);
+
+    wc.resumeAfterPortal(3);
+    step(3, false); // start w3
+    assert.strictEqual(wc.waveIndex, 3);
+    assert.strictEqual(wc.currentArenaIndex(), 1); // floor(3/3)=1
+    assert.strictEqual(wc.arenasCleared(), 1);
+
+    log('arena index helpers ok');
+}
+
 async function testSimulatorWavesComplete() {
     const map = openFloor(24, 24, 100);
     const sim = new Simulator({
@@ -936,8 +1262,8 @@ async function testArenaProgressionTiers() {
         // Spell level gates: L90 unlocks; L12 must not cast them.
         const gated = [
             'front_sweep',
-            'fierce_berserk',
-            'strong_ethereal_spear',
+            'fierce_rampage',
+            'strong_spirit_javelin',
             'strong_flame_strike',
             'strong_ice_strike'
         ];
@@ -961,8 +1287,8 @@ async function testArenaProgressionTiers() {
             )}`
         );
 
-        // Mid can cast L35–50 mid spells (berserk / divine_caldera) that novice cannot.
-        const midOnly = ['berserk', 'divine_caldera'];
+        // Mid can cast L35–50 mid spells (rampage / radiant_crater) that novice cannot.
+        const midOnly = ['rampage', 'radiant_crater'];
         const midHits = midOnly.reduce(
             (n, id) => n + ((mid.spellsCastById && mid.spellsCastById[id]) || 0),
             0
@@ -1401,6 +1727,9 @@ async function main() {
     testWaveControllerMultiRegionPackSpread();
     testWaveEntryAffixDefaults();
     testWaveControllerFsm();
+    testClassicHuntUnchangedWithoutBoundaryPause();
+    testAwaitingPortalBoundaryPause();
+    testArenaIndexHelpers();
     await testSimulatorWavesComplete();
     await testSimulatorAffixSpawnStats();
     await testResolveHuntPassesWaves();

@@ -1,19 +1,39 @@
 {
-    "id": "dreadmaw_2",
-    "label": "Dreadmaw",
-    "source": "pipeline",
+    "id": "abyss_crawler",
+    "label": "Abyss Crawler",
+    "notes": "An abyss crawler.",
+    "customSprite": "lava_phoenix_assassin",
     "displayScale": 1,
-    "notes": "A dreadmaw.",
     "hp": 4100,
     "hpMax": 4100,
     "speed": 200,
     "level": 566,
+    "threatDps": 97.7125,
+    "burstDps": 97.7125,
+    "avgHit": 134.7759,
+    "maxHit": 439,
     "armor": 74,
     "mitigation": 2.31,
-    "maxBlock": 0,
     "exp": 3740,
     "lootValue": 1157.6416117784,
     "aggro": true,
+    "canBlock": false,
+    "manaCost": 0,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "bestiary": {
+        "class": "Magical",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
     "resists": {
         "physical": 5,
         "fire": 10,
@@ -23,13 +43,108 @@
         "holy": -5,
         "death": 10
     },
-    "canBlock": false,
-    "strategiesTarget": {
-        "nearest": 70,
-        "health": 10,
-        "damage": 10,
-        "random": 10
-    },
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 250,
+            "max": 425,
+            "hpBelow": 0.7,
+            "effect": "me_hitbypoison"
+        }
+    ],
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "element": "physical",
+            "intervalMs": 2000,
+            "chance": 100,
+            "min": 0,
+            "max": 251
+        },
+        {
+            "id": "condition_1",
+            "kind": "area",
+            "element": "physical",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "radius": 3,
+            "min": 0,
+            "max": 0,
+            "target": false,
+            "effect": "me_drawblood",
+            "shootEffect": "31",
+            "statusOnly": true,
+            "condition": {
+                "type": "bleed",
+                "totalDamage": 251,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "element": "lifedrain",
+            "intervalMs": 2000,
+            "chance": 10,
+            "length": 5,
+            "spread": 0,
+            "min": 0,
+            "max": 439,
+            "target": false,
+            "effect": "me_explosionarea"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "element": "physical",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 4,
+            "radius": 2,
+            "min": 0,
+            "max": 251,
+            "target": true,
+            "effect": "me_stones",
+            "shootEffect": "ani_largerock"
+        },
+        {
+            "id": "slow_4",
+            "kind": "status",
+            "element": "physical",
+            "intervalMs": 2000,
+            "chance": 15,
+            "min": 0,
+            "max": 0,
+            "target": false,
+            "statusOnly": true,
+            "condition": {
+                "type": "slow",
+                "speedChange": -600,
+                "durationSec": 15
+            },
+            "effect": "me_magic_red"
+        },
+        {
+            "id": "area_5",
+            "kind": "area",
+            "element": "manadrain",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "radius": 4,
+            "min": 50,
+            "max": 94,
+            "target": false,
+            "effect": "me_magic_red",
+            "shootEffect": "31"
+        }
+    ],
     "flags": {
         "targetDistance": 1,
         "runHealth": 0,
@@ -50,113 +165,9 @@
         "canWalkOnFire": true,
         "canWalkOnPoison": true
     },
-    "attacks": [
-        {
-            "id": "melee_0",
-            "kind": "melee",
-            "intervalMs": 2000,
-            "chance": 100,
-            "range": 1,
-            "element": "physical",
-            "min": 0,
-            "max": 251
-        },
-        {
-            "id": "condition_1",
-            "kind": "area",
-            "intervalMs": 2000,
-            "chance": 10,
-            "range": 4,
-            "element": "physical",
-            "min": 188,
-            "max": 251,
-            "radius": 3,
-            "target": false,
-            "effect": "me_drawblood"
-        },
-        {
-            "id": "wave_2",
-            "kind": "wave",
-            "intervalMs": 2000,
-            "chance": 10,
-            "range": 4,
-            "element": "lifedrain",
-            "min": 0,
-            "max": 439,
-            "length": 5,
-            "spread": 0,
-            "target": false,
-            "effect": "me_explosionarea"
-        },
-        {
-            "id": "area_3",
-            "kind": "area",
-            "intervalMs": 2000,
-            "chance": 15,
-            "range": 4,
-            "element": "physical",
-            "min": 0,
-            "max": 251,
-            "radius": 2,
-            "target": true,
-            "effect": "me_stones",
-            "shootEffect": "ani_largerock"
-        },
-        {
-            "id": "slow_4",
-            "kind": "status",
-            "intervalMs": 2000,
-            "chance": 15,
-            "range": 4,
-            "element": "physical",
-            "min": 0,
-            "max": 0,
-            "statusOnly": true,
-            "condition": {
-                "type": "slow",
-                "speedChange": -600,
-                "durationSec": 15
-            },
-            "radius": 5,
-            "effect": "me_magic_red",
-            "target": false
-        },
-        {
-            "id": "area_5",
-            "kind": "area",
-            "intervalMs": 2000,
-            "chance": 10,
-            "range": 4,
-            "element": "manadrain",
-            "min": 50,
-            "max": 94,
-            "radius": 4,
-            "target": false,
-            "effect": "me_magic_red"
-        }
-    ],
-    "defenseSpells": [
-        {
-            "id": "heal_0",
-            "kind": "heal",
-            "intervalMs": 2000,
-            "chance": 15,
-            "min": 250,
-            "max": 425,
-            "hpBelow": 0.7,
-            "effect": "me_hitbypoison"
-        }
-    ],
+    "source": "pipeline",
+    "maxBlock": 0,
     "race": "blood",
-    "bestiary": {
-        "class": "Magical",
-        "toKill": 2500,
-        "firstUnlock": 100,
-        "secondUnlock": 1000,
-        "charmsPoints": 50,
-        "stars": 4,
-        "occurrence": 0
-    },
     "loot": [
         {
             "name": "gold coin",
@@ -290,11 +301,5 @@
         "outfit": false,
         "invisible": true,
         "bleed": false
-    },
-    "customSprite": "lava_phoenix_assassin",
-    "threatDps": 97.7125,
-    "burstDps": 97.7125,
-    "avgHit": 134.7759,
-    "maxHit": 439,
-    "manaCost": 0
+    }
 }

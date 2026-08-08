@@ -81,10 +81,17 @@
             "chance": 13,
             "range": 5,
             "element": "earth",
-            "min": 16,
-            "max": 16,
+            "min": 0,
+            "max": 0,
             "target": false,
-            "shootEffect": "ani_poison"
+            "shootEffect": "ani_poison",
+            "statusOnly": true,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 16,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
         },
         {
             "id": "firefield_3",

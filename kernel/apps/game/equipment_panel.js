@@ -15,8 +15,12 @@ const {
 const {
     totalCarriedWeight,
     remainingCapacity,
-    isRuntimeInventory
+    isRuntimeInventory,
+    getItem
 } = require('../../core/lib/character/inventory.js');
+const {
+    resolveItemBudgetDisplay
+} = require('../../core/lib/character/equipment_runtime.js');
 const { appUrl } = require('../../core/lib/app_paths.js');
 
 /** Shared popup window name (Designer + Hunt + Scenario Lab). */
@@ -41,6 +45,19 @@ const ENGINE_TO_DESIGNER = Object.freeze({
     armor: 'chest',
     rightHand: 'weapon',
     leftHand: 'shield',
+    amulet: 'amulet',
+    ring: 'ring',
+    legs: 'legs',
+    boots: 'boots',
+    backpack: 'backpack'
+});
+
+/** Designer profile slot → engine combat slot. */
+const DESIGNER_TO_ENGINE = Object.freeze({
+    head: 'helmet',
+    chest: 'armor',
+    weapon: 'rightHand',
+    shield: 'leftHand',
     amulet: 'amulet',
     ring: 'ring',
     legs: 'legs',
@@ -254,19 +271,78 @@ function resolveItemSpriteUrl(item, genre) {
 }
 
 /**
- * Paint one equipment slot only when its painted key (genre+itemId) changed.
- * Avoids wiping <img> nodes every poll tick (was causing hunt UI flicker).
+ * Resolve charges/duration overlay for one designer equipment slot.
+ * Prefers live equipmentRuntime when the source is a Player entity.
+ *
+ * @param {string} slotKey designer slot id
+ * @param {string} itemId
+ * @param {object[]|Record<string, object>|null} itemDb
+ * @param {object|null|undefined} source player or form member
+ * @returns {{ charges: number|null, durationSec: number|null, durationText: string|null, sig: string }}
+ */
+function budgetForDesignerSlot(slotKey, itemId, itemDb, source) {
+    const cleanId = itemId && String(itemId).trim() ? String(itemId).trim() : '';
+    const item = cleanId ? findItem(itemDb, cleanId) : null;
+    const engineSlot = DESIGNER_TO_ENGINE[slotKey] || slotKey;
+    let instance = null;
+    let runtime = null;
+    if (source && isRuntimeInventory(source.inventory) && cleanId) {
+        const uid =
+            source.inventory.equipment && source.inventory.equipment[engineSlot];
+        if (uid) {
+            instance = getItem(source.inventory, uid);
+            if (instance && instance.itemId !== cleanId) instance = null;
+        }
+        if (
+            source.equipmentRuntime &&
+            source.equipmentRuntime[engineSlot] &&
+            source.equipmentRuntime[engineSlot].itemId === cleanId
+        ) {
+            runtime = source.equipmentRuntime[engineSlot];
+        }
+    }
+    return resolveItemBudgetDisplay({ item, instance, runtime });
+}
+
+/**
+ * Compact budget signature for all designer equipment slots (card-level dirty).
+ * @param {object|null|undefined} source
+ * @param {Record<string, string>} equipment designer map
+ * @param {object[]|Record<string, object>|null} itemDb
+ * @returns {string}
+ */
+function equipmentBudgetSignature(source, equipment, itemDb) {
+    if (!equipment || typeof equipment !== 'object') return '';
+    const parts = [];
+    for (let i = 0; i < DESIGNER_SLOTS.length; i++) {
+        const slotKey = DESIGNER_SLOTS[i];
+        const id = equipment[slotKey];
+        if (!id) continue;
+        const b = budgetForDesignerSlot(slotKey, String(id), itemDb, source);
+        if (b.sig !== 'c:d') parts.push(`${slotKey}:${b.sig}`);
+    }
+    return parts.join('|');
+}
+
+/**
+ * Paint one equipment slot only when its painted key changed.
+ * Key includes genre, itemId, and charges/duration (floored seconds) so timed
+ * gear updates once per second without wiping images every poll tick.
  *
  * @param {HTMLElement} slotEl
  * @param {string} slotKey designer slot id
  * @param {string} itemId empty string = empty slot
  * @param {object[]|Record<string, object>|null} itemDb
  * @param {string} genre
+ * @param {object|null|undefined} [source] player for live budgets
  * @returns {number} item weight (0 if empty / unknown)
  */
-function paintEquipmentSlotIfDirty(slotEl, slotKey, itemId, itemDb, genre) {
+function paintEquipmentSlotIfDirty(slotEl, slotKey, itemId, itemDb, genre, source) {
     const cleanId = itemId && String(itemId).trim() ? String(itemId).trim() : '';
-    const paintKey = `${genre}::${cleanId}`;
+    const budget = cleanId
+        ? budgetForDesignerSlot(slotKey, cleanId, itemDb, source)
+        : { charges: null, durationSec: null, durationText: null, sig: 'c:d' };
+    const paintKey = `${genre}::${cleanId}::${budget.sig}`;
     if (slotEl.dataset.paintedKey === paintKey) {
         if (!cleanId) return 0;
         const cached = findItem(itemDb, cleanId);
@@ -284,7 +360,12 @@ function paintEquipmentSlotIfDirty(slotEl, slotKey, itemId, itemDb, genre) {
     const primaryUrl = resolveItemSpriteUrl(item, genre);
     if (primaryUrl) img.src = primaryUrl;
     img.alt = item.label || cleanId;
-    img.title = `${item.label || cleanId} (${slotKey})`;
+    let title = `${item.label || cleanId} (${slotKey})`;
+    if (budget.charges != null && budget.charges > 0) {
+        title += ` · ${budget.charges} charges`;
+    }
+    if (budget.durationText) title += ` · ${budget.durationText}`;
+    img.title = title;
     img.draggable = false;
     img.onerror = () => {
         const fallback = appUrl(
@@ -297,17 +378,29 @@ function paintEquipmentSlotIfDirty(slotEl, slotKey, itemId, itemDb, genre) {
         }
     };
     slotEl.appendChild(img);
+    if (budget.charges != null && budget.charges > 0) {
+        const ch = document.createElement('span');
+        ch.className = 'item-charges-badge';
+        ch.textContent = String(budget.charges);
+        slotEl.appendChild(ch);
+    }
+    if (budget.durationText) {
+        const dur = document.createElement('span');
+        dur.className = 'item-duration-badge';
+        dur.textContent = budget.durationText;
+        slotEl.appendChild(dur);
+    }
     return weight;
 }
 
 /**
  * Paint designer-slot equipment into a card root element.
- * Slot DOM is updated only when itemId/genre for that slot changes (dirty).
- * Cap/soul text always refreshes when this is called.
+ * Slot DOM is updated only when itemId/genre/charges/duration for that slot
+ * change (dirty). Cap/soul text always refreshes when this is called.
  *
  * @param {HTMLElement|null} cardEl
  * @param {object|null} profile from buildPreviewProfile
- * @param {{ itemDb?: object[]|Record<string, object>|null, genre?: string, soulEl?: HTMLElement|null, capEl?: HTMLElement|null, carriedWeight?: number|null, force?: boolean }} [opts]
+ * @param {{ itemDb?: object[]|Record<string, object>|null, genre?: string, soulEl?: HTMLElement|null, capEl?: HTMLElement|null, carriedWeight?: number|null, force?: boolean, source?: object|null }} [opts]
  */
 function renderEquipmentCard(cardEl, profile, opts) {
     if (!cardEl) return;
@@ -315,6 +408,7 @@ function renderEquipmentCard(cardEl, profile, opts) {
     const itemDb = o.itemDb || null;
     const genre = o.genre || 'rpg_fantasy';
     const force = !!o.force;
+    const source = o.source || null;
     const equipment =
         profile && profile.equipment && typeof profile.equipment === 'object'
             ? profile.equipment
@@ -335,7 +429,8 @@ function renderEquipmentCard(cardEl, profile, opts) {
             slotKey,
             cleanId,
             itemDb,
-            genre
+            genre,
+            source
         );
     }
 
@@ -899,12 +994,14 @@ function bindEquipmentPanel(opts) {
 
     /**
      * Stable signature for the inline equipment card (not preview popup).
+     * Includes floored charges/duration so timed gear dirties ~1/s only.
      * @param {object|null} payload
      * @param {number|null} carriedWeight
      * @param {string} genre
+     * @param {string} budgetSig
      * @returns {string}
      */
-    const cardSignature = (payload, carriedWeight, genre) => {
+    const cardSignature = (payload, carriedWeight, genre, budgetSig) => {
         if (!payload) return '';
         const p = payload.profile;
         return JSON.stringify({
@@ -915,7 +1012,8 @@ function bindEquipmentPanel(opts) {
             vocation: p.vocation,
             live: payload.live,
             genre,
-            capW: carriedWeight
+            capW: carriedWeight,
+            budgets: budgetSig || ''
         });
     };
 
@@ -931,7 +1029,12 @@ function bindEquipmentPanel(opts) {
         if (source && isRuntimeInventory(source.inventory)) {
             carriedWeight = totalCarriedWeight(source.inventory, itemDb);
         }
-        const sig = cardSignature(payload, carriedWeight, genre);
+        const budgetSig = equipmentBudgetSignature(
+            source,
+            payload && payload.profile ? payload.profile.equipment : null,
+            itemDb
+        );
+        const sig = cardSignature(payload, carriedWeight, genre, budgetSig);
         if (lastCardSig !== null && sig === lastCardSig) return;
         lastCardSig = sig;
         renderEquipmentCard(cardEl, payload ? payload.profile : null, {
@@ -939,7 +1042,8 @@ function bindEquipmentPanel(opts) {
             genre,
             soulEl,
             capEl,
-            carriedWeight
+            carriedWeight,
+            source
         });
     };
 
@@ -1051,11 +1155,14 @@ module.exports = {
     PROFILE_PREVIEW_WINDOW,
     DESIGNER_SLOTS,
     ENGINE_TO_DESIGNER,
+    DESIGNER_TO_ENGINE,
     equipmentToDesignerSlots,
     readSourceVitals,
     buildPreviewProfile,
     resolveItemSpriteUrl,
     renderEquipmentCard,
+    budgetForDesignerSlot,
+    equipmentBudgetSignature,
     buildEquipmentItemDetailHtml,
     showEquipmentItemModal,
     hideItemDetailsModal,

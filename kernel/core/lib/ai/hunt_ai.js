@@ -31,7 +31,7 @@ const { tileDistance } = require('../movement.js');
 const { resolveStrategy, indexStrategies, DEFAULT_STRATEGIES } =
     require('./strategy.js');
 const { indexSpells } = require('../combat/resolve.js');
-const { brainReady } = require('./cadence.js');
+const { brainReady, seedCreaturePathPhase } = require('./cadence.js');
 const { ensureCreatureKit } = require('./creature_kit.js');
 const { SpatialIndex } = require('../spatial_index.js');
 const { Time } = require('../time.js');
@@ -41,20 +41,31 @@ const {
     tryAttack,
     stepToward
 } = require('./combat_actions.js');
+const { pathBudgetStats } = require('../path_budget.js');
 
 /**
  * Empty per-frame AI performance counters.
+ * Phase F: repath / think fields (from path_budget + brainReady split).
  * @returns {{
  *   creaturesIterated: number,
  *   distanceChecks: number,
  *   brainsExecuted: number,
  *   brainsConsidered: number,
+ *   brainsFull: number,
+ *   brainsKitOnly: number,
  *   enemiesListed: number,
  *   spatialCandidates: number,
  *   stickyCandidates: number,
  *   usedSpatial: boolean,
  *   aoiBuilt: number,
- *   aoiCacheHits: number
+ *   aoiCacheHits: number,
+ *   repaths: number,
+ *   criticalRepaths: number,
+ *   optionalRepaths: number,
+ *   budgetSkips: number,
+ *   failBackoffs: number,
+ *   pathBudgetLimit: number,
+ *   pathBudgetUsed: number
  * }}
  */
 function createAiPerfFrame() {
@@ -63,12 +74,24 @@ function createAiPerfFrame() {
         distanceChecks: 0,
         brainsExecuted: 0,
         brainsConsidered: 0,
+        /** Full creature FSM (brainReady true). */
+        brainsFull: 0,
+        /** Kit-only tick (think/moveDelay gated; tryEngagedAttacks). */
+        brainsKitOnly: 0,
         enemiesListed: 0,
         spatialCandidates: 0,
         stickyCandidates: 0,
         usedSpatial: false,
         aoiBuilt: 0,
-        aoiCacheHits: 0
+        aoiCacheHits: 0,
+        /** A* repath packages this frame (path_budget per-stamp). */
+        repaths: 0,
+        criticalRepaths: 0,
+        optionalRepaths: 0,
+        budgetSkips: 0,
+        failBackoffs: 0,
+        pathBudgetLimit: 0,
+        pathBudgetUsed: 0
     };
 }
 
@@ -150,6 +173,16 @@ function beginAiPerfFrame(sim) {
  */
 function endAiPerfFrame(sim, frame) {
     if (!sim || !frame) return;
+    // Pull path package counters for this logic stamp (watch / stress / F3).
+    const pathStats = pathBudgetStats();
+    frame.repaths = pathStats.repathsFrame || 0;
+    frame.criticalRepaths = pathStats.criticalRepathsFrame || 0;
+    frame.optionalRepaths = pathStats.optionalRepathsFrame || 0;
+    frame.budgetSkips = pathStats.budgetSkipsFrame || 0;
+    frame.failBackoffs = pathStats.failBackoffsFrame || 0;
+    frame.pathBudgetLimit = pathStats.limit || 0;
+    frame.pathBudgetUsed = pathStats.used || 0;
+
     const t = sim.aiPerfTotals || (sim.aiPerfTotals = createAiPerfFrame());
     if (t.frames == null) t.frames = 0;
     t.frames += 1;
@@ -157,12 +190,22 @@ function endAiPerfFrame(sim, frame) {
     t.distanceChecks += frame.distanceChecks;
     t.brainsExecuted += frame.brainsExecuted;
     t.brainsConsidered += frame.brainsConsidered;
+    t.brainsFull = (t.brainsFull || 0) + (frame.brainsFull || 0);
+    t.brainsKitOnly = (t.brainsKitOnly || 0) + (frame.brainsKitOnly || 0);
     t.enemiesListed += frame.enemiesListed;
     t.spatialCandidates += frame.spatialCandidates;
     t.stickyCandidates += frame.stickyCandidates;
     t.usedSpatial = t.usedSpatial || frame.usedSpatial;
     t.aoiBuilt = (t.aoiBuilt || 0) + (frame.aoiBuilt || 0);
     t.aoiCacheHits = (t.aoiCacheHits || 0) + (frame.aoiCacheHits || 0);
+    t.repaths = (t.repaths || 0) + (frame.repaths || 0);
+    t.criticalRepaths = (t.criticalRepaths || 0) + (frame.criticalRepaths || 0);
+    t.optionalRepaths = (t.optionalRepaths || 0) + (frame.optionalRepaths || 0);
+    t.budgetSkips = (t.budgetSkips || 0) + (frame.budgetSkips || 0);
+    t.failBackoffs = (t.failBackoffs || 0) + (frame.failBackoffs || 0);
+    // Last frame's budget pin (not summed)
+    t.pathBudgetLimit = frame.pathBudgetLimit;
+    t.pathBudgetUsed = frame.pathBudgetUsed;
 }
 
 /**
@@ -619,7 +662,11 @@ function applyCreatureSleepState(sim, opts) {
         const wasSleeping = !!c.simSleeping;
         if (wantSleep !== wasSleeping) {
             if (wantSleep) frame.slept += 1;
-            else frame.woke += 1;
+            else {
+                frame.woke += 1;
+                // E7: restagger repath/think so wave wake does not sync A*
+                seedCreaturePathPhase(c);
+            }
         }
         c.simSleeping = wantSleep;
         if (wantSleep) frame.asleep += 1;
@@ -700,6 +747,7 @@ function initCreatureAi(creature) {
     creature.brain.setCurrentState(start);
     if (start && typeof start.enter === 'function') start.enter(creature);
     creature.aiState = creature.brain.getNameOfCurrentState();
+    seedCreaturePathPhase(creature);
 }
 
 /**
@@ -802,9 +850,37 @@ function resolveManualCommandTarget(owner, cmd, ctx) {
  * @param {object} cmd
  * @param {object} ctx
  */
+/**
+ * Orange system float for failed use / use-with (legacy "You cannot use this object." family).
+ * @param {object} owner
+ * @param {object} ctx
+ * @param {string} [text]
+ */
+function emitManualUseFail(owner, ctx, text) {
+    const sim = ctx && ctx.sim;
+    if (!sim || typeof sim.emitCombatText !== 'function' || !owner || !owner.tile) {
+        return;
+    }
+    const t = owner.tile;
+    sim.emitCombatText({
+        x: t.x || 0,
+        y: t.y || 0,
+        z: t.z,
+        text: text || 'You cannot use this object.',
+        color: '#f59e0b',
+        life: 1.1
+    });
+}
+
 function executeManualUseItem(owner, cmd, ctx) {
     const targetEntity = resolveManualCommandTarget(owner, cmd, ctx);
-    if (!targetEntity) return;
+    if (!targetEntity) {
+        // Missing target after aim (dead entity, bad id) — still tell the player
+        if (cmd && (cmd.type === 'USE_ITEM' || cmd.type === 'USE_ITEM_WITH')) {
+            emitManualUseFail(owner, ctx, 'You cannot use this object.');
+        }
+        return;
+    }
 
     if (cmd.itemId) {
         let matchedSpellId = null;
@@ -827,10 +903,15 @@ function executeManualUseItem(owner, cmd, ctx) {
             if (targetEntity._aimOnly) {
                 const spell = ctx.spellBook && ctx.spellBook[matchedSpellId];
                 const { spellHasShape } = require('../combat/area.js');
-                if (!spell || !spellHasShape(spell)) return;
+                if (!spell || !spellHasShape(spell)) {
+                    emitManualUseFail(owner, ctx, 'You cannot use this object.');
+                    return;
+                }
             }
             tryAttack({ attacker: owner, defender: targetEntity, spellId: matchedSpellId, ctx });
-        } else if (owner.inventory && !targetEntity._aimOnly) {
+            return;
+        }
+        if (owner.inventory && !targetEntity._aimOnly) {
             try {
                 const { consumeItemIdFromInventory } = require('../character/inventory.js');
                 const {
@@ -852,6 +933,14 @@ function executeManualUseItem(owner, cmd, ctx) {
                             String(effect.item.category || '').toLowerCase() ===
                                 'potion'));
                 if (!usable && !effect.heal && !effect.mana && !(effect.dispel && effect.dispel.length)) {
+                    // Weapons, armor, tools without a use script, etc.
+                    emitManualUseFail(
+                        owner,
+                        ctx,
+                        cmd.type === 'USE_ITEM_WITH'
+                            ? 'Not available yet.'
+                            : 'You cannot use this object.'
+                    );
                     return;
                 }
                 const r = consumeItemIdFromInventory(owner.inventory, cmd.itemId, 1);
@@ -875,9 +964,21 @@ function executeManualUseItem(owner, cmd, ctx) {
                             /* telemetry optional */
                         }
                     }
+                    return;
                 }
-            } catch (_) {}
+                emitManualUseFail(owner, ctx, 'You cannot use this object.');
+                return;
+            } catch (_) {
+                emitManualUseFail(owner, ctx, 'You cannot use this object.');
+                return;
+            }
         }
+        // Aim-only use-with on a non-spell multi-use (tool) → not implemented
+        emitManualUseFail(
+            owner,
+            ctx,
+            cmd.type === 'USE_ITEM_WITH' ? 'Not available yet.' : 'You cannot use this object.'
+        );
     }
 }
 
@@ -1091,6 +1192,152 @@ function cancelManualAutowalk(owner, ctx, announce) {
 }
 
 /**
+ * Fire party onStep hooks after a manual move/hop (arena loop host + hop log).
+ * Does **not** snap presentation (`syncPositionFromTile`): adjacent steps keep
+ * the moveEntityToTile slide + walk bob for the full moveDelay window, same as
+ * AI path steps. Stairs / multi-tile jumps already snap inside _finalizeTileMove.
+ *
+ * @param {object} owner
+ * @param {object} ctx
+ * @param {{ x: number, y: number, z: * }} from
+ */
+function emitManualStep(owner, ctx, from) {
+    if (!owner || !owner.tile || !from) return;
+    if (
+        owner.tile.x === from.x &&
+        owner.tile.y === from.y &&
+        String(owner.tile.z) === String(from.z)
+    ) {
+        return;
+    }
+    const hooks = ctx && ctx.hooks;
+    if (hooks && typeof hooks.onStep === 'function') {
+        hooks.onStep(owner, from, {
+            x: owner.tile.x,
+            y: owner.tile.y,
+            z: owner.tile.z
+        });
+    }
+}
+
+/**
+ * If standing on a stair pad, hop (optionally toward preferred floor).
+ * Manual control never ran Party._tryStairHop — arena death portals were no-ops.
+ *
+ * @param {object} owner
+ * @param {object} ctx
+ * @param {{ x?: number, y?: number, z?: * }|null} [preferredDest]
+ * @returns {boolean}
+ */
+function tryManualStairHop(owner, ctx, preferredDest) {
+    if (!owner || !owner.tile || !ctx || !ctx.tileMap) return false;
+    const tileMap = ctx.tileMap;
+    if (typeof tileMap.tryUseStair !== 'function') return false;
+    if (
+        typeof tileMap.isStair === 'function' &&
+        !tileMap.isStair(owner.tile.x, owner.tile.y, owner.tile.z)
+    ) {
+        return false;
+    }
+    const from = {
+        x: owner.tile.x,
+        y: owner.tile.y,
+        z: owner.tile.z
+    };
+    const preferred =
+        preferredDest && preferredDest.z !== undefined
+            ? preferredDest
+            : null;
+    let hopped = tileMap.tryUseStair(owner, preferred);
+    // Preferred floor mismatch: still hop any pad underfoot (one-way portals)
+    if (!hopped && preferred) {
+        hopped = tileMap.tryUseStair(owner, null);
+    }
+    if (!hopped) return false;
+    emitManualStep(owner, ctx, from);
+    return true;
+}
+
+/**
+ * Manual move that can cross floors via stair pads (WASD / click autowalk).
+ * Same-z uses stepToward; other-z walks to findStairToward pad then hops.
+ *
+ * @param {object} owner
+ * @param {{ x: number, y: number, z?: * }} dest
+ * @param {object} ctx
+ * @param {{ allowLongPath?: boolean }} [opts]
+ * @returns {boolean} true when position changed
+ */
+function manualStepToward(owner, dest, ctx, opts) {
+    if (!owner || !owner.tile || !dest || !ctx || !ctx.tileMap) return false;
+    const tileMap = ctx.tileMap;
+    const from = {
+        x: owner.tile.x,
+        y: owner.tile.y,
+        z: owner.tile.z
+    };
+    const dz = dest.z !== undefined ? dest.z : from.z;
+
+    // Already on goal floor → local path
+    if (String(from.z) === String(dz)) {
+        const moved = stepToward(owner, dest, tileMap, opts);
+        if (moved) emitManualStep(owner, ctx, from);
+        // Landing on a death/rest portal pad: hop even without multi-z dest
+        if (
+            owner.tile &&
+            String(owner.tile.z) === String(from.z) &&
+            tryManualStairHop(owner, ctx, null)
+        ) {
+            return true;
+        }
+        return moved;
+    }
+
+    // Cross-floor: hop if already on the right pad
+    if (tryManualStairHop(owner, ctx, dest)) return true;
+
+    // Walk toward nearest pad on this floor that leads to dest floor
+    if (typeof tileMap.findStairToward === 'function') {
+        const pad = tileMap.findStairToward(
+            from.z,
+            dz,
+            from.x,
+            from.y
+        );
+        if (pad) {
+            if (from.x === pad.x && from.y === pad.y) {
+                return tryManualStairHop(owner, ctx, dest);
+            }
+            const moved = stepToward(
+                owner,
+                { x: pad.x, y: pad.y, z: from.z },
+                tileMap,
+                opts
+            );
+            if (moved) emitManualStep(owner, ctx, from);
+            // Arrived on pad this step → hop immediately
+            if (
+                owner.tile &&
+                owner.tile.x === pad.x &&
+                owner.tile.y === pad.y &&
+                String(owner.tile.z) === String(from.z)
+            ) {
+                tryManualStairHop(owner, ctx, dest);
+            }
+            return (
+                !owner.tile ||
+                owner.tile.x !== from.x ||
+                owner.tile.y !== from.y ||
+                String(owner.tile.z) !== String(from.z)
+            );
+        }
+    }
+
+    // No registered stair: cannot free-teleport (arena portals are TileMap stairs)
+    return false;
+}
+
+/**
  * Record + dequeue the head of a member command queue (shared by meta + manual).
  * @param {object} owner
  * @param {object} ctx
@@ -1215,11 +1462,13 @@ function tickHuntAi(sim, hooks) {
             // fleeing / pathing monster can wave/ball while mid-step.
             tryEngagedAttacks(c, ctx);
             perf.brainsExecuted += 1;
+            perf.brainsKitOnly += 1;
             continue;
         }
         c.brain.update(ctx);
         c.aiState = c.brain.getNameOfCurrentState();
         perf.brainsExecuted += 1;
+        perf.brainsFull += 1;
     }
 
     endAiPerfFrame(sim, perf);
@@ -1312,31 +1561,62 @@ function executeManualControl(owner, ctx) {
                     consumeCmd();
                     owner._manualDest = null;
                     owner.path = [];
-                    const tx = owner.tile.x + (Number(cmd.dx) || 0);
-                    const ty = owner.tile.y + (Number(cmd.dy) || 0);
-                    const tz = cmd.z !== undefined ? cmd.z : owner.tile.z;
-                    if (
-                        ctx &&
-                        ctx.tileMap &&
-                        (typeof ctx.tileMap.isTileWalkable === 'function'
-                            ? ctx.tileMap.isTileWalkable(tx, ty, tz, owner)
-                            : true)
-                    ) {
-                        stepToward(owner, { x: tx, y: ty, z: tz }, ctx.tileMap);
+                    if (!owner.tile || !ctx || !ctx.tileMap) {
+                        /* no map */
+                    } else {
+                        const tx = owner.tile.x + (Number(cmd.dx) || 0);
+                        const ty = owner.tile.y + (Number(cmd.dy) || 0);
+                        const tz =
+                            cmd.z !== undefined ? cmd.z : owner.tile.z;
+                        const from = {
+                            x: owner.tile.x,
+                            y: owner.tile.y,
+                            z: owner.tile.z
+                        };
+                        // Same-tile MOVE_STEP while on a portal pad: use stairs
+                        if (
+                            tx === from.x &&
+                            ty === from.y &&
+                            String(tz) === String(from.z)
+                        ) {
+                            tryManualStairHop(owner, ctx, null);
+                        } else if (
+                            typeof ctx.tileMap.isTileWalkable === 'function'
+                                ? ctx.tileMap.isTileWalkable(tx, ty, tz, owner)
+                                : true
+                        ) {
+                            const moved = stepToward(
+                                owner,
+                                { x: tx, y: ty, z: tz },
+                                ctx.tileMap
+                            );
+                            if (moved) emitManualStep(owner, ctx, from);
+                            // Walk onto death/rest portal → hop (AI used Party stairs)
+                            tryManualStairHop(owner, ctx, null);
+                        }
                     }
                 } else {
                     consumeCmd();
                     if (cmd.dest && ctx && ctx.tileMap) {
                         owner._manualDest = cmd.dest;
                         owner.path = [];
-                        stepToward(owner, cmd.dest, ctx.tileMap, { allowLongPath: true });
+                        const stepOk = manualStepToward(
+                            owner,
+                            cmd.dest,
+                            ctx,
+                            { allowLongPath: true }
+                        );
                         const atDest =
                             owner.tile &&
                             owner.tile.x === cmd.dest.x &&
                             owner.tile.y === cmd.dest.y &&
                             String(owner.tile.z) === String(cmd.dest.z);
-                        if (!atDest && (!owner.path || owner.path.length === 0)) {
-                            // No route (legacy RETURNVALUE_THEREISNOWAY) — cancel, do not buffer forever
+                        if (
+                            !atDest &&
+                            !stepOk &&
+                            (!owner.path || owner.path.length === 0)
+                        ) {
+                            // No route (legacy RETURNVALUE_THEREISNOWAY)
                             cancelManualAutowalk(owner, ctx, true);
                         }
                     }
@@ -1358,11 +1638,14 @@ function executeManualControl(owner, ctx) {
             owner._manualDest = null;
             owner.path = [];
         } else {
-            const stepOk = stepToward(owner, owner._manualDest, ctx.tileMap, {
+            const stepOk = manualStepToward(owner, owner._manualDest, ctx, {
                 allowLongPath: true
             });
             if (!stepOk && (!owner.path || owner.path.length === 0)) {
-                cancelManualAutowalk(owner, ctx, true);
+                // Still pathing to a same-floor intermediate (followPath filled path)
+                if (!owner.path || owner.path.length === 0) {
+                    cancelManualAutowalk(owner, ctx, true);
+                }
             }
         }
     }

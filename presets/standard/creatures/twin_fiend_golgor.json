@@ -82,12 +82,19 @@
             "chance": 11,
             "range": 4,
             "element": "earth",
-            "min": 55,
-            "max": 55,
+            "min": 0,
+            "max": 0,
             "length": 5,
             "spread": 3,
             "target": false,
-            "effect": "me_poisonarea"
+            "effect": "me_poisonarea",
+            "statusOnly": true,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 55,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
         },
         {
             "id": "wave_3",

@@ -1,0 +1,17 @@
+{
+    "id": "rest_area_shell",
+    "type": "fixed",
+    "biome": "cave",
+    "seeded": true,
+    "piecePack": "rest_area_v1",
+    "floor": 0,
+    "label": "rest_area_shell",
+    "notes": "Template shell for rest/portal lobbies between arenas. populationId omitted. Generator overwrites placements after piece pick. entrance/exit/waypoints omitted so resolveSpine uses the selected piece's socket waypoints (works for every rest piece).",
+    "placements": [
+        {
+            "pieceId": "rest_square_14",
+            "x": 0,
+            "y": 0
+        }
+    ]
+}

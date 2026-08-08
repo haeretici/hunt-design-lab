@@ -21,6 +21,8 @@ const {
 } = require('../kernel/core/lib/ai_debug_draw.js');
 const {
     mergeTweaksPatch,
+    createEngineTweakingsParentBridge,
+    normalizeLayoutCountsPatch,
     ENGINE_TWEAKS_CHANNEL,
     ENGINE_TWEAKS_WINDOW_NAME
 } = require('../html/widgets/engine_tweakings/parent_bridge.js');
@@ -579,10 +581,85 @@ test('mergeTweaksPatch clamps camera scale', () => {
     assert.strictEqual(high.camera.scale, 48);
 });
 
+test('mergeTweaksPatch progression flags and rates', () => {
+    const next = mergeTweaksPatch(
+        {
+            features: { expProgression: false, skillProgression: false },
+            expRates: { baseRate: 1 },
+            skillRates: { stageMult: 1 }
+        },
+        {
+            features: { expProgression: true, skillProgression: true },
+            expRates: { baseRate: 2.5, prey: 0.1 },
+            skillRates: { stageMult: 1.2, skillPrey: 0.05 }
+        }
+    );
+    assert.strictEqual(next.features.expProgression, true);
+    assert.strictEqual(next.features.skillProgression, true);
+    assert.strictEqual(next.expRates.baseRate, 2.5);
+    assert.strictEqual(next.expRates.prey, 0.1);
+    assert.strictEqual(next.skillRates.stageMult, 1.2);
+    assert.strictEqual(next.skillRates.skillPrey, 0.05);
+});
+
 test('protocol channel constants', () => {
     assert.strictEqual(ENGINE_TWEAKS_CHANNEL, 'hunt-design-lab-tweaks');
     assert.strictEqual(PROTO_CHANNEL, ENGINE_TWEAKS_CHANNEL);
     assert.strictEqual(ENGINE_TWEAKS_WINDOW_NAME, 'hunt_design_lab_tweakings');
+});
+
+test('normalizeLayoutCountsPatch clamps 0–3 and defaults', () => {
+    assert.deepStrictEqual(normalizeLayoutCountsPatch(null), {
+        top: 1,
+        bottom: 1,
+        left: 1,
+        right: 1
+    });
+    assert.deepStrictEqual(
+        normalizeLayoutCountsPatch({ top: 0, bottom: 3, left: 99, right: -2 }),
+        { top: 0, bottom: 3, left: 3, right: 0 }
+    );
+});
+
+test('mergeTweaksPatch layoutCounts (Stage C)', () => {
+    const next = mergeTweaksPatch(
+        { layoutCounts: { top: 1, bottom: 1, left: 1, right: 1 } },
+        { layoutCounts: { bottom: 3, left: 0 } }
+    );
+    assert.strictEqual(next.layoutCounts.top, 1);
+    assert.strictEqual(next.layoutCounts.bottom, 3);
+    assert.strictEqual(next.layoutCounts.left, 0);
+    assert.strictEqual(next.layoutCounts.right, 1);
+});
+
+test('createEngineTweakingsParentBridge applyPatch layoutCounts → setLayoutCounts', () => {
+    const calls = [];
+    const layoutCounts = { top: 1, bottom: 1, left: 1, right: 1 };
+    const bridge = createEngineTweakingsParentBridge({
+        Settings: {
+            tileWidth: 32,
+            TIME_SPEED: 1,
+            features: {},
+            expRates: {},
+            skillRates: {}
+        },
+        actionBars: {
+            state: { layoutCounts },
+            setLayoutCounts(partial) {
+                calls.push(partial);
+                Object.assign(layoutCounts, partial);
+                return { ...layoutCounts };
+            }
+        }
+    });
+    bridge.applyPatch({ layoutCounts: { bottom: 2, right: 3 } });
+    assert.strictEqual(calls.length, 1);
+    assert.strictEqual(calls[0].bottom, 2);
+    assert.strictEqual(calls[0].right, 3);
+    const snap = bridge.snapshotState();
+    assert.strictEqual(snap.layoutCounts.bottom, 2);
+    assert.strictEqual(snap.layoutCounts.right, 3);
+    bridge.dispose();
 });
 
 // Leave clean for other suite runs in same process

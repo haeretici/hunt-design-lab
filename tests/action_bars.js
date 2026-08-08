@@ -14,12 +14,92 @@ const {
     checkHotkeyConflict,
     resolveSlotCooldownSpec,
     getSpecRemainingSeconds,
+    getSpecCooldownDisplay,
+    formatCooldownTimer,
+    setLayoutCounts,
+    normalizeBar,
+    normalizeDocks,
+    normalizeSlot,
+    buildStoragePayload,
+    applyStoredPayload,
+    coerceStoredPayload,
+    isSubActionAvailable,
+    findNextAvailableMultiIndex,
+    getActiveMultiSubAction,
+    itemIsActionBarEquipable,
+    toggleEquipByItemId,
+    findEquippedSlotForItemId,
+    countItemIdCarried,
+    SLOTS_PER_BAR,
+    MAX_BARS_PER_DOCK,
+    MULTI_ACTION_DEPTH,
+    VISIBLE_CAP_HORIZONTAL,
+    VISIBLE_CAP_VERTICAL,
+    maxPageOffsetForBar,
+    clampBarPageOffset,
+    findBarById,
+    findBarForSlotId,
+    isSlotBarLocked,
+    setBarLocked,
+    toggleBarLocked,
+    clearBar,
+    describeSlotAction,
+    slotAriaLabel,
+    visibleRangeForBar,
+    setBarPageOffset,
+    shiftBarPage,
     state
 } = require('../kernel/apps/game/action_bars.js');
 const { createActionBarParentBridge } = require('../html/widgets/action_bar_config/parent_bridge.js');
 const { uiState, clearTargetCursorMode } = require('../kernel/apps/game/ui_state.js');
 const Cooldowns = require('../kernel/core/lib/combat/cooldowns.js');
 const { Settings } = require('../kernel/settings.js');
+const {
+    buildInventoryFromSeed,
+    countItemIdInInventoryTree
+} = require('../kernel/core/lib/character/inventory.js');
+
+const GEAR_ITEM_DB = [
+    {
+        id: 'backpack',
+        label: 'Backpack',
+        category: 'container',
+        slot: 'backpack',
+        volume: 20,
+        weight: 1800
+    },
+    {
+        id: 'iron_longsword',
+        label: 'Iron Longsword',
+        slot: 'rightHand',
+        category: 'sword',
+        atk: 42,
+        weight: 5400
+    },
+    {
+        id: 'steel_helm',
+        label: 'Steel Helm',
+        slot: 'helmet',
+        category: 'helmet',
+        armor: 6,
+        weight: 3200
+    },
+    {
+        id: 'leather_boots',
+        label: 'Leather Boots',
+        slot: 'boots',
+        category: 'boots',
+        armor: 2,
+        weight: 900
+    },
+    {
+        id: 'potion_healing',
+        label: 'Healing Potion',
+        category: 'potion',
+        consumable: true,
+        weight: 180
+    }
+];
 
 let passed = 0;
 function test(name, fn) {
@@ -66,10 +146,30 @@ test('initActionBars sets up default 4 docks (top, bottom, left, right)', () => 
     assert.ok(state.docks.left.length >= 1, 'Left dock exists');
     assert.ok(state.docks.right.length >= 1, 'Right dock exists');
 
-    assert.strictEqual(state.docks.top[0].slots.length, 12, 'Top bar defaults to 12 slots');
-    assert.strictEqual(state.docks.bottom[0].slots.length, 12, 'Bottom bar defaults to 12 slots');
-    assert.strictEqual(state.docks.left[0].slots.length, 10, 'Left bar defaults to 10 slots');
-    assert.strictEqual(state.docks.right[0].slots.length, 10, 'Right bar defaults to 10 slots');
+    assert.strictEqual(SLOTS_PER_BAR, 50, 'SLOTS_PER_BAR constant is 50');
+    assert.strictEqual(MAX_BARS_PER_DOCK, 3);
+    assert.strictEqual(MULTI_ACTION_DEPTH, 3);
+    assert.strictEqual(VISIBLE_CAP_HORIZONTAL, 12);
+    assert.strictEqual(VISIBLE_CAP_VERTICAL, 10);
+
+    assert.deepStrictEqual(state.layoutCounts, { top: 1, bottom: 1, left: 1, right: 1 });
+    assert.strictEqual(state.docks.top.length, 1);
+    assert.strictEqual(state.docks.bottom.length, 1);
+    assert.strictEqual(state.docks.left.length, 1);
+    assert.strictEqual(state.docks.right.length, 1);
+
+    assert.strictEqual(state.docks.top[0].slots.length, SLOTS_PER_BAR, 'Top bar has 50 logical slots');
+    assert.strictEqual(state.docks.bottom[0].slots.length, SLOTS_PER_BAR, 'Bottom bar has 50 logical slots');
+    assert.strictEqual(state.docks.left[0].slots.length, SLOTS_PER_BAR, 'Left bar has 50 logical slots');
+    assert.strictEqual(state.docks.right[0].slots.length, SLOTS_PER_BAR, 'Right bar has 50 logical slots');
+
+    // Classic defaults still occupy the first page of hotkeys
+    assert.strictEqual(state.docks.top[0].slots[0].hotkey, 'F1');
+    assert.strictEqual(state.docks.top[0].slots[11].hotkey, 'F12');
+    assert.strictEqual(state.docks.top[0].slots[12].hotkey, '', 'Slots past classic page start unbound');
+    assert.strictEqual(state.docks.bottom[0].slots[0].hotkey, '1');
+    assert.strictEqual(state.docks.left[0].slots[0].hotkey, 'SHIFT+1');
+    assert.strictEqual(state.docks.right[0].slots[0].hotkey, 'CTRL+1');
 });
 
 test('assignSlot binds item and maps hotkey in lookup index', () => {
@@ -122,11 +222,58 @@ test('executeSlot falls back to cursor prompt when target Mode is cursor_prompt'
     });
     const slot = state.slotsById.get(slotId);
 
-    executeSlot(slot, { player });
+    executeSlot(slot, {
+        player,
+        spellBook: {
+            deathburst: {
+                id: 'deathburst',
+                source: 'rune',
+                runeItemId: 'rune_deathburst',
+                range: 6
+            }
+        }
+    });
     assert.strictEqual(player.commandQueue.length, 0, 'No direct command dispatched yet');
     assert.ok(uiState.activeActionCursor != null, 'Crosshair targeting mode entered');
     assert.strictEqual(uiState.activeActionCursor.type, 'USE_ITEM_WITH');
     assert.strictEqual(uiState.activeActionCursor.itemId, 'rune_deathburst');
+    assert.strictEqual(
+        uiState.activeActionCursor.allowTileAim,
+        false,
+        'single-target rune: creature only (no empty-tile aim)'
+    );
+});
+
+test('resolveAllowTileAim: shaped rune allows tile; bolt does not', () => {
+    const { resolveAllowTileAim } = require('../kernel/apps/game/action_bars.js');
+    const spellBook = {
+        deathburst: {
+            id: 'deathburst',
+            source: 'rune',
+            runeItemId: 'deathburst_rune',
+            range: 6
+        },
+        blaze_bomb_rune: {
+            id: 'blaze_bomb_rune',
+            source: 'rune',
+            runeItemId: 'blaze_bomb_rune',
+            range: 4,
+            shape: { type: 'area', code: 3 }
+        }
+    };
+    assert.strictEqual(
+        resolveAllowTileAim({ itemId: 'deathburst_rune', spellBook }),
+        false
+    );
+    assert.strictEqual(
+        resolveAllowTileAim({ itemId: 'blaze_bomb_rune', spellBook }),
+        true
+    );
+    assert.strictEqual(
+        resolveAllowTileAim({ itemId: 'rope', spellBook: {} }),
+        true,
+        'tools without spell → tile aim OK'
+    );
 });
 
 test('executeSlot handles spell Smart Cast vs self cast', () => {
@@ -262,6 +409,8 @@ test('createActionBarParentBridge synchronizes state and handles messages', () =
         state,
         switchProfile,
         assignSlot,
+        setBarLocked,
+        clearBar,
         rebuildMaps: () => {},
         updateActionBars: () => {}
     };
@@ -295,6 +444,30 @@ test('createActionBarParentBridge synchronizes state and handles messages', () =
         cfg: { spellId: 'spell_taunt', targetMode: 'smart_target', hotkey: '1' }
     });
     assert.strictEqual(state.docks.bottom[0].slots[0].spellId, 'spell_taunt');
+
+    // Stage G: lock / clear via bridge
+    const barId = state.docks.bottom[0].id;
+    bridge.applyMessage({
+        channel: 'hunt-design-lab-action-bar',
+        type: 'set_bar_locked',
+        barId,
+        locked: true
+    });
+    assert.strictEqual(state.docks.bottom[0].locked, true);
+    bridge.applyMessage({
+        channel: 'hunt-design-lab-action-bar',
+        type: 'set_bar_locked',
+        barId,
+        locked: false
+    });
+    bridge.applyMessage({
+        channel: 'hunt-design-lab-action-bar',
+        type: 'clear_bar',
+        barId,
+        clearHotkeys: false
+    });
+    assert.strictEqual(state.docks.bottom[0].slots[0].actionType, 'empty');
+    assert.strictEqual(state.docks.bottom[0].slots[0].hotkey, '1');
 });
 
 test('createActionBarParentBridge normalizes spellBook array and performs dirty checking on sendState', () => {
@@ -349,15 +522,6 @@ test('mountDocks clears lastSignatures cache and default genre is rpg_fantasy', 
     mountDocks();
     delete global.document;
     assert.strictEqual(state.lastSignatures.size, 0, 'lastSignatures must be cleared when mounting docks');
-});
-
-test('migrateLegacyProfiles maps default profile to active character class', () => {
-    const { migrateLegacyProfiles, initDefaultDocksData } = require('../kernel/apps/game/action_bars.js');
-    const dummyDocks = initDefaultDocksData();
-    const result = migrateLegacyProfiles({ default: dummyDocks }, 'default');
-    assert.strictEqual(result.activeProfileId, 'guardian', 'Legacy default activeProfileId should migrate to guardian');
-    assert.ok(result.profiles.guardian != null, 'Legacy default profile settings transferred to guardian');
-    assert.strictEqual(result.profiles.default, undefined, 'Legacy default profile removed');
 });
 
 test('updateActionBars uses edge-triggered profile switching', () => {
@@ -531,6 +695,687 @@ test('shared primary cooldown marks spell and related rune remaining', () => {
     assert.ok(runeSpec && runeSpec.primary && runeSpec.primary.attack === 2);
     assert.ok(getSpecRemainingSeconds(player, spellSpec) > 0, 'spell blocked by primary');
     assert.ok(getSpecRemainingSeconds(player, runeSpec) > 0, 'rune shares primary attack CD');
+});
+
+test('formatCooldownTimer matches legacy second buckets', () => {
+    assert.strictEqual(formatCooldownTimer(0), '');
+    assert.strictEqual(formatCooldownTimer(-1), '');
+    assert.strictEqual(formatCooldownTimer(12.4), '12s');
+    assert.strictEqual(formatCooldownTimer(10), '10s');
+    assert.strictEqual(formatCooldownTimer(1.54), '1.5s');
+    assert.strictEqual(formatCooldownTimer(0.254), '0.25s');
+});
+
+test('getSpecCooldownDisplay progress sweeps 0→100 on longest blocking key', () => {
+    const player = { id: 1, alive: true };
+    Cooldowns.ensureCooldowns(player);
+    const spec = {
+        primary: { attack: 2 },
+        spell: { front_sweep: 6 }
+    };
+    Cooldowns.apply(player, spec);
+
+    let d = getSpecCooldownDisplay(player, spec);
+    assert.ok(Math.abs(d.remaining - 6) < 1e-9, `remaining should be spell CD: ${d.remaining}`);
+    assert.ok(Math.abs(d.duration - 6) < 1e-9, `duration from spell key: ${d.duration}`);
+    assert.ok(d.progress < 1e-6, `just cast → progress ~0, got ${d.progress}`);
+
+    Cooldowns.tick(player, 3);
+    d = getSpecCooldownDisplay(player, spec);
+    assert.ok(Math.abs(d.remaining - 3) < 1e-9, `half remaining: ${d.remaining}`);
+    assert.ok(Math.abs(d.progress - 50) < 1e-6, `halfway progress: ${d.progress}`);
+
+    Cooldowns.tick(player, 3);
+    d = getSpecCooldownDisplay(player, spec);
+    assert.strictEqual(d.remaining, 0);
+    assert.strictEqual(d.progress, 100);
+});
+
+// ── Stage A: data model, layout counts ──────────────────────────────────────
+
+test('setLayoutCounts 1→3 creates empty bars; 3→1 keeps bar_1 data and stashes extras', () => {
+    initActionBars({});
+    const bar1Id = state.docks.bottom[0].id;
+    const slot0 = state.docks.bottom[0].slots[0].id;
+    assignSlot(slot0, 'spell', { spellId: 'heal_light', hotkey: '1' });
+    assert.strictEqual(state.docks.bottom[0].slots[0].spellId, 'heal_light');
+
+    setLayoutCounts({ bottom: 3 }, { remount: false });
+    assert.strictEqual(state.layoutCounts.bottom, 3);
+    assert.strictEqual(state.docks.bottom.length, 3, 'three bottom bars after expand');
+    assert.strictEqual(state.docks.bottom[0].id, bar1Id, 'bar_1 identity preserved');
+    assert.strictEqual(state.docks.bottom[0].slots[0].spellId, 'heal_light', 'bar_1 assignment preserved');
+    assert.strictEqual(state.docks.bottom[1].slots.length, SLOTS_PER_BAR);
+    assert.strictEqual(state.docks.bottom[1].slots[0].actionType, 'empty');
+    assert.strictEqual(state.docks.bottom[2].id, 'bottom_3');
+
+    // Mark bar_2 so stash restore can be verified
+    const bar2Slot = state.docks.bottom[1].slots[0].id;
+    // bar2 slot may not be in maps if rebuild used — assign via state if needed
+    const bar2 = state.docks.bottom[1];
+    bar2.slots[0].actionType = 'item';
+    bar2.slots[0].itemId = 'potion_heal';
+
+    setLayoutCounts({ bottom: 1 }, { remount: false });
+    assert.strictEqual(state.layoutCounts.bottom, 1);
+    assert.strictEqual(state.docks.bottom.length, 1);
+    assert.strictEqual(state.docks.bottom[0].slots[0].spellId, 'heal_light', 'bar_1 still intact after shrink');
+    assert.ok(
+        state.barStash.guardian &&
+        Array.isArray(state.barStash.guardian.bottom) &&
+        state.barStash.guardian.bottom.length >= 1,
+        'excess bars stashed'
+    );
+
+    setLayoutCounts({ bottom: 3 }, { remount: false });
+    assert.strictEqual(state.docks.bottom.length, 3);
+    assert.strictEqual(state.docks.bottom[0].slots[0].spellId, 'heal_light');
+    assert.strictEqual(
+        state.docks.bottom[1].slots[0].itemId,
+        'potion_heal',
+        'stashed bar_2 restored with assignment'
+    );
+});
+
+test('assignSlot supports text, passive, and multi types', () => {
+    initActionBars({});
+    const a = state.docks.top[0].slots[0].id;
+    const b = state.docks.top[0].slots[1].id;
+    const c = state.docks.top[0].slots[2].id;
+
+    assert.strictEqual(assignSlot(a, 'text', { text: 'Hello party', hotkey: 'F1' }), true);
+    assert.strictEqual(state.slotsById.get(a).actionType, 'text');
+    assert.strictEqual(state.slotsById.get(a).text, 'Hello party');
+    assert.strictEqual(state.slotsById.get(a).itemId, null);
+
+    assert.strictEqual(assignSlot(b, 'passive', { passiveId: 'gift_of_life', hotkey: 'F2' }), true);
+    assert.strictEqual(state.slotsById.get(b).actionType, 'passive');
+    assert.strictEqual(state.slotsById.get(b).passiveId, 'gift_of_life');
+
+    assert.strictEqual(assignSlot(c, 'multi', {
+        hotkey: 'F3',
+        multiActions: [
+            { actionType: 'spell', spellId: 'flame_strike', targetMode: 'smart_target' },
+            { actionType: 'item', itemId: 'rune_fireball', targetMode: 'cursor_prompt' },
+            { actionType: 'empty' }
+        ]
+    }), true);
+    const multi = state.slotsById.get(c);
+    assert.strictEqual(multi.actionType, 'multi');
+    assert.ok(Array.isArray(multi.multiActions));
+    assert.strictEqual(multi.multiActions.length, MULTI_ACTION_DEPTH);
+    assert.strictEqual(multi.multiActions[0].spellId, 'flame_strike');
+    assert.strictEqual(multi.multiActions[1].itemId, 'rune_fireball');
+    assert.strictEqual(multi.multiActions[2].actionType, 'empty');
+
+    // Text/passive → FCT; multi executes active sub (spell with target)
+    const floats = [];
+    const sim = {
+        emitCombatText: (opts) => {
+            floats.push(opts);
+        }
+    };
+    const player = {
+        id: 1,
+        alive: true,
+        controlMode: 'manual',
+        commandQueue: [],
+        tile: { x: 3, y: 4, z: 0 },
+        target: { id: 99, alive: true },
+        cooldowns: Cooldowns.createCooldownState()
+    };
+    executeSlot(state.slotsById.get(a), { player, sim });
+    executeSlot(state.slotsById.get(b), { player, sim });
+    executeSlot(state.slotsById.get(c), {
+        player,
+        sim,
+        spellBook: {
+            flame_strike: {
+                id: 'flame_strike',
+                element: 'fire',
+                range: 3,
+                cooldowns: { spell: { flame_strike: 2 } }
+            }
+        }
+    });
+    assert.strictEqual(floats.length, 2, 'text + passive emit FCT');
+    assert.strictEqual(floats[0].text, 'Hello party');
+    assert.ok(String(floats[1].text).indexOf('gift_of_life') >= 0);
+    assert.strictEqual(floats[0].x, 3);
+    assert.strictEqual(floats[0].y, 4);
+    assert.strictEqual(player.commandQueue.length, 1, 'multi enqueues first ready spell');
+    assert.strictEqual(player.commandQueue[0].type, 'CAST_SPELL');
+    assert.strictEqual(player.commandQueue[0].spellId, 'flame_strike');
+});
+
+test('multi rotation skips empty middle and CD’d first spell', () => {
+    initActionBars({});
+    const slotId = state.docks.top[0].slots[0].id;
+    assignSlot(slotId, 'multi', {
+        multiActions: [
+            {
+                actionType: 'spell',
+                spellId: 'flame_strike',
+                targetMode: 'smart_target'
+            },
+            { actionType: 'empty' },
+            {
+                actionType: 'spell',
+                spellId: 'heal_light',
+                targetMode: 'self'
+            }
+        ]
+    });
+    const slot = state.slotsById.get(slotId);
+    const spellBook = {
+        flame_strike: {
+            id: 'flame_strike',
+            element: 'fire',
+            cooldowns: { spell: { flame_strike: 4 }, primary: { attack: 2 } }
+        },
+        heal_light: {
+            id: 'heal_light',
+            element: 'healing',
+            cooldowns: { spell: { heal_light: 1 }, primary: { healing: 1 } }
+        }
+    };
+    const player = {
+        id: 1,
+        alive: true,
+        controlMode: 'manual',
+        commandQueue: [],
+        target: { id: 7, alive: true },
+        cooldowns: Cooldowns.createCooldownState()
+    };
+    const ctx = { player, spellBook, itemDb: null };
+
+    // Empty middle skipped; first filled ready → index 0
+    assert.strictEqual(findNextAvailableMultiIndex(slot, ctx), 0);
+    assert.strictEqual(getActiveMultiSubAction(slot, ctx).sub.spellId, 'flame_strike');
+
+    // Put first spell on CD → rotate to heal (index 2), skipping empty index 1
+    Cooldowns.ensureCooldowns(player);
+    player.cooldowns.spell.flame_strike = 3;
+    assert.strictEqual(isSubActionAvailable(slot.multiActions[0], ctx), false);
+    assert.strictEqual(isSubActionAvailable(slot.multiActions[2], ctx), true);
+    assert.strictEqual(findNextAvailableMultiIndex(slot, ctx), 2);
+
+    player.commandQueue = [];
+    executeSlot(slot, { player, spellBook });
+    assert.strictEqual(player.commandQueue.length, 1);
+    assert.strictEqual(player.commandQueue[0].spellId, 'heal_light');
+    assert.strictEqual(player.commandQueue[0].target.kind, 'self');
+
+    // Both on CD → index falls back to first filled for paint; execute no-ops
+    player.cooldowns.spell.heal_light = 2;
+    assert.strictEqual(findNextAvailableMultiIndex(slot, ctx), 0, 'paint fallback first filled');
+    player.commandQueue = [];
+    executeSlot(slot, { player, spellBook });
+    assert.strictEqual(player.commandQueue.length, 0, 'no ready sub → no execute');
+
+    // CD paint uses active (fallback) sub spec
+    const cdSpec = resolveSlotCooldownSpec(slot, spellBook, null, player);
+    assert.ok(cdSpec && cdSpec.spell && cdSpec.spell.flame_strike != null);
+    const rem = getSpecRemainingSeconds(player, cdSpec);
+    assert.ok(rem > 0);
+});
+
+test('multi rotation skips item with zero stack', () => {
+    initActionBars({});
+    const slotId = state.docks.top[0].slots[1].id;
+    assignSlot(slotId, 'multi', {
+        multiActions: [
+            { actionType: 'item', itemId: 'rune_fireball', targetMode: 'self' },
+            { actionType: 'spell', spellId: 'heal_light', targetMode: 'self' },
+            { actionType: 'empty' }
+        ]
+    });
+    const slot = state.slotsById.get(slotId);
+    const spellBook = {
+        heal_light: { id: 'heal_light', element: 'healing' }
+    };
+    // Inventory present but no runes → count 0 for item sub
+    const player = {
+        id: 1,
+        alive: true,
+        controlMode: 'manual',
+        commandQueue: [],
+        inventory: {
+            rootUid: 'bp',
+            containers: { bp: { slots: [] } },
+            items: {}
+        },
+        cooldowns: Cooldowns.createCooldownState()
+    };
+    const ctx = { player, spellBook, itemDb: null };
+    assert.strictEqual(isSubActionAvailable(slot.multiActions[0], ctx), false);
+    assert.strictEqual(findNextAvailableMultiIndex(slot, ctx), 1);
+    executeSlot(slot, { player, spellBook });
+    assert.strictEqual(player.commandQueue.length, 1);
+    assert.strictEqual(player.commandQueue[0].spellId, 'heal_light');
+});
+
+const {
+    filterSpells,
+    spellBookToList,
+    isBlockedHotkey,
+    findGeneralHotkeyConflict,
+    eventToHotkeyString,
+    listKnownPassives,
+    TEXT_MAX_LEN
+} = require('../kernel/apps/game/action_bar_modals.js');
+
+test('filterSpells filters by vocation, query, and sort', () => {
+    const spells = spellBookToList([
+        { id: 'a', label: 'Zap', vocations: ['mystic'], level: 20, group: 'attack' },
+        { id: 'b', label: 'Heal', vocations: ['guardian'], level: 5, group: 'healing' },
+        { id: 'c', label: 'Common Bolt', level: 1, group: 'attack' },
+        { id: 'd', label: 'Alpha', vocations: ['mystic'], level: 2, group: 'support' }
+    ]);
+    const mystic = filterSpells(spells, { vocation: 'mystic', showAll: false, sort: 'name' });
+    assert.deepStrictEqual(mystic.map((s) => s.id), ['d', 'c', 'a']);
+
+    const q = filterSpells(spells, { query: 'heal', showAll: true });
+    assert.strictEqual(q.length, 1);
+    assert.strictEqual(q[0].id, 'b');
+
+    const byLvl = filterSpells(spells, { showAll: true, sort: 'level' });
+    assert.strictEqual(byLvl[0].id, 'c');
+});
+
+test('isBlockedHotkey rejects reserved bare keys', () => {
+    assert.strictEqual(isBlockedHotkey('ESCAPE'), true);
+    assert.strictEqual(isBlockedHotkey('W'), true);
+    assert.strictEqual(isBlockedHotkey('ARROWUP'), true);
+    assert.strictEqual(isBlockedHotkey('F1'), false);
+    assert.strictEqual(isBlockedHotkey('SHIFT+W'), false);
+    assert.strictEqual(isBlockedHotkey('1'), false);
+});
+
+test('findGeneralHotkeyConflict detects movement shortcuts', () => {
+    const sc = { moveNorth: ['W', 'ARROWUP'], stopAutowalk: ['ESCAPE'] };
+    assert.strictEqual(findGeneralHotkeyConflict('W', sc), 'moveNorth');
+    assert.strictEqual(findGeneralHotkeyConflict('F5', sc), null);
+});
+
+test('eventToHotkeyString builds combo from keyboard-like events', () => {
+    assert.strictEqual(
+        eventToHotkeyString({ key: 'f1', ctrlKey: true, shiftKey: false, altKey: false }),
+        'CTRL+F1'
+    );
+    assert.strictEqual(
+        eventToHotkeyString({ key: ' ', ctrlKey: false, shiftKey: true, altKey: false }),
+        'SHIFT+SPACE'
+    );
+    assert.strictEqual(eventToHotkeyString({ key: 'Shift' }), '');
+});
+
+test('listKnownPassives exposes stub registry', () => {
+    const list = listKnownPassives();
+    assert.ok(list.length >= 1);
+    assert.strictEqual(list[0].id, 'gift_of_life');
+    assert.ok(TEXT_MAX_LEN >= 120);
+});
+
+test('itemIsActionBarEquipable detects gear but not potions', () => {
+    assert.strictEqual(
+        itemIsActionBarEquipable(GEAR_ITEM_DB.find((i) => i.id === 'iron_longsword')),
+        true
+    );
+    assert.strictEqual(
+        itemIsActionBarEquipable(GEAR_ITEM_DB.find((i) => i.id === 'potion_healing')),
+        false
+    );
+    assert.strictEqual(itemIsActionBarEquipable(null), false);
+});
+
+test('executeSlot equips and unequips gear by itemId (legacy equipItemId parity)', () => {
+    initActionBars({ getItemDb: () => GEAR_ITEM_DB });
+    const inv = buildInventoryFromSeed(
+        {
+            equipment: { backpack: 'backpack' },
+            backpack: ['iron_longsword', 'steel_helm']
+        },
+        GEAR_ITEM_DB
+    );
+    let mutations = 0;
+    const player = {
+        id: 1,
+        alive: true,
+        controlMode: 'manual',
+        commandQueue: [],
+        inventory: inv,
+        applyInventoryMutation() {
+            mutations += 1;
+        }
+    };
+
+    const slotId = state.docks.bottom[0].slots[0].id;
+    assignSlot(slotId, 'item', {
+        itemId: 'iron_longsword',
+        targetMode: 'self',
+        hotkey: '1'
+    });
+    const slot = state.slotsById.get(slotId);
+
+    assert.strictEqual(findEquippedSlotForItemId(inv, 'iron_longsword'), null);
+    assert.strictEqual(countItemIdInInventoryTree(inv, 'iron_longsword'), 1);
+    assert.strictEqual(countItemIdCarried(inv, 'iron_longsword'), 1);
+
+    executeSlot(slot, { player, itemDb: GEAR_ITEM_DB });
+    assert.strictEqual(player.commandQueue.length, 0, 'equip does not enqueue USE_ITEM');
+    assert.strictEqual(findEquippedSlotForItemId(inv, 'iron_longsword'), 'rightHand');
+    assert.strictEqual(countItemIdInInventoryTree(inv, 'iron_longsword'), 0);
+    assert.strictEqual(countItemIdCarried(inv, 'iron_longsword'), 1);
+    assert.strictEqual(mutations, 1);
+
+    // Second click unequips back into backpack
+    executeSlot(slot, { player, itemDb: GEAR_ITEM_DB });
+    assert.strictEqual(findEquippedSlotForItemId(inv, 'iron_longsword'), null);
+    assert.strictEqual(countItemIdInInventoryTree(inv, 'iron_longsword'), 1);
+    assert.strictEqual(mutations, 2);
+
+    // Owned-but-not-carried gear is a silent no-op (legacy zero-count guard)
+    assignSlot(slotId, 'item', { itemId: 'leather_boots', hotkey: '1' });
+    executeSlot(state.slotsById.get(slotId), { player, itemDb: GEAR_ITEM_DB });
+    assert.strictEqual(player.commandQueue.length, 0);
+    assert.strictEqual(findEquippedSlotForItemId(inv, 'leather_boots'), null);
+    assert.strictEqual(mutations, 2, 'missing gear does not call applyInventoryMutation');
+});
+
+test('isSubActionAvailable treats equipped-only gear as ready', () => {
+    initActionBars({ getItemDb: () => GEAR_ITEM_DB });
+    const inv = buildInventoryFromSeed(
+        {
+            equipment: {
+                backpack: 'backpack',
+                rightHand: 'iron_longsword'
+            },
+            backpack: []
+        },
+        GEAR_ITEM_DB
+    );
+    const player = {
+        id: 1,
+        alive: true,
+        controlMode: 'manual',
+        commandQueue: [],
+        inventory: inv
+    };
+    const sub = {
+        actionType: 'item',
+        itemId: 'iron_longsword',
+        targetMode: 'smart_target'
+    };
+    assert.strictEqual(
+        countItemIdInInventoryTree(inv, 'iron_longsword'),
+        0,
+        'precondition: not in backpack tree'
+    );
+    assert.strictEqual(
+        isSubActionAvailable(sub, { player, itemDb: GEAR_ITEM_DB }),
+        true
+    );
+    // Toggle unequip via helper still works when only equipped
+    const r = toggleEquipByItemId(player, 'iron_longsword', GEAR_ITEM_DB);
+    assert.strictEqual(r.ok, true);
+    assert.strictEqual(r.action, 'unequip');
+    assert.strictEqual(findEquippedSlotForItemId(inv, 'iron_longsword'), null);
+});
+
+test('executeSlot still queues USE_ITEM for consumables', () => {
+    initActionBars({ getItemDb: () => GEAR_ITEM_DB });
+    const player = {
+        id: 1,
+        alive: true,
+        controlMode: 'manual',
+        commandQueue: [],
+        inventory: buildInventoryFromSeed(
+            { equipment: { backpack: 'backpack' }, backpack: ['potion_healing'] },
+            GEAR_ITEM_DB
+        )
+    };
+    const slotId = state.docks.bottom[0].slots[1].id;
+    assignSlot(slotId, 'item', {
+        itemId: 'potion_healing',
+        targetMode: 'self',
+        hotkey: '2'
+    });
+    executeSlot(state.slotsById.get(slotId), { player, itemDb: GEAR_ITEM_DB });
+    assert.strictEqual(player.commandQueue.length, 1);
+    assert.strictEqual(player.commandQueue[0].type, 'USE_ITEM');
+    assert.strictEqual(player.commandQueue[0].itemId, 'potion_healing');
+});
+
+test('buildStoragePayload round-trips layoutCounts via applyStoredPayload', () => {
+    initActionBars({});
+    setLayoutCounts({ top: 2, right: 0 }, { remount: false });
+    const slotId = state.docks.bottom[0].slots[0].id;
+    assignSlot(slotId, 'text', { text: 'round-trip', hotkey: '9' });
+
+    const payload = buildStoragePayload();
+    assert.strictEqual(payload.version, undefined, 'no storage version field');
+    assert.strictEqual(payload.layoutCounts.top, 2);
+    assert.strictEqual(payload.layoutCounts.right, 0);
+    assert.strictEqual(payload.profiles.guardian.top.length, 2);
+    assert.strictEqual(payload.profiles.guardian.right.length, 0);
+
+    initActionBars({});
+    assert.strictEqual(state.layoutCounts.top, 1);
+    assert.strictEqual(applyStoredPayload(payload), true);
+    assert.strictEqual(state.layoutCounts.top, 2);
+    assert.strictEqual(state.layoutCounts.right, 0);
+    assert.strictEqual(state.docks.top.length, 2);
+    assert.strictEqual(state.docks.right.length, 0);
+    assert.strictEqual(state.docks.bottom[0].slots[0].actionType, 'text');
+    assert.strictEqual(state.docks.bottom[0].slots[0].text, 'round-trip');
+});
+
+test('coerceStoredPayload rejects invalid blobs and coerces current-schema docks', () => {
+    assert.strictEqual(coerceStoredPayload(null), null);
+    assert.strictEqual(coerceStoredPayload({}), null);
+
+    const coerced = coerceStoredPayload({
+        activeProfileId: 'guardian',
+        layoutCounts: { top: 1, bottom: 1, left: 1, right: 1 },
+        profiles: {
+            guardian: {
+                top: [{
+                    id: 'top_1',
+                    orientation: 'horizontal',
+                    slots: [
+                        { id: 'top_1_slot_0', index: 0, hotkey: 'F1', actionType: 'item', itemId: 'rune_fireball', targetMode: 'smart_target' }
+                    ]
+                }],
+                bottom: [],
+                left: [],
+                right: []
+            }
+        }
+    });
+    assert.ok(coerced);
+    assert.strictEqual(coerced.profiles.guardian.top[0].slots.length, SLOTS_PER_BAR);
+    assert.strictEqual(coerced.profiles.guardian.top[0].slots[0].itemId, 'rune_fireball');
+    assert.strictEqual(coerced.profiles.guardian.bottom.length, 1);
+    assert.strictEqual(coerced.profiles.guardian.bottom[0].slots.length, SLOTS_PER_BAR);
+});
+
+test('normalizeSlot rejects unknown action types as empty', () => {
+    const s = normalizeSlot({ actionType: 'not_a_type', spellId: 'x' }, 'top_1', 0);
+    assert.strictEqual(s.actionType, 'empty');
+    assert.strictEqual(s.spellId, null);
+});
+
+test('normalizeBar always yields SLOTS_PER_BAR and preserves assigned slots', () => {
+    const bar = normalizeBar({
+        id: 'bottom_1',
+        orientation: 'horizontal',
+        slots: [
+            { id: 'bottom_1_slot_0', index: 0, hotkey: '1', actionType: 'spell', spellId: 'flame_strike', targetMode: 'smart_target' }
+        ]
+    }, 'bottom', 1);
+    assert.strictEqual(bar.slots.length, SLOTS_PER_BAR);
+    assert.strictEqual(bar.slots[0].spellId, 'flame_strike');
+    assert.strictEqual(bar.slots[1].actionType, 'empty');
+});
+
+test('normalizeDocks pads missing bars to layoutCounts', () => {
+    const docks = normalizeDocks({ top: [] }, { top: 2, bottom: 0, left: 1, right: 1 });
+    assert.strictEqual(docks.top.length, 2);
+    assert.strictEqual(docks.bottom.length, 0);
+    assert.strictEqual(docks.left.length, 1);
+    assert.strictEqual(docks.top[0].slots.length, SLOTS_PER_BAR);
+    assert.strictEqual(docks.top[1].id, 'top_2');
+});
+
+// ── Stage D: carousel pageOffset ────────────────────────────────────────────
+
+test('maxPageOffsetForBar / clampBarPageOffset respect VISIBLE_CAP', () => {
+    initActionBars({});
+    const bar = state.docks.bottom[0];
+    assert.strictEqual(bar.orientation, 'horizontal');
+    assert.strictEqual(maxPageOffsetForBar(bar), SLOTS_PER_BAR - VISIBLE_CAP_HORIZONTAL);
+    bar.pageOffset = 999;
+    assert.strictEqual(clampBarPageOffset(bar), SLOTS_PER_BAR - VISIBLE_CAP_HORIZONTAL);
+    bar.pageOffset = -3;
+    assert.strictEqual(clampBarPageOffset(bar), 0);
+    const vbar = state.docks.left[0];
+    assert.strictEqual(maxPageOffsetForBar(vbar), SLOTS_PER_BAR - VISIBLE_CAP_VERTICAL);
+});
+
+test('setBarPageOffset / shiftBarPage update state without remount', () => {
+    initActionBars({});
+    const bar = state.docks.bottom[0];
+    const max = maxPageOffsetForBar(bar);
+    assert.strictEqual(setBarPageOffset(bar.id, 5, { remount: false, save: false }), 5);
+    assert.strictEqual(bar.pageOffset, 5);
+    assert.strictEqual(shiftBarPage(bar.id, 2, { remount: false, save: false }), 7);
+    assert.strictEqual(shiftBarPage(bar.id, -100, { remount: false, save: false }), 0);
+    assert.strictEqual(setBarPageOffset(bar.id, max + 50, { remount: false, save: false }), max);
+    assert.strictEqual(setBarPageOffset('missing_bar', 1, { remount: false, save: false }), null);
+});
+
+test('visibleRangeForBar window size matches cap; last page still fills', () => {
+    initActionBars({});
+    const bar = state.docks.bottom[0];
+    bar.pageOffset = 0;
+    let r = visibleRangeForBar(bar);
+    assert.strictEqual(r.start, 0);
+    assert.strictEqual(r.end, VISIBLE_CAP_HORIZONTAL);
+    assert.strictEqual(r.end - r.start, VISIBLE_CAP_HORIZONTAL);
+
+    bar.pageOffset = maxPageOffsetForBar(bar);
+    r = visibleRangeForBar(bar);
+    assert.strictEqual(r.end, SLOTS_PER_BAR);
+    assert.strictEqual(r.end - r.start, VISIBLE_CAP_HORIZONTAL);
+    assert.strictEqual(r.start, SLOTS_PER_BAR - VISIBLE_CAP_HORIZONTAL);
+});
+
+test('normalizeBar clamps pageOffset to max window', () => {
+    const bar = normalizeBar({
+        id: 'bottom_1',
+        orientation: 'horizontal',
+        pageOffset: 999,
+        slots: []
+    }, 'bottom', 1);
+    assert.strictEqual(bar.pageOffset, SLOTS_PER_BAR - VISIBLE_CAP_HORIZONTAL);
+});
+
+test('hotkeysMap still binds slots beyond visible window', () => {
+    initActionBars({});
+    const bar = state.docks.bottom[0];
+    bar.pageOffset = 0;
+    const far = bar.slots[20];
+    assignSlot(far.id, 'spell', { spellId: 'heal_light', hotkey: 'F8' });
+    assert.strictEqual(state.hotkeysMap.get('F8'), far.id);
+    assert.ok(findBarById(bar.id));
+    // Off-page execute still resolves via maps (no DOM required)
+    const slot = state.slotsById.get(far.id);
+    assert.strictEqual(slot.spellId, 'heal_light');
+    assert.strictEqual(slot.index, 20);
+});
+
+test('pageOffset round-trips in storage payload', () => {
+    initActionBars({});
+    setBarPageOffset(state.docks.bottom[0].id, 7, { remount: false, save: false });
+    const payload = buildStoragePayload();
+    assert.strictEqual(payload.profiles[state.activeProfileId].bottom[0].pageOffset, 7);
+    initActionBars({});
+    assert.strictEqual(state.docks.bottom[0].pageOffset, 0);
+    applyStoredPayload(payload);
+    assert.strictEqual(state.docks.bottom[0].pageOffset, 7);
+});
+
+// ── Stage G: lock bar + clear bar ──────────────────────────────────────────
+
+test('setBarLocked blocks assignSlot but keeps hotkey map', () => {
+    initActionBars({});
+    const bar = state.docks.bottom[0];
+    const slotId = bar.slots[0].id;
+    assert.strictEqual(setBarLocked(bar.id, true, { remount: false, save: false }), true);
+    assert.strictEqual(bar.locked, true);
+    assert.strictEqual(isSlotBarLocked(slotId), true);
+    assert.strictEqual(findBarForSlotId(slotId), bar);
+    assert.strictEqual(assignSlot(slotId, 'spell', { spellId: 'heal_light', hotkey: 'F9' }), false);
+    assert.strictEqual(state.slotsById.get(slotId).actionType, 'empty');
+    // Unlock then assign works
+    assert.strictEqual(toggleBarLocked(bar.id, { remount: false, save: false }), false);
+    assert.strictEqual(bar.locked, false);
+    assert.strictEqual(assignSlot(slotId, 'spell', { spellId: 'heal_light', hotkey: 'F9' }), true);
+    assert.strictEqual(state.slotsById.get(slotId).spellId, 'heal_light');
+    assert.strictEqual(state.hotkeysMap.get('F9'), slotId);
+});
+
+test('clearBar empties actions and keeps hotkeys by default', () => {
+    initActionBars({});
+    const bar = state.docks.top[0];
+    const a = bar.slots[0].id;
+    const b = bar.slots[1].id;
+    assignSlot(a, 'spell', { spellId: 'heal_light', hotkey: '1' });
+    assignSlot(b, 'text', { text: 'hi', hotkey: '2' });
+    const n = clearBar(bar.id, { remount: false, save: false });
+    assert.ok(n >= 2, 'cleared at least two slots');
+    assert.strictEqual(state.slotsById.get(a).actionType, 'empty');
+    assert.strictEqual(state.slotsById.get(a).spellId, null);
+    assert.strictEqual(state.slotsById.get(a).hotkey, '1', 'hotkey preserved');
+    assert.strictEqual(state.slotsById.get(b).text, null);
+    assert.strictEqual(state.slotsById.get(b).hotkey, '2');
+});
+
+test('clearBar is blocked when bar is locked', () => {
+    initActionBars({});
+    const bar = state.docks.left[0];
+    const slotId = bar.slots[0].id;
+    assignSlot(slotId, 'item', { itemId: 'rune_fireball', hotkey: '3' });
+    setBarLocked(bar.id, true, { remount: false, save: false });
+    assert.strictEqual(clearBar(bar.id, { remount: false, save: false }), -1);
+    assert.strictEqual(state.slotsById.get(slotId).actionType, 'item');
+});
+
+test('locked flag round-trips in storage payload', () => {
+    initActionBars({});
+    setBarLocked(state.docks.right[0].id, true, { remount: false, save: false });
+    const payload = buildStoragePayload();
+    assert.strictEqual(payload.profiles[state.activeProfileId].right[0].locked, true);
+    initActionBars({});
+    assert.strictEqual(state.docks.right[0].locked, false);
+    applyStoredPayload(payload);
+    assert.strictEqual(state.docks.right[0].locked, true);
+});
+
+test('slotAriaLabel describes empty and assigned slots', () => {
+    initActionBars({});
+    const empty = state.docks.bottom[0].slots[3];
+    empty.hotkey = 'F4';
+    const labelEmpty = slotAriaLabel(empty, null, null);
+    assert.ok(labelEmpty.indexOf('Slot 4') >= 0);
+    assert.ok(labelEmpty.indexOf('Empty') >= 0);
+    assert.ok(labelEmpty.indexOf('F4') >= 0);
+    assert.strictEqual(describeSlotAction({ actionType: 'multi', multiActions: [
+        { actionType: 'spell', spellId: 'a' },
+        { actionType: 'empty' },
+        { actionType: 'item', itemId: 'b' }
+    ] }, null, null).indexOf('Multi') >= 0, true);
 });
 
 console.log(`\nAll ${passed} Action Bars tests passed successfully!`);

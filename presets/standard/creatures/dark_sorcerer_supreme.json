@@ -107,10 +107,17 @@
             "chance": 15,
             "range": 7,
             "element": "earth",
-            "min": 28,
-            "max": 56,
+            "min": 0,
+            "max": 0,
             "target": false,
-            "shootEffect": "ani_poison"
+            "shootEffect": "ani_poison",
+            "statusOnly": true,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 56,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
         },
         {
             "id": "area_5",
@@ -132,11 +139,18 @@
             "chance": 18,
             "range": 4,
             "element": "energy",
-            "min": 420,
-            "max": 560,
+            "min": 0,
+            "max": 0,
             "radius": 6,
             "target": false,
-            "effect": "me_energyhit"
+            "effect": "me_energyhit",
+            "statusOnly": true,
+            "condition": {
+                "type": "energy",
+                "totalDamage": 560,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
         },
         {
             "id": "condition_7",
@@ -145,12 +159,19 @@
             "chance": 20,
             "range": 7,
             "element": "fire",
-            "min": 700,
-            "max": 840,
+            "min": 0,
+            "max": 0,
             "radius": 7,
             "target": true,
             "effect": "me_firearea",
-            "shootEffect": "ani_fire"
+            "shootEffect": "ani_fire",
+            "statusOnly": true,
+            "condition": {
+                "type": "fire",
+                "totalDamage": 840,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
         }
     ],
     "defenseSpells": [

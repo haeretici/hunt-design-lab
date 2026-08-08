@@ -68,12 +68,19 @@
             "chance": 40,
             "range": 7,
             "element": "physical",
-            "min": 161,
-            "max": 214,
+            "min": 0,
+            "max": 0,
             "radius": 3,
             "target": true,
             "effect": "me_hitarea",
-            "shootEffect": "ani_throwingknife"
+            "shootEffect": "ani_throwingknife",
+            "statusOnly": true,
+            "condition": {
+                "type": "bleed",
+                "totalDamage": 214,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
         },
         {
             "id": "area_3",

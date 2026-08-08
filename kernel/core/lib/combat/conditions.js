@@ -1,14 +1,17 @@
 /**
- * Lightweight combat conditions / buffs (poison DoT, fire DoT, slow, haste, invisible).
+ * Lightweight combat conditions / buffs (DoTs + HoT + slow/haste/invisible + stances).
  *
- * Ported from legacy OTBM condition + defense_spell fields. Intentionally small:
- * no full condition stack parity — just the 2–3 kinds that move combat feel.
+ * Ported from legacy condition + defense_spell fields. Intentionally small —
+ * not full stack parity. DoT kinds: poison, fire, ice, energy, bleed, curse, holy.
+ * HoT kind: regen (legacy CONDITION_REGENERATION — fixed HP every interval for duration).
+ * Stance kind: attributes (legacy CONDITION_ATTRIBUTES — skill%/damage%/defense).
  *
  * Entity shape:
  *   entity.conditions: ConditionInstance[]
  *   entity.baseSpeed: number (snapshot of unbuffed speed)
  *   entity.invisible: boolean (derived each tick / apply)
  *   entity.speed: effective move speed (recomputed from base + mods)
+ *   entity.cannotAttack: boolean (derived — Stage-1 swift foot pacify)
  */
 
 'use strict';
@@ -17,30 +20,46 @@ const { applyMitigation } = require('./damage.js');
 
 /**
  * @typedef {object} ConditionDef
- * @property {string} type  poison | fire | freezing | ice | slow | haste | invisible
+ * @property {string} type  poison | fire | ice | energy | bleed | curse | holy | freezing | slow | haste | invisible | regen | attributes
  * @property {number} [totalDamage]
  * @property {number} [intervalMs]
  * @property {number} [intervalSec]
  * @property {number} [durationSec]
  * @property {number} [durationMs]
  * @property {number} [speedChange]
+ * @property {number} [healthGain] HoT HP restored per tick
  * @property {object[]} [schedule]
  * @property {boolean} [forceOverride]
+ * @property {string} [subId] exclusive stance group (shared subId cancels peer)
+ * @property {object} [skillPercent] skill key → percent (100 = baseline)
+ * @property {number} [damageDealtPercent] outgoing damage mult (100 = baseline)
+ * @property {number} [damageReceivedPercent] incoming damage mult (100 = baseline)
+ * @property {boolean} [disableDefense] block shield / defense rolls
+ * @property {boolean} [cannotAttack] pacify — block attack/auto casts
+ * @property {object} [speedFormula] optional haste/slow formula (attributes stances)
  */
 
 /**
  * @typedef {object} ConditionInstance
  * @property {string} id
- * @property {string} kind  poison | fire | ice | slow | haste | invisible
+ * @property {string} kind  poison | fire | ice | energy | bleed | curse | holy | slow | haste | invisible | regen | attributes
  * @property {number} [remainingDamage]
  * @property {number} [tickIntervalSec]
  * @property {number} [tickTimer]
  * @property {number} [durationSec]
  * @property {number} [speedChange]
+ * @property {number} [healthGain] HoT HP per tick
  * @property {string} [element] damage element for DoT ticks
  * @property {string} [source] optional source label
+ * @property {string} [subId]
+ * @property {object} [skillPercent]
+ * @property {number} [damageDealtPercent]
+ * @property {number} [damageReceivedPercent]
+ * @property {boolean} [disableDefense]
+ * @property {boolean} [cannotAttack]
  */
 
+/** Canonical DoT kinds (engine-stored). Aliases resolve here at normalize time. */
 const DOT_KINDS = {
     poison: { kind: 'poison', element: 'earth' },
     condition_poison: { kind: 'poison', element: 'earth' },
@@ -49,8 +68,37 @@ const DOT_KINDS = {
     freezing: { kind: 'ice', element: 'ice' },
     condition_freezing: { kind: 'ice', element: 'ice' },
     ice: { kind: 'ice', element: 'ice' },
-    condition_ice: { kind: 'ice', element: 'ice' }
+    condition_ice: { kind: 'ice', element: 'ice' },
+    // Electrification (monster pure-condition + future player utori vis)
+    energy: { kind: 'energy', element: 'energy' },
+    condition_energy: { kind: 'energy', element: 'energy' },
+    electrification: { kind: 'energy', element: 'energy' },
+    electrify: { kind: 'energy', element: 'energy' },
+    // Bleeding
+    bleed: { kind: 'bleed', element: 'physical' },
+    bleeding: { kind: 'bleed', element: 'physical' },
+    condition_bleeding: { kind: 'bleed', element: 'physical' },
+    // Curse (death-element DoT)
+    curse: { kind: 'curse', element: 'death' },
+    cursed: { kind: 'curse', element: 'death' },
+    condition_cursed: { kind: 'curse', element: 'death' },
+    // Holy flash / dazzled (holy-element DoT)
+    holy: { kind: 'holy', element: 'holy' },
+    dazzled: { kind: 'holy', element: 'holy' },
+    dazzle: { kind: 'holy', element: 'holy' },
+    condition_dazzled: { kind: 'holy', element: 'holy' }
 };
+
+/** @type {ReadonlySet<string>} */
+const DOT_KIND_SET = new Set([
+    'poison',
+    'fire',
+    'ice',
+    'energy',
+    'bleed',
+    'curse',
+    'holy'
+]);
 
 /**
  * Normalize a legacy or engine condition payload into a ConditionDef.
@@ -74,6 +122,10 @@ function normalizeConditionDef(raw) {
         const sc = Number(raw.speedChange);
         if (!Number.isFinite(sc) || sc === 0) return null;
         type = sc < 0 ? 'slow' : 'haste';
+    }
+    // Paralyze is a heavy slow (legacy CONDITION_PARALYZE); store as slow.
+    if (type === 'paralyze' || type === 'paralysis' || type === 'paralysed') {
+        type = 'slow';
     }
 
     const durationSec =
@@ -110,9 +162,10 @@ function normalizeConditionDef(raw) {
     const speedChange =
         raw.speedChange != null ? Number(raw.speedChange) || 0 : 0;
 
-    if (DOT_KINDS[type] || type === 'poison' || type === 'fire' || type === 'ice') {
-        const meta = DOT_KINDS[type] || DOT_KINDS[type.replace(/^condition_/, '')];
-        const kind = meta ? meta.kind : type;
+    const dotMeta =
+        DOT_KINDS[type] || DOT_KINDS[type.replace(/^condition_/, '')] || null;
+    if (dotMeta || DOT_KIND_SET.has(type)) {
+        const kind = dotMeta ? dotMeta.kind : type;
         let schedule = null;
         if (Array.isArray(raw.schedule) && raw.schedule.length > 0) {
             schedule = raw.schedule.map((s) => Object.assign({}, s));
@@ -132,7 +185,18 @@ function normalizeConditionDef(raw) {
     }
 
     if (type === 'slow' || type === 'haste') {
-        if (!Number.isFinite(speedChange) || speedChange === 0) return null;
+        // speedChange may be resolved later via speedFormula in conditionDefFromSpell;
+        // allow 0 here only when formula will fill it (normalize alone needs nonzero).
+        if (!Number.isFinite(speedChange) || speedChange === 0) {
+            if (!raw.speedFormula) return null;
+            // Placeholder; conditionDefFromSpell overwrites before apply.
+            return {
+                type,
+                speedChange: type === 'slow' ? -1 : 1,
+                durationSec: durationSec > 0 ? durationSec : 5,
+                speedFormula: raw.speedFormula
+            };
+        }
         return {
             type,
             speedChange,
@@ -145,6 +209,127 @@ function normalizeConditionDef(raw) {
             type: 'invisible',
             durationSec: durationSec > 0 ? durationSec : 2
         };
+    }
+
+    // HoT / spell regeneration (legacy CONDITION_REGENERATION)
+    // Fixed healthGain every intervalSec for durationSec — no ML/level scale.
+    if (
+        type === 'regen' ||
+        type === 'regeneration' ||
+        type === 'hot' ||
+        type === 'recovery'
+    ) {
+        const healthGain = Math.max(
+            0,
+            Number(
+                raw.healthGain != null
+                    ? raw.healthGain
+                    : raw.heal != null
+                      ? raw.heal
+                      : raw.hp != null
+                        ? raw.hp
+                        : 0
+            ) || 0
+        );
+        if (!(healthGain > 0)) return null;
+        const hotInterval =
+            raw.intervalSec != null
+                ? Math.max(0.05, Number(raw.intervalSec) || 3)
+                : raw.intervalMs != null
+                  ? Math.max(0.05, (Number(raw.intervalMs) || 3000) / 1000)
+                  : raw.healthTicks != null
+                    ? Math.max(0.05, (Number(raw.healthTicks) || 3000) / 1000)
+                    : intervalSec > 0
+                      ? intervalSec
+                      : 3;
+        const hotDuration =
+            durationSec > 0
+                ? durationSec
+                : raw.ticks != null
+                  ? Math.max(0, (Number(raw.ticks) || 0) / 1000)
+                  : 60;
+        if (!(hotDuration > 0)) return null;
+        return {
+            type: 'regen',
+            healthGain,
+            intervalSec: hotInterval,
+            intervalMs: Math.round(hotInterval * 1000),
+            durationSec: hotDuration
+        };
+    }
+
+    // Stance / attribute buffs (legacy CONDITION_ATTRIBUTES)
+    if (
+        type === 'attributes' ||
+        type === 'attribute' ||
+        type === 'stance'
+    ) {
+        /** @type {object|null} */
+        let skillPercent = null;
+        const rawSkills =
+            raw.skillPercent || raw.skills || raw.skillPercents || null;
+        if (rawSkills && typeof rawSkills === 'object') {
+            skillPercent = {};
+            const keys = Object.keys(rawSkills);
+            for (let i = 0; i < keys.length; i++) {
+                const k = keys[i];
+                const v = Number(rawSkills[k]);
+                if (Number.isFinite(v) && v > 0) skillPercent[k] = v;
+            }
+            if (!Object.keys(skillPercent).length) skillPercent = null;
+        }
+        const damageDealtPercent =
+            raw.damageDealtPercent != null
+                ? Number(raw.damageDealtPercent)
+                : raw.buffDamageDealt != null
+                  ? Number(raw.buffDamageDealt)
+                  : null;
+        const damageReceivedPercent =
+            raw.damageReceivedPercent != null
+                ? Number(raw.damageReceivedPercent)
+                : raw.buffDamageReceived != null
+                  ? Number(raw.buffDamageReceived)
+                  : null;
+        const subId =
+            raw.subId != null && String(raw.subId).trim() !== ''
+                ? String(raw.subId).trim()
+                : raw.subid != null && String(raw.subid).trim() !== ''
+                  ? String(raw.subid).trim()
+                  : null;
+        const hasMods =
+            skillPercent ||
+            (damageDealtPercent != null &&
+                Number.isFinite(damageDealtPercent)) ||
+            (damageReceivedPercent != null &&
+                Number.isFinite(damageReceivedPercent)) ||
+            !!raw.disableDefense ||
+            !!raw.cannotAttack ||
+            (Number.isFinite(speedChange) && speedChange !== 0) ||
+            !!raw.speedFormula;
+        if (!hasMods) return null;
+        /** @type {ConditionDef} */
+        const def = {
+            type: 'attributes',
+            durationSec: durationSec > 0 ? durationSec : 10
+        };
+        if (subId) def.subId = subId;
+        if (skillPercent) def.skillPercent = skillPercent;
+        if (damageDealtPercent != null && Number.isFinite(damageDealtPercent)) {
+            def.damageDealtPercent = damageDealtPercent;
+        }
+        if (
+            damageReceivedPercent != null &&
+            Number.isFinite(damageReceivedPercent)
+        ) {
+            def.damageReceivedPercent = damageReceivedPercent;
+        }
+        if (raw.disableDefense) def.disableDefense = true;
+        if (raw.cannotAttack) def.cannotAttack = true;
+        if (Number.isFinite(speedChange) && speedChange !== 0) {
+            def.speedChange = speedChange;
+        }
+        if (raw.speedFormula) def.speedFormula = raw.speedFormula;
+        return def;
     }
 
     return null;
@@ -185,7 +370,8 @@ function ensureBaseSpeed(entity) {
 }
 
 /**
- * Recompute entity.speed and entity.invisible from active conditions.
+ * Recompute entity.speed, entity.invisible, entity.cannotAttack from conditions
+ * and equipment ability flags (e.g. stealth_ring → combatStats.flags.invisible).
  * @param {object} entity
  */
 function recomputeDerived(entity) {
@@ -194,22 +380,31 @@ function recomputeDerived(entity) {
     const list = ensureConditionList(entity);
     let speedMod = 0;
     let invisible = false;
+    let cannotAttack = false;
     for (let i = 0; i < list.length; i++) {
         const c = list[i];
         if (!c) continue;
-        if (c.kind === 'slow' || c.kind === 'haste') {
+        if (c.kind === 'slow' || c.kind === 'haste' || c.kind === 'attributes') {
             speedMod += Number(c.speedChange) || 0;
         }
         if (c.kind === 'invisible') invisible = true;
+        if (c.kind === 'attributes' && c.cannotAttack) cannotAttack = true;
     }
+    // Gear abilities while equipped (legacy CONDITION_INVISIBLE from item abilities).
+    // Duration of the invis is the item's durationSec budget, not a condition timer.
+    const gearFlags = entity.combatStats && entity.combatStats.flags;
+    if (gearFlags && gearFlags.invisible) invisible = true;
     entity.speed = Math.max(0, Number(entity.baseSpeed) + speedMod);
     entity.invisible = invisible;
+    entity.cannotAttack = cannotAttack;
 }
 
 /**
  * Apply (or refresh) a condition on an entity.
  * DoTs stack by replacing same kind if new remaining ≥ old (keep stronger).
  * Buffs (haste/slow/invis) refresh duration / overwrite same kind.
+ * HoT (regen): always overwrite same kind — duration + healthGain + interval
+ * reset to the new spell (legacy recast of CONDITION_REGENERATION).
  *
  * @param {object} entity
  * @param {ConditionDef|object} def
@@ -220,15 +415,31 @@ function applyCondition(entity, def, opts) {
     if (!entity || !entity.alive) return null;
     const norm = normalizeConditionDef(def);
     if (!norm) return null;
+    // Respect immunities.paralyze (and other kind keys) before applying.
+    if (isImmuneToCondition(entity, norm.type)) return null;
+    if (
+        (norm.type === 'slow' || norm.type === 'haste') &&
+        isImmuneToCondition(entity, 'paralyze') &&
+        norm.type === 'slow'
+    ) {
+        return null;
+    }
     const list = ensureConditionList(entity);
     const o = opts || {};
 
     /** @type {ConditionInstance} */
     let inst;
-    if (norm.type === 'poison' || norm.type === 'fire' || norm.type === 'ice') {
+    if (DOT_KIND_SET.has(norm.type)) {
         const meta = resolveDotMeta(norm.type) || {
             kind: norm.type,
-            element: norm.type === 'poison' ? 'earth' : norm.type
+            element:
+                norm.type === 'poison'
+                    ? 'earth'
+                    : norm.type === 'bleed'
+                      ? 'physical'
+                      : norm.type === 'curse'
+                        ? 'death'
+                        : norm.type
         };
         inst = {
             id: meta.kind,
@@ -262,6 +473,23 @@ function applyCondition(entity, def, opts) {
         } else {
             list.push(inst);
         }
+    } else if (norm.type === 'regen') {
+        // Always replace — weaker or stronger, duration fully reset (legacy recast).
+        inst = {
+            id: 'regen',
+            kind: 'regen',
+            healthGain: Math.max(0, Number(norm.healthGain) || 0),
+            tickIntervalSec: norm.intervalSec > 0 ? Number(norm.intervalSec) : 3,
+            tickTimer: 0, // first heal after one full interval
+            durationSec: norm.durationSec > 0 ? Number(norm.durationSec) : 60,
+            source: o.source || null
+        };
+        if (!(inst.healthGain > 0) || !(inst.durationSec > 0)) return null;
+        const idx = list.findIndex((c) => c && c.kind === 'regen');
+        if (idx >= 0) list[idx] = inst;
+        else list.push(inst);
+        recomputeDerived(entity);
+        return inst;
     } else if (norm.type === 'slow' || norm.type === 'haste') {
         inst = {
             id: norm.type,
@@ -285,6 +513,53 @@ function applyCondition(entity, def, opts) {
         const idx = list.findIndex((c) => c && c.kind === 'invisible');
         if (idx >= 0) list[idx] = inst;
         else list.push(inst);
+        recomputeDerived(entity);
+        return inst;
+    } else if (norm.type === 'attributes') {
+        // Exclusive subId: remove any attributes sharing the same group first
+        // (blood_rage ↔ protector; refresh same stance also replaces).
+        const subId = norm.subId || null;
+        if (subId) {
+            for (let i = list.length - 1; i >= 0; i--) {
+                const c = list[i];
+                if (c && c.kind === 'attributes' && c.subId === subId) {
+                    list.splice(i, 1);
+                }
+            }
+        }
+        inst = {
+            id: o.source || 'attributes',
+            kind: 'attributes',
+            durationSec: norm.durationSec > 0 ? norm.durationSec : 10,
+            source: o.source || null
+        };
+        if (subId) inst.subId = subId;
+        if (norm.skillPercent) {
+            inst.skillPercent = Object.assign({}, norm.skillPercent);
+        }
+        if (norm.damageDealtPercent != null) {
+            inst.damageDealtPercent = Number(norm.damageDealtPercent);
+        }
+        if (norm.damageReceivedPercent != null) {
+            inst.damageReceivedPercent = Number(norm.damageReceivedPercent);
+        }
+        if (norm.disableDefense) inst.disableDefense = true;
+        if (norm.cannotAttack) inst.cannotAttack = true;
+        if (norm.speedChange != null && Number.isFinite(Number(norm.speedChange))) {
+            inst.speedChange = Number(norm.speedChange);
+        }
+        // No same-kind singleton — subId exclusivity handles pairs; different
+        // subIds (or no subId) may coexist (rare). Replace by source id if present.
+        const src = o.source || null;
+        if (src) {
+            const idx = list.findIndex(
+                (c) => c && c.kind === 'attributes' && c.source === src
+            );
+            if (idx >= 0) list[idx] = inst;
+            else list.push(inst);
+        } else {
+            list.push(inst);
+        }
         recomputeDerived(entity);
         return inst;
     } else {
@@ -319,6 +594,55 @@ function tickConditions(entity, dtSec, hooks) {
         const c = list[i];
         if (!c) {
             list.splice(i, 1);
+            continue;
+        }
+
+        // HoT / regeneration (legacy ConditionRegeneration — heal then expire by duration)
+        if (c.kind === 'regen') {
+            const interval = c.tickIntervalSec > 0 ? c.tickIntervalSec : 3;
+            const gain = Math.max(0, Math.floor(Number(c.healthGain) || 0));
+            c.tickTimer = (c.tickTimer || 0) + dt;
+            while (c.tickTimer >= interval && gain > 0 && entity.alive) {
+                c.tickTimer -= interval;
+                let healed = gain;
+                if (applyHp) {
+                    // hooks may be damage-oriented; prefer healing element path via applyHpDelta
+                    if (entity.applyHpDelta) {
+                        healed = Math.abs(
+                            Number(entity.applyHpDelta(gain, 'healing')) || 0
+                        );
+                    } else if (entity.hp) {
+                        const before = entity.hp.current || 0;
+                        const max =
+                            entity.hp.max != null ? entity.hp.max : before + gain;
+                        entity.hp.current = Math.min(max, before + gain);
+                        healed = entity.hp.current - before;
+                    }
+                } else if (entity.applyHpDelta) {
+                    healed = Math.abs(
+                        Number(entity.applyHpDelta(gain, 'healing')) || 0
+                    );
+                } else if (entity.hp) {
+                    const before = entity.hp.current || 0;
+                    const max =
+                        entity.hp.max != null ? entity.hp.max : before + gain;
+                    entity.hp.current = Math.min(max, before + gain);
+                    healed = entity.hp.current - before;
+                }
+                result.ticks.push({
+                    kind: 'regen',
+                    heal: healed,
+                    healthGain: gain,
+                    remainingDuration: c.durationSec
+                });
+            }
+            if (c.durationSec != null) {
+                c.durationSec -= dt;
+                if (c.durationSec <= 0) {
+                    result.expired.push('regen');
+                    list.splice(i, 1);
+                }
+            }
             continue;
         }
 
@@ -416,6 +740,8 @@ function tickConditions(entity, dtSec, hooks) {
 function isInvisible(entity) {
     if (!entity) return false;
     if (entity.invisible) return true;
+    const gearFlags = entity.combatStats && entity.combatStats.flags;
+    if (gearFlags && gearFlags.invisible) return true;
     const list = entity.conditions;
     if (!Array.isArray(list)) return false;
     for (let i = 0; i < list.length; i++) {
@@ -447,14 +773,341 @@ function hasHaste(entity) {
     return list.some((c) => c && c.kind === 'haste');
 }
 
+/**
+ * Legacy ConditionSpeed formula → additive speedChange (delta on baseSpeed).
+ *
+ * Server (`ConditionSpeed::startCondition`):
+ *   target = mina * (baseSpeed - 40) + minb   // (maxa/maxb same band when equal)
+ *   speedDelta = target - baseSpeed
+ * so effective speed becomes `target`, not `base + target`.
+ *
+ * When min≠max (rare for player haste — formulas are symmetric), mid-point is used
+ * for determinism (legacy rolls uniform_random(min,max)).
+ *
+ * @param {number} baseSpeed
+ * @param {{ mina?: number, minb?: number, maxa?: number, maxb?: number }|null|undefined} formula
+ * @returns {number} delta to add to baseSpeed (may be negative for paralyze-like formulas)
+ */
+function hasteSpeedChangeFromFormula(baseSpeed, formula) {
+    if (!formula || typeof formula !== 'object') return 0;
+    const mina = Number(formula.mina);
+    const minb = Number(formula.minb);
+    if (!Number.isFinite(mina) || !Number.isFinite(minb)) return 0;
+    const maxa =
+        formula.maxa != null && Number.isFinite(Number(formula.maxa))
+            ? Number(formula.maxa)
+            : mina;
+    const maxb =
+        formula.maxb != null && Number.isFinite(Number(formula.maxb))
+            ? Number(formula.maxb)
+            : minb;
+    const base = Number(baseSpeed);
+    const b = Number.isFinite(base) ? base : 100;
+    const difference = b - 40;
+    const targetMin = mina * difference + minb;
+    const targetMax = maxa * difference + maxb;
+    // Integer target speed (legacy int32 from float mul); mid when band exists
+    const target = Math.floor((targetMin + targetMax) / 2);
+    return target - b;
+}
+
+/**
+ * Build a ConditionDef from a spell.condition payload (may include speedFormula).
+ * Mutates nothing on the entity; returns a normalized def ready for applyCondition.
+ *
+ * @param {object|null|undefined} raw spell.condition bag
+ * @param {object|null|undefined} entity target (for baseSpeed / formula)
+ * @returns {ConditionDef|null}
+ */
+function conditionDefFromSpell(raw, entity) {
+    if (!raw || typeof raw !== 'object') return null;
+    /** @type {object} */
+    const bag = Object.assign({}, raw);
+    // Paralyze → slow before formula / normalize.
+    const rawType = String(bag.type || bag.kind || '')
+        .toLowerCase()
+        .replace(/^condition_/, '');
+    if (
+        rawType === 'paralyze' ||
+        rawType === 'paralysis' ||
+        rawType === 'paralysed'
+    ) {
+        bag.type = 'slow';
+    }
+    const needsSpeedFormula =
+        (bag.type === 'haste' ||
+            bag.type === 'slow' ||
+            bag.kind === 'haste' ||
+            bag.kind === 'slow' ||
+            bag.type === 'attributes' ||
+            bag.kind === 'attributes' ||
+            bag.type === 'stance' ||
+            bag.kind === 'stance') &&
+        (bag.speedChange == null || !Number.isFinite(Number(bag.speedChange))) &&
+        bag.speedFormula;
+    if (needsSpeedFormula) {
+        ensureBaseSpeed(entity);
+        const base =
+            entity && entity.baseSpeed != null
+                ? Number(entity.baseSpeed)
+                : entity && entity.speed != null
+                  ? Number(entity.speed)
+                  : 100;
+        bag.speedChange = hasteSpeedChangeFromFormula(base, bag.speedFormula);
+    }
+    return normalizeConditionDef(bag);
+}
+
+/**
+ * Aggregate active attribute-stance mods on an entity.
+ * Skill percents multiply (135 → ×1.35). Damage percents multiply.
+ * disableDefense / cannotAttack are OR across instances.
+ *
+ * @param {object|null|undefined} entity
+ * @returns {{
+ *   skillMult: Record<string, number>,
+ *   damageDealtMult: number,
+ *   damageReceivedMult: number,
+ *   disableDefense: boolean,
+ *   cannotAttack: boolean
+ * }}
+ */
+function getAttributeMods(entity) {
+    /** @type {Record<string, number>} */
+    const skillMult = Object.create(null);
+    let damageDealtMult = 1;
+    let damageReceivedMult = 1;
+    let disableDefense = false;
+    let cannotAttack = false;
+    const list = entity && Array.isArray(entity.conditions) ? entity.conditions : [];
+    for (let i = 0; i < list.length; i++) {
+        const c = list[i];
+        if (!c || c.kind !== 'attributes') continue;
+        if (c.skillPercent && typeof c.skillPercent === 'object') {
+            const keys = Object.keys(c.skillPercent);
+            for (let k = 0; k < keys.length; k++) {
+                const key = keys[k];
+                const pct = Number(c.skillPercent[key]);
+                if (!Number.isFinite(pct) || pct <= 0) continue;
+                const m = pct / 100;
+                skillMult[key] = (skillMult[key] != null ? skillMult[key] : 1) * m;
+            }
+        }
+        if (c.damageDealtPercent != null && Number.isFinite(Number(c.damageDealtPercent))) {
+            damageDealtMult *= Number(c.damageDealtPercent) / 100;
+        }
+        if (
+            c.damageReceivedPercent != null &&
+            Number.isFinite(Number(c.damageReceivedPercent))
+        ) {
+            damageReceivedMult *= Number(c.damageReceivedPercent) / 100;
+        }
+        if (c.disableDefense) disableDefense = true;
+        if (c.cannotAttack) cannotAttack = true;
+    }
+    return {
+        skillMult,
+        damageDealtMult,
+        damageReceivedMult,
+        disableDefense,
+        cannotAttack
+    };
+}
+
+/**
+ * Whether entity is pacified / Stage-1 swift-foot (cannot cast attack autos).
+ * @param {object|null|undefined} entity
+ * @returns {boolean}
+ */
+function isCannotAttack(entity) {
+    if (!entity) return false;
+    if (entity.cannotAttack === true) return true;
+    return getAttributeMods(entity).cannotAttack;
+}
+
+/**
+ * Whether observer can see invisible creatures (legacy: monster immunity to CONDITION_INVISIBLE).
+ * Players default false (no sense-invis gear model yet).
+ *
+ * @param {object|null|undefined} observer
+ * @returns {boolean}
+ */
+function canSeeInvisibility(observer) {
+    if (!observer) return false;
+    if (observer.canSeeInvisibility === true) return true;
+    const imm = observer.immunities;
+    if (imm && (imm.invisible === true || imm.CONDITION_INVISIBLE === true)) {
+        return true;
+    }
+    // Some ports stash immunities under flags
+    const flags = observer.flags;
+    if (flags && flags.seeInvisible === true) return true;
+    return false;
+}
+
+/**
+ * Whether entity is immune to a condition kind (template immunities bag).
+ * Supports engine keys (`paralyze`, `slow`, `invisible`) and legacy
+ * `CONDITION_*` aliases.
+ *
+ * @param {object|null|undefined} entity
+ * @param {string} kind e.g. 'paralyze' | 'slow' | 'poison'
+ * @returns {boolean}
+ */
+function isImmuneToCondition(entity, kind) {
+    if (!entity || !kind) return false;
+    const k = String(kind)
+        .toLowerCase()
+        .replace(/^condition_/, '');
+    const bags = [];
+    if (entity.immunities && typeof entity.immunities === 'object') {
+        bags.push(entity.immunities);
+    }
+    if (
+        entity.template &&
+        entity.template.immunities &&
+        typeof entity.template.immunities === 'object'
+    ) {
+        bags.push(entity.template.immunities);
+    }
+    if (entity.flags && typeof entity.flags === 'object') {
+        bags.push(entity.flags);
+    }
+    for (let i = 0; i < bags.length; i++) {
+        const imm = bags[i];
+        if (imm[k] === true) return true;
+        if (imm['CONDITION_' + k.toUpperCase()] === true) return true;
+        // Paralyze is a heavy slow; immunities.paralyze covers both.
+        if (
+            (k === 'slow' || k === 'paralyze') &&
+            (imm.paralyze === true || imm.CONDITION_PARALYZE === true)
+        ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
+ * Whether observer can currently perceive target (invis check only — not range/floor).
+ * @param {object|null|undefined} observer
+ * @param {object|null|undefined} target
+ * @returns {boolean}
+ */
+function canSeeCreature(observer, target) {
+    if (!target) return false;
+    if (observer && observer === target) return true;
+    if (!isInvisible(target)) return true;
+    return canSeeInvisibility(observer);
+}
+
+/**
+ * Normalize a kind key for lookup (aliases → engine kind).
+ * @param {string} kind
+ * @returns {string}
+ */
+function normalizeKindKey(kind) {
+    let k = String(kind || '')
+        .toLowerCase()
+        .replace(/^condition_/, '');
+    if (k === 'freezing') k = 'ice';
+    if (k === 'bleeding') k = 'bleed';
+    if (k === 'cursed') k = 'curse';
+    if (k === 'electrification' || k === 'electrify') k = 'energy';
+    if (k === 'dazzled' || k === 'dazzle') k = 'holy';
+    if (k === 'invisibility') k = 'invisible';
+    if (k === 'regeneration' || k === 'hot' || k === 'recovery') k = 'regen';
+    const meta = DOT_KINDS[k];
+    if (meta) return meta.kind;
+    return k;
+}
+
+/**
+ * Whether entity currently has a condition of the given kind.
+ * @param {object|null|undefined} entity
+ * @param {string} kind
+ * @returns {boolean}
+ */
+function hasCondition(entity, kind) {
+    if (!entity || kind == null || kind === '') return false;
+    const want = normalizeKindKey(kind);
+    if (!want) return false;
+    const list = entity.conditions;
+    if (!Array.isArray(list) || !list.length) return false;
+    for (let i = 0; i < list.length; i++) {
+        const c = list[i];
+        if (!c) continue;
+        const ck = normalizeKindKey(c.kind || c.type || c.id || '');
+        if (ck === want) return true;
+    }
+    return false;
+}
+
+/**
+ * Remove one condition kind from the entity (all instances of that kind).
+ * @param {object|null|undefined} entity
+ * @param {string} kind  engine kind or alias (poison, fire, energy, bleed, curse, …)
+ * @returns {number} number of instances removed
+ */
+function removeCondition(entity, kind) {
+    if (!entity || kind == null || kind === '') return 0;
+    const list = ensureConditionList(entity);
+    if (!list.length) return 0;
+    const want = normalizeKindKey(kind);
+    if (!want) return 0;
+    let removed = 0;
+    for (let i = list.length - 1; i >= 0; i--) {
+        const c = list[i];
+        if (!c) {
+            list.splice(i, 1);
+            continue;
+        }
+        const ck = normalizeKindKey(c.kind || c.type || c.id || '');
+        if (ck === want) {
+            list.splice(i, 1);
+            removed += 1;
+        }
+    }
+    if (removed) recomputeDerived(entity);
+    return removed;
+}
+
+/**
+ * Remove any of the listed kinds. Returns total instances removed.
+ * @param {object|null|undefined} entity
+ * @param {string|string[]} kinds
+ * @returns {number}
+ */
+function removeConditions(entity, kinds) {
+    if (!entity) return 0;
+    const arr = Array.isArray(kinds) ? kinds : kinds != null ? [kinds] : [];
+    let total = 0;
+    for (let i = 0; i < arr.length; i++) {
+        total += removeCondition(entity, arr[i]);
+    }
+    return total;
+}
+
 module.exports = {
     normalizeConditionDef,
     applyCondition,
     tickConditions,
+    removeCondition,
+    removeConditions,
+    hasCondition,
     isInvisible,
     getEffectiveSpeed,
     hasHaste,
+    hasteSpeedChangeFromFormula,
+    conditionDefFromSpell,
+    canSeeInvisibility,
+    canSeeCreature,
+    isImmuneToCondition,
     recomputeDerived,
     ensureBaseSpeed,
-    DOT_KINDS
+    normalizeKindKey,
+    getAttributeMods,
+    isCannotAttack,
+    DOT_KINDS,
+    DOT_KIND_SET
 };

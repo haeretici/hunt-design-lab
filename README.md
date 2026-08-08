@@ -15,7 +15,7 @@
 
 Shared game logic lives under `kernel/` (Node and browser). CLI tools live under `bin/`. A PHP shell hosts the web apps. Sprite green-screen / quantize steps use Python (`bin/process_sprites.py`).
 
-> **Status:** early public-ready snapshot (`0.5.0`). APIs, presets, and art pipelines may still change.
+> **Status:** early public-ready snapshot (`0.7.0`). APIs, presets, and art pipelines may still change.
 
 ## Features
 

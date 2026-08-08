@@ -26,13 +26,10 @@ const {
     snapVisualToTile,
     updateSpriteFacing
 } = require('../lib/movement.js');
-const { isTickDue, forceDue } = require('../lib/logic_regulator.js');
-const { takePathBudget } = require('../lib/path_budget.js');
+const { isTickDue, forceDue, isLogicIntervalDue } = require('../lib/logic_regulator.js');
+const { takePathBudget, noteFailBackoff } = require('../lib/path_budget.js');
 const { Time } = require('../lib/time.js');
 const { onEntityTileTransition, computeEntityAvoidFieldMask } = require('../lib/combat/elemental_fields.js');
-
-/** Seconds a follower stays put after the leader swaps/yields past them. */
-const ALLY_PASS_HOLD_SEC = 0.75;
 
 /**
  * Whether an entity may path with fieldPenalty (cross avoided hazards).
@@ -56,6 +53,9 @@ function canCrossFieldHazards(entity, now) {
     if (!entity) return false;
     if (entity.provokedUntil && entity.provokedUntil >= now) return true;
     if (entity.ignoreFieldProvocation === true) return true;
+    // Manual control: player may deliberately path onto creature/scenario hazards
+    // (soft fieldPenalty). AI party members stay hard-avoid until provoked.
+    if (entity.controlMode === 'manual') return true;
     if (
         entity.brain &&
         (entity.brain.state === 'leash' || entity.brain.state === 'return_home')
@@ -309,7 +309,8 @@ function frictionFromPixel(r, g, b) {
  * @property {number} cols
  * @property {number} rows
  * @property {Uint8Array} friction  length cols*rows; 255 = blocked
- * @property {Int16Array} occupancy length cols*rows; 0 = empty, else entity id
+ * @property {Int32Array} occupancy length cols*rows; 0 = empty, else first combatant id
+ * @property {Uint8Array} [fields] elemental field bitmasks
  */
 
 /**
@@ -348,6 +349,19 @@ class TileMap extends GameObject {
          * @type {Record<string, { x: number, y: number, z: string|number, dir?: string|null, link?: string|null }>}
          */
         this.stairs = Object.create(null);
+        /**
+         * Sparse multi-combatant stacks: key `${z}:${x}:${y}` → ordered entity
+         * ids (length ≥ 2). occupancy grid holds only the first id. Normal:
+         * players only. Mixed stair exception: players + at most one creature.
+         * @type {Map<string, number[]>}
+         */
+        this.playerStacks = new Map();
+        /**
+         * Tiles that deny a second player joining a stack (`noPlayerStack`).
+         * Default allow everywhere. Key `${z}:${x}:${y}`.
+         * @type {Set<string>}
+         */
+        this.noPlayerStackTiles = new Set();
         /**
          * Browser watch: static floor offscreen cache (see render()).
          * @type {null|{
@@ -422,6 +436,18 @@ class TileMap extends GameObject {
             link: meta && meta.link != null ? String(meta.link) : null
         };
         this.stairs[stairKey(a.x, a.y, a.z)] = row;
+        return this;
+    }
+
+    /**
+     * Remove a directed stair pad at (x,y,z) if present.
+     * @param {number} x
+     * @param {number} y
+     * @param {string|number} z
+     * @returns {this}
+     */
+    removeStair(x, y, z) {
+        delete this.stairs[stairKey(x, y, z)];
         return this;
     }
 
@@ -522,9 +548,8 @@ class TileMap extends GameObject {
     /**
      * Hop entity across floors when standing on a first-class stair pad.
      * When `preferredDest.z` is set, only hop if the pad leads to that floor.
-     * When preferred also has x/y equal to the pad destination, still hops
-     * (pad-to-pad waypoints). Different x/y on the target floor is OK — the
-     * entity lands on the pad and continues pathing.
+     * Lands on the **exact** pad destination (player–player stack or
+     * player→creature mixed exception). No spiral free-tile fallback.
      *
      * @param {{ id?: number, tile?: { x: number, y: number, z: string|number } }} entity
      * @param {{ x?: number, y?: number, z?: string|number }|null} [preferredDest]
@@ -539,7 +564,44 @@ class TileMap extends GameObject {
             if (String(preferredDest.z) !== String(dest.z)) return false;
         }
 
-        return this.moveEntityToTile(entity, dest.x, dest.y, dest.z);
+        return this.moveEntityToTile(entity, dest.x, dest.y, dest.z, {
+            reason: 'stair'
+        });
+    }
+
+    /**
+     * Nearest free walkable tile around (x,y,z) that `entity` can enter.
+     * Spiral by Chebyshev ring (r=0 exact first). Generic helper — **not**
+     * used by stairs (exact dest only).
+     *
+     * @param {number} x
+     * @param {number} y
+     * @param {string|number} z
+     * @param {{ id?: number }|number|null|undefined} entity
+     * @param {{ maxRadius?: number }} [opts]
+     * @returns {{ x: number, y: number }|null}
+     */
+    findNearestFreeTile(x, y, z, entity, opts) {
+        const ox = Math.round(Number(x) || 0);
+        const oy = Math.round(Number(y) || 0);
+        const maxR =
+            opts && opts.maxRadius != null
+                ? Math.max(0, Math.floor(Number(opts.maxRadius) || 0))
+                : 6;
+        for (let r = 0; r <= maxR; r++) {
+            for (let dy = -r; dy <= r; dy++) {
+                for (let dx = -r; dx <= r; dx++) {
+                    if (r !== 0 && Math.max(Math.abs(dx), Math.abs(dy)) !== r) {
+                        continue;
+                    }
+                    const cx = ox + dx;
+                    const cy = oy + dy;
+                    if (!this.canEnter(cx, cy, z, entity)) continue;
+                    return { x: cx, y: cy };
+                }
+            }
+        }
+        return null;
     }
 
     /**
@@ -645,7 +707,31 @@ class TileMap extends GameObject {
     }
 
     /**
+     * Sparse stack / noPlayerStack key for a tile.
+     * @param {number} x
+     * @param {number} y
+     * @param {string|number} z
+     * @returns {string}
+     */
+    tileStackKey(x, y, z) {
+        return String(z) + ':' + Math.round(x) + ':' + Math.round(y);
+    }
+
+    /**
+     * First combatant entity id at tile, or 0 if empty / OOB / missing layer.
+     * Same as historical `getOccupant` (grid cell value).
+     * @param {number} x
+     * @param {number} y
+     * @param {string|number} z
+     * @returns {number}
+     */
+    getFirstOccupant(x, y, z) {
+        return this.getOccupant(x, y, z);
+    }
+
+    /**
      * Occupant entity id at tile, or 0 if empty / OOB / missing layer.
+     * With stacks, this is the **first** combatant (join order).
      * @param {number} x
      * @param {number} y
      * @param {string|number} z
@@ -659,55 +745,232 @@ class TileMap extends GameObject {
         if (ix < 0 || iy < 0 || ix >= layer.cols || iy >= layer.rows) {
             return 0;
         }
-        return layer.occupancy[this.index(ix, iy, layer.cols)];
+        return layer.occupancy[this.index(ix, iy, layer.cols)] | 0;
     }
 
     /**
-     * Whether entity may enter the tile (walkable + free, or already self).
-     * v1: one combatant per tile.
+     * Ordered combatant entity ids on the tile (join order). Empty → [].
+     * Single occupant → [id]. Stack / mixed → full list (length ≥ 2).
      * @param {number} x
      * @param {number} y
      * @param {string|number} z
-     * @param {{ id?: number }|number|null} [entity]
+     * @returns {number[]}
+     */
+    getCombatants(x, y, z) {
+        const first = this.getOccupant(x, y, z);
+        if (first === 0) return [];
+        const stack = this.playerStacks.get(this.tileStackKey(x, y, z));
+        if (stack && stack.length >= 2) return stack.slice();
+        return [first];
+    }
+
+    /**
+     * A* intermediate occupancy under stack / push policy (4C).
+     * - free: empty or self
+     * - soft: enterable creature tile for canPushCreatures mover (soft step cost)
+     * - hard: blocked for this mover
+     * Players may path through player-only tiles (free). Creatures hard-block
+     * player/mixed tiles; pushable-only tiles are soft when mover may push.
+     *
+     * @param {number} x
+     * @param {number} y
+     * @param {string|number} z
+     * @param {{ id?: number, type?: string }|number|null} [mover]
+     * @returns {'free'|'soft'|'hard'}
+     */
+    pathStepOccupancy(x, y, z, mover) {
+        const first = this.getOccupant(x, y, z);
+        if (first === 0) return 'free';
+        const id = entityIdOf(mover);
+        if (id !== 0 && first === id) return 'free';
+        const combatants = this.getCombatants(x, y, z);
+        if (id !== 0 && combatants.indexOf(id) >= 0) return 'free';
+
+        const moverEnt = resolveMoverEntity(this, mover, id);
+        if (!moverEnt) return 'hard';
+
+        const occupants = resolveCombatantEntities(this, combatants);
+        if (!occupants.length || occupants.length < combatants.length) {
+            return 'hard';
+        }
+
+        if (isPlayerEntity(moverEnt)) {
+            for (let i = 0; i < occupants.length; i++) {
+                if (!isPlayerEntity(occupants[i])) return 'hard';
+            }
+            return 'free';
+        }
+
+        // Creature / summon mover
+        if (occupantsHavePlayer(occupants)) return 'hard';
+        if (!entityCanPushCreatures(moverEnt)) return 'hard';
+        for (let i = 0; i < occupants.length; i++) {
+            if (!isPushableEntity(occupants[i])) return 'hard';
+        }
+        return 'soft';
+    }
+
+    /**
+     * Resolve combatants via `resolveEntity` (Simulator sets resolveEntity).
+     * @param {number} x
+     * @param {number} y
+     * @param {string|number} z
+     * @returns {object[]}
+     */
+    getCombatantEntities(x, y, z) {
+        const ids = this.getCombatants(x, y, z);
+        const out = [];
+        for (let i = 0; i < ids.length; i++) {
+            const ent = this.resolveOccupant(ids[i]);
+            if (ent) out.push(ent);
+        }
+        return out;
+    }
+
+    /**
+     * Mark or clear a tile as noPlayerStack (second player denied).
+     * @param {number} x
+     * @param {number} y
+     * @param {string|number} z
+     * @param {boolean} [value=true]
+     */
+    setNoPlayerStack(x, y, z, value) {
+        const key = this.tileStackKey(x, y, z);
+        if (value === false) this.noPlayerStackTiles.delete(key);
+        else this.noPlayerStackTiles.add(key);
+    }
+
+    /**
+     * @param {number} x
+     * @param {number} y
+     * @param {string|number} z
      * @returns {boolean}
      */
-    canEnter(x, y, z, entity) {
+    isNoPlayerStack(x, y, z) {
+        return this.noPlayerStackTiles.has(this.tileStackKey(x, y, z));
+    }
+
+    /**
+     * Whether entity may enter the tile under stack / push policy.
+     * @param {number} x
+     * @param {number} y
+     * @param {string|number} z
+     * @param {{ id?: number, type?: string }|number|null} [entity]
+     * @param {{ reason?: string }} [opts] `reason: 'stair'` enables mixed player→creature
+     * @returns {boolean}
+     */
+    canEnter(x, y, z, entity, opts) {
         if (!this.isWalkable(x, y, z)) return false;
-        const occ = this.getOccupant(x, y, z);
-        if (occ === 0) return true;
-        const id = entityIdOf(entity);
-        return id !== 0 && occ === id;
-    }
+        const firstId = this.getOccupant(x, y, z);
+        if (firstId === 0) return true;
 
-    /**
-     * Claim a walkable empty tile (or re-claim self). Returns false on failure.
-     * @param {number} x
-     * @param {number} y
-     * @param {string|number} z
-     * @param {{ id?: number }|number} entity
-     * @returns {boolean}
-     */
-    tryOccupy(x, y, z, entity) {
         const id = entityIdOf(entity);
-        if (id === 0) return false;
-        if (!this.canEnter(x, y, z, id)) return false;
-        const layer = this.getLayer(z);
-        if (!layer) return false;
-        const ix = Math.round(x);
-        const iy = Math.round(y);
-        layer.occupancy[this.index(ix, iy, layer.cols)] = id;
+        if (id !== 0 && firstId === id) return true;
+
+        const combatants = this.getCombatants(x, y, z);
+        if (id !== 0 && combatants.indexOf(id) >= 0) return true;
+
+        const mover = resolveMoverEntity(this, entity, id);
+        // Bare id / null without resolve: only empty or self (legacy exclusive)
+        if (!mover) return false;
+
+        const occupants = resolveCombatantEntities(this, combatants);
+        const reason = opts && opts.reason != null ? String(opts.reason) : '';
+        const isStair =
+            reason === 'stair' ||
+            reason === 'floor-change' ||
+            reason === 'floor_change';
+
+        if (isPlayerEntity(mover)) {
+            return canPlayerEnterTile(this, x, y, z, occupants, isStair);
+        }
+
+        // Creature mover: never enter player / mixed; may push pushable creatures
+        if (occupantsHavePlayer(occupants)) return false;
+        if (!occupants.length) {
+            // Occupied in grid but unresolved — hard block for creatures
+            return false;
+        }
+        if (!entityCanPushCreatures(mover)) return false;
+        for (let i = 0; i < occupants.length; i++) {
+            if (!isPushableEntity(occupants[i])) return false;
+        }
         return true;
     }
 
     /**
-     * Free tile if occupied by this entity id.
+     * Claim / join tile occupancy (sole writer with leaveTile).
+     * Creature→creature: push or crush targets first, then claim.
      * @param {number} x
      * @param {number} y
      * @param {string|number} z
      * @param {{ id?: number }|number} entity
-     * @returns {boolean} true if the tile was released
+     * @param {{ reason?: string }} [opts]
+     * @returns {boolean}
      */
-    release(x, y, z, entity) {
+    enterTile(x, y, z, entity, opts) {
+        const id = entityIdOf(entity);
+        if (id === 0) return false;
+        if (!this.canEnter(x, y, z, entity, opts)) return false;
+
+        const layer = this.getLayer(z);
+        if (!layer) return false;
+        const ix = Math.round(x);
+        const iy = Math.round(y);
+        if (ix < 0 || iy < 0 || ix >= layer.cols || iy >= layer.rows) {
+            return false;
+        }
+        const idx = this.index(ix, iy, layer.cols);
+        const firstId = layer.occupancy[idx] | 0;
+
+        if (firstId === id) return true;
+        const key = this.tileStackKey(ix, iy, z);
+        const existing = this.playerStacks.get(key);
+        if (existing && existing.indexOf(id) >= 0) return true;
+
+        const mover = resolveMoverEntity(this, entity, id);
+
+        // Creature push/crush before claim
+        if (
+            firstId !== 0 &&
+            mover &&
+            !isPlayerEntity(mover) &&
+            entityCanPushCreatures(mover)
+        ) {
+            if (!this._pushCreaturesOnTile(ix, iy, z, mover)) return false;
+            // Dest must be empty after push/crush
+            if ((layer.occupancy[idx] | 0) !== 0) return false;
+        }
+
+        const occNow = layer.occupancy[idx] | 0;
+        if (occNow === 0) {
+            layer.occupancy[idx] = id;
+            return true;
+        }
+        if (occNow === id) return true;
+
+        // Join stack (players, or stair mixed onto creature)
+        let stack = this.playerStacks.get(key);
+        if (!stack) {
+            stack = [occNow, id];
+            this.playerStacks.set(key, stack);
+        } else {
+            if (stack.indexOf(id) < 0) stack.push(id);
+        }
+        // Grid keeps first (join order)
+        layer.occupancy[idx] = stack[0];
+        return true;
+    }
+
+    /**
+     * Remove entity from tile occupancy; promote stack first when needed.
+     * @param {number} x
+     * @param {number} y
+     * @param {string|number} z
+     * @param {{ id?: number }|number} entity
+     * @returns {boolean}
+     */
+    leaveTile(x, y, z, entity) {
         const id = entityIdOf(entity);
         if (id === 0) return false;
         const layer = this.getLayer(z);
@@ -718,9 +981,51 @@ class TileMap extends GameObject {
             return false;
         }
         const idx = this.index(ix, iy, layer.cols);
-        if (layer.occupancy[idx] !== id) return false;
+        const key = this.tileStackKey(ix, iy, z);
+        const stack = this.playerStacks.get(key);
+
+        if (stack && stack.length >= 2) {
+            const at = stack.indexOf(id);
+            if (at < 0) return false;
+            stack.splice(at, 1);
+            if (stack.length <= 1) {
+                this.playerStacks.delete(key);
+                layer.occupancy[idx] = stack.length === 1 ? stack[0] : 0;
+            } else {
+                layer.occupancy[idx] = stack[0];
+            }
+            return true;
+        }
+
+        if ((layer.occupancy[idx] | 0) !== id) return false;
         layer.occupancy[idx] = 0;
+        this.playerStacks.delete(key);
         return true;
+    }
+
+    /**
+     * Thin wrapper → enterTile.
+     * @param {number} x
+     * @param {number} y
+     * @param {string|number} z
+     * @param {{ id?: number }|number} entity
+     * @param {{ reason?: string }} [opts]
+     * @returns {boolean}
+     */
+    tryOccupy(x, y, z, entity, opts) {
+        return this.enterTile(x, y, z, entity, opts);
+    }
+
+    /**
+     * Thin wrapper → leaveTile.
+     * @param {number} x
+     * @param {number} y
+     * @param {string|number} z
+     * @param {{ id?: number }|number} entity
+     * @returns {boolean}
+     */
+    release(x, y, z, entity) {
+        return this.leaveTile(x, y, z, entity);
     }
 
     /**
@@ -731,11 +1036,16 @@ class TileMap extends GameObject {
         if (z !== undefined && z !== null) {
             const layer = this.getLayer(z);
             if (layer) layer.occupancy.fill(0);
+            const prefix = String(z) + ':';
+            for (const key of Array.from(this.playerStacks.keys())) {
+                if (key.startsWith(prefix)) this.playerStacks.delete(key);
+            }
             return;
         }
         for (const key of Object.keys(this.layers)) {
             this.layers[key].occupancy.fill(0);
         }
+        this.playerStacks.clear();
     }
 
     /**
@@ -819,7 +1129,7 @@ class TileMap extends GameObject {
     }
 
     /**
-     * Move entity one tile if walkable and free (or already self).
+     * Move entity one tile if enter policy allows (stack join, push, or empty).
      * Updates occupancy, entity.tile, and moveDelay (Stage 3) on success.
      *
      * Logic tile + occupancy transfer instantly. Presentation (`entity.x`/`y`)
@@ -836,27 +1146,28 @@ class TileMap extends GameObject {
      * @param {number} x
      * @param {number} y
      * @param {string|number} z
+     * @param {{ reason?: string }} [opts]
      * @returns {boolean}
      */
-    moveEntityToTile(entity, x, y, z) {
+    moveEntityToTile(entity, x, y, z, opts) {
         if (!entity) return false;
         const id = entityIdOf(entity);
         if (id === 0) return false;
         const ix = Math.round(x);
         const iy = Math.round(y);
-        if (!this.canEnter(ix, iy, z, id)) return false;
+        if (!this.canEnter(ix, iy, z, entity, opts)) return false;
 
         const prev = entity.tile
             ? { x: entity.tile.x, y: entity.tile.y, z: entity.tile.z }
             : null;
         if (prev && (prev.x !== ix || prev.y !== iy || String(prev.z) !== String(z))) {
-            this.release(prev.x, prev.y, prev.z, id);
+            this.leaveTile(prev.x, prev.y, prev.z, entity);
         }
 
-        if (!this.tryOccupy(ix, iy, z, id)) {
+        if (!this.enterTile(ix, iy, z, entity, opts)) {
             // Restore previous occupancy if we released it
             if (prev && (prev.x !== ix || prev.y !== iy || String(prev.z) !== String(z))) {
-                this.tryOccupy(prev.x, prev.y, prev.z, id);
+                this.enterTile(prev.x, prev.y, prev.z, entity);
             }
             return false;
         }
@@ -926,167 +1237,71 @@ class TileMap extends GameObject {
     }
 
     /**
-     * Atomically swap two entities on the same floor (must be adjacent).
-     * Used so party members can pass in 1-wide corridors (v1: no stacking).
-     *
-     * @param {object} a
-     * @param {object} b
-     * @returns {boolean}
-     */
-    swapEntityTiles(a, b) {
-        if (!a || !b || !a.tile || !b.tile) return false;
-        if (a === b) return false;
-        if (String(a.tile.z) !== String(b.tile.z)) return false;
-        if (!isAdjacentStep(a.tile, b.tile)) return false;
-
-        const idA = entityIdOf(a);
-        const idB = entityIdOf(b);
-        if (idA === 0 || idB === 0 || idA === idB) return false;
-
-        const ta = { x: a.tile.x, y: a.tile.y, z: a.tile.z };
-        const tb = { x: b.tile.x, y: b.tile.y, z: b.tile.z };
-
-        // Both tiles must currently hold the expected occupants
-        if (this.getOccupant(ta.x, ta.y, ta.z) !== idA) return false;
-        if (this.getOccupant(tb.x, tb.y, tb.z) !== idB) return false;
-        if (!this.isWalkable(ta.x, ta.y, ta.z) || !this.isWalkable(tb.x, tb.y, tb.z)) {
-            return false;
-        }
-
-        this.release(ta.x, ta.y, ta.z, idA);
-        this.release(tb.x, tb.y, tb.z, idB);
-
-        const okA = this.tryOccupy(tb.x, tb.y, tb.z, idA);
-        const okB = this.tryOccupy(ta.x, ta.y, ta.z, idB);
-        if (!okA || !okB) {
-            // Rollback to original tiles
-            if (okA) this.release(tb.x, tb.y, tb.z, idA);
-            if (okB) this.release(ta.x, ta.y, ta.z, idB);
-            this.tryOccupy(ta.x, ta.y, ta.z, idA);
-            this.tryOccupy(tb.x, tb.y, tb.z, idB);
-            return false;
-        }
-
-        a.tile = { x: tb.x, y: tb.y, z: tb.z };
-        b.tile = { x: ta.x, y: ta.y, z: ta.z };
-        this._finalizeTileMove(a, ta);
-        this._finalizeTileMove(b, tb);
-
-        // Force both to repath — positions inverted relative to cached goals
-        a.path = [];
-        b.path = [];
-        return true;
-    }
-
-    /**
-     * Ask blocker to step onto a free adjacent tile (side-step yield).
-     * Prefers tiles not on the requester's remaining path and not "behind"
-     * the requester's forward vector when possible.
-     *
-     * @param {object} blocker
-     * @param {object} requester
-     * @returns {boolean} true if blocker moved
-     */
-    tryYieldAside(blocker, requester) {
-        if (!blocker || !blocker.tile || !requester || !requester.tile) return false;
-        if (String(blocker.tile.z) !== String(requester.tile.z)) return false;
-
-        const z = blocker.tile.z;
-        const bx = blocker.tile.x;
-        const by = blocker.tile.y;
-        const rx = requester.tile.x;
-        const ry = requester.tile.y;
-        const fdx = bx - rx;
-        const fdy = by - ry;
-
-        /** @type {{ x: number, y: number, z: string|number, score: number }[]} */
-        const candidates = [];
-        for (let dy = -1; dy <= 1; dy++) {
-            for (let dx = -1; dx <= 1; dx++) {
-                if (dx === 0 && dy === 0) continue;
-                const nx = bx + dx;
-                const ny = by + dy;
-                if (!this.canEnter(nx, ny, z, blocker)) continue;
-                // Never step onto the requester's current tile
-                if (nx === rx && ny === ry) continue;
-
-                let score = 0;
-                // Prefer perpendicular / off-axis relative to approach
-                const along = dx * fdx + dy * fdy;
-                score -= along * 4;
-                // Prefer more open landing tiles
-                score += openNeighborCount(this, nx, ny, z, blocker);
-                // Soft penalty if tile is on requester's remaining path
-                if (Array.isArray(requester.path)) {
-                    for (let i = 0; i < requester.path.length && i < 4; i++) {
-                        const p = requester.path[i];
-                        if (p && p.x === nx && p.y === ny) {
-                            score -= 20 - i * 3;
-                            break;
-                        }
-                    }
-                }
-                candidates.push({ x: nx, y: ny, z, score });
-            }
-        }
-        if (!candidates.length) return false;
-        candidates.sort((a, b) => b.score - a.score);
-        const pick = candidates[0];
-        const moved = this.moveEntityToTile(blocker, pick.x, pick.y, pick.z);
-        if (moved) {
-            blocker.path = [];
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * When the next path step is occupied by a same-party ally, try swap
-     * (1-wide pass) or yield-aside then step. Followers never displace the
-     * party leader via swap (avoids FollowLeader thrash onto leader tile).
-     *
-     * @param {object} entity mover
-     * @param {{ x: number, y: number }} step next path tile
+     * Shove or crush every creature on (x,y,z) so the mover can claim the tile.
+     * Orthogonal N/W/E/S only (shuffled). Failed shove → crush when enabled.
+     * @param {number} x
+     * @param {number} y
      * @param {string|number} z
-     * @returns {boolean} true if mover advanced (swap or step after yield)
+     * @param {object} mover
+     * @returns {boolean} true when the tile is empty afterward
      * @private
      */
-    _tryAllyPass(entity, step, z) {
-        if (!entity || !step) return false;
-        const occ = this.getOccupant(step.x, step.y, z);
-        const selfId = entityIdOf(entity);
-        if (occ === 0 || occ === selfId) return false;
-
-        const other = this.resolveOccupant(occ);
-        if (!isPartyAlly(entity, other)) return false;
-
-        // Recently displaced followers must not re-clog the leader's corridor
-        if (!entity.isLeader && isAllyPassHeld(entity)) {
-            return false;
-        }
-
-        // Follower must not swap the leader off their tile
-        if (other.isLeader && !entity.isLeader) {
-            // Still allow the leader to yield aside when they have room
-            if (this.tryYieldAside(other, entity)) {
-                if (this.moveEntityToTile(entity, step.x, step.y, z)) {
-                    return true;
-                }
+    _pushCreaturesOnTile(x, y, z, mover) {
+        const ids = this.getCombatants(x, y, z);
+        // Top-down / reverse stack order (legacy pushCreatures)
+        for (let i = ids.length - 1; i >= 0; i--) {
+            const tid = ids[i];
+            if (tid === entityIdOf(mover)) continue;
+            const target = this.resolveOccupant(tid);
+            if (!target) {
+                // Unresolved id: cannot push safely
+                return false;
             }
-            return false;
+            if (isPlayerEntity(target) || !isPushableEntity(target)) {
+                return false;
+            }
+            if (!this._tryShoveOrthogonal(target)) {
+                const crushOn =
+                    Settings.CREATURE_PUSH_CRUSH == null
+                        ? true
+                        : !!Settings.CREATURE_PUSH_CRUSH;
+                if (!crushOn) return false;
+                this._crushCreature(target);
+            }
         }
+        return this.getOccupant(x, y, z) === 0;
+    }
 
-        // 1-wide corridor: swap puts mover on the blocked step
-        if (this.swapEntityTiles(entity, other)) {
-            // Hold the displaced ally so FollowLeader does not re-clog next tick
-            markAllyPassHold(other);
-            return true;
+    /**
+     * Try orthogonal shove of target onto a free neighbor (N,W,E,S shuffled).
+     * @param {object} target
+     * @returns {boolean}
+     * @private
+     */
+    _tryShoveOrthogonal(target) {
+        if (!target || !target.tile) return false;
+        const dirs = [
+            [0, -1],
+            [-1, 0],
+            [1, 0],
+            [0, 1]
+        ];
+        // Fisher–Yates; Math.random is seeded during sim logic
+        for (let i = dirs.length - 1; i > 0; i--) {
+            const j = (Math.random() * (i + 1)) | 0;
+            const tmp = dirs[i];
+            dirs[i] = dirs[j];
+            dirs[j] = tmp;
         }
-
-        // Wider space: ally steps aside, then mover takes the freed tile
-        if (this.tryYieldAside(other, entity)) {
-            markAllyPassHold(other);
-            if (this.moveEntityToTile(entity, step.x, step.y, z)) {
+        const z = target.tile.z;
+        const bx = target.tile.x;
+        const by = target.tile.y;
+        for (let i = 0; i < dirs.length; i++) {
+            const nx = bx + dirs[i][0];
+            const ny = by + dirs[i][1];
+            if (!this.canEnter(nx, ny, z, target)) continue;
+            if (this.moveEntityToTile(target, nx, ny, z)) {
+                target.path = [];
                 return true;
             }
         }
@@ -1094,10 +1309,26 @@ class TileMap extends GameObject {
     }
 
     /**
+     * Zero HP and leave tile (crush after failed shove).
+     * @param {object} target
+     * @private
+     */
+    _crushCreature(target) {
+        if (!target) return;
+        if (target.hp && typeof target.hp === 'object') {
+            target.hp.current = 0;
+        }
+        target.alive = false;
+        if (target.tile) {
+            this.leaveTile(target.tile.x, target.tile.y, target.tile.z, target);
+        }
+    }
+
+    /**
      * Step entity toward (targetX, targetY, targetZ) using cached path + A*.
      * Re-paths when the target changes or a step is blocked (one retry).
-     * On a blocked next step occupied by a party ally, tries swap / yield
-     * before repathing (multi-member corridor pass).
+     * Party members stack through corridors (no ally swap/yield).
+     * Creatures with canPushCreatures push/crush on step into pushable tiles.
      *
      * Entity shape (Stage 2 minimal):
      *   { id, tile: {x,y,z}, path: PathPoint[] }
@@ -1120,8 +1351,7 @@ class TileMap extends GameObject {
             targetZ !== undefined && targetZ !== null
                 ? targetZ
                 : entity.tile.z;
-        // Same-floor only. Cross-floor requests used to path x,y on start.z
-        // then moveEntityToTile(..., targetZ) → freeze or illegal teleport.
+        // Same-floor only. Cross-floor: clear path, no A* on wrong floor (E5).
         // Stairs / multi-z routes must use tryUseStair or followLongPath.
         if (String(entity.tile.z) !== String(tz)) {
             entity.path = [];
@@ -1134,94 +1364,160 @@ class TileMap extends GameObject {
                   ? Settings.PATH_MAX_DISTANCE
                   : 100;
         const attempt = retries | 0;
+        const now =
+            Time && Time.timeSinceLevelLoad != null
+                ? Number(Time.timeSinceLevelLoad)
+                : 0;
 
-        const last = entity.path.length ? entity.path[entity.path.length - 1] : null;
+        // New goal tile clears critical fail-backoff (E4)
+        if (
+            entity._repathGoalX !== tx ||
+            entity._repathGoalY !== ty ||
+            String(entity._repathGoalZ) !== String(tz)
+        ) {
+            entity._repathFailBackoffUntil = null;
+            entity._repathGoalX = tx;
+            entity._repathGoalY = ty;
+            entity._repathGoalZ = tz;
+        }
+
+        const last = entity.path.length
+            ? entity.path[entity.path.length - 1]
+            : null;
         const needRepath =
-            !last || last.x !== tx || last.y !== ty || String(entity.tile.z) !== String(tz);
+            !last ||
+            last.x !== tx ||
+            last.y !== ty ||
+            String(entity.tile.z) !== String(tz);
 
         if (needRepath) {
-            // Empty path / blocked retry always repath (critical).
-            // Moving-goal repaths: per-entity AI_REPATH_INTERVAL_TICKS, then
-            // global AI_PATH_BUDGET_PER_FRAME (Etapa 5) — skip keeps stale path.
+            // F2: free adjacent goal → direct step (flee / circle / random / melee hug).
+            // Avoids a full A* package every micro-step when path is empty.
+            // Blocked adjacent still falls through so A* can detour.
+            // Include z so isAdjacentStep same-floor check matches (omit → false).
+            if (
+                isAdjacentStep(entity.tile, { x: tx, y: ty, z: tz }) &&
+                this.canEnter(tx, ty, tz, entity)
+            ) {
+                entity.path = [];
+                entity._repathFailBackoffUntil = null;
+                if (this.moveEntityToTile(entity, tx, ty, tz)) {
+                    return entity.tile.x === tx && entity.tile.y === ty;
+                }
+            }
+
+            // One repath package = one A* (4C + 13C). Critical = empty / blocked retry.
+            // Optional moving-goal: AI_REPATH_INTERVAL_SEC (wins if > 0) else ticks;
+            // then AI_PATH_BUDGET_PER_FRAME (skip keeps stale path).
             const hasPath = entity.path.length > 0;
             const critical = !hasPath || attempt > 0;
-            const repathTicks =
-                Settings.AI_REPATH_INTERVAL_TICKS != null
-                    ? Number(Settings.AI_REPATH_INTERVAL_TICKS)
-                    : 1;
-            const due =
-                critical || isTickDue(entity, '_repathReg', repathTicks);
+            const failBackoff =
+                Settings.AI_REPATH_FAIL_BACKOFF_SEC != null
+                    ? Number(Settings.AI_REPATH_FAIL_BACKOFF_SEC)
+                    : 0.25;
+            // Provocation / leash mayCross upgrades hard-field fail to soft mode —
+            // clear fail-backoff so a prior unprovoked wall does not trap the entity.
+            if (critical && canCrossFieldHazards(entity, now)) {
+                entity._repathFailBackoffUntil = null;
+            }
+            const inFailBackoff =
+                critical &&
+                entity._repathFailBackoffUntil != null &&
+                Number.isFinite(entity._repathFailBackoffUntil) &&
+                now < entity._repathFailBackoffUntil;
+
+            let due = false;
+            if (critical) {
+                due = !inFailBackoff;
+            } else {
+                const repathSec =
+                    Settings.AI_REPATH_INTERVAL_SEC != null
+                        ? Number(Settings.AI_REPATH_INTERVAL_SEC)
+                        : 0;
+                if (Number.isFinite(repathSec) && repathSec > 0) {
+                    due = isLogicIntervalDue(
+                        entity,
+                        '_repathNextAt',
+                        repathSec,
+                        now
+                    );
+                } else {
+                    const repathTicks =
+                        Settings.AI_REPATH_INTERVAL_TICKS != null
+                            ? Number(Settings.AI_REPATH_INTERVAL_TICKS)
+                            : 1;
+                    due = isTickDue(entity, '_repathReg', repathTicks);
+                }
+            }
+
             if (due && takePathBudget({ critical })) {
                 const fieldOpts = computeEntityAvoidFieldMask(entity);
                 const avoidMask = fieldOpts.avoidFieldMask || 0;
-                const now = Time && Time.timeSinceLevelLoad != null ? Number(Time.timeSinceLevelLoad) : 0;
-                const penaltyVal = Settings.AI_FIELD_STEP_PENALTY != null ? Number(Settings.AI_FIELD_STEP_PENALTY) : 10;
-                const cacheSec = Settings.AI_HAZARD_CACHE_SEC != null ? Number(Settings.AI_HAZARD_CACHE_SEC) : 2.0;
+                const fieldPenaltyVal =
+                    Settings.AI_FIELD_STEP_PENALTY != null
+                        ? Number(Settings.AI_FIELD_STEP_PENALTY)
+                        : 10;
+                const occupantPenalty =
+                    Settings.AI_OCCUPANT_STEP_PENALTY != null
+                        ? Number(Settings.AI_OCCUPANT_STEP_PENALTY)
+                        : 4;
+                const cacheSec =
+                    Settings.AI_HAZARD_CACHE_SEC != null
+                        ? Number(Settings.AI_HAZARD_CACHE_SEC)
+                        : 2.0;
 
+                // 13C: unprovoked → hard field avoid; canCross → soft in same search
+                let fieldPenalty = 0;
+                if (avoidMask > 0 && canCrossFieldHazards(entity, now)) {
+                    fieldPenalty = fieldPenaltyVal;
+                }
+
+                /** @type {import('../lib/pathfinder.js').FindPathOptions} */
                 const searchOpts = {
                     allowDiagonal: true,
-                    checkOccupied: true,
                     maxDistance: cap,
                     avoidFieldMask: avoidMask,
                     ignorePlayerFields: fieldOpts.ignorePlayerFields,
-                    fieldPenalty: 0
+                    fieldPenalty,
+                    mover: entity,
+                    useStackPolicy: true,
+                    occupantStepPenalty: occupantPenalty
                 };
 
-                let useHazardRoute = false;
-                if (avoidMask > 0 && canCrossFieldHazards(entity, now)) {
-                    const currentField = this.getTileFieldMask(entity.tile.x, entity.tile.y, entity.tile.z);
-                    const isOnHazard = (currentField & avoidMask) !== 0 && (!fieldOpts.ignorePlayerFields || (currentField & 8) === 0);
-                    const isCached = !!(entity._hazardRouteUntil && entity._hazardRouteUntil >= now);
-                    if (isOnHazard || isCached) {
-                        useHazardRoute = true;
-                        searchOpts.fieldPenalty = penaltyVal;
-                    }
-                }
-
-                let path = this.search(
+                const path = this.search(
                     entity.tile,
                     { x: tx, y: ty, z: tz },
                     searchOpts
                 );
-                if (!path) {
-                    searchOpts.checkOccupied = false;
-                    path = this.search(
-                        entity.tile,
-                        { x: tx, y: ty, z: tz },
-                        searchOpts
-                    );
-                }
-                // Fallback (field safe-spot): unprovoked creatures (including summons) hold ground
-                // behind fields until attacked. Provoked / forced-brain uses fieldPenalty for min exposure.
-                if (!path && avoidMask > 0 && !useHazardRoute && canCrossFieldHazards(entity, now)) {
-                    searchOpts.fieldPenalty = penaltyVal;
-                    path = this.search(
-                        entity.tile,
-                        { x: tx, y: ty, z: tz },
-                        searchOpts
-                    );
-                    if (path) {
+
+                if (path && path.length > 0) {
+                    entity.path = path.slice(1);
+                    entity._repathFailBackoffUntil = null;
+                    if (fieldPenalty > 0) {
                         entity._hazardRouteUntil = now + cacheSec;
                     }
-                }
-                if (path && path.length > 0) {
-                    // Drop current tile (first element is start)
-                    entity.path = path.slice(1);
                 } else {
                     entity.path = [];
+                    if (
+                        critical &&
+                        Number.isFinite(failBackoff) &&
+                        failBackoff > 0
+                    ) {
+                        entity._repathFailBackoffUntil = now + failBackoff;
+                        noteFailBackoff();
+                    }
                 }
             }
-            // else: keep stale path toward previous goal for a few ticks
+            // else: keep stale path (optional throttle / budget / fail-backoff)
         }
 
         if (entity.path.length === 0) {
             if (entity.tile.x === tx && entity.tile.y === ty) return true;
-            // No path (packed choke): if adjacent to goal and an ally holds it, pass on
-            if (
-                isAdjacentStep(entity.tile, { x: tx, y: ty }) &&
-                this._tryAllyPass(entity, { x: tx, y: ty }, tz)
-            ) {
-                return entity.tile.x === tx && entity.tile.y === ty;
+            // No path: if adjacent to goal and enter policy allows (stack / push), step in
+            if (isAdjacentStep(entity.tile, { x: tx, y: ty, z: tz })) {
+                if (this.moveEntityToTile(entity, tx, ty, tz)) {
+                    return entity.tile.x === tx && entity.tile.y === ty;
+                }
             }
             return false;
         }
@@ -1240,22 +1536,12 @@ class TileMap extends GameObject {
             return true;
         }
 
-        // Party ally on next tile → swap (corridor) or yield-aside then step
-        if (this._tryAllyPass(entity, step, stepZ)) {
-            if (
-                entity.path.length &&
-                entity.path[0].x === step.x &&
-                entity.path[0].y === step.y
-            ) {
-                entity.path.shift();
-            }
-            return true;
-        }
-
-        // Blocked step → clear and repath once (force regulator ready)
+        // Blocked step → clear and one critical repath (force throttle due)
         if (attempt === 0) {
             entity.path = [];
+            entity._repathFailBackoffUntil = null;
             forceDue(entity, '_repathReg');
+            forceDue(entity, '_repathNextAt');
             return this.followPath(entity, tx, ty, tz, cap, 1);
         }
         return false;
@@ -1389,17 +1675,6 @@ class TileMap extends GameObject {
             return true;
         }
 
-        if (this._tryAllyPass(entity, step, stepZ)) {
-            if (
-                entity.path.length &&
-                entity.path[0].x === step.x &&
-                entity.path[0].y === step.y
-            ) {
-                entity.path.shift();
-            }
-            return true;
-        }
-
         if (attempt === 0) {
             entity.path = [];
             return this.followLongPath(entity, tx, ty, tz, longOptions, 1);
@@ -1425,7 +1700,7 @@ class TileMap extends GameObject {
             );
         }
         const friction = new Uint8Array(n);
-        const occupancy = new Int16Array(n);
+        const occupancy = new Int32Array(n);
         const fields = new Uint8Array(n);
         for (let i = 0; i < n; i++) {
             const o = i * 4;
@@ -1459,7 +1734,7 @@ class TileMap extends GameObject {
             const v = friction[i] & 0xff;
             copy[i] = v;
         }
-        const occupancy = new Int16Array(n);
+        const occupancy = new Int32Array(n);
         const fields = new Uint8Array(n);
         const layer = { cols, rows, friction: copy, occupancy, fields };
         this.layers[String(z)] = layer;
@@ -1921,63 +2196,149 @@ function entityIdOf(entity) {
 }
 
 /**
- * Same party, both living combatants (players). Creatures never ally-pass.
- * @param {object|null|undefined} a
- * @param {object|null|undefined} b
+ * @param {object|null|undefined} ent
  * @returns {boolean}
  */
-function isPartyAlly(a, b) {
-    if (!a || !b || a === b) return false;
-    if (a.alive === false || b.alive === false) return false;
-    if (!a.party || !b.party) return false;
-    return a.party === b.party;
+function isPlayerEntity(ent) {
+    if (!ent || typeof ent !== 'object') return false;
+    return ent.type === 'player';
 }
 
 /**
- * @param {object} entity
+ * @param {object|null|undefined} ent
  * @returns {boolean}
  */
-function isAllyPassHeld(entity) {
-    if (!entity || entity._allyPassHoldUntil == null) return false;
-    const now =
-        typeof Time !== 'undefined' && Time.timeSinceLevelLoad != null
-            ? Number(Time.timeSinceLevelLoad)
-            : 0;
-    return now < Number(entity._allyPassHoldUntil);
+function isSummonEntity(ent) {
+    if (!ent) return false;
+    return ent.masterId != null && (ent.masterId | 0) > 0;
 }
 
 /**
- * Brief stand-down after being swapped/yielded past (anti-thrash).
- * @param {object} entity
+ * Mover may path into / clear pushable creature tiles.
+ * Summons never get push (legacy-shaped).
+ * @param {object|null|undefined} ent
+ * @returns {boolean}
  */
-function markAllyPassHold(entity) {
-    if (!entity || entity.isLeader) return;
-    const now =
-        typeof Time !== 'undefined' && Time.timeSinceLevelLoad != null
-            ? Number(Time.timeSinceLevelLoad)
-            : 0;
-    entity._allyPassHoldUntil = now + ALLY_PASS_HOLD_SEC;
+function entityCanPushCreatures(ent) {
+    if (!ent || isPlayerEntity(ent) || isSummonEntity(ent)) return false;
+    if (ent.canPushCreatures === true) return true;
+    if (ent.flags && ent.flags.canPushCreatures === true) return true;
+    return false;
 }
 
 /**
- * Count free adjacent tiles around (x,y,z) for yield scoring.
+ * Target may be shoved (or crushed) by a canPushCreatures mover.
+ * Players and player-owned summons are never pushable.
+ * Default for wild creatures: true unless pushable === false or speed 0.
+ * @param {object|null|undefined} ent
+ * @returns {boolean}
+ */
+function isPushableEntity(ent) {
+    if (!ent || typeof ent !== 'object') return false;
+    if (isPlayerEntity(ent)) return false;
+    if (isSummonEntity(ent)) return false;
+    if (ent.alive === false) return false;
+    if (ent.hp && typeof ent.hp === 'object' && Number(ent.hp.current) <= 0) {
+        return false;
+    }
+    if (ent.speed != null && Number(ent.speed) === 0) return false;
+    if (ent.pushable === false) return false;
+    if (ent.flags && ent.flags.pushable === false) return false;
+    return true;
+}
+
+/**
+ * @param {TileMap} tileMap
+ * @param {{ id?: number }|number|null|undefined} entity
+ * @param {number} id
+ * @returns {object|null}
+ */
+function resolveMoverEntity(tileMap, entity, id) {
+    if (entity != null && typeof entity === 'object') return entity;
+    if (id > 0 && tileMap) return tileMap.resolveOccupant(id);
+    return null;
+}
+
+/**
+ * @param {TileMap} tileMap
+ * @param {number[]} combatants
+ * @returns {object[]}
+ */
+function resolveCombatantEntities(tileMap, combatants) {
+    const out = [];
+    if (!combatants || !tileMap) return out;
+    for (let i = 0; i < combatants.length; i++) {
+        const ent = tileMap.resolveOccupant(combatants[i]);
+        if (ent) out.push(ent);
+    }
+    return out;
+}
+
+/**
+ * @param {object[]} occupants
+ * @returns {boolean}
+ */
+function occupantsHavePlayer(occupants) {
+    for (let i = 0; i < occupants.length; i++) {
+        if (isPlayerEntity(occupants[i])) return true;
+    }
+    return false;
+}
+
+/**
+ * Max players per tile from Settings (0 = unlimited).
+ * @returns {number}
+ */
+function playerTileMaxStack() {
+    const m =
+        Settings.PLAYER_TILE_MAX_STACK != null
+            ? Number(Settings.PLAYER_TILE_MAX_STACK)
+            : 10;
+    if (!Number.isFinite(m) || m < 0) return 10;
+    return m | 0;
+}
+
+/**
+ * Player enter policy for a non-empty tile (occupants already resolved).
  * @param {TileMap} tileMap
  * @param {number} x
  * @param {number} y
  * @param {string|number} z
- * @param {object} self
- * @returns {number}
+ * @param {object[]} occupants
+ * @param {boolean} isStair
+ * @returns {boolean}
  */
-function openNeighborCount(tileMap, x, y, z, self) {
-    if (!tileMap) return 0;
-    let n = 0;
-    for (let dy = -1; dy <= 1; dy++) {
-        for (let dx = -1; dx <= 1; dx++) {
-            if (dx === 0 && dy === 0) continue;
-            if (tileMap.canEnter(x + dx, y + dy, z, self)) n += 1;
-        }
+function canPlayerEnterTile(tileMap, x, y, z, occupants, isStair) {
+    if (!occupants.length) return false;
+
+    let playerCount = 0;
+    let creatureCount = 0;
+    for (let i = 0; i < occupants.length; i++) {
+        if (isPlayerEntity(occupants[i])) playerCount += 1;
+        else creatureCount += 1;
     }
-    return n;
+
+    // Unresolved mixed state should not happen when resolve is wired
+    if (playerCount === 0 && creatureCount === 0) return false;
+
+    // Pure creature tile: only stair / floor-change mixed exception
+    if (playerCount === 0 && creatureCount >= 1) {
+        if (!isStair) return false;
+        // At most one creature in mixed stack
+        if (creatureCount > 1) return false;
+        return true;
+    }
+
+    // Players only, or already mixed (players + one creature)
+    if (creatureCount > 1) return false;
+
+    if (tileMap.isNoPlayerStack(x, y, z) && playerCount >= 1) {
+        return false;
+    }
+
+    const max = playerTileMaxStack();
+    if (max > 0 && playerCount >= max) return false;
+    return true;
 }
 
 /**
@@ -2071,5 +2432,9 @@ module.exports = {
     computeTilemapCacheRect,
     tilemapCacheNeedsRebuild,
     DEFAULT_CACHE_FULL_MAX_TILES,
-    DEFAULT_CACHE_MARGIN_MIN
+    DEFAULT_CACHE_MARGIN_MIN,
+    isPlayerEntity,
+    isPushableEntity,
+    entityCanPushCreatures,
+    isSummonEntity
 };

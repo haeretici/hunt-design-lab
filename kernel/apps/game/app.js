@@ -9,7 +9,13 @@
 const { Settings, DEFAULT_GENRE } = require('../../settings.js');
 const { Application } = require('../../engine.js');
 const { Simulator } = require('../../providers/simulator/simulator.js');
-const { initTargetCursorListeners, initManualKeyboardControls, clearActiveMoveKeys } = require('./ui_state.js');
+const {
+    initTargetCursorListeners,
+    initManualKeyboardControls,
+    initMouseButtonTracking,
+    clearActiveMoveKeys,
+    loadMouseControls
+} = require('./ui_state.js');
 const {
     transferManualControlOnSlotChange,
     syncActiveControlToggle: syncActiveControlToggleUi,
@@ -42,6 +48,7 @@ const {
     MAX_PARTY_SLOTS,
     EDITOR_EQUIPMENT_SLOTS,
     defaultStrategyForClass,
+    defaultProfileIdForClass,
     partyFormFromPartyId,
     normalizeMember,
     ensureSingleLeader,
@@ -74,7 +81,8 @@ const {
 } = require('../../providers/simulator/hunt_opts.js');
 const {
     loadPersistedDebugAI,
-    loadPersistedCamera
+    loadPersistedCamera,
+    loadPersistedProgression
 } = require('../../../html/widgets/engine_tweakings/bind.js');
 const {
     createEngineTweakingsParentBridge
@@ -408,8 +416,8 @@ function readPartyForm(prevMembers) {
             if (eq && eq.value) equipment[slot] = eq.value;
         }
         const classId = classEl ? classEl.value : 'guardian';
-        // DOM has no profile/skills fields — keep in-memory binding when the
-        // vocation is unchanged so Play matches headless --party expansion.
+        // DOM has no profile/skills fields. Same vocation → keep in-memory
+        // character bag. Class change → rebind default starter (create-char).
         const prev = prevList[i] || null;
         /** @type {Record<string, any>} */
         const bag = {
@@ -429,6 +437,12 @@ function readPartyForm(prevMembers) {
             }
             if (prev.critChance != null) bag.critChance = prev.critChance;
             if (prev.critDamage != null) bag.critDamage = prev.critDamage;
+            if (prev.inventory != null) bag.inventory = prev.inventory;
+            if (prev.backpack != null) bag.backpack = prev.backpack;
+            if (prev.inventorySandbox === true) bag.inventorySandbox = true;
+        } else {
+            const starterId = defaultProfileIdForClass(classId);
+            if (starterId) bag.profileId = starterId;
         }
         members.push(normalizeMember(bag, i));
     }
@@ -782,10 +796,14 @@ async function initGameApp() {
     // Stage 12B: restore AI debug flags + camera zoom + Engine Tweakings popup
     loadPersistedDebugAI(Settings);
     loadPersistedCamera(Settings);
+    loadPersistedProgression(Settings);
+    // docs/29 Stage 3: mouse control mode + loot stub prefs
+    loadMouseControls();
     const engineTweaksBridge = createEngineTweakingsParentBridge({
         Settings,
         Application,
-        session: tweaksSessionApi
+        session: tweaksSessionApi,
+        actionBars: actionBarsModule
     });
     const openEngineTweakingsBtn = document.getElementById(
         'openEngineTweakingsBtn'
@@ -1106,6 +1124,11 @@ async function initGameApp() {
     rosterPanelsCtl = bindRosterPanels({
         getSim: () => Application.currentLevel,
         getIdleMembers: () => formMembers.filter((x) => x && x.enabled !== false),
+        getIdleMember: () => {
+            const m = formMembers[activeViewSlot];
+            if (m && m.enabled !== false) return m;
+            return formMembers.find((x) => x && x.enabled !== false) || null;
+        },
         isSessionLive: () => !!sessionLive,
         getGenre: () => {
             try {
@@ -1132,7 +1155,8 @@ async function initGameApp() {
                 return DEFAULT_GENRE;
             }
         },
-        getIsSessionLive: () => !!sessionLive
+        getIsSessionLive: () => !!sessionLive,
+        getSimulator: () => Application.currentLevel || null
     });
     const openActionBarConfigBtn = document.getElementById('openActionBarConfigBtn');
     const actionBarHint = document.getElementById('actionBarConfigPopupHint');
@@ -1623,13 +1647,23 @@ async function initGameApp() {
         bindManualCanvasClick(canvas, {
             getSessionLive: () => sessionLive,
             getSim: () => Application.currentLevel,
-            getActivePlayer: (sim) => getActivePlayerFromSim(sim)
+            getActivePlayer: (sim) => getActivePlayerFromSim(sim),
+            onAdapterIntent: (intent, ctx) => {
+                if (
+                    inventoryPanelCtl &&
+                    typeof inventoryPanelCtl.handleCanvasAdapterIntent ===
+                        'function'
+                ) {
+                    inventoryPanelCtl.handleCanvasAdapterIntent(intent, ctx);
+                }
+            }
         });
     }
 
     // Manual control: keyboard continuous single-step movement & targeting
     if (typeof window !== 'undefined') {
         initTargetCursorListeners();
+        initMouseButtonTracking();
         initManualKeyboardControls({
             getSessionLive: () => sessionLive,
             getSim: () => Application.currentLevel,

@@ -91,6 +91,19 @@ function createEmptyHuntTelemetry() {
         propsUsed: 0,
         /** Mana spent by party (from spells). */
         manaSpent: 0,
+        /**
+         * Phase D: skill tries credited this session (sum of effective tries).
+         * @type {number}
+         */
+        skillTriesGained: 0,
+        /** Per-bag try totals (sword/axe/club/fist/distance/shielding). */
+        skillTriesByBag: Object.create(null),
+        /** Mana credited toward magic level (after skill rate pins). */
+        manaSpentTowardMagic: 0,
+        /** Skill level-ups while skillProgression was on. */
+        skillLevelsGained: 0,
+        /** Magic level-ups while skillProgression was on. */
+        magicLevelsGained: 0,
         consumables: {
             mana: 0,
             potions: 0
@@ -289,6 +302,9 @@ function sampleAttack(t, attacker, defender, result) {
         attacker.manaSpent = (attacker.manaSpent || 0) + manaCost;
     }
 
+    // Phase D skill try / ML telemetry from resolveAttack.skillProgress
+    sampleSkillProgress(t, attacker, defender, result);
+
     if (!result.hit) return out;
 
     // Healing: positive hpDelta
@@ -315,6 +331,52 @@ function sampleAttack(t, attacker, defender, result) {
     }
 
     return out;
+}
+
+/**
+ * Roll skill progression counters from a resolve result into session telemetry.
+ * Player bags are already updated in resolveAttack; this only fills session totals.
+ *
+ * @param {object} t
+ * @param {object|null} attacker
+ * @param {object|null} defender
+ * @param {object} result
+ */
+function sampleSkillProgress(t, attacker, defender, result) {
+    if (!t || !result) return;
+    const sp = result.skillProgress;
+    if (sp) {
+        if (sp.weaponAdvance && sp.weaponAdvance.effectiveTries > 0) {
+            const n = sp.weaponAdvance.effectiveTries;
+            const bag = sp.weaponAdvance.skill || sp.weaponSkill || 'melee';
+            t.skillTriesGained = (t.skillTriesGained || 0) + n;
+            if (!t.skillTriesByBag) t.skillTriesByBag = Object.create(null);
+            t.skillTriesByBag[bag] = (t.skillTriesByBag[bag] || 0) + n;
+            if (sp.weaponAdvance.levelsGained > 0) {
+                t.skillLevelsGained =
+                    (t.skillLevelsGained || 0) + sp.weaponAdvance.levelsGained;
+            }
+        }
+        if (sp.shieldAdvance && sp.shieldAdvance.effectiveTries > 0) {
+            const n = sp.shieldAdvance.effectiveTries;
+            t.skillTriesGained = (t.skillTriesGained || 0) + n;
+            if (!t.skillTriesByBag) t.skillTriesByBag = Object.create(null);
+            t.skillTriesByBag.shielding =
+                (t.skillTriesByBag.shielding || 0) + n;
+            if (sp.shieldAdvance.levelsGained > 0) {
+                t.skillLevelsGained =
+                    (t.skillLevelsGained || 0) + sp.shieldAdvance.levelsGained;
+            }
+        }
+    }
+    if (result.manaProgress && result.manaProgress.mana > 0) {
+        t.manaSpentTowardMagic =
+            (t.manaSpentTowardMagic || 0) + result.manaProgress.mana;
+        if (result.manaProgress.levelsGained > 0) {
+            t.magicLevelsGained =
+                (t.magicLevelsGained || 0) + result.manaProgress.levelsGained;
+        }
+    }
 }
 
 /**
@@ -744,6 +806,12 @@ function buildHuntSummary(opts) {
         propsUsed: t.propsUsed || 0,
         propsAlive: o.propsAlive != null ? o.propsAlive : null,
         manaSpent: t.manaSpent || 0,
+        /** Phase D skill try counters (always honest when D ships). */
+        skillTriesGained: t.skillTriesGained || 0,
+        skillTriesByBag: cloneCountMap(t.skillTriesByBag),
+        manaSpentTowardMagic: t.manaSpentTowardMagic || 0,
+        skillLevelsGained: t.skillLevelsGained || 0,
+        magicLevelsGained: t.magicLevelsGained || 0,
         consumables: {
             mana: (t.consumables && t.consumables.mana) || 0,
             potions: (t.consumables && t.consumables.potions) || 0

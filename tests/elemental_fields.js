@@ -11,6 +11,7 @@ const assert = require('assert');
 const { Time } = require('../kernel/core/lib/time.js');
 const {
     FIELD_SOURCES,
+    FIELD_MASKS,
     ACTIVE_FIELD_MAX_DURATION_SEC,
     getFieldState,
     deployFieldToTile,
@@ -24,8 +25,12 @@ const {
     getFieldKind,
     computeEntityAvoidFieldMask,
     removeFieldFromTile,
-    isTileFieldHazardForEntity
+    isTileFieldHazardForEntity,
+    isObstacleFieldKind,
+    isObstacleField
 } = require('../kernel/core/lib/combat/elemental_fields.js');
+const { TileMap, FRICTION_BLOCKED } = require('../kernel/core/entities/tilemap.js');
+const { findPath } = require('../kernel/core/lib/pathfinder.js');
 const {
     createGroundStore,
     dropItemToGround,
@@ -935,6 +940,400 @@ function testTileMapSyncAndAvoidanceDerivation() {
     log('testTileMapSyncAndAvoidanceDerivation: ok');
 }
 
+/**
+ * Phase B: field deploy underfoot hits all combatants on a stacked tile
+ * (not only getOccupant first).
+ */
+function testFieldDeployHitsAllCombatantsOnStack() {
+    log('Running testFieldDeployHitsAllCombatantsOnStack...');
+    const { TileMap } = require('../kernel/core/entities/tilemap.js');
+    const { deployFieldAndTriggerOccupants } = require('../kernel/core/lib/combat/elemental_fields.js');
+    const { combatantsOnTileForField } = require('../kernel/core/lib/combat/area.js');
+
+    const ground = createGroundStore();
+    const map = new TileMap('field_stack');
+    const open = new Uint8Array(9);
+    open.fill(100);
+    map.loadFloorFromFriction(0, 3, 3, open);
+    map.groundStore = ground;
+    const ents = new Map();
+    map.resolveEntity = (id) => ents.get(id) || null;
+
+    const p1 = mockEntity('P1', 200, true);
+    p1.id = 1;
+    p1.tile = { x: 1, y: 1, z: 0 };
+    const p2 = mockEntity('P2', 200, true);
+    p2.id = 2;
+    p2.tile = { x: 1, y: 1, z: 0 };
+    const mob = mockEntity('Mob', 100, false);
+    mob.id = 3;
+    mob.tile = { x: 1, y: 1, z: 0 };
+    ents.set(1, p1);
+    ents.set(2, p2);
+    ents.set(3, mob);
+
+    assert.ok(map.tryOccupy(1, 1, 0, mob));
+    assert.ok(map.moveEntityToTile(p1, 1, 1, 0, { reason: 'stair' }));
+    assert.ok(map.moveEntityToTile(p2, 1, 1, 0, { reason: 'stair' }));
+    assert.deepStrictEqual(map.getCombatants(1, 1, 0), [3, 1, 2]);
+
+    const occs = combatantsOnTileForField(map, 1, 1, 0, []);
+    assert.strictEqual(occs.length, 3, 'all three combatants');
+
+    deployFieldAndTriggerOccupants(
+        ground,
+        1,
+        1,
+        0,
+        { kind: 'fire', source: 'scenario' },
+        occs,
+        0
+    );
+    // Fire entry: 20 each (no resists)
+    assert.strictEqual(p1.hp.current, 180);
+    assert.strictEqual(p2.hp.current, 180);
+    assert.strictEqual(mob.hp.current, 80);
+
+    // Player-sourced field: players immune, creature hit
+    const ground2 = createGroundStore();
+    const pA = mockEntity('A', 200, true);
+    pA.id = 11;
+    const pB = mockEntity('B', 200, true);
+    pB.id = 12;
+    const rat = mockEntity('Rat', 100, false);
+    rat.id = 13;
+    deployFieldAndTriggerOccupants(
+        ground2,
+        0,
+        0,
+        0,
+        { kind: 'fire', source: 'player' },
+        [pA, pB, rat],
+        0
+    );
+    assert.strictEqual(pA.hp.current, 200, 'player immune to player field');
+    assert.strictEqual(pB.hp.current, 200);
+    assert.strictEqual(rat.hp.current, 80, 'creature takes player field');
+
+    log('testFieldDeployHitsAllCombatantsOnStack: ok');
+}
+
+/**
+ * Phase B: energy field expire underfoot applies exit damage to all combatants.
+ */
+function testEnergyExpireUnderfootAllCombatants() {
+    log('Running testEnergyExpireUnderfootAllCombatants...');
+    const ground = createGroundStore();
+    deployFieldToTile(ground, 5, 5, 0, {
+        kind: 'energy',
+        source: 'scenario',
+        createdAt: 0
+    });
+    const a = mockEntity('A', 100, true);
+    a.id = 1;
+    const b = mockEntity('B', 100, true);
+    b.id = 2;
+    const c = mockEntity('C', 100, false);
+    c.id = 3;
+
+    // Entry damage first (optional for realism) — skip; expire exit only.
+    const purged = checkAndCleanExpiredTileFields(
+        ground,
+        5,
+        5,
+        0,
+        98,
+        [a, b, c]
+    );
+    assert.strictEqual(purged, true);
+    // Energy exit = 25 each
+    assert.strictEqual(a.hp.current, 75);
+    assert.strictEqual(b.hp.current, 75);
+    assert.strictEqual(c.hp.current, 75);
+    assert.strictEqual(getFieldOnTile(ground, 5, 5, 0), null);
+
+    log('testEnergyExpireUnderfootAllCombatants: ok');
+}
+
+/**
+ * Phase K — barrier / vine solid obstacles: path block, duration, floor stick,
+ * no entry damage, replace, destroy.
+ */
+function testObstacleBarrierAndVine() {
+    log('Running testObstacleBarrierAndVine...');
+    assert.strictEqual(getFieldKind('barrier_wall'), 'barrier');
+    assert.strictEqual(getFieldKind('magic_wall'), 'barrier');
+    assert.strictEqual(getFieldKind('wild_growth'), 'vine');
+    assert.strictEqual(getFieldKind('vine_barrier'), 'vine');
+    assert.ok(isObstacleFieldKind('barrier'));
+    assert.ok(isObstacleFieldKind('vine'));
+    assert.ok(!isObstacleFieldKind('fire'));
+
+    // Open 8×8 floor
+    const friction = new Uint8Array(8 * 8);
+    friction.fill(100);
+    const tileMap = new TileMap();
+    tileMap.loadFloorFromFriction(7, 8, 8, friction);
+    const ground = createGroundStore();
+    ground.tileMap = tileMap;
+    tileMap.groundStore = ground;
+
+    // Deploy barrier at (3,3,7)
+    const b = deployFieldToTile(ground, 3, 3, 7, {
+        kind: 'barrier',
+        source: FIELD_SOURCES.PLAYER,
+        createdAt: 0
+    });
+    assert.ok(b, 'barrier deployed');
+    assert.strictEqual(b.fieldKind, 'barrier');
+    assert.strictEqual(b.isObstacle, true);
+    assert.strictEqual(b.durationSec, 20, 'default barrier 20s');
+    assert.strictEqual(b.location.z, 7, 'floor stick z=7');
+    assert.ok(isObstacleField(b));
+    assert.strictEqual(tileMap.isWalkable(3, 3, 7), false, 'tile not walkable');
+    assert.strictEqual(
+        tileMap.getFriction(3, 3, 7),
+        FRICTION_BLOCKED,
+        'friction blocked'
+    );
+    assert.ok(
+        (tileMap.getTileFieldMask(3, 3, 7) & FIELD_MASKS.OBSTACLE) !== 0,
+        'OBSTACLE mask bit'
+    );
+
+    // No entry damage
+    const rat = mockEntity('Rat', 50, false);
+    const entry = applyFieldEntryEffects(rat, b, 0);
+    assert.strictEqual(entry.damage || 0, 0, 'no obstacle damage');
+    assert.strictEqual(rat.hp.current, 50);
+
+    // A* cannot path through or onto barrier
+    const path = findPath(
+        tileMap,
+        { x: 1, y: 3, z: 7 },
+        { x: 5, y: 3, z: 7 },
+        { allowDiagonal: false }
+    );
+    assert.ok(path === null || path.every((p) => !(p.x === 3 && p.y === 3)),
+        'path avoids barrier tile');
+    const onto = findPath(
+        tileMap,
+        { x: 1, y: 3, z: 7 },
+        { x: 3, y: 3, z: 7 },
+        { allowDiagonal: false }
+    );
+    assert.strictEqual(onto, null, 'cannot path onto barrier as goal');
+
+    // Floor stick: second floor empty; barrier stays only on z=7
+    const friction6 = new Uint8Array(8 * 8);
+    friction6.fill(100);
+    tileMap.loadFloorFromFriction(6, 8, 8, friction6);
+    assert.strictEqual(getFieldOnTile(ground, 3, 3, 7).fieldKind, 'barrier');
+    assert.strictEqual(getFieldOnTile(ground, 3, 3, 6), null, 'not on other floor');
+
+    // Vine replaces barrier; duration 30s
+    const v = deployFieldToTile(ground, 3, 3, 7, {
+        kind: 'vine',
+        source: FIELD_SOURCES.PLAYER,
+        createdAt: 5
+    });
+    assert.strictEqual(getFieldOnTile(ground, 3, 3, 7).fieldKind, 'vine');
+    assert.strictEqual(v.durationSec, 30);
+    assert.strictEqual(tileMap.isWalkable(3, 3, 7), false);
+
+    // Expire restores friction
+    const now = 5 + 30;
+    const cleaned = checkAndCleanExpiredTileFields(ground, 3, 3, 7, now, []);
+    assert.strictEqual(cleaned, true, 'expired vine purged');
+    assert.strictEqual(getFieldOnTile(ground, 3, 3, 7), null);
+    assert.strictEqual(tileMap.isWalkable(3, 3, 7), true, 'friction restored');
+    assert.strictEqual(tileMap.getFriction(3, 3, 7), 100);
+
+    // resolveShapedAttack deploys barrier on empty footprint center (no creature).
+    const caster = mockEntity('Caster', 100, true);
+    caster.tile = { x: 1, y: 1, z: 7 };
+    caster.mp = { current: 0, max: 0 };
+    caster.cooldowns = {};
+    const spell = {
+        id: 'barrier_wall_rune',
+        statusOnly: true,
+        min: 0,
+        max: 0,
+        range: 4,
+        mana: 0,
+        hitChance: 100,
+        shape: { type: 'area', code: 1 },
+        deploysField: 'barrier',
+        field: 'barrier',
+        fieldDurationSec: 20,
+        cooldowns: { primary: { attack: 2 } }
+    };
+    const res = resolveShapedAttack({
+        attacker: caster,
+        spell,
+        candidates: [],
+        tileMap,
+        groundStore: ground,
+        center: { x: 4, y: 4, z: 7 },
+        rng: () => 0,
+        skipCooldown: true,
+        skipMana: true
+    });
+    assert.strictEqual(res.ok, true, res.reason || 'barrier cast ok');
+    const planted = getFieldOnTile(ground, 4, 4, 7);
+    assert.ok(planted, 'barrier planted via shaped attack');
+    assert.strictEqual(planted.fieldKind, 'barrier');
+    assert.strictEqual(planted.durationSec, 20);
+    assert.strictEqual(planted.location.z, 7);
+
+    // Cannot place on creature-occupied tile
+    const monster = mockEntity('Blocker', 10, false);
+    monster.tile = { x: 2, y: 2, z: 7 };
+    monster.alive = true;
+    resolveShapedAttack({
+        attacker: caster,
+        primary: monster,
+        spell,
+        candidates: [monster],
+        tileMap,
+        groundStore: ground,
+        rng: () => 0,
+        skipCooldown: true,
+        skipMana: true
+    });
+    assert.strictEqual(
+        getFieldOnTile(ground, 2, 2, 7),
+        null,
+        'no barrier under creature'
+    );
+
+    log('testObstacleBarrierAndVine: ok');
+}
+
+/**
+ * Floor-stick contract: fields and barriers keep duration + step effects on the
+ * plant floor after the caster hops away (legacy createItem at Position).
+ */
+function testFieldAndBarrierFloorStickAfterCasterHop() {
+    log('Running testFieldAndBarrierFloorStickAfterCasterHop...');
+
+    const friction0 = new Uint8Array(8 * 8);
+    friction0.fill(100);
+    const friction1 = new Uint8Array(8 * 8);
+    friction1.fill(100);
+    const tileMap = new TileMap();
+    tileMap.loadFloorFromFriction(0, 8, 8, friction0);
+    tileMap.loadFloorFromFriction(1, 8, 8, friction1);
+    const ground = createGroundStore();
+    ground.tileMap = tileMap;
+    tileMap.groundStore = ground;
+
+    // --- Fire field: plant on z=0, caster hops to z=1 ---
+    const fire = deployFieldToTile(ground, 4, 4, 0, {
+        kind: 'fire',
+        source: FIELD_SOURCES.PLAYER,
+        createdAt: 0,
+        durationSec: 12
+    });
+    assert.ok(fire);
+    assert.strictEqual(fire.location.z, 0);
+    assert.strictEqual(fire.expireAt, 12);
+
+    // Caster leaves the plant floor (stairs hop). Field must not move.
+    const caster = mockEntity('Caster', 100, true);
+    caster.tile = { x: 0, y: 0, z: 0 };
+    caster.tile = { x: 1, y: 1, z: 1 };
+
+    assert.ok(getFieldOnTile(ground, 4, 4, 0), 'fire stays on plant floor');
+    assert.strictEqual(
+        getFieldOnTile(ground, 4, 4, 1),
+        null,
+        'fire does not follow caster to z=1'
+    );
+
+    // Step-on still damages a creature on plant floor while caster is elsewhere.
+    const rat = mockEntity('Rat', 100, false);
+    rat.tile = { x: 4, y: 4, z: 0 };
+    const entry = applyFieldEntryEffects(rat, fire, 1);
+    assert.ok(entry.damage > 0, 'entry damage while caster on other floor');
+    assert.ok(rat.hp.current < 100);
+
+    // Duration still expires on plant floor (purge heap path).
+    let purged = purgeExpiredFields(ground, 11, () => []);
+    assert.strictEqual(purged, 0, 'not yet expired at t=11');
+    assert.ok(getFieldOnTile(ground, 4, 4, 0));
+    purged = purgeExpiredFields(ground, 12.01, () => [rat]);
+    assert.ok(purged >= 1, 'expired after duration on plant floor');
+    assert.strictEqual(getFieldOnTile(ground, 4, 4, 0), null);
+
+    // --- Barrier wall: plant on z=0, caster on z=1, block + expire ---
+    const wall = deployFieldToTile(ground, 5, 5, 0, {
+        kind: 'barrier',
+        source: FIELD_SOURCES.PLAYER,
+        createdAt: 20,
+        durationSec: 20
+    });
+    assert.ok(wall);
+    assert.strictEqual(wall.location.z, 0);
+    assert.strictEqual(tileMap.isWalkable(5, 5, 0), false);
+    assert.strictEqual(tileMap.isWalkable(5, 5, 1), true, 'other floor open');
+
+    // Caster still on z=1 — barrier must remain blocked on z=0 for full duration.
+    assert.ok(getFieldOnTile(ground, 5, 5, 0));
+    assert.strictEqual(getFieldOnTile(ground, 5, 5, 1), null);
+
+    purged = purgeExpiredFields(ground, 39.9, () => []);
+    assert.strictEqual(purged, 0, 'barrier still active near end of duration');
+    assert.strictEqual(tileMap.isWalkable(5, 5, 0), false);
+
+    purged = purgeExpiredFields(ground, 40.01, () => []);
+    assert.ok(purged >= 1, 'barrier expires on plant floor');
+    assert.strictEqual(getFieldOnTile(ground, 5, 5, 0), null);
+    assert.strictEqual(tileMap.isWalkable(5, 5, 0), true, 'friction restored');
+
+    // --- Vine via shaped cast then caster hop ---
+    const planter = mockEntity('Planter', 100, true);
+    planter.tile = { x: 1, y: 1, z: 0 };
+    planter.mp = { current: 0, max: 0 };
+    planter.cooldowns = {};
+    const vineSpell = {
+        id: 'vine_barrier_rune',
+        statusOnly: true,
+        min: 0,
+        max: 0,
+        range: 4,
+        mana: 0,
+        hitChance: 100,
+        shape: { type: 'area', code: 1 },
+        deploysField: 'vine',
+        fieldDurationSec: 30,
+        cooldowns: { primary: { attack: 2 } }
+    };
+    const planted = resolveShapedAttack({
+        attacker: planter,
+        spell: vineSpell,
+        candidates: [],
+        tileMap,
+        groundStore: ground,
+        center: { x: 2, y: 2, z: 0 },
+        rng: () => 0,
+        skipCooldown: true,
+        skipMana: true
+    });
+    assert.ok(planted.ok, planted.reason || 'vine cast');
+    const vine = getFieldOnTile(ground, 2, 2, 0);
+    assert.ok(vine && vine.fieldKind === 'vine');
+    assert.strictEqual(vine.location.z, 0);
+    planter.tile = { x: 0, y: 0, z: 1 };
+    assert.ok(
+        getFieldOnTile(ground, 2, 2, 0),
+        'vine remains after caster floor hop'
+    );
+    assert.strictEqual(tileMap.isWalkable(2, 2, 0), false);
+
+    log('testFieldAndBarrierFloorStickAfterCasterHop: ok');
+}
+
 function main() {
     testFieldKindAndDurations();
     testFieldSingleTileReplacement();
@@ -957,6 +1356,10 @@ function main() {
     testCreatureRangedFieldDeployment();
     testCreatureFieldAffectsOtherCreaturesAndSummonSpawn();
     testFindSpawnTileRejectsHazardForSummon();
+    testFieldDeployHitsAllCombatantsOnStack();
+    testEnergyExpireUnderfootAllCombatants();
+    testObstacleBarrierAndVine();
+    testFieldAndBarrierFloorStickAfterCasterHop();
     console.log('elemental_fields: ok');
 }
 

@@ -3,24 +3,51 @@
  */
 
 const { Settings } = require('../../../settings.js');
-const { resolveAttack, indexSpells, defaultMeleeAutoSpell } =
-    require('../combat/resolve.js');
+const {
+    resolveAttack,
+    indexSpells,
+    defaultMeleeAutoSpell,
+    isChallengeableCreature,
+    baseTargetDistance
+} = require('../combat/resolve.js');
 const {
     spellHasShape,
     isSelfCenteredAreaSpell,
+    canCastPlayerAreaOnTile,
     resolveShapedAttack,
     computeSpellFootprint
 } = require('../combat/area.js');
+const {
+    spellHasChain,
+    resolveChainAttack,
+    normalizeChainSpec,
+    pickChainTargets
+} = require('../combat/chain.js');
+const { isValidTarget } = require('./targeting.js');
 const { isTileFieldHazardForEntity } = require('../combat/elemental_fields.js');
-const { entitiesOnTiles } = require('../shapes.js');
+const { entitiesOnTiles, hasLineOfSight } = require('../shapes.js');
 const Cooldowns = require('../combat/cooldowns.js');
 const { hasMana } = require('../combat/resolve.js');
 const { distBetween } = require('./targeting.js');
 const { tileDistance } = require('../movement.js');
 const { hpPercent, isAutoAttackId } = require('./strategy.js');
+const { hasCondition } = require('../combat/conditions.js');
 
 /** Default self-heal spell id (presets/spells.json). */
 const DEFAULT_HEAL_SPELL_ID = 'heal_light';
+
+/**
+ * Condition kind → self-cure spell id (Phase F).
+ * Order is cast priority when multiple DoTs are active.
+ * @type {{ kind: string, spellId: string }[]}
+ */
+const CURE_BY_CONDITION = [
+    { kind: 'poison', spellId: 'cure_poison' },
+    { kind: 'fire', spellId: 'cure_burning' },
+    { kind: 'energy', spellId: 'cure_electrification' },
+    { kind: 'bleed', spellId: 'cure_bleeding' },
+    { kind: 'curse', spellId: 'cure_curse' }
+];
 
 /** Built-in auto spell ids by weapon family. */
 const AUTO_BY_WEAPON = {
@@ -670,7 +697,7 @@ function meetsSpellMagicLevel(attacker, spell) {
 
 /**
  * Whether attacker can currently fire the spell (known + level + magic level +
- * CD + mana + rune stock when consumption is on).
+ * moveLock/moveDelay root + CD + mana + rune stock when consumption is on).
  * @param {object} attacker
  * @param {object} spell
  * @param {object} [ctx] hunt context (mode / runeConsumption / inventory helpers)
@@ -681,10 +708,52 @@ function canCast(attacker, spell, ctx) {
     if (!canUseSpell(attacker, spell)) return false;
     if (!meetsSpellLevel(attacker, spell)) return false;
     if (!meetsSpellMagicLevel(attacker, spell)) return false;
+    // Post-cast / step root: same gate as tryAutoAttack and canStep.
+    // Blocks same-tick and mid-root casts (AI, heal, CUSTOM_COMMAND macros).
+    if (!isMoveUnlocked(attacker)) return false;
+    // Phase M: Stage-1 swift foot pacify — block attack/auto (support+heal OK).
+    if (isPacifiedAttack(attacker, spell)) return false;
     Cooldowns.ensureCooldowns(attacker);
     if (!Cooldowns.canUse(attacker, spell.cooldowns)) return false;
     if (!hasMana(attacker, spell.mana || 0)) return false;
     if (!hasRune(attacker, spell, ctx)) return false;
+    // Phase B: player shaped cast only when first on tile (tile controller).
+    if (spellHasShape(spell)) {
+        const c = ctx || {};
+        const tileMap =
+            c.tileMap || (c.sim && c.sim.tileMap) || null;
+        if (!canCastPlayerAreaOnTile(attacker, tileMap)) return false;
+    }
+    return true;
+}
+
+/**
+ * Stage-1 swift foot / pacify: block offensive autos & attack-group spells.
+ * Support and healing remain castable (escape / recovery).
+ * @param {object} attacker
+ * @param {object} spell
+ * @returns {boolean}
+ */
+function isPacifiedAttack(attacker, spell) {
+    if (!attacker || !spell) return false;
+    let pacified = attacker.cannotAttack === true;
+    if (!pacified) {
+        try {
+            const { isCannotAttack } = require('../combat/conditions.js');
+            pacified = isCannotAttack(attacker);
+        } catch (_) {
+            pacified = false;
+        }
+    }
+    if (!pacified) return false;
+    const kind = String(spell.kind || '');
+    if (kind === 'support' || kind === 'heal') return false;
+    if (spell.element === 'healing') return false;
+    // statusOnly utility with no damage (dispel, etc.) — allow if support-like
+    if (spell.statusOnly && kind !== 'auto' && kind !== 'strike') {
+        const cd = spell.cooldowns && spell.cooldowns.primary;
+        if (cd && cd.support != null && cd.attack == null) return false;
+    }
     return true;
 }
 
@@ -712,11 +781,13 @@ function livingHostilePool(attacker, primary, candidates) {
 /**
  * Whether the spell can usefully fire at the sticky target (or self-AoE pack).
  *
- * Self-centered area (berserk, divine_caldera, …): ignore authored `range: 0`
+ * Self-centered area (rampage, radiant_crater, …): ignore authored `range: 0`
  * and allow cast when **any** living hostile lies on the caster-centered
  * footprint (not only when Chebyshev to sticky ≤ range).
  *
- * Single-target / wave / ranged area: Chebyshev to primary ≤ spell.range.
+ * Single-target / wave / ranged area: Chebyshev to primary ≤ spell.range,
+ * plus Bresenham LoS through walkable tiles when `ctx.tileMap` (or sim) is set.
+ * Adjacent (Chebyshev ≤ 1) is always clear; missing tileMap → open (tests).
  *
  * @param {object} attacker
  * @param {object|null} defender sticky / primary target
@@ -724,6 +795,43 @@ function livingHostilePool(attacker, primary, candidates) {
  * @param {object} [ctx] hunt ctx { enemies, players, tileMap, sim, candidates }
  * @returns {boolean}
  */
+/**
+ * Chain hop filter for catalog flags (chainOnlyRanged).
+ * Legacy chivalrous_challenge / divine_dazzle canChain:
+ * free monster (no master), not reward boss, base targetDistance > 1.
+ *
+ * @param {object} spell
+ * @param {object} caster
+ * @param {object} cand
+ * @returns {boolean}
+ */
+function chainCanPick(spell, caster, cand) {
+    if (!isValidTarget(caster, cand)) return false;
+    if (!spell || !spell.chainOnlyRanged) return true;
+    if (!isChallengeableCreature(cand)) return false;
+    if (
+        cand.isRewardBoss === true ||
+        (cand.flags && cand.flags.rewardBoss === true) ||
+        (cand.kit && cand.kit.flags && cand.kit.flags.rewardBoss === true)
+    ) {
+        return false;
+    }
+    return baseTargetDistance(cand) > 1;
+}
+
+/**
+ * Self-origin support chain (no sticky primary required).
+ * @param {object|null|undefined} spell
+ * @returns {boolean}
+ */
+function isSelfOriginChainSpell(spell) {
+    return !!(
+        spell &&
+        spellHasChain(spell) &&
+        spell.requiresTarget === false
+    );
+}
+
 function isSpellInRange(attacker, defender, spell, ctx) {
     if (!attacker || !spell || !attacker.tile) return false;
 
@@ -748,10 +856,52 @@ function isSpellInRange(attacker, defender, spell, ctx) {
         return entitiesOnTiles(pool, foot.affectedTiles, z).length > 0;
     }
 
+    // Self-origin chain (chivalrous_challenge / divine_dazzle): any pickable hop.
+    if (isSelfOriginChainSpell(spell)) {
+        const c = ctx || {};
+        const tileMap =
+            c.tileMap || (c.sim && c.sim.tileMap) || null;
+        const candidates = shapeCandidatesFromCtx(attacker, c);
+        const spec = normalizeChainSpec(spell);
+        if (!spec) return false;
+        const picked = pickChainTargets({
+            caster: attacker,
+            primary: null,
+            candidates,
+            maxTargets: spec.maxTargets,
+            distance: spec.distance,
+            backtracking: spec.backtracking,
+            tileMap,
+            canPick: (caster, cand) => chainCanPick(spell, caster, cand)
+        });
+        return picked.hops.length > 0;
+    }
+
     if (!defender || defender.alive === false) return false;
     if (defender.hp && defender.hp.current <= 0) return false;
     const r = resolveSpellRange(attacker, spell);
-    return distBetween(attacker, defender) <= r;
+    if (distBetween(attacker, defender) > r) return false;
+
+    // Single-target / wave / ranged-area gate: solid tiles block shots.
+    // Self-centered and self-origin chain already returned above.
+    const c = ctx || {};
+    const tileMap = c.tileMap || (c.sim && c.sim.tileMap) || null;
+    if (tileMap && attacker.tile && defender.tile) {
+        if (
+            !hasLineOfSight(
+                attacker.tile.x,
+                attacker.tile.y,
+                attacker.tile.z,
+                defender.tile.x,
+                defender.tile.y,
+                defender.tile.z,
+                tileMap
+            )
+        ) {
+            return false;
+        }
+    }
+    return true;
 }
 
 /**
@@ -803,6 +953,10 @@ function recordAttackResult(attacker, primary, result, ctx) {
                 bag.direction = result.direction;
                 bag.hits = result.hits;
                 bag.results = result.results;
+                if (result.chain) {
+                    bag.chain = true;
+                    bag.chainLinks = result.chainLinks;
+                }
             } else {
                 bag.multi = false;
                 // Avoid double-counting spell mana in telemetry
@@ -846,15 +1000,59 @@ function tryAttack(opts) {
     const defender = o.defender;
     const spellId = o.spellId || 'melee_auto';
     const ctx = o.ctx || {};
-    if (!attacker || !defender || !attacker.alive || !defender.alive) return null;
+    if (!attacker || !attacker.alive) return null;
 
     const spell = getSpell(spellId, ctx);
     if (!spell && !isAutoAttackId(spellId)) return null;
     const def = spell || defaultAutoSpell(spellId) || defaultMeleeAutoSpell();
-    if (!isSpellInRange(attacker, defender, def, ctx)) return null;
+    // Self-origin chain / self-buff may omit a sticky primary.
+    const selfOrigin = isSelfOriginChainSpell(def);
+    if (
+        !selfOrigin &&
+        (!defender || defender.alive === false)
+    ) {
+        return null;
+    }
+    if (!isSpellInRange(attacker, defender || null, def, ctx)) return null;
     if (!canCast(attacker, def, ctx)) return null;
 
-    // Shaped multi-target (berserk, front_sweep, GFB, waves, field runes, …)
+    // Chain multi-hop (chained_penance, chivalrous_challenge, divine_dazzle, …).
+    // Prefer chain over shape if both are set (catalog should not combine).
+    if (spellHasChain(def)) {
+        const tileMap =
+            ctx.tileMap ||
+            (ctx.sim && ctx.sim.tileMap) ||
+            null;
+        const candidates = shapeCandidatesFromCtx(attacker, ctx);
+        // Self-origin chains (requiresTarget false) ignore sticky primary so the
+        // hop search starts at the caster (legacy getChainValue self path).
+        const selfOrigin = isSelfOriginChainSpell(def);
+        const primary =
+            selfOrigin || !defender || defender === attacker
+                ? null
+                : defender;
+        const result = resolveChainAttack({
+            attacker,
+            primary,
+            spell: def,
+            candidates,
+            tileMap,
+            spellBook: spellBookFromCtx(ctx),
+            rng: ctx.rng || Math.random,
+            canPick: (caster, cand) => chainCanPick(def, caster, cand)
+        });
+        if (!result.ok) return null;
+        spendRune(attacker, def, ctx);
+        recordAttackResult(
+            attacker,
+            primary || (result.hits && result.hits[0]) || defender,
+            result,
+            ctx
+        );
+        return result;
+    }
+
+    // Shaped multi-target (rampage, front_sweep, GFB, waves, field runes, …)
     if (spellHasShape(def)) {
         const tileMap =
             ctx.tileMap ||
@@ -945,6 +1143,43 @@ function tryHeal(opts) {
 }
 
 /**
+ * Cast a self-cure when the target has a matching condition and the spell is ready.
+ * Uses class book + mana/CD gates via canCast / canUseSpell.
+ *
+ * @param {object} opts
+ * @param {object} opts.attacker
+ * @param {object} [opts.ctx]
+ * @param {object} [opts.target] defaults to self
+ * @returns {object|null} resolveAttack result when cast, else null
+ */
+function tryCure(opts) {
+    const o = opts || {};
+    const attacker = o.attacker;
+    const ctx = o.ctx || {};
+    if (!attacker || !attacker.alive) return null;
+
+    const target = o.target && o.target.alive !== false ? o.target : attacker;
+    if (!target || !target.alive) return null;
+
+    for (let i = 0; i < CURE_BY_CONDITION.length; i++) {
+        const row = CURE_BY_CONDITION[i];
+        if (!hasCondition(target, row.kind)) continue;
+        const spell = getSpell(row.spellId, ctx);
+        if (!spell || !Array.isArray(spell.dispel) || !spell.dispel.length) {
+            continue;
+        }
+        if (!canCast(attacker, spell, ctx)) continue;
+        return tryAttack({
+            attacker,
+            defender: target,
+            spellId: row.spellId,
+            ctx
+        });
+    }
+    return null;
+}
+
+/**
  * Step one tile toward a world tile if moveDelay allows.
  * Same-floor only — cross-floor must go through stairs / followLongPath.
  *
@@ -964,6 +1199,10 @@ function stepToward(entity, dest, tileMap, opts) {
     // Local stepToward cannot cross floors (would path x,y on start layer and
     // apply targetZ — freeze/teleport). Callers must use Party.stepTowardFloor.
     if (String(entity.tile.z) !== String(z)) {
+        // E5: stop following stale same-floor path when goal is other floor
+        if (Array.isArray(entity.path) && entity.path.length) {
+            entity.path = [];
+        }
         return false;
     }
     if (
@@ -982,6 +1221,20 @@ function stepToward(entity, dest, tileMap, opts) {
         Settings.PATH_MAX_DISTANCE != null
             ? Number(Settings.PATH_MAX_DISTANCE)
             : 100;
+    // Creatures / summons use shorter chase radius (Option B); players keep full local cap
+    const isPlayer = entity.type === 'player';
+    const creatureCap =
+        Settings.AI_CREATURE_PATH_MAX_DISTANCE != null
+            ? Number(Settings.AI_CREATURE_PATH_MAX_DISTANCE)
+            : 12;
+    const pathCap =
+        opts && opts.maxDistance != null
+            ? Number(opts.maxDistance)
+            : isPlayer
+              ? localCap
+              : Number.isFinite(creatureCap) && creatureCap > 0
+                ? creatureCap
+                : localCap;
     const longDist =
         opts && opts.longPathDistance != null
             ? Number(opts.longPathDistance)
@@ -997,7 +1250,7 @@ function stepToward(entity, dest, tileMap, opts) {
             useNavmeshBeyondCap: true
         });
     } else {
-        tileMap.followPath(entity, dest.x, dest.y, z);
+        tileMap.followPath(entity, dest.x, dest.y, z, pathCap);
     }
     return (
         entity.tile.x !== from.x ||
@@ -1434,11 +1687,15 @@ module.exports = {
     meetsSpellMagicLevel,
     canCast,
     isSpellInRange,
+    isSelfOriginChainSpell,
+    chainCanPick,
     shapeCandidatesFromCtx,
     recordAttackResult,
     tryAttack,
     tryAutoAttack,
     tryHeal,
+    tryCure,
+    CURE_BY_CONDITION,
     stepToward,
     stepRandomAdjacent,
     openNeighborCount,

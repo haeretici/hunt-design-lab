@@ -31,7 +31,13 @@ const { bindInventoryPanel } = require('../game/inventory_panel.js');
 const actionBarsModule = require('../game/action_bars.js');
 const { initActionBars } = actionBarsModule;
 const { createActionBarParentBridge } = require('../../../html/widgets/action_bar_config/parent_bridge.js');
-const { initTargetCursorListeners, initManualKeyboardControls, clearActiveMoveKeys } = require('../game/ui_state.js');
+const {
+    initTargetCursorListeners,
+    initManualKeyboardControls,
+    initMouseButtonTracking,
+    clearActiveMoveKeys,
+    loadMouseControls
+} = require('../game/ui_state.js');
 const {
     transferManualControlOnSlotChange,
     syncActiveControlToggle: syncActiveControlToggleUi,
@@ -50,7 +56,8 @@ const {
 } = require('../../providers/simulator/hunt_opts.js');
 const {
     loadPersistedDebugAI,
-    loadPersistedCamera
+    loadPersistedCamera,
+    loadPersistedProgression
 } = require('../../../html/widgets/engine_tweakings/bind.js');
 const {
     createEngineTweakingsParentBridge
@@ -706,9 +713,13 @@ async function initScenarioLabApp() {
 
     loadPersistedDebugAI(Settings);
     loadPersistedCamera(Settings);
+    loadPersistedProgression(Settings);
+    // docs/29 Stage 3: mouse control mode + loot stub prefs
+    loadMouseControls();
     const engineTweaksBridge = createEngineTweakingsParentBridge({
         Settings,
-        Application
+        Application,
+        actionBars: actionBarsModule
     });
     const openEngineTweakingsBtn = document.getElementById(
         'openEngineTweakingsBtn'
@@ -896,6 +907,11 @@ async function initScenarioLabApp() {
     rosterPanelsCtl = bindRosterPanels({
         getSim: () => Application.currentLevel,
         getIdleMembers: () => formMembers.filter((x) => x && x.enabled !== false),
+        getIdleMember: () => {
+            const m = formMembers[activeViewSlot];
+            if (m && m.enabled !== false) return m;
+            return formMembers.find((x) => x && x.enabled !== false) || null;
+        },
         isSessionLive: () => !!sessionLive,
         getGenre: () => {
             try {
@@ -922,7 +938,8 @@ async function initScenarioLabApp() {
                 return DEFAULT_GENRE;
             }
         },
-        getIsSessionLive: () => !!sessionLive
+        getIsSessionLive: () => !!sessionLive,
+        getSimulator: () => Application.currentLevel || null
     });
     const openActionBarConfigBtn = document.getElementById('openActionBarConfigBtn');
     const actionBarHint = document.getElementById('actionBarConfigPopupHint');
@@ -1227,13 +1244,23 @@ async function initScenarioLabApp() {
         bindManualCanvasClick(canvas, {
             getSessionLive: () => sessionLive,
             getSim: () => Application.currentLevel,
-            getActivePlayer: (sim) => getActivePlayerFromSim(sim)
+            getActivePlayer: (sim) => getActivePlayerFromSim(sim),
+            onAdapterIntent: (intent, ctx) => {
+                if (
+                    inventoryPanelCtl &&
+                    typeof inventoryPanelCtl.handleCanvasAdapterIntent ===
+                        'function'
+                ) {
+                    inventoryPanelCtl.handleCanvasAdapterIntent(intent, ctx);
+                }
+            }
         });
     }
 
     // Manual control: keyboard continuous single-step movement & targeting
     if (typeof window !== 'undefined') {
         initTargetCursorListeners();
+        initMouseButtonTracking();
         initManualKeyboardControls({
             getSessionLive: () => sessionLive,
             getSim: () => Application.currentLevel,

@@ -41,6 +41,7 @@
  *   action=presets_refs     — soft reference warnings for an entity (?mode=&kind=&id=)
  *   action=presets_template — blank entity for New (?kind=&id=)
  *   action=presets_save     — create/update one entity (POST)
+ *   action=presets_rename   — explicit id rename + soft-ref rewrite (POST: mode, kind, from, to)
  *   action=presets_delete   — delete entity; response may include soft warnings (POST)
  *   action=presets_validate — kernel validate pieces/biomes/dungeons (?mode=&kind=&id=&level=layout|stress)
  *
@@ -86,7 +87,7 @@ if ($action === '') {
         'sim_results_list, sim_results_get, sim_results_folder, ' .
         'catalog_genres, catalog_list, creature_remove, creature_rename, creature_flip, creature_replace, creature_opaque_alpha, creature_reprocess, creature_fix_green, ' .
         'modes_list, hunts_list, hunts_get, hunts_template, hunts_save, hunts_delete, presets_browser_pack, ' .
-        'presets_kinds, presets_list, presets_get, presets_ids, presets_refs, presets_template, presets_save, presets_delete, presets_validate, ' .
+        'presets_kinds, presets_list, presets_get, presets_ids, presets_refs, presets_template, presets_save, presets_rename, presets_delete, presets_validate, ' .
         'smart_update_sprites, bugs_save',
         400
     );
@@ -364,6 +365,19 @@ try {
                 'id' => (string) $req->get('id', ''),
                 'entity' => $req->get('entity', null),
                 'renameFrom' => $req->get('renameFrom', null),
+            ]);
+            Response::ok($data);
+            break;
+
+        case 'presets_rename':
+            // Explicit id rename; rewrites soft refs (populations, hunts, …) by default.
+            requireWrite($req);
+            $data = PresetCrud::rename([
+                'mode' => (string) $req->get('mode', hdl_default_mode_id()),
+                'kind' => (string) $req->get('kind', ''),
+                'from' => (string) $req->get('from', $req->get('renameFrom', '')),
+                'to' => (string) $req->get('to', $req->get('id', '')),
+                'updateRefs' => $req->get('updateRefs', true),
             ]);
             Response::ok($data);
             break;

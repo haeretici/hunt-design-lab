@@ -52,7 +52,7 @@ Options:
   --max-living <n>   SPAWN_MAX_LIVING soft cap (slots mode; 0 = off)
   --idle-sec <n>     SPAWN_DESPAWN_IDLE_SEC (slots mode; default Settings)
   --no-sleep         Disable AI_CREATURE_SLEEP (Etapa 3 off)
-  --path-budget <n>  AI_PATH_BUDGET_PER_FRAME (0 = unlimited; Etapa 5)
+  --path-budget <n>  AI_PATH_BUDGET_PER_FRAME (default 48 server-shaped; 0 = unlimited)
   --no-player-index  Disable playerSpatialIndex (linear creature→player aggro)
   --seed <n>         Placement seed (default 1)
   -h, --help         Show help
@@ -390,7 +390,9 @@ function runStress(opts) {
     Settings.AI_GATE_CREATURE_ON_MOVE_DELAY = false;
     if (opts.noSleep) Settings.AI_CREATURE_SLEEP = false;
     else Settings.AI_CREATURE_SLEEP = true;
-    if (opts.pathBudget != null) Settings.AI_PATH_BUDGET_PER_FRAME = opts.pathBudget;
+    // Policy A: stress / server-shaped pins 48; golden/CI/normal hunts stay 0
+    Settings.AI_PATH_BUDGET_PER_FRAME =
+        opts.pathBudget != null ? opts.pathBudget : 48;
 
     try {
         const playersN = opts.players;
@@ -571,12 +573,19 @@ function runStress(opts) {
                 distanceChecks: totals.distanceChecks || 0,
                 brainsExecuted: totals.brainsExecuted || 0,
                 brainsConsidered: totals.brainsConsidered || 0,
+                brainsFull: totals.brainsFull || 0,
+                brainsKitOnly: totals.brainsKitOnly || 0,
                 enemiesListed: totals.enemiesListed || 0,
                 spatialCandidates: totals.spatialCandidates || 0,
                 stickyCandidates: totals.stickyCandidates || 0,
                 usedSpatial: !!totals.usedSpatial,
                 aoiBuilt: totals.aoiBuilt || 0,
-                aoiCacheHits: totals.aoiCacheHits || 0
+                aoiCacheHits: totals.aoiCacheHits || 0,
+                repaths: totals.repaths || 0,
+                criticalRepaths: totals.criticalRepaths || 0,
+                optionalRepaths: totals.optionalRepaths || 0,
+                budgetSkips: totals.budgetSkips || 0,
+                failBackoffs: totals.failBackoffs || 0
             },
             updateTotals: {
                 frames: upTot.frames || 0,
@@ -590,17 +599,26 @@ function runStress(opts) {
                 distanceChecks: avg(totals.distanceChecks, frames),
                 brainsExecuted: avg(totals.brainsExecuted, frames),
                 brainsConsidered: avg(totals.brainsConsidered, frames),
+                brainsFull: avg(totals.brainsFull, frames),
+                brainsKitOnly: avg(totals.brainsKitOnly, frames),
                 enemiesListed: avg(totals.enemiesListed, frames),
                 spatialCandidates: avg(totals.spatialCandidates, frames),
                 aoiBuilt: avg(totals.aoiBuilt, frames),
                 aoiCacheHits: avg(totals.aoiCacheHits, frames),
+                repaths: avg(totals.repaths, frames),
+                criticalRepaths: avg(totals.criticalRepaths, frames),
+                optionalRepaths: avg(totals.optionalRepaths, frames),
+                budgetSkips: avg(totals.budgetSkips, frames),
+                failBackoffs: avg(totals.failBackoffs, frames),
                 awake: avg(upTot.awake, upTot.frames || frames),
                 asleep: avg(upTot.asleep, upTot.frames || frames)
             },
             lastFrame: last,
             lastUpdate: upLast,
             note:
-                'Etapa 5: playerSpatialIndex for creature aggro + AI_PATH_BUDGET_PER_FRAME. ' +
+                'Phase F: aiPerf repath + think (brainsFull/kitOnly). ' +
+                'Policy A path budget: stress default 48; golden/CI/normal 0. ' +
+                'Etapa 5: playerSpatialIndex + AI_PATH_BUDGET_PER_FRAME. ' +
                 'Etapa 4: AOI frame cache. Etapa 3: asleep skip Creature.update. ' +
                 'pack-far → asleep ≈ creatures.'
         };

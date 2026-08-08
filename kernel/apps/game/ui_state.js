@@ -1,22 +1,58 @@
 /**
  * Global runtime UI state for manual interaction, targeting cursors, and mouse control preferences.
  * Emulates legacy responsiveness (mouseControlMode = 1 Classic Control default, mode 0 Regular Control optional).
+ * Mouse prefs persist in browser localStorage (`hdl_mouse_controls`) — see docs/29 Stage 3.
  */
 
 'use strict';
 
 const { Settings } = require('../../settings.js');
 
+/** Browser localStorage key for mouse control prefs (shell-shared, not per-party). */
+const STORAGE_KEY_MOUSE_CONTROLS = 'hdl_mouse_controls';
+
+/**
+ * Product defaults (docs/29 Q0.1 / Stage 3–4).
+ * Modes 0/1/2 all valid; default remains Classic (1).
+ */
+const DEFAULT_MOUSE_CONTROLS = Object.freeze({
+    mouseControlMode: 1,
+    lootControlMode: 0,
+    talkOnRightClick: false,
+    moveStack: false
+});
+
 const uiState = {
     /** @type {{ type: string, sourceUid?: string, itemId?: string, spellId?: string } | null} */
     activeActionCursor: null,
     /**
-     * Mouse control mode:
-     * 1 = Classic Control (default): unshifted RMB performs direct action / attacks enemy / uses item. Shift+RMB opens context menu.
-     * 0 = Regular Control: Left click selects/attacks, double-left click uses/opens, unshifted RMB opens context menu.
+     * Mouse control mode (see docs/29):
+     * 1 = Classic Control (default): unshifted RMB = attack / open·use / pickup / walk;
+     *     Ctrl+click = context menu (any tile); Shift = Look; Alt = attack (non-NPC).
+     * 0 = Regular Control: LMB target/walk; unshifted RMB = context menu always;
+     *     Ctrl = use/open; Shift = Look; Alt = attack (non-NPC).
+     * 2 = Left Smart-Click: unshifted LMB = smart default (attack / use / pickup / walk);
+     *     unshifted RMB = context menu; Ctrl = open world container/corpse or menu.
      * @type {number}
      */
-    mouseControlMode: 1,
+    mouseControlMode: DEFAULT_MOUSE_CONTROLS.mouseControlMode,
+    /**
+     * Classic-only loot sub-mode (docs/29 §1.2). Stub until Stage 5b corpses/quickloot.
+     * 0 = Loot: Right, 1 = Loot: SHIFT+Right, 2 = Loot: Left.
+     * @type {number}
+     */
+    lootControlMode: DEFAULT_MOUSE_CONTROLS.lootControlMode,
+    /**
+     * Regular mode: unshifted RMB on NPC talks when true (Stage 6). Stub field.
+     * @type {boolean}
+     */
+    talkOnRightClick: DEFAULT_MOUSE_CONTROLS.talkOnRightClick,
+    /**
+     * Stack drag quantity preference (Stage 7). Default false:
+     * plain drag opens amount modal; Ctrl moves full (Ctrl XOR moveStack).
+     * @type {boolean}
+     */
+    moveStack: DEFAULT_MOUSE_CONTROLS.moveStack,
     /** @type {string|null} */
     hoveredEntityKey: null,
     /** @type {number|string|null} */
@@ -26,8 +62,103 @@ const uiState = {
 };
 
 /**
- * Enter target cursor mode for a multi-use item or spell.
- * @param {{ type: string, sourceUid?: string, itemId?: string, spellId?: string }} cursor
+ * Normalize a mouse-controls prefs bag (pure; no side effects).
+ * Invalid / missing fields fall back to product defaults.
+ * @param {object|null|undefined} raw
+ * @returns {{
+ *   mouseControlMode: number,
+ *   lootControlMode: number,
+ *   talkOnRightClick: boolean,
+ *   moveStack: boolean
+ * }}
+ */
+function normalizeMouseControls(raw) {
+    const src = raw && typeof raw === 'object' ? raw : {};
+    let mode = Number(src.mouseControlMode);
+    if (!Number.isFinite(mode)) mode = DEFAULT_MOUSE_CONTROLS.mouseControlMode;
+    mode = Math.floor(mode);
+    // 0 Regular, 1 Classic, 2 Left Smart-Click
+    if (mode !== 0 && mode !== 1 && mode !== 2) {
+        mode = DEFAULT_MOUSE_CONTROLS.mouseControlMode;
+    }
+    let loot = Number(src.lootControlMode);
+    if (!Number.isFinite(loot)) loot = DEFAULT_MOUSE_CONTROLS.lootControlMode;
+    loot = Math.floor(loot);
+    if (loot !== 0 && loot !== 1 && loot !== 2) {
+        loot = DEFAULT_MOUSE_CONTROLS.lootControlMode;
+    }
+    return {
+        mouseControlMode: mode,
+        lootControlMode: loot,
+        talkOnRightClick: src.talkOnRightClick === true,
+        moveStack: src.moveStack === true
+    };
+}
+
+/**
+ * Snapshot current mouse prefs from uiState.
+ * @returns {ReturnType<typeof normalizeMouseControls>}
+ */
+function snapshotMouseControls() {
+    return normalizeMouseControls({
+        mouseControlMode: uiState.mouseControlMode,
+        lootControlMode: uiState.lootControlMode,
+        talkOnRightClick: uiState.talkOnRightClick,
+        moveStack: uiState.moveStack
+    });
+}
+
+/**
+ * Apply a prefs bag onto uiState (mutates). Does not persist.
+ * @param {object|null|undefined} prefs
+ * @returns {ReturnType<typeof normalizeMouseControls>} applied bag
+ */
+function applyMouseControls(prefs) {
+    const bag = normalizeMouseControls(prefs);
+    uiState.mouseControlMode = bag.mouseControlMode;
+    uiState.lootControlMode = bag.lootControlMode;
+    uiState.talkOnRightClick = bag.talkOnRightClick;
+    uiState.moveStack = bag.moveStack;
+    return bag;
+}
+
+/**
+ * Persist current mouse prefs to localStorage (browser only).
+ */
+function saveMouseControls() {
+    if (typeof localStorage === 'undefined') return;
+    try {
+        localStorage.setItem(
+            STORAGE_KEY_MOUSE_CONTROLS,
+            JSON.stringify(snapshotMouseControls())
+        );
+    } catch (_) {
+        /* ignore quota / private mode */
+    }
+}
+
+/**
+ * Load mouse prefs from localStorage into uiState (browser only).
+ * Missing key leaves product defaults.
+ */
+function loadMouseControls() {
+    if (typeof localStorage === 'undefined') return;
+    try {
+        const raw = localStorage.getItem(STORAGE_KEY_MOUSE_CONTROLS);
+        if (!raw) return;
+        const saved = JSON.parse(raw);
+        if (!saved || typeof saved !== 'object') return;
+        applyMouseControls(saved);
+    } catch (e) {
+        console.warn('Failed to load mouse control prefs:', e);
+    }
+}
+
+/**
+ * Enter target cursor mode for a multi-use item or spell (crosshair).
+ * Prefer `enterActionCursor` from action_bars.js so `allowTileAim` is set from the spell book.
+ * @param {{ type: string, sourceUid?: string, itemId?: string, spellId?: string, allowTileAim?: boolean }} cursor
+ *   allowTileAim: false → single-target (creature only); true/omit → empty tile aim OK (AoE / tools)
  */
 function enterTargetCursorMode(cursor) {
     uiState.activeActionCursor = cursor;
@@ -37,7 +168,7 @@ function enterTargetCursorMode(cursor) {
 }
 
 /**
- * Cancel / exit target cursor mode cleanly.
+ * Cancel / exit target cursor mode cleanly (restores default cursor).
  */
 function clearTargetCursorMode() {
     uiState.activeActionCursor = null;
@@ -47,15 +178,59 @@ function clearTargetCursorMode() {
 }
 
 /**
- * Global keyboard escape & RMB cancellation for targeting mode.
+ * Hotkeys bound to "Stop Autowalk / Cancel Action" (Settings.MANUAL_CONTROL_SHORTCUTS.stopAutowalk).
+ * Default is ESCAPE; players can rebind in Action Bar Config → General Hotkeys.
+ * @returns {string[]}
+ */
+function getStopCancelHotkeys() {
+    const shortcuts =
+        Settings && Settings.MANUAL_CONTROL_SHORTCUTS
+            ? Settings.MANUAL_CONTROL_SHORTCUTS
+            : {};
+    return Array.isArray(shortcuts.stopAutowalk) && shortcuts.stopAutowalk.length
+        ? shortcuts.stopAutowalk
+        : ['ESCAPE'];
+}
+
+/**
+ * Whether this keyboard event matches the Stop Autowalk / Cancel Action hotkey.
+ * @param {KeyboardEvent|null|undefined} ev
+ * @returns {boolean}
+ */
+function isStopCancelHotkeyEvent(ev) {
+    if (!ev || !ev.key) return false;
+    return matchesKey(getStopCancelHotkeys(), ev.key, ev.code, ev);
+}
+
+/**
+ * Cancel use-with / cast crosshair if active.
+ * @returns {boolean} true if a cursor was cleared
+ */
+function cancelTargetCursorIfActive() {
+    if (!uiState.activeActionCursor) return false;
+    clearTargetCursorMode();
+    return true;
+}
+
+/**
+ * Cancel Action + RMB cancellation for targeting mode.
+ *
+ * Keyboard: uses the **Stop Autowalk / Cancel Action** hotkey (default Escape; rebindable),
+ * not a hard-coded Escape-only path.
+ *
+ * Mouse: any RMB (contextmenu capture) cancels the crosshair in **all** mouse modes
+ * (Classic / Regular / Smart). Legacy mouse-grabber ends aim on non-use release the same way;
+ * mode only changes how you *enter* use-with (Classic unshifted RMB vs Regular menu/Ctrl).
  */
 function initTargetCursorListeners() {
     if (typeof window !== 'undefined' && typeof document !== 'undefined') {
         window.addEventListener('keydown', (ev) => {
-            if (ev.key === 'Escape' && uiState.activeActionCursor) {
-                clearTargetCursorMode();
-            }
+            if (!uiState.activeActionCursor) return;
+            if (!isStopCancelHotkeyEvent(ev)) return;
+            ev.preventDefault();
+            clearTargetCursorMode();
         });
+        // RMB cancel is mode-independent while crosshair is active
         window.addEventListener('contextmenu', (ev) => {
             if (uiState.activeActionCursor) {
                 ev.preventDefault();
@@ -67,11 +242,155 @@ function initTargetCursorListeners() {
 }
 
 /**
- * Set active mouse control mode (e.g. 1 for Classic, 0 for Regular).
+ * Set active mouse control mode (0 Regular, 1 Classic, 2 Left Smart-Click).
+ * Persists to localStorage when available.
  * @param {number} mode
  */
 function setMouseControlMode(mode) {
-    uiState.mouseControlMode = Number(mode);
+    applyMouseControls({
+        ...snapshotMouseControls(),
+        mouseControlMode: mode
+    });
+    saveMouseControls();
+}
+
+/**
+ * Set classic loot sub-mode (0/1/2). Stub until Stage 5b — value persists only.
+ * @param {number} mode
+ */
+function setLootControlMode(mode) {
+    applyMouseControls({
+        ...snapshotMouseControls(),
+        lootControlMode: mode
+    });
+    saveMouseControls();
+}
+
+/**
+ * Set stack-drag preference (Stage 7). Persists when available.
+ * @param {boolean} enabled
+ */
+function setMoveStack(enabled) {
+    applyMouseControls({
+        ...snapshotMouseControls(),
+        moveStack: !!enabled
+    });
+    saveMouseControls();
+}
+
+/** @type {{ left: boolean, right: boolean }} */
+const mouseButtonState = { left: false, right: false };
+
+/** After Classic LMB+RMB Look chord, skip the would-be contextmenu of the second button. */
+let suppressNextContextMenu = false;
+
+/**
+ * After canvas ground-item drag (Stage 9), skip the synthetic click that would
+ * otherwise START_AUTOWALK / re-run the LMB dispatcher on the release tile.
+ */
+let suppressNextCanvasClick = false;
+
+/**
+ * @param {'left'|'right'} button
+ * @returns {boolean}
+ */
+function isMouseButtonDown(button) {
+    if (button === 'right') return !!mouseButtonState.right;
+    return !!mouseButtonState.left;
+}
+
+/**
+ * @returns {{ left: boolean, right: boolean }}
+ */
+function getMouseButtonState() {
+    return { left: !!mouseButtonState.left, right: !!mouseButtonState.right };
+}
+
+/**
+ * Mark that the next contextmenu should be swallowed (chord Look).
+ */
+function armSuppressNextContextMenu() {
+    suppressNextContextMenu = true;
+}
+
+/**
+ * Consume suppress flag (true once if armed).
+ * @returns {boolean}
+ */
+function consumeSuppressNextContextMenu() {
+    if (!suppressNextContextMenu) return false;
+    suppressNextContextMenu = false;
+    return true;
+}
+
+/**
+ * Mark that the next canvas LMB click should be swallowed (ground drag).
+ */
+function armSuppressNextCanvasClick() {
+    suppressNextCanvasClick = true;
+}
+
+/**
+ * Consume canvas-click suppress flag (true once if armed).
+ * @returns {boolean}
+ */
+function consumeSuppressNextCanvasClick() {
+    if (!suppressNextCanvasClick) return false;
+    suppressNextCanvasClick = false;
+    return true;
+}
+
+let mouseButtonTrackingInitialized = false;
+
+/**
+ * Track LMB/RMB held state for Classic Look chord (docs/29 Q7.1).
+ * Call once from app bootstrap (browser).
+ */
+function initMouseButtonTracking() {
+    if (mouseButtonTrackingInitialized) return;
+    if (typeof window === 'undefined') return;
+    mouseButtonTrackingInitialized = true;
+
+    const setBtn = (button, down) => {
+        if (button === 0) mouseButtonState.left = down;
+        else if (button === 2) mouseButtonState.right = down;
+    };
+
+    window.addEventListener(
+        'pointerdown',
+        (ev) => {
+            setBtn(ev.button, true);
+        },
+        true
+    );
+    window.addEventListener(
+        'pointerup',
+        (ev) => {
+            setBtn(ev.button, false);
+        },
+        true
+    );
+    window.addEventListener(
+        'pointercancel',
+        (ev) => {
+            setBtn(ev.button, false);
+        },
+        true
+    );
+    window.addEventListener('blur', () => {
+        mouseButtonState.left = false;
+        mouseButtonState.right = false;
+        suppressNextContextMenu = false;
+        suppressNextCanvasClick = false;
+    });
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+            mouseButtonState.left = false;
+            mouseButtonState.right = false;
+            suppressNextContextMenu = false;
+            suppressNextCanvasClick = false;
+        }
+    });
 }
 
 const activeMoveKeys = new Map();
@@ -322,7 +641,7 @@ function initManualKeyboardControls(opts = {}) {
             const shortcuts = Settings && Settings.MANUAL_CONTROL_SHORTCUTS ? Settings.MANUAL_CONTROL_SHORTCUTS : {};
             const nextKeys = Array.isArray(shortcuts.targetNext) ? shortcuts.targetNext : ['SPACE', 'SPACEBAR', ' '];
             const prevKeys = Array.isArray(shortcuts.targetPrev) ? shortcuts.targetPrev : ['SHIFT+SPACE', 'SHIFT+SPACEBAR', 'SHIFT+ '];
-            const stopKeys = Array.isArray(shortcuts.stopAutowalk) ? shortcuts.stopAutowalk : ['ESCAPE'];
+            const stopKeys = getStopCancelHotkeys();
             const chaseKeys = Array.isArray(shortcuts.toggleAutoChase) ? shortcuts.toggleAutoChase : ['T', 'KEYT'];
 
             const cycleTarget = manualControlsOpts && manualControlsOpts.cycleTarget;
@@ -337,8 +656,10 @@ function initManualKeyboardControls(opts = {}) {
                 if (typeof cycleTarget === 'function') cycleTarget(sim, player, 1);
                 return;
             }
+            // "Stop Autowalk / Cancel Action": clear use-with crosshair and stop walk
             if (matchesKey(stopKeys, ev.key, ev.code, ev)) {
                 ev.preventDefault();
+                cancelTargetCursorIfActive();
                 player.commandQueue.push({ type: 'STOP_AUTOWALK' });
                 return;
             }
@@ -420,9 +741,28 @@ function initManualKeyboardControls(opts = {}) {
 
 module.exports = {
     uiState,
+    STORAGE_KEY_MOUSE_CONTROLS,
+    DEFAULT_MOUSE_CONTROLS,
+    normalizeMouseControls,
+    snapshotMouseControls,
+    applyMouseControls,
+    loadMouseControls,
+    saveMouseControls,
     setMouseControlMode,
+    setLootControlMode,
+    setMoveStack,
+    isMouseButtonDown,
+    getMouseButtonState,
+    armSuppressNextContextMenu,
+    consumeSuppressNextContextMenu,
+    armSuppressNextCanvasClick,
+    consumeSuppressNextCanvasClick,
+    initMouseButtonTracking,
     enterTargetCursorMode,
     clearTargetCursorMode,
+    cancelTargetCursorIfActive,
+    getStopCancelHotkeys,
+    isStopCancelHotkeyEvent,
     initTargetCursorListeners,
     initManualKeyboardControls,
     clearActiveMoveKeys,

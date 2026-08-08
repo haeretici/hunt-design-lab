@@ -77,11 +77,18 @@
             "chance": 10,
             "range": 4,
             "element": "ice",
-            "min": 95,
-            "max": 117,
+            "min": 0,
+            "max": 0,
             "radius": 3,
             "target": false,
-            "effect": "me_icearea"
+            "effect": "me_icearea",
+            "statusOnly": true,
+            "condition": {
+                "type": "ice",
+                "totalDamage": 117,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
         },
         {
             "id": "wave_3",

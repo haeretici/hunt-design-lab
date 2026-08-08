@@ -80,11 +80,18 @@
             "chance": 20,
             "range": 4,
             "element": "physical",
-            "min": 205,
-            "max": 308,
+            "min": 0,
+            "max": 0,
             "radius": 2,
             "target": false,
-            "effect": "me_drawblood"
+            "effect": "me_drawblood",
+            "statusOnly": true,
+            "condition": {
+                "type": "bleed",
+                "totalDamage": 308,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
         }
     ],
     "race": "blood",

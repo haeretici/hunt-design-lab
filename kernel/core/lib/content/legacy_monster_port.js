@@ -34,6 +34,60 @@ const NON_DAMAGE_ATTACK_NAMES = new Set([
     'paralyze'
 ]);
 
+/** Engine DoT condition kinds (must match conditions.js DOT_KIND_SET). */
+const DOT_CONDITION_TYPES = new Set([
+    'poison',
+    'fire',
+    'ice',
+    'energy',
+    'bleed',
+    'curse'
+]);
+
+/**
+ * Normalize legacy CONDITION_* / free-text type → engine condition kind.
+ * @param {string} raw
+ * @returns {string|null}
+ */
+function mapConditionType(raw) {
+    let t = String(raw || '')
+        .toLowerCase()
+        .replace(/^condition_/, '');
+    if (t === 'freezing') t = 'ice';
+    if (t === 'bleeding') t = 'bleed';
+    if (t === 'cursed') t = 'curse';
+    if (t === 'electrification' || t === 'electrify') t = 'energy';
+    if (DOT_CONDITION_TYPES.has(t)) return t;
+    if (t === 'slow' || t === 'haste' || t === 'invisible' || t === 'invisibility') {
+        return t === 'invisibility' ? 'invisible' : t;
+    }
+    return null;
+}
+
+/**
+ * Combat element for a condition kind (VFX / kit element field).
+ * @param {string} kind
+ * @returns {string}
+ */
+function conditionKindToElement(kind) {
+    switch (String(kind || '')) {
+        case 'poison':
+            return 'earth';
+        case 'fire':
+            return 'fire';
+        case 'ice':
+            return 'ice';
+        case 'energy':
+            return 'energy';
+        case 'bleed':
+            return 'physical';
+        case 'curse':
+            return 'death';
+        default:
+            return 'physical';
+    }
+}
+
 /**
  * Map legacy CONDITION_* / condition_poison style type → engine condition def.
  * @param {object|string|null|undefined} raw
@@ -42,9 +96,9 @@ const NON_DAMAGE_ATTACK_NAMES = new Set([
 function convertCondition(raw) {
     if (raw == null) return null;
     if (typeof raw === 'string') {
-        const t = raw.toLowerCase().replace(/^condition_/, '');
-        if (t === 'poison' || t === 'fire' || t === 'freezing' || t === 'ice') {
-            return { type: t === 'freezing' ? 'ice' : t };
+        const kind = mapConditionType(raw);
+        if (kind && DOT_CONDITION_TYPES.has(kind)) {
+            return { type: kind };
         }
         return null;
     }
@@ -61,22 +115,14 @@ function convertCondition(raw) {
 
     /** @type {object} */
     const out = {};
-    if (type === 'freezing') type = 'ice';
-    if (
-        type === 'poison' ||
-        type === 'fire' ||
-        type === 'ice' ||
-        type === 'slow' ||
-        type === 'haste' ||
-        type === 'invisible'
-    ) {
-        out.type = type;
-    } else if (type === 'speed') {
+    if (type === 'speed') {
         const sc = Number(raw.speedChange) || 0;
         if (sc === 0) return null;
         out.type = sc < 0 ? 'slow' : 'haste';
     } else {
-        return null;
+        const kind = mapConditionType(type);
+        if (!kind) return null;
+        out.type = kind;
     }
 
     if (raw.totalDamage != null) {
@@ -105,10 +151,7 @@ function convertCondition(raw) {
     }
 
     // DoT requires damage; haste/slow need speedChange; invisible needs duration
-    if (
-        (out.type === 'poison' || out.type === 'fire' || out.type === 'ice') &&
-        !(out.totalDamage > 0)
-    ) {
+    if (DOT_CONDITION_TYPES.has(out.type) && !(out.totalDamage > 0)) {
         return null;
     }
     if (
@@ -134,6 +177,9 @@ function mapAttackElement(raw) {
     if (element === 'lifedrain' || element === 'manadrain') return element;
     if (element === 'poison' || element === 'earth') return 'earth';
     if (element === 'freezing') return 'ice';
+    if (element === 'bleeding' || element === 'bleed') return 'physical';
+    if (element === 'cursed' || element === 'curse') return 'death';
+    if (element === 'electrification' || element === 'electrify') return 'energy';
     return 'physical';
 }
 
@@ -360,6 +406,80 @@ function convertAttack(raw, index) {
         return statusAtk;
     }
 
+    // Pure condition DoT (legacy name "condition" + CONDITION_* type).
+    // minDamage/maxDamage are condition totals (setConditionDamage), NOT combat hit damage.
+    if (name === 'condition' && raw.type != null) {
+        let totalDamage = 0;
+        if (raw.totalDamage != null) {
+            totalDamage = Math.max(0, Math.abs(Number(raw.totalDamage) || 0));
+        } else if (dmg) {
+            // Legacy condition list spans min..max; engine uses a single pool — use max.
+            totalDamage = Math.max(dmg.min, dmg.max);
+        }
+        // Default DoT tick 2000ms (legacy getDamageCondition default); attack recast is separate.
+        const condInterval =
+            raw.tickInterval != null
+                ? Number(raw.tickInterval)
+                : raw.conditionInterval != null
+                  ? Number(raw.conditionInterval)
+                  : 2000;
+        const cond = convertCondition({
+            type: raw.type,
+            totalDamage,
+            interval:
+                Number.isFinite(condInterval) && condInterval > 0
+                    ? condInterval
+                    : 2000
+        });
+        if (!cond) return null;
+
+        let kind = 'status';
+        if (raw.length != null && Number(raw.length) > 0) {
+            kind = 'wave';
+        } else if (raw.radius != null && Number(raw.radius) > 1) {
+            kind = 'area';
+        } else if (raw.range != null && Number(raw.range) > 1) {
+            kind = 'ranged';
+        } else if (hasGeom) {
+            kind = raw.radius != null ? 'area' : 'ranged';
+        }
+
+        /** @type {object} */
+        const condAtk = {
+            id: `condition_${index}`,
+            kind,
+            intervalMs:
+                raw.interval != null
+                    ? Math.max(50, Number(raw.interval) || 2000)
+                    : 2000,
+            chance:
+                raw.chance != null
+                    ? Math.max(0, Math.min(100, Number(raw.chance) || 0))
+                    : 100,
+            range:
+                raw.range != null
+                    ? Math.max(0, Number(raw.range) | 0)
+                    : kind === 'wave' && raw.length != null
+                      ? Math.max(0, Number(raw.length) | 0)
+                      : kind === 'melee' || kind === 'status'
+                        ? 1
+                        : 4,
+            element: conditionKindToElement(cond.type),
+            min: 0,
+            max: 0,
+            statusOnly: true,
+            condition: cond
+        };
+        if (raw.length != null) condAtk.length = Math.max(0, Number(raw.length) | 0);
+        if (raw.spread != null) condAtk.spread = Math.max(0, Number(raw.spread) | 0);
+        if (raw.radius != null) condAtk.radius = Math.max(0, Number(raw.radius) | 0);
+        if (raw.effect) condAtk.effect = String(raw.effect);
+        if (raw.shootEffect) condAtk.shootEffect = String(raw.shootEffect);
+        if (raw.target != null) condAtk.target = !!raw.target;
+        if (raw.name) condAtk.legacyName = String(raw.name);
+        return condAtk;
+    }
+
     // Skip pure drunk/outfit/invisible/paralyze with no damage (not in scope)
     if (isStatus && !dmg) return null;
 
@@ -431,17 +551,8 @@ function convertAttack(raw, index) {
     if (raw.shootEffect) atk.shootEffect = String(raw.shootEffect);
     if (raw.name && n !== kind) atk.legacyName = String(raw.name);
 
-    // Nested condition (e.g. melee poison DoT) or type-as-condition on status rows
-    let cond = convertCondition(raw.condition);
-    if (!cond && n === 'condition' && raw.type) {
-        // name:condition + type:condition_poison often carries burst damage already;
-        // only attach DoT when totalDamage-like fields exist separately.
-        cond = convertCondition({
-            type: raw.type,
-            totalDamage: raw.totalDamage,
-            interval: raw.conditionInterval || raw.tickInterval
-        });
-    }
+    // Nested condition (e.g. melee poison DoT). Pure name:"condition" handled above.
+    const cond = convertCondition(raw.condition);
     if (cond) atk.condition = cond;
 
     // Status-only with geometry still kept if has dmg; else skip
@@ -2385,12 +2496,15 @@ function convertEquipmentListToStandard(equipList) {
 
 module.exports = {
     COMBAT_ELEMENTS,
+    DOT_CONDITION_TYPES,
     LEGACY_BOOL_FLAG_KEYS,
     slugifyMonsterName,
     labelFromName,
     absDamageRange,
     convertAttack,
     convertCondition,
+    mapConditionType,
+    conditionKindToElement,
     convertDefenseSpell,
     mapAttackElement,
     convertElementsToResists,

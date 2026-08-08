@@ -71,11 +71,18 @@
             "chance": 12,
             "range": 4,
             "element": "earth",
-            "min": 272,
-            "max": 409,
+            "min": 0,
+            "max": 0,
             "radius": 3,
             "target": false,
-            "effect": "me_hitarea"
+            "effect": "me_hitarea",
+            "statusOnly": true,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 409,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
         }
     ],
     "race": "blood",

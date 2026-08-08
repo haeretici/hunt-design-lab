@@ -95,11 +95,18 @@
             "chance": 15,
             "range": 4,
             "element": "energy",
-            "min": 113,
-            "max": 226,
+            "min": 0,
+            "max": 0,
             "radius": 5,
             "target": false,
-            "effect": "me_blockhit"
+            "effect": "me_blockhit",
+            "statusOnly": true,
+            "condition": {
+                "type": "energy",
+                "totalDamage": 226,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
         }
     ],
     "race": "venom",

@@ -135,13 +135,15 @@ function testSoftRetargetDue() {
 }
 
 /**
- * Count A* searches during followPath under AI_REPATH_INTERVAL_TICKS.
- * Allow steps so blocked-step repath does not fire; pre-seed long paths
- * so the buffer stays non-empty while the goal tile moves.
+ * Optional repath throttle in logic seconds (AI_REPATH_INTERVAL_SEC).
+ * Empty path remains critical; moving-goal keeps stale path while not due.
  */
 function testRepathThrottle() {
-    const prev = Settings.AI_REPATH_INTERVAL_TICKS;
-    Settings.AI_REPATH_INTERVAL_TICKS = 3;
+    const prevSec = Settings.AI_REPATH_INTERVAL_SEC;
+    const prevTicks = Settings.AI_REPATH_INTERVAL_TICKS;
+    Settings.AI_REPATH_INTERVAL_SEC = 2.0;
+    Settings.AI_REPATH_INTERVAL_TICKS = 1;
+    Time.timeSinceLevelLoad = 0;
 
     const map = openFloor(12, 12);
     let searchCount = 0;
@@ -157,56 +159,61 @@ function testRepathThrottle() {
         path: []
     };
 
-    // Empty path → always repath
+    // Empty path → always repath (critical)
     map.followPath(entity, 8, 1, 0);
     assert.ok(entity.path.length > 0, 'empty path always repaths');
     const afterEmpty = searchCount;
     assert.ok(afterEmpty >= 1, 'empty path ran A*');
+    assert.strictEqual(afterEmpty, 1, 'single A* package (4C+13C)');
 
-    // Goal moved, path still non-empty: first needRepath is due (interval 3)
+    // Goal moved, path non-empty: first optional repath is due at t=0
     map.followPath(entity, 9, 1, 0);
     const afterFirstMove = searchCount;
     assert.ok(afterFirstMove > afterEmpty, 'first goal change runs A*');
     assert.ok(entity.path.length > 0, 'path remains after repath+step');
 
-    // Next two goal-change calls while path non-empty: regulator not ready → no A*
-    const pathLenBeforeSkip = entity.path.length;
+    // Still within 2.0s: optional repaths skip A*, keep stale end
+    Time.timeSinceLevelLoad = 0.5;
     map.followPath(entity, 10, 1, 0);
     map.followPath(entity, 11, 1, 0);
-    assert.strictEqual(searchCount, afterFirstMove, 'throttled ticks skip A*');
-    // Path end should still be the pre-throttle goal (9,1), unless fully consumed
+    assert.strictEqual(searchCount, afterFirstMove, 'throttled seconds skip A*');
     if (entity.path.length > 0) {
         const lastB = entity.path[entity.path.length - 1];
         assert.strictEqual(lastB.x, 9, 'stale path end while throttled');
         assert.strictEqual(lastB.y, 1);
-    } else {
-        assert.ok(pathLenBeforeSkip >= 0, 'path may empty via steps only');
     }
 
-    // Next due tick → A* resumes toward latest goal
+    // After interval → A* resumes toward latest goal
+    Time.timeSinceLevelLoad = 2.0;
     map.followPath(entity, 11, 1, 0);
-    assert.ok(searchCount > afterFirstMove, 'A* resumes when regulator due');
+    assert.ok(searchCount > afterFirstMove, 'A* resumes when seconds due');
     if (entity.path.length > 0) {
         const lastC = entity.path[entity.path.length - 1];
         assert.strictEqual(lastC.x, 11);
         assert.strictEqual(lastC.y, 1);
     }
 
-    // Empty path forces repath even if regulator not ready
+    // Empty path forces critical repath even mid-interval
     entity.path = [];
-    getTickRegulator(entity, '_repathReg', 5);
-    entity._repathReg.ticksUntilReady = 4;
+    entity._repathNextAt = Time.timeSinceLevelLoad + 10;
     const beforeEmpty = searchCount;
     map.followPath(entity, 4, 4, 0);
-    assert.ok(searchCount > beforeEmpty, 'empty path repaths despite regulator');
+    assert.ok(searchCount > beforeEmpty, 'empty path repaths despite interval');
     assert.ok(entity.path.length > 0);
 
-    Settings.AI_REPATH_INTERVAL_TICKS = prev;
-    log('PASS repath throttle in followPath');
+    Settings.AI_REPATH_INTERVAL_SEC = prevSec;
+    Settings.AI_REPATH_INTERVAL_TICKS = prevTicks;
+    log('PASS repath throttle in followPath (seconds)');
 }
 
-function testDefaultSettingsPreserveEagerRepath() {
-    const prev = Settings.AI_REPATH_INTERVAL_TICKS;
+/**
+ * When AI_REPATH_INTERVAL_SEC is 0, tick-based throttle applies (compat).
+ * Ticks ≤ 1 → eager optional repaths.
+ */
+function testRepathTicksWhenSecDisabled() {
+    const prevSec = Settings.AI_REPATH_INTERVAL_SEC;
+    const prevTicks = Settings.AI_REPATH_INTERVAL_TICKS;
+    Settings.AI_REPATH_INTERVAL_SEC = 0;
     Settings.AI_REPATH_INTERVAL_TICKS = 1;
 
     const map = openFloor(10, 10);
@@ -224,10 +231,105 @@ function testDefaultSettingsPreserveEagerRepath() {
     const n2 = searchCount;
     map.followPath(entity, 6, 0, 0);
     const n3 = searchCount;
-    assert.ok(n2 > n1 && n3 > n2, 'default interval 1 repaths every goal change');
+    assert.ok(n2 > n1 && n3 > n2, 'sec=0 + ticks=1 repaths every goal change');
 
-    Settings.AI_REPATH_INTERVAL_TICKS = prev;
-    log('PASS default AI_REPATH_INTERVAL_TICKS=1 is eager');
+    Settings.AI_REPATH_INTERVAL_SEC = prevSec;
+    Settings.AI_REPATH_INTERVAL_TICKS = prevTicks;
+    log('PASS ticks fallback when AI_REPATH_INTERVAL_SEC=0');
+}
+
+/**
+ * Default Option B: AI_REPATH_INTERVAL_SEC=2.0 throttles optional repaths.
+ */
+function testDefaultRepathSecondsThrottle() {
+    const prevSec = Settings.AI_REPATH_INTERVAL_SEC;
+    Settings.AI_REPATH_INTERVAL_SEC = 2.0;
+    Time.timeSinceLevelLoad = 10;
+
+    const map = openFloor(10, 10);
+    let searchCount = 0;
+    const origSearch = map.search.bind(map);
+    map.search = function (...args) {
+        searchCount += 1;
+        return origSearch(...args);
+    };
+
+    const entity = { id: 3, tile: { x: 0, y: 0, z: 0 }, path: [] };
+    map.followPath(entity, 4, 0, 0);
+    const n1 = searchCount;
+    map.followPath(entity, 5, 0, 0);
+    const n2 = searchCount;
+    assert.strictEqual(n2, n1 + 1, 'first moving-goal optional repath at due');
+    map.followPath(entity, 6, 0, 0);
+    assert.strictEqual(searchCount, n2, 'default 2.0s skips immediate second repath');
+
+    Settings.AI_REPATH_INTERVAL_SEC = prevSec;
+    log('PASS default AI_REPATH_INTERVAL_SEC throttles optional repaths');
+}
+
+/**
+ * Critical fail-backoff suppresses empty-path A* storms.
+ */
+function testRepathFailBackoff() {
+    const prevSec = Settings.AI_REPATH_INTERVAL_SEC;
+    const prevBackoff = Settings.AI_REPATH_FAIL_BACKOFF_SEC;
+    Settings.AI_REPATH_INTERVAL_SEC = 0;
+    Settings.AI_REPATH_FAIL_BACKOFF_SEC = 0.25;
+    Time.timeSinceLevelLoad = 0;
+
+    // Goal behind solid wall — critical A* fails
+    const map = new TileMap();
+    map.loadFloorFromFriction(
+        0,
+        3,
+        1,
+        new Uint8Array([100, 255, 100])
+    );
+    let searchCount = 0;
+    const origSearch = map.search.bind(map);
+    map.search = function (...args) {
+        searchCount += 1;
+        return origSearch(...args);
+    };
+    const entity = { id: 9, tile: { x: 0, y: 0, z: 0 }, path: [] };
+    map.followPath(entity, 2, 0, 0);
+    assert.strictEqual(entity.path.length, 0, 'no path through wall');
+    const afterFail = searchCount;
+    assert.ok(afterFail >= 1, 'critical A* ran');
+
+    map.followPath(entity, 2, 0, 0);
+    assert.strictEqual(searchCount, afterFail, 'fail-backoff skips critical storm');
+
+    Time.timeSinceLevelLoad = 0.25;
+    map.followPath(entity, 2, 0, 0);
+    assert.ok(searchCount > afterFail, 'critical resumes after backoff');
+
+    Settings.AI_REPATH_INTERVAL_SEC = prevSec;
+    Settings.AI_REPATH_FAIL_BACKOFF_SEC = prevBackoff;
+    log('PASS repath fail-backoff');
+}
+
+/**
+ * Target other floor clears path and does not A*.
+ */
+function testRepathClearsOnFloorChange() {
+    const map = openFloor(5, 5);
+    let searchCount = 0;
+    const origSearch = map.search.bind(map);
+    map.search = function (...args) {
+        searchCount += 1;
+        return origSearch(...args);
+    };
+    const entity = {
+        id: 4,
+        tile: { x: 0, y: 0, z: 0 },
+        path: [{ x: 1, y: 0 }, { x: 2, y: 0 }]
+    };
+    const ok = map.followPath(entity, 2, 0, 1);
+    assert.strictEqual(ok, false);
+    assert.strictEqual(entity.path.length, 0, 'path cleared on z mismatch');
+    assert.strictEqual(searchCount, 0, 'no A* on wrong floor');
+    log('PASS floor change clears path');
 }
 
 /**
@@ -236,8 +338,10 @@ function testDefaultSettingsPreserveEagerRepath() {
  */
 function testPathBudgetPerFrame() {
     const prevBudget = Settings.AI_PATH_BUDGET_PER_FRAME;
+    const prevSec = Settings.AI_REPATH_INTERVAL_SEC;
     const prevRepath = Settings.AI_REPATH_INTERVAL_TICKS;
     Settings.AI_PATH_BUDGET_PER_FRAME = 2;
+    Settings.AI_REPATH_INTERVAL_SEC = 0;
     Settings.AI_REPATH_INTERVAL_TICKS = 1;
 
     const {
@@ -307,6 +411,7 @@ function testPathBudgetPerFrame() {
     assert.ok(searchCount >= 2, 'new frame budget allows optional repaths again');
 
     Settings.AI_PATH_BUDGET_PER_FRAME = prevBudget;
+    Settings.AI_REPATH_INTERVAL_SEC = prevSec;
     Settings.AI_REPATH_INTERVAL_TICKS = prevRepath;
     log('PASS path budget per frame', pathBudgetStats());
 }
@@ -318,7 +423,10 @@ function main() {
     testLogicTimeIndependentOfTimeSpeed();
     testSoftRetargetDue();
     testRepathThrottle();
-    testDefaultSettingsPreserveEagerRepath();
+    testRepathTicksWhenSecDisabled();
+    testDefaultRepathSecondsThrottle();
+    testRepathFailBackoff();
+    testRepathClearsOnFloorChange();
     testPathBudgetPerFrame();
     log('\nAll logic regulator tests passed.');
 }

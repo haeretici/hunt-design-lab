@@ -50,6 +50,7 @@ const {
 } = require('../../core/lib/character/player_profile.js');
 const {
     freezeExpSessionConfig,
+    setActiveSessionConfig,
     seedPlayerExperience
 } = require('../../core/lib/character/progression.js');
 const { EntityMarkersScript } = require('../../core/scripts/entity_markers.js');
@@ -58,6 +59,13 @@ const {
     purgeExpiredFields,
     isTileFieldHazardForEntity
 } = require('../../core/lib/combat/elemental_fields.js');
+const {
+    tickDelayedCasts,
+    explodeDelayedCast
+} = require('../../core/lib/combat/delayed_cast.js');
+const {
+    resolveShapedAttack
+} = require('../../core/lib/combat/area.js');
 const {
     FloatingCombatTextScript
 } = require('../../core/scripts/floating_combat_text.js');
@@ -560,6 +568,28 @@ class Simulator extends GameObject {
                 : null
         );
         /**
+         * Arena ↔ rest loop (layout.type arena_rest_chain). Host phases +
+         * death-tile pad + activeArenaZ rebind. Null when not used.
+         * @type {object|null}
+         */
+        this._arenaLoopConfig =
+            opts.arenaLoop && typeof opts.arenaLoop === 'object'
+                ? clonePlain(opts.arenaLoop)
+                : null;
+        /**
+         * Per-floor waypoint lists from generateArenaRestChain.
+         * @type {Record<string, object[]>|null}
+         */
+        this._perFloorWaypoints =
+            opts.perFloorWaypoints && typeof opts.perFloorWaypoints === 'object'
+                ? clonePlain(opts.perFloorWaypoints)
+                : null;
+        /**
+         * Runtime arena-loop FSM (see _initArenaLoopState).
+         * @type {object|null}
+         */
+        this._arenaLoopState = null;
+        /**
          * Dedup keys for biome_transition samples (`fromZ->toZ`).
          * Cleared on start / reseed so seek replays re-emit deterministically.
          * @type {Set<string>}
@@ -685,6 +715,17 @@ class Simulator extends GameObject {
                 ? clonePlain(this.pacingBudget)
                 : null,
             layoutMeta: this.layoutMeta ? clonePlain(this.layoutMeta) : null,
+            arenaLoop: this._arenaLoopConfig
+                ? clonePlain(this._arenaLoopConfig)
+                : null,
+            perFloorWaypoints: this._perFloorWaypoints
+                ? clonePlain(this._perFloorWaypoints)
+                : null,
+            dynamicLinks:
+                this._arenaLoopState &&
+                Array.isArray(this._arenaLoopState.dynamicLinks)
+                    ? clonePlain(this._arenaLoopState.dynamicLinks)
+                    : null,
             commandHistory: Array.isArray(this.commandHistory)
                 ? clonePlain(this.commandHistory)
                 : [],
@@ -790,6 +831,19 @@ class Simulator extends GameObject {
                     ? this.layoutMeta.macro
                     : null
             );
+        }
+        if (cfg.arenaLoop !== undefined) {
+            this._arenaLoopConfig =
+                cfg.arenaLoop && typeof cfg.arenaLoop === 'object'
+                    ? clonePlain(cfg.arenaLoop)
+                    : null;
+        }
+        if (cfg.perFloorWaypoints !== undefined) {
+            this._perFloorWaypoints =
+                cfg.perFloorWaypoints &&
+                typeof cfg.perFloorWaypoints === 'object'
+                    ? clonePlain(cfg.perFloorWaypoints)
+                    : null;
         }
         if (cfg.forceAiControl !== undefined) {
             this.forceAiControl = !!cfg.forceAiControl;
@@ -908,11 +962,738 @@ class Simulator extends GameObject {
     }
 
     /**
+     * Whether this session runs the arena ↔ rest host FSM.
+     * @returns {boolean}
+     * @private
+     */
+    _arenaLoopEnabled() {
+        const c = this._arenaLoopConfig;
+        if (!c || c.enabled === false) return false;
+        if (
+            this.layoutMeta &&
+            this.layoutMeta.type === 'arena_rest_chain'
+        ) {
+            return true;
+        }
+        // Explicit arenaLoop without layoutMeta still enables when maxArenas set
+        return c.maxArenas != null || c.wavesPerArena != null;
+    }
+
+    /**
+     * Floor-meta row for z (full layoutMeta.floorMeta preferred).
+     * @param {string|number} z
+     * @returns {object|null}
+     * @private
+     */
+    _arenaFloorMeta(z) {
+        const list =
+            (this.layoutMeta && Array.isArray(this.layoutMeta.floorMeta)
+                ? this.layoutMeta.floorMeta
+                : null) || null;
+        if (list) {
+            for (let i = 0; i < list.length; i++) {
+                if (list[i] && String(list[i].z) === String(z)) return list[i];
+            }
+        }
+        return this._floorMetaByZ
+            ? this._floorMetaByZ[String(z)] || null
+            : null;
+    }
+
+    /**
+     * Replace party route and clear stale per-member path state (KD11).
+     * @param {object} party
+     * @param {object[]} waypoints
+     * @param {{ loopWaypoints?: boolean, stairLinks?: object[]|null }} [opts]
+     */
+    setPartyRoute(party, waypoints, opts) {
+        if (!party) return;
+        const o = opts || {};
+        const loop = !!o.loopWaypoints;
+        party.waypoints = (waypoints || []).map((w) => ({
+            x: w.x,
+            y: w.y,
+            z: w.z != null ? w.z : 0
+        }));
+        party.loopWaypoints = loop;
+        party.routeComplete = false;
+        if (o.stairLinks !== undefined) {
+            party.stairLinks = Array.isArray(o.stairLinks)
+                ? o.stairLinks.slice()
+                : o.stairLinks;
+        }
+        const members = party.members || [];
+        for (let i = 0; i < members.length; i++) {
+            const m = members[i];
+            if (!m) continue;
+            m.currentWaypoint = 0;
+            m.path = [];
+            m.routeComplete = false;
+        }
+    }
+
+    /**
+     * Apply setPartyRoute to every enabled party.
+     * @param {object[]} waypoints
+     * @param {{ loopWaypoints?: boolean, stairLinks?: object[]|null }} [opts]
+     * @private
+     */
+    _setAllPartiesRoute(waypoints, opts) {
+        for (let i = 0; i < this.parties.length; i++) {
+            const p = this.parties[i];
+            if (!p || p.enabled === false) continue;
+            this.setPartyRoute(p, waypoints, opts);
+        }
+    }
+
+    /**
+     * Bind WC spawn regions + activeArenaZ for the current arena floor (KD12).
+     * @param {string|number} arenaZ
+     * @private
+     */
+    _bindWaveSpawnToArena(arenaZ) {
+        if (!this._arenaLoopState) return;
+        this._arenaLoopState.activeArenaZ = arenaZ;
+        const meta = this._arenaFloorMeta(arenaZ);
+        let bounds =
+            meta && meta.spawnBounds
+                ? meta.spawnBounds
+                : null;
+        if (!bounds) {
+            const layer =
+                this.floorLayers && this.floorLayers[String(arenaZ)]
+                    ? this.floorLayers[String(arenaZ)]
+                    : this.tileMap && this.tileMap.layers
+                      ? this.tileMap.layers[String(arenaZ)]
+                      : null;
+            bounds = {
+                x: 0,
+                y: 0,
+                w: layer && layer.cols != null ? layer.cols : 32,
+                h: layer && layer.rows != null ? layer.rows : 32,
+                z: arenaZ
+            };
+        }
+        if (this.waveController && this.waveController.config) {
+            this.waveController.config.regions = [
+                {
+                    id: 'arena_' + arenaZ,
+                    x: bounds.x,
+                    y: bounds.y,
+                    w: bounds.w,
+                    h: bounds.h,
+                    z: arenaZ
+                }
+            ];
+        }
+    }
+
+    /**
+     * Session-start arena loop state + combat route on arena_0.
+     * @private
+     */
+    _initArenaLoopState() {
+        this._arenaLoopState = null;
+        if (!this._arenaLoopEnabled()) return;
+
+        const cfg = this._arenaLoopConfig || {};
+        // Prefer floorMeta arena_0; fallback first floor
+        let startZ = 0;
+        const list =
+            this.layoutMeta && Array.isArray(this.layoutMeta.floorMeta)
+                ? this.layoutMeta.floorMeta
+                : [];
+        for (let i = 0; i < list.length; i++) {
+            if (list[i] && list[i].role === 'arena' && list[i].arenaIndex === 0) {
+                startZ = list[i].z;
+                break;
+            }
+        }
+
+        this._arenaLoopState = {
+            phase: 'combat', // combat | awaiting_portal | rest | complete
+            activeArenaZ: startZ,
+            arenaIndex: 0,
+            lastHostileDeathTile: null,
+            dynamicLinks: [],
+            restEnterEmitted: false,
+            arenaEnterSeen: Object.create(null),
+            deathPortal: cfg.deathPortal !== false,
+            portalNearRadius:
+                cfg.portalNearRadius != null
+                    ? Math.max(0, Math.floor(Number(cfg.portalNearRadius) || 0))
+                    : 2,
+            oneWayDeathPortal: cfg.oneWayDeathPortal !== false
+        };
+
+        this._bindWaveSpawnToArena(startZ);
+        const wps = this._waypointsForFloor(startZ);
+        this._setAllPartiesRoute(wps, {
+            loopWaypoints: true,
+            stairLinks: []
+        });
+        samplePacingEvent(this.telemetry, {
+            kind: 'arena_enter',
+            t: Time.timeSinceLevelLoad,
+            tag: 'arena_0',
+            entityId: 0
+        });
+        this._arenaLoopState.arenaEnterSeen[String(startZ)] = true;
+    }
+
+    /**
+     * Waypoints for a floor from perFloorWaypoints / floorMeta / current party.
+     * @param {string|number} z
+     * @returns {object[]}
+     * @private
+     */
+    _waypointsForFloor(z) {
+        const key = String(z);
+        if (
+            this._perFloorWaypoints &&
+            Array.isArray(this._perFloorWaypoints[key]) &&
+            this._perFloorWaypoints[key].length
+        ) {
+            return this._perFloorWaypoints[key].map((w) => ({
+                x: w.x,
+                y: w.y,
+                z: w.z != null ? w.z : z
+            }));
+        }
+        const meta = this._arenaFloorMeta(z);
+        if (meta && Array.isArray(meta.waypoints) && meta.waypoints.length) {
+            return meta.waypoints.map((w) => ({
+                x: w.x,
+                y: w.y,
+                z: w.z != null ? w.z : z
+            }));
+        }
+        if (meta && meta.entrance) {
+            return [
+                {
+                    x: meta.entrance.x,
+                    y: meta.entrance.y,
+                    z: meta.entrance.z != null ? meta.entrance.z : z
+                }
+            ];
+        }
+        return [{ x: 1, y: 1, z }];
+    }
+
+    /**
+     * Rest floor z following the active arena stage (arena_i → rest_i).
+     * @param {number} arenaIndex
+     * @returns {string|number|null}
+     * @private
+     */
+    _restZForArenaIndex(arenaIndex) {
+        const list =
+            this.layoutMeta && Array.isArray(this.layoutMeta.floorMeta)
+                ? this.layoutMeta.floorMeta
+                : [];
+        for (let i = 0; i < list.length; i++) {
+            const m = list[i];
+            if (
+                m &&
+                m.role === 'rest' &&
+                Number(m.arenaIndex) === Number(arenaIndex)
+            ) {
+                return m.z;
+            }
+        }
+        // Option C: rest is arenaZ + 1 when contiguous
+        const arenaMeta = list.find(
+            (m) =>
+                m &&
+                m.role === 'arena' &&
+                Number(m.arenaIndex) === Number(arenaIndex)
+        );
+        if (arenaMeta && arenaMeta.z != null) {
+            return Number(arenaMeta.z) + 1;
+        }
+        return null;
+    }
+
+    /**
+     * Next arena z after rest for arenaIndex (rest_i → arena_{i+1}).
+     * @param {number} fromArenaIndex
+     * @returns {string|number|null}
+     * @private
+     */
+    _nextArenaZ(fromArenaIndex) {
+        const next = Number(fromArenaIndex) + 1;
+        const list =
+            this.layoutMeta && Array.isArray(this.layoutMeta.floorMeta)
+                ? this.layoutMeta.floorMeta
+                : [];
+        for (let i = 0; i < list.length; i++) {
+            const m = list[i];
+            if (
+                m &&
+                m.role === 'arena' &&
+                Number(m.arenaIndex) === next
+            ) {
+                return m.z;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Pick walkable pad near death tile (Chebyshev).
+     * @param {{ x: number, y: number, z: * }} deathTile
+     * @param {number} radius
+     * @returns {{ x: number, y: number, z: * }|null}
+     * @private
+     */
+    _pickPortalPad(deathTile, radius) {
+        if (!this.tileMap || !deathTile) return null;
+        const z = deathTile.z;
+        const r0 = Math.max(0, Math.floor(Number(radius) || 0));
+        const tryRadius = (R) => {
+            /** @type {{ x: number, y: number, z: *, d: number }[]} */
+            const candidates = [];
+            for (let dy = -R; dy <= R; dy++) {
+                for (let dx = -R; dx <= R; dx++) {
+                    const x = deathTile.x + dx;
+                    const y = deathTile.y + dy;
+                    const d = Math.max(Math.abs(dx), Math.abs(dy));
+                    if (d > R) continue;
+                    if (!this.tileMap.isWalkable(x, y, z)) continue;
+                    if (this.tileMap.isStair(x, y, z)) continue;
+                    candidates.push({ x, y, z, d });
+                }
+            }
+            if (!candidates.length) return null;
+            candidates.sort((a, b) => {
+                if (a.d !== b.d) return a.d - b.d;
+                if (a.y !== b.y) return a.y - b.y;
+                return a.x - b.x;
+            });
+            return { x: candidates[0].x, y: candidates[0].y, z };
+        };
+        let pad = tryRadius(r0);
+        if (!pad) pad = tryRadius(Math.max(r0, 4));
+        if (!pad) {
+            // Nearest walkable scan on layer
+            const layer =
+                this.tileMap.layers && this.tileMap.layers[String(z)];
+            if (layer) {
+                let best = null;
+                let bestD = Infinity;
+                for (let y = 0; y < layer.rows; y++) {
+                    for (let x = 0; x < layer.cols; x++) {
+                        if (!this.tileMap.isWalkable(x, y, z)) continue;
+                        if (this.tileMap.isStair(x, y, z)) continue;
+                        const d = Math.max(
+                            Math.abs(x - deathTile.x),
+                            Math.abs(y - deathTile.y)
+                        );
+                        if (d < bestD) {
+                            bestD = d;
+                            best = { x, y, z };
+                        }
+                    }
+                }
+                pad = best;
+            }
+        }
+        return pad;
+    }
+
+    /**
+     * Record last hostile death on the active arena z (for death pad).
+     * @param {object} defender
+     * @private
+     */
+    _recordArenaHostileDeath(defender) {
+        if (!this._arenaLoopState || !defender || !defender.tile) return;
+        if (defender.type !== 'creature') return;
+        const z = defender.tile.z;
+        if (String(z) !== String(this._arenaLoopState.activeArenaZ)) return;
+        this._arenaLoopState.lastHostileDeathTile = {
+            x: defender.tile.x,
+            y: defender.tile.y,
+            z
+        };
+    }
+
+    /**
+     * Stage boundary: spawn death pad (or use debug static exit) and re-route.
+     * @param {object} [ev] wave_boundary event
+     * @private
+     */
+    _enterAwaitingPortal(ev) {
+        const st = this._arenaLoopState;
+        if (!st || st.phase === 'awaiting_portal' || st.phase === 'rest') {
+            return;
+        }
+        // WC arenaIndex = arenas cleared (floor(wavesCompleted / wpa)).
+        // Rest floor after arena i uses floorMeta.arenaIndex === i (cleared - 1).
+        const arenasCleared =
+            ev && ev.arenaIndex != null
+                ? Number(ev.arenaIndex)
+                : st.arenaIndex + 1;
+        const arenaIndex = Math.max(0, arenasCleared - 1);
+        st.arenaIndex = arenaIndex;
+        st.phase = 'awaiting_portal';
+        st.restEnterEmitted = false;
+
+        samplePacingEvent(this.telemetry, {
+            kind: 'arena_clear',
+            t: Time.timeSinceLevelLoad,
+            tag: 'arena_' + arenaIndex,
+            entityId: arenaIndex
+        });
+
+        const restZ = this._restZForArenaIndex(arenaIndex);
+        if (restZ == null) {
+            // Final arena should not reach here (waves_complete instead)
+            return;
+        }
+        const restMeta = this._arenaFloorMeta(restZ);
+        const restEntrance =
+            restMeta && restMeta.entrance
+                ? {
+                      x: restMeta.entrance.x,
+                      y: restMeta.entrance.y,
+                      z: restMeta.entrance.z != null ? restMeta.entrance.z : restZ
+                  }
+                : { x: 1, y: 1, z: restZ };
+
+        let pad = null;
+        if (st.deathPortal !== false) {
+            let death = st.lastHostileDeathTile;
+            if (!death || String(death.z) !== String(st.activeArenaZ)) {
+                // Fallback: leader tile on active arena, then entrance
+                const party = this.parties[0];
+                const leader = party && party.getLeader && party.getLeader();
+                if (
+                    leader &&
+                    leader.tile &&
+                    String(leader.tile.z) === String(st.activeArenaZ)
+                ) {
+                    death = {
+                        x: leader.tile.x,
+                        y: leader.tile.y,
+                        z: st.activeArenaZ
+                    };
+                } else {
+                    const am = this._arenaFloorMeta(st.activeArenaZ);
+                    death =
+                        am && am.entrance
+                            ? {
+                                  x: am.entrance.x,
+                                  y: am.entrance.y,
+                                  z: st.activeArenaZ
+                              }
+                            : { x: 1, y: 1, z: st.activeArenaZ };
+                }
+            }
+            pad = this._pickPortalPad(death, st.portalNearRadius);
+            if (pad && this.tileMap) {
+                const link = {
+                    from: { x: pad.x, y: pad.y, z: pad.z },
+                    to: restEntrance,
+                    link: 'portal_rest_' + arenaIndex,
+                    dir: 'down'
+                };
+                this.tileMap.addStair(link.from, link.to, {
+                    dir: 'down',
+                    link: link.link
+                });
+                st.dynamicLinks.push(link);
+                if (this.replayConfig) {
+                    this.replayConfig.dynamicLinks = clonePlain(st.dynamicLinks);
+                }
+                samplePacingEvent(this.telemetry, {
+                    kind: 'portal_spawn',
+                    t: Time.timeSinceLevelLoad,
+                    tag: link.link,
+                    entityId: arenaIndex
+                });
+                // Manual play: pad has no default art — toast so players know where to go
+                if (typeof this.emitCombatText === 'function') {
+                    this.emitCombatText({
+                        x: pad.x,
+                        y: pad.y,
+                        z: pad.z,
+                        text: 'Portal',
+                        color: '#7ec8ff',
+                        life: 2.5
+                    });
+                }
+            }
+        } else {
+            // Debug: resolve-time arena→rest already on TileMap; goal = that from pad
+            const am = this._arenaFloorMeta(st.activeArenaZ);
+            pad =
+                am && am.entrance
+                    ? {
+                          x: am.entrance.x,
+                          y: am.entrance.y,
+                          z: st.activeArenaZ
+                      }
+                    : null;
+            // Prefer actual debug stair from session links
+            if (Array.isArray(this._stairLinks)) {
+                for (let i = 0; i < this._stairLinks.length; i++) {
+                    const L = this._stairLinks[i];
+                    if (
+                        L &&
+                        L.from &&
+                        String(L.from.z) === String(st.activeArenaZ) &&
+                        L.link &&
+                        String(L.link).indexOf('debug_portal_rest') === 0
+                    ) {
+                        pad = {
+                            x: L.from.x,
+                            y: L.from.y,
+                            z: L.from.z
+                        };
+                        break;
+                    }
+                }
+            }
+        }
+
+        // Goal is rest entrance (other z) so party finds the pad via
+        // findStairToward / tryUseStair. Same-z pad-only waypoints mark
+        // routeComplete without ever hopping.
+        this._setAllPartiesRoute([restEntrance], {
+            loopWaypoints: false,
+            stairLinks: []
+        });
+
+        // Already standing on the pad (common when debug pad == entrance): hop now.
+        // tryUseStair does not fire party onStep — drive host hop handler ourselves.
+        if (this.tileMap && typeof this.tileMap.tryUseStair === 'function') {
+            const living = this._livingPartyMembers();
+            for (let i = 0; i < living.length; i++) {
+                const m = living[i];
+                if (!m || !m.tile) continue;
+                if (String(m.tile.z) !== String(st.activeArenaZ)) continue;
+                if (!this.tileMap.isStair(m.tile.x, m.tile.y, m.tile.z)) {
+                    continue;
+                }
+                const from = {
+                    x: m.tile.x,
+                    y: m.tile.y,
+                    z: m.tile.z
+                };
+                if (this.tileMap.tryUseStair(m, restEntrance)) {
+                    const to = m.tile
+                        ? { x: m.tile.x, y: m.tile.y, z: m.tile.z }
+                        : restEntrance;
+                    this._recordFloorHop(m, from, to);
+                    this._tickArenaLoopHop(m, from, to);
+                }
+            }
+        }
+    }
+
+    /**
+     * Living party members (enabled parties only).
+     * @returns {object[]}
+     * @private
+     */
+    _livingPartyMembers() {
+        /** @type {object[]} */
+        const out = [];
+        for (let i = 0; i < this.parties.length; i++) {
+            const p = this.parties[i];
+            if (!p || p.enabled === false) continue;
+            const members = p.members || [];
+            for (let j = 0; j < members.length; j++) {
+                const m = members[j];
+                if (m && m.alive !== false) out.push(m);
+            }
+        }
+        return out;
+    }
+
+    /**
+     * Remove dynamic death pads from TileMap (not party.stairLinks).
+     * @private
+     */
+    _clearDynamicDeathPads() {
+        const st = this._arenaLoopState;
+        if (!st || !this.tileMap || !Array.isArray(st.dynamicLinks)) return;
+        for (let i = 0; i < st.dynamicLinks.length; i++) {
+            const L = st.dynamicLinks[i];
+            if (!L || !L.from) continue;
+            this.tileMap.removeStair(L.from.x, L.from.y, L.from.z);
+        }
+        st.dynamicLinks = [];
+        if (this.replayConfig) {
+            this.replayConfig.dynamicLinks = [];
+        }
+    }
+
+    /**
+     * Static rest→next-arena link for party.stairLinks on rest phase (optional).
+     * @param {string|number} restZ
+     * @returns {object[]}
+     * @private
+     */
+    _restPortalLinks(restZ) {
+        /** @type {object[]} */
+        const out = [];
+        if (!Array.isArray(this._stairLinks)) return out;
+        for (let i = 0; i < this._stairLinks.length; i++) {
+            const L = this._stairLinks[i];
+            if (!L || !L.from) continue;
+            if (String(L.from.z) !== String(restZ)) continue;
+            if (L.link && String(L.link).indexOf('portal_arena_') === 0) {
+                out.push(L);
+            }
+        }
+        return out;
+    }
+
+    /**
+     * After hop hooks: rest_enter / arena_enter / pad lifetime / resume.
+     * @param {object} member
+     * @param {{ z?: * }|null} from
+     * @param {{ z?: * }|null} to
+     * @private
+     */
+    _tickArenaLoopHop(member, from, to) {
+        const st = this._arenaLoopState;
+        if (!st || !from || !to) return;
+        if (String(from.z) === String(to.z)) return;
+        if (member && member.alive === false) return;
+
+        const toMeta = this._arenaFloorMeta(to.z);
+        const toRole = toMeta && toMeta.role ? toMeta.role : null;
+
+        if (st.phase === 'awaiting_portal' && toRole === 'rest') {
+            if (!st.restEnterEmitted) {
+                st.restEnterEmitted = true;
+                st.phase = 'rest';
+                samplePacingEvent(this.telemetry, {
+                    kind: 'rest_enter',
+                    t: Time.timeSinceLevelLoad,
+                    tag: 'rest_' + st.arenaIndex,
+                    entityId: st.arenaIndex
+                });
+                const restZ = to.z;
+                const wps = this._waypointsForFloor(restZ);
+                const restMeta = this._arenaFloorMeta(restZ);
+                let route = wps.slice();
+                // Final goal = next arena entrance (other z) so portal hop fires.
+                const nextZ = this._nextArenaZ(st.arenaIndex);
+                const nextMeta =
+                    nextZ != null ? this._arenaFloorMeta(nextZ) : null;
+                if (nextMeta && nextMeta.entrance) {
+                    route.push({
+                        x: nextMeta.entrance.x,
+                        y: nextMeta.entrance.y,
+                        z:
+                            nextMeta.entrance.z != null
+                                ? nextMeta.entrance.z
+                                : nextZ
+                    });
+                } else if (restMeta && restMeta.portalSocket) {
+                    // Fallback: portal tile (same-z) — may still hop if AI uses pad
+                    const ps = restMeta.portalSocket;
+                    route.push({
+                        x: ps.x,
+                        y: ps.y,
+                        z: ps.z != null ? ps.z : restZ
+                    });
+                }
+                this._setAllPartiesRoute(route, {
+                    loopWaypoints: false,
+                    stairLinks: this._restPortalLinks(restZ)
+                });
+            }
+            // Pad removal when all living on rest
+            const living = this._livingPartyMembers();
+            if (living.length) {
+                let allOnRest = true;
+                for (let i = 0; i < living.length; i++) {
+                    const m = living[i];
+                    const mz = m.tile ? m.tile.z : m.z;
+                    if (String(mz) !== String(to.z)) {
+                        allOnRest = false;
+                        break;
+                    }
+                }
+                if (allOnRest) {
+                    this._clearDynamicDeathPads();
+                }
+            }
+        }
+
+        if (st.phase === 'rest' && toRole === 'arena') {
+            const expectedZ = this._nextArenaZ(st.arenaIndex);
+            if (expectedZ == null || String(to.z) !== String(expectedZ)) {
+                return;
+            }
+            // Resume when leader (or sole living) enters next arena
+            const party = this.parties[0];
+            const leader = party && party.getLeader && party.getLeader();
+            const isLeader =
+                !leader ||
+                (member && leader && member.id === leader.id) ||
+                this._livingPartyMembers().length <= 1;
+            if (!isLeader) return;
+
+            const key = String(to.z);
+            if (st.arenaEnterSeen[key]) return;
+            st.arenaEnterSeen[key] = true;
+
+            const nextIndex = st.arenaIndex + 1;
+            st.arenaIndex = nextIndex;
+            st.phase = 'combat';
+            st.lastHostileDeathTile = null;
+            st.restEnterEmitted = false;
+            this._clearDynamicDeathPads();
+            this._bindWaveSpawnToArena(to.z);
+            const wps = this._waypointsForFloor(to.z);
+            this._setAllPartiesRoute(wps, {
+                loopWaypoints: true,
+                stairLinks: []
+            });
+            samplePacingEvent(this.telemetry, {
+                kind: 'arena_enter',
+                t: Time.timeSinceLevelLoad,
+                tag: 'arena_' + nextIndex,
+                entityId: nextIndex
+            });
+            if (
+                this.waveController &&
+                typeof this.waveController.resumeAfterPortal === 'function'
+            ) {
+                this.waveController.resumeAfterPortal(Time.timeSinceLevelLoad);
+            }
+        }
+    }
+
+    /**
      * Whether route_complete should be suppressed (arena waves still running).
      * @returns {boolean}
      * @private
      */
     _holdRouteForWaves() {
+        if (this._arenaLoopState) {
+            const ph = this._arenaLoopState.phase;
+            if (
+                ph === 'combat' ||
+                ph === 'awaiting_portal' ||
+                ph === 'rest'
+            ) {
+                // Hold until final waves_complete
+                if (
+                    this.waveController &&
+                    !this.waveController.isComplete
+                ) {
+                    return true;
+                }
+                if (ph === 'awaiting_portal' || ph === 'rest') return true;
+            }
+        }
         return !!(
             this.waveController &&
             this.waveController.holdRoute &&
@@ -968,6 +1749,13 @@ class Simulator extends GameObject {
     _tickWaveController() {
         if (!this.waveController || this.sessionState !== 'running') return;
 
+        const defaultZ =
+            this._arenaLoopState && this._arenaLoopState.activeArenaZ != null
+                ? this._arenaLoopState.activeArenaZ
+                : this.floor != null
+                  ? this.floor
+                  : 0;
+
         const result = this.waveController.tick({
             time: Time.timeSinceLevelLoad,
             waveClear: this._isCurrentWaveClear(),
@@ -976,7 +1764,7 @@ class Simulator extends GameObject {
                 typeof this.seededRandom === 'function'
                     ? this.seededRandom
                     : Math.random,
-            defaultZ: this.floor != null ? this.floor : 0,
+            defaultZ,
             // Spawn near living party members so packs land inside aggro range
             anchors: this._spawnObservers(),
             anchorRadius: (() => {
@@ -1010,6 +1798,18 @@ class Simulator extends GameObject {
                           : null,
                 entityId: ev.waveIndex != null ? ev.waveIndex : null
             });
+            if (
+                ev.kind === 'wave_boundary' &&
+                this._arenaLoopState
+            ) {
+                this._enterAwaitingPortal(ev);
+            }
+            if (
+                ev.kind === 'waves_complete' &&
+                this._arenaLoopState
+            ) {
+                this._arenaLoopState.phase = 'complete';
+            }
         }
 
         if (
@@ -1020,6 +1820,9 @@ class Simulator extends GameObject {
             this.sessionState = 'waves_complete';
             this.telemetry.endReason = 'waves_complete';
             this.telemetry.endTick = this.tickCount;
+            if (this._arenaLoopState) {
+                this._arenaLoopState.phase = 'complete';
+            }
         }
     }
 
@@ -1257,8 +2060,9 @@ class Simulator extends GameObject {
         this.telemetry.endTick = null;
         this._lastAttackTick = 0;
         this._biomeTransitionSeen = new Set();
-        // Phase C: freeze exp flags/rates as session inputs (UI pre-run only)
+        // Phase C/D: freeze exp/skill flags/rates as session inputs (UI pre-run only)
         this.sessionExpConfig = freezeExpSessionConfig(this.expConfig || {});
+        setActiveSessionConfig(this.sessionExpConfig);
         this.sessionState = 'running';
         this.active = true;
 
@@ -1297,6 +2101,9 @@ class Simulator extends GameObject {
                     this.spawnParty(this._partyConfigs[i]);
                 }
             }
+
+            // Arena ↔ rest host: bind z/regions + floor-local route before wave 0.
+            this._initArenaLoopState();
 
             // Sequential waves own the spawn table; flat spawns only when no waves.
             if (this.waveController) {
@@ -1484,7 +2291,12 @@ class Simulator extends GameObject {
         if (!this.tileMap) return;
         const links = this._collectStairLinks();
         if (links.length) {
-            this.tileMap.setStairs(links);
+            // Arena chain: directed only (no reverse bounce on arena entrance).
+            const oneWay = this._arenaLoopEnabled();
+            this.tileMap.setStairs(
+                links,
+                oneWay ? { bidirectional: false } : undefined
+            );
         }
         if (this._navmeshData) {
             try {
@@ -1575,7 +2387,7 @@ class Simulator extends GameObject {
         if (this.groundItems) {
             this.groundItems.tileMap = tileMap;
         }
-        // Party ally-pass (swap/yield) needs occupancy id → entity
+        // Occupancy id → entity (player stacks, creature push, combat resolve)
         tileMap.resolveEntity = (id) => this.getEntityById(id);
         tileMap.onEntityTileMoved = (entity, _prev, _next) => {
             if (!entity || entity.id == null) return;
@@ -1621,8 +2433,13 @@ class Simulator extends GameObject {
             throw new Error('spawnParty: waypoints required');
         }
 
-        const stairLinks =
-            config.stairLinks || this._stairLinks || null;
+        // Arena loop: prefer TileMap stairs; empty party.stairLinks avoids
+        // bidirectional reverse hops during combat (KD9 / KD11).
+        const stairLinks = this._arenaLoopEnabled()
+            ? Array.isArray(config.stairLinks)
+                ? config.stairLinks
+                : []
+            : config.stairLinks || this._stairLinks || null;
 
         // Stage 12H: ensure party-only stair links also land on TileMap
         if (
@@ -1630,7 +2447,12 @@ class Simulator extends GameObject {
             config.stairLinks.length &&
             this.tileMap
         ) {
-            this.tileMap.addStairLinks(config.stairLinks);
+            this.tileMap.addStairLinks(
+                config.stairLinks,
+                this._arenaLoopEnabled()
+                    ? { bidirectional: false }
+                    : undefined
+            );
         }
 
         const loopWaypoints = !!config.loopWaypoints;
@@ -2431,6 +3253,7 @@ class Simulator extends GameObject {
                     loot,
                     levelUps: award.levelUps
                 });
+                this._recordArenaHostileDeath(defender);
 
                 // Release tile; SpawnManager owns respawn cooldowns
                 if (this.tileMap && defender.tile) {
@@ -2488,7 +3311,15 @@ class Simulator extends GameObject {
         }
         // Liveness: no successful attack for N ticks (stuck AI / dead combat).
         // Uses ticks since last attack, or since session start when none yet.
+        // KD13: pause NAT while walking portals / rest (no combat expected).
         if (
+            this._arenaLoopState &&
+            (this._arenaLoopState.phase === 'awaiting_portal' ||
+                this._arenaLoopState.phase === 'rest')
+        ) {
+            // Refresh last-attack baseline so idle does not accumulate over rest
+            this._lastAttackTick = this.tickCount;
+        } else if (
             this.noAttackTimeoutTicks != null &&
             this.tickCount >= this.noAttackTimeoutTicks
         ) {
@@ -2557,6 +3388,41 @@ class Simulator extends GameObject {
             }
             super.updateAll();
 
+            // Delayed shaped casts (divine grenade fuse, etc.).
+            // Ticked on the sim every frame — plant center {x,y,z} is fixed at
+            // cast; caster floor hop / walk-away does not cancel or retarget.
+            if (
+                Array.isArray(this.pendingDelayedCasts) &&
+                this.pendingDelayedCasts.length
+            ) {
+                const sim = this;
+                tickDelayedCasts(
+                    this.pendingDelayedCasts,
+                    Time.deltaTime,
+                    (entry) => {
+                        const boom = explodeDelayedCast(entry, {
+                            resolveShapedAttack,
+                            sim,
+                            tileMap: sim.tileMap || null,
+                            rng: Math.random
+                        });
+                        // Watch VFX on plant floor (result.center.z), not caster floor.
+                        if (boom && boom.ok) {
+                            const primaryHit =
+                                boom.hits && boom.hits.length
+                                    ? boom.hits[0]
+                                    : null;
+                            sim.emitCombatEffectsFromAttack(
+                                entry.attacker,
+                                primaryHit,
+                                boom
+                            );
+                        }
+                        return boom;
+                    }
+                );
+            }
+
             // Short-lived elemental fields (≤24h) expire via heap; energy underfoot exit.
             if (this.groundItems) {
                 const tileMap = this.tileMap;
@@ -2566,7 +3432,21 @@ class Simulator extends GameObject {
                     (x, y, z) => {
                         /** @type {object[]} */
                         const out = [];
-                        if (tileMap && typeof tileMap.getOccupant === 'function') {
+                        // Phase B: all combatants on tile (stack / mixed) for energy exit.
+                        if (
+                            tileMap &&
+                            typeof tileMap.getCombatantEntities === 'function'
+                        ) {
+                            const ents = tileMap.getCombatantEntities(x, y, z);
+                            if (ents && ents.length) {
+                                for (let i = 0; i < ents.length; i++) {
+                                    if (ents[i]) out.push(ents[i]);
+                                }
+                            }
+                        } else if (
+                            tileMap &&
+                            typeof tileMap.getOccupant === 'function'
+                        ) {
                             const id = tileMap.getOccupant(x, y, z);
                             if (id) {
                                 const ent =
@@ -2660,6 +3540,9 @@ class Simulator extends GameObject {
                 }
                 this._recordFloorHop(member, from, to);
                 this._maybeSampleBiomeTransition(member, from, to);
+                if (this._arenaLoopState) {
+                    this._tickArenaLoopHop(member, from, to);
+                }
             }
         };
     }
@@ -3303,7 +4186,14 @@ class Simulator extends GameObject {
                 spellsCastByKind: m.spellsCastByKind
                     ? Object.assign(Object.create(null), m.spellsCastByKind)
                     : Object.create(null),
-                manaSpent: m.manaSpent || 0
+                manaSpent: m.manaSpent || 0,
+                skillTriesGained: m.skillTriesGained
+                    ? Object.assign(Object.create(null), m.skillTriesGained)
+                    : Object.create(null),
+                manaSpentTowardMagic: m.manaSpentTowardMagic || 0,
+                skillLevelsGained: m.skillLevelsGained || 0,
+                magicLevelsGained: m.magicLevelsGained || 0,
+                skills: m.skills ? Object.assign({}, m.skills) : null
             }))
         }));
     }
@@ -3358,6 +4248,20 @@ class Simulator extends GameObject {
                 e.layoutMeta !== undefined ? e.layoutMeta : this.layoutMeta,
             commandHistory: this.commandHistory || []
         });
+        if (this._arenaLoopState) {
+            summary.arenaLoop = {
+                enabled: true,
+                phase: this._arenaLoopState.phase,
+                activeArenaZ: this._arenaLoopState.activeArenaZ,
+                arenaIndex: this._arenaLoopState.arenaIndex,
+                deathPortal: this._arenaLoopState.deathPortal,
+                dynamicLinkCount: Array.isArray(
+                    this._arenaLoopState.dynamicLinks
+                )
+                    ? this._arenaLoopState.dynamicLinks.length
+                    : 0
+            };
+        }
         if (
             Array.isArray(this.parityTickLog) &&
             this.parityTickLog.length
@@ -3482,6 +4386,7 @@ class Simulator extends GameObject {
 
     destroy() {
         this.sessionState = 'stopped';
+        setActiveSessionConfig(null);
         this.unbindSeededRandom();
         unbindSeededRandom();
         super.destroy();
@@ -3597,7 +4502,15 @@ function buildFloorMetaIndex(floorMeta, macro) {
                     : fm.segmentIndex != null
                       ? Number(fm.segmentIndex)
                       : null,
-            macroTransition: !!fm.macroTransition
+            macroTransition: !!fm.macroTransition,
+            // Arena ↔ rest chain fields (harmless when absent)
+            role: fm.role != null ? String(fm.role) : null,
+            arenaIndex:
+                fm.arenaIndex != null ? Number(fm.arenaIndex) : null,
+            spawnBounds: fm.spawnBounds || null,
+            entrance: fm.entrance || null,
+            portalSocket: fm.portalSocket || null,
+            waypoints: Array.isArray(fm.waypoints) ? fm.waypoints : null
         };
     }
     return out;

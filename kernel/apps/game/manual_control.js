@@ -7,7 +7,17 @@
 'use strict';
 
 const { Settings } = require('../../settings.js');
-const { uiState, clearTargetCursorMode } = require('./ui_state.js');
+const {
+    uiState,
+    clearTargetCursorMode,
+    consumeSuppressNextCanvasClick
+} = require('./ui_state.js');
+const {
+    findCreatureAtTile,
+    resolveCanvasHit,
+    processMouseAction,
+    applyCommandIntents
+} = require('./mouse_dispatcher.js');
 
 /**
  * Normalize and queue a control-mode flip for TAS / deterministic replay.
@@ -237,36 +247,8 @@ function canvasEventToTile(canvas, sim, ev) {
 }
 
 /**
- * Living creature on tile (excludes the active player).
- *
- * @param {object} sim
- * @param {number} x
- * @param {number} y
- * @param {string|number} z
- * @param {number|string|null|undefined} excludeId
- * @returns {object|null}
- */
-function findCreatureAtTile(sim, x, y, z, excludeId) {
-    if (!sim || !Array.isArray(sim.creatures)) return null;
-    for (let i = 0; i < sim.creatures.length; i++) {
-        const c = sim.creatures[i];
-        if (
-            c &&
-            c.alive &&
-            c.tile &&
-            c.tile.x === x &&
-            c.tile.y === y &&
-            String(c.tile.z) === String(z) &&
-            c.id !== excludeId
-        ) {
-            return c;
-        }
-    }
-    return null;
-}
-
-/**
- * Queue manual canvas actions: cursor resolve, set target, stop, or autowalk.
+ * Queue manual canvas LMB actions via mouse_dispatcher (Stage 2 matrix).
+ * Adapter-only intents (LOOK, OPEN_CONTEXT_MENU, …) are returned for the caller.
  *
  * @param {object} opts
  * @param {object} opts.player
@@ -274,7 +256,12 @@ function findCreatureAtTile(sim, x, y, z, excludeId) {
  * @param {number} opts.x
  * @param {number} opts.y
  * @param {string|number} opts.z
- * @returns {boolean} true if a command was queued
+ * @param {object[]|Record<string, object>|null|undefined} [opts.itemDb]
+ * @param {{ shift?: boolean, ctrl?: boolean, alt?: boolean, meta?: boolean }} [opts.modifiers]
+ * @param {(intent: object, ctx: { player: object, sim: object, clientX?: number, clientY?: number }) => void} [opts.onAdapterIntent]
+ * @param {number} [opts.clientX]
+ * @param {number} [opts.clientY]
+ * @returns {boolean} true if a command was queued or an adapter intent was produced
  */
 function handleManualCanvasTileAction(opts) {
     const o = opts || {};
@@ -284,47 +271,54 @@ function handleManualCanvasTileAction(opts) {
     const y = o.y;
     const z = o.z;
     if (!player || player.controlMode !== 'manual' || !player.alive) return false;
-    if (!Array.isArray(player.commandQueue)) player.commandQueue = [];
 
-    const targetCreature = findCreatureAtTile(sim, x, y, z, player.id);
+    const hit = resolveCanvasHit({
+        sim,
+        player,
+        tile: { x, y, z },
+        itemDb: o.itemDb
+    });
+    if (!hit) return false;
 
-    if (uiState && uiState.activeActionCursor) {
-        const cur = uiState.activeActionCursor;
-        const cmd = {
-            type: cur.type,
-            sourceUid: cur.sourceUid,
-            itemId: cur.itemId,
-            spellId: cur.spellId
+    const intents = processMouseAction({
+        button: 'left',
+        hit,
+        mode: uiState && uiState.mouseControlMode != null ? uiState.mouseControlMode : 1,
+        lootMode:
+            uiState && uiState.lootControlMode != null
+                ? uiState.lootControlMode
+                : 0,
+        talkOnRightClick: !!(uiState && uiState.talkOnRightClick),
+        modifiers: o.modifiers || {},
+        activeCursor: uiState && uiState.activeActionCursor,
+        playerControlMode: player.controlMode,
+        playerAlive: !!player.alive,
+        hasInventory: !!player.inventory,
+        hasGroundItems: !!(sim && sim.groundItems),
+        playerTile: player.tile || null
+    });
+
+    const beforeLen = Array.isArray(player.commandQueue)
+        ? player.commandQueue.length
+        : 0;
+    const remaining = applyCommandIntents(player, intents, {
+        clearActionCursor: clearTargetCursorMode
+    });
+    if (typeof o.onAdapterIntent === 'function') {
+        const ctx = {
+            player,
+            sim,
+            clientX: o.clientX,
+            clientY: o.clientY
         };
-        if (targetCreature) {
-            cmd.target = { kind: 'entity', id: targetCreature.id };
-        } else {
-            cmd.target = { kind: 'tile', x, y, z };
+        for (let i = 0; i < remaining.length; i++) {
+            o.onAdapterIntent(remaining[i], ctx);
         }
-        player.commandQueue.push(cmd);
-        clearTargetCursorMode();
-        return true;
     }
-
-    if (targetCreature) {
-        player.commandQueue.push({ type: 'SET_TARGET', targetId: targetCreature.id });
-        player.targetId = targetCreature.id;
-        player.target = targetCreature;
-        return true;
-    }
-
-    if (
-        player.tile &&
-        x === player.tile.x &&
-        y === player.tile.y &&
-        String(z) === String(player.tile.z)
-    ) {
-        player.commandQueue.push({ type: 'STOP_AUTOWALK' });
-        return true;
-    }
-
-    player.commandQueue.push({ type: 'START_AUTOWALK', dest: { x, y, z } });
-    return true;
+    const afterLen = Array.isArray(player.commandQueue)
+        ? player.commandQueue.length
+        : 0;
+    return afterLen > beforeLen || remaining.length > 0;
 }
 
 /**
@@ -341,6 +335,9 @@ function bindManualCanvasClick(canvas, opts) {
     const o = opts || {};
     canvas.addEventListener('click', (ev) => {
         if (ev.button !== 0) return;
+        // Stage 9: ground-item drag used pointerdown/up; swallow the follow-up click
+        // so walk / smart LMB does not steal the gesture after a map drag.
+        if (consumeSuppressNextCanvasClick()) return;
         if (typeof o.getSessionLive === 'function' && !o.getSessionLive()) return;
         const sim = typeof o.getSim === 'function' ? o.getSim() : null;
         if (!sim || !sim.tileMap) return;
@@ -354,7 +351,18 @@ function bindManualCanvasClick(canvas, opts) {
             sim,
             x: tile.x,
             y: tile.y,
-            z: tile.z
+            z: tile.z,
+            clientX: ev.clientX,
+            clientY: ev.clientY,
+            modifiers: {
+                shift: !!ev.shiftKey,
+                ctrl: !!(ev.ctrlKey || ev.metaKey),
+                alt: !!ev.altKey
+            },
+            onAdapterIntent:
+                typeof o.onAdapterIntent === 'function'
+                    ? o.onAdapterIntent
+                    : undefined
         });
     });
 }

@@ -147,10 +147,72 @@
             }
         });
 
+        applyMouseControlsToForm(s);
+        applyLayoutCountsToForm(s);
         applySessionToForm(s);
         applyProgressionLock(s);
 
         suppress = false;
+    }
+
+    /**
+     * Action bar toolbars per dock (0–3). Source of truth is parent action_bars.
+     * @param {object|null|undefined} s
+     */
+    function applyLayoutCountsToForm(s) {
+        const lc = (s && s.layoutCounts) || {};
+        const docks = [
+            { id: 'actionBarCountTop', key: 'top' },
+            { id: 'actionBarCountBottom', key: 'bottom' },
+            { id: 'actionBarCountLeft', key: 'left' },
+            { id: 'actionBarCountRight', key: 'right' }
+        ];
+        for (let i = 0; i < docks.length; i++) {
+            const el = byId(docks[i].id);
+            if (!el) continue;
+            let n =
+                typeof lc[docks[i].key] === 'number' && Number.isFinite(lc[docks[i].key])
+                    ? Math.floor(lc[docks[i].key])
+                    : 1;
+            if (n < 0) n = 0;
+            if (n > 3) n = 3;
+            el.value = String(n);
+        }
+    }
+
+    /**
+     * Mouse control mode + classic-only loot sub-mode (docs/29 Stage 3–4).
+     * Modes: 0 Regular, 1 Classic, 2 Left Smart-Click.
+     * @param {object|null|undefined} s
+     */
+    function applyMouseControlsToForm(s) {
+        const mc = (s && s.mouseControls) || {};
+        let mode =
+            typeof mc.mouseControlMode === 'number' && Number.isFinite(mc.mouseControlMode)
+                ? Math.floor(mc.mouseControlMode)
+                : 1;
+        if (mode !== 0 && mode !== 1 && mode !== 2) mode = 1;
+
+        const modeSelect = byId('mouseControlModeSelect');
+        if (modeSelect) modeSelect.value = String(mode);
+
+        let loot =
+            typeof mc.lootControlMode === 'number' && Number.isFinite(mc.lootControlMode)
+                ? Math.floor(mc.lootControlMode)
+                : 0;
+        if (loot !== 0 && loot !== 1 && loot !== 2) loot = 0;
+        const lootSelect = byId('lootControlModeSelect');
+        if (lootSelect) lootSelect.value = String(loot);
+
+        const lootWrap = byId('lootControlModeWrap');
+        if (lootWrap) {
+            lootWrap.hidden = mode !== 1;
+        }
+
+        const moveStackEl = byId('moveStackCheck');
+        if (moveStackEl) {
+            moveStackEl.checked = mc.moveStack === true;
+        }
     }
 
     /**
@@ -240,6 +302,52 @@
                 expRates[key] = Number.isFinite(n) ? n : 0;
             });
             patch.expRates = expRates;
+            return patch;
+        }
+
+        if (
+            id === 'mouseControlModeSelect' ||
+            id === 'lootControlModeSelect' ||
+            id === 'moveStackCheck'
+        ) {
+            const modeEl = byId('mouseControlModeSelect');
+            const lootEl = byId('lootControlModeSelect');
+            const moveStackEl = byId('moveStackCheck');
+            let mode = modeEl ? parseInt(modeEl.value, 10) : 1;
+            if (mode !== 0 && mode !== 1 && mode !== 2) mode = 1;
+            let loot = lootEl ? parseInt(lootEl.value, 10) : 0;
+            if (loot !== 0 && loot !== 1 && loot !== 2) loot = 0;
+            const lootWrap = byId('lootControlModeWrap');
+            if (lootWrap) lootWrap.hidden = mode !== 1;
+            patch.mouseControls = {
+                mouseControlMode: mode,
+                lootControlMode: loot,
+                moveStack: !!(moveStackEl && moveStackEl.checked)
+            };
+            return patch;
+        }
+
+        if (
+            id === 'actionBarCountTop' ||
+            id === 'actionBarCountBottom' ||
+            id === 'actionBarCountLeft' ||
+            id === 'actionBarCountRight' ||
+            (target.classList && target.classList.contains('action-bar-count-select'))
+        ) {
+            const parseCount = (elId) => {
+                const el = byId(elId);
+                let n = el ? parseInt(el.value, 10) : 1;
+                if (!Number.isFinite(n)) n = 1;
+                if (n < 0) n = 0;
+                if (n > 3) n = 3;
+                return n;
+            };
+            patch.layoutCounts = {
+                top: parseCount('actionBarCountTop'),
+                bottom: parseCount('actionBarCountBottom'),
+                left: parseCount('actionBarCountLeft'),
+                right: parseCount('actionBarCountRight')
+            };
             return patch;
         }
 

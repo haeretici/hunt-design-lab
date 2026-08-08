@@ -109,6 +109,26 @@ class Player extends Creature {
         this.spellsCastByKind = Object.create(null);
         /** Mana spent on successful resolves this session. */
         this.manaSpent = 0;
+        /**
+         * Phase D: skill try counters (always). Keys: sword/axe/club/fist/distance/shielding + total.
+         * @type {Record<string, number>}
+         */
+        this.skillTriesGained = Object.create(null);
+        this.skillTriesGained.total = 0;
+        /** Mana credited toward magic level this session (after skill rate pins). */
+        this.manaSpentTowardMagic = 0;
+        /** Skill level-ups this session (only when skillProgression on). */
+        this.skillLevelsGained = 0;
+        /** Magic level-ups this session (only when skillProgression on). */
+        this.magicLevelsGained = 0;
+        /** Blood training bucket (server parity: 30). */
+        this.bloodHitCount = 0;
+        /** Shield training bucket (server parity: 30). */
+        this.shieldBlockCount = 0;
+        /** @type {Record<string, number>} progress toward next skill level */
+        this._skillTryProgress = Object.create(null);
+        /** Progress toward next magic level (mana). */
+        this._manaTowardMagic = 0;
 
         /** Character skills from profile / party member (engine or profile keys) */
         this.skills =
@@ -181,7 +201,8 @@ class Player extends Creature {
         this.equipmentRuntime = initEquipmentRuntime(
             this.equipment,
             this._loadoutItemDb,
-            this.equipmentRuntime
+            this.equipmentRuntime,
+            this._collectInventorySlotBudgets()
         );
 
         return this._rebuildCombatStatsFromLoadout();
@@ -237,10 +258,6 @@ class Player extends Creature {
         if (stats.speed != null) {
             this.baseSpeed = stats.speed;
             this.speed = stats.speed;
-            // Re-apply haste/slow on top of new gear/base speed
-            if (Array.isArray(this.conditions) && this.conditions.length) {
-                recomputeDerived(this);
-            }
         }
         this.skill = stats.skill != null ? stats.skill : this.skill;
         this.meleeSkill = this.skill;
@@ -259,6 +276,8 @@ class Player extends Creature {
             this.mp.current = stats.mpMax;
         }
         this.alive = this.hp.current > 0;
+        // Re-apply haste/slow + gear flags (stealth_ring invisible) after base/gear change
+        recomputeDerived(this);
         return stats;
     }
 
@@ -308,16 +327,76 @@ class Player extends Creature {
 
     /**
      * After inventory UI mutates bags/gear: sync equipment + re-roll combat stats.
+     * Writes remaining duration/charges onto currently equipped instances first
+     * so unequip pauses budgets (legacy stopduration).
      * @returns {object|null} combatStats
      */
     applyInventoryMutation() {
+        this._syncRuntimeBudgetsToInventory();
         this.syncEquipmentFromInventory();
         this.equipmentRuntime = initEquipmentRuntime(
             this.equipment,
             this._loadoutItemDb,
-            this.equipmentRuntime
+            this.equipmentRuntime,
+            this._collectInventorySlotBudgets()
         );
         return this._rebuildCombatStatsFromLoadout();
+    }
+
+    /**
+     * Read remaining duration/charges from equipped inventory instances.
+     * @returns {Record<string, { remainingDurationSec?: number|null, remainingCharges?: number|null }>}
+     */
+    _collectInventorySlotBudgets() {
+        /** @type {Record<string, { remainingDurationSec?: number|null, remainingCharges?: number|null }>} */
+        const out = Object.create(null);
+        if (!this.inventory || !this.inventory.equipment || !this.inventory.items) {
+            return out;
+        }
+        const slots = Object.keys(this.inventory.equipment);
+        for (let i = 0; i < slots.length; i++) {
+            const slot = slots[i];
+            const uid = this.inventory.equipment[slot];
+            if (!uid) continue;
+            const inst = this.inventory.items[uid];
+            if (!inst) continue;
+            /** @type {{ remainingDurationSec?: number|null, remainingCharges?: number|null }} */
+            const seed = {};
+            if (inst.remainingDurationSec != null && Number.isFinite(Number(inst.remainingDurationSec))) {
+                seed.remainingDurationSec = Number(inst.remainingDurationSec);
+            }
+            if (inst.remainingCharges != null && Number.isFinite(Number(inst.remainingCharges))) {
+                seed.remainingCharges = Math.floor(Number(inst.remainingCharges));
+            }
+            if (seed.remainingDurationSec != null || seed.remainingCharges != null) {
+                out[slot] = seed;
+            }
+        }
+        return out;
+    }
+
+    /**
+     * Persist remaining duration/charges onto equipped inventory instances.
+     * Called before unequip and after each duration/charge tick.
+     */
+    _syncRuntimeBudgetsToInventory() {
+        if (!this.inventory || !this.equipmentRuntime) return;
+        const keys = Object.keys(this.equipmentRuntime);
+        for (let i = 0; i < keys.length; i++) {
+            const slot = keys[i];
+            const entry = this.equipmentRuntime[slot];
+            if (!entry) continue;
+            const uid = this.inventory.equipment && this.inventory.equipment[slot];
+            if (!uid) continue;
+            const inst = this.inventory.items[uid];
+            if (!inst || inst.itemId !== entry.itemId) continue;
+            if (entry.remainingDurationSec != null) {
+                inst.remainingDurationSec = entry.remainingDurationSec;
+            }
+            if (entry.remainingCharges != null) {
+                inst.remainingCharges = entry.remainingCharges;
+            }
+        }
     }
 
     /**
@@ -344,6 +423,7 @@ class Player extends Creature {
 
     /**
      * Tick durationSec budgets; unequip expired items and re-roll stats.
+     * Duration only advances while equipped (legacy stopduration when stowed).
      * @param {number} [dtSec] defaults to Time.deltaTime
      * @returns {{ expiredSlots: string[], changed: boolean }}
      */
@@ -362,6 +442,9 @@ class Player extends Creature {
         if (advanced.expiredSlots.length) {
             this._destroyInventoryEquipmentSlots(advanced.expiredSlots);
             this._rebuildCombatStatsFromLoadout();
+        } else if (advanced.changed) {
+            // Keep inventory instance budgets in sync while still equipped
+            this._syncRuntimeBudgetsToInventory();
         }
         return {
             expiredSlots: advanced.expiredSlots,
@@ -370,24 +453,30 @@ class Player extends Creature {
     }
 
     /**
-     * Consume charges on damaging hits; unequip when charges hit 0.
+     * Consume absorb-gear charges on damaging hits; unequip when charges hit 0.
+     * Only items with positive resists for the hit element spend a charge
+     * (legacy might_ring / absorb amulets). Weapon charges are not spent here.
      * @param {number} [amount=1]
+     * @param {string|null} [element]
      * @returns {{ depletedSlots: string[], consumedSlots: string[], changed: boolean }}
      */
-    consumeEquipmentChargesOnHit(amount) {
+    consumeEquipmentChargesOnHit(amount, element) {
         if (!this.equipmentRuntime) {
             return { depletedSlots: [], consumedSlots: [], changed: false };
         }
         const result = applyHitChargeConsumption(
             this.equipment,
             this.equipmentRuntime,
-            amount != null ? amount : 1
+            amount != null ? amount : 1,
+            { element: element != null ? element : null }
         );
         this.equipment = result.equipment;
         this.equipmentRuntime = result.runtime;
         if (result.depletedSlots.length) {
             this._destroyInventoryEquipmentSlots(result.depletedSlots);
             this._rebuildCombatStatsFromLoadout();
+        } else if (result.changed) {
+            this._syncRuntimeBudgetsToInventory();
         }
         return {
             depletedSlots: result.depletedSlots,
@@ -403,9 +492,9 @@ class Player extends Creature {
      */
     applyHpDelta(amount, element) {
         const delta = super.applyHpDelta(amount, element);
-        // Charged gear (e.g. might_ring) loses charges when the wearer is hit
+        // Absorb charged gear (power_band / elven amulet) spends a charge on hit
         if (delta < 0) {
-            this.consumeEquipmentChargesOnHit(1);
+            this.consumeEquipmentChargesOnHit(1, element || 'physical');
         }
         return delta;
     }

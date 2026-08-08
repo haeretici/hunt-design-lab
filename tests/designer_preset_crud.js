@@ -19,6 +19,7 @@ const TEST_EQUIP_ID = 'zz_designer_poc_equip';
 const TEST_STRAT_ID = 'zz_designer_poc_strat';
 const TEST_POP_ID = 'zz_designer_poc_pop';
 const TEST_CREATURE_ID = 'zz_designer_poc_creature';
+const TEST_CREATURE_RENAME_TO = 'zz_designer_poc_creature_renamed';
 const TEST_PIECE_PACK_ID = 'zz_designer_poc_pieces';
 const TEST_PROFILE_ID = 'zz_designer_poc_profile';
 const TEST_PARTY_ID = 'zz_designer_poc_party';
@@ -69,6 +70,7 @@ foreach ([
   ['strategies', ${JSON.stringify(TEST_STRAT_ID)}],
   ['populations', ${JSON.stringify(TEST_POP_ID)}],
   ['creatures', ${JSON.stringify(TEST_CREATURE_ID)}],
+  ['creatures', ${JSON.stringify(TEST_CREATURE_RENAME_TO)}],
   ['pieces', ${JSON.stringify(TEST_PIECE_PACK_ID)}],
   ['player_profiles', ${JSON.stringify(TEST_PROFILE_ID)}],
   ['parties', ${JSON.stringify(TEST_PARTY_ID)}],
@@ -501,6 +503,184 @@ echo json_encode(\\De\\PresetCrud::save([
         assert.ok(Array.isArray(data.warnings));
         assert.ok(data.warnings.length >= 1, 'expected at least one ref to melee_auto');
         assert.ok(data.refs.some((r) => r.kind === 'classes' || r.kind === 'strategies'));
+    });
+
+    test('creature save rename delete updates mode.json browser.creatures', () => {
+        const modePath = path.join(ROOT, 'presets/standard/mode.json');
+        const fromPath = path.join(
+            ROOT,
+            'presets/standard/creatures',
+            TEST_CREATURE_ID + '.json'
+        );
+        const toPath = path.join(
+            ROOT,
+            'presets/standard/creatures',
+            TEST_CREATURE_RENAME_TO + '.json'
+        );
+        for (const p of [fromPath, toPath]) {
+            if (fs.existsSync(p)) fs.unlinkSync(p);
+        }
+
+        const before = JSON.parse(fs.readFileSync(modePath, 'utf8'));
+        assert.ok(Array.isArray(before.browser.creatures));
+        assert.ok(
+            !before.browser.creatures.includes(TEST_CREATURE_ID),
+            'test id should not be in browser list before create'
+        );
+
+        phpEval(`
+echo json_encode(\\De\\PresetCrud::save([
+  'mode' => 'standard',
+  'kind' => 'creatures',
+  'id' => ${JSON.stringify(TEST_CREATURE_ID)},
+  'entity' => [
+    'id' => ${JSON.stringify(TEST_CREATURE_ID)},
+    'label' => 'PoC Browser List Creature',
+    'hp' => 50,
+    'hpMax' => 50,
+  ],
+]));
+`);
+        let mode = JSON.parse(fs.readFileSync(modePath, 'utf8'));
+        assert.ok(
+            mode.browser.creatures.includes(TEST_CREATURE_ID),
+            'create should add browser.creatures entry'
+        );
+
+        phpEval(`
+echo json_encode(\\De\\PresetCrud::rename([
+  'mode' => 'standard',
+  'kind' => 'creatures',
+  'from' => ${JSON.stringify(TEST_CREATURE_ID)},
+  'to' => ${JSON.stringify(TEST_CREATURE_RENAME_TO)},
+  'updateRefs' => false,
+]));
+`);
+        mode = JSON.parse(fs.readFileSync(modePath, 'utf8'));
+        assert.ok(
+            !mode.browser.creatures.includes(TEST_CREATURE_ID),
+            'rename should drop old browser.creatures id'
+        );
+        assert.ok(
+            mode.browser.creatures.includes(TEST_CREATURE_RENAME_TO),
+            'rename should add new browser.creatures id'
+        );
+
+        phpEval(
+            `echo json_encode(\\De\\PresetCrud::delete('standard', 'creatures', ${JSON.stringify(TEST_CREATURE_RENAME_TO)}));`
+        );
+        mode = JSON.parse(fs.readFileSync(modePath, 'utf8'));
+        assert.ok(
+            !mode.browser.creatures.includes(TEST_CREATURE_RENAME_TO),
+            'delete should remove browser.creatures entry'
+        );
+        assert.ok(!fs.existsSync(fromPath));
+        assert.ok(!fs.existsSync(toPath));
+    });
+
+    test('rename creature rewrites population soft refs', () => {
+        const fromPath = path.join(
+            ROOT,
+            'presets/standard/creatures',
+            TEST_CREATURE_ID + '.json'
+        );
+        const toPath = path.join(
+            ROOT,
+            'presets/standard/creatures',
+            TEST_CREATURE_RENAME_TO + '.json'
+        );
+        const popPath = path.join(
+            ROOT,
+            'presets/standard/populations',
+            TEST_POP_ID + '.json'
+        );
+        // Clean leftovers from a previous failed run.
+        for (const p of [fromPath, toPath, popPath]) {
+            if (fs.existsSync(p)) fs.unlinkSync(p);
+        }
+
+        phpEval(`
+echo json_encode(\\De\\PresetCrud::save([
+  'mode' => 'standard',
+  'kind' => 'creatures',
+  'id' => ${JSON.stringify(TEST_CREATURE_ID)},
+  'entity' => [
+    'id' => ${JSON.stringify(TEST_CREATURE_ID)},
+    'label' => 'PoC Rename Creature',
+    'hp' => 100,
+    'hpMax' => 100,
+  ],
+]));
+`);
+        phpEval(`
+echo json_encode(\\De\\PresetCrud::save([
+  'mode' => 'standard',
+  'kind' => 'populations',
+  'id' => ${JSON.stringify(TEST_POP_ID)},
+  'entity' => [
+    'id' => ${JSON.stringify(TEST_POP_ID)},
+    'label' => 'PoC Rename Pop',
+    'groups' => [
+      'main' => [
+        'creatureIds' => [${JSON.stringify(TEST_CREATURE_ID)}, 'rat'],
+        'weight' => 1,
+      ],
+    ],
+  ],
+]));
+`);
+
+        const refsBefore = phpEval(
+            `echo json_encode(\\De\\PresetCrud::refs('standard', 'creatures', ${JSON.stringify(TEST_CREATURE_ID)}));`
+        );
+        assert.ok(
+            refsBefore.refs.some(
+                (r) => r.kind === 'populations' && r.id === TEST_POP_ID
+            ),
+            'population should reference creature before rename'
+        );
+
+        const renamed = phpEval(`
+echo json_encode(\\De\\PresetCrud::rename([
+  'mode' => 'standard',
+  'kind' => 'creatures',
+  'from' => ${JSON.stringify(TEST_CREATURE_ID)},
+  'to' => ${JSON.stringify(TEST_CREATURE_RENAME_TO)},
+  'updateRefs' => true,
+]));
+`);
+        assert.strictEqual(renamed.id, TEST_CREATURE_RENAME_TO);
+        assert.strictEqual(renamed.renamedFrom, TEST_CREATURE_ID);
+        assert.ok(renamed.refsUpdatedCount >= 1, 'expected at least one ref rewrite');
+        assert.ok(
+            renamed.refsUpdated.some(
+                (r) => r.kind === 'populations' && r.id === TEST_POP_ID
+            )
+        );
+        assert.ok(!fs.existsSync(fromPath), 'old creature file removed');
+        assert.ok(fs.existsSync(toPath), 'new creature file created');
+
+        const pop = JSON.parse(fs.readFileSync(popPath, 'utf8'));
+        assert.deepStrictEqual(pop.groups.main.creatureIds, [
+            TEST_CREATURE_RENAME_TO,
+            'rat'
+        ]);
+
+        const refsAfterOld = phpEval(
+            `echo json_encode(\\De\\PresetCrud::refs('standard', 'creatures', ${JSON.stringify(TEST_CREATURE_ID)}));`
+        );
+        assert.strictEqual(
+            refsAfterOld.refs.length,
+            0,
+            'old id should have no soft refs'
+        );
+
+        phpEval(
+            `echo json_encode(\\De\\PresetCrud::delete('standard', 'populations', ${JSON.stringify(TEST_POP_ID)}));`
+        );
+        phpEval(
+            `echo json_encode(\\De\\PresetCrud::delete('standard', 'creatures', ${JSON.stringify(TEST_CREATURE_RENAME_TO)}));`
+        );
     });
 
     test('blank templates for new kinds', () => {

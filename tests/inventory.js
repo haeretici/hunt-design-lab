@@ -22,6 +22,7 @@ const {
     placeInContainer,
     placeInEquipment,
     moveItem,
+    moveItemAmount,
     equipItem,
     unequipItem,
     totalCarriedWeight,
@@ -63,6 +64,11 @@ const {
     createGroundStore,
     dropItemToGround,
     pickupItemFromGround,
+    placePlayerItemIntoGroundContainer,
+    moveGroundItemIntoContainer,
+    moveGroundItemToTile,
+    groundRootLocation,
+    isGroundContainerOpenable,
     canDropToTile,
     canPickupFromTile,
     getStack,
@@ -1461,6 +1467,49 @@ test('stackable ammo merges on place; weight scales with count', () => {
     assert.strictEqual(afterW - beforeW, 5 * 70, 'weight +5×unit');
 });
 
+test('moveItemAmount splits stackable ammo between slots (Stage 7)', () => {
+    const inv = buildInventoryFromSeed(
+        {
+            equipment: { backpack: 'backpack' },
+            inventory: {
+                backpack: [{ itemId: 'hunting_arrow', count: 20, slotIndex: 0 }]
+            }
+        },
+        ITEM_DB
+    );
+    const root = inv.rootUid;
+    const cont = getContainer(inv, root);
+    const srcUid = cont.slots[0];
+    assert.ok(srcUid);
+    assert.strictEqual(getStackCount(inv.items[srcUid]), 20);
+
+    const r = moveItemAmount(
+        inv,
+        { kind: 'container', containerUid: root, index: 0 },
+        { kind: 'container', containerUid: root, index: 1 },
+        7,
+        ITEM_DB
+    );
+    assert.ok(r.ok, 'partial move ok');
+    assert.strictEqual(getStackCount(inv.items[srcUid]), 13, 'source remainder');
+    const destUid = cont.slots[1];
+    assert.ok(destUid, 'dest occupied');
+    assert.strictEqual(getStackCount(inv.items[destUid]), 7, 'dest amount');
+    assert.strictEqual(inv.items[destUid].itemId, 'hunting_arrow');
+
+    // Full move when amount >= total
+    const r2 = moveItemAmount(
+        inv,
+        { kind: 'container', containerUid: root, index: 1 },
+        { kind: 'container', containerUid: root, index: 2 },
+        99,
+        ITEM_DB
+    );
+    assert.ok(r2.ok);
+    assert.strictEqual(cont.slots[1], null);
+    assert.strictEqual(getStackCount(inv.items[cont.slots[2]]), 7);
+});
+
 test('leftHandAmmo is first ammo only; non-ammo contents are skipped', () => {
     const inv = buildInventoryFromSeed(
         {
@@ -1862,6 +1911,114 @@ test('twoHanded bow keeps quiver; twoHanded sword unequips leftHand', () => {
     );
 });
 
+test('equip shield while twoHanded sword stows the weapon', () => {
+    const inv = buildInventoryFromSeed(
+        {
+            equipment: {
+                backpack: 'backpack',
+                weapon: 'two_hand_sword'
+            },
+            backpack: ['oak_shield']
+        },
+        ITEM_DB
+    );
+    assert.strictEqual(inv.items[inv.equipment.rightHand].itemId, 'two_hand_sword');
+    assert.ok(!inv.equipment.leftHand);
+    const shieldUid = getContainer(inv, inv.rootUid).slots.find(
+        (u) => u && inv.items[u].itemId === 'oak_shield'
+    );
+    assert.ok(shieldUid);
+    const r = equipItem(inv, shieldUid, ITEM_DB, 'leftHand');
+    assert.ok(r.ok, r.error);
+    assert.strictEqual(inv.items[inv.equipment.leftHand].itemId, 'oak_shield');
+    assert.ok(!inv.equipment.rightHand, '2H weapon must leave rightHand');
+    const bp = getContainer(inv, inv.rootUid);
+    assert.ok(
+        bp.slots.some((u) => u && inv.items[u].itemId === 'two_hand_sword'),
+        '2H stowed in backpack'
+    );
+});
+
+test('equip shield while bow stows the bow (not quiver exception)', () => {
+    const inv = buildInventoryFromSeed(
+        {
+            equipment: {
+                backpack: 'backpack',
+                weapon: 'hunter_bow',
+                shield: 'unicorn_quiver'
+            },
+            backpack: ['oak_shield']
+        },
+        ITEM_DB
+    );
+    assert.strictEqual(inv.items[inv.equipment.rightHand].itemId, 'hunter_bow');
+    assert.strictEqual(inv.items[inv.equipment.leftHand].itemId, 'unicorn_quiver');
+    const shieldUid = getContainer(inv, inv.rootUid).slots.find(
+        (u) => u && inv.items[u].itemId === 'oak_shield'
+    );
+    const r = equipItem(inv, shieldUid, ITEM_DB, 'leftHand');
+    assert.ok(r.ok, r.error);
+    assert.strictEqual(inv.items[inv.equipment.leftHand].itemId, 'oak_shield');
+    assert.ok(!inv.equipment.rightHand, 'bow must leave rightHand when equipping shield');
+    const bp = getContainer(inv, inv.rootUid);
+    assert.ok(
+        bp.slots.some((u) => u && inv.items[u].itemId === 'hunter_bow'),
+        'bow stowed in backpack'
+    );
+    assert.ok(
+        bp.slots.some((u) => u && inv.items[u].itemId === 'unicorn_quiver'),
+        'quiver swapped into backpack'
+    );
+});
+
+test('equip quiver while bow keeps both hands', () => {
+    const inv = buildInventoryFromSeed(
+        {
+            equipment: {
+                backpack: 'backpack',
+                weapon: 'hunter_bow'
+            },
+            backpack: ['unicorn_quiver']
+        },
+        ITEM_DB
+    );
+    const qUid = getContainer(inv, inv.rootUid).slots.find(
+        (u) => u && inv.items[u].itemId === 'unicorn_quiver'
+    );
+    const r = equipItem(inv, qUid, ITEM_DB, 'leftHand');
+    assert.ok(r.ok, r.error);
+    assert.strictEqual(inv.items[inv.equipment.rightHand].itemId, 'hunter_bow');
+    assert.strictEqual(inv.items[inv.equipment.leftHand].itemId, 'unicorn_quiver');
+});
+
+test('equip shield while twoHanded fails with no_room when backpack full', () => {
+    const inv = buildInventoryFromSeed(
+        {
+            equipment: {
+                backpack: 'backpack',
+                weapon: 'two_hand_sword'
+            }
+        },
+        ITEM_DB
+    );
+    const root = getContainer(inv, inv.rootUid);
+    for (let i = 0; i < root.capacity; i++) {
+        if (root.slots[i]) continue;
+        const u = createItemInstance(inv, 'iron_longsword', ITEM_DB);
+        assert.ok(placeInContainer(inv, u, inv.rootUid, i, ITEM_DB).ok);
+    }
+    // Free one slot for the shield itself, keep rest full so 2H cannot stow
+    destroyItem(inv, root.slots[0]);
+    const sh = createItemInstance(inv, 'oak_shield', ITEM_DB);
+    assert.ok(placeInContainer(inv, sh, inv.rootUid, 0, ITEM_DB).ok);
+    assert.ok(root.slots.every((s) => s), 'backpack full after placing shield');
+    const r = equipItem(inv, sh, ITEM_DB, 'leftHand');
+    assert.ok(!r.ok, 'must fail — no room to stow 2H');
+    assert.strictEqual(r.error, 'no_room');
+    assert.strictEqual(inv.items[inv.equipment.rightHand].itemId, 'two_hand_sword');
+    assert.ok(!inv.equipment.leftHand, 'shield must not equip');
+});
+
 test('twoHanded equip fails with no_room when backpack full', () => {
     // backpack volume 20 — fill completely, equip shield on left, try 2H from... 
     // need 2H already in inventory somehow. Use tiny bag? Default backpack volume 20.
@@ -2037,6 +2194,496 @@ test('item behavioral helpers: itemIsMultiUse, itemIsUsable, itemIsEquipable', (
 
     assert.ok(itemIsEquipable({ id: 'iron_longsword', category: 'sword', slot: 'rightHand' }), 'sword is equipable');
     assert.ok(!itemIsEquipable({ id: 'blaze_field_rune', category: 'rune' }), 'rune is not equipable');
+});
+
+// --- Container-from-ground (open bag on tile) ---
+
+test('groundRootLocation walks nested bag contents to tile root', () => {
+    const inv = buildInventoryFromSeed(
+        {
+            equipment: { backpack: 'backpack' },
+            backpack: [
+                { itemId: 'bag', contents: ['steel_helm', 'oak_shield'] }
+            ]
+        },
+        ITEM_DB
+    );
+    const root = getContainer(inv, inv.rootUid);
+    const bagUid = root.slots[0];
+    const ground = createGroundStore();
+    const player = makePlayerAt(4, 4, 0);
+    const map = makeTestMap();
+    const drop = dropItemToGround({
+        playerInv: inv,
+        uid: bagUid,
+        ground,
+        player,
+        tileMap: map,
+        x: 4,
+        y: 4,
+        z: 0
+    });
+    assert.ok(drop.ok, drop.error);
+    const gBag = drop.groundUid;
+    const gCont = getContainer(ground.inventory, gBag);
+    const childUid = gCont.slots[0];
+    assert.ok(childUid);
+    const loc = groundRootLocation(ground, childUid);
+    assert.ok(loc);
+    assert.strictEqual(loc.x, 4);
+    assert.strictEqual(loc.y, 4);
+    assert.strictEqual(loc.rootUid, gBag);
+    assert.ok(isGroundContainerOpenable(ground, gBag));
+});
+
+test('pickup nested item from ground bag into player backpack', () => {
+    const inv = buildInventoryFromSeed(
+        {
+            equipment: { backpack: 'backpack' },
+            backpack: [
+                { itemId: 'bag', contents: ['steel_helm'] },
+                'oak_shield'
+            ]
+        },
+        ITEM_DB
+    );
+    // Drop only the bag (with helm inside); leave shield in backpack
+    const root = getContainer(inv, inv.rootUid);
+    const bagUid = root.slots.find(
+        (u) => u && inv.items[u] && inv.items[u].itemId === 'bag'
+    );
+    assert.ok(bagUid);
+    const ground = createGroundStore();
+    const player = makePlayerAt(4, 4, 0);
+    const map = makeTestMap();
+    assert.ok(
+        dropItemToGround({
+            playerInv: inv,
+            uid: bagUid,
+            ground,
+            player,
+            tileMap: map,
+            x: 4,
+            y: 4,
+            z: 0
+        }).ok
+    );
+    const gBag = peekTop(ground, 4, 4, 0);
+    const gCont = getContainer(ground.inventory, gBag);
+    const helmUid = gCont.slots[0];
+    assert.ok(helmUid);
+    const pick = pickupItemFromGround({
+        ground,
+        uid: helmUid,
+        playerInv: inv,
+        player,
+        itemDb: ITEM_DB
+    });
+    assert.ok(pick.ok, pick.error);
+    assert.ok(!getItem(ground.inventory, helmUid), 'helm left ground bag');
+    assert.ok(getItem(inv, pick.playerUid), 'helm in player inv');
+    // Bag still on ground, openable
+    assert.ok(isGroundContainerOpenable(ground, gBag));
+});
+
+test('placePlayerItemIntoGroundContainer nests into open bag on tile', () => {
+    const inv = buildInventoryFromSeed(
+        {
+            equipment: { backpack: 'backpack' },
+            backpack: [{ itemId: 'bag', contents: [] }, 'steel_helm']
+        },
+        ITEM_DB
+    );
+    const root = getContainer(inv, inv.rootUid);
+    const bagUid = root.slots.find(
+        (u) => u && inv.items[u] && inv.items[u].itemId === 'bag'
+    );
+    const helmUid = root.slots.find(
+        (u) => u && inv.items[u] && inv.items[u].itemId === 'steel_helm'
+    );
+    const ground = createGroundStore();
+    const player = makePlayerAt(4, 4, 0);
+    const map = makeTestMap();
+    assert.ok(
+        dropItemToGround({
+            playerInv: inv,
+            uid: bagUid,
+            ground,
+            player,
+            tileMap: map,
+            x: 4,
+            y: 4,
+            z: 0
+        }).ok
+    );
+    const gBag = peekTop(ground, 4, 4, 0);
+    const place = placePlayerItemIntoGroundContainer({
+        playerInv: inv,
+        uid: helmUid,
+        ground,
+        containerUid: gBag,
+        player,
+        itemDb: ITEM_DB
+    });
+    assert.ok(place.ok, place.error);
+    assert.ok(!getItem(inv, helmUid));
+    const gCont = getContainer(ground.inventory, gBag);
+    assert.ok(gCont.slots.some((u) => u && ground.inventory.items[u]));
+});
+
+test('moveGroundItemIntoContainer: stack top into ground bag', () => {
+    const inv = buildInventoryFromSeed(
+        {
+            equipment: { backpack: 'backpack' },
+            backpack: [{ itemId: 'bag', contents: [] }, 'oak_shield']
+        },
+        ITEM_DB
+    );
+    const root = getContainer(inv, inv.rootUid);
+    const bagUid = root.slots.find(
+        (u) => u && inv.items[u] && inv.items[u].itemId === 'bag'
+    );
+    const shieldUid = root.slots.find(
+        (u) => u && inv.items[u] && inv.items[u].itemId === 'oak_shield'
+    );
+    const ground = createGroundStore();
+    const player = makePlayerAt(4, 4, 0);
+    const map = makeTestMap();
+    assert.ok(
+        dropItemToGround({
+            playerInv: inv,
+            uid: bagUid,
+            ground,
+            player,
+            tileMap: map,
+            x: 4,
+            y: 4,
+            z: 0
+        }).ok
+    );
+    assert.ok(
+        dropItemToGround({
+            playerInv: inv,
+            uid: shieldUid,
+            ground,
+            player,
+            tileMap: map,
+            x: 4,
+            y: 4,
+            z: 0
+        }).ok
+    );
+    // Top is shield; bag under
+    const topUid = peekTop(ground, 4, 4, 0);
+    const stack = getStack(ground, 4, 4, 0);
+    const gBag = stack.find(
+        (u) => ground.inventory.items[u].itemId === 'bag'
+    );
+    assert.ok(gBag);
+    assert.strictEqual(ground.inventory.items[topUid].itemId, 'oak_shield');
+    const r = moveGroundItemIntoContainer({
+        ground,
+        uid: topUid,
+        containerUid: gBag,
+        player,
+        itemDb: ITEM_DB
+    });
+    assert.ok(r.ok, r.error);
+    assert.ok(!getStack(ground, 4, 4, 0).includes(topUid));
+    const gCont = getContainer(ground.inventory, gBag);
+    assert.ok(gCont.slots.includes(topUid));
+});
+
+test('moveGroundItemToTile: nested bag content onto floor', () => {
+    const inv = buildInventoryFromSeed(
+        {
+            equipment: { backpack: 'backpack' },
+            backpack: [
+                { itemId: 'bag', contents: ['steel_helm'] }
+            ]
+        },
+        ITEM_DB
+    );
+    const root = getContainer(inv, inv.rootUid);
+    const bagUid = root.slots[0];
+    const ground = createGroundStore();
+    const player = makePlayerAt(4, 4, 0);
+    const map = makeTestMap();
+    assert.ok(
+        dropItemToGround({
+            playerInv: inv,
+            uid: bagUid,
+            ground,
+            player,
+            tileMap: map,
+            x: 4,
+            y: 4,
+            z: 0
+        }).ok
+    );
+    const gBag = peekTop(ground, 4, 4, 0);
+    const helmUid = getContainer(ground.inventory, gBag).slots[0];
+    const r = moveGroundItemToTile({
+        ground,
+        uid: helmUid,
+        player,
+        tileMap: map,
+        x: 5,
+        y: 4,
+        z: 0
+    });
+    assert.ok(r.ok, r.error);
+    assert.strictEqual(peekTop(ground, 5, 4, 0), helmUid);
+    assert.ok(
+        !getContainer(ground.inventory, gBag).slots.includes(helmUid)
+    );
+});
+
+// --- Stage 9: ground stack → other SQM ---
+
+test('moveGroundItemToTile: tile stack top to adjacent walkable SQM', () => {
+    const inv = buildInventoryFromSeed(
+        {
+            equipment: { backpack: 'backpack' },
+            backpack: ['iron_longsword', 'oak_shield']
+        },
+        ITEM_DB
+    );
+    const root = getContainer(inv, inv.rootUid);
+    const swordUid = root.slots[0];
+    const shieldUid = root.slots[1];
+    const ground = createGroundStore();
+    const player = makePlayerAt(4, 4, 0);
+    const map = makeTestMap();
+    assert.ok(
+        dropItemToGround({
+            playerInv: inv,
+            uid: swordUid,
+            ground,
+            player,
+            tileMap: map,
+            x: 4,
+            y: 4,
+            z: 0
+        }).ok
+    );
+    assert.ok(
+        dropItemToGround({
+            playerInv: inv,
+            uid: shieldUid,
+            ground,
+            player,
+            tileMap: map,
+            x: 4,
+            y: 4,
+            z: 0
+        }).ok
+    );
+    const topUid = peekTop(ground, 4, 4, 0);
+    assert.ok(topUid);
+    const r = moveGroundItemToTile({
+        ground,
+        uid: topUid,
+        player,
+        tileMap: map,
+        x: 5,
+        y: 4,
+        z: 0
+    });
+    assert.ok(r.ok, r.error);
+    assert.strictEqual(peekTop(ground, 5, 4, 0), topUid);
+    assert.ok(!getStack(ground, 4, 4, 0).includes(topUid));
+    assert.strictEqual(getStack(ground, 4, 4, 0).length, 1);
+});
+
+test('moveGroundItemToTile: same tile is no-op success', () => {
+    const inv = buildInventoryFromSeed(
+        {
+            equipment: { backpack: 'backpack' },
+            backpack: ['iron_longsword']
+        },
+        ITEM_DB
+    );
+    const root = getContainer(inv, inv.rootUid);
+    const swordUid = root.slots[0];
+    const ground = createGroundStore();
+    const player = makePlayerAt(4, 4, 0);
+    const map = makeTestMap();
+    assert.ok(
+        dropItemToGround({
+            playerInv: inv,
+            uid: swordUid,
+            ground,
+            player,
+            tileMap: map,
+            x: 4,
+            y: 4,
+            z: 0
+        }).ok
+    );
+    const uid = peekTop(ground, 4, 4, 0);
+    const r = moveGroundItemToTile({
+        ground,
+        uid,
+        player,
+        tileMap: map,
+        x: 4,
+        y: 4,
+        z: 0
+    });
+    assert.ok(r.ok, r.error);
+    assert.strictEqual(peekTop(ground, 4, 4, 0), uid);
+});
+
+test('moveGroundItemToTile: rejects out_of_range / not_walkable', () => {
+    const inv = buildInventoryFromSeed(
+        {
+            equipment: { backpack: 'backpack' },
+            backpack: ['iron_longsword']
+        },
+        ITEM_DB
+    );
+    const root = getContainer(inv, inv.rootUid);
+    const swordUid = root.slots[0];
+    const ground = createGroundStore();
+    const player = makePlayerAt(1, 1, 0, { engageRange: 3 });
+    const map = makeTestMap({
+        block: [
+            { x: 2, y: 0 },
+            { x: 2, y: 1 },
+            { x: 2, y: 2 },
+            { x: 2, y: 3 },
+            { x: 2, y: 4 },
+            { x: 2, y: 5 },
+            { x: 2, y: 6 },
+            { x: 2, y: 7 },
+            { x: 2, y: 8 }
+        ]
+    });
+    assert.ok(
+        dropItemToGround({
+            playerInv: inv,
+            uid: swordUid,
+            ground,
+            player,
+            tileMap: map,
+            x: 1,
+            y: 1,
+            z: 0
+        }).ok
+    );
+    const uid = peekTop(ground, 1, 1, 0);
+    assert.strictEqual(
+        moveGroundItemToTile({
+            ground,
+            uid,
+            player,
+            tileMap: map,
+            x: 2,
+            y: 1,
+            z: 0
+        }).error,
+        'not_walkable'
+    );
+    assert.strictEqual(
+        moveGroundItemToTile({
+            ground,
+            uid,
+            player,
+            tileMap: map,
+            x: 8,
+            y: 8,
+            z: 0
+        }).error,
+        'out_of_range'
+    );
+    assert.strictEqual(peekTop(ground, 1, 1, 0), uid);
+});
+
+test('moveGroundItemToTile: partial stack leaves remainder on source tile', () => {
+    const inv = buildInventoryFromSeed(
+        {
+            equipment: { backpack: 'backpack' },
+            backpack: [{ itemId: 'hunting_arrow', count: 20 }]
+        },
+        ITEM_DB
+    );
+    const root = getContainer(inv, inv.rootUid);
+    const arrowUid = root.slots[0];
+    const ground = createGroundStore();
+    const player = makePlayerAt(4, 4, 0);
+    const map = makeTestMap();
+    assert.ok(
+        dropItemToGround({
+            playerInv: inv,
+            uid: arrowUid,
+            ground,
+            player,
+            tileMap: map,
+            x: 4,
+            y: 4,
+            z: 0
+        }).ok
+    );
+    const srcUid = peekTop(ground, 4, 4, 0);
+    assert.strictEqual(getStackCount(getItem(ground.inventory, srcUid)), 20);
+    const r = moveGroundItemToTile({
+        ground,
+        uid: srcUid,
+        player,
+        tileMap: map,
+        x: 5,
+        y: 4,
+        z: 0,
+        count: 7,
+        itemDb: ITEM_DB
+    });
+    assert.ok(r.ok, r.error);
+    assert.strictEqual(getStackCount(getItem(ground.inventory, srcUid)), 13);
+    assert.ok(getStack(ground, 4, 4, 0).includes(srcUid));
+    const destUid = peekTop(ground, 5, 4, 0);
+    assert.ok(destUid);
+    assert.notStrictEqual(destUid, srcUid);
+    assert.strictEqual(getStackCount(getItem(ground.inventory, destUid)), 7);
+});
+
+test('picking up ground bag makes isGroundContainerOpenable false', () => {
+    const inv = buildInventoryFromSeed(
+        {
+            equipment: { backpack: 'backpack' },
+            backpack: [{ itemId: 'bag', contents: ['steel_helm'] }]
+        },
+        ITEM_DB
+    );
+    const root = getContainer(inv, inv.rootUid);
+    const bagUid = root.slots[0];
+    const ground = createGroundStore();
+    const player = makePlayerAt(4, 4, 0);
+    const map = makeTestMap();
+    assert.ok(
+        dropItemToGround({
+            playerInv: inv,
+            uid: bagUid,
+            ground,
+            player,
+            tileMap: map,
+            x: 4,
+            y: 4,
+            z: 0
+        }).ok
+    );
+    const gBag = peekTop(ground, 4, 4, 0);
+    assert.ok(isGroundContainerOpenable(ground, gBag));
+    assert.ok(
+        pickupItemFromGround({
+            ground,
+            uid: gBag,
+            playerInv: inv,
+            player,
+            itemDb: ITEM_DB
+        }).ok
+    );
+    assert.ok(!isGroundContainerOpenable(ground, gBag));
 });
 
 console.log(`inventory tests: ${passed} passed, ${failed} failed`);

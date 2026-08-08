@@ -79,13 +79,20 @@
             "intervalMs": 2000,
             "chance": 50,
             "range": 4,
-            "element": "physical",
-            "min": 42,
-            "max": 84,
+            "element": "death",
+            "min": 0,
+            "max": 0,
             "radius": 4,
             "target": true,
             "effect": "me_explosionarea",
-            "shootEffect": "ani_whirlwindclub"
+            "shootEffect": "ani_whirlwindclub",
+            "statusOnly": true,
+            "condition": {
+                "type": "curse",
+                "totalDamage": 84,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
         }
     ],
     "defenseSpells": [

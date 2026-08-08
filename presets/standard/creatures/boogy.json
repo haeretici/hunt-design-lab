@@ -68,12 +68,19 @@
             "chance": 11,
             "range": 4,
             "element": "physical",
-            "min": 41,
-            "max": 123,
+            "min": 0,
+            "max": 0,
             "radius": 6,
             "target": true,
             "effect": "me_drawblood",
-            "shootEffect": "ani_whirlwindclub"
+            "shootEffect": "ani_whirlwindclub",
+            "statusOnly": true,
+            "condition": {
+                "type": "bleed",
+                "totalDamage": 123,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
         },
         {
             "id": "ranged_2",

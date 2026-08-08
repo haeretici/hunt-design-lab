@@ -110,10 +110,17 @@
             "chance": 5,
             "range": 1,
             "element": "physical",
-            "min": 71,
-            "max": 128,
+            "min": 0,
+            "max": 0,
             "radius": 1,
-            "target": true
+            "target": true,
+            "statusOnly": true,
+            "condition": {
+                "type": "bleed",
+                "totalDamage": 128,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
         }
     ],
     "defenseSpells": [

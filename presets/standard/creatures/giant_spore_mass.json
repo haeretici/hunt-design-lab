@@ -94,12 +94,19 @@
             "chance": 10,
             "range": 4,
             "element": "earth",
-            "min": 251,
-            "max": 501,
+            "min": 0,
+            "max": 0,
             "length": 8,
             "spread": 0,
             "target": false,
-            "effect": "me_green_rings"
+            "effect": "me_green_rings",
+            "statusOnly": true,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 501,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
         },
         {
             "id": "wave_4",
@@ -122,11 +129,18 @@
             "chance": 10,
             "range": 7,
             "element": "earth",
-            "min": 201,
-            "max": 321,
+            "min": 0,
+            "max": 0,
             "radius": 3,
             "target": false,
-            "effect": "me_hitbypoison"
+            "effect": "me_hitbypoison",
+            "statusOnly": true,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 321,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
         }
     ],
     "defenseSpells": [

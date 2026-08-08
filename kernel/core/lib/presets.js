@@ -525,13 +525,21 @@ function listPlayerProfileIds() {
  */
 function loadParty(partyId, opts) {
     const raw = loadJson(path.join('parties', `${partyId}.json`));
-    const { expandPartyMembers } = require('./character/player_profile.js');
-    return expandPartyMembers(raw, {
+    const {
+        expandPartyMembers,
+        assertPartyMembersHaveSkillSource
+    } = require('./character/player_profile.js');
+    const expanded = expandPartyMembers(raw, {
         loadPlayerProfile:
             opts && typeof opts.loadPlayerProfile === 'function'
                 ? opts.loadPlayerProfile
                 : loadPlayerProfile
     });
+    // Product gate: every party preset member must resolve skills (§7.2)
+    assertPartyMembersHaveSkillSource(expanded, {
+        context: `loadParty(${partyId})`
+    });
+    return expanded;
 }
 
 /**

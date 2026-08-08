@@ -70,10 +70,17 @@
             "chance": 15,
             "range": 7,
             "element": "earth",
-            "min": 4,
-            "max": 8,
+            "min": 0,
+            "max": 0,
             "target": false,
-            "shootEffect": "ani_poison"
+            "shootEffect": "ani_poison",
+            "statusOnly": true,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 8,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
         }
     ],
     "race": "blood",

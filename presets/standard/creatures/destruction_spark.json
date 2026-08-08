@@ -93,11 +93,18 @@
             "chance": 20,
             "range": 4,
             "element": "energy",
-            "min": 170,
-            "max": 341,
+            "min": 0,
+            "max": 0,
             "radius": 5,
             "target": false,
-            "effect": "me_stun"
+            "effect": "me_stun",
+            "statusOnly": true,
+            "condition": {
+                "type": "energy",
+                "totalDamage": 341,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
         }
     ],
     "race": "venom",

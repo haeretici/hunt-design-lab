@@ -101,11 +101,18 @@
             "chance": 13,
             "range": 4,
             "element": "earth",
-            "min": 450,
-            "max": 550,
+            "min": 0,
+            "max": 0,
             "radius": 5,
             "target": false,
-            "effect": "me_green_rings"
+            "effect": "me_green_rings",
+            "statusOnly": true,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 550,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
         }
     ],
     "defenseSpells": [

@@ -551,6 +551,326 @@ function testFollowLeaderCrossFloorAi() {
     });
 }
 
+/**
+ * FollowLeader trail: first follower aims one tile before leader on path
+ * (not stack-on-leader). At trail dest: clear path and hold.
+ */
+function testFollowLeaderTrailSlot() {
+    const tm = new TileMap();
+    // 1-wide corridor length 6
+    const open = new Uint8Array(6);
+    open.fill(100);
+    tm.loadFloorFromFriction(0, 6, 1, open);
+
+    const { Party } = require('../kernel/core/entities/party.js');
+    const { Player } = require('../kernel/core/entities/player.js');
+    const {
+        FollowLeader,
+        changePlayerState,
+        pickTrailPoint,
+        partyFollowSlot,
+        resolveFollowRawGoal
+    } = require('../kernel/core/lib/ai/player_states.js');
+    const huntAi = require('../kernel/core/lib/ai/hunt_ai.js');
+
+    const party = new Party({
+        waypoints: [
+            { x: 0, y: 0, z: 0 },
+            { x: 5, y: 0, z: 0 }
+        ]
+    });
+    const strategy = {
+        aggression: 0,
+        engageRange: 1,
+        monstersToEngage: 99,
+        fleeHpPercent: 0,
+        returnToRoute: true
+    };
+    const leader = new Player({
+        id: 101,
+        name: 'Lead',
+        isLeader: true,
+        tile: { x: 4, y: 0, z: 0 },
+        strategy,
+        speed: 220
+    });
+    const scout = new Player({
+        id: 102,
+        name: 'Scout',
+        isLeader: false,
+        tile: { x: 0, y: 0, z: 0 },
+        strategy,
+        speed: 220
+    });
+    const ents = new Map([
+        [101, leader],
+        [102, scout]
+    ]);
+    tm.resolveEntity = (id) => ents.get(id) || null;
+
+    party.addMember(leader);
+    party.addMember(scout);
+    assert.ok(tm.moveEntityToTile(leader, 4, 0, 0));
+    assert.ok(tm.moveEntityToTile(scout, 0, 0, 0));
+    leader.currentWaypoint = 1;
+    scout.currentWaypoint = 0;
+    leader.routeComplete = false;
+    scout.routeComplete = false;
+
+    // rawGoal hook is leader.tile (peaceful-WP not active)
+    const raw = resolveFollowRawGoal(scout, leader, party);
+    assert.deepStrictEqual(
+        raw,
+        { x: 4, y: 0, z: 0 },
+        'rawGoal = leader.tile'
+    );
+    assert.strictEqual(partyFollowSlot(scout, party), 1, 'first follower slot 1');
+    const samplePath = [
+        { x: 0, y: 0 },
+        { x: 1, y: 0 },
+        { x: 2, y: 0 },
+        { x: 3, y: 0 },
+        { x: 4, y: 0 }
+    ];
+    assert.deepStrictEqual(
+        pickTrailPoint(samplePath, 1, raw, 1),
+        { x: 3, y: 0, z: 0 },
+        'slot 1 → one tile before leader'
+    );
+
+    huntAi.initPlayerAi(scout);
+    huntAi.initPlayerAi(leader);
+    changePlayerState(scout, FollowLeader);
+
+    const ctx = {
+        tileMap: tm,
+        sim: { findPartyOf: () => party },
+        enemies: [],
+        allies: [leader, scout],
+        spellBook: {},
+        rng: () => 0.99,
+        hooks: null
+    };
+
+    let guard = 0;
+    while (scout.tile.x !== 3 && guard < 40) {
+        scout.moveDelay = 0;
+        FollowLeader.execute(scout, ctx);
+        guard++;
+    }
+    assert.strictEqual(scout.tile.x, 3, 'follower trail dest x (before leader)');
+    assert.strictEqual(scout.tile.y, 0, 'follower trail dest y');
+    assert.notStrictEqual(
+        scout.tile.x,
+        leader.tile.x,
+        'does not stack on leader as goal'
+    );
+
+    // At trail dest: clear path and hold
+    scout.path = [
+        { x: 5, y: 0 },
+        { x: 2, y: 0 }
+    ];
+    scout.moveDelay = 0;
+    FollowLeader.execute(scout, ctx);
+    assert.deepStrictEqual(scout.path, [], 'trail dest clears path');
+    assert.strictEqual(scout.tile.x, 3, 'stays on trail slot');
+
+    log('FollowLeader trail slot ok', {
+        guard,
+        xy: [scout.tile.x, scout.tile.y],
+        leader: [leader.tile.x, leader.tile.y]
+    });
+}
+
+/**
+ * Two followers get distinct trail slots on a long corridor (legacy spacing).
+ */
+function testFollowLeaderMultiSlotTrail() {
+    const tm = new TileMap();
+    const open = new Uint8Array(10);
+    open.fill(100);
+    tm.loadFloorFromFriction(0, 10, 1, open);
+
+    const { Party } = require('../kernel/core/entities/party.js');
+    const { Player } = require('../kernel/core/entities/player.js');
+    const {
+        FollowLeader,
+        changePlayerState,
+        pickTrailPoint
+    } = require('../kernel/core/lib/ai/player_states.js');
+    const huntAi = require('../kernel/core/lib/ai/hunt_ai.js');
+
+    const strategy = {
+        aggression: 0,
+        engageRange: 1,
+        monstersToEngage: 99,
+        fleeHpPercent: 0,
+        returnToRoute: true
+    };
+    const party = new Party({
+        waypoints: [
+            { x: 0, y: 0, z: 0 },
+            { x: 9, y: 0, z: 0 }
+        ]
+    });
+    const leader = new Player({
+        id: 301,
+        name: 'Lead',
+        isLeader: true,
+        tile: { x: 8, y: 0, z: 0 },
+        strategy,
+        speed: 220
+    });
+    const f1 = new Player({
+        id: 302,
+        name: 'F1',
+        isLeader: false,
+        tile: { x: 0, y: 0, z: 0 },
+        strategy,
+        speed: 220
+    });
+    const f2 = new Player({
+        id: 303,
+        name: 'F2',
+        isLeader: false,
+        tile: { x: 1, y: 0, z: 0 },
+        strategy,
+        speed: 220
+    });
+    const ents = new Map([
+        [301, leader],
+        [302, f1],
+        [303, f2]
+    ]);
+    tm.resolveEntity = (id) => ents.get(id) || null;
+    party.addMember(leader);
+    party.addMember(f1);
+    party.addMember(f2);
+    assert.ok(tm.moveEntityToTile(leader, 8, 0, 0));
+    assert.ok(tm.moveEntityToTile(f1, 0, 0, 0));
+    assert.ok(tm.moveEntityToTile(f2, 1, 0, 0));
+
+    const path = tm.search(
+        { x: 0, y: 0, z: 0 },
+        { x: 8, y: 0, z: 0 },
+        { allowDiagonal: true }
+    );
+    assert.ok(path && path.length >= 5, 'path exists');
+    const d1 = pickTrailPoint(path, 1, { x: 8, y: 0, z: 0 }, 1);
+    const d2 = pickTrailPoint(path, 2, { x: 8, y: 0, z: 0 }, 1);
+    assert.strictEqual(d1.x, 7, 'slot1 → x=7');
+    assert.strictEqual(d2.x, 6, 'slot2 → x=6');
+    assert.notStrictEqual(d1.x, d2.x, 'distinct trail tiles');
+
+    huntAi.initPlayerAi(f1);
+    huntAi.initPlayerAi(f2);
+    changePlayerState(f1, FollowLeader);
+    changePlayerState(f2, FollowLeader);
+    const ctx = {
+        tileMap: tm,
+        sim: { findPartyOf: () => party },
+        enemies: [],
+        allies: [leader, f1, f2],
+        spellBook: {},
+        rng: () => 0.99,
+        hooks: null
+    };
+
+    let guard = 0;
+    while (
+        (f1.tile.x !== d1.x || f2.tile.x !== d2.x) &&
+        guard < 80
+    ) {
+        f1.moveDelay = 0;
+        f2.moveDelay = 0;
+        FollowLeader.execute(f1, ctx);
+        FollowLeader.execute(f2, ctx);
+        guard++;
+    }
+    assert.strictEqual(f1.tile.x, d1.x, 'F1 at trail slot 1');
+    assert.strictEqual(f2.tile.x, d2.x, 'F2 at trail slot 2');
+    assert.notStrictEqual(f1.tile.x, leader.tile.x, 'F1 not on leader');
+    assert.notStrictEqual(f2.tile.x, leader.tile.x, 'F2 not on leader');
+    log('FollowLeader multi-slot trail ok', {
+        guard,
+        f1: f1.tile.x,
+        f2: f2.tile.x,
+        leader: leader.tile.x
+    });
+}
+
+/**
+ * Phase C: multi-member corridor + stair hop — both land stacked on dest pad.
+ */
+function testPartyStackCorridorAndStair() {
+    const tm = new TileMap();
+    const open0 = new Uint8Array(5);
+    open0.fill(100);
+    const open1 = new Uint8Array(5);
+    open1.fill(100);
+    tm.loadFloorFromFriction(0, 5, 1, open0);
+    tm.loadFloorFromFriction(1, 5, 1, open1);
+    tm.setStairs([{ from: { x: 4, y: 0, z: 0 }, to: { x: 4, y: 0, z: 1 } }]);
+
+    const { Party } = require('../kernel/core/entities/party.js');
+    const { Player } = require('../kernel/core/entities/player.js');
+
+    const party = new Party({
+        waypoints: [
+            { x: 0, y: 0, z: 0 },
+            { x: 4, y: 0, z: 1 }
+        ]
+    });
+    const leader = new Player({
+        id: 201,
+        name: 'Lead',
+        isLeader: true,
+        tile: { x: 0, y: 0, z: 0 },
+        speed: 220
+    });
+    const follower = new Player({
+        id: 202,
+        name: 'Follow',
+        isLeader: false,
+        tile: { x: 1, y: 0, z: 0 },
+        speed: 220
+    });
+    const ents = new Map([
+        [201, leader],
+        [202, follower]
+    ]);
+    tm.resolveEntity = (id) => ents.get(id) || null;
+
+    party.addMember(leader);
+    party.addMember(follower);
+    assert.ok(tm.moveEntityToTile(leader, 0, 0, 0));
+    assert.ok(tm.moveEntityToTile(follower, 1, 0, 0));
+
+    // Ghost-walk both along corridor to stair pad (stack through), then hop.
+    let frames = 0;
+    while (
+        !(String(leader.tile.z) === '1' && String(follower.tile.z) === '1') &&
+        frames < 80
+    ) {
+        leader.moveDelay = 0;
+        follower.moveDelay = 0;
+        party.stepMember(tm, leader);
+        party.stepMember(tm, follower);
+        frames++;
+    }
+    assert.strictEqual(String(leader.tile.z), '1', 'leader climbed');
+    assert.strictEqual(String(follower.tile.z), '1', 'follower climbed');
+    assert.strictEqual(leader.tile.x, 4, 'leader on dest pad');
+    assert.strictEqual(follower.tile.x, 4, 'follower stacked on dest pad');
+    const stack = tm.getCombatants(4, 0, 1);
+    assert.ok(
+        stack.indexOf(201) >= 0 && stack.indexOf(202) >= 0,
+        'both players on stair dest stack'
+    );
+    log('party stack corridor+stair ok', { frames, stack });
+}
+
 async function testSimInstallsStairs() {
     setActiveMode('standard');
     const exp = expandHunt(loadHunt('cave_crawl_multifloor'), { seed: 7 });
@@ -599,6 +919,9 @@ async function main() {
     testFollowLongPathStairHop();
     testFollowerStepTowardFloor();
     testFollowLeaderCrossFloorAi();
+    testFollowLeaderTrailSlot();
+    testFollowLeaderMultiSlotTrail();
+    testPartyStackCorridorAndStair();
     await testSimInstallsStairs();
     console.log('dungeon_multifloor: ok');
 }

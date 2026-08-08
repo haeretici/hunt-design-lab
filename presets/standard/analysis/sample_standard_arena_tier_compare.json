@@ -142,8 +142,8 @@
       "waveIndex": 8,
       "waveId": "wave_boss",
       "highSpells": {
-        "berserk": 2,
-        "divine_caldera": 6,
+        "rampage": 2,
+        "radiant_crater": 6,
         "heal_light": 4,
         "heal_intense": 1
       },
@@ -157,11 +157,11 @@
           53
         ],
         [
-          "ethereal_spear",
+          "spirit_javelin",
           7
         ],
         [
-          "divine_caldera",
+          "radiant_crater",
           6
         ],
         [
@@ -169,7 +169,7 @@
           4
         ],
         [
-          "berserk",
+          "rampage",
           2
         ],
         [
@@ -187,11 +187,11 @@
           "spellsCast": 2,
           "autoAttacks": 26,
           "high": {
-            "berserk": 2
+            "rampage": 2
           },
           "top": [
             [
-              "berserk",
+              "rampage",
               2
             ]
           ]
@@ -205,15 +205,15 @@
           "spellsCast": 13,
           "autoAttacks": 37,
           "high": {
-            "divine_caldera": 6
+            "radiant_crater": 6
           },
           "top": [
             [
-              "ethereal_spear",
+              "spirit_javelin",
               7
             ],
             [
-              "divine_caldera",
+              "radiant_crater",
               6
             ]
           ]
@@ -283,10 +283,10 @@
       "waveId": "wave_boss",
       "highSpells": {
         "front_sweep": 1,
-        "strong_ethereal_spear": 8,
-        "divine_caldera": 9,
+        "strong_spirit_javelin": 8,
+        "radiant_crater": 9,
         "sky_rage": 5,
-        "eternal_winter": 3,
+        "glacial_cataclysm": 3,
         "heal_intense": 1
       },
       "topSpells": [
@@ -299,11 +299,11 @@
           30
         ],
         [
-          "divine_caldera",
+          "radiant_crater",
           9
         ],
         [
-          "strong_ethereal_spear",
+          "strong_spirit_javelin",
           8
         ],
         [
@@ -311,7 +311,7 @@
           5
         ],
         [
-          "eternal_winter",
+          "glacial_cataclysm",
           3
         ],
         [
@@ -323,11 +323,11 @@
           1
         ],
         [
-          "ground_shaker",
+          "tremor_slam",
           1
         ],
         [
-          "ethereal_spear",
+          "spirit_javelin",
           1
         ],
         [
@@ -357,7 +357,7 @@
               1
             ],
             [
-              "ground_shaker",
+              "tremor_slam",
               1
             ]
           ]
@@ -371,20 +371,20 @@
           "spellsCast": 18,
           "autoAttacks": 26,
           "high": {
-            "strong_ethereal_spear": 8,
-            "divine_caldera": 9
+            "strong_spirit_javelin": 8,
+            "radiant_crater": 9
           },
           "top": [
             [
-              "divine_caldera",
+              "radiant_crater",
               9
             ],
             [
-              "strong_ethereal_spear",
+              "strong_spirit_javelin",
               8
             ],
             [
-              "ethereal_spear",
+              "spirit_javelin",
               1
             ]
           ]
@@ -420,7 +420,7 @@
           "spellsCast": 34,
           "autoAttacks": 18,
           "high": {
-            "eternal_winter": 3,
+            "glacial_cataclysm": 3,
             "heal_intense": 1
           },
           "top": [
@@ -429,7 +429,7 @@
               30
             ],
             [
-              "eternal_winter",
+              "glacial_cataclysm",
               3
             ],
             [
@@ -442,5 +442,5 @@
       "ms": 276
     }
   ],
-  "notes": "docs/24 I4 / docs/22 A4. Hunt standard_arena_waves seed 42. Parties: balance_quartet_novice (L12) → balance_quartet (L50) → balance_quartet_veteran (L90). Result: spell.level gates live (novice L8 only; mid berserk/divine_caldera; veteran front_sweep + strong_ethereal_spear + sky_rage/eternal_winter; veteran waves_complete). Equipment item.level is not an equip gate (stats still differ). AI residual: fierce_berserk / strong_*_strike often shadowed by priority. Re-run: npm run sim:hunt -- --hunt standard_arena_waves --party balance_quartet_novice --seed 42 (and balance_quartet / balance_quartet_veteran). Test: npm run test:waves."
+  "notes": "docs/24 I4 / docs/22 A4. Hunt standard_arena_waves seed 42. Parties: balance_quartet_novice (L12) → balance_quartet (L50) → balance_quartet_veteran (L90). Result: spell.level gates live (novice L8 only; mid rampage/radiant_crater; veteran front_sweep + strong_spirit_javelin + sky_rage/glacial_cataclysm; veteran waves_complete). Equipment item.level is not an equip gate (stats still differ). AI residual: fierce_rampage / strong_*_strike often shadowed by priority. Re-run: npm run sim:hunt -- --hunt standard_arena_waves --party balance_quartet_novice --seed 42 (and balance_quartet / balance_quartet_veteran). Test: npm run test:waves."
 }

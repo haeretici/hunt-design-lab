@@ -114,10 +114,17 @@
             "chance": 40,
             "range": 10,
             "element": "earth",
-            "min": 6,
-            "max": 129,
+            "min": 0,
+            "max": 0,
             "target": false,
-            "shootEffect": "ani_poison"
+            "shootEffect": "ani_poison",
+            "statusOnly": true,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 129,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
         },
         {
             "id": "wave_5",

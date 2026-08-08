@@ -113,15 +113,22 @@
         },
         {
             "id": "condition_6",
-            "kind": "melee",
+            "kind": "status",
             "intervalMs": 2000,
             "chance": 10,
             "range": 1,
             "element": "earth",
-            "min": 232,
-            "max": 298,
+            "min": 0,
+            "max": 0,
             "target": true,
-            "shootEffect": "ani_poison"
+            "shootEffect": "ani_poison",
+            "statusOnly": true,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 298,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
         }
     ],
     "defenseSpells": [

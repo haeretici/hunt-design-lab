@@ -1,0 +1,17 @@
+{
+    "id": "arena_combat_shell",
+    "type": "fixed",
+    "biome": "cave",
+    "seeded": true,
+    "piecePack": "arena_combat_v1",
+    "floor": 0,
+    "label": "arena_combat_shell",
+    "notes": "Template shell for wave-arena floors. populationId omitted (dynamic population / waves). Generator overwrites placements after piece pick. entrance/exit/waypoints omitted so resolveSpine uses the selected piece's socket waypoints (safe for every arena piece, including ring walls).",
+    "placements": [
+        {
+            "pieceId": "arena_open_24",
+            "x": 0,
+            "y": 0
+        }
+    ]
+}

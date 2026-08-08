@@ -107,11 +107,18 @@
             "chance": 20,
             "range": 4,
             "element": "fire",
-            "min": 21,
-            "max": 21,
+            "min": 0,
+            "max": 0,
             "radius": 4,
             "target": true,
-            "effect": "me_explosionhit"
+            "effect": "me_explosionhit",
+            "statusOnly": true,
+            "condition": {
+                "type": "fire",
+                "totalDamage": 21,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
         },
         {
             "id": "area_5",

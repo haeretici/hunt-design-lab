@@ -90,6 +90,8 @@ const DESIGNER_TO_ENGINE = Object.freeze({
  * @property {string} itemId
  * @property {ItemLocation|null} location
  * @property {number} [count] stack size (default 1); only >1 for stackable templates
+ * @property {number} [remainingDurationSec] timed gear budget left (legacy stopduration)
+ * @property {number} [remainingCharges] absorb gear charges left
  *
  * @typedef {object} InventoryContainer
  * @property {number} capacity
@@ -382,6 +384,20 @@ function createItemInstance(inv, itemId, itemDb, opts) {
     /** @type {InventoryItem} */
     const inst = { uid, itemId: id, location: null };
     if (count > 1) inst.count = count;
+    // Seed remaining budgets so backpack/action-bar UI can show charges/duration
+    // before the first equip (runtime still re-seeds on equip from template max).
+    if (item && item.charges != null && Number.isFinite(Number(item.charges))) {
+        const c = Math.floor(Number(item.charges));
+        if (c > 0) inst.remainingCharges = c;
+    }
+    if (
+        item &&
+        item.durationSec != null &&
+        Number.isFinite(Number(item.durationSec))
+    ) {
+        const d = Number(item.durationSec);
+        if (d > 0) inst.remainingDurationSec = d;
+    }
     inv.items[uid] = inst;
     if (itemIsContainer(item)) {
         const cap = containerCapacity(item, itemDb);
@@ -1411,6 +1427,169 @@ function placeInEquipment(inv, uid, engineSlot, itemDb) {
 }
 
 /**
+ * Move `amount` units of a stackable instance from `from` to `to`.
+ * When amount ≥ stack size (or item is non-stackable) → full {@link moveItem}.
+ * Partial moves never swap with a non-mergeable occupant (place/merge only).
+ *
+ * @param {Inventory} inv
+ * @param {ItemLocation} from
+ * @param {ItemLocation} to
+ * @param {number} amount
+ * @param {object[]|Record<string, object>|null} [itemDb]
+ * @returns {{ ok: boolean, error?: string, splitUid?: string, merged?: boolean }}
+ */
+function moveItemAmount(inv, from, to, amount, itemDb) {
+    if (!inv || !from || !to) return { ok: false, error: 'bad_args' };
+    const uidFrom = resolveLocationUid(inv, from);
+    if (!uidFrom) return { ok: false, error: 'empty_source' };
+    const src = inv.items[uidFrom];
+    if (!src) return { ok: false, error: 'unknown_item' };
+
+    const total = getStackCount(src);
+    let n = Math.floor(Number(amount));
+    if (!Number.isFinite(n) || n < 1) n = 1;
+    if (n > total) n = total;
+    if (n >= total) return moveItem(inv, from, to, itemDb);
+
+    const template = findItem(itemDb, src.itemId);
+    if (!itemIsStackable(template)) {
+        return moveItem(inv, from, to, itemDb);
+    }
+
+    // Same location no-op
+    if (locationsEqual(from, to)) return { ok: true };
+
+    // Drop onto container *instance* → nest into first free (merge-aware) slot
+    const uidToPeek = resolveLocationUid(inv, to);
+    if (to.kind === 'container' && uidToPeek && inv.containers[uidToPeek]) {
+        if (uidFrom === uidToPeek) return { ok: false, error: 'cycle' };
+        if (inv.containers[uidFrom] && isInsideSubtree(inv, uidToPeek, uidFrom)) {
+            return { ok: false, error: 'cycle' };
+        }
+        const free = firstFreeSlot(inv.containers[uidToPeek]);
+        // Prefer merge into existing stack inside that bag
+        const existing = findStackInContainer(
+            inv,
+            uidToPeek,
+            src.itemId,
+            uidFrom
+        );
+        if (existing && canMergeStacks(inv, uidFrom, existing, itemDb)) {
+            // split path still needed for partial merge from source
+        } else if (free < 0 && !existing) {
+            return { ok: false, error: 'full' };
+        }
+        return moveItemAmount(
+            inv,
+            from,
+            existing
+                ? {
+                      kind: 'container',
+                      containerUid: uidToPeek,
+                      index:
+                          inv.items[existing] &&
+                          inv.items[existing].location &&
+                          inv.items[existing].location.kind === 'container'
+                              ? inv.items[existing].location.index
+                              : free >= 0
+                                ? free
+                                : 0
+                  }
+                : {
+                      kind: 'container',
+                      containerUid: uidToPeek,
+                      index: free
+                  },
+            n,
+            itemDb
+        );
+    }
+
+    // Equipment partial: only into empty valid slot
+    if (to.kind === 'equipment') {
+        if (!canEquipInSlot(template, to.slot)) {
+            return { ok: false, error: 'wrong_slot' };
+        }
+        if (inv.equipment[to.slot]) {
+            const occ = inv.equipment[to.slot];
+            if (occ && canMergeStacks(inv, uidFrom, occ, itemDb)) {
+                // fall through to split+merge
+            } else {
+                return { ok: false, error: 'occupied' };
+            }
+        }
+    }
+
+    if (to.kind === 'container') {
+        const cont = inv.containers[to.containerUid];
+        if (!cont) return { ok: false, error: 'unknown_container' };
+        if (to.index < 0 || to.index >= cont.capacity) {
+            return { ok: false, error: 'invalid_index' };
+        }
+        const occ = cont.slots[to.index];
+        if (occ && !canMergeStacks(inv, uidFrom, occ, itemDb)) {
+            // Partial never swaps
+            return { ok: false, error: 'occupied' };
+        }
+    }
+
+    // Split: reduce source, create detached stack of n, place at to
+    const prevCount = total;
+    setStackCount(src, total - n);
+    let splitUid;
+    try {
+        splitUid = createItemInstance(inv, src.itemId, itemDb, { count: n });
+    } catch (e) {
+        setStackCount(src, prevCount);
+        return { ok: false, error: 'split_failed' };
+    }
+    const splitInst = inv.items[splitUid];
+    if (!splitInst) {
+        setStackCount(src, prevCount);
+        return { ok: false, error: 'split_failed' };
+    }
+    // Ensure detached
+    splitInst.location = null;
+
+    let placeResult;
+    if (to.kind === 'equipment') {
+        const occUid = inv.equipment[to.slot];
+        if (occUid && canMergeStacks(inv, splitUid, occUid, itemDb)) {
+            mergeStacks(inv, splitUid, occUid);
+            return {
+                ok: true,
+                splitUid: inv.items[splitUid] ? splitUid : undefined,
+                merged: true
+            };
+        }
+        placeResult = placeInEquipment(inv, splitUid, to.slot, itemDb);
+    } else {
+        placeResult = placeInContainer(
+            inv,
+            splitUid,
+            to.containerUid,
+            to.index,
+            itemDb
+        );
+    }
+
+    if (!placeResult || !placeResult.ok) {
+        // Rollback: destroy split remnant, restore source count
+        if (inv.items[splitUid]) destroyItem(inv, splitUid);
+        setStackCount(src, prevCount);
+        return {
+            ok: false,
+            error: (placeResult && placeResult.error) || 'place_failed'
+        };
+    }
+    return {
+        ok: true,
+        splitUid: inv.items[splitUid] ? splitUid : undefined,
+        merged: !!placeResult.merged
+    };
+}
+
+/**
  * Move / swap two locations. Empty target → move; occupied non-container →
  * swap; occupied **container instance** → nest into that bag’s first free
  * slot (classic drop-on-bag). Cycle guards reject putting a bag into itself
@@ -1469,6 +1648,12 @@ function moveItem(inv, from, to, itemDb) {
         // Two-handed into rightHand: free leftHand (except bow/xbow + quiver)
         if (to.slot === 'rightHand') {
             const prep = prepareLeftHandForTwoHandedEquip(inv, item, itemDb);
+            if (!prep.ok) return prep;
+        }
+        // Into leftHand while rightHand holds a non-bow 2H (or bow + non-quiver):
+        // free rightHand so shield/spellbook never dual-occupies with a 2H weapon.
+        if (to.slot === 'leftHand') {
+            const prep = prepareRightHandForLeftHandEquip(inv, item, itemDb);
             if (!prep.ok) return prep;
         }
     }
@@ -1670,11 +1855,56 @@ function prepareLeftHandForTwoHandedEquip(inv, weaponItem, itemDb) {
 }
 
 /**
+ * When equipping into leftHand while rightHand holds a two-handed weapon,
+ * free rightHand unless the weapon is a bow/crossbow and the new left item
+ * is a quiver (allowed dual occupancy for distance loadouts).
+ * @param {Inventory} inv
+ * @param {object|null|undefined} leftItem item being equipped into leftHand
+ * @param {object[]|Record<string, object>|null} [itemDb]
+ * @returns {{ ok: boolean, error?: string }}
+ */
+function prepareRightHandForLeftHandEquip(inv, leftItem, itemDb) {
+    if (!inv) return { ok: true };
+    const rightUid = inv.equipment && inv.equipment.rightHand;
+    if (!rightUid) return { ok: true };
+    const rightInst = inv.items[rightUid];
+    const rightItem = rightInst
+        ? findItem(itemDb, rightInst.itemId)
+        : null;
+    if (!itemIsTwoHanded(rightItem)) return { ok: true };
+    // Bow/crossbow + quiver: keep rightHand
+    if (
+        itemIsBowOrCrossbowWeapon(rightItem) &&
+        itemIsQuiver(leftItem)
+    ) {
+        return { ok: true };
+    }
+    const root = inv.containers[inv.rootUid];
+    if (!root || firstFreeSlot(root) < 0) {
+        return { ok: false, error: 'no_room' };
+    }
+    const un = unequipItem(inv, 'rightHand', itemDb, {
+        containerUid: inv.rootUid
+    });
+    if (!un.ok) {
+        return {
+            ok: false,
+            error: un.error === 'full' ? 'no_room' : un.error || 'no_room'
+        };
+    }
+    return { ok: true };
+}
+
+/**
  * Equip item from a container into its preferred (or given) slot, swapping if needed.
  *
  * Two-handed weapons: leftHand is unequipped into the backpack unless the
  * weapon is a bow/crossbow and leftHand is a quiver. Fails with `no_room`
  * when the backpack cannot accept the displaced leftHand item.
+ *
+ * Inverse: equipping leftHand (shield/spellbook/…) while rightHand holds a
+ * two-handed weapon stows that weapon into the backpack (same bow+quiver
+ * exception). Fails with `no_room` when the backpack is full.
  *
  * @param {Inventory} inv
  * @param {string} uid
@@ -1700,7 +1930,7 @@ function equipItem(inv, uid, itemDb, engineSlot) {
         }
         return { ok: false, error: 'not_in_container' };
     }
-    // Two-handed leftHand handling runs inside moveItem (rightHand equip path)
+    // Two-handed prep (both directions) runs inside moveItem
     const from = Object.assign({}, inst.location);
     const to = { kind: 'equipment', slot };
     const r = moveItem(inv, from, to, itemDb);
@@ -2356,6 +2586,7 @@ module.exports = {
     instanceWeight,
     canMergeStacks,
     mergeStacks,
+    moveItemAmount,
     findStackInContainer,
     findFirstAmmoUid,
     countAmmoInContainer,

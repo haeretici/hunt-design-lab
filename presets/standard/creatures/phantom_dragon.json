@@ -80,10 +80,17 @@
             "chance": 10,
             "range": 5,
             "element": "earth",
-            "min": 540,
-            "max": 751,
+            "min": 0,
+            "max": 0,
             "target": true,
-            "effect": "me_smallclouds"
+            "effect": "me_smallclouds",
+            "statusOnly": true,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 751,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
         },
         {
             "id": "ranged_3",

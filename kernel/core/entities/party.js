@@ -73,6 +73,11 @@ class Party extends GameObject {
         this.damageTaken = 0;
         /** Levels gained while expProgression was on. */
         this.levelUps = 0;
+        /** Phase D: sum of member skill tries (optional rollup). */
+        this.skillTriesGained = 0;
+        this.skillLevelsGained = 0;
+        this.magicLevelsGained = 0;
+        this.manaSpentTowardMagic = 0;
     }
 
     /**
@@ -228,8 +233,8 @@ class Party extends GameObject {
     }
 
     /**
-     * Hunt AI: mark followers near a finished leader as route-complete
-     * (v1 occupancy forbids stacking on the leader tile).
+     * Hunt AI: mark followers near a finished leader as route-complete.
+     * Same-tile stack is legal; d ≤ 3 still finishes lagging members.
      * Call from combat session only — not ghost-walk.
      */
     syncFollowerRouteComplete() {
@@ -597,8 +602,9 @@ class Party extends GameObject {
     }
 
     /**
-     * Exact tile match, or adjacent when the waypoint tile is held by an ally
-     * (multi-member ghost walk without illegal stack).
+     * Exact tile match, or adjacent when the waypoint tile cannot be entered
+     * (creature / full stack / noPlayerStack). Player–player stack is legal,
+     * so an ally on the WP is not treated as “arrived early.”
      *
      * @param {import('./tilemap.js').TileMap} tileMap
      * @param {import('./player.js').Player} member
@@ -611,8 +617,11 @@ class Party extends GameObject {
         if (String(member.tile.z) !== String(wp.z)) return false;
         if (member.tile.x === wp.x && member.tile.y === wp.y) return true;
 
-        const occ = tileMap.getOccupant(wp.x, wp.y, wp.z);
-        if (occ !== 0 && occ !== member.id) {
+        // Blocked WP (creature, max stack, etc.): adjacent counts as arrived.
+        if (
+            typeof tileMap.canEnter === 'function' &&
+            !tileMap.canEnter(wp.x, wp.y, wp.z, member)
+        ) {
             return tileDistance(member.tile, wp) <= 1;
         }
         return false;

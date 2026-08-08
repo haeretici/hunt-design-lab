@@ -195,21 +195,21 @@ function testStrategyHelpers() {
     // canReach skips first priority when out of reach so later entries fire
     const reachPick = pickSpellId(
         normalizeStrategy({
-            spellPriority: ['divine_caldera', 'ethereal_spear']
+            spellPriority: ['radiant_crater', 'spirit_javelin']
         }),
         {},
         (sid) =>
-            sid === 'divine_caldera'
+            sid === 'radiant_crater'
                 ? { id: sid, mana: 0, cooldowns: {}, range: 0 }
-                : sid === 'ethereal_spear'
-                  ? { id: sid, mana: 0, cooldowns: {}, range: 5 }
+                : sid === 'spirit_javelin'
+                  ? { id: sid, mana: 0, cooldowns: {}, range: 7 }
                   : null,
         () => true,
         {
-            canReach: (_a, spell) => spell.id !== 'divine_caldera'
+            canReach: (_a, spell) => spell.id !== 'radiant_crater'
         }
     );
-    assert.strictEqual(reachPick, 'ethereal_spear');
+    assert.strictEqual(reachPick, 'spirit_javelin');
 
     log('strategy helpers ok');
 }
@@ -223,9 +223,9 @@ function testSelfAoeSpellRangeAndPriorityFallback() {
     setActiveMode('standard');
     try {
         const spells = indexSpells(presets.loadSpells().spells);
-        const caldera = spells.divine_caldera;
-        const spear = spells.strong_ethereal_spear || spells.ethereal_spear;
-        assert.ok(caldera, 'divine_caldera in standard spellbook');
+        const caldera = spells.radiant_crater;
+        const spear = spells.strong_spirit_javelin || spells.spirit_javelin;
+        assert.ok(caldera, 'radiant_crater in standard spellbook');
         assert.ok(spear, 'ethereal spear family in standard spellbook');
         assert.strictEqual(caldera.range, 0, 'caldera authored range 0');
         assert.ok(
@@ -258,9 +258,9 @@ function testSelfAoeSpellRangeAndPriorityFallback() {
                 resists: {},
                 // Allow caldera + spear family without full class book
                 spells: [
-                    'divine_caldera',
-                    'strong_ethereal_spear',
-                    'ethereal_spear',
+                    'radiant_crater',
+                    'strong_spirit_javelin',
+                    'spirit_javelin',
                     'melee_auto',
                     'distance_auto',
                     'wand_auto'
@@ -277,7 +277,7 @@ function testSelfAoeSpellRangeAndPriorityFallback() {
             tile: { x: 12, y: 10, z: 0 },
             hp: { current: 200, max: 200 }
         };
-        // d=4: outside caldera footprint (r≤3) but inside spear range (5)
+        // d=4: outside caldera footprint (r≤3) but inside spear range (7)
         const far = {
             id: 3,
             type: 'creature',
@@ -308,12 +308,12 @@ function testSelfAoeSpellRangeAndPriorityFallback() {
         // tryAttack must not hard-fail on d > range for self-AoE
         caster.cooldowns.primary.attack = 0;
         if (caster.cooldowns.spell) {
-            caster.cooldowns.spell.divine_caldera = 0;
+            caster.cooldowns.spell.radiant_crater = 0;
         }
         const hit = tryAttack({
             attacker: caster,
             defender: near,
-            spellId: 'divine_caldera',
+            spellId: 'radiant_crater',
             ctx: ctxNear
         });
         assert.ok(hit && hit.ok, 'tryAttack self-AoE at d=2 with range 0');
@@ -321,7 +321,7 @@ function testSelfAoeSpellRangeAndPriorityFallback() {
 
         // Priority: empty caldera → fall through to spear when canReach wired
         const st = normalizeStrategy({
-            spellPriority: ['divine_caldera', spear.id]
+            spellPriority: ['radiant_crater', spear.id]
         });
         const farCtx = {
             spellBook: spells,
@@ -354,7 +354,7 @@ function testSelfAoeSpellRangeAndPriorityFallback() {
         );
         assert.strictEqual(
             pickedNear,
-            'divine_caldera',
+            'radiant_crater',
             'in-blast caldera wins priority'
         );
 
@@ -638,7 +638,7 @@ function testEngageSpellPriorityOverAuto() {
         },
         tile: { x: 2, y: 2, z: 0 }
     });
-    // Level 100 meets front_sweep (70) / fierce_berserk (90) requirements.
+    // Level 100 meets front_sweep (70) / fierce_rampage (90) requirements.
     player.applyClassLoadout(classDef, items, { level: 100 });
     map.tryOccupy(2, 2, 0, player);
     party.addMember(player);
@@ -1558,9 +1558,10 @@ function testLowHpSelfHeal() {
     assert.ok(cast.hpDelta > 0, `heal hpDelta ${cast.hpDelta}`);
     assert.ok(player.hp.current > hpBefore, 'player HP increased');
 
-    // Clear CDs and cast again so telemetry accumulates
+    // Clear CDs + post-cast moveLock and cast again so telemetry accumulates
     player.cooldowns.primary.healing = 0;
     player.cooldowns.spell.heal_light = 0;
+    player.moveDelay = 0;
     player.mp.current = Math.max(player.mp.current, 40);
     player.hp.current = Math.floor(maxHp * 0.15);
     const cast2 = tryHeal({
@@ -2009,6 +2010,35 @@ function testSpatialAiTickTwoBubbles() {
 
         assert.ok(sim.aiPerf, 'aiPerf frame present');
         assert.ok(sim.aiPerf.usedSpatial, 'spatial path used');
+        // Phase F3: repath + think metrics on every frame
+        assert.ok(
+            typeof sim.aiPerf.repaths === 'number',
+            'aiPerf.repaths present'
+        );
+        assert.ok(
+            typeof sim.aiPerf.criticalRepaths === 'number',
+            'aiPerf.criticalRepaths present'
+        );
+        assert.ok(
+            typeof sim.aiPerf.optionalRepaths === 'number',
+            'aiPerf.optionalRepaths present'
+        );
+        assert.ok(
+            typeof sim.aiPerf.budgetSkips === 'number',
+            'aiPerf.budgetSkips present'
+        );
+        assert.ok(
+            typeof sim.aiPerf.failBackoffs === 'number',
+            'aiPerf.failBackoffs present'
+        );
+        assert.ok(
+            typeof sim.aiPerf.brainsFull === 'number',
+            'aiPerf.brainsFull (think full) present'
+        );
+        assert.ok(
+            typeof sim.aiPerf.brainsKitOnly === 'number',
+            'aiPerf.brainsKitOnly (think gated) present'
+        );
         // filterEnemies + gather + shouldTick each refine candidates; still a
         // small constant over the two local bubbles (not 4 creatures × 2 players
         // × many passes over the full set).
@@ -2023,6 +2053,11 @@ function testSpatialAiTickTwoBubbles() {
         assert.ok(
             sim.aiPerf.brainsExecuted >= 3,
             'nearA+nearB+engaged executed'
+        );
+        assert.ok(
+            sim.aiPerf.brainsFull + sim.aiPerf.brainsKitOnly ===
+                sim.aiPerf.brainsExecuted,
+            'brainsFull + kitOnly === brainsExecuted'
         );
 
         const cands = gatherCreatureAiCandidates(
@@ -2937,6 +2972,191 @@ function testCreatureKit() {
 
     sim.destroy();
     log('creature kit ok', { attackId: fired.attackId });
+}
+
+/**
+ * Single-target ranged must not fire through solid (non-walkable) tiles.
+ * Player gate: isSpellInRange / tryAttack. Creature kit: tryCreatureAttacks.
+ */
+function testRangedLineOfSightBlockedByWalls() {
+    // Horizontal corridor with a wall column between shooter and target.
+    //   shooter (0,1) · open (1,1) · WALL (2,1) · open (3,1) · target (4,1)
+    const wallMap = {
+        getFriction(x, y) {
+            if (x === 2 && y === 1) return 255;
+            return 0;
+        },
+        isWalkable(x, y) {
+            return this.getFriction(x, y) !== 255;
+        }
+    };
+
+    const shooter = {
+        alive: true,
+        type: 'player',
+        tile: { x: 0, y: 1, z: 0 },
+        hp: { current: 100, max: 100 },
+        mp: { current: 50, max: 50 },
+        combatStats: {
+            level: 20,
+            atk: 20,
+            skill: 40,
+            magic: 0,
+            armor: 0,
+            mitigation: 0,
+            maxBlock: 0,
+            resists: {},
+            hitChance: 100,
+            weaponRange: 6
+        },
+        cooldowns: Object.create(null),
+        moveLock: 0
+    };
+    const target = {
+        alive: true,
+        type: 'creature',
+        tile: { x: 4, y: 1, z: 0 },
+        hp: { current: 200, max: 200 },
+        combatStats: {
+            armor: 0,
+            mitigation: 0,
+            resists: {},
+            maxBlock: 0
+        }
+    };
+
+    const distanceSpell = {
+        id: 'distance_auto',
+        label: 'Distance Auto',
+        kind: 'auto',
+        element: 'physical',
+        powerCurve: 'distance_auto',
+        basePower: 0,
+        range: 6,
+        mana: 0,
+        hitChance: 100,
+        isMelee: false,
+        cooldowns: { auto: { attack: 2 } }
+    };
+    const spellBook = indexSpells([distanceSpell]);
+    const ctxBlocked = {
+        spellBook,
+        tileMap: wallMap,
+        enemies: [target],
+        rng: () => 0.5
+    };
+
+    assert.ok(
+        !isSpellInRange(shooter, target, distanceSpell, ctxBlocked),
+        'distance auto not in range through wall'
+    );
+    const blocked = tryAttack({
+        attacker: shooter,
+        defender: target,
+        spellId: 'distance_auto',
+        ctx: ctxBlocked
+    });
+    assert.strictEqual(blocked, null, 'tryAttack must not fire through wall');
+    assert.strictEqual(target.hp.current, 200, 'target HP unchanged behind wall');
+
+    // Same distance, open corridor (no wall)
+    const openMap = {
+        getFriction() {
+            return 0;
+        },
+        isWalkable() {
+            return true;
+        }
+    };
+    const ctxOpen = {
+        spellBook,
+        tileMap: openMap,
+        enemies: [target],
+        rng: () => 0.5
+    };
+    assert.ok(
+        isSpellInRange(shooter, target, distanceSpell, ctxOpen),
+        'distance auto in range with clear LoS'
+    );
+    const openHit = tryAttack({
+        attacker: shooter,
+        defender: target,
+        spellId: 'distance_auto',
+        ctx: ctxOpen
+    });
+    assert.ok(openHit && openHit.ok, 'tryAttack with clear LoS');
+    assert.ok(target.hp.current < 200, 'open LoS deals damage');
+
+    // Creature kit ranged: wall blocks kit hit (interval still spent)
+    const spitter = {
+        alive: true,
+        type: 'creature',
+        tile: { x: 0, y: 1, z: 0 },
+        hp: { current: 80, max: 80 },
+        combatStats: {
+            armor: 0,
+            mitigation: 0,
+            resists: {},
+            maxBlock: 0
+        }
+    };
+    ensureCreatureKit(spitter, {
+        attacks: [
+            {
+                id: 'bolt',
+                kind: 'ranged',
+                range: 6,
+                min: 10,
+                max: 10,
+                intervalSec: 1,
+                chance: 100,
+                hitChance: 100
+            }
+        ],
+        flags: { staticAttackChance: 100, targetDistance: 4 }
+    });
+    const victim = {
+        alive: true,
+        type: 'player',
+        tile: { x: 4, y: 1, z: 0 },
+        hp: { current: 100, max: 100 },
+        combatStats: {
+            armor: 0,
+            mitigation: 0,
+            resists: {},
+            maxBlock: 0
+        }
+    };
+    const hpWall = victim.hp.current;
+    const kitBlocked = tryCreatureAttacks(spitter, victim, {
+        tileMap: wallMap,
+        players: [victim],
+        rng: () => 0.01
+    });
+    assert.ok(kitBlocked.fired, 'kit pass still opens (CD advanced)');
+    assert.strictEqual(
+        victim.hp.current,
+        hpWall,
+        'creature ranged kit must not damage through wall'
+    );
+
+    // Clear LoS: damage lands
+    spitter._attackReadyIn[0] = 0;
+    const kitOpen = tryCreatureAttacks(spitter, victim, {
+        tileMap: openMap,
+        players: [victim],
+        rng: () => 0.01
+    });
+    assert.ok(kitOpen.fired && kitOpen.results && kitOpen.results.length);
+    assert.ok(victim.hp.current < hpWall, 'creature kit damages with clear LoS');
+
+    // No tileMap → legacy open (unit tests / pure bags)
+    assert.ok(
+        isSpellInRange(shooter, target, distanceSpell, { spellBook }),
+        'missing tileMap keeps open LoS for tests'
+    );
+
+    log('ranged LoS blocked by walls ok');
 }
 
 /**
@@ -3873,12 +4093,74 @@ function testManualControlAndCommandQueue() {
     assert.strictEqual(player.controlMode, 'manual', 'player initialized in manual mode');
     assert.strictEqual(player.aiState, 'manual', 'aiState initialized or set to manual after init/update');
 
-    // Test MOVE_STEP command consumption
+    // Test MOVE_STEP command consumption + watch-mode step visual (slide/bob)
+    player.syncPositionFromTile && player.syncPositionFromTile();
     player.commandQueue.push({ type: 'MOVE_STEP', dx: 1, dy: 0 });
     tickHuntAi(sim);
     assert.strictEqual(player.tile.x, 3, 'player stepped right via MOVE_STEP command');
     assert.strictEqual(player.commandQueue.length, 0, 'command queue consumed');
     assert.strictEqual(player.aiState, 'manual', 'aiState remains manual after tick');
+    // emitManualStep must not snap presentation — same slide as AI steps
+    assert.ok(player.moveDelay > 0, 'manual step sets moveDelay');
+    assert.ok(
+        player._moveVisDuration > 0,
+        'manual MOVE_STEP starts presentation slide'
+    );
+    assert.strictEqual(
+        player.x,
+        2,
+        'visual stays at previous tile at start of slide (not teleport)'
+    );
+    assert.strictEqual(player.y, 2, 'visual y stays at origin during slide start');
+
+    // Manual stair hop: walk onto a death/rest portal pad → change floor
+    {
+        const open = new Uint8Array(25);
+        open.fill(100);
+        const multi = new TileMap('manual_stairs');
+        multi.loadFloorFromFriction(0, 5, 5, open);
+        multi.loadFloorFromFriction(1, 5, 5, open);
+        multi.addStair(
+            { x: 2, y: 2, z: 0 },
+            { x: 2, y: 2, z: 1 },
+            { dir: 'down', link: 'portal_test', bidirectional: false }
+        );
+        sim.setTileMap(multi);
+        map.release(3, 2, 0, player);
+        player.tile = { x: 1, y: 2, z: 0 };
+        player.path = [];
+        player.moveDelay = 0;
+        player.syncPositionFromTile && player.syncPositionFromTile();
+        assert.ok(multi.tryOccupy(1, 2, 0, player), 'place next to portal pad');
+        player.commandQueue.push({ type: 'MOVE_STEP', dx: 1, dy: 0 });
+        tickHuntAi(sim);
+        assert.strictEqual(
+            String(player.tile.z),
+            '1',
+            'manual MOVE_STEP onto stair pad hops floor'
+        );
+        assert.strictEqual(player.tile.x, 2, 'lands on portal dest x');
+        assert.strictEqual(player.tile.y, 2, 'lands on portal dest y');
+        // Cross-floor hop snaps visual (no long slide)
+        assert.strictEqual(
+            player.x,
+            2,
+            'stair hop snaps visual x to dest'
+        );
+        assert.strictEqual(
+            player.y,
+            2,
+            'stair hop snaps visual y to dest'
+        );
+        // Restore single-floor map for remaining manual tests
+        sim.setTileMap(map);
+        multi.release(player.tile.x, player.tile.y, player.tile.z, player);
+        player.tile = { x: 3, y: 2, z: 0 };
+        player.path = [];
+        player.moveDelay = 0;
+        player.syncPositionFromTile && player.syncPositionFromTile();
+        map.tryOccupy(3, 2, 0, player);
+    }
 
     // Living creature for SET_TARGET resolution
     const rat = new Creature({
@@ -4082,6 +4364,7 @@ async function main() {
     testPlayerSpatialAggro();
     testBrainGateSkipsFsm();
     testCreatureKit();
+    testRangedLineOfSightBlockedByWalls();
     testThreatDecayAndStrategyRetarget();
     testFleeHoldsAndAttacksDuringMoveDelay();
     testLeashReaggroHysteresis();

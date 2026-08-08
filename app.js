@@ -24,7 +24,33 @@ const {
 } = require('./kernel/apps/designer-ui/app.js');
 const { initWikiApp } = require('./kernel/apps/wiki/app.js');
 
+/**
+ * Suppress the native browser context menu for RMB inside Hunt / Scenario workspaces.
+ * Those shells use RMB for actions and custom menus; capture-phase preventDefault
+ * blocks the OS menu without stopping app handlers.
+ */
+function suppressNativeContextMenuInAppShell() {
+    if (typeof document === 'undefined') return;
+    document.addEventListener(
+        'contextmenu',
+        (ev) => {
+            const t = ev && ev.target;
+            if (
+                t &&
+                typeof t.closest === 'function' &&
+                (t.closest('#game-app .editor-workspace') ||
+                    t.closest('#scenario-lab-app .editor-workspace'))
+            ) {
+                ev.preventDefault();
+            }
+        },
+        true
+    );
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+    suppressNativeContextMenuInAppShell();
+
     const bodyId = document.body ? document.body.id : '';
 
     if (bodyId === 'asset-manager-app') {

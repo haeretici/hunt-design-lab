@@ -45,8 +45,18 @@
         },
         "kind": {
           "type": "string",
-          "enum": ["auto", "strike", "spell", "heal"],
-          "description": "Combat kind (docs/09). AI and resolve treat heal/auto specially."
+          "enum": ["auto", "strike", "spell", "heal", "support"],
+          "description": "Combat kind (docs/09). AI and resolve treat heal/auto specially. support = utility/buff catalog rows (may be stub until systems exist)."
+        },
+        "stub": {
+          "type": "boolean",
+          "description": "When true, spell is catalog-only / not wired for combat effect. Omit from class books until runtime exists (Phase E)."
+        },
+        "stubReason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "description": "Machine-readable reason the spell is a stub (e.g. no_light_model)."
         },
         "element": {
           "type": "string",
@@ -185,6 +195,19 @@
           "type": "string",
           "description": "Optional legacy display name for ports."
         },
+        
+        "delaySec": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 60,
+          "description": "Fuse seconds before shaped damage applies (e.g. divine grenade 3). Cast spends mana/CD immediately; detonation skips them."
+        },
+        "delayPlaceRange": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 20,
+          "description": "When delaySec>0: plant explosion center on primary if Chebyshev ≤ this (default 4), else under caster."
+        },
         "vocations": {
           "type": "array",
           "description": "Allowed class vocations for this spell (relation: kind=classes).",
@@ -216,13 +239,18 @@
         },
         "field": {
           "type": "string",
-          "enum": ["fire", "poison", "energy"],
-          "description": "Elemental field kind deployed on the spell footprint (docs/26)."
+          "enum": ["fire", "poison", "energy", "barrier", "vine"],
+          "description": "Field kind deployed on the spell footprint (docs/26). fire/poison/energy = elemental hazards; barrier/vine = solid path obstacles (Phase K)."
         },
         "deploysField": {
           "type": "string",
-          "enum": ["fire", "poison", "energy"],
+          "enum": ["fire", "poison", "energy", "barrier", "vine"],
           "description": "Alias of field for deploy path (creature kits use the same keys)."
+        },
+        "fieldDurationSec": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Override field lifetime in seconds (barrier default 20, vine 30; elemental kinds use docs/26 defaults when omitted)."
         },
         "destroysField": {
           "type": "boolean",
@@ -231,6 +259,137 @@
         "statusOnly": {
           "type": "boolean",
           "description": "No meaningful direct damage (use min/max 0). Field deploy / conditions are the effect."
+        },
+        "tauntDurationSec": {
+          "type": "number",
+          "minimum": 0,
+          "description": "On hit, force creature AI target to the caster for this many seconds (legacy challenge / doChallengeCreature). Default 6 when set via taunt flag patterns; omit when not a taunt spell."
+        },
+        "forceMeleeDurationSec": {
+          "type": "number",
+          "minimum": 0,
+          "description": "On hit, force creature stand-off to melee (targetDistance=1) for this many seconds (legacy changeTargetDistance). Used by chivalrous_challenge and divine_dazzle."
+        },
+        "chainOnlyRanged": {
+          "type": "boolean",
+          "description": "When true with chain, only free (non-summon) hostiles with base targetDistance > 1 are hop-eligible (legacy chivalrous_challenge / divine_dazzle canChain)."
+        },
+        "chain": {
+          "description": "Multi-hop chain attack (legacy pickChainTargets). Number = maxTargets (total creatures hit, including primary). Object form allows hop distance (Chebyshev, default 3) and backtracking.",
+          "oneOf": [
+            {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 32
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["maxTargets"],
+              "properties": {
+                "maxTargets": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 32,
+                  "description": "Total creatures damaged (including primary)."
+                },
+                "targets": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 32,
+                  "description": "Alias of maxTargets."
+                },
+                "distance": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 20,
+                  "description": "Chebyshev hop radius between successive targets (legacy chainDistance; default 3)."
+                },
+                "backtracking": {
+                  "type": "boolean",
+                  "description": "When true, pop hop stack and try other neighbors if tip is dead-end (legacy backtracking; default false)."
+                }
+              }
+            }
+          ]
+        },
+        "condition": {
+          "type": "object",
+          "description": "Condition applied to the defender on hit (haste / invisible / DoT). speedFormula: legacy ConditionSpeed target mina*(baseSpeed-40)+minb; engine stores delta (target-baseSpeed) as speedChange.",
+          "additionalProperties": true,
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "poison",
+                "fire",
+                "ice",
+                "energy",
+                "bleed",
+                "curse",
+                "holy",
+                "slow",
+                "haste",
+                "invisible",
+                "regen"
+              ]
+            },
+            "durationSec": { "type": "number", "minimum": 0 },
+            "speedChange": { "type": "number" },
+            "speedFormula": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "mina": { "type": "number" },
+                "minb": { "type": "number" },
+                "maxa": { "type": "number" },
+                "maxb": { "type": "number" }
+              }
+            },
+            "healthGain": {
+              "type": "number",
+              "minimum": 0,
+              "description": "HoT (regen): fixed HP restored each intervalSec for durationSec."
+            },
+            "totalDamage": { "type": "number", "minimum": 0 },
+            "intervalMs": { "type": "number", "minimum": 0 },
+            "intervalSec": { "type": "number", "minimum": 0 },
+            "schedule": {
+              "type": "array",
+              "description": "Optional fixed-tick stages (legacy addDamage rounds/interval/value). When present, ticks use stage.damage instead of the decaying-chunk model.",
+              "items": {
+                "type": "object",
+                "additionalProperties": true,
+                "properties": {
+                  "turns": { "type": "number", "minimum": 0 },
+                  "damage": { "type": "number", "minimum": 0 },
+                  "intervalSec": { "type": "number", "minimum": 0 }
+                }
+              }
+            }
+          }
+        },
+        "dispel": {
+          "type": "array",
+          "description": "Condition kinds cleared on the defender when the cast hits (cure spells). Engine kinds: poison, fire, ice, energy, bleed, curse, holy, slow, haste, invisible, regen.",
+          "items": {
+            "type": "string",
+            "enum": [
+              "poison",
+              "fire",
+              "ice",
+              "energy",
+              "bleed",
+              "curse",
+              "holy",
+              "slow",
+              "haste",
+              "invisible",
+              "regen"
+            ]
+          },
+          "minItems": 1,
+          "uniqueItems": true
         },
         "min": {
           "type": "number",

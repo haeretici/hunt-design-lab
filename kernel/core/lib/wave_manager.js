@@ -13,6 +13,8 @@
  *     "startDelaySec": 0,
  *     "endOnComplete": true,
  *     "holdRoute": true,
+ *     "wavesPerArena": null,          // int >= 1 when multi-arena loop
+ *     "pauseOnArenaBoundary": false,  // await host resumeAfterPortal
  *     "regions": [ { "id"?, "x", "y", "w", "h", "z"? }, … ],
  *     "list": [ { "id", "label", "delaySec"?, "entries": […] }, … ]
  *   }
@@ -39,7 +41,7 @@ const {
     resolveSpawnAffixFields
 } = require('./dungeon/population.js');
 
-/** @typedef {'idle'|'waiting'|'active'|'intermission'|'complete'} WavePhase */
+/** @typedef {'idle'|'waiting'|'active'|'intermission'|'awaiting_portal'|'complete'} WavePhase */
 
 /**
  * @param {*} v
@@ -174,6 +176,8 @@ function normalizeRegionsList(regionsRaw, legacyRegion) {
  *   startDelaySec: number,
  *   endOnComplete: boolean,
  *   holdRoute: boolean,
+ *   wavesPerArena: number|null,
+ *   pauseOnArenaBoundary: boolean,
  *   regions: { id: string, x: number, y: number, w: number, h: number, z: number }[],
  *   region: { id: string, x: number, y: number, w: number, h: number, z: number }|null,
  *   list: object[]
@@ -190,6 +194,14 @@ function normalizeWavesConfig(raw) {
     let anchorRadius = null;
     /** Clump pack members near a shared center (default: scatter in zone). */
     let packClustering = false;
+    /**
+     * Multi-arena flat list chunk size (null = classic single-arena hunt).
+     * Host stamps from arenaLoop; WC only reads these fields.
+     * @type {number|null}
+     */
+    let wavesPerArena = null;
+    /** When true, pause auto-advance after every wavesPerArena clears. */
+    let pauseOnArenaBoundary = false;
     /** @type {{ id: string, x: number, y: number, w: number, h: number, z: number }[]} */
     let regions = [];
     /** @type {object[]} */
@@ -221,6 +233,11 @@ function normalizeWavesConfig(raw) {
             anchorRadius = Math.max(1, int(raw.anchorRadius, 8));
         }
         if (raw.packClustering === true) packClustering = true;
+        if (raw.wavesPerArena != null) {
+            const n = int(raw.wavesPerArena, 0);
+            if (n >= 1) wavesPerArena = n;
+        }
+        if (raw.pauseOnArenaBoundary === true) pauseOnArenaBoundary = true;
         regions = normalizeRegionsList(raw.regions, raw.region);
         if (Array.isArray(raw.list)) list = raw.list;
         else if (Array.isArray(raw.waves)) list = raw.waves;
@@ -243,6 +260,8 @@ function normalizeWavesConfig(raw) {
         startDelaySec,
         endOnComplete,
         holdRoute,
+        wavesPerArena,
+        pauseOnArenaBoundary,
         anchorRadius,
         packClustering,
         regions,
@@ -942,7 +961,12 @@ class WaveController {
 
     /** @returns {boolean} */
     get active() {
-        return this.phase === 'active' || this.phase === 'intermission' || this.phase === 'waiting';
+        return (
+            this.phase === 'active' ||
+            this.phase === 'intermission' ||
+            this.phase === 'waiting' ||
+            this.phase === 'awaiting_portal'
+        );
     }
 
     /** @returns {boolean} */
@@ -958,6 +982,40 @@ class WaveController {
     /** @returns {boolean} */
     get endOnComplete() {
         return !this.config || this.config.endOnComplete !== false;
+    }
+
+    /**
+     * Arenas fully cleared (KD3): floor(wavesCompleted / wavesPerArena).
+     * @returns {number}
+     */
+    arenasCleared() {
+        const wpa = this.config && this.config.wavesPerArena;
+        if (!wpa || wpa < 1) return 0;
+        return Math.floor(this.wavesCompleted / wpa);
+    }
+
+    /**
+     * Arena index of the current global wave while fighting / waiting (KD3):
+     * floor(max(0, waveIndex) / wavesPerArena). Do not use wavesCompleted-1.
+     * @returns {number}
+     */
+    currentArenaIndex() {
+        const wpa = this.config && this.config.wavesPerArena;
+        if (!wpa || wpa < 1) return 0;
+        return Math.floor(Math.max(0, this.waveIndex) / wpa);
+    }
+
+    /**
+     * Host rebind finished (arena_enter): leave awaiting_portal and schedule
+     * the next wave on the following tick (readyAt = now → 0 delay).
+     * @param {number} timeSec
+     * @returns {boolean} true if resumed
+     */
+    resumeAfterPortal(timeSec) {
+        if (this.phase !== 'awaiting_portal') return false;
+        this.phase = 'intermission';
+        this.readyAt = Math.max(0, Number(timeSec) || 0);
+        return true;
     }
 
     /**
@@ -979,7 +1037,11 @@ class WaveController {
             totalWaves: this.totalWaves,
             readyAt: this.readyAt,
             endOnComplete: this.endOnComplete,
-            holdRoute: this.holdRoute
+            holdRoute: this.holdRoute,
+            wavesPerArena: this.config.wavesPerArena,
+            pauseOnArenaBoundary: !!this.config.pauseOnArenaBoundary,
+            arenasCleared: this.arenasCleared(),
+            currentArenaIndex: this.currentArenaIndex()
         };
     }
 
@@ -1073,8 +1135,8 @@ class WaveController {
                 wavesCompleted: this.wavesCompleted
             });
 
-            const nextIndex = this.waveIndex + 1;
-            if (nextIndex >= this.config.list.length) {
+            // Full multi-arena list clear (KD4) — not stage/boundary complete.
+            if (this.wavesCompleted >= this.totalWaves) {
                 this.phase = 'complete';
                 events.push({
                     kind: 'waves_complete',
@@ -1084,9 +1146,31 @@ class WaveController {
                 return { events, spawnRows, complete: true };
             }
 
+            // Arena boundary: host must hop then call resumeAfterPortal.
+            // readyAt = +Infinity so no auto-advance race on a short delaySec.
+            // Hosts must key off phase === 'awaiting_portal' (not readyAt alone):
+            // JSON.stringify(snapshot) turns Infinity into null.
+            const wpa = this.config.wavesPerArena;
+            if (
+                this.config.pauseOnArenaBoundary &&
+                wpa &&
+                wpa >= 1 &&
+                this.wavesCompleted % wpa === 0
+            ) {
+                this.phase = 'awaiting_portal';
+                this.readyAt = Infinity;
+                events.push({
+                    kind: 'wave_boundary',
+                    wavesCompleted: this.wavesCompleted,
+                    arenaIndex: Math.floor(this.wavesCompleted / wpa)
+                });
+                return { events, spawnRows: null, complete: false };
+            }
+
+            const nextIndex = this.waveIndex + 1;
             const nextWave = this.config.list[nextIndex];
             const delay =
-                nextWave.delaySec != null
+                nextWave && nextWave.delaySec != null
                     ? nextWave.delaySec
                     : this.config.delaySec;
             this.phase = 'intermission';
@@ -1101,6 +1185,7 @@ class WaveController {
             return { events, spawnRows, complete: false };
         }
 
+        // awaiting_portal: hold until host resumeAfterPortal (no auto-advance).
         return { events, spawnRows, complete: false };
     }
 

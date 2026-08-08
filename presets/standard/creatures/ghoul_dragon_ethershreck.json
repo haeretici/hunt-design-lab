@@ -82,11 +82,18 @@
             "chance": 10,
             "range": 7,
             "element": "earth",
-            "min": 1487,
-            "max": 2036,
+            "min": 0,
+            "max": 0,
             "target": false,
             "effect": "me_smallclouds",
-            "shootEffect": "ani_death"
+            "shootEffect": "ani_death",
+            "statusOnly": true,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 2036,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
         },
         {
             "id": "ranged_4",

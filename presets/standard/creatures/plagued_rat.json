@@ -83,12 +83,19 @@
             "chance": 10,
             "range": 4,
             "element": "earth",
-            "min": 25,
-            "max": 32,
+            "min": 0,
+            "max": 0,
             "length": 5,
             "spread": 3,
             "target": false,
-            "effect": "me_poisonarea"
+            "effect": "me_poisonarea",
+            "statusOnly": true,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 32,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
         },
         {
             "id": "slow_3",

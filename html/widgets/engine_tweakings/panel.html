@@ -81,6 +81,109 @@
         </p>
     </div>
 
+    <!-- Action Bars layout (Stage C) — toolbars per dock; live remount via action_bars -->
+    <div class="mb-4 mt-2 pt-2 border-top border-secondary border-opacity-25" id="actionBarsLayoutSection">
+        <h6 class="text-info border-bottom border-secondary border-opacity-50 pb-2 mb-3">
+            Action Bars
+        </h6>
+        <p class="small text-muted mb-2">
+            Toolbars per dock edge (0–3). Extra bars keep assignments when hidden (stash);
+            raising the count restores them. Live — no reload. Source of truth for counts;
+            setup window mirrors the same layout.
+        </p>
+        <div class="row g-2 small">
+            <div class="col-6">
+                <label class="form-label text-muted mb-1" for="actionBarCountTop">Top</label>
+                <select class="form-select form-select-sm action-bar-count-select" id="actionBarCountTop" data-dock="top" title="Number of top toolbars (0–3)">
+                    <option value="0">0</option>
+                    <option value="1" selected>1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+            </div>
+            <div class="col-6">
+                <label class="form-label text-muted mb-1" for="actionBarCountBottom">Bottom</label>
+                <select class="form-select form-select-sm action-bar-count-select" id="actionBarCountBottom" data-dock="bottom" title="Number of bottom toolbars (0–3)">
+                    <option value="0">0</option>
+                    <option value="1" selected>1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+            </div>
+            <div class="col-6">
+                <label class="form-label text-muted mb-1" for="actionBarCountLeft">Left</label>
+                <select class="form-select form-select-sm action-bar-count-select" id="actionBarCountLeft" data-dock="left" title="Number of left toolbars (0–3)">
+                    <option value="0">0</option>
+                    <option value="1" selected>1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+            </div>
+            <div class="col-6">
+                <label class="form-label text-muted mb-1" for="actionBarCountRight">Right</label>
+                <select class="form-select form-select-sm action-bar-count-select" id="actionBarCountRight" data-dock="right" title="Number of right toolbars (0–3)">
+                    <option value="0">0</option>
+                    <option value="1" selected>1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+            </div>
+        </div>
+        <p class="small text-muted mb-0 mt-2" style="font-size: 0.7rem; line-height: 1.35;">
+            Saved with action-bar prefs (<span class="font-monospace">hdl_action_bars</span>).
+            Default is 1 bar per dock.
+        </p>
+    </div>
+
+    <!-- Mouse Controls (docs/29 Stage 3) — live; Classic default -->
+    <div class="mb-4 mt-2 pt-2 border-top border-secondary border-opacity-25" id="mouseControlsSection">
+        <h6 class="text-info border-bottom border-secondary border-opacity-50 pb-2 mb-3">
+            Mouse Controls
+        </h6>
+        <p class="small text-muted mb-2">
+            Classic: unshifted RMB attacks / picks up / walks; Ctrl opens the menu on any tile.
+            Regular: unshifted RMB always opens the menu; Ctrl uses / opens.
+            Left Smart-Click: unshifted LMB attacks / uses / picks up / walks; unshifted RMB opens the menu.
+            Applies live.
+        </p>
+        <div class="mb-2">
+            <label class="form-label text-muted small mb-1" for="mouseControlModeSelect">Control mode</label>
+            <select class="form-select form-select-sm" id="mouseControlModeSelect" title="Mouse control preset">
+                <option value="1">Classic Controls</option>
+                <option value="0">Regular Controls</option>
+                <option value="2">Left Smart-Click</option>
+            </select>
+        </div>
+        <div class="mb-0" id="lootControlModeWrap">
+            <label class="form-label text-muted small mb-1" for="lootControlModeSelect">
+                Loot mode
+                <span class="badge bg-secondary font-monospace ms-1" style="font-size: 0.6rem;">Classic</span>
+            </label>
+            <select
+                class="form-select form-select-sm"
+                id="lootControlModeSelect"
+                title="Classic loot sub-mode — full vacuum ships with Stage 5b corpses"
+            >
+                <option value="0">Loot: Right</option>
+                <option value="1">Loot: SHIFT+Right</option>
+                <option value="2">Loot: Left</option>
+            </select>
+            <p class="small text-muted mb-0 mt-1" style="font-size: 0.7rem; line-height: 1.35;">
+                Saved now. Stub branches fire only on corpse-flagged targets; real harvest waits on corpse content.
+            </p>
+        </div>
+        <div class="form-check mt-2 mb-0">
+            <input class="form-check-input" type="checkbox" id="moveStackCheck" title="Invert stack drag Ctrl behavior">
+            <label class="form-check-label small text-muted" for="moveStackCheck">
+                Move stack without dialog
+            </label>
+            <p class="small text-muted mb-0 mt-1" style="font-size: 0.7rem; line-height: 1.35;">
+                Off (default): plain drag opens amount slider; Ctrl moves full stack. Shift always moves 1.
+                On: plain drag moves full; Ctrl opens slider.
+            </p>
+        </div>
+    </div>
+
     <!-- Progression (Phase C) — pre-run only in UI; frozen at session start -->
     <div class="mb-4 mt-2 pt-2 border-top border-secondary border-opacity-25" id="progressionSection">
         <h6 class="text-info border-bottom border-secondary border-opacity-50 pb-2 mb-3">

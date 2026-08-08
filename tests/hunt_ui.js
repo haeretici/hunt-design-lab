@@ -1080,8 +1080,12 @@ test('buildBugReportPayload captures seed, party gear, and repro map', () => {
         'steel_sword'
     );
     assert.strictEqual(report.party.members[1].name, 'Healer');
-    assert.strictEqual(report.party.membersHaveSkills, false);
-    assert.strictEqual(report.party.allMembersHaveSkills, false);
+    // Class-only form rows materialize default starters (create-char) before report
+    assert.strictEqual(report.party.membersHaveSkills, true);
+    assert.strictEqual(report.party.allMembersHaveSkills, true);
+    assert.ok(report.party.members[0].skills, 'Tank bound to guardian_starter skills');
+    assert.strictEqual(report.party.members[0].profileId, 'guardian_starter');
+    assert.strictEqual(report.party.members[1].profileId, 'warden_starter');
     assert.strictEqual(report.party.memberCount, 2);
     assert.strictEqual(report.session.timeSpeed, 2);
     assert.ok(Array.isArray(report.session.topSpells));
@@ -1126,7 +1130,7 @@ test('buildBugReportPayload v2 skills flags + live session snapshot', () => {
             spellsCastById: {
                 rockfall: 68,
                 grand_fireburst: 53,
-                berserk: 2
+                rampage: 2
             },
             spellsCastByKind: { spell: 127, auto: 70, heal: 5 },
             attacks: 10,
@@ -1166,7 +1170,7 @@ test('buildBugReportPayload v2 skills flags + live session snapshot', () => {
                             damageDealt: 1000,
                             damageTaken: 800,
                             spellsCast: 5,
-                            spellsCastById: { berserk: 2, heal_light: 3 },
+                            spellsCastById: { rampage: 2, heal_light: 3 },
                             manaSpent: 50,
                             aiState: 'engage',
                             x: 10,
@@ -1815,7 +1819,12 @@ test('combat_panel helper utilities', () => {
 });
 
 test('ui_state: target cursor mode and mouseControlMode transitions', () => {
-    const { uiState, setMouseControlMode, enterTargetCursorMode, clearTargetCursorMode } = require('../kernel/apps/game/ui_state.js');
+    const {
+        uiState,
+        setMouseControlMode,
+        enterTargetCursorMode,
+        clearTargetCursorMode
+    } = require('../kernel/apps/game/ui_state.js');
     assert.strictEqual(uiState.mouseControlMode, 1, 'default mouse control mode should be 1 (Classic)');
     assert.strictEqual(uiState.activeActionCursor, null, 'activeActionCursor defaults to null');
 
@@ -1832,6 +1841,139 @@ test('ui_state: target cursor mode and mouseControlMode transitions', () => {
 
     clearTargetCursorMode();
     assert.strictEqual(uiState.activeActionCursor, null, 'clearTargetCursorMode clears active action cursor');
+});
+
+test('ui_state: Cancel Action uses stopAutowalk hotkey (not Escape-only hardcode)', () => {
+    const {
+        uiState,
+        enterTargetCursorMode,
+        clearTargetCursorMode,
+        getStopCancelHotkeys,
+        isStopCancelHotkeyEvent,
+        cancelTargetCursorIfActive
+    } = require('../kernel/apps/game/ui_state.js');
+    const { Settings } = require('../kernel/settings.js');
+
+    clearTargetCursorMode();
+    const defaults = getStopCancelHotkeys();
+    assert.ok(defaults.includes('ESCAPE'), 'default stopAutowalk includes ESCAPE');
+
+    // Rebind Stop Autowalk / Cancel Action away from Escape
+    const prev = Settings.MANUAL_CONTROL_SHORTCUTS.stopAutowalk;
+    Settings.MANUAL_CONTROL_SHORTCUTS.stopAutowalk = ['F9'];
+
+    try {
+        assert.deepStrictEqual(getStopCancelHotkeys(), ['F9']);
+        assert.strictEqual(
+            isStopCancelHotkeyEvent({ key: 'Escape', code: 'Escape' }),
+            false,
+            'Escape must not cancel when stopAutowalk was rebound'
+        );
+        assert.strictEqual(
+            isStopCancelHotkeyEvent({ key: 'F9', code: 'F9' }),
+            true,
+            'rebound F9 matches Cancel Action'
+        );
+
+        enterTargetCursorMode({ type: 'USE_ITEM_WITH', itemId: 'x' });
+        assert.ok(uiState.activeActionCursor);
+        assert.strictEqual(cancelTargetCursorIfActive(), true);
+        assert.strictEqual(uiState.activeActionCursor, null);
+        assert.strictEqual(cancelTargetCursorIfActive(), false);
+    } finally {
+        Settings.MANUAL_CONTROL_SHORTCUTS.stopAutowalk = prev;
+        clearTargetCursorMode();
+    }
+});
+
+test('ui_state: suppress next canvas click (Stage 9 ground drag)', () => {
+    const {
+        armSuppressNextCanvasClick,
+        consumeSuppressNextCanvasClick
+    } = require('../kernel/apps/game/ui_state.js');
+    // Drain any leftover from other tests
+    while (consumeSuppressNextCanvasClick()) {
+        /* empty */
+    }
+    assert.strictEqual(
+        consumeSuppressNextCanvasClick(),
+        false,
+        'unarmed consume is false'
+    );
+    armSuppressNextCanvasClick();
+    assert.strictEqual(
+        consumeSuppressNextCanvasClick(),
+        true,
+        'armed consume is true once'
+    );
+    assert.strictEqual(
+        consumeSuppressNextCanvasClick(),
+        false,
+        'second consume is false'
+    );
+});
+
+test('ui_state: mouse controls normalize + apply (Stage 3)', () => {
+    const {
+        uiState,
+        DEFAULT_MOUSE_CONTROLS,
+        STORAGE_KEY_MOUSE_CONTROLS,
+        normalizeMouseControls,
+        applyMouseControls,
+        snapshotMouseControls,
+        setLootControlMode
+    } = require('../kernel/apps/game/ui_state.js');
+
+    assert.strictEqual(STORAGE_KEY_MOUSE_CONTROLS, 'hdl_mouse_controls');
+    assert.strictEqual(DEFAULT_MOUSE_CONTROLS.mouseControlMode, 1);
+    assert.strictEqual(DEFAULT_MOUSE_CONTROLS.lootControlMode, 0);
+    assert.strictEqual(DEFAULT_MOUSE_CONTROLS.talkOnRightClick, false);
+    assert.strictEqual(DEFAULT_MOUSE_CONTROLS.moveStack, false);
+
+    const empty = normalizeMouseControls(null);
+    assert.deepStrictEqual(empty, {
+        mouseControlMode: 1,
+        lootControlMode: 0,
+        talkOnRightClick: false,
+        moveStack: false
+    });
+
+    const bag = normalizeMouseControls({
+        mouseControlMode: 0,
+        lootControlMode: 2,
+        talkOnRightClick: true,
+        moveStack: 1,
+        junk: true
+    });
+    assert.strictEqual(bag.mouseControlMode, 0);
+    assert.strictEqual(bag.lootControlMode, 2);
+    assert.strictEqual(bag.talkOnRightClick, true);
+    assert.strictEqual(bag.moveStack, false, 'strict boolean only');
+    assert.strictEqual(bag.junk, undefined);
+
+    // Mode 2 accepted for Stage 4 programmatic use; invalid modes → Classic
+    assert.strictEqual(normalizeMouseControls({ mouseControlMode: 2 }).mouseControlMode, 2);
+    assert.strictEqual(normalizeMouseControls({ mouseControlMode: 9 }).mouseControlMode, 1);
+    assert.strictEqual(normalizeMouseControls({ lootControlMode: 7 }).lootControlMode, 0);
+
+    const prev = snapshotMouseControls();
+    try {
+        applyMouseControls({
+            mouseControlMode: 0,
+            lootControlMode: 1,
+            talkOnRightClick: false,
+            moveStack: false
+        });
+        assert.strictEqual(uiState.mouseControlMode, 0);
+        assert.strictEqual(uiState.lootControlMode, 1);
+        setLootControlMode(2);
+        assert.strictEqual(uiState.lootControlMode, 2);
+        const snap = snapshotMouseControls();
+        assert.strictEqual(snap.mouseControlMode, 0);
+        assert.strictEqual(snap.lootControlMode, 2);
+    } finally {
+        applyMouseControls(prev);
+    }
 });
 
 test('combat_panel target cycling and manual controls config', () => {
@@ -1919,6 +2061,139 @@ test('inventory_panel RMB on canvas empty tile moves character and prevents defa
     }
 });
 
+test('inventory_panel RMB on field-only tile autowalks (no fake Pick up item)', () => {
+    const { bindInventoryPanel } = require('../kernel/apps/game/inventory_panel.js');
+    const {
+        createGroundStore
+    } = require('../kernel/core/lib/character/ground_items.js');
+    const {
+        deployFieldToTile
+    } = require('../kernel/core/lib/combat/elemental_fields.js');
+
+    const listeners = {};
+    const mockCanvas = {
+        width: 720,
+        height: 480,
+        getContext: () => ({}),
+        getBoundingClientRect: () => ({
+            left: 0,
+            top: 0,
+            right: 720,
+            bottom: 480,
+            width: 720,
+            height: 480
+        }),
+        addEventListener: (event, handler) => {
+            listeners[event] = handler;
+        },
+        removeEventListener: () => {}
+    };
+    const origDoc = global.document;
+    const origWin = global.window;
+    const makeEl = () => ({
+        style: {},
+        classList: {
+            add: () => {},
+            remove: () => {},
+            toggle: () => {},
+            contains: () => false
+        },
+        dataset: {},
+        appendChild: () => {},
+        removeChild: () => {},
+        addEventListener: () => {},
+        removeEventListener: () => {},
+        setAttribute: () => {},
+        removeAttribute: () => {},
+        textContent: ''
+    });
+    /** @type {object[]} */
+    const createdMenus = [];
+    global.document = {
+        getElementById: () => null,
+        querySelector: () => null,
+        createElement: (tag) => {
+            const el = makeEl();
+            if (tag === 'div') createdMenus.push(el);
+            return el;
+        },
+        body: makeEl(),
+        addEventListener: () => {},
+        removeEventListener: () => {}
+    };
+    global.window = {
+        addEventListener: () => {},
+        removeEventListener: () => {}
+    };
+    try {
+        const ground = createGroundStore();
+        // Tile (3,3) under clientX/Y 100 with 32px tiles
+        deployFieldToTile(ground, 3, 3, 0, {
+            kind: 'fire',
+            source: 'creature',
+            createdAt: 0
+        });
+        const {
+            createEmptyInventory
+        } = require('../kernel/core/lib/character/inventory.js');
+        // Full inventory so topPickableUid runs (fields are immovable → null).
+        const player = {
+            id: 1,
+            alive: true,
+            controlMode: 'manual',
+            tile: { x: 5, y: 5, z: 0 },
+            commandQueue: [],
+            inventory: createEmptyInventory({ rootSlots: 10 }),
+            level: 20,
+            classId: 'guardian'
+        };
+        const sim = {
+            parties: [{ members: [player] }],
+            getCameraFocusMember: () => player,
+            tileMap: { _viewOriginX: 0, _viewOriginY: 0, _viewZ: 0 },
+            creatures: [],
+            groundItems: ground
+        };
+        const ctl = bindInventoryPanel({
+            canvas: mockCanvas,
+            getSim: () => sim,
+            isSessionLive: () => true,
+            getItemDb: () => ({}),
+            getGenre: () => 'rpg_fantasy',
+            intervalMs: 10000
+        });
+        listeners['contextmenu']({
+            clientX: 100,
+            clientY: 100,
+            preventDefault: () => {}
+        });
+        assert.strictEqual(
+            player.commandQueue.length,
+            1,
+            'field-only tile should queue autowalk, not open pick menu'
+        );
+        assert.deepStrictEqual(
+            player.commandQueue[0],
+            { type: 'START_AUTOWALK', dest: { x: 3, y: 3, z: 0 } },
+            'should walk onto field tile (hazard), not offer immovable pickup'
+        );
+        const pickMenus = createdMenus.filter(
+            (el) => el.className === 'inv-context-menu'
+        );
+        assert.strictEqual(
+            pickMenus.length,
+            0,
+            'must not open Pick up menu for fire_field'
+        );
+        ctl.dispose();
+    } finally {
+        if (origDoc === undefined) delete global.document;
+        else global.document = origDoc;
+        if (origWin === undefined) delete global.window;
+        else global.window = origWin;
+    }
+});
+
 test('ui_state continuous manual movement controls and SOCD resolution', () => {
     const {
         clearActiveMoveKeys,
@@ -1967,6 +2242,114 @@ test('ui_state continuous manual movement controls and SOCD resolution', () => {
 
     clearActiveMoveKeys();
     assert.deepStrictEqual(getCombinedMoveDelta(), { dx: 0, dy: 0 }, 'cleared keys produce zero delta');
+});
+
+test('sidebar_panels default order puts skills below combat', () => {
+    const {
+        DEFAULT_ORDER,
+        defaultPrefs,
+        loadPrefs,
+        clampHeight,
+        PREFS_KEY,
+        MIN_PANEL_HEIGHT,
+        MAX_PANEL_HEIGHT
+    } = require('../kernel/apps/game/sidebar_panels.js');
+
+    assert.deepStrictEqual(
+        DEFAULT_ORDER,
+        ['backpack', 'combat', 'skills', 'party'],
+        'default order: backpack → combat → skills → party'
+    );
+    const prefs = defaultPrefs();
+    assert.strictEqual(prefs.order.indexOf('skills'), prefs.order.indexOf('combat') + 1);
+    assert.strictEqual(Object.keys(prefs.closed).length, 0, 'no panels closed by default');
+    assert.ok(prefs.heights.skills > 0);
+
+    // Fake localStorage empty → defaults (skills open, under combat)
+    const store = Object.create(null);
+    const origLS = global.localStorage;
+    global.localStorage = {
+        getItem: (k) => (k in store ? store[k] : null),
+        setItem: (k, v) => {
+            store[k] = String(v);
+        },
+        removeItem: (k) => {
+            delete store[k];
+        }
+    };
+    try {
+        const loaded = loadPrefs();
+        assert.deepStrictEqual(loaded.order, DEFAULT_ORDER.slice());
+        assert.strictEqual(loaded.closed.skills, undefined);
+        assert.strictEqual(clampHeight(10), MIN_PANEL_HEIGHT);
+        assert.strictEqual(clampHeight(9999), MAX_PANEL_HEIGHT);
+        assert.strictEqual(clampHeight(200), 200);
+        assert.strictEqual(PREFS_KEY, 'hdl_sidebar_panels');
+    } finally {
+        if (origLS === undefined) delete global.localStorage;
+        else global.localStorage = origLS;
+    }
+});
+
+test('skills_panel readSkill resolves magic aliases', () => {
+    const { readSkill, SKILL_ROWS } = require('../kernel/apps/game/skills_panel.js');
+    assert.strictEqual(readSkill({ magicLevel: 12 }, 'magicLevel', ['magic']), 12);
+    assert.strictEqual(readSkill({ magic: 7 }, 'magicLevel', ['magic']), 7);
+    assert.strictEqual(readSkill({ sword: 55 }, 'sword'), 55);
+    assert.strictEqual(readSkill({}, 'axe'), null);
+    assert.ok(SKILL_ROWS.some((r) => r.key === 'sword'));
+    assert.ok(SKILL_ROWS.some((r) => r.key === 'magicLevel'));
+});
+
+test('bindSkillsPanel paints active player skills (dirty-only)', () => {
+    const { bindSkillsPanel } = require('../kernel/apps/game/skills_panel.js');
+    const list = {
+        id: 'skillsPanelList',
+        innerHTML: '',
+        dataset: {}
+    };
+    const origDoc = global.document;
+    global.document = {
+        getElementById: (id) => (id === 'skillsPanelList' ? list : null)
+    };
+    try {
+        const player = {
+            name: 'Tester',
+            level: 42,
+            skills: {
+                sword: 60,
+                axe: 10,
+                club: 10,
+                fist: 10,
+                distance: 20,
+                shielding: 50,
+                magicLevel: 8,
+                fishing: 10
+            }
+        };
+        const ctl = bindSkillsPanel({
+            getSim: () => ({
+                parties: [{ members: [player] }],
+                getCameraFocusMember: () => player
+            }),
+            isSessionLive: () => true,
+            intervalMs: 0
+        });
+        ctl.refresh();
+        assert.ok(list.innerHTML.includes('42'), 'shows level');
+        assert.ok(list.innerHTML.includes('60'), 'shows sword skill');
+        assert.ok(list.innerHTML.includes('Magic Level') || list.innerHTML.includes('8'));
+        const html1 = list.innerHTML;
+        ctl.refresh();
+        assert.strictEqual(list.innerHTML, html1, 'dirty-only: unchanged skills skip rewrite');
+        player.skills.sword = 61;
+        ctl.refresh();
+        assert.ok(list.innerHTML.includes('61'), 'updates when skill changes');
+        ctl.dispose();
+    } finally {
+        if (origDoc === undefined) delete global.document;
+        else global.document = origDoc;
+    }
 });
 
 (async () => {

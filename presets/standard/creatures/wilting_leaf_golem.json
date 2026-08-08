@@ -87,11 +87,18 @@
             "chance": 15,
             "range": 4,
             "element": "earth",
-            "min": 15,
-            "max": 20,
+            "min": 0,
+            "max": 0,
             "radius": 4,
             "target": false,
-            "effect": "me_green_rings"
+            "effect": "me_green_rings",
+            "statusOnly": true,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 20,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
         },
         {
             "id": "slow_3",

@@ -71,11 +71,18 @@
             "chance": 9,
             "range": 4,
             "element": "physical",
-            "min": 2287,
-            "max": 3431,
+            "min": 0,
+            "max": 0,
             "radius": 8,
             "target": false,
-            "effect": "me_iceattack"
+            "effect": "me_iceattack",
+            "statusOnly": true,
+            "condition": {
+                "type": "bleed",
+                "totalDamage": 3431,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
         },
         {
             "id": "area_3",

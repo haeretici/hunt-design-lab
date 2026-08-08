@@ -113,11 +113,18 @@
             "chance": 13,
             "range": 7,
             "element": "earth",
-            "min": 92,
-            "max": 92,
+            "min": 0,
+            "max": 0,
             "target": true,
             "effect": "me_hitbypoison",
-            "shootEffect": "ani_poison"
+            "shootEffect": "ani_poison",
+            "statusOnly": true,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 92,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
         }
     ],
     "defenseSpells": [

@@ -85,12 +85,19 @@
             "chance": 16,
             "range": 4,
             "element": "physical",
-            "min": 501,
-            "max": 751,
+            "min": 0,
+            "max": 0,
             "radius": 2,
             "target": true,
             "effect": "me_stones",
-            "shootEffect": "ani_largerock"
+            "shootEffect": "ani_largerock",
+            "statusOnly": true,
+            "condition": {
+                "type": "bleed",
+                "totalDamage": 751,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
         }
     ],
     "defenseSpells": [

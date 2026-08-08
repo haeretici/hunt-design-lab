@@ -1267,7 +1267,7 @@
             "type": [
                 "armor"
             ],
-            "customSprite": "infernal_steel_tunic",
+            "customSprite": "ball_gown",
             "spriteId": "infernal_steel_tunic"
         },
         {
@@ -1346,7 +1346,7 @@
             "atk": 25,
             "defense": 15,
             "defenseBonus": 2,
-            "customSprite": "weathered_staff",
+            "customSprite": "banana_staff",
             "spriteId": "weathered_staff"
         },
         {
@@ -1359,7 +1359,7 @@
                 "helmet"
             ],
             "armor": 1,
-            "customSprite": "arcane_leather_visored_helm",
+            "customSprite": "bandana",
             "spriteId": "arcane_leather_visored_helm"
         },
         {
@@ -1470,7 +1470,7 @@
                 "guardian"
             ],
             "twoHanded": true,
-            "customSprite": "ancient_double_axe",
+            "customSprite": "battle_axe",
             "spriteId": "ancient_double_axe"
         },
         {
@@ -1485,7 +1485,7 @@
             "weaponType": "melee",
             "atk": 24,
             "defense": 14,
-            "customSprite": "steel_club",
+            "customSprite": "battle_hammer",
             "spriteId": "steel_club"
         },
         {
@@ -1499,7 +1499,7 @@
             ],
             "weaponType": "shield",
             "defense": 23,
-            "customSprite": "ancient_wall_shield",
+            "customSprite": "battle_shield",
             "spriteId": "ancient_wall_shield"
         },
         {
@@ -1620,7 +1620,7 @@
             "vocation": [
                 "scout"
             ],
-            "customSprite": "bronze_robe",
+            "customSprite": "belted_cape",
             "spriteId": "bronze_robe"
         },
         {
@@ -1701,7 +1701,7 @@
                 "light"
             ],
             "durationSec": 1800,
-            "customSprite": "royal_arcane_rod",
+            "customSprite": "black_candle",
             "spriteId": "royal_arcane_rod"
         },
         {
@@ -1713,7 +1713,7 @@
             "type": [
                 "light"
             ],
-            "customSprite": "royal_arcane_rod",
+            "customSprite": "black_jade_asp",
             "spriteId": "royal_arcane_rod"
         },
         {
@@ -1725,7 +1725,7 @@
             "type": [
                 "light"
             ],
-            "customSprite": "royal_arcane_rod",
+            "customSprite": "black_pit_fiend",
             "spriteId": "royal_arcane_rod"
         },
         {
@@ -12753,7 +12753,7 @@
                 "helmet"
             ],
             "armor": 8,
-            "customSprite": "ancient_mask",
+            "customSprite": "ancient_kings_helm",
             "spriteId": "ancient_mask"
         },
         {
@@ -12766,7 +12766,7 @@
                 "helmet"
             ],
             "armor": 11,
-            "customSprite": "ancient_mask",
+            "customSprite": "ancient_kings_helm_enchanted",
             "spriteId": "ancient_mask"
         },
         {
@@ -12782,7 +12782,7 @@
             "speed": 300,
             "durationSec": 21600,
             "transformOnUnequip": "5460",
-            "customSprite": "ancient_mask",
+            "customSprite": "abyssal_helm",
             "spriteId": "ancient_mask"
         },
         {
@@ -22339,7 +22339,7 @@
             "extraAtkElement": "earth",
             "defense": 15,
             "defenseBonus": 1,
-            "customSprite": "ancient_broadsword",
+            "customSprite": "asp_blade",
             "spriteId": "ancient_broadsword"
         },
         {
@@ -26884,7 +26884,7 @@
                 "legs"
             ],
             "armor": 2,
-            "customSprite": "ancient_trousers",
+            "customSprite": "ancient_legwraps",
             "spriteId": "ancient_trousers"
         },
         {
@@ -29593,7 +29593,8 @@
             "heal": [
                 60,
                 90
-            ]
+            ],
+            "customSprite": "small_health_potion"
         },
         {
             "id": "health_potion",
@@ -29610,7 +29611,8 @@
             "heal": [
                 125,
                 175
-            ]
+            ],
+            "customSprite": "health_potion"
         },
         {
             "id": "strong_health_potion",
@@ -29628,7 +29630,8 @@
                 250,
                 350
             ],
-            "level": 50
+            "level": 50,
+            "customSprite": "strong_health_potion"
         },
         {
             "id": "great_health_potion",
@@ -29646,7 +29649,8 @@
                 425,
                 575
             ],
-            "level": 80
+            "level": 80,
+            "customSprite": "great_health_potion"
         },
         {
             "id": "ultimate_health_potion",
@@ -29664,7 +29668,8 @@
                 650,
                 850
             ],
-            "level": 130
+            "level": 130,
+            "customSprite": "ultimate_health_potion"
         },
         {
             "id": "supreme_health_potion",
@@ -29682,7 +29687,8 @@
                 875,
                 1125
             ],
-            "level": 200
+            "level": 200,
+            "customSprite": "supreme_health_potion"
         },
         {
             "id": "mana_potion",
@@ -29699,7 +29705,8 @@
             "restoreMana": [
                 75,
                 125
-            ]
+            ],
+            "customSprite": "mana_potion"
         },
         {
             "id": "strong_mana_potion",
@@ -29717,7 +29724,8 @@
                 115,
                 185
             ],
-            "level": 50
+            "level": 50,
+            "customSprite": "strong_mana_potion"
         },
         {
             "id": "great_mana_potion",
@@ -29735,7 +29743,8 @@
                 150,
                 250
             ],
-            "level": 80
+            "level": 80,
+            "customSprite": "great_mana_potion"
         },
         {
             "id": "ultimate_mana_potion",
@@ -29753,7 +29762,8 @@
                 425,
                 575
             ],
-            "level": 130
+            "level": 130,
+            "customSprite": "ultimate_mana_potion"
         },
         {
             "id": "great_dual_potion",
@@ -29775,7 +29785,8 @@
                 100,
                 200
             ],
-            "level": 80
+            "level": 80,
+            "customSprite": "great_dual_potion"
         },
         {
             "id": "ultimate_dual_potion",
@@ -29797,7 +29808,8 @@
                 250,
                 350
             ],
-            "level": 130
+            "level": 130,
+            "customSprite": "ultimate_dual_potion"
         },
         {
             "id": "antidote_potion",
@@ -29813,7 +29825,8 @@
             "weight": 175,
             "dispel": [
                 "poison"
-            ]
+            ],
+            "customSprite": "antidote_potion"
         },
         {
             "id": "berserk_potion",
@@ -29827,7 +29840,8 @@
             "consumable": true,
             "usable": true,
             "weight": 200,
-            "notes": "Attribute buff reserved (consume no-op effect for now)"
+            "notes": "Attribute buff reserved (consume no-op effect for now)",
+            "customSprite": "berserk_potion"
         },
         {
             "id": "savant_potion",
@@ -29841,7 +29855,8 @@
             "consumable": true,
             "usable": true,
             "weight": 200,
-            "notes": "Commercial rename of mastermind potion; magic buff reserved"
+            "notes": "Commercial rename of mastermind potion; magic buff reserved",
+            "customSprite": "savant_potion"
         },
         {
             "id": "marksman_potion",
@@ -29855,7 +29870,41 @@
             "consumable": true,
             "usable": true,
             "weight": 200,
-            "notes": "Commercial rename of bullseye potion; distance buff reserved"
+            "notes": "Commercial rename of bullseye potion; distance buff reserved",
+            "customSprite": "marksman_potion"
+        },
+        {
+            "id": "barrier_wall_rune",
+            "label": "Barrier Wall Rune",
+            "category": "rune",
+            "stackable": true,
+            "weight": 70,
+            "type": [
+                "rune"
+            ],
+            "customSprite": "barrier_wall_rune"
+        },
+        {
+            "id": "vine_barrier_rune",
+            "label": "Vine Barrier Rune",
+            "category": "rune",
+            "stackable": true,
+            "weight": 70,
+            "type": [
+                "rune"
+            ],
+            "customSprite": "vine_barrier_rune"
+        },
+        {
+            "id": "paralyze_rune",
+            "label": "Paralyze Rune",
+            "category": "rune",
+            "stackable": true,
+            "weight": 210,
+            "type": [
+                "rune"
+            ],
+            "customSprite": "paralyze_rune"
         }
     ]
 }

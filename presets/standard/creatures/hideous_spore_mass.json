@@ -96,11 +96,18 @@
             "chance": 10,
             "range": 7,
             "element": "earth",
-            "min": 215,
-            "max": 343,
+            "min": 0,
+            "max": 0,
             "radius": 3,
             "target": false,
-            "effect": "me_hitbypoison"
+            "effect": "me_hitbypoison",
+            "statusOnly": true,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 343,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
         }
     ],
     "defenseSpells": [

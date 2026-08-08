@@ -102,11 +102,18 @@
             "chance": 15,
             "range": 4,
             "element": "physical",
-            "min": 45,
-            "max": 60,
+            "min": 0,
+            "max": 0,
             "radius": 6,
             "target": false,
-            "effect": "me_hitarea"
+            "effect": "me_hitarea",
+            "statusOnly": true,
+            "condition": {
+                "type": "bleed",
+                "totalDamage": 60,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
         }
     ],
     "defenseSpells": [

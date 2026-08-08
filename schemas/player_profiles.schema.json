@@ -61,7 +61,7 @@
     "promoted": { "type": "boolean", "default": false, "description": "Whether the character is promoted." },
     "skills": {
       "type": "object",
-      "description": "Skill levels for axe, club, distance, fishing, fist, magicLevel, shielding, sword. Runtime: normalizeSkillBag maps sword/axe/club/fist→melee (max), magicLevel→magic; used as buildEffectiveStats baseSkills (gear skillBonuses still stack).",
+      "description": "Standard product skill bag (legacy subtypes): sword, axe, club, fist, distance, shielding, magicLevel, optional fishing. Combat resolve prefers the weapon subtype (e.g. sword when equipping a sword); collapsed melee is derived as max(subtypes) for class-floor fallback only — do not author melee alone on product profiles. Runtime: normalizeSkillBag preserves subtypes, derives melee max, maps magicLevel→magic; used as buildEffectiveStats baseSkills (gear skillBonuses still stack).",
       "additionalProperties": { "type": "integer", "minimum": 0 },
       "properties": {
         "axe": { "type": "integer", "minimum": 0, "default": 13 },

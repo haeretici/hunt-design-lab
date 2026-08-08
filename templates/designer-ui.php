@@ -119,6 +119,9 @@ $modesList = function_exists('hdl_list_modes') ? hdl_list_modes() : [
                     <button type="button" class="btn btn-retro btn-secondary btn-sm" id="duDuplicateBtn" disabled title="Duplicate as new id">
                         <i class="fa-solid fa-copy"></i> Duplicate
                     </button>
+                    <button type="button" class="btn btn-retro btn-secondary btn-sm" id="duRenameBtn" disabled title="Rename entity id and update soft references">
+                        <i class="fa-solid fa-i-cursor"></i> Rename
+                    </button>
                     <button type="button" class="btn btn-retro btn-secondary btn-sm" id="duFormatBtn" disabled title="Pretty-print raw JSON">
                         <i class="fa-solid fa-indent"></i> Format
                     </button>
@@ -146,8 +149,8 @@ $modesList = function_exists('hdl_list_modes') ? hdl_list_modes() : [
                     <div class="row g-2 mb-2">
                         <div class="col-md-4">
                             <label class="label-retro" for="duId">Entity id</label>
-                            <input type="text" class="form-control form-control-retro w-100 font-monospace" id="duId" pattern="[a-z][a-z0-9_]*" maxlength="80" spellcheck="false" autocomplete="off">
-                            <div class="form-text text-muted small">snake_case id (e.g. <code>fire_wave</code>)</div>
+                            <input type="text" class="form-control form-control-retro w-100 font-monospace" id="duId" pattern="[a-z][a-z0-9_]*" maxlength="80" spellcheck="false" autocomplete="off" aria-describedby="duIdHint">
+                            <div class="form-text text-muted small" id="duIdHint">snake_case id (e.g. <code>fire_wave</code>). Use <strong>Rename</strong> to change id on a saved entity (updates soft refs).</div>
                         </div>
                         <div class="col-md-8 d-flex align-items-end">
                             <p class="small text-muted mb-1" id="duSaveHint">
@@ -180,6 +183,6 @@ $modesList = function_exists('hdl_list_modes') ? hdl_list_modes() : [
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@json-editor/json-editor@2.15.1/dist/jsoneditor.min.js"></script>
-<script src="<?= htmlspecialchars($bundleUrl, ENT_QUOTES, 'UTF-8') ?>?v=1.13.0"></script>
+<script src="<?= htmlspecialchars($bundleUrl, ENT_QUOTES, 'UTF-8') ?>?v=1.14.2"></script>
 </body>
 </html>

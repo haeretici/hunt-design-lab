@@ -21,6 +21,7 @@ const {
     tryAttack,
     tryAutoAttack,
     tryHeal,
+    tryCure,
     stepToward,
     repositionTile,
     pickCombatMoveTile,
@@ -38,6 +39,7 @@ const {
     softRetargetDue
 } = require('./cadence.js');
 const { hasLineOfSight } = require('../shapes.js');
+const { resolveFollowTrailDest } = require('./party_follow.js');
 
 /**
  * @typedef {object} HuntCtx
@@ -259,13 +261,29 @@ function maybeStartCombat(owner, ctx) {
 }
 
 /**
+ * Cast self-cure when a matching DoT is active (before heal / flee / engage).
+ * @param {object} owner
+ * @param {HuntCtx} ctx
+ * @returns {boolean}
+ */
+function maybeCure(owner, ctx) {
+    const result = tryCure({
+        attacker: owner,
+        ctx
+    });
+    return !!(result && result.ok && result.hit);
+}
+
+/**
  * Cast self-heal when below healHpPercent (before flee / engage actions).
- * Returns true when a heal was cast this tick (caller should stop).
+ * Prefer cure first when a DoT is active (same tick budget as heal).
+ * Returns true when a heal/cure was cast this tick (caller should stop).
  * @param {object} owner
  * @param {HuntCtx} ctx
  * @returns {boolean}
  */
 function maybeHeal(owner, ctx) {
+    if (maybeCure(owner, ctx)) return true;
     const st = getStrategy(owner);
     const result = tryHeal({
         attacker: owner,
@@ -293,20 +311,6 @@ function stepWaypoint(owner, ctx) {
     if (typeof party.stepMember === 'function') {
         party.stepMember(ctx.tileMap, owner, ctx.hooks);
     }
-}
-
-/**
- * True while TileMap ally-pass hold is active (leader just passed us).
- * @param {object} owner
- * @returns {boolean}
- */
-function isAllyPassHoldActive(owner) {
-    if (!owner || owner._allyPassHoldUntil == null) return false;
-    const now =
-        Time && Time.timeSinceLevelLoad != null
-            ? Number(Time.timeSinceLevelLoad)
-            : 0;
-    return now < Number(owner._allyPassHoldUntil);
 }
 
 // ── States ──────────────────────────────────────────────────────────
@@ -353,12 +357,6 @@ const FollowLeader = {
             if (maybeStartCombat(owner, ctx)) return;
         }
 
-        // After the leader swaps/yields past us, stand still briefly so we do
-        // not re-clog the corridor on the next free tick (TileMap ally-pass hold).
-        if (isAllyPassHoldActive(owner)) {
-            return;
-        }
-
         // Cross-floor: local A* cannot climb. Walk to stair pad → hop toward
         // leader floor (Party.stepTowardFloor). Keep WP index from lagging so
         // after landing we rejoin the route near the leader.
@@ -387,9 +385,8 @@ const FollowLeader = {
             return;
         }
 
-        // Leader finished route and follower is nearby (same floor) → complete
-        // (v1 occupancy forbids stacking on the leader tile). Cross-floor is
-        // handled above so a finished leader still draws followers upstairs.
+        // Leader finished route and follower is nearby (same floor) → complete.
+        // Stack on the leader tile is legal; d≤3 still finishes lagging members.
         if (leader && leader.routeComplete) {
             const d = leader.tile ? distBetween(owner, leader) : Infinity;
             if (d <= 3) {
@@ -402,24 +399,50 @@ const FollowLeader = {
             }
         }
 
-        // Same-floor path toward leader; prefer free adjacent (no stack).
-        // Far catch-up may use navmesh long path (stepToward allowLongPath).
-        // followPath ally-pass swaps past other followers; followers never swap
-        // the leader off their tile (TileMap._tryAllyPass).
+        // Same-floor: trail slot before rawGoal (default rawGoal = leader.tile).
+        // Stack on leader remains legal; trail just avoids aiming there.
+        // Cross-floor handled above. Far lag → rawGoal + allowLongPath.
         if (leader && leader.tile && ctx.tileMap) {
-            const d = distBetween(owner, leader);
-            if (d > 1) {
-                const dest =
-                    freeAdjacentTo(leader, owner, ctx.tileMap) || leader.tile;
-                stepToward(owner, dest, ctx.tileMap, { allowLongPath: true });
+            const trail = resolveFollowTrailDest(
+                owner,
+                leader,
+                party,
+                ctx.tileMap
+            );
+            const dest = trail.dest;
+            if (!dest) {
+                // Fall through to waypoint lag sync below
+            } else {
+                const atDest =
+                    owner.tile.x === dest.x &&
+                    owner.tile.y === dest.y &&
+                    String(owner.tile.z) === String(dest.z);
+                if (atDest) {
+                    owner.path = [];
+                    if (
+                        !owner.routeComplete &&
+                        leader.currentWaypoint != null
+                    ) {
+                        owner.currentWaypoint = Math.max(
+                            owner.currentWaypoint || 0,
+                            Math.min(
+                                leader.currentWaypoint,
+                                (party.waypoints || []).length
+                            )
+                        );
+                    }
+                    return;
+                }
+                stepToward(owner, dest, ctx.tileMap, {
+                    allowLongPath: !!trail.allowLongPath
+                });
                 return;
             }
         }
 
-        // Catch up waypoints when already adjacent to leader
+        // No leader tile: keep WP index from lagging if possible
         if (!owner.routeComplete) {
             if (leader && leader.currentWaypoint != null) {
-                // Keep follower index from lagging forever behind a finished leader path
                 owner.currentWaypoint = Math.max(
                     owner.currentWaypoint || 0,
                     Math.min(leader.currentWaypoint, (party.waypoints || []).length)
@@ -430,41 +453,6 @@ const FollowLeader = {
     },
     exit() {}
 };
-
-/**
- * Pick a free tile adjacent to leader for follower pathing (v1: no stacking).
- * @param {object} leader
- * @param {object} follower
- * @param {object} tileMap
- * @returns {{ x: number, y: number, z: string|number }|null}
- */
-function freeAdjacentTo(leader, follower, tileMap) {
-    if (!leader || !leader.tile || !tileMap) return null;
-    const z = leader.tile.z;
-    let best = null;
-    let bestD = Infinity;
-    for (let dy = -1; dy <= 1; dy++) {
-        for (let dx = -1; dx <= 1; dx++) {
-            if (dx === 0 && dy === 0) continue;
-            const nx = leader.tile.x + dx;
-            const ny = leader.tile.y + dy;
-            if (!tileMap.canEnter(nx, ny, z, follower)) continue;
-            if (!follower.tile) {
-                best = { x: nx, y: ny, z };
-                continue;
-            }
-            const d = Math.max(
-                Math.abs(nx - follower.tile.x),
-                Math.abs(ny - follower.tile.y)
-            );
-            if (d < bestD) {
-                bestD = d;
-                best = { x: nx, y: ny, z };
-            }
-        }
-    }
-    return best;
-}
 
 const Engage = {
     id: 'engage',
@@ -732,5 +720,13 @@ module.exports = {
     clearCombat,
     setTarget,
     maybeHeal,
+    maybeCure,
     combatMove
 };
+
+// Re-export trail helpers for tests / tooling (rawGoal hook lives in party_follow).
+module.exports.resolveFollowTrailDest = resolveFollowTrailDest;
+module.exports.resolveFollowRawGoal =
+    require('./party_follow.js').resolveFollowRawGoal;
+module.exports.pickTrailPoint = require('./party_follow.js').pickTrailPoint;
+module.exports.partyFollowSlot = require('./party_follow.js').partyFollowSlot;

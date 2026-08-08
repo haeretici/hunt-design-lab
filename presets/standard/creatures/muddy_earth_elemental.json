@@ -82,11 +82,18 @@
             "range": 4,
             "element": "earth",
             "min": 0,
-            "max": 19,
+            "max": 0,
             "length": 6,
             "spread": 0,
             "target": false,
-            "effect": "me_groundshaker"
+            "effect": "me_groundshaker",
+            "statusOnly": true,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 19,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
         }
     ],
     "race": "undead",

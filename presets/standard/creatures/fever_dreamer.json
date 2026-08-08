@@ -68,11 +68,18 @@
             "chance": 20,
             "range": 4,
             "element": "earth",
-            "min": 403,
-            "max": 503,
+            "min": 0,
+            "max": 0,
             "radius": 7,
             "target": false,
-            "effect": "me_yellow_rings"
+            "effect": "me_yellow_rings",
+            "statusOnly": true,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 503,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
         },
         {
             "id": "area_2",

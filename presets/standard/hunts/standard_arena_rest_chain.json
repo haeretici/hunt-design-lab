@@ -1,0 +1,122 @@
+{
+    "id": "standard_arena_rest_chain",
+    "label": "Standard Arena Rest Chain (multi-arena PoC)",
+    "notes": "docs/23 / design other/arena_rest_piece_packs_plan.md — multi-arena loop: Arena N → X waves (scatter) → death-tile portal → Rest → portal → Arena N+1. layout.type arena_rest_chain (Option C). Art alternates cave_simple ↔ ice_simple. Does not replace standard_arena_waves (single-room ladder).",
+    "artSet": "cave_simple",
+    "spawnMode": "eager",
+    "layout": {
+        "type": "arena_rest_chain"
+    },
+    "loopWaypoints": true,
+    "waves": {
+        "delaySec": 2,
+        "startDelaySec": 0,
+        "endOnComplete": true,
+        "holdRoute": true,
+        "anchorRadius": 7,
+        "packClustering": false,
+        "list": [
+            {
+                "id": "a0_trash",
+                "label": "Arena 0 — trash density",
+                "entries": [
+                    {
+                        "creatureId": "spider",
+                        "count": 6
+                    },
+                    {
+                        "creatureId": "cave_rat",
+                        "count": 4
+                    },
+                    {
+                        "creatureId": "bug",
+                        "count": 3
+                    }
+                ]
+            },
+            {
+                "id": "a0_frontline",
+                "label": "Arena 0 — frontline + rare",
+                "entries": [
+                    {
+                        "creatureId": "skeleton",
+                        "count": 3
+                    },
+                    {
+                        "creatureId": "orc",
+                        "count": 2
+                    },
+                    {
+                        "creatureId": "skeleton",
+                        "count": 1,
+                        "rarity": "rare",
+                        "affixes": [
+                            "rare"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "a1_mid",
+                "label": "Arena 1 (ice) — mid pressure",
+                "entries": [
+                    {
+                        "creatureId": "orc",
+                        "count": 3
+                    },
+                    {
+                        "creatureId": "orc_spearman",
+                        "count": 2
+                    },
+                    {
+                        "creatureId": "minotaur",
+                        "count": 1
+                    }
+                ]
+            },
+            {
+                "id": "a1_close",
+                "label": "Arena 1 — champion close",
+                "entries": [
+                    {
+                        "creatureId": "orc_warrior",
+                        "count": 1
+                    },
+                    {
+                        "creatureId": "orc_spearman",
+                        "count": 2
+                    },
+                    {
+                        "creatureId": "orc",
+                        "count": 1,
+                        "rarity": "champion",
+                        "affixes": [
+                            "champion"
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "defaultPartyId": "balance_quartet",
+    "arenaLoop": {
+        "enabled": true,
+        "wavesPerArena": 1,
+        "maxArenas": 4,
+        "artSets": [
+            "cave_simple",
+            "ice_simple"
+        ],
+        "arenaProfileId": "arena_combat_shell",
+        "restProfileId": "rest_area_shell",
+        "portalNearRadius": 2,
+        "deathPortal": true,
+        "oneWayDeathPortal": true,
+        "pauseCombatUntilPortal": true
+    },
+    "limits": {
+        "maxSeconds": 480,
+        "maxFrames": 12000,
+        "noAttackTimeoutSec": 180
+    }
+}

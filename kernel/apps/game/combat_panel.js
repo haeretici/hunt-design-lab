@@ -9,10 +9,21 @@ const { getActivePlayerFromSim, readSourceVitals } = require('./equipment_panel.
 const { entitySpriteOpts, resolveSpriteUrl } = require('../../core/lib/creature_sprites.js');
 const { resolvePlayerSpriteArt } = require('../../core/lib/character/player_profile.js');
 const { Settings } = require('../../settings.js');
-const { uiState, clearTargetCursorMode } = require('./ui_state.js');
+const {
+    uiState,
+    clearTargetCursorMode,
+    isMouseButtonDown,
+    armSuppressNextContextMenu,
+    consumeSuppressNextContextMenu
+} = require('./ui_state.js');
+const { isClassicLookChord, creatureLookText } = require('./mouse_dispatcher.js');
+const {
+    bindCollapsiblePanels,
+    bindSidebarPanels
+} = require('./sidebar_panels.js');
+const { bindSkillsPanel } = require('./skills_panel.js');
 
 const SORT_STORAGE_KEY = 'hdl_combat_sort';
-const PANEL_COLLAPSED_PREFIX = 'hdl_panel_collapsed_';
 
 const SORT_LABELS = {
     display_time_asc: 'Display Time - ASC',
@@ -234,94 +245,6 @@ function hpPercent(hp, hpMax) {
 }
 
 /**
- * Wire collapse/expand toggle headers for right-sidebar inventory panels.
- * Persists collapsed state in localStorage.
- * @returns {{ dispose: () => void }}
- */
-function bindCollapsiblePanels() {
-    if (typeof document === 'undefined') return { dispose: () => {} };
-    const sections = document.querySelectorAll('.panel-collapsible-section[data-panel-id]');
-    const handlers = [];
-
-    sections.forEach((sec) => {
-        const panelId = sec.getAttribute('data-panel-id');
-        const header = sec.querySelector('.panel-toggle-header');
-        const content = sec.querySelector('.panel-collapsible-content');
-        const icon = sec.querySelector('.panel-toggle-icon');
-        if (!header || !content || !panelId) return;
-
-        const storageKey = `${PANEL_COLLAPSED_PREFIX}${panelId}`;
-        const setCollapsed = (collapsed) => {
-            if (collapsed) {
-                sec.classList.add('panel-collapsed');
-                content.style.display = 'none';
-                if (icon) {
-                    icon.classList.remove('fa-chevron-down');
-                    icon.classList.add('fa-chevron-right');
-                }
-                try {
-                    localStorage.setItem(storageKey, 'true');
-                } catch (_) {}
-            } else {
-                sec.classList.remove('panel-collapsed');
-                content.style.display = '';
-                if (icon) {
-                    icon.classList.remove('fa-chevron-right');
-                    icon.classList.add('fa-chevron-down');
-                }
-                try {
-                    localStorage.setItem(storageKey, 'false');
-                } catch (_) {}
-            }
-        };
-
-        let initCollapsed = false;
-        try {
-            initCollapsed = localStorage.getItem(storageKey) === 'true';
-        } catch (_) {}
-        setCollapsed(initCollapsed);
-
-        const onClick = (ev) => {
-            const t = ev.target;
-            if (
-                t &&
-                (t.tagName === 'BUTTON' ||
-                    t.tagName === 'SELECT' ||
-                    t.tagName === 'INPUT' ||
-                    (/** @type {Element} */ (t).closest &&
-                        (/** @type {Element} */ (t).closest('.combat-sort-container') ||
-                            /** @type {Element} */ (t).closest('button')))
-                )
-            ) {
-                return;
-            }
-            const current = sec.classList.contains('panel-collapsed');
-            setCollapsed(!current);
-        };
-
-        header.addEventListener('click', onClick);
-        const onKey = (ev) => {
-            if (ev.key === 'Enter' || ev.key === ' ') {
-                ev.preventDefault();
-                onClick(ev);
-            }
-        };
-        header.addEventListener('keydown', onKey);
-
-        handlers.push({ header, onClick, onKey });
-    });
-
-    return {
-        dispose: () => {
-            handlers.forEach(({ header, onClick, onKey }) => {
-                header.removeEventListener('click', onClick);
-                header.removeEventListener('keydown', onKey);
-            });
-        }
-    };
-}
-
-/**
  * Sort creatures in-place by current sort mode.
  * @param {object[]} creatures
  * @param {string} currentSort
@@ -488,6 +411,14 @@ function bindCombatPanel(opts) {
             if (!c || c.alive === false || !c.tile) return false;
             const cz = c.tile.z != null ? String(c.tile.z) : '0';
             if (cz !== viewZ) return false;
+            // Phase G2: hide invisible monsters from combat list (players cannot see them)
+            if (
+                c.invisible ||
+                (Array.isArray(c.conditions) &&
+                    c.conditions.some((x) => x && x.kind === 'invisible'))
+            ) {
+                return false;
+            }
             // Always keep the active target listed even if it briefly leaves range
             if (activeTarget && (c === activeTarget || c.id === activeTarget.id)) {
                 return true;
@@ -631,6 +562,35 @@ function bindCombatPanel(opts) {
                 const player = sim ? getActivePlayerFromSim(sim) : null;
                 if (!player || !sim || !c || c.id == null || c.alive === false) return;
                 if (!Array.isArray(player.commandQueue)) player.commandQueue = [];
+
+                // Stage 7: Classic LMB while RMB held → Look creature (FCT)
+                const mode =
+                    uiState && uiState.mouseControlMode != null
+                        ? Number(uiState.mouseControlMode)
+                        : 1;
+                if (
+                    isClassicLookChord({
+                        mode,
+                        button: 'left',
+                        leftPressed: true,
+                        rightPressed: isMouseButtonDown('right')
+                    })
+                ) {
+                    armSuppressNextContextMenu();
+                    if (sim && typeof sim.emitCombatText === 'function') {
+                        const t = c.tile || player.tile || {};
+                        sim.emitCombatText({
+                            x: t.x || 0,
+                            y: t.y || 0,
+                            z: t.z,
+                            text: creatureLookText(c),
+                            color: '#f59e0b',
+                            life: 1.1
+                        });
+                    }
+                    return;
+                }
+
                 if (uiState && uiState.activeActionCursor) {
                     const cur = uiState.activeActionCursor;
                     const cmd = {
@@ -651,10 +611,40 @@ function bindCombatPanel(opts) {
             };
             row.oncontextmenu = (ev) => {
                 ev.preventDefault();
+                if (consumeSuppressNextContextMenu()) return;
                 const sim = typeof o.getSim === 'function' ? o.getSim() : null;
                 const player = sim ? getActivePlayerFromSim(sim) : null;
                 if (!player || !sim || !c || c.id == null || c.alive === false) return;
                 if (typeof document === 'undefined') return;
+
+                // Stage 7: Classic RMB while LMB held → Look creature
+                const mode =
+                    uiState && uiState.mouseControlMode != null
+                        ? Number(uiState.mouseControlMode)
+                        : 1;
+                if (
+                    isClassicLookChord({
+                        mode,
+                        button: 'right',
+                        leftPressed: isMouseButtonDown('left'),
+                        rightPressed: true
+                    })
+                ) {
+                    hideCombatContextMenu();
+                    if (sim && typeof sim.emitCombatText === 'function') {
+                        const t = c.tile || player.tile || {};
+                        sim.emitCombatText({
+                            x: t.x || 0,
+                            y: t.y || 0,
+                            z: t.z,
+                            text: creatureLookText(c),
+                            color: '#f59e0b',
+                            life: 1.1
+                        });
+                    }
+                    return;
+                }
+
                 hideCombatContextMenu();
                 activeCombatCtxMenu = document.createElement('div');
                 activeCombatCtxMenu.className = 'inv-context-menu';
@@ -961,14 +951,15 @@ function bindPartyPanel(opts) {
 }
 
 /**
- * Bind combat + party panels with a single shared poll timer.
+ * Bind combat + party + skills panels with a single shared poll timer.
  * @param {object} opts
  * @param {() => object|null} opts.getSim
  * @param {() => object[]} [opts.getIdleMembers]
+ * @param {() => object|null} [opts.getIdleMember] active idle member for skills
  * @param {() => boolean} [opts.isSessionLive]
  * @param {() => string} [opts.getGenre]
  * @param {number} [opts.intervalMs=250]
- * @returns {{ refresh: () => void, dispose: () => void, combat: { refresh: () => void, dispose: () => void }, party: { refresh: () => void, dispose: () => void } }}
+ * @returns {{ refresh: () => void, dispose: () => void, combat: { refresh: () => void, dispose: () => void }, party: { refresh: () => void, dispose: () => void }, skills: { refresh: () => void, dispose: () => void } }}
  */
 function bindRosterPanels(opts) {
     const o = opts || {};
@@ -977,10 +968,29 @@ function bindRosterPanels(opts) {
     const shared = Object.assign({}, o, { intervalMs: 0 });
     const combat = bindCombatPanel(shared);
     const party = bindPartyPanel(shared);
+    const skills = bindSkillsPanel({
+        getSim: o.getSim,
+        isSessionLive: o.isSessionLive,
+        getIdleMember:
+            typeof o.getIdleMember === 'function'
+                ? o.getIdleMember
+                : () => {
+                      const list =
+                          typeof o.getIdleMembers === 'function'
+                              ? o.getIdleMembers() || []
+                              : [];
+                      for (let i = 0; i < list.length; i++) {
+                          if (list[i] && list[i].enabled !== false) return list[i];
+                      }
+                      return null;
+                  },
+        intervalMs: 0
+    });
 
     const refresh = () => {
         combat.refresh();
         party.refresh();
+        skills.refresh();
     };
 
     let timer = null;
@@ -1016,9 +1026,11 @@ function bindRosterPanels(opts) {
             timer = null;
             combat.dispose();
             party.dispose();
+            skills.dispose();
         },
         combat,
-        party
+        party,
+        skills
     };
 }
 
@@ -1062,8 +1074,10 @@ module.exports = {
     sortCreatures,
     resolveEntitySpriteIcon,
     bindCollapsiblePanels,
+    bindSidebarPanels,
     bindCombatPanel,
     bindPartyPanel,
+    bindSkillsPanel,
     bindRosterPanels,
     cycleCombatTarget,
     hideCombatContextMenu,

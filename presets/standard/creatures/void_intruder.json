@@ -68,11 +68,18 @@
             "chance": 20,
             "range": 4,
             "element": "energy",
-            "min": 151,
-            "max": 227,
+            "min": 0,
+            "max": 0,
             "radius": 5,
             "target": false,
-            "effect": "me_energyhit"
+            "effect": "me_energyhit",
+            "statusOnly": true,
+            "condition": {
+                "type": "energy",
+                "totalDamage": 227,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
         },
         {
             "id": "area_2",

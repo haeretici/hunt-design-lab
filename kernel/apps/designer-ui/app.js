@@ -253,7 +253,11 @@ function schemasRoot() {
  * @param {{ method?: string }} [opts]
  */
 async function apiCall(action, params = {}, opts = {}) {
-    const writeActions = new Set(['presets_save', 'presets_delete']);
+    const writeActions = new Set([
+        'presets_save',
+        'presets_rename',
+        'presets_delete'
+    ]);
     const method = (
         opts.method || (writeActions.has(action) ? 'POST' : 'GET')
     ).toUpperCase();
@@ -349,6 +353,55 @@ function getValueByPath(obj, path) {
     return curr;
 }
 
+/** Shown under form + header id: save never renames. */
+const ENTITY_ID_DESCRIPTION =
+    'Snake_case entity id (file stem or catalog row). ' +
+    'To change id on a saved entity, use toolbar Rename (updates soft refs) — Save does not rename.';
+
+/**
+ * Ensure top-level properties.id has a description (json-editor description text).
+ * Expands $ref so draft-07 does not drop sibling description keywords.
+ * @param {Record<string, unknown>} schema
+ * @returns {Record<string, unknown>}
+ */
+function annotateEntityIdDescription(schema) {
+    const out = /** @type {Record<string, unknown>} */ (cloneJson(schema));
+    const props = /** @type {Record<string, unknown>|undefined} */ (
+        out.properties
+    );
+    if (!props || typeof props !== 'object') return out;
+
+    const idProp = props.id;
+    if (!idProp || typeof idProp !== 'object') {
+        props.id = {
+            type: 'string',
+            description: ENTITY_ID_DESCRIPTION
+        };
+        return out;
+    }
+
+    const idObj = /** @type {Record<string, unknown>} */ (cloneJson(idProp));
+    if (
+        typeof idObj.$ref === 'string' &&
+        idObj.$ref === '#/definitions/entityId'
+    ) {
+        const defs = /** @type {Record<string, unknown>} */ (
+            out.definitions || {}
+        );
+        const entityIdDef = defs.entityId;
+        if (entityIdDef && typeof entityIdDef === 'object') {
+            props.id = {
+                .../** @type {object} */ (cloneJson(entityIdDef)),
+                description: ENTITY_ID_DESCRIPTION
+            };
+            return out;
+        }
+    }
+    idObj.description = ENTITY_ID_DESCRIPTION;
+    props.id = idObj;
+    return out;
+}
+
 /**
  * Build a single-entity schema from a catalog document schema, or pass through folder schemas.
  * @param {Record<string, unknown>} schemaDoc
@@ -358,14 +411,16 @@ function getValueByPath(obj, path) {
 function entitySchemaFromDoc(schemaDoc, defKey) {
     if (!defKey) {
         // Folder entity schema is already the entity shape.
-        return /** @type {Record<string, unknown>} */ (cloneJson(schemaDoc));
+        return annotateEntityIdDescription(
+            /** @type {Record<string, unknown>} */ (cloneJson(schemaDoc))
+        );
     }
     const defs = /** @type {Record<string, unknown>} */ (
         schemaDoc.definitions || {}
     );
     const def = defs[defKey];
     if (!def || typeof def !== 'object') {
-        return {
+        return annotateEntityIdDescription({
             type: 'object',
             additionalProperties: true,
             properties: {
@@ -373,14 +428,14 @@ function entitySchemaFromDoc(schemaDoc, defKey) {
                 label: { type: 'string' }
             },
             required: ['id']
-        };
+        });
     }
-    return {
+    return annotateEntityIdDescription({
         $schema: 'http://json-schema.org/draft-07/schema#',
         title: String(/** @type {{ title?: string }} */ (def).title || defKey),
         definitions: cloneJson(defs),
         .../** @type {object} */ (cloneJson(def))
-    };
+    });
 }
 
 /**
@@ -624,6 +679,7 @@ async function initDesignerUiApp() {
         form: document.getElementById('duForm'),
         empty: document.getElementById('duEmpty'),
         id: /** @type {HTMLInputElement|null} */ (document.getElementById('duId')),
+        idHint: document.getElementById('duIdHint'),
         editorHolder: document.getElementById('duEditorHolder'),
         json: /** @type {HTMLTextAreaElement|null} */ (
             document.getElementById('duJson')
@@ -641,6 +697,9 @@ async function initDesignerUiApp() {
         ),
         duplicateBtn: /** @type {HTMLButtonElement|null} */ (
             document.getElementById('duDuplicateBtn')
+        ),
+        renameBtn: /** @type {HTMLButtonElement|null} */ (
+            document.getElementById('duRenameBtn')
         ),
         formatBtn: /** @type {HTMLButtonElement|null} */ (
             document.getElementById('duFormatBtn')
@@ -1485,6 +1544,7 @@ async function initDesignerUiApp() {
         if (els.pathHint) els.pathHint.textContent = '';
         if (els.deleteBtn) els.deleteBtn.disabled = true;
         if (els.duplicateBtn) els.duplicateBtn.disabled = true;
+        if (els.renameBtn) els.renameBtn.disabled = true;
         if (els.formatBtn) els.formatBtn.disabled = true;
         if (els.saveBtn) els.saveBtn.disabled = true;
         if (els.viewFormBtn) els.viewFormBtn.disabled = true;
@@ -1514,9 +1574,18 @@ async function initDesignerUiApp() {
         if (els.form) els.form.hidden = false;
 
         const id = String(entity.id || meta.id || '');
+        const idLocked = !isNew && !!meta.id;
         if (els.id) {
             els.id.value = id;
-            els.id.readOnly = !isNew && !!meta.id;
+            els.id.readOnly = idLocked;
+            els.id.title = idLocked
+                ? 'Id is locked. Use Rename to change it (updates soft references).'
+                : 'Snake_case entity id (e.g. fire_wave)';
+        }
+        if (els.idHint) {
+            els.idHint.innerHTML = idLocked
+                ? 'Id is locked. Use toolbar <strong>Rename</strong> to change it (updates soft refs). Save does not rename.'
+                : 'snake_case id (e.g. <code>fire_wave</code>). Use <strong>Rename</strong> to change id on a saved entity (updates soft refs).';
         }
 
         if (els.editingId) {
@@ -1529,6 +1598,8 @@ async function initDesignerUiApp() {
         }
         if (els.deleteBtn) els.deleteBtn.disabled = isNew;
         if (els.duplicateBtn) els.duplicateBtn.disabled = isNew;
+        // Rename only for already-saved entities (id is locked in the form).
+        if (els.renameBtn) els.renameBtn.disabled = isNew || !meta.id;
         if (els.saveBtn) els.saveBtn.disabled = false;
         clearValidateReport();
         updateValidateBtn();
@@ -1721,8 +1792,15 @@ async function initDesignerUiApp() {
             return;
         }
 
-        const renameFrom =
-            !isNew && loadedId && loadedId !== parsed.id ? loadedId : null;
+        // Save never renames: id changes go through renameEntity() so soft refs update.
+        if (!isNew && loadedId && parsed.id !== loadedId) {
+            showError(
+                `Entity id is locked to "${loadedId}". Use Rename to change it (and update references).`
+            );
+            status('Use Rename to change id');
+            if (els.id) els.id.value = loadedId;
+            return;
+        }
 
         status(`Saving ${parsed.id}…`);
         try {
@@ -1730,8 +1808,7 @@ async function initDesignerUiApp() {
                 mode: modeId,
                 kind,
                 id: parsed.id,
-                entity: parsed.entity,
-                renameFrom: renameFrom || undefined
+                entity: parsed.entity
             });
             clearIdsCache();
             await refreshList();
@@ -1755,6 +1832,109 @@ async function initDesignerUiApp() {
             showError(msg);
             status('Save failed');
             alert('Save failed:\n' + msg);
+        }
+    }
+
+    /**
+     * Explicit rename for a saved entity: changes file/row id and rewrites soft refs.
+     */
+    async function renameEntity() {
+        if (isNew || !loadedId) {
+            showError('Save the entity before renaming.');
+            return;
+        }
+        if (dirty) {
+            showError('Save or discard unsaved changes before renaming.');
+            status('Save before rename');
+            return;
+        }
+
+        const fromId = loadedId;
+        const suggested = fromId;
+        const raw = window.prompt(
+            `Rename ${kind} "${fromId}" to a new snake_case id.\nSoft references (populations, parties, hunts, …) will be updated.`,
+            suggested
+        );
+        if (raw == null) return;
+        const toId = String(raw).trim().toLowerCase();
+        if (!toId || toId === fromId) {
+            status('Rename cancelled');
+            return;
+        }
+        if (!ID_RE.test(toId)) {
+            showError('Invalid entity id (snake_case, e.g. fire_wave)');
+            return;
+        }
+
+        /** @type {Array<{kind?: string, id?: string, field?: string}>} */
+        let refs = [];
+        try {
+            const refData = await apiCall('presets_refs', {
+                mode: modeId,
+                kind,
+                id: fromId
+            });
+            refs = Array.isArray(refData.refs) ? refData.refs : [];
+        } catch (_) {
+            refs = [];
+        }
+
+        const refLines =
+            refs.length > 0
+                ? '\n\nWill update ' +
+                  refs.length +
+                  ' soft reference(s):\n- ' +
+                  refs
+                      .slice(0, 12)
+                      .map((r) => {
+                          const k = r && r.kind != null ? String(r.kind) : '?';
+                          const rid = r && r.id != null ? String(r.id) : '?';
+                          const field = r && r.field != null ? String(r.field) : '';
+                          return `${k}/${rid}` + (field ? ` (${field})` : '');
+                      })
+                      .join('\n- ') +
+                  (refs.length > 12 ? `\n…and ${refs.length - 12} more` : '')
+                : '\n\nNo soft references found for this id.';
+
+        const ok = window.confirm(
+            `Rename ${kind} "${fromId}" → "${toId}"?${refLines}`
+        );
+        if (!ok) {
+            status('Rename cancelled');
+            return;
+        }
+
+        showError(null);
+        status(`Renaming ${fromId} → ${toId}…`);
+        try {
+            const data = await apiCall('presets_rename', {
+                mode: modeId,
+                kind,
+                from: fromId,
+                to: toId,
+                updateRefs: true
+            });
+            clearIdsCache();
+            await refreshList();
+            await loadEntity(String(data.id || toId), {
+                updateUrl: true,
+                replaceUrl: true
+            });
+            const n =
+                typeof data.refsUpdatedCount === 'number'
+                    ? data.refsUpdatedCount
+                    : Array.isArray(data.refsUpdated)
+                      ? data.refsUpdated.length
+                      : 0;
+            status(
+                `Renamed ${fromId} → ${data.id || toId}` +
+                    (n > 0 ? ` · updated ${n} reference(s)` : '')
+            );
+        } catch (e) {
+            const msg = e.message || String(e);
+            showError(msg);
+            status('Rename failed');
+            alert('Rename failed:\n' + msg);
         }
     }
 
@@ -2018,6 +2198,11 @@ async function initDesignerUiApp() {
             } catch (e) {
                 showError(e.message || String(e));
             }
+        });
+    }
+    if (els.renameBtn) {
+        els.renameBtn.addEventListener('click', () => {
+            renameEntity().catch((e) => showError(e.message || String(e)));
         });
     }
     if (els.newBtn) {

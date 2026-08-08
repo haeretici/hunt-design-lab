@@ -30,8 +30,13 @@ const {
 } = require('../kernel/core/lib/dungeon/stitch.js');
 const {
     loadPiecePack,
-    listPiecePackIds
+    listPiecePackIds,
+    loadDungeonProfile,
+    listDungeonProfileIds
 } = require('../kernel/core/lib/presets.js');
+const {
+    generateFixedLayout
+} = require('../kernel/core/lib/dungeon/layout/fixed.js');
 const { setActiveMode } = require('../kernel/core/lib/modes.js');
 const {
     TileMap,
@@ -345,12 +350,214 @@ function testEmptyAndOverlap() {
     log('empty/overlap ok');
 }
 
+/**
+ * Assert every spine point is walkable on a generated fixed layout.
+ * @param {object} gen
+ * @param {string} label
+ */
+function assertGenSpineWalkable(gen, label) {
+    assert.ok(gen.ok, `${label} generateFixedLayout ok`);
+    assert.ok(gen.entrance, `${label} entrance`);
+    assert.ok(gen.exit, `${label} exit`);
+    const map = new TileMap();
+    map.loadFloorFromFriction(0, gen.cols, gen.rows, gen.friction);
+    assert.ok(
+        map.isWalkable(gen.entrance.x, gen.entrance.y, 0),
+        `${label} entrance walkable`
+    );
+    assert.ok(
+        map.isWalkable(gen.exit.x, gen.exit.y, 0),
+        `${label} exit walkable`
+    );
+    const wps = gen.waypoints || [];
+    assert.ok(wps.length >= 2, `${label} waypoints`);
+    for (let i = 0; i < wps.length; i++) {
+        const w = wps[i];
+        assert.ok(
+            map.isWalkable(w.x, w.y, 0),
+            `${label} waypoint[${i}] walkable (${w.x},${w.y})`
+        );
+    }
+    const path = findPath(
+        map,
+        { x: gen.entrance.x, y: gen.entrance.y, z: 0 },
+        { x: gen.exit.x, y: gen.exit.y, z: 0 },
+        { allowDiagonal: false, maxDistance: 200, maxIterations: 8192 }
+    );
+    assert.ok(path && path.length > 1, `${label} entrance→exit path`);
+}
+
+/**
+ * Smoke: arena_combat_v1 (4 open combat shells) + rest_area_v1 (3 portal lobbies).
+ * Rest stairs must keep dir and sit on walkable interior cells (normalizeStairList drops dir-less).
+ * Shell profiles omit populationId and spine fields so piece sockets drive multi-piece pick.
+ */
+function testArenaAndRestPacks() {
+    setActiveMode('standard');
+    const packIds = listPiecePackIds();
+    assert.ok(packIds.indexOf('arena_combat_v1') >= 0, 'arena_combat_v1 listed');
+    assert.ok(packIds.indexOf('rest_area_v1') >= 0, 'rest_area_v1 listed');
+
+    const arena = normalizePiecePack(loadPiecePack('arena_combat_v1'));
+    assert.ok(arena);
+    assert.strictEqual(arena.id, 'arena_combat_v1');
+    assert.strictEqual(arena.pieces.length, 4);
+    const arenaIds = [
+        'arena_open_24',
+        'arena_pillars_24',
+        'arena_ring_22',
+        'arena_split_26'
+    ];
+    for (let i = 0; i < arenaIds.length; i++) {
+        const p = arena.byId[arenaIds[i]];
+        assert.ok(p, arenaIds[i]);
+        assert.strictEqual(p.exits.N, false);
+        assert.strictEqual(p.exits.S, false);
+        assert.strictEqual(p.exits.E, false);
+        assert.strictEqual(p.exits.W, false);
+        assert.ok(p.sockets.spawns.length >= 4 && p.sockets.spawns.length <= 8);
+        assert.ok(p.sockets.waypoints.length >= 4 && p.sockets.waypoints.length <= 6);
+        assert.strictEqual(p.sockets.stairs.length, 0);
+        assert.ok(p.tags.indexOf('arena') >= 0);
+        assert.ok(p.tags.indexOf('combat') >= 0);
+        for (let j = 0; j < p.sockets.spawns.length; j++) {
+            const s = p.sockets.spawns[j];
+            assert.notStrictEqual(
+                p.friction[s.y * p.size.w + s.x],
+                FRICTION_BLOCKED,
+                `${p.id} spawn walkable`
+            );
+        }
+        for (let j = 0; j < p.sockets.waypoints.length; j++) {
+            const s = p.sockets.waypoints[j];
+            assert.notStrictEqual(
+                p.friction[s.y * p.size.w + s.x],
+                FRICTION_BLOCKED,
+                `${p.id} waypoint walkable`
+            );
+        }
+    }
+
+    const rest = normalizePiecePack(loadPiecePack('rest_area_v1'));
+    assert.ok(rest);
+    assert.strictEqual(rest.id, 'rest_area_v1');
+    assert.strictEqual(rest.pieces.length, 3);
+    const restIds = ['rest_square_14', 'rest_alcove_12', 'rest_hall_16'];
+    for (let i = 0; i < restIds.length; i++) {
+        const p = rest.byId[restIds[i]];
+        assert.ok(p, restIds[i]);
+        assert.strictEqual(p.exits.N, false, `${p.id} closed N`);
+        assert.strictEqual(p.exits.S, false, `${p.id} closed S`);
+        assert.strictEqual(p.exits.E, false, `${p.id} closed E`);
+        assert.strictEqual(p.exits.W, false, `${p.id} closed W`);
+        assert.ok(p.tags.indexOf('rest') >= 0);
+        assert.ok(p.tags.indexOf('portal') >= 0);
+        assert.strictEqual(p.sockets.stairs.length, 1, `${p.id} has one stair`);
+        const st = p.sockets.stairs[0];
+        assert.strictEqual(st.dir, 'down', `${p.id} stair dir=down`);
+        assert.strictEqual(st.link, 'portal', `${p.id} stair link=portal`);
+        assert.notStrictEqual(
+            p.friction[st.y * p.size.w + st.x],
+            FRICTION_BLOCKED,
+            `${p.id} stair on walkable`
+        );
+        assert.ok(p.sockets.waypoints.length >= 2);
+        const nearPortal = p.sockets.waypoints.some(
+            (w) => Math.abs(w.x - st.x) + Math.abs(w.y - st.y) <= 2
+        );
+        assert.ok(nearPortal, `${p.id} waypoint near portal`);
+    }
+    // rest_alcove_12: cave_clickies pool letter B → rest_well object
+    const alcove = rest.byId.rest_alcove_12;
+    const well = alcove.sockets.markers.find((m) => m.id === 'B');
+    assert.ok(well, 'alcove marker letter B');
+    assert.notStrictEqual(
+        alcove.friction[well.y * alcove.size.w + well.x],
+        FRICTION_BLOCKED,
+        'alcove marker walkable'
+    );
+
+    // Shell dungeon profiles: pack wired, populationId + spine fields omitted
+    const profileIds = listDungeonProfileIds();
+    assert.ok(profileIds.indexOf('arena_combat_shell') >= 0);
+    assert.ok(profileIds.indexOf('rest_area_shell') >= 0);
+
+    const arenaShell = loadDungeonProfile('arena_combat_shell');
+    assert.strictEqual(arenaShell.piecePack, 'arena_combat_v1');
+    assert.ok(
+        arenaShell.populationId == null,
+        'arena shell omits populationId'
+    );
+    assert.ok(arenaShell.entrance == null, 'arena shell omits entrance');
+    assert.ok(arenaShell.exit == null, 'arena shell omits exit');
+    assert.ok(
+        arenaShell.waypoints == null ||
+            (Array.isArray(arenaShell.waypoints) &&
+                arenaShell.waypoints.length === 0),
+        'arena shell omits waypoints'
+    );
+    assert.ok(Array.isArray(arenaShell.placements) && arenaShell.placements.length >= 1);
+
+    const restShell = loadDungeonProfile('rest_area_shell');
+    assert.strictEqual(restShell.piecePack, 'rest_area_v1');
+    assert.ok(restShell.populationId == null, 'rest shell omits populationId');
+    assert.ok(restShell.entrance == null, 'rest shell omits entrance');
+    assert.ok(restShell.exit == null, 'rest shell omits exit');
+    assert.ok(
+        restShell.waypoints == null ||
+            (Array.isArray(restShell.waypoints) && restShell.waypoints.length === 0),
+        'rest shell omits waypoints'
+    );
+
+    // PR2 consumption path: spread shell, overwrite placements only → piece sockets drive spine
+    for (let i = 0; i < arenaIds.length; i++) {
+        const pieceId = arenaIds[i];
+        const gen = generateFixedLayout({
+            profile: Object.assign({}, arenaShell, {
+                placements: [{ pieceId, x: 0, y: 0 }]
+            }),
+            pack: arena,
+            seed: 1,
+            z: 0
+        });
+        assertGenSpineWalkable(gen, `arena ${pieceId}`);
+    }
+
+    for (let i = 0; i < restIds.length; i++) {
+        const pieceId = restIds[i];
+        const gen = generateFixedLayout({
+            profile: Object.assign({}, restShell, {
+                placements: [{ pieceId, x: 0, y: 0 }]
+            }),
+            pack: rest,
+            seed: 1,
+            z: 0
+        });
+        assertGenSpineWalkable(gen, `rest ${pieceId}`);
+        const stairs = (gen.sockets && gen.sockets.stairs) || [];
+        assert.strictEqual(stairs.length, 1, `${pieceId} gen stairs`);
+        assert.strictEqual(stairs[0].dir, 'down', `${pieceId} gen stair dir`);
+        assert.strictEqual(stairs[0].link, 'portal', `${pieceId} gen stair link`);
+        assert.notStrictEqual(
+            gen.friction[stairs[0].y * gen.cols + stairs[0].x],
+            FRICTION_BLOCKED,
+            `${pieceId} gen stair walkable`
+        );
+    }
+
+    log('arena/rest packs ok', {
+        arenaPieces: arena.pieces.length,
+        restPieces: rest.pieces.length
+    });
+}
+
 function main() {
     testParseFrictionAndNormalize();
     testCardinalMatching();
     testStitchCorridorAndPathfind();
     testStandardPiecePack();
     testEmptyAndOverlap();
+    testArenaAndRestPacks();
     console.log('dungeon_pieces: ok');
 }
 

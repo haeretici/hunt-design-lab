@@ -205,7 +205,7 @@ function isAutoAttackId(id) {
  *
  * When `opts.canReach` is provided, spells that fail reach (including self-AoE
  * with no hostiles on the footprint) are skipped so later priority entries can
- * fire — e.g. divine_caldera out of blast range must not block ethereal_spear.
+ * fire — e.g. radiant_crater out of blast range must not block spirit_javelin.
  *
  * @param {object} strategy
  * @param {object} attacker

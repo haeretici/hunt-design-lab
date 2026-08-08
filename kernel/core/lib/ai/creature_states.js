@@ -8,6 +8,7 @@
 
 const { Settings } = require('../../../settings.js');
 const { isValidTarget, distBetween } = require('./targeting.js');
+const { isCreatureChallenged } = require('../combat/resolve.js');
 const {
     stepToward,
     stepRandomAdjacent,
@@ -29,6 +30,36 @@ const {
     strategyRetargetDue,
     isPartyOwnedSummon
 } = require('./creature_kit.js');
+
+/**
+ * Resolve the forced challenge target while challenge focus is active.
+ * Clears stale locks when the challenger is dead / invalid.
+ * @param {object} owner
+ * @param {object} ctx
+ * @returns {object|null}
+ */
+function resolveChallengeTarget(owner, ctx) {
+    if (!owner || !isCreatureChallenged(owner)) return null;
+    let t = null;
+    if (
+        owner.challengedById != null &&
+        ctx &&
+        ctx.sim &&
+        typeof ctx.sim.getEntityById === 'function'
+    ) {
+        t = ctx.sim.getEntityById(owner.challengedById);
+    }
+    if (!t && owner.target && owner.target.id === owner.challengedById) {
+        t = owner.target;
+    }
+    if (!t && owner.target) t = owner.target;
+    if (!isValidTarget(owner, t)) {
+        owner.challengeUntil = 0;
+        owner.challengedById = null;
+        return null;
+    }
+    return t;
+}
 
 /**
  * Target candidate pool for creature AI.
@@ -273,6 +304,22 @@ function runCombatTick(owner, ctx) {
     // Age threat table even while sticky so damage-strategy re-rolls see decay.
     applyThreatDecay(owner);
 
+    // Challenge / taunt: lock target onto the challenger (legacy challengeFocusDuration).
+    // Skips strategy retarget and normal pick while the lock holds.
+    const forced = resolveChallengeTarget(owner, ctx);
+    if (forced) {
+        setTarget(owner, forced);
+        tryCreatureAttacks(owner, forced, ctx);
+        if (!isValidTarget(owner, forced)) {
+            clearTarget(owner);
+            owner.challengeUntil = 0;
+            owner.challengedById = null;
+            return 'no_target';
+        }
+        combatMove(owner, forced, ctx);
+        return 'ok';
+    }
+
     const pool = aggroPool(owner, ctx);
     let target = resolveTarget(owner, ctx);
     if (!target) {
@@ -328,6 +375,15 @@ const Idle = {
         // Static / speed 0 training dummies never aggro
         if (owner.speed <= 0 && owner.aggro === false) return;
         if (owner.aggro === false) return;
+
+        // Taunt may have stamped target while Idle — enter combat immediately.
+        const challenged = resolveChallengeTarget(owner, ctx);
+        if (challenged) {
+            setTarget(owner, challenged);
+            armStrategyRetarget(owner);
+            changeCreatureState(owner, Aggro);
+            return;
+        }
 
         const idlePool = aggroPool(owner, ctx);
         const t = pickCreatureTarget(owner, idlePool.list, {
@@ -411,6 +467,16 @@ const Retarget = {
     execute(owner, ctx) {
         if (!owner.alive) return;
         ensureKit(owner);
+
+        // Do not drop a challenge lock when entering retarget.
+        const challenged = resolveChallengeTarget(owner, ctx);
+        if (challenged) {
+            setTarget(owner, challenged);
+            armStrategyRetarget(owner);
+            changeCreatureState(owner, Aggro);
+            return;
+        }
+
         clearTarget(owner);
 
         if (beyondLeash(owner)) {
@@ -535,5 +601,6 @@ module.exports = {
     tryEngagedAttacks,
     beyondLeash,
     insideLeashReaggro,
-    leashReaggroRange
+    leashReaggroRange,
+    resolveChallengeTarget
 };

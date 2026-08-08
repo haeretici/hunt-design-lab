@@ -4,24 +4,24 @@
     "source": "pipeline",
     "displayScale": 1,
     "notes": "An ice dragon.",
-    "hp": 1800,
-    "hpMax": 1800,
+    "hp": 2500,
+    "hpMax": 2500,
     "speed": 106,
-    "level": 484,
-    "armor": 38,
-    "mitigation": 1.07,
+    "level": 516,
+    "armor": 41,
+    "mitigation": 1.13,
     "maxBlock": 0,
-    "exp": 2100,
-    "lootValue": 300.86115901252,
+    "exp": 2300,
+    "lootValue": 506.13046495489,
     "aggro": true,
     "resists": {
-        "physical": 5,
-        "fire": 100,
+        "physical": -5,
+        "fire": -30,
         "ice": 100,
         "energy": 0,
-        "earth": 0,
+        "earth": 50,
         "holy": 0,
-        "death": 10
+        "death": 0
     },
     "canBlock": false,
     "strategiesTarget": {
@@ -32,8 +32,8 @@
     },
     "flags": {
         "targetDistance": 1,
-        "runHealth": 250,
-        "staticAttackChance": 70,
+        "runHealth": 350,
+        "staticAttackChance": 90,
         "aggroRange": 7,
         "loseTargetDistance": 12,
         "summonable": false,
@@ -47,131 +47,63 @@
         "canPushCreatures": true,
         "healthHidden": false,
         "canWalkOnEnergy": false,
-        "canWalkOnFire": true,
-        "canWalkOnPoison": true
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
     },
     "attacks": [
         {
-            "id": "melee_0",
-            "kind": "melee",
+            "id": "speed_1",
+            "kind": "area",
             "intervalMs": 2000,
-            "chance": 100,
-            "range": 1,
-            "element": "physical",
-            "min": 0,
-            "max": 167
-        },
-        {
-            "id": "wave_1",
-            "kind": "wave",
-            "intervalMs": 2000,
-            "chance": 10,
-            "range": 4,
-            "element": "lifedrain",
-            "min": 130,
-            "max": 281,
-            "length": 8,
-            "spread": 3,
-            "target": false,
-            "effect": "me_poff"
-        },
-        {
-            "id": "slow_2",
-            "kind": "status",
-            "intervalMs": 2000,
-            "chance": 5,
-            "range": 4,
-            "element": "physical",
-            "min": 0,
-            "max": 0,
-            "statusOnly": true,
-            "condition": {
-                "type": "slow",
-                "speedChange": -700,
-                "durationSec": 12
-            },
-            "radius": 3,
-            "effect": "me_poff",
-            "target": false
-        },
-        {
-            "id": "slow_3",
-            "kind": "status",
-            "intervalMs": 2000,
-            "chance": 15,
+            "chance": 18,
             "range": 7,
             "element": "physical",
             "min": 0,
-            "max": 0,
-            "statusOnly": true,
-            "condition": {
-                "type": "slow",
-                "speedChange": -850,
-                "durationSec": 18
-            },
-            "length": 7,
-            "spread": 3,
-            "effect": "me_iceattack",
-            "target": false
+            "max": 568,
+            "radius": 4,
+            "target": true,
+            "effect": "me_icetornado"
         },
         {
-            "id": "area_4",
+            "id": "area_2",
             "kind": "area",
             "intervalMs": 2000,
-            "chance": 5,
-            "range": 4,
+            "chance": 15,
+            "range": 7,
             "element": "ice",
-            "min": 44,
-            "max": 89,
+            "min": 71,
+            "max": 170,
             "radius": 3,
             "target": false,
             "effect": "me_icetornado"
         },
         {
-            "id": "area_5",
-            "kind": "area",
-            "intervalMs": 2000,
-            "chance": 10,
-            "range": 4,
-            "element": "ice",
-            "min": 74,
-            "max": 178,
-            "radius": 4,
-            "target": true,
-            "effect": "me_icearea"
-        },
-        {
-            "id": "wave_6",
+            "id": "speed_3",
             "kind": "wave",
             "intervalMs": 2000,
-            "chance": 5,
+            "chance": 12,
             "range": 4,
             "element": "physical",
             "min": 0,
-            "max": 163,
-            "length": 1,
+            "max": 568,
+            "length": 7,
+            "spread": 3,
+            "target": false,
+            "effect": "me_iceattack"
+        },
+        {
+            "id": "wave_4",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 12,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 213,
+            "max": 540,
+            "length": 8,
             "spread": 3,
             "target": false,
             "effect": "me_poff"
-        },
-        {
-            "id": "slow_7",
-            "kind": "status",
-            "intervalMs": 2000,
-            "chance": 20,
-            "range": 4,
-            "element": "physical",
-            "min": 0,
-            "max": 0,
-            "statusOnly": true,
-            "condition": {
-                "type": "slow",
-                "speedChange": -600,
-                "durationSec": 12
-            },
-            "radius": 4,
-            "effect": "me_icearea",
-            "target": true
         }
     ],
     "defenseSpells": [
@@ -179,20 +111,11 @@
             "id": "heal_0",
             "kind": "heal",
             "intervalMs": 2000,
-            "chance": 10,
+            "chance": 16,
             "min": 150,
             "max": 200,
             "hpBelow": 0.7,
             "effect": "me_magic_blue"
-        },
-        {
-            "id": "haste_1",
-            "kind": "haste",
-            "intervalMs": 2000,
-            "chance": 15,
-            "speedChange": 290,
-            "durationSec": 5,
-            "effect": "me_magic_red"
         }
     ],
     "race": "undead",
@@ -203,84 +126,81 @@
         "secondUnlock": 500,
         "charmsPoints": 25,
         "stars": 3,
-        "occurrence": 0
+        "occurrence": 2
     },
     "loot": [
         {
-            "name": "gold coin",
-            "chance": 99110,
-            "maxCount": 207
+            "chance": 96850,
+            "maxCount": 216,
+            "name": "gold coin"
         },
         {
-            "name": "dragon ham",
-            "chance": 83040,
-            "maxCount": 2
+            "chance": 80020,
+            "maxCount": 2,
+            "name": "dragon ham"
         },
         {
-            "name": "green mushroom",
-            "chance": 10710
+            "chance": 78200,
+            "maxCount": 10,
+            "name": "shiver arrow"
         },
         {
-            "chance": 6250,
-            "name": "ice cube"
+            "chance": 40200,
+            "maxCount": 2,
+            "name": "great mana potion"
         },
         {
-            "chance": 8500,
-            "name": "book"
+            "chance": 52100,
+            "name": "small sapphire"
         },
         {
-            "name": "power bolt",
-            "chance": 5360,
-            "maxCount": 6
+            "chance": 18680,
+            "name": "dragon blood"
         },
         {
-            "name": "golden mug",
-            "chance": 5360
+            "chance": 11400,
+            "name": "dragon tongue"
         },
         {
-            "chance": 2680,
+            "chance": 49900,
             "name": "voltaic ring"
         },
         {
-            "name": "small sapphire",
-            "chance": 1790
+            "chance": 11900,
+            "name": "Frostbound Mask"
         },
         {
-            "name": "strange helmet",
-            "chance": 890
+            "chance": 21700,
+            "name": "golden mug"
         },
         {
-            "name": "life crystal",
-            "chance": 890
+            "chance": 21700,
+            "name": "Hailburst Rod"
         },
         {
-            "name": "shard",
-            "chance": 520
+            "chance": 43400,
+            "name": "ice cube"
         },
         {
-            "name": "ice rapier",
-            "chance": 310
+            "chance": 540,
+            "name": "Frostbound Amulet"
         },
         {
-            "name": "tower shield",
-            "chance": 290
+            "chance": 540,
+            "name": "life crystal"
         },
         {
-            "name": "royal helmet",
-            "chance": 230
+            "chance": 1090,
+            "name": "shard"
         },
         {
-            "name": "dragon scale mail",
-            "chance": 100
-        },
-        {
-            "name": "dragon slayer",
-            "chance": 100
+            "chance": 330,
+            "name": "dragon scale mail"
         }
     ],
     "changeTarget": {
-        "interval": 4000,
-        "chance": 10
+        "interval": 2000,
+        "chance": 5
     },
     "immunities": {
         "paralyze": true,
@@ -289,9 +209,9 @@
         "bleed": false
     },
     "customSprite": "wild_desert_dragon",
-    "threatDps": 62.025,
-    "burstDps": 62.025,
-    "avgHit": 95.4231,
-    "maxHit": 281,
+    "threatDps": 74.2275,
+    "burstDps": 74.2275,
+    "avgHit": 260.4474,
+    "maxHit": 568,
     "manaCost": 0
 }

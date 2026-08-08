@@ -7,6 +7,7 @@
  */
 
 const { tileDistance } = require('../movement.js');
+const { canSeeCreature } = require('../combat/conditions.js');
 
 /**
  * Living combatants from a list.
@@ -200,8 +201,9 @@ function isValidTarget(self, target) {
     if (target.hp && target.hp.current <= 0) return false;
     if (!self.tile || !target.tile) return false;
     if (String(self.tile.z) !== String(target.tile.z)) return false;
-    // Self-invisibility (defense_spells): drop as valid sticky target
-    if (target.invisible) return false;
+    // Invisible targets: only observers that can see invis keep them (legacy canSeeCreature).
+    // Most monsters with immunities.invisible can see; players typically cannot.
+    if (!canSeeCreature(self, target)) return false;
     return true;
 }
 

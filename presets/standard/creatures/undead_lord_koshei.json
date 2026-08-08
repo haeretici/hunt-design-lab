@@ -107,14 +107,21 @@
         },
         {
             "id": "condition_4",
-            "kind": "melee",
+            "kind": "status",
             "intervalMs": 3000,
             "chance": 15,
             "range": 1,
-            "element": "physical",
-            "min": 21,
-            "max": 21,
-            "target": false
+            "element": "death",
+            "min": 0,
+            "max": 0,
+            "target": false,
+            "statusOnly": true,
+            "condition": {
+                "type": "curse",
+                "totalDamage": 21,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
         },
         {
             "id": "slow_5",

@@ -2,9 +2,9 @@
  * AI think cadence helpers.
  *
  * Knobs live on Settings (AI_GATE_*, AI_THINK_PAD_*, AI_ENGAGE_*, AI_TARGET_*,
- * AI_RETARGET_INTERVAL, AI_REPATH_INTERVAL_TICKS).
+ * AI_RETARGET_INTERVAL, AI_REPATH_INTERVAL_SEC / TICKS, AI_CREATURE_THINK_INTERVAL_SEC).
  * Cooldowns always tick on Creature.update; these helpers only throttle decisions.
- * Retarget / repath intervals use logic-time regulators (Stage 12G.1).
+ * Retarget / repath / think intervals use logic-time regulators (Stage 12G.1 / Option B).
  */
 
 const { Settings } = require('../../../settings.js');
@@ -26,6 +26,9 @@ function setting(key, fallback) {
 
 /**
  * Whether the entity brain may run this logic tick (legacy: only when moveDelay ≤ 0).
+ * Creatures/summons also gate on AI_CREATURE_THINK_INTERVAL_SEC (Option B ~1 Hz).
+ * When gated by think interval, hunt_ai still runs tryEngagedAttacks for kit CDs.
+ *
  * @param {object} entity
  * @param {'player'|'creature'} [role='player']
  * @returns {boolean}
@@ -36,9 +39,51 @@ function brainReady(entity, role) {
         role === 'creature'
             ? setting('AI_GATE_CREATURE_ON_MOVE_DELAY', true)
             : setting('AI_GATE_BRAIN_ON_MOVE_DELAY', true);
-    if (!gate) return true;
-    const delay = Number(entity.moveDelay) || 0;
-    return delay <= 0;
+    if (gate) {
+        const delay = Number(entity.moveDelay) || 0;
+        if (delay > 0) return false;
+    }
+    if (role === 'creature' && !creatureThinkDue(entity)) {
+        return false;
+    }
+    return true;
+}
+
+/**
+ * Creature/summon full-brain cadence (logic seconds). Interval ≤ 0 → always due.
+ * @param {object} entity
+ * @returns {boolean}
+ */
+function creatureThinkDue(entity) {
+    if (!entity) return true;
+    const interval = Number(setting('AI_CREATURE_THINK_INTERVAL_SEC', 1.0));
+    if (!Number.isFinite(interval) || interval <= 0) return true;
+    const now =
+        Time && typeof Time.timeSinceLevelLoad === 'number'
+            ? Time.timeSinceLevelLoad
+            : 0;
+    return isLogicIntervalDue(entity, '_creatureThinkNextAt', interval, now);
+}
+
+/**
+ * Stagger optional repath phase by entity id (E7) so wave spawns do not all
+ * A* on the same second. Does not gate the first think — brainReady arms
+ * AI_CREATURE_THINK_INTERVAL_SEC on first free tick.
+ * @param {object} entity
+ */
+function seedCreaturePathPhase(entity) {
+    if (!entity) return;
+    const now =
+        Time && typeof Time.timeSinceLevelLoad === 'number'
+            ? Time.timeSinceLevelLoad
+            : 0;
+    const id = entity.id != null ? entity.id | 0 : 0;
+    const frac = ((id % 1000) + 1000) % 1000 / 1000;
+
+    const repathSec = Number(setting('AI_REPATH_INTERVAL_SEC', 2.0));
+    if (Number.isFinite(repathSec) && repathSec > 0) {
+        entity._repathNextAt = now + frac * repathSec;
+    }
 }
 
 /**
@@ -207,6 +252,8 @@ function clearCircleRetry(owner) {
 
 module.exports = {
     brainReady,
+    creatureThinkDue,
+    seedCreaturePathPhase,
     applyThinkPad,
     evaluateEngageWant,
     targetDistancePolicy,

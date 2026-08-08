@@ -100,10 +100,17 @@
             "range": 4,
             "element": "earth",
             "min": 0,
-            "max": 221,
+            "max": 0,
             "radius": 5,
             "target": false,
-            "effect": "me_poisonarea"
+            "effect": "me_poisonarea",
+            "statusOnly": true,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 221,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
         }
     ],
     "race": "venom",

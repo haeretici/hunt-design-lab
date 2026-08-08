@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 /**
  * Stage 3 exit criteria: movement delay, party ghost-walk on floor-07,
- * no illegal tile overlap, seed-stable step log.
+ * occupancy invariants (player stacks legal; entity on at most one tile),
+ * seed-stable step log.
  * Quiet on success; VERBOSE=1 for detail.
  */
 
@@ -409,7 +410,7 @@ async function testFloor07PartyWalk() {
 }
 
 async function testNoIllegalOverlapDuringWalk() {
-    // Instrumented sim: after every tick, occupancy ids unique
+    // Instrumented sim: each entity on at most one tile; player stacks legal.
     const sim = new Simulator({
         seed: 7,
         floor: 7,
@@ -427,34 +428,60 @@ async function testNoIllegalOverlapDuringWalk() {
     });
     await sim.start();
 
-    const z = 7;
     let frames = 0;
+    let sawPlayerStack = false;
     while (!sim.allRoutesComplete() && frames < 4000) {
         Time.advanceFixedLogicStep();
         sim.updateAll();
         frames += 1;
-        assertNoStack(sim.tileMap, z);
-        // Cross-check member tiles match occupancy
-        const positions = new Map();
+        // Entity id appears on at most one occupancy cell (stack uses sparse map)
         for (const party of sim.parties) {
             for (const m of party.members) {
-                const key = `${m.tile.x},${m.tile.y},${m.tile.z}`;
+                if (!m || !m.tile) continue;
+                const combatants = sim.tileMap.getCombatants(
+                    m.tile.x,
+                    m.tile.y,
+                    m.tile.z
+                );
                 assert.ok(
-                    !positions.has(key),
-                    `overlap at ${key}: ${positions.get(key)} vs ${m.id}`
+                    combatants.indexOf(m.id) >= 0,
+                    `member ${m.id} missing from stack at ${m.tile.x},${m.tile.y}`
                 );
-                positions.set(key, m.id);
-                assert.strictEqual(
-                    sim.tileMap.getOccupant(m.tile.x, m.tile.y, m.tile.z),
-                    m.id,
-                    `occupancy mismatch for ${m.id}`
+                if (combatants.length >= 2) sawPlayerStack = true;
+            }
+        }
+        assertEntityIdsUniqueOnMap(sim.tileMap);
+    }
+    assert.ok(sim.allRoutesComplete(), 'party finished route');
+    sim.destroy();
+    log('party occupancy invariants ok', { frames, sawPlayerStack });
+}
+
+/**
+ * Each combatant id is registered on at most one tile (stack length ≥ 2 ok).
+ * @param {import('../kernel/core/entities/tilemap.js').TileMap} map
+ */
+function assertEntityIdsUniqueOnMap(map) {
+    const seen = new Map();
+    for (const z of Object.keys(map.layers || {})) {
+        const layer = map.getLayer(z);
+        if (!layer) continue;
+        for (let i = 0; i < layer.occupancy.length; i++) {
+            const first = layer.occupancy[i];
+            if (!first) continue;
+            const y = Math.floor(i / layer.cols);
+            const x = i % layer.cols;
+            const ids = map.getCombatants(x, y, z);
+            for (let k = 0; k < ids.length; k++) {
+                const id = ids[k];
+                assert.ok(
+                    !seen.has(id),
+                    `entity ${id} on multiple tiles`
                 );
+                seen.set(id, `${z}:${x}:${y}`);
             }
         }
     }
-    assert.ok(sim.allRoutesComplete(), 'completed without illegal overlap');
-    sim.destroy();
-    log('no illegal overlap ok', { frames });
 }
 
 async function testCreatureDelayGatesSteps() {

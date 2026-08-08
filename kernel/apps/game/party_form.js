@@ -10,7 +10,10 @@ const {
     normalizeEquipmentMap
 } = require('../../core/lib/character/stats.js');
 const {
-    expandPartyMember
+    expandPartyMember,
+    materializePartyMember,
+    defaultProfileIdForClass,
+    assertPartyMembersHaveSkillSource
 } = require('../../core/lib/character/player_profile.js');
 const {
     huntToSimulatorOpts
@@ -51,6 +54,9 @@ function defaultStrategyForClass(classId) {
 
 /**
  * Empty member row for the party editor.
+ * Enabled default slot is profile-backed (create-char analog) so Play never
+ * starts on naked class floors. Disabled slots keep a class + starter id so
+ * enabling them materializes skills without an extra party preset load.
  * @param {number} [index=0]
  * @returns {object}
  */
@@ -60,6 +66,7 @@ function emptyMember(index) {
         enabled: i === 0,
         name: i === 0 ? 'Leader' : `Member${i + 1}`,
         classId: 'guardian',
+        profileId: 'guardian_starter',
         strategyId: 'guardian_aggro',
         level: 50,
         isLeader: i === 0,
@@ -109,16 +116,19 @@ function equipmentForEditor(rawEq) {
  */
 function normalizeMember(raw, index, opts) {
     const base = emptyMember(index);
-    if (!raw || typeof raw !== 'object') return base;
+    // Null/missing → start from profile-backed empty slot (create-char default)
+    const input = raw && typeof raw === 'object' ? raw : base;
 
     const loadProf =
         opts && typeof opts.loadPlayerProfile === 'function'
             ? opts.loadPlayerProfile
-            : _loadPlayerProfile;
-    const expanded = expandPartyMember(raw, {
-        loadPlayerProfile: loadProf || undefined
+            : _loadPlayerProfile || resolveProfileLoader();
+    // Character-first: expand profileId and auto-bind class starter when needed
+    const expanded = materializePartyMember(input, {
+        loadPlayerProfile: loadProf || undefined,
+        autoStarterProfile: true
     });
-    const src = expanded || raw;
+    const src = expanded || input;
 
     const equipment = equipmentForEditor(src.equipment);
     const classId = src.classId
@@ -128,7 +138,10 @@ function normalizeMember(raw, index, opts) {
           : base.classId;
     /** @type {Record<string, any>} */
     const row = {
-        enabled: raw.enabled !== false && raw.enabled !== 0,
+        enabled:
+            raw && typeof raw === 'object'
+                ? raw.enabled !== false && raw.enabled !== 0
+                : base.enabled,
         name:
             src.name != null && String(src.name).trim() !== ''
                 ? String(src.name).trim()
@@ -141,26 +154,26 @@ function normalizeMember(raw, index, opts) {
             src.level != null && Number.isFinite(Number(src.level))
                 ? Math.max(1, Math.floor(Number(src.level)))
                 : base.level,
-        isLeader: !!raw.isLeader,
+        isLeader: !!(raw && typeof raw === 'object' ? raw.isLeader : base.isLeader),
         controlMode:
             src.controlMode != null
                 ? String(src.controlMode)
-                : raw.controlMode != null
-                  ? String(raw.controlMode)
+                : input.controlMode != null
+                  ? String(input.controlMode)
                   : 'ai',
         autoChase:
             src.autoChase != null
                 ? !!src.autoChase
-                : raw.autoChase != null
-                  ? !!raw.autoChase
+                : input.autoChase != null
+                  ? !!input.autoChase
                   : false,
         equipment,
         profileId:
             src.profileId != null
                 ? String(src.profileId)
-                : raw.profileId != null
-                  ? String(raw.profileId)
-                  : null
+                : input.profileId != null
+                  ? String(input.profileId)
+                  : defaultProfileIdForClass(classId)
     };
     // Profile / member skills must reach the simulator. Without them, combat
     // falls back to classes.json vocation baselines (often much higher magic /
@@ -169,24 +182,24 @@ function normalizeMember(raw, index, opts) {
     const skillsSrc =
         src.skills && typeof src.skills === 'object'
             ? src.skills
-            : raw.skills && typeof raw.skills === 'object'
-              ? raw.skills
+            : input.skills && typeof input.skills === 'object'
+              ? input.skills
               : null;
     if (skillsSrc) {
         row.skills = Object.assign({}, skillsSrc);
     }
     if (src.critChance != null) row.critChance = Number(src.critChance) || 0;
-    else if (raw.critChance != null) row.critChance = Number(raw.critChance) || 0;
+    else if (input.critChance != null) row.critChance = Number(input.critChance) || 0;
     if (src.critDamage != null) row.critDamage = Number(src.critDamage) || 0;
-    else if (raw.critDamage != null) row.critDamage = Number(raw.critDamage) || 0;
+    else if (input.critDamage != null) row.critDamage = Number(input.critDamage) || 0;
     // Inventory seeds (Scenario Lab sandbox / authored backpack trees)
-    if (src.inventorySandbox === true || raw.inventorySandbox === true) {
+    if (src.inventorySandbox === true || input.inventorySandbox === true) {
         row.inventorySandbox = true;
     }
     if (src.inventory != null) row.inventory = src.inventory;
-    else if (raw.inventory != null) row.inventory = raw.inventory;
+    else if (input.inventory != null) row.inventory = input.inventory;
     if (src.backpack != null) row.backpack = src.backpack;
-    else if (raw.backpack != null) row.backpack = raw.backpack;
+    else if (input.backpack != null) row.backpack = input.backpack;
     return row;
 }
 
@@ -200,7 +213,7 @@ function partyFormFromParty(party) {
     const defs =
         party && Array.isArray(party.members) && party.members.length
             ? party.members
-            : [{ name: 'Guardian', classId: 'guardian', isLeader: true }];
+            : [{ name: 'Guardian', profileId: 'guardian_starter', isLeader: true }];
 
     for (let i = 0; i < MAX_PARTY_SLOTS; i++) {
         if (i < defs.length) {
@@ -210,8 +223,11 @@ function partyFormFromParty(party) {
             );
             members.push(m);
         } else {
-            const m = emptyMember(i);
-            m.enabled = false;
+            // Disabled but still profile-backed so enable → Play has skills
+            const m = normalizeMember(
+                Object.assign({}, emptyMember(i), { enabled: false }),
+                i
+            );
             members.push(m);
         }
     }
@@ -334,53 +350,109 @@ function ensureSingleLeader(members) {
  * @param {object[]} members
  * @returns {object[]}
  */
+/**
+ * @returns {((id: string) => object|null)|null}
+ */
+function resolveProfileLoader() {
+    if (typeof _loadPlayerProfile === 'function') return _loadPlayerProfile;
+    try {
+        return require('../../core/lib/presets.js').loadPlayerProfile;
+    } catch (_) {
+        return null;
+    }
+}
+
 function membersToPartyConfig(members) {
     ensureSingleLeader(members);
     const out = [];
     if (!Array.isArray(members)) return out;
+    const loadProf = resolveProfileLoader();
     for (let i = 0; i < members.length; i++) {
         const m = members[i];
         if (!m || !m.enabled) continue;
-        const equipment = equipmentForEditor(m.equipment);
+        // Character-first materialize: profile expand + class → starter fallback
+        let src = m;
+        if (typeof loadProf === 'function') {
+            const matured = materializePartyMember(m, {
+                loadPlayerProfile: loadProf,
+                autoStarterProfile: true
+            });
+            if (matured) src = matured;
+        }
+        const equipment = equipmentForEditor(src.equipment != null ? src.equipment : m.equipment);
         /** @type {Record<string, any>} */
         const row = {
-            name: m.name || `Member${out.length + 1}`,
-            classId: m.classId || 'adventurer',
-            strategyId: m.strategyId || defaultStrategyForClass(m.classId),
-            level: m.level != null ? m.level : 50,
-            isLeader: !!m.isLeader,
-            controlMode: m.controlMode != null ? String(m.controlMode) : 'ai',
-            autoChase: m.autoChase != null ? !!m.autoChase : false,
+            name: src.name || m.name || `Member${out.length + 1}`,
+            classId: src.classId || m.classId || 'adventurer',
+            strategyId:
+                src.strategyId ||
+                m.strategyId ||
+                defaultStrategyForClass(src.classId || m.classId),
+            level: src.level != null ? src.level : m.level != null ? m.level : 50,
+            isLeader: !!(m.isLeader || src.isLeader),
+            controlMode:
+                m.controlMode != null
+                    ? String(m.controlMode)
+                    : src.controlMode != null
+                      ? String(src.controlMode)
+                      : 'ai',
+            autoChase:
+                m.autoChase != null
+                    ? !!m.autoChase
+                    : src.autoChase != null
+                      ? !!src.autoChase
+                      : false,
             equipment
         };
-        if (m.profileId) row.profileId = String(m.profileId);
-        if (m.skills && typeof m.skills === 'object') {
+        if (src.profileId || m.profileId) {
+            row.profileId = String(src.profileId || m.profileId);
+        }
+        if (src.skills && typeof src.skills === 'object') {
+            row.skills = Object.assign({}, src.skills);
+        } else if (m.skills && typeof m.skills === 'object') {
             row.skills = Object.assign({}, m.skills);
         }
-        if (m.critChance != null) row.critChance = Number(m.critChance) || 0;
-        if (m.critDamage != null) row.critDamage = Number(m.critDamage) || 0;
+        if (src.critChance != null || m.critChance != null) {
+            row.critChance = Number(src.critChance != null ? src.critChance : m.critChance) || 0;
+        }
+        if (src.critDamage != null || m.critDamage != null) {
+            row.critDamage = Number(src.critDamage != null ? src.critDamage : m.critDamage) || 0;
+        }
         // Inventory seeds (Scenario Lab sandbox / authored backpack trees)
-        if (m.inventorySandbox === true) row.inventorySandbox = true;
+        if (m.inventorySandbox === true || src.inventorySandbox === true) {
+            row.inventorySandbox = true;
+        }
         if (m.inventory != null) row.inventory = m.inventory;
+        else if (src.inventory != null) row.inventory = src.inventory;
         if (m.backpack != null) row.backpack = m.backpack;
+        else if (src.backpack != null) row.backpack = src.backpack;
         out.push(row);
     }
     if (!out.length) {
-        out.push({
-            name: 'Guardian',
-            classId: 'guardian',
-            strategyId: 'guardian_aggro',
-            level: 50,
-            isLeader: true,
-            controlMode: 'ai',
-            autoChase: false,
-            equipment: {}
-        });
+        // Product fallback: expand starter profile so skills are authored (§7.2)
+        const expanded = expandPartyMember(
+            {
+                name: 'Guardian',
+                profileId: 'guardian_starter',
+                isLeader: true,
+                controlMode: 'ai'
+            },
+            { loadPlayerProfile: loadProf || undefined }
+        );
+        if (expanded && expanded.skills) {
+            out.push(expanded);
+        } else {
+            throw new Error(
+                'membersToPartyConfig: no enabled members and could not load guardian_starter'
+            );
+        }
     }
     // Guarantee one leader
     if (!out.some((m) => m.isLeader)) {
         out[0].isLeader = true;
     }
+    // Skill-source assert runs after materialize at product borders
+    // (resolveSessionParties / loadParty / buildSimulatorOpts).
     return out;
 }
 
@@ -423,6 +495,14 @@ function resolvedFromBrowserHunt(opts) {
         : layoutMeta && Array.isArray(layoutMeta.floorMeta)
           ? layoutMeta.floorMeta
           : null;
+    const arenaLoop =
+        hunt.arenaLoop && typeof hunt.arenaLoop === 'object'
+            ? hunt.arenaLoop
+            : null;
+    const perFloorWaypoints =
+        hunt.perFloorWaypoints && typeof hunt.perFloorWaypoints === 'object'
+            ? hunt.perFloorWaypoints
+            : null;
     const pacingBudget =
         hunt.pacingBudget && typeof hunt.pacingBudget === 'object'
             ? hunt.pacingBudget
@@ -431,6 +511,30 @@ function resolvedFromBrowserHunt(opts) {
         hunt.mapPaths && typeof hunt.mapPaths === 'object'
             ? hunt.mapPaths
             : null;
+
+    // Arena-rest: if expand left waypoints empty but per-floor routes exist,
+    // seed party from first floor so spawnParty does not hard-fail.
+    let routeWaypoints = waypoints;
+    if (
+        (!routeWaypoints || !routeWaypoints.length) &&
+        perFloorWaypoints
+    ) {
+        const floorKey =
+            hunt.floor != null ? String(hunt.floor) : '0';
+        const fromFloor = perFloorWaypoints[floorKey];
+        if (Array.isArray(fromFloor) && fromFloor.length) {
+            routeWaypoints = fromFloor;
+        } else {
+            const keys = Object.keys(perFloorWaypoints);
+            for (let ki = 0; ki < keys.length; ki++) {
+                const w = perFloorWaypoints[keys[ki]];
+                if (Array.isArray(w) && w.length) {
+                    routeWaypoints = w;
+                    break;
+                }
+            }
+        }
+    }
 
     const partyName =
         o.partyName ||
@@ -445,7 +549,7 @@ function resolvedFromBrowserHunt(opts) {
         {
             name: partyName,
             id: partyId,
-            waypoints,
+            waypoints: routeWaypoints,
             loopWaypoints: !!hunt.loopWaypoints,
             stairLinks: stairLinks || undefined,
             members: partyMembers
@@ -574,6 +678,8 @@ function resolvedFromBrowserHunt(opts) {
         pacingBudget,
         layoutMeta,
         floorMeta,
+        arenaLoop,
+        perFloorWaypoints,
         maxTicks,
         maxKills,
         maxSeconds,
@@ -598,6 +704,16 @@ function resolvedFromBrowserHunt(opts) {
 function buildSimulatorOpts(opts) {
     const o = opts || {};
     const resolved = resolvedFromBrowserHunt(o);
+    // membersToPartyConfig already materializes; assert is the last integrity
+    // line (S2 parity) — not the primary authoring gate.
+    if (Array.isArray(resolved.parties)) {
+        for (let pi = 0; pi < resolved.parties.length; pi++) {
+            assertPartyMembersHaveSkillSource(resolved.parties[pi], {
+                context: `buildSimulatorOpts party[${pi}]`,
+                onlyEnabled: false
+            });
+        }
+    }
     // Callers should omit mapPath when floorFriction is set (continent PNGs
     // at generator waypoints like 0,3 are not walkable). Simulator prefers
     // floorLayers over mapPath when both are present.
@@ -689,6 +805,7 @@ module.exports = {
     EQUIPMENT_SLOTS,
     DEFAULT_STRATEGY_BY_CLASS,
     defaultStrategyForClass,
+    defaultProfileIdForClass,
     emptyMember,
     normalizeMember,
     setPlayerProfileLoader,

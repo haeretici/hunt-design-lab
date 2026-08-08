@@ -21,25 +21,62 @@
     <!-- Left Column: Dock Layout Editor -->
     <div class="col-lg-7">
         <div class="card bg-dark border-secondary h-100">
-            <div class="card-header bg-black border-secondary d-flex justify-content-between align-items-center p-2">
+            <div class="card-header bg-black border-secondary d-flex justify-content-between align-items-center p-2 flex-wrap gap-2">
                 <span class="font-monospace small text-uppercase fw-bold text-light"><i class="fa-solid fa-gamepad text-info me-1"></i> Dock Slots & Bindings</span>
                 <ul class="nav nav-pills nav-pills-sm card-header-pills" id="dockTabs" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link active py-1 px-2 small" id="top-tab" data-dock="top" type="button" role="tab" aria-selected="true">Top</button>
+                        <button class="nav-link active py-1 px-2 small" id="top-tab" data-dock="top" type="button" role="tab" aria-selected="true">Top <span class="badge bg-secondary text-xxs ms-1 dock-count" data-dock-count="top">1</span></button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link py-1 px-2 small" id="bottom-tab" data-dock="bottom" type="button" role="tab" aria-selected="false">Bottom</button>
+                        <button class="nav-link py-1 px-2 small" id="bottom-tab" data-dock="bottom" type="button" role="tab" aria-selected="false">Bottom <span class="badge bg-secondary text-xxs ms-1 dock-count" data-dock-count="bottom">1</span></button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link py-1 px-2 small" id="left-tab" data-dock="left" type="button" role="tab" aria-selected="false">Left</button>
+                        <button class="nav-link py-1 px-2 small" id="left-tab" data-dock="left" type="button" role="tab" aria-selected="false">Left <span class="badge bg-secondary text-xxs ms-1 dock-count" data-dock-count="left">1</span></button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link py-1 px-2 small" id="right-tab" data-dock="right" type="button" role="tab" aria-selected="false">Right</button>
+                        <button class="nav-link py-1 px-2 small" id="right-tab" data-dock="right" type="button" role="tab" aria-selected="false">Right <span class="badge bg-secondary text-xxs ms-1 dock-count" data-dock-count="right">1</span></button>
                     </li>
                 </ul>
             </div>
-            <div class="card-body p-2" style="max-height: 520px; overflow-y: auto;">
-                <p class="text-muted text-xs mb-2">Select a slot below to edit targeting and hotkeys, or drag & drop spells and items directly from the catalogs.</p>
+            <div class="card-body p-2" style="max-height: 560px; overflow-y: auto;">
+                <div id="layoutCountsBanner" class="alert alert-dark border-secondary py-1 px-2 small mb-2 mb-0 text-muted">
+                    Bars per dock are set in <strong class="text-light">Engine Tweakings</strong> (read-only here).
+                    <span id="layoutCountsText" class="font-monospace text-info ms-1">Top 1 · Bottom 1 · Left 1 · Right 1</span>
+                </div>
+                <div class="row g-2 mb-2 align-items-end" id="slotListToolbar">
+                    <div class="col-sm-5">
+                        <label class="form-label text-xxs text-muted mb-0" for="slotSearchInput">Filter slots</label>
+                        <input type="text" id="slotSearchInput" class="form-control form-control-sm bg-black border-secondary text-white" placeholder="Search name, id, hotkey…">
+                    </div>
+                    <div class="col-sm-4">
+                        <label class="form-label text-xxs text-muted mb-0" for="slotTypeFilter">Type</label>
+                        <select id="slotTypeFilter" class="form-select form-select-sm bg-black text-white border-secondary">
+                            <option value="all">All types</option>
+                            <option value="empty">Empty</option>
+                            <option value="spell">Spell</option>
+                            <option value="item">Item / Rune</option>
+                            <option value="command">Command</option>
+                            <option value="text">Text (FCT)</option>
+                            <option value="passive">Passive</option>
+                            <option value="multi">Multi-action</option>
+                            <option value="bound">Has hotkey</option>
+                            <option value="unbound">No hotkey</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-3">
+                        <label class="form-label text-xxs text-muted mb-0" for="slotSortSelect">Sort</label>
+                        <select id="slotSortSelect" class="form-select form-select-sm bg-black text-white border-secondary">
+                            <option value="index">Slot #</option>
+                            <option value="type">Type</option>
+                            <option value="hotkey">Hotkey</option>
+                            <option value="name">Name</option>
+                        </select>
+                    </div>
+                </div>
+                <p class="text-muted text-xs mb-2">Select a slot to edit targeting and hotkeys, or drag &amp; drop spells and items from the catalogs. Locked bars block assign (execute still works in-game).</p>
+                <div id="barToolbar" class="d-flex flex-column gap-1 mb-2">
+                    <!-- Per-bar lock / clear injected by popup.js -->
+                </div>
                 <div id="slotsGrid" class="d-flex flex-column gap-1">
                     <!-- Dynamic slots injected by popup.js -->
                 </div>
@@ -77,9 +114,35 @@
                     <!-- Spells Toolbar -->
                     <div id="spellsToolbar" class="mb-2">
                         <input type="text" id="spellSearchInput" class="form-control form-control-sm mb-2 bg-black border-secondary text-white" placeholder="Search spells by name or id...">
+                        <div class="row g-1 mb-2">
+                            <div class="col-4">
+                                <select id="spellSortSelect" class="form-select form-select-sm bg-black text-white border-secondary" title="Sort spells">
+                                    <option value="name">Sort: Name</option>
+                                    <option value="level">Sort: Level</option>
+                                    <option value="group">Sort: Kind</option>
+                                </select>
+                            </div>
+                            <div class="col-4">
+                                <select id="spellKindFilter" class="form-select form-select-sm bg-black text-white border-secondary" title="Filter by kind">
+                                    <option value="all">All kinds</option>
+                                    <option value="auto">Auto</option>
+                                    <option value="strike">Strike</option>
+                                    <option value="spell">Spell</option>
+                                    <option value="heal">Heal</option>
+                                    <option value="support">Support</option>
+                                </select>
+                            </div>
+                            <div class="col-4">
+                                <select id="spellBoundFilter" class="form-select form-select-sm bg-black text-white border-secondary" title="Bound on bars">
+                                    <option value="all">Bound: All</option>
+                                    <option value="bound">On a bar</option>
+                                    <option value="unbound">Not on bars</option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="form-check form-check-inline mb-0">
                             <input class="form-check-input" type="checkbox" id="showAllSpellsToggle" style="cursor: pointer;">
-                            <label class="form-check-label text-xs text-light" for="showAllSpellsToggle">Show all spells available to vocation</label>
+                            <label class="form-check-label text-xs text-light" for="showAllSpellsToggle">Show all spells (ignore vocation filter)</label>
                         </div>
                     </div>
 

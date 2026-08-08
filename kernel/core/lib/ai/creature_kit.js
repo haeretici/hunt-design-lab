@@ -38,6 +38,7 @@ const {
     distBetween,
     isValidTarget
 } = require('./targeting.js');
+const { hasLineOfSight } = require('../shapes.js');
 const {
     spellBookFromCtx,
     recordAttackResult,
@@ -464,9 +465,7 @@ function inferKind(raw) {
     if (k === 'status' || k === 'speed' || k === 'slow' || k === 'haste') {
         return 'status';
     }
-    if (raw.statusOnly && raw.condition && !raw.min && !raw.max) {
-        return 'status';
-    }
+    // Geometry first: statusOnly pure-condition area/wave/ranged must keep shape.
     if (k === 'wave' || (raw.length != null && Number(raw.length) > 0)) {
         return 'wave';
     }
@@ -484,6 +483,10 @@ function inferKind(raw) {
     if (k === 'ranged' || k === 'distance' || k === 'bolt') return 'ranged';
     if (k === 'melee') return 'melee';
     if (raw.range != null && Number(raw.range) > 1) return 'ranged';
+    // Condition-only with no geometry → status (single-target apply)
+    if (raw.statusOnly && raw.condition && !raw.min && !raw.max) {
+        return 'status';
+    }
     return 'melee';
 }
 
@@ -1126,6 +1129,18 @@ function tryMonsterSummons(owner, ctx, primaryTarget) {
 function isFleeing(owner, flags) {
     const f = flags || (owner && owner.kit && owner.kit.flags) || null;
     if (!owner || !f) return false;
+    // Legacy: challenge focus / force-melee suppress flee (challengeFocusDuration / challengeMeleeDuration).
+    try {
+        const {
+            isCreatureChallenged,
+            isForceMeleeActive
+        } = require('../combat/resolve.js');
+        if (isCreatureChallenged(owner) || isForceMeleeActive(owner)) {
+            return false;
+        }
+    } catch (_) {
+        /* resolve optional at load edge */
+    }
     const hp = owner.hp && owner.hp.current != null ? owner.hp.current : 0;
     const max = owner.hp && owner.hp.max != null ? owner.hp.max : 0;
     if (f.runHealth > 0 && hp <= f.runHealth) return true;
@@ -1137,6 +1152,7 @@ function isFleeing(owner, flags) {
 
 /**
  * Ideal stand-off distance for movement (1 = adjacent melee).
+ * Honors temporary force-melee from chivalrous_challenge / divine_dazzle.
  * @param {object} owner
  * @returns {number}
  */
@@ -1144,6 +1160,13 @@ function idealStandDistance(owner) {
     const kit = owner && owner.kit ? owner.kit : ensureCreatureKit(owner);
     const f = kit.flags;
     if (isFleeing(owner, f)) return f.fleeTargetDistance;
+    try {
+        const { getForcedTargetDistance } = require('../combat/resolve.js');
+        const forced = getForcedTargetDistance(owner);
+        if (forced != null) return forced;
+    } catch (_) {
+        /* resolve optional at load edge */
+    }
     return Math.max(1, f.targetDistance | 0);
 }
 
@@ -1701,6 +1724,24 @@ function tryCreatureAttacks(owner, primaryTarget, ctx) {
                 : atk.range;
         const d = distBetween(owner, target);
         if (d > reach) {
+            return { fired: true, attackId: atk.id, results: [] };
+        }
+        // Ranged (and any non-adjacent) kit hits need clear LoS — walls block.
+        const tileMap = c.tileMap || (c.sim && c.sim.tileMap) || null;
+        if (
+            tileMap &&
+            owner.tile &&
+            target.tile &&
+            !hasLineOfSight(
+                owner.tile.x,
+                owner.tile.y,
+                owner.tile.z,
+                target.tile.x,
+                target.tile.y,
+                target.tile.z,
+                tileMap
+            )
+        ) {
             return { fired: true, attackId: atk.id, results: [] };
         }
         const r = resolveKitHit(owner, target, atk, c);

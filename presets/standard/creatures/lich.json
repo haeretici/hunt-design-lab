@@ -81,12 +81,19 @@
             "chance": 10,
             "range": 4,
             "element": "earth",
-            "min": 196,
-            "max": 261,
+            "min": 0,
+            "max": 0,
             "length": 7,
             "spread": 0,
             "target": false,
-            "effect": "me_hitbypoison"
+            "effect": "me_hitbypoison",
+            "statusOnly": true,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 261,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
         },
         {
             "id": "melee_3",

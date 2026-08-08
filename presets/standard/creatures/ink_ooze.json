@@ -71,11 +71,18 @@
             "chance": 13,
             "range": 4,
             "element": "earth",
-            "min": 293,
-            "max": 425,
+            "min": 0,
+            "max": 0,
             "radius": 4,
             "target": false,
-            "effect": "me_poisonarea"
+            "effect": "me_poisonarea",
+            "statusOnly": true,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 425,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
         },
         {
             "id": "area_2",

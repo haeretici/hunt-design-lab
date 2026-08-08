@@ -27,9 +27,15 @@ const {
     placeInEquipment,
     syncRootToEquippedBackpack,
     itemIsBackpackEquip,
+    itemIsStackable,
+    createItemInstance,
+    setStackCount,
+    getStackCount,
     itemSubtreeWeight,
     totalCarriedWeight,
-    canCarryAdditional
+    canCarryAdditional,
+    isInsideSubtree,
+    ensureItemContainer
 } = require('./inventory.js');
 
 /** Max items drawn per tile stack (top of pile). */
@@ -324,6 +330,116 @@ function canPickupFromTile(player, x, y, z) {
 }
 
 /**
+ * Walk parent containers to the tile-stack root of a ground-store item.
+ * Works for stack tops (`location.kind === 'ground'`) and nested bag contents.
+ *
+ * @param {GroundStore|null|undefined} ground
+ * @param {string} uid
+ * @returns {{ x: number, y: number, z: string|number, rootUid: string }|null}
+ */
+function groundRootLocation(ground, uid) {
+    if (!ground || !ground.inventory || !uid) return null;
+    /** @type {Set<string>} */
+    const seen = new Set();
+    let cur = String(uid);
+    while (cur && !seen.has(cur)) {
+        seen.add(cur);
+        const inst = ground.inventory.items[cur];
+        if (!inst || !inst.location) return null;
+        if (inst.location.kind === 'ground') {
+            return {
+                x: Math.round(Number(inst.location.x) || 0),
+                y: Math.round(Number(inst.location.y) || 0),
+                z:
+                    inst.location.z !== undefined && inst.location.z !== null
+                        ? inst.location.z
+                        : 0,
+                rootUid: cur
+            };
+        }
+        if (inst.location.kind === 'container') {
+            cur = String(inst.location.containerUid || '');
+            continue;
+        }
+        return null;
+    }
+    return null;
+}
+
+/**
+ * Whether uid lives in the ground store (stack or nested under a ground bag).
+ * @param {GroundStore|null|undefined} ground
+ * @param {string} uid
+ * @returns {boolean}
+ */
+function isGroundStoreItem(ground, uid) {
+    return !!(ground && ground.inventory && uid && ground.inventory.items[uid]);
+}
+
+/**
+ * Remove uid from its ground tile stack if it is a stack top (not nested).
+ * Nested container children are detached only via destroyItem / place.
+ * @param {GroundStore} ground
+ * @param {string} uid
+ * @param {number} x
+ * @param {number} y
+ * @param {string|number} z
+ */
+function removeFromTileStack(ground, uid, x, y, z) {
+    const key = tileKey(x, y, z);
+    const stack = ground.stacks[key];
+    if (!Array.isArray(stack)) return;
+    const idx = stack.indexOf(uid);
+    if (idx >= 0) stack.splice(idx, 1);
+    if (stack.length === 0) delete ground.stacks[key];
+}
+
+/**
+ * Place a ground-store item uid onto a tile stack (updates location).
+ * Caller must already detach it from any parent container.
+ * @param {GroundStore} ground
+ * @param {string} uid
+ * @param {number} x
+ * @param {number} y
+ * @param {string|number} z
+ */
+function pushToTileStack(ground, uid, x, y, z) {
+    const key = tileKey(x, y, z);
+    if (!ground.stacks[key]) ground.stacks[key] = [];
+    ground.stacks[key].push(uid);
+    ground.inventory.items[uid].location = {
+        kind: 'ground',
+        x: Math.round(x),
+        y: Math.round(y),
+        z: z !== undefined && z !== null ? z : 0
+    };
+}
+
+/**
+ * Detach nested item from its parent container slots (does not destroy).
+ * @param {import('./inventory.js').Inventory} inv
+ * @param {string} uid
+ * @returns {boolean}
+ */
+function detachFromParentContainer(inv, uid) {
+    const inst = getItem(inv, uid);
+    if (!inst || !inst.location || inst.location.kind !== 'container') {
+        return false;
+    }
+    const cont = inv.containers[inst.location.containerUid];
+    if (cont && Array.isArray(cont.slots)) {
+        const idx = Math.floor(Number(inst.location.index));
+        if (cont.slots[idx] === uid) cont.slots[idx] = null;
+        else {
+            const found = cont.slots.indexOf(uid);
+            if (found >= 0) cont.slots[found] = null;
+        }
+    }
+    inst.location = null;
+    return true;
+}
+
+/**
  * Drop an inventory item onto a ground tile stack (top).
  *
  * @param {object} opts
@@ -335,6 +451,8 @@ function canPickupFromTile(player, x, y, z) {
  * @param {number} opts.x
  * @param {number} opts.y
  * @param {string|number} [opts.z]
+ * @param {number} [opts.count] partial stack drop (stackables only; default full)
+ * @param {object[]|Record<string, object>|null} [opts.itemDb]
  * @returns {{ ok: boolean, error?: string, groundUid?: string }}
  */
 function dropItemToGround(opts) {
@@ -360,6 +478,44 @@ function dropItemToGround(opts) {
             : pt
               ? pt.z
               : 0;
+
+    const total =
+        inst.count != null && Number.isFinite(Number(inst.count))
+            ? Math.max(1, Math.floor(Number(inst.count)))
+            : 1;
+    let dropCount = total;
+    if (o.count != null && Number.isFinite(Number(o.count))) {
+        dropCount = Math.max(1, Math.floor(Number(o.count)));
+        if (dropCount > total) dropCount = total;
+    }
+    const partial = dropCount < total;
+
+    // Partial stackable drop: leave remainder in inventory, place only N units
+    if (partial) {
+        const template = findItem(o.itemDb, inst.itemId);
+        if (itemIsStackable(template)) {
+            const groundUid = createItemInstance(
+                ground.inventory,
+                inst.itemId,
+                o.itemDb,
+                { count: dropCount }
+            );
+            if (!groundUid) return { ok: false, error: 'transfer_failed' };
+            setStackCount(inst, getStackCount(inst) - dropCount);
+            const key = tileKey(tx, ty, tz);
+            if (!ground.stacks[key]) ground.stacks[key] = [];
+            ground.stacks[key].push(groundUid);
+            ground.inventory.items[groundUid].location = {
+                kind: 'ground',
+                x: tx,
+                y: ty,
+                z: tz
+            };
+            syncRootToEquippedBackpack(playerInv);
+            return { ok: true, groundUid };
+        }
+        // Non-stackable always full-drop below
+    }
 
     // Clone first so a failed copy never orphans the player instance
     const groundUid = cloneItemTree(playerInv, ground.inventory, uid);
@@ -398,15 +554,18 @@ function dropItemToGround(opts) {
  *   - `equipmentSlot: 'backpack'` — equip if empty; if occupied, fall through to auto nest
  *   - `containerUid` + optional `index` — place in that slot only (still Cap-checked)
  *
+ * Supports **tile stack tops** and **nested items inside open ground bags**
+ * (range uses the bag's tile root, Chebyshev ≤ 1).
+ *
  * Non-backpack gear and quivers never auto-equip on pickup (nest only).
  *
  * @param {object} opts
  * @param {GroundStore} opts.ground
- * @param {string} opts.uid ground item uid (any in stack; typically top)
+ * @param {string} opts.uid ground item uid (stack top or nested in ground bag)
  * @param {import('./inventory.js').Inventory} opts.playerInv
  * @param {object} opts.player
  * @param {object[]|Record<string, object>|null} [opts.itemDb]
- * @param {string} [opts.containerUid] explicit container (disables auto equip)
+ * @param {string} [opts.containerUid] explicit player container (disables auto equip)
  * @param {number|null} [opts.index] explicit index when containerUid set
  * @param {string} [opts.equipmentSlot] e.g. 'backpack' (equip if empty, else nest)
  * @returns {{ ok: boolean, error?: string, playerUid?: string, equipped?: boolean }}
@@ -422,14 +581,35 @@ function pickupItemFromGround(opts) {
     }
     const gInst = getItem(ground.inventory, uid);
     if (!gInst) return { ok: false, error: 'unknown_item' };
-    if (!gInst.location || gInst.location.kind !== 'ground') {
+    if (!gInst.location) {
         return { ok: false, error: 'not_on_ground' };
     }
     if (gInst.isField || gInst.immovable || gInst.immovableField) {
         return { ok: false, error: 'immovable_item' };
     }
 
-    const { x, y, z } = gInst.location;
+    const onTileStack = gInst.location.kind === 'ground';
+    const nestedInBag = gInst.location.kind === 'container';
+    if (!onTileStack && !nestedInBag) {
+        return { ok: false, error: 'not_on_ground' };
+    }
+
+    let x;
+    let y;
+    let z;
+    if (onTileStack) {
+        x = gInst.location.x;
+        y = gInst.location.y;
+        z = gInst.location.z;
+    } else {
+        const root = groundRootLocation(ground, uid);
+        if (!root) return { ok: false, error: 'not_on_ground' };
+        // Cannot pick the bag into itself path — root bag tile anchors range
+        x = root.x;
+        y = root.y;
+        z = root.z;
+    }
+
     const rangeCheck = canPickupFromTile(o.player, x, y, z);
     if (!rangeCheck.ok) return rangeCheck;
 
@@ -461,12 +641,8 @@ function pickupItemFromGround(opts) {
      * @returns {{ ok: boolean, error?: string, playerUid?: string, equipped?: boolean }}
      */
     function commitSuccess(playerUid, equipped) {
-        const key = tileKey(x, y, z);
-        const stack = ground.stacks[key];
-        if (Array.isArray(stack)) {
-            const idx = stack.indexOf(uid);
-            if (idx >= 0) stack.splice(idx, 1);
-            if (stack.length === 0) delete ground.stacks[key];
+        if (onTileStack) {
+            removeFromTileStack(ground, uid, x, y, z);
         }
         destroyItem(ground.inventory, uid);
         syncRootToEquippedBackpack(playerInv);
@@ -608,6 +784,297 @@ function pickupItemFromGround(opts) {
 }
 
 /**
+ * Move a player inventory item into a container that lives on the ground
+ * (open bag / future corpse). Range: Chebyshev ≤ 1 to the bag's tile root.
+ *
+ * @param {object} opts
+ * @param {import('./inventory.js').Inventory} opts.playerInv
+ * @param {string} opts.uid item in player inventory
+ * @param {GroundStore} opts.ground
+ * @param {string} opts.containerUid ground-store container
+ * @param {number|null} [opts.index] slot index (null = first free / stack merge)
+ * @param {object} opts.player
+ * @param {object[]|Record<string, object>|null} [opts.itemDb]
+ * @returns {{ ok: boolean, error?: string, groundUid?: string }}
+ */
+function placePlayerItemIntoGroundContainer(opts) {
+    const o = opts || {};
+    const playerInv = o.playerInv;
+    const ground = o.ground;
+    const uid = o.uid;
+    const containerUid = o.containerUid;
+    const itemDb = o.itemDb || null;
+    if (!playerInv || !ground || !uid || !containerUid) {
+        return { ok: false, error: 'bad_args' };
+    }
+    const pInst = getItem(playerInv, uid);
+    if (!pInst) return { ok: false, error: 'unknown_item' };
+
+    const root = groundRootLocation(ground, containerUid);
+    if (!root) return { ok: false, error: 'not_on_ground' };
+    // Container must exist (repair missing slots like equip open)
+    let cont =
+        getContainer(ground.inventory, containerUid) ||
+        ensureItemContainer(ground.inventory, containerUid, itemDb);
+    if (!cont) return { ok: false, error: 'unknown_container' };
+
+    const rangeCheck = canPickupFromTile(o.player, root.x, root.y, root.z);
+    if (!rangeCheck.ok) return rangeCheck;
+
+    // Cannot nest a bag into a container that is currently inside that bag
+    // after transfer — cycle check on ground tree using post-clone uid is hard;
+    // pre-check: if player item is a container, reject placing into ground
+    // container that already contains… no cross-store cycle. Only reject if
+    // containerUid somehow equals uid (impossible across stores).
+    if (String(uid) === String(containerUid)) {
+        return { ok: false, error: 'cycle' };
+    }
+
+    const groundUid = cloneItemTree(playerInv, ground.inventory, uid);
+    if (!groundUid) return { ok: false, error: 'transfer_failed' };
+
+    // Cycle guard if ground bag is somehow nested under transferred tree (N/A)
+    // and placeInto own child after transfer:
+    if (isInsideSubtree(ground.inventory, containerUid, groundUid)) {
+        destroyItem(ground.inventory, groundUid);
+        return { ok: false, error: 'cycle' };
+    }
+
+    let index =
+        o.index != null && Number.isFinite(Number(o.index))
+            ? Math.floor(Number(o.index))
+            : null;
+    const placed = placeInContainer(
+        ground.inventory,
+        groundUid,
+        containerUid,
+        index,
+        itemDb
+    );
+    if (!placed.ok) {
+        destroyItem(ground.inventory, groundUid);
+        return { ok: false, error: placed.error || 'place_failed' };
+    }
+    destroyItem(playerInv, uid);
+    syncRootToEquippedBackpack(playerInv);
+    return { ok: true, groundUid: placed.uid || groundUid };
+}
+
+/**
+ * Move a ground-store item into another ground-store container (same inv).
+ * Source may be a tile stack top or nested in another bag.
+ * Range: both source root and dest bag root must be Chebyshev ≤ 1.
+ *
+ * @param {object} opts
+ * @param {GroundStore} opts.ground
+ * @param {string} opts.uid
+ * @param {string} opts.containerUid
+ * @param {number|null} [opts.index]
+ * @param {object} opts.player
+ * @param {object[]|Record<string, object>|null} [opts.itemDb]
+ * @returns {{ ok: boolean, error?: string }}
+ */
+function moveGroundItemIntoContainer(opts) {
+    const o = opts || {};
+    const ground = o.ground;
+    const uid = o.uid;
+    const containerUid = o.containerUid;
+    const itemDb = o.itemDb || null;
+    if (!ground || !uid || !containerUid) {
+        return { ok: false, error: 'bad_args' };
+    }
+    if (String(uid) === String(containerUid)) {
+        return { ok: false, error: 'cycle' };
+    }
+    const gInst = getItem(ground.inventory, uid);
+    if (!gInst || !gInst.location) return { ok: false, error: 'unknown_item' };
+
+    const srcRoot = groundRootLocation(ground, uid);
+    if (!srcRoot) return { ok: false, error: 'not_on_ground' };
+    const dstRoot = groundRootLocation(ground, containerUid);
+    if (!dstRoot) return { ok: false, error: 'not_on_ground' };
+
+    const r1 = canPickupFromTile(o.player, srcRoot.x, srcRoot.y, srcRoot.z);
+    if (!r1.ok) return r1;
+    const r2 = canPickupFromTile(o.player, dstRoot.x, dstRoot.y, dstRoot.z);
+    if (!r2.ok) return r2;
+
+    let cont =
+        getContainer(ground.inventory, containerUid) ||
+        ensureItemContainer(ground.inventory, containerUid, itemDb);
+    if (!cont) return { ok: false, error: 'unknown_container' };
+
+    if (isInsideSubtree(ground.inventory, containerUid, uid)) {
+        return { ok: false, error: 'cycle' };
+    }
+
+    // Already in this container at same index → no-op success
+    if (
+        gInst.location.kind === 'container' &&
+        gInst.location.containerUid === containerUid &&
+        o.index != null &&
+        Math.floor(Number(o.index)) === Math.floor(Number(gInst.location.index))
+    ) {
+        return { ok: true };
+    }
+
+    const onTile = gInst.location.kind === 'ground';
+    if (onTile) {
+        removeFromTileStack(
+            ground,
+            uid,
+            gInst.location.x,
+            gInst.location.y,
+            gInst.location.z
+        );
+        gInst.location = null;
+    } else if (gInst.location.kind === 'container') {
+        detachFromParentContainer(ground.inventory, uid);
+    } else {
+        return { ok: false, error: 'not_on_ground' };
+    }
+
+    const index =
+        o.index != null && Number.isFinite(Number(o.index))
+            ? Math.floor(Number(o.index))
+            : null;
+    const placed = placeInContainer(
+        ground.inventory,
+        uid,
+        containerUid,
+        index,
+        itemDb
+    );
+    if (!placed.ok) {
+        // Best-effort restore to source tile root
+        pushToTileStack(ground, uid, srcRoot.x, srcRoot.y, srcRoot.z);
+        return { ok: false, error: placed.error || 'place_failed' };
+    }
+    return { ok: true };
+}
+
+/**
+ * Move a ground-store item onto a walkable tile stack (from another tile or
+ * from inside a ground bag). Range uses drop rules (engage + path).
+ * Optional `count` splits stackables (remainder stays at source).
+ *
+ * @param {object} opts
+ * @param {GroundStore} opts.ground
+ * @param {string} opts.uid
+ * @param {object} opts.player
+ * @param {object} opts.tileMap
+ * @param {number} opts.x
+ * @param {number} opts.y
+ * @param {string|number} [opts.z]
+ * @param {number} [opts.count] partial stack amount (stackables only)
+ * @param {object[]|Record<string, object>|null} [opts.itemDb] required for partial split
+ * @returns {{ ok: boolean, error?: string, movedUid?: string }}
+ */
+function moveGroundItemToTile(opts) {
+    const o = opts || {};
+    const ground = o.ground;
+    const uid = o.uid;
+    if (!ground || !uid) return { ok: false, error: 'bad_args' };
+    const gInst = getItem(ground.inventory, uid);
+    if (!gInst || !gInst.location) return { ok: false, error: 'unknown_item' };
+    if (gInst.isField || gInst.immovable || gInst.immovableField) {
+        return { ok: false, error: 'immovable_item' };
+    }
+
+    const check = canDropToTile(o.player, o.tileMap, o.x, o.y, o.z);
+    if (!check.ok) return check;
+
+    const pt = playerTileOf(o.player);
+    const tx = Math.round(o.x);
+    const ty = Math.round(o.y);
+    const tz =
+        o.z !== undefined && o.z !== null
+            ? o.z
+            : pt
+              ? pt.z
+              : 0;
+
+    const total = getStackCount(gInst);
+    let moveCount = total;
+    if (o.count != null && Number.isFinite(Number(o.count))) {
+        moveCount = Math.max(1, Math.floor(Number(o.count)));
+        if (moveCount > total) moveCount = total;
+    }
+    const partial = moveCount < total;
+    const template = partial ? findItem(o.itemDb, gInst.itemId) : null;
+    if (partial && !itemIsStackable(template)) {
+        moveCount = total;
+    }
+    const doPartial = moveCount < total && itemIsStackable(template);
+
+    if (gInst.location.kind === 'ground') {
+        const ox = Math.round(gInst.location.x);
+        const oy = Math.round(gInst.location.y);
+        const oz =
+            gInst.location.z !== undefined && gInst.location.z !== null
+                ? gInst.location.z
+                : 0;
+        if (ox === tx && oy === ty && String(oz) === String(tz)) {
+            return { ok: true, movedUid: uid }; // already there
+        }
+        if (doPartial) {
+            const newUid = createItemInstance(
+                ground.inventory,
+                gInst.itemId,
+                o.itemDb,
+                { count: moveCount }
+            );
+            if (!newUid) return { ok: false, error: 'transfer_failed' };
+            setStackCount(gInst, total - moveCount);
+            pushToTileStack(ground, newUid, tx, ty, tz);
+            return { ok: true, movedUid: newUid };
+        }
+        removeFromTileStack(ground, uid, ox, oy, oz);
+        pushToTileStack(ground, uid, tx, ty, tz);
+        return { ok: true, movedUid: uid };
+    }
+
+    if (gInst.location.kind === 'container') {
+        // Source bag must still be in pickup range (acting on open container)
+        const root = groundRootLocation(ground, uid);
+        if (!root) return { ok: false, error: 'not_on_ground' };
+        const rangeCheck = canPickupFromTile(o.player, root.x, root.y, root.z);
+        if (!rangeCheck.ok) return rangeCheck;
+        if (doPartial) {
+            const newUid = createItemInstance(
+                ground.inventory,
+                gInst.itemId,
+                o.itemDb,
+                { count: moveCount }
+            );
+            if (!newUid) return { ok: false, error: 'transfer_failed' };
+            setStackCount(gInst, total - moveCount);
+            pushToTileStack(ground, newUid, tx, ty, tz);
+            return { ok: true, movedUid: newUid };
+        }
+        if (!detachFromParentContainer(ground.inventory, uid)) {
+            return { ok: false, error: 'detach_failed' };
+        }
+        pushToTileStack(ground, uid, tx, ty, tz);
+        return { ok: true, movedUid: uid };
+    }
+
+    return { ok: false, error: 'not_on_ground' };
+}
+
+/**
+ * Whether a ground-store container uid is still openable (exists under a tile).
+ * @param {GroundStore|null|undefined} ground
+ * @param {string} containerUid
+ * @returns {boolean}
+ */
+function isGroundContainerOpenable(ground, containerUid) {
+    if (!ground || !containerUid) return false;
+    if (!getItem(ground.inventory, containerUid)) return false;
+    return !!groundRootLocation(ground, containerUid);
+}
+
+/**
  * List all non-empty ground tile keys (for render / debug).
  * @param {GroundStore|null|undefined} store
  * @returns {string[]}
@@ -652,6 +1119,12 @@ module.exports = {
     transferItemTree,
     canDropToTile,
     canPickupFromTile,
+    groundRootLocation,
+    isGroundStoreItem,
+    isGroundContainerOpenable,
     dropItemToGround,
-    pickupItemFromGround
+    pickupItemFromGround,
+    placePlayerItemIntoGroundContainer,
+    moveGroundItemIntoContainer,
+    moveGroundItemToTile
 };

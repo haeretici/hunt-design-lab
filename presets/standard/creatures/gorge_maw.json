@@ -85,11 +85,18 @@
             "chance": 21,
             "range": 4,
             "element": "earth",
-            "min": 247,
-            "max": 382,
+            "min": 0,
+            "max": 0,
             "radius": 4,
             "target": false,
-            "effect": "me_green_rings"
+            "effect": "me_green_rings",
+            "statusOnly": true,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 382,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
         }
     ],
     "race": "blood",

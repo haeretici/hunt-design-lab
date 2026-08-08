@@ -245,11 +245,21 @@
           },
           "condition": {
             "type": "object",
-            "description": "On-hit condition (poison/fire/ice DoT or slow).",
+            "description": "On-hit condition (DoT or slow/haste/invisible).",
             "properties": {
               "type": {
                 "type": "string",
-                "enum": ["poison", "fire", "ice", "slow", "haste", "invisible"]
+                "enum": [
+                  "poison",
+                  "fire",
+                  "ice",
+                  "energy",
+                  "bleed",
+                  "curse",
+                  "slow",
+                  "haste",
+                  "invisible"
+                ]
               },
               "totalDamage": { "type": "number", "minimum": 0 },
               "intervalMs": { "type": "number", "minimum": 0 },
@@ -307,25 +317,69 @@
             }
           },
           "condition": {
-            "type": "object",
-            "description": "Status condition effect parameters.",
-            "properties": {
-              "type": {
-                "type": "string",
-                "enum": ["CONDITION_POISON", "CONDITION_FIRE", "CONDITION_FREEZING"],
-                "description": "Status condition type."
+            "description": "On-hit status applied via applyCondition (kernel/core/lib/combat/conditions.js). Stored form is engine-canonical only — never CONDITION_* / freezing. Legacy dumps are converted at port time (legacy_monster_port.convertCondition).",
+            "oneOf": [
+              {
+                "type": "object",
+                "required": ["type", "totalDamage", "intervalMs"],
+                "additionalProperties": false,
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": ["poison", "fire", "ice", "energy", "bleed", "curse", "holy"],
+                    "description": "DoT kind. Runtime element: poison→earth, fire→fire, ice→ice, energy→energy, bleed→physical, curse→death, holy→holy."
+                  },
+                  "totalDamage": {
+                    "type": "number",
+                    "exclusiveMinimum": 0,
+                    "description": "Total DoT damage over the condition lifetime (decaying ticks)."
+                  },
+                  "intervalMs": {
+                    "type": "number",
+                    "minimum": 1,
+                    "description": "Tick interval in milliseconds."
+                  }
+                }
               },
-              "totalDamage": {
-                "type": "number",
-                "minimum": 0,
-                "description": "Total damage dealt over condition duration."
+              {
+                "type": "object",
+                "required": ["type", "speedChange", "durationSec"],
+                "additionalProperties": false,
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": ["slow", "haste"],
+                    "description": "Speed mod. slow uses negative speedChange; haste positive."
+                  },
+                  "speedChange": {
+                    "type": "number",
+                    "description": "Absolute speed delta applied to baseSpeed (must be non-zero)."
+                  },
+                  "durationSec": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Duration in seconds."
+                  }
+                }
               },
-              "interval": {
-                "type": "number",
-                "minimum": 1,
-                "description": "Tick interval in milliseconds."
+              {
+                "type": "object",
+                "required": ["type", "durationSec"],
+                "additionalProperties": false,
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": ["invisible"],
+                    "description": "Targeting flag while active (isValidTarget rejects)."
+                  },
+                  "durationSec": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Duration in seconds."
+                  }
+                }
               }
-            }
+            ]
           },
           "legacyName": {
             "type": "string",

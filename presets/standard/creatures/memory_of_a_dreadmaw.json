@@ -68,11 +68,18 @@
             "chance": 10,
             "range": 4,
             "element": "physical",
-            "min": 112,
-            "max": 270,
+            "min": 0,
+            "max": 0,
             "radius": 3,
             "target": false,
-            "effect": "me_drawblood"
+            "effect": "me_drawblood",
+            "statusOnly": true,
+            "condition": {
+                "type": "bleed",
+                "totalDamage": 270,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
         },
         {
             "id": "wave_2",

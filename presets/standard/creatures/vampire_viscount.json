@@ -81,11 +81,18 @@
             "chance": 10,
             "range": 4,
             "element": "physical",
-            "min": 243,
-            "max": 425,
+            "min": 0,
+            "max": 0,
             "radius": 6,
             "target": false,
-            "effect": "me_bats"
+            "effect": "me_bats",
+            "statusOnly": true,
+            "condition": {
+                "type": "bleed",
+                "totalDamage": 425,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
         }
     ],
     "defenseSpells": [

@@ -58,11 +58,18 @@
             "chance": 7,
             "range": 2,
             "element": "fire",
-            "min": 200,
-            "max": 1000,
+            "min": 0,
+            "max": 0,
             "target": false,
             "effect": "me_blockhit",
-            "shootEffect": "ani_fire"
+            "shootEffect": "ani_fire",
+            "statusOnly": true,
+            "condition": {
+                "type": "fire",
+                "totalDamage": 1000,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
         },
         {
             "id": "area_2",

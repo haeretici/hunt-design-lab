@@ -292,15 +292,23 @@ $modesList = function_exists('hdl_list_modes') ? hdl_list_modes() : [
                         </div>
                     </div>
                 </section>
+                <div id="sidebarPanelToggles" class="sidebar-panel-toggles" role="toolbar" aria-label="Open or close sidebar panels"></div>
                 <section class="game-backpack-panel panel-collapsible-section" data-panel-id="backpack" aria-label="Backpack inventory">
-                    <div class="am-sidebar-title-row panel-toggle-header" role="button" tabindex="0" title="Click to collapse or expand">
-                        <div class="d-flex align-items-center gap-1">
-                            <i class="fa-solid fa-chevron-down panel-toggle-icon"></i>
-                            <h2 class="am-sidebar-title mb-0">Backpack</h2>
+                    <div class="am-sidebar-title-row panel-title-bar">
+                        <div class="panel-toggle-header d-flex align-items-center flex-grow-1" role="button" tabindex="0" title="Drag to reorder · click to collapse">
+                            <div class="d-flex align-items-center gap-1">
+                                <i class="fa-solid fa-chevron-down panel-toggle-icon"></i>
+                                <h2 class="am-sidebar-title mb-0">Backpack</h2>
+                            </div>
+                        </div>
+                        <div class="panel-title-actions">
+                            <button type="button" class="panel-close-btn" aria-label="Close backpack" title="Close Backpack">
+                                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                            </button>
                         </div>
                     </div>
                     <div class="panel-collapsible-content">
-                        <div class="backpack-grid-scroll" id="backpackScroll">
+                        <div class="backpack-grid-scroll panel-body-scroll" id="backpackScroll">
                             <div class="backpack-grid" id="backpackGrid" title="Character backpack (20 slots; nested bags open in panels)">
                                 <?php for ($i = 0; $i < 20; $i++) : ?>
                                 <div class="backpack-slot inv-slot" data-slot-index="<?= $i ?>" data-container-uid="root"></div>
@@ -309,53 +317,91 @@ $modesList = function_exists('hdl_list_modes') ? hdl_list_modes() : [
                         </div>
                         <p class="text-muted small mb-0 inv-hint">LMB select · drag to move · RMB menu · dbl-click open/equip</p>
                     </div>
+                    <div class="panel-resize-handle" role="separator" aria-orientation="horizontal" aria-label="Resize panel height" title="Drag to resize height"></div>
                 </section>
                 <section class="game-combat-panel panel-collapsible-section" data-panel-id="combat" aria-label="Combat enemies list">
-                    <div class="am-sidebar-title-row">
-                        <div class="panel-toggle-header d-flex align-items-center flex-grow-1" role="button" tabindex="0" title="Click to collapse or expand">
+                    <div class="am-sidebar-title-row panel-title-bar">
+                        <div class="panel-toggle-header d-flex align-items-center flex-grow-1" role="button" tabindex="0" title="Drag to reorder · click to collapse">
                             <div class="d-flex align-items-center gap-1">
                                 <i class="fa-solid fa-chevron-down panel-toggle-icon"></i>
                                 <h2 class="am-sidebar-title mb-0">Combat</h2>
                             </div>
                         </div>
-                        <div class="combat-sort-container">
-                            <button type="button" class="btn btn-sm btn-outline-secondary party-details-btn" id="combatSortBtn" title="Sort by: Display Time - ASC (Default)" aria-label="Sort options">
-                                <i class="fa-solid fa-arrow-down-short-wide"></i>
-                            </button>
-                            <div id="combatSortDropdown" class="combat-sort-dropdown-menu" hidden>
-                                <div class="combat-sort-item active" data-sort="display_time_asc">Display Time - ASC</div>
-                                <div class="combat-sort-item" data-sort="display_time_desc">Display Time - DESC</div>
-                                <div class="combat-sort-item" data-sort="distance_asc">Distance - ASC</div>
-                                <div class="combat-sort-item" data-sort="distance_desc">Distance - DESC</div>
-                                <div class="combat-sort-item" data-sort="hp_percent_asc">% HP - ASC</div>
-                                <div class="combat-sort-item" data-sort="hp_percent_desc">% HP - DESC</div>
-                                <div class="combat-sort-item" data-sort="name_asc">Name - ASC</div>
-                                <div class="combat-sort-item" data-sort="name_desc">Name - DESC</div>
+                        <div class="panel-title-actions">
+                            <div class="combat-sort-container">
+                                <button type="button" class="btn btn-xs btn-outline-secondary party-details-btn combat-sort-btn" id="combatSortBtn" title="Sort by: Display Time - ASC (Default)" aria-label="Sort options">
+                                    <i class="fa-solid fa-arrow-down-short-wide"></i>
+                                </button>
+                                <div id="combatSortDropdown" class="combat-sort-dropdown-menu" hidden>
+                                    <div class="combat-sort-item active" data-sort="display_time_asc">Display Time - ASC</div>
+                                    <div class="combat-sort-item" data-sort="display_time_desc">Display Time - DESC</div>
+                                    <div class="combat-sort-item" data-sort="distance_asc">Distance - ASC</div>
+                                    <div class="combat-sort-item" data-sort="distance_desc">Distance - DESC</div>
+                                    <div class="combat-sort-item" data-sort="hp_percent_asc">% HP - ASC</div>
+                                    <div class="combat-sort-item" data-sort="hp_percent_desc">% HP - DESC</div>
+                                    <div class="combat-sort-item" data-sort="name_asc">Name - ASC</div>
+                                    <div class="combat-sort-item" data-sort="name_desc">Name - DESC</div>
+                                </div>
                             </div>
+                            <button type="button" class="panel-close-btn" aria-label="Close combat" title="Close Combat">
+                                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                            </button>
                         </div>
                     </div>
                     <div class="panel-collapsible-content">
-                        <div class="entity-panel-list-scroll">
+                        <div class="entity-panel-list-scroll panel-body-scroll">
                             <div id="combatCreaturesList" class="entity-panel-list" role="list">
                                 <p class="text-muted small mb-0 p-1">No creatures in combat</p>
                             </div>
                         </div>
                     </div>
+                    <div class="panel-resize-handle" role="separator" aria-orientation="horizontal" aria-label="Resize panel height" title="Drag to resize height"></div>
                 </section>
-                <section class="game-party-panel panel-collapsible-section" data-panel-id="party" aria-label="Party members list">
-                    <div class="am-sidebar-title-row panel-toggle-header" role="button" tabindex="0" title="Click to collapse or expand">
-                        <div class="d-flex align-items-center gap-1">
-                            <i class="fa-solid fa-chevron-down panel-toggle-icon"></i>
-                            <h2 class="am-sidebar-title mb-0">Party</h2>
+                <section class="game-skills-panel panel-collapsible-section" data-panel-id="skills" aria-label="Character skills">
+                    <div class="am-sidebar-title-row panel-title-bar">
+                        <div class="panel-toggle-header d-flex align-items-center flex-grow-1" role="button" tabindex="0" title="Drag to reorder · click to collapse">
+                            <div class="d-flex align-items-center gap-1">
+                                <i class="fa-solid fa-chevron-down panel-toggle-icon"></i>
+                                <h2 class="am-sidebar-title mb-0">Skills</h2>
+                            </div>
+                        </div>
+                        <div class="panel-title-actions">
+                            <button type="button" class="panel-close-btn" aria-label="Close skills" title="Close Skills">
+                                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                            </button>
                         </div>
                     </div>
                     <div class="panel-collapsible-content">
-                        <div class="entity-panel-list-scroll">
+                        <div class="skills-panel-scroll panel-body-scroll" id="skillsPanelScroll">
+                            <div id="skillsPanelList" class="skills-panel-list">
+                                <p class="text-muted small mb-0 p-1">No character</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-resize-handle" role="separator" aria-orientation="horizontal" aria-label="Resize panel height" title="Drag to resize height"></div>
+                </section>
+                <section class="game-party-panel panel-collapsible-section" data-panel-id="party" aria-label="Party members list">
+                    <div class="am-sidebar-title-row panel-title-bar">
+                        <div class="panel-toggle-header d-flex align-items-center flex-grow-1" role="button" tabindex="0" title="Drag to reorder · click to collapse">
+                            <div class="d-flex align-items-center gap-1">
+                                <i class="fa-solid fa-chevron-down panel-toggle-icon"></i>
+                                <h2 class="am-sidebar-title mb-0">Party</h2>
+                            </div>
+                        </div>
+                        <div class="panel-title-actions">
+                            <button type="button" class="panel-close-btn" aria-label="Close party" title="Close Party">
+                                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="panel-collapsible-content">
+                        <div class="entity-panel-list-scroll panel-body-scroll">
                             <div id="partyMembersList" class="entity-panel-list" role="list">
                                 <p class="text-muted small mb-0 p-1">No party members</p>
                             </div>
                         </div>
                     </div>
+                    <div class="panel-resize-handle" role="separator" aria-orientation="horizontal" aria-label="Resize panel height" title="Drag to resize height"></div>
                 </section>
             </div>
         </aside>

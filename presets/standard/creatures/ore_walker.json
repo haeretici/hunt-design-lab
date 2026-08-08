@@ -91,12 +91,19 @@
             "chance": 10,
             "range": 4,
             "element": "earth",
-            "min": 542,
-            "max": 732,
+            "min": 0,
+            "max": 0,
             "radius": 3,
             "target": true,
             "effect": "me_smallplants",
-            "shootEffect": "ani_smallearth"
+            "shootEffect": "ani_smallearth",
+            "statusOnly": true,
+            "condition": {
+                "type": "poison",
+                "totalDamage": 732,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
         },
         {
             "id": "slow_4",

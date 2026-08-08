@@ -17,14 +17,49 @@ const {
     MAGIC_FLOOR
 } = require('./progression.js');
 
-/** Floor skills (class B2 / untrained). */
+/** Floor skills (class B2 / untrained). Engine bag + subtype keys at floor. */
 const FLOOR_SKILLS = Object.freeze({
     melee: SKILL_FLOOR,
     distance: SKILL_FLOOR,
     shielding: SKILL_FLOOR,
     magic: MAGIC_FLOOR,
-    fist: SKILL_FLOOR
+    fist: SKILL_FLOOR,
+    sword: SKILL_FLOOR,
+    axe: SKILL_FLOOR,
+    club: SKILL_FLOOR
 });
+
+/**
+ * Standard product profile skill keys (legacy vocabulary).
+ * Combat resolve prefers subtype; `melee` is derived max only (not authored alone).
+ * @see docs/27_exp_skill_progression_plan.md §D.2
+ */
+const STANDARD_PROFILE_SKILL_KEYS = Object.freeze([
+    'sword',
+    'axe',
+    'club',
+    'fist',
+    'distance',
+    'shielding',
+    'magicLevel',
+    'fishing'
+]);
+
+/**
+ * True when a skills bag meets the product profile standard (subtype keys present).
+ * Accepts engine `magic` as alias for `magicLevel`. `melee`-only bags fail.
+ * @param {object|null|undefined} skills
+ * @returns {boolean}
+ */
+function isStandardProfileSkillBag(skills) {
+    if (!skills || typeof skills !== 'object') return false;
+    for (const k of ['sword', 'axe', 'club', 'fist', 'distance', 'shielding']) {
+        if (skills[k] == null || skills[k] === '') return false;
+        if (!Number.isFinite(Number(skills[k]))) return false;
+    }
+    if (skills.magicLevel == null && skills.magic == null) return false;
+    return true;
+}
 
 /**
  * Role anchors: [level, value] pairs. Linear interpolate between.
@@ -373,32 +408,32 @@ function deriveSkills(classIdOrDef, level, opts) {
     engine.magic = Math.max(MAGIC_FLOOR, Math.round(engine.magic));
     engine.fist = Math.max(SKILL_FLOOR, Math.round(engine.fist));
 
+    // Subtype bags (standard policy): primary weapon skill on primaryLegacy;
+    // off-hand melee types stay at off-anchor. melee remains collapsed max.
+    const offClamped = Math.max(SKILL_FLOOR, Math.round(off));
+    const subtypes = expandMeleeSubtypes(engine, policy, offClamped);
+    Object.assign(engine, subtypes);
+    engine.melee = Math.max(
+        engine.melee,
+        engine.sword || 0,
+        engine.axe || 0,
+        engine.club || 0
+    );
+
     let skills;
     if (format === 'legacy') {
-        const leg = {
-            sword: policy.primaryLegacy === 'sword' ? engine.melee : off,
-            axe: off,
-            club: off,
+        skills = {
+            sword: engine.sword,
+            axe: engine.axe,
+            club: engine.club,
             fist: engine.fist,
             distance: engine.distance,
             shielding: engine.shielding,
             magicLevel: engine.magic,
             fishing: SKILL_FLOOR
         };
-        if (policy.primaryLegacy === 'fist') {
-            leg.fist = engine.fist;
-            leg.sword = engine.melee;
-        }
-        if (policy.skillKey === 'distance') {
-            leg.sword = engine.melee;
-            leg.distance = engine.distance;
-        }
-        if (policy.skillKey === 'magic') {
-            leg.sword = engine.melee;
-            leg.magicLevel = engine.magic;
-        }
-        skills = leg;
     } else {
+        // Engine bag now always carries subtypes + collapsed melee
         skills = engine;
     }
 
@@ -407,7 +442,7 @@ function deriveSkills(classIdOrDef, level, opts) {
         level: L,
         focus,
         format,
-        policy: 'v1_level_anchors',
+        policy: 'v1_level_anchors_subtype',
         skills
     };
 
@@ -426,6 +461,28 @@ function deriveSkills(classIdOrDef, level, opts) {
 }
 
 /**
+ * Expand collapsed melee into sword/axe/club for combat subtype policy.
+ * @param {object} engine bag with melee + fist
+ * @param {object} policy CLASS_POLICY row
+ * @param {number} off off-melee anchor value
+ * @returns {{ sword: number, axe: number, club: number }}
+ */
+function expandMeleeSubtypes(engine, policy, off) {
+    const offVal = Math.max(SKILL_FLOOR, Math.round(Number(off) || SKILL_FLOOR));
+    const melee = Math.max(SKILL_FLOOR, Math.round(Number(engine.melee) || SKILL_FLOOR));
+    // Primary melee vocation → primaryLegacy carries full melee power
+    if (policy.primaryLegacy === 'sword') {
+        return { sword: melee, axe: offVal, club: offVal };
+    }
+    if (policy.primaryLegacy === 'fist') {
+        // Fist is primary; sword mirrors secondary melee pool
+        return { sword: melee, axe: offVal, club: offVal };
+    }
+    // Distance / magic primary: all sword/axe/club are off-pool (melee already off-primary)
+    return { sword: melee, axe: offVal, club: offVal };
+}
+
+/**
  * Suggested profile skill block only (legacy keys) for drafting JSON.
  * @param {string|object} classIdOrDef
  * @param {number} level
@@ -440,6 +497,9 @@ function deriveProfileSkills(classIdOrDef, level, opts) {
 module.exports = {
     FLOOR_SKILLS,
     CLASS_POLICY,
+    STANDARD_PROFILE_SKILL_KEYS,
+    isStandardProfileSkillBag,
+    expandMeleeSubtypes,
     interpolateAnchors,
     deriveSkills,
     deriveProfileSkills

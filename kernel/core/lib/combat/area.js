@@ -29,8 +29,16 @@ const {
     getFieldKind,
     deployFieldAndTriggerOccupants,
     removeFieldFromTile,
-    isPlayerEntity
+    isPlayerEntity,
+    isObstacleFieldKind
 } = require('./elemental_fields.js');
+const {
+    spellHasDelay,
+    resolveDelaySec,
+    resolveDelayedPlaceCenter,
+    getDelayedCastStore,
+    scheduleDelayedCast
+} = require('./delayed_cast.js');
 
 /**
  * Whether a spell def has a multi-tile shape.
@@ -113,7 +121,7 @@ function isSelfCenteredAreaSpell(spell) {
 /**
  * Choose blast center for an area shape.
  * Melee / self-centered (range ≤ 1): caster tile.
- * Ranged: best multi-hit center with LoS, else primary target tile.
+ * Ranged: best multi-hit center with LoS, else primary target tile (also LoS).
  *
  * @param {object} opts
  * @param {object} opts.attacker
@@ -239,12 +247,31 @@ function resolveAreaCenter(opts) {
         }
     }
 
+    // Last resort: sticky primary only when the ray is clear (or no map).
+    // Without this, ranged area could center behind solid walls after all
+    // ranked multi-hit centers failed LoS.
     if (primary && primary.tile) {
-        return {
-            x: primary.tile.x,
-            y: primary.tile.y,
-            z: primary.tile.z !== undefined ? primary.tile.z : z
-        };
+        const pz =
+            primary.tile.z !== undefined ? primary.tile.z : z;
+        if (
+            !tileMap ||
+            hasLineOfSight(
+                attacker.tile.x,
+                attacker.tile.y,
+                z,
+                primary.tile.x,
+                primary.tile.y,
+                pz,
+                tileMap
+            )
+        ) {
+            return {
+                x: primary.tile.x,
+                y: primary.tile.y,
+                z: pz
+            };
+        }
+        return null;
     }
     return { x: attacker.tile.x, y: attacker.tile.y, z };
 }
@@ -275,6 +302,8 @@ function waveOriginFromCaster(casterTile, direction) {
  * @param {object|null} [opts.tileMap]
  * @param {{x:number,y:number}} [opts.direction] override wave facing
  * @param {{x:number,y:number,z?:*}} [opts.center] override blast center
+ * @param {boolean} [opts.skipCasterLos=false] when true (delayed detonate),
+ *   expand from planted center without re-checking caster→center LoS / floor
  * @returns {{
  *   spellType: 'area'|'wave',
  *   center: {x:number,y:number,z?:*}|null,
@@ -335,8 +364,11 @@ function computeSpellFootprint(opts) {
 
     if (!center) return empty;
 
+    // Delayed detonations keep the planted center (incl. floor). Requiring
+    // LoS from the caster's *current* tile would cancel the blast after a
+    // floor hop or walk-away — fuse already paid for placement.
     const affectedTiles = getAffectedTiles({
-        caster: attacker.tile,
+        caster: o.skipCasterLos ? null : attacker.tile,
         center,
         shape: spell.shape,
         direction,
@@ -347,10 +379,136 @@ function computeSpellFootprint(opts) {
 }
 
 /**
+ * Whether a player may cast a shaped (area/wave/beam) spell on their tile.
+ * Caster must be the **first** combatant (join order / tile controller).
+ * When first is a creature (mixed stack), no player may cast player-AoE.
+ * Without tileMap / unregistered occupancy, gate is open (unit tests / pre-occupy).
+ *
+ * @param {object|null|undefined} attacker
+ * @param {object|null|undefined} tileMap
+ * @returns {boolean}
+ */
+function canCastPlayerAreaOnTile(attacker, tileMap) {
+    if (!attacker || !isPlayerEntity(attacker)) return true;
+    if (!tileMap || !attacker.tile) return true;
+    if (typeof tileMap.getFirstOccupant !== 'function') return true;
+    const tx = attacker.tile.x;
+    const ty = attacker.tile.y;
+    const tz =
+        attacker.tile.z !== undefined && attacker.tile.z !== null
+            ? attacker.tile.z
+            : 0;
+    const first = tileMap.getFirstOccupant(tx, ty, tz) | 0;
+    if (first === 0) return true;
+    const id = attacker.id != null ? attacker.id | 0 : 0;
+    return id !== 0 && first === id;
+}
+
+/**
+ * Living entity eligible for shaped damage (alive + HP).
+ * @param {object|null|undefined} e
+ * @returns {boolean}
+ */
+function isLivingCombatant(e) {
+    if (!e || e.alive === false) return false;
+    if (e.hp && e.hp.current <= 0) return false;
+    return true;
+}
+
+/**
+ * Expand shaped hit list from tile stacks (Phase B).
+ * Creature attacker → all living **players** on each footprint tile (B1/B5).
+ * Mixed-stack creatures are not player targets of that rule.
+ * Candidate list remains the base filter; stack fills missing co-located players.
+ *
+ * @param {object[]} hits
+ * @param {{x:number,y:number,z?:*}[]} affectedTiles
+ * @param {string|number} z
+ * @param {object} attacker
+ * @param {object|null|undefined} tileMap
+ * @returns {object[]}
+ */
+function expandShapedHitsWithStacks(hits, affectedTiles, z, attacker, tileMap) {
+    if (!tileMap || !affectedTiles || !affectedTiles.length) {
+        return hits || [];
+    }
+    if (typeof tileMap.getCombatantEntities !== 'function') {
+        return hits || [];
+    }
+    // Only creature-shaped attacks expand to all players on tile.
+    if (isPlayerEntity(attacker)) {
+        return hits || [];
+    }
+
+    /** @type {object[]} */
+    const out = Array.isArray(hits) ? hits.slice() : [];
+    const seen = new Set();
+    for (let i = 0; i < out.length; i++) {
+        const e = out[i];
+        if (e && e.id != null) seen.add(e.id | 0);
+    }
+
+    for (let t = 0; t < affectedTiles.length; t++) {
+        const tile = affectedTiles[t];
+        if (!tile) continue;
+        const ents = tileMap.getCombatantEntities(tile.x, tile.y, z) || [];
+        for (let i = 0; i < ents.length; i++) {
+            const e = ents[i];
+            if (!isLivingCombatant(e) || e === attacker) continue;
+            if (!isPlayerEntity(e)) continue;
+            const id = e.id != null ? e.id | 0 : 0;
+            if (id !== 0 && seen.has(id)) continue;
+            if (id !== 0) seen.add(id);
+            out.push(e);
+        }
+    }
+    return out;
+}
+
+/**
+ * Occupants on a footprint tile for field deploy underfoot (all combatants).
+ * Prefers getCombatantEntities; falls back to first occupant only.
+ *
+ * @param {object|null|undefined} tileMap
+ * @param {number} x
+ * @param {number} y
+ * @param {string|number} z
+ * @param {object[]} [seed]
+ * @returns {object[]}
+ */
+function combatantsOnTileForField(tileMap, x, y, z, seed) {
+    /** @type {object[]} */
+    const out = Array.isArray(seed) ? seed.slice() : [];
+    if (!tileMap) return out;
+
+    if (typeof tileMap.getCombatantEntities === 'function') {
+        const ents = tileMap.getCombatantEntities(x, y, z) || [];
+        for (let i = 0; i < ents.length; i++) {
+            const ent = ents[i];
+            if (ent && out.indexOf(ent) < 0) out.push(ent);
+        }
+        return out;
+    }
+
+    if (
+        typeof tileMap.getOccupant === 'function' &&
+        typeof tileMap.resolveOccupant === 'function'
+    ) {
+        const occId = tileMap.getOccupant(x, y, z);
+        if (occId) {
+            const ent = tileMap.resolveOccupant(occId);
+            if (ent && out.indexOf(ent) < 0) out.push(ent);
+        }
+    }
+    return out;
+}
+
+/**
  * Resolve a shaped spell against all living candidates on the footprint.
  * Mana / cooldowns / moveLock applied once when the cast is accepted
  * (even if zero defenders are hit — empty field tiles still deploy).
  * Zero footprint tiles → `ok: false`, reason `no_tiles` (no CD/mana/rune).
+ * Player casters must be first on their tile (`not_tile_controller` if not).
  *
  * @param {object} opts
  * @param {object} opts.attacker
@@ -366,6 +524,8 @@ function computeSpellFootprint(opts) {
  * @param {{x:number,y:number}} [opts.direction]
  * @param {{x:number,y:number,z?:*}} [opts.center]
  * @param {object|null} [opts.sim] optional sim for underfoot creature pool
+ * @param {boolean} [opts.skipDelay=false] when true, ignore spell.delaySec (detonate path)
+ * @param {object[]} [opts.delayedStore] optional pending-cast array override
  * @returns {{
  *   ok: boolean,
  *   reason?: string,
@@ -378,6 +538,8 @@ function computeSpellFootprint(opts) {
  *   range: object|null,
  *   moveLock: number,
  *   multi: true,
+ *   delayed?: boolean,
+ *   delaySec?: number,
  *   affectedTiles: {x:number,y:number,z?:*}[],
  *   center: {x:number,y:number,z?:*}|null,
  *   direction: {x:number,y:number},
@@ -396,6 +558,12 @@ function resolveShapedAttack(opts) {
         return failShape('no_shape', spell);
     }
 
+    // Phase B: player area cast gate — first combatant only (before CD/mana spend).
+    // Detonation path already paid the gate at plant time; caster may have moved floors.
+    if (!o.skipDelay && !canCastPlayerAreaOnTile(attacker, o.tileMap || null)) {
+        return failShape('not_tile_controller', spell);
+    }
+
     if (!o.skipCooldown) {
         Cooldowns.ensureCooldowns(attacker);
         if (!Cooldowns.canUse(attacker, spell.cooldowns)) {
@@ -407,6 +575,86 @@ function resolveShapedAttack(opts) {
         return failShape('mana', spell);
     }
 
+    // Delayed fuse (e.g. divine grenade): plant center, spend resources, no damage yet.
+    const delaySec = o.skipDelay ? 0 : resolveDelaySec(spell);
+    if (delaySec > 0) {
+        const placeCenter =
+            o.center ||
+            resolveDelayedPlaceCenter(attacker, o.primary || null, spell);
+        if (!placeCenter) {
+            return failShape('no_tiles', spell);
+        }
+        const moveLock = resolveMoveLock(spell);
+        const applyMutations = o.apply !== false;
+        /** @type {object|null} */
+        let shapedManaProgress = null;
+        if (applyMutations) {
+            if (!o.skipCooldown) {
+                Cooldowns.apply(attacker, spell.cooldowns);
+            }
+            if (!o.skipMana) {
+                spendMana(attacker, manaCost);
+                if (manaCost > 0) {
+                    const {
+                        processManaSkillProgression
+                    } = require('../character/progression.js');
+                    shapedManaProgress = processManaSkillProgression(
+                        attacker,
+                        manaCost,
+                        {
+                            sessionConfig: o.sessionConfig,
+                            skillProgression: o.skillProgression
+                        }
+                    );
+                }
+            }
+            applyMoveLock(attacker, moveLock);
+            const store = getDelayedCastStore(
+                o.sim || null,
+                attacker,
+                o.delayedStore || null
+            );
+            scheduleDelayedCast(store, {
+                remainingSec: delaySec,
+                spell,
+                center: placeCenter,
+                attacker,
+                direction: o.direction || { x: 1, y: 0 },
+                spellBook: o.spellBook || null,
+                sessionConfig: o.sessionConfig,
+                skillProgression: o.skillProgression
+            });
+        }
+        const markerTile = {
+            x: placeCenter.x,
+            y: placeCenter.y,
+            z: placeCenter.z
+        };
+        return {
+            ok: true,
+            spell,
+            hit: false,
+            critical: false,
+            final: 0,
+            hpDelta: 0,
+            breakdown: null,
+            range: null,
+            moveLock,
+            multi: true,
+            delayed: true,
+            delaySec,
+            affectedTiles: [markerTile],
+            center: placeCenter,
+            direction: o.direction || { x: 1, y: 0 },
+            results: [],
+            hits: [],
+            skillProgress: null,
+            manaProgress: shapedManaProgress
+        };
+    }
+
+    // skipDelay detonation: footprint must use planted center floor, not
+    // re-require LoS from the caster's current tile (floor hop / walk-away).
     const foot = computeSpellFootprint({
         attacker,
         primary: o.primary || null,
@@ -414,7 +662,8 @@ function resolveShapedAttack(opts) {
         candidates: o.candidates || [],
         tileMap: o.tileMap || null,
         direction: o.direction,
-        center: o.center
+        center: o.center,
+        skipCasterLos: o.skipDelay === true
     });
 
     // Accept cast only when the footprint has at least one tile. Empty
@@ -439,9 +688,19 @@ function resolveShapedAttack(opts) {
     // Never hit self with damage shapes (heals are single-target elsewhere)
     pool = pool.filter((e) => e && e !== attacker);
 
-    const hits = entitiesOnTiles(pool, foot.affectedTiles, z);
+    let hits = entitiesOnTiles(pool, foot.affectedTiles, z);
+    // Phase B: creature shaped hit expands to all living players on tile stacks.
+    hits = expandShapedHitsWithStacks(
+        hits,
+        foot.affectedTiles,
+        z,
+        attacker,
+        o.tileMap || null
+    );
     const applyMutations = o.apply !== false;
     const moveLock = resolveMoveLock(spell);
+    /** @type {object|null} */
+    let shapedManaProgress = null;
 
     if (applyMutations) {
         if (!o.skipCooldown) {
@@ -449,6 +708,20 @@ function resolveShapedAttack(opts) {
         }
         if (!o.skipMana) {
             spendMana(attacker, manaCost);
+            // Phase D: mana → ML once for multi-target (skipMana on per-target resolve)
+            if (manaCost > 0) {
+                const {
+                    processManaSkillProgression
+                } = require('../character/progression.js');
+                shapedManaProgress = processManaSkillProgression(
+                    attacker,
+                    manaCost,
+                    {
+                        sessionConfig: o.sessionConfig,
+                        skillProgression: o.skillProgression
+                    }
+                );
+            }
         }
         applyMoveLock(attacker, moveLock);
 
@@ -504,12 +777,70 @@ function resolveShapedAttack(opts) {
                     occByKey[k].push(e);
                 }
 
+                const obstacleDeploy = isObstacleFieldKind(fieldKind);
+                // Optional per-spell duration (barrier 20s / vine 30s; elemental defaults).
+                const fieldDurationSec =
+                    spell.fieldDurationSec != null &&
+                    Number.isFinite(Number(spell.fieldDurationSec))
+                        ? Math.max(0, Number(spell.fieldDurationSec))
+                        : spell.durationSec != null &&
+                            Number.isFinite(Number(spell.durationSec)) &&
+                            obstacleDeploy
+                          ? Math.max(0, Number(spell.durationSec))
+                          : null;
+
                 for (let k = 0; k < foot.affectedTiles.length; k++) {
                     const t = foot.affectedTiles[k];
-                    const walkable =
-                        !o.tileMap ||
-                        typeof o.tileMap.isWalkable !== 'function' ||
-                        o.tileMap.isWalkable(t.x, t.y, z);
+                    // Obstacles: reject stairs / floor-change tiles (legacy TILESTATE_FLOORCHANGE).
+                    if (
+                        obstacleDeploy &&
+                        o.tileMap &&
+                        typeof o.tileMap.isStair === 'function' &&
+                        o.tileMap.isStair(t.x, t.y, z)
+                    ) {
+                        continue;
+                    }
+                    // Obstacles may land on empty or player-occupied tiles only
+                    // (legacy: top creature must be player or none).
+                    const key =
+                        String(z) +
+                        ':' +
+                        Math.round(t.x) +
+                        ':' +
+                        Math.round(t.y);
+                    const tileOccs = combatantsOnTileForField(
+                        o.tileMap,
+                        t.x,
+                        t.y,
+                        z,
+                        occByKey[key] || []
+                    );
+                    if (obstacleDeploy) {
+                        let blockedByCreature = false;
+                        for (let oi = 0; oi < tileOccs.length; oi++) {
+                            const occ = tileOccs[oi];
+                            if (!occ || !occ.alive) continue;
+                            if (!isPlayerEntity(occ)) {
+                                blockedByCreature = true;
+                                break;
+                            }
+                        }
+                        if (blockedByCreature) continue;
+                    }
+                    // Reject map walls. Existing obstacle fields are replaceable
+                    // (friction already blocked by prior barrier/vine).
+                    let walkable = true;
+                    if (o.tileMap && typeof o.tileMap.isWalkable === 'function') {
+                        walkable = o.tileMap.isWalkable(t.x, t.y, z);
+                        if (!walkable && obstacleDeploy) {
+                            const mask =
+                                typeof o.tileMap.getTileFieldMask === 'function'
+                                    ? o.tileMap.getTileFieldMask(t.x, t.y, z)
+                                    : 0;
+                            // bit 16 = FIELD_MASKS.OBSTACLE — allow replace on obstacle tiles
+                            if ((mask & 16) !== 0) walkable = true;
+                        }
+                    }
                     const los =
                         !o.tileMap ||
                         !foot.center ||
@@ -523,29 +854,23 @@ function resolveShapedAttack(opts) {
                             o.tileMap
                         );
                     if (!walkable || !los) continue;
-                    const key =
-                        String(z) +
-                        ':' +
-                        Math.round(t.x) +
-                        ':' +
-                        Math.round(t.y);
-                    const tileOccs = (occByKey[key] || []).slice();
-                    if (o.tileMap && typeof o.tileMap.getOccupant === 'function' && typeof o.tileMap.resolveOccupant === 'function') {
-                        const occId = o.tileMap.getOccupant(t.x, t.y, z);
-                        if (occId) {
-                            const ent = o.tileMap.resolveOccupant(occId);
-                            if (ent && tileOccs.indexOf(ent) < 0) {
-                                tileOccs.push(ent);
-                            }
-                        }
+                    /** @type {object} */
+                    const deployOpts = {
+                        kind: fieldKind,
+                        source,
+                        id: spell.id || spell.name
+                    };
+                    if (fieldDurationSec != null) {
+                        deployOpts.durationSec = fieldDurationSec;
                     }
                     deployFieldAndTriggerOccupants(
                         groundStore,
                         t.x,
                         t.y,
                         z,
-                        { kind: fieldKind, source, id: spell.id || spell.name },
-                        tileOccs
+                        deployOpts,
+                        // Obstacles deal no entry damage; skip underfoot triggers.
+                        obstacleDeploy ? [] : tileOccs
                     );
                 }
             }
@@ -571,7 +896,11 @@ function resolveShapedAttack(opts) {
             rng: o.rng,
             skipCooldown: true,
             skipMana: true,
-            apply: applyMutations
+            apply: applyMutations,
+            // Phase D: weapon skill tries on primary target only
+            grantWeaponSkillTry: defender === o.primary,
+            sessionConfig: o.sessionConfig,
+            skillProgression: o.skillProgression
         });
         results.push(r);
         if (r.ok && r.hit) {
@@ -601,7 +930,9 @@ function resolveShapedAttack(opts) {
         center: foot.center,
         direction: foot.direction,
         results,
-        hits
+        hits,
+        skillProgress: summary ? summary.skillProgress : null,
+        manaProgress: shapedManaProgress
     };
 }
 
@@ -633,6 +964,9 @@ function failShape(reason, spell) {
 module.exports = {
     spellHasShape,
     isSelfCenteredAreaSpell,
+    canCastPlayerAreaOnTile,
+    expandShapedHitsWithStacks,
+    combatantsOnTileForField,
     resolveWaveDirection,
     resolveAreaCenter,
     waveOriginFromCaster,

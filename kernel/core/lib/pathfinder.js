@@ -44,12 +44,15 @@ function blockedValue() {
 /**
  * @typedef {Object} FindPathOptions
  * @property {boolean} [allowDiagonal=true]
- * @property {boolean} [checkOccupied=false] Treat occupancy ≠ 0 as blocked (end always open)
+ * @property {boolean} [checkOccupied=false] Treat occupancy ≠ 0 as blocked (end always open). Ignored when useStackPolicy.
+ * @property {boolean} [useStackPolicy=false] 4C stack/push enterability via tileMap.pathStepOccupancy + mover
+ * @property {object|number|null} [mover] Entity (or id) for stack/push occupancy policy
+ * @property {number} [occupantStepPenalty=0] Soft A* cost on 'soft' (push-enterable) intermediates
  * @property {number} [maxDistance] Chebyshev-style box from start (legacy default 100)
  * @property {number} [maxIterations] Expanded-node budget (legacy default 512)
  * @property {number} [avoidFieldMask=0] Bitmask of elemental field hazards to avoid (1=fire, 2=poison, 4=energy)
  * @property {boolean} [ignorePlayerFields=false] Allow walking through player-sourced fields (friendly fire immunity)
- * @property {number} [fieldPenalty=0] Penalty added to step cost for avoided fields during hazard fallback
+ * @property {number} [fieldPenalty=0] Soft cost for avoided fields when > 0 (13C provoked mode); 0 = hard avoid
  */
 
 /**
@@ -191,6 +194,14 @@ function findPath(tileMap, start, end, options) {
         options && options.checkOccupied !== undefined
             ? !!options.checkOccupied
             : false;
+    const useStackPolicy =
+        !!(options && options.useStackPolicy) ||
+        !!(options && options.mover != null);
+    const mover = options && options.mover != null ? options.mover : null;
+    const occupantStepPenalty =
+        options && options.occupantStepPenalty !== undefined
+            ? Number(options.occupantStepPenalty)
+            : 0;
     const maxDistance =
         options && options.maxDistance !== undefined
             ? options.maxDistance
@@ -270,6 +281,25 @@ function findPath(tileMap, start, end, options) {
     }
 
     /**
+     * Occupancy kind for intermediate tiles under 4C stack policy.
+     * @param {number} x
+     * @param {number} y
+     * @returns {'free'|'soft'|'hard'}
+     */
+    function occupancyKind(x, y) {
+        if (
+            useStackPolicy &&
+            tileMap &&
+            typeof tileMap.pathStepOccupancy === 'function'
+        ) {
+            return tileMap.pathStepOccupancy(x, y, z, mover);
+        }
+        const idx = y * cols + x;
+        if (!checkOccupied || occupancy[idx] === 0) return 'free';
+        return 'hard';
+    }
+
+    /**
      * Blocked for traversal.
      * End tile stays open for friction/occupancy (path *to* a combat target),
      * but avoided elemental fields still block the goal in strict mode
@@ -281,12 +311,15 @@ function findPath(tileMap, start, end, options) {
     function isBlocked(x, y) {
         const isEnd = x === ex && y === ey;
         const idx = y * cols + x;
+        // Solid obstacle fields (barrier / vine, bit 16) always hard-block,
+        // including as a path goal — unlike combat targets behind open tiles.
+        if (fields && (fields[idx] & 16) !== 0) return true;
         if (!isEnd) {
             if (friction[idx] === blockedValue()) return true;
-            if (checkOccupied && occupancy[idx] !== 0) return true;
+            if (occupancyKind(x, y) === 'hard') return true;
         }
         // Strict avoidance: field hazards block intermediates *and* the goal.
-        // Penalty mode (provoked / leash) allows goal + intermediates with cost.
+        // Soft fieldPenalty (13C provoked) allows goal + intermediates with cost.
         if (fieldPenalty <= 0 && isHazardField(idx)) return true;
         return false;
     }
@@ -390,9 +423,17 @@ function findPath(tileMap, start, end, options) {
                 continue;
             }
 
-            // Geometric cost only — do not weight by friction gray value.
+            // Geometric cost only for friction — do not weight by friction gray.
+            // Soft occupant (4C) + soft field (13C) penalties apply when enabled.
             let moveCost = mx !== 0 && my !== 0 ? SQRT2 : 1;
             const nIdx = ny * cols + nx;
+            if (
+                occupantStepPenalty > 0 &&
+                (nx !== ex || ny !== ey) &&
+                occupancyKind(nx, ny) === 'soft'
+            ) {
+                moveCost += occupantStepPenalty;
+            }
             if (fieldPenalty > 0 && isHazardField(nIdx)) {
                 moveCost += fieldPenalty;
             }

@@ -877,6 +877,15 @@ function resolveHuntLayout(hunt, opts) {
 
     const type = String(layout.type || layout.kind || '').toLowerCase();
 
+    // Arena ↔ rest chain (must run before multi_biome / multifloor so
+    // alternating artSets never hijack resolveMultiBiomeHuntLayout).
+    if (type === 'arena_rest_chain' || type === 'arena-rest-chain') {
+        const {
+            resolveArenaRestChainHuntLayout
+        } = require('./arena_rest_chain.js');
+        return resolveArenaRestChainHuntLayout(hunt, opts);
+    }
+
     // Stage 11.10 multi-biome macro chains (before plain multifloor)
     if (
         type === 'multi_biome' ||

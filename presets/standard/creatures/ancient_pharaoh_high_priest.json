@@ -142,12 +142,19 @@
             "chance": 13,
             "range": 4,
             "element": "fire",
-            "min": 18,
-            "max": 181,
+            "min": 0,
+            "max": 0,
             "length": 8,
             "spread": 3,
             "target": false,
-            "effect": "me_explosionhit"
+            "effect": "me_explosionhit",
+            "statusOnly": true,
+            "condition": {
+                "type": "fire",
+                "totalDamage": 181,
+                "intervalMs": 2000
+            },
+            "legacyName": "condition"
         }
     ],
     "defenseSpells": [

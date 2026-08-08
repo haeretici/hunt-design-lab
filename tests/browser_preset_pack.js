@@ -99,6 +99,27 @@ function main() {
             pack.deps.parties.indexOf('balance_quartet') >= 0,
             'deps.parties includes balance_quartet'
         );
+        // Arena ↔ rest chain shells + packs (standard_arena_rest_chain)
+        assert.ok(
+            pack.files['dungeons/arena_combat_shell.json'],
+            'standard pack includes arena_combat_shell for arena_rest_chain'
+        );
+        assert.ok(
+            pack.files['dungeons/rest_area_shell.json'],
+            'standard pack includes rest_area_shell for arena_rest_chain'
+        );
+        assert.ok(
+            pack.files['pieces/arena_combat_v1.json'],
+            'standard pack includes arena_combat_v1 piece pack'
+        );
+        assert.ok(
+            pack.files['pieces/rest_area_v1.json'],
+            'standard pack includes rest_area_v1 piece pack'
+        );
+        assert.ok(
+            pack.deps.dungeons.indexOf('arena_combat_shell') >= 0,
+            'deps.dungeons lists arena_combat_shell'
+        );
     });
 
     test('injected pack lists parties from cache (browser fs shim path)', () => {

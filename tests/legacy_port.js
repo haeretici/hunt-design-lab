@@ -413,6 +413,116 @@ function testConverters() {
     assert.strictEqual(poisonMelee.condition.totalDamage, 30);
     assert.strictEqual(poisonMelee.condition.intervalMs, 4000);
 
+    // Pure name:"condition" — min/max are DoT pool, not hit damage (F-prep)
+    const purePoison = convertAttack(
+        {
+            name: 'condition',
+            type: 'CONDITION_POISON',
+            interval: 2000,
+            chance: 15,
+            minDamage: -400,
+            maxDamage: -640,
+            range: 7,
+            radius: 7,
+            effect: 'me_hitbypoison',
+            target: false
+        },
+        2
+    );
+    assert.ok(purePoison);
+    assert.strictEqual(purePoison.kind, 'area');
+    assert.ok(purePoison.statusOnly);
+    assert.strictEqual(purePoison.min, 0);
+    assert.strictEqual(purePoison.max, 0);
+    assert.strictEqual(purePoison.condition.type, 'poison');
+    assert.strictEqual(purePoison.condition.totalDamage, 640);
+    assert.strictEqual(purePoison.condition.intervalMs, 2000);
+    assert.strictEqual(purePoison.element, 'earth');
+
+    const pureBleed = convertAttack(
+        {
+            name: 'condition',
+            type: 'CONDITION_BLEEDING',
+            interval: 2000,
+            chance: 10,
+            minDamage: -300,
+            maxDamage: -400,
+            radius: 3,
+            target: false
+        },
+        3
+    );
+    assert.ok(pureBleed);
+    assert.strictEqual(pureBleed.condition.type, 'bleed');
+    assert.strictEqual(pureBleed.condition.totalDamage, 400);
+    assert.strictEqual(pureBleed.element, 'physical');
+
+    const pureEnergy = convertAttack(
+        {
+            name: 'condition',
+            type: 'CONDITION_ENERGY',
+            interval: 2000,
+            chance: 20,
+            minDamage: -300,
+            maxDamage: -600,
+            range: 6,
+            radius: 4,
+            target: true
+        },
+        1
+    );
+    assert.ok(pureEnergy);
+    assert.strictEqual(pureEnergy.condition.type, 'energy');
+    assert.strictEqual(pureEnergy.element, 'energy');
+
+    const pureCurse = convertAttack(
+        {
+            name: 'condition',
+            type: 'CONDITION_CURSED',
+            interval: 3000,
+            chance: 15,
+            minDamage: -54,
+            maxDamage: -54,
+            range: 1,
+            target: false
+        },
+        4
+    );
+    assert.ok(pureCurse);
+    assert.strictEqual(pureCurse.condition.type, 'curse');
+    assert.strictEqual(pureCurse.element, 'death');
+
+    // Runtime applies new DoT kinds
+    const dotDummy = {
+        alive: true,
+        speed: 100,
+        baseSpeed: 100,
+        conditions: [],
+        hp: { current: 500, max: 500 },
+        applyHpDelta(amount) {
+            this.hp.current = Math.max(0, this.hp.current - amount);
+        }
+    };
+    applyCondition(dotDummy, {
+        type: 'bleed',
+        totalDamage: 40,
+        intervalMs: 1000
+    });
+    assert.strictEqual(dotDummy.conditions[0].kind, 'bleed');
+    assert.strictEqual(dotDummy.conditions[0].element, 'physical');
+    applyCondition(dotDummy, {
+        type: 'energy',
+        totalDamage: 20,
+        intervalMs: 1000
+    });
+    assert.ok(dotDummy.conditions.some((c) => c.kind === 'energy'));
+    applyCondition(dotDummy, {
+        type: 'curse',
+        totalDamage: 15,
+        intervalMs: 1000
+    });
+    assert.ok(dotDummy.conditions.some((c) => c.kind === 'curse'));
+
     const monWithDef = {
         name: 'Water Elemental',
         health: 550,

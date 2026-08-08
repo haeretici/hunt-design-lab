@@ -3,8 +3,9 @@
  * Mode-scoped preset CRUD for Designer UI.
  *
  * Phase 2–4: catalog documents, folder entities, nested piece packs,
- * soft refs (incl. hunts/scenarios), and optional kernel validate
- * (pieces / biomes / dungeons layout|stress). Hunts stay on Hunt Editor.
+ * soft refs (incl. hunts/scenarios), explicit rename with ref rewrite,
+ * and optional kernel validate (pieces / biomes / dungeons layout|stress).
+ * Hunts stay on Hunt Editor (but rename rewrites hunt/scenario pointers).
  */
 
 declare(strict_types=1);
@@ -20,6 +21,17 @@ final class PresetCrud
     private const DEFAULT_PAGE_SIZE = 100;
 
     private const MAX_PAGE_SIZE = 500;
+
+    /**
+     * Folder kinds whose mode.json browser.<key> list tracks every entity id
+     * (full mirror of the folder stems — browser pack cannot list directories).
+     * Curated lists (e.g. browser.populations) are intentionally excluded.
+     *
+     * @var array<string, string> designer kind → browser list key
+     */
+    private const BROWSER_FULL_LIST_BY_KIND = [
+        'creatures' => 'creatures',
+    ];
 
     /**
      * Kind → storage config.
@@ -293,6 +305,82 @@ final class PresetCrud
             'warnings' => $warnings,
             'refs' => $refs,
         ];
+    }
+
+    /**
+     * Explicit rename: move entity id (file/row) and optionally rewrite soft refs
+     * that pointed at the old id (populations, parties, catalogs, hunts, …).
+     *
+     * Uses on-disk entity body (save dirty form data first in the UI).
+     *
+     * @param array<string, mixed> $opts mode, kind, from (or renameFrom), to (or id), updateRefs?
+     * @return array{
+     *   mode: string,
+     *   kind: string,
+     *   id: string,
+     *   created: bool,
+     *   path: string,
+     *   count?: int,
+     *   shape: string,
+     *   renamedFrom: string,
+     *   refsBefore: list<array{kind: string, id: string, field: string}>,
+     *   refsUpdated: list<array{kind: string, id: string, field: string}>,
+     *   refsUpdatedCount: int
+     * }
+     */
+    public static function rename(array $opts): array
+    {
+        $modeId = self::assertModeId((string) ($opts['mode'] ?? ''));
+        $kind = (string) ($opts['kind'] ?? '');
+        $cfg = self::assertKind($kind);
+        $fromRaw = $opts['from'] ?? $opts['renameFrom'] ?? '';
+        $toRaw = $opts['to'] ?? $opts['id'] ?? '';
+        $fromId = self::assertEntityId((string) $fromRaw);
+        $toId = self::assertEntityId((string) $toRaw);
+        $updateRefs = true;
+        if (array_key_exists('updateRefs', $opts)) {
+            $v = $opts['updateRefs'];
+            $updateRefs = !($v === false || $v === 0 || $v === '0' || $v === 'false');
+        }
+
+        if ($fromId === $toId) {
+            throw new \InvalidArgumentException('New id must differ from the current id');
+        }
+
+        $got = self::get($modeId, $kind, $fromId);
+        $entity = $got['entity'] ?? null;
+        if (!is_array($entity) || array_is_list($entity)) {
+            throw new \RuntimeException('Corrupt entity body for rename: ' . $fromId);
+        }
+
+        if (self::entityExists($modeId, $cfg, $toId)) {
+            throw new \InvalidArgumentException(
+                'Cannot rename: target id already exists: ' . $toId
+            );
+        }
+
+        $refsBefore = self::collectReferences($modeId, $kind, $fromId);
+        /** @var list<array{kind: string, id: string, field: string}> $refsUpdated */
+        $refsUpdated = [];
+        if ($updateRefs && $refsBefore !== []) {
+            $refsUpdated = self::rewriteReferences($modeId, $kind, $fromId, $toId);
+        }
+
+        $entity['id'] = $toId;
+        $saved = self::save([
+            'mode' => $modeId,
+            'kind' => $kind,
+            'id' => $toId,
+            'entity' => $entity,
+            'renameFrom' => $fromId,
+        ]);
+
+        return array_merge($saved, [
+            'renamedFrom' => $fromId,
+            'refsBefore' => $refsBefore,
+            'refsUpdated' => $refsUpdated,
+            'refsUpdatedCount' => count($refsUpdated),
+        ]);
     }
 
     /**
@@ -1260,6 +1348,20 @@ final class PresetCrud
             $created = $created; // already set
         }
 
+        // Keep mode.json browser lists in sync for full-mirror kinds (creatures).
+        if (isset(self::BROWSER_FULL_LIST_BY_KIND[$kind])) {
+            self::updateBrowserIdList(
+                $modeId,
+                self::BROWSER_FULL_LIST_BY_KIND[$kind],
+                [
+                    'add' => $entityId,
+                    'remove' => ($renameFrom !== null && $renameFrom !== $entityId)
+                        ? $renameFrom
+                        : null,
+                ]
+            );
+        }
+
         $shape = $cfg['shape'] === 'nested_pack' ? 'nested_pack' : 'folder';
         return [
             'mode' => $modeId,
@@ -1287,6 +1389,14 @@ final class PresetCrud
             throw new \RuntimeException('Failed to delete: ' . self::relPath($path));
         }
 
+        if (isset(self::BROWSER_FULL_LIST_BY_KIND[$kind])) {
+            self::updateBrowserIdList(
+                $modeId,
+                self::BROWSER_FULL_LIST_BY_KIND[$kind],
+                ['remove' => $entityId]
+            );
+        }
+
         $shape = $cfg['shape'] === 'nested_pack' ? 'nested_pack' : 'folder';
         return [
             'mode' => $modeId,
@@ -1296,6 +1406,72 @@ final class PresetCrud
             'path' => self::relPath($path),
             'shape' => $shape,
         ];
+    }
+
+    /**
+     * Patch mode.json browser.<listKey> (add/remove ids, keep sorted unique).
+     *
+     * @param array{add?: string|null, remove?: string|null} $opts
+     * @return list<string> resulting list
+     */
+    private static function updateBrowserIdList(string $modeId, string $listKey, array $opts): array
+    {
+        $path = hdl_presets_root() . '/' . $modeId . '/mode.json';
+        if (!is_file($path)) {
+            throw new \RuntimeException('mode.json missing for ' . $modeId);
+        }
+        $data = self::readJsonFile($path);
+        if (!isset($data['browser']) || !is_array($data['browser'])) {
+            $data['browser'] = [];
+        }
+
+        $list = [];
+        if (isset($data['browser'][$listKey]) && is_array($data['browser'][$listKey])) {
+            foreach ($data['browser'][$listKey] as $item) {
+                if (is_string($item) && $item !== '') {
+                    $list[] = strtolower(trim($item));
+                }
+            }
+        }
+
+        $remove = isset($opts['remove']) && is_string($opts['remove']) && $opts['remove'] !== ''
+            ? strtolower(trim($opts['remove']))
+            : null;
+        if ($remove !== null) {
+            $list = array_values(array_filter(
+                $list,
+                static fn (string $id): bool => $id !== $remove
+            ));
+        }
+
+        $add = isset($opts['add']) && is_string($opts['add']) && $opts['add'] !== ''
+            ? strtolower(trim($opts['add']))
+            : null;
+        if ($add !== null && !in_array($add, $list, true)) {
+            $list[] = $add;
+        }
+
+        // Dedupe + sort (stable catalog for browser pack / diffs).
+        $seen = [];
+        $deduped = [];
+        foreach ($list as $id) {
+            if (isset($seen[$id])) {
+                continue;
+            }
+            $seen[$id] = true;
+            $deduped[] = $id;
+        }
+        sort($deduped, SORT_STRING);
+
+        $prev = isset($data['browser'][$listKey]) && is_array($data['browser'][$listKey])
+            ? $data['browser'][$listKey]
+            : null;
+        if ($prev === $deduped) {
+            return $deduped;
+        }
+        $data['browser'][$listKey] = $deduped;
+        self::writeJsonFile($path, $data);
+        return $deduped;
     }
 
     // ── Soft reference warnings ───────────────────────────────────────────
@@ -1881,6 +2057,738 @@ final class PresetCrud
             }
         }
         return $out;
+    }
+
+    // ── Soft reference rewrite (rename) ───────────────────────────────────
+
+    /**
+     * Rewrite soft pointers from $fromId → $toId for the same graph as
+     * collectReferences(). Returns the list of sites that changed.
+     *
+     * @return list<array{kind: string, id: string, field: string}>
+     */
+    private static function rewriteReferences(
+        string $modeId,
+        string $kind,
+        string $fromId,
+        string $toId
+    ): array {
+        $updated = [];
+
+        if ($kind === 'spells') {
+            $updated = array_merge(
+                $updated,
+                self::rewriteCatalogField($modeId, 'classes', 'spells', $fromId, $toId, true)
+            );
+            $updated = array_merge(
+                $updated,
+                self::rewriteCatalogField($modeId, 'classes', 'autoAttack', $fromId, $toId, false)
+            );
+            $updated = array_merge(
+                $updated,
+                self::rewriteCatalogField($modeId, 'strategies', 'spellPriority', $fromId, $toId, true)
+            );
+            $updated = array_merge(
+                $updated,
+                self::rewriteCatalogField($modeId, 'strategies', 'healSpellId', $fromId, $toId, false)
+            );
+        }
+
+        if ($kind === 'populations') {
+            $updated = array_merge(
+                $updated,
+                self::rewriteFolderField($modeId, 'biomes', 'populationId', $fromId, $toId, 200)
+            );
+            $updated = array_merge(
+                $updated,
+                self::rewriteFolderField($modeId, 'dungeons', 'populationId', $fromId, $toId, 200)
+            );
+        }
+
+        if ($kind === 'markers') {
+            $updated = array_merge(
+                $updated,
+                self::rewriteFolderField($modeId, 'biomes', 'markersId', $fromId, $toId, 200)
+            );
+            $updated = array_merge(
+                $updated,
+                self::rewriteFolderField($modeId, 'dungeons', 'markersId', $fromId, $toId, 200)
+            );
+        }
+
+        if ($kind === 'art_sets') {
+            $updated = array_merge(
+                $updated,
+                self::rewriteFolderField($modeId, 'biomes', 'artSet', $fromId, $toId, 200)
+            );
+        }
+
+        if ($kind === 'dungeons') {
+            $updated = array_merge(
+                $updated,
+                self::rewriteBiomeProfileRefs($modeId, $fromId, $toId)
+            );
+        }
+
+        if ($kind === 'creatures') {
+            $updated = array_merge(
+                $updated,
+                self::rewritePopulationCreatureRefs($modeId, $fromId, $toId)
+            );
+        }
+
+        if ($kind === 'player_profiles') {
+            $updated = array_merge(
+                $updated,
+                self::rewritePartyProfileRefs($modeId, $fromId, $toId)
+            );
+        }
+
+        if ($kind === 'equipment') {
+            $updated = array_merge(
+                $updated,
+                self::rewritePlayerProfileEquipmentRefs($modeId, $fromId, $toId)
+            );
+        }
+
+        if ($kind === 'biomes') {
+            $updated = array_merge(
+                $updated,
+                self::rewriteFolderField($modeId, 'dungeons', 'biome', $fromId, $toId, 200)
+            );
+        }
+
+        if ($kind === 'pieces') {
+            $updated = array_merge(
+                $updated,
+                self::rewriteFolderField($modeId, 'biomes', 'piecePack', $fromId, $toId, 200)
+            );
+            $updated = array_merge(
+                $updated,
+                self::rewriteFolderField($modeId, 'dungeons', 'piecePack', $fromId, $toId, 200)
+            );
+        }
+
+        $updated = array_merge(
+            $updated,
+            self::rewriteHuntsAndScenarios($modeId, $kind, $fromId, $toId)
+        );
+
+        return $updated;
+    }
+
+    /**
+     * @return list<array{kind: string, id: string, field: string}>
+     */
+    private static function rewriteCatalogField(
+        string $modeId,
+        string $kind,
+        string $field,
+        string $fromId,
+        string $toId,
+        bool $isArray
+    ): array {
+        if (!isset(self::KINDS[$kind]) || self::KINDS[$kind]['shape'] !== 'catalog') {
+            return [];
+        }
+        $cfg = self::KINDS[$kind];
+        $path = self::catalogPath($modeId, $cfg);
+        if (!is_file($path)) {
+            return [];
+        }
+        try {
+            $doc = self::readCatalogDocument($modeId, $cfg);
+        } catch (\Throwable $e) {
+            return [];
+        }
+
+        $out = [];
+        $dirty = false;
+        $key = $cfg['arrayKey'];
+        /** @var list<mixed> $rows */
+        $rows = $doc[$key];
+        foreach ($rows as $i => $row) {
+            if (!is_array($row)) {
+                continue;
+            }
+            $rowId = isset($row['id']) && is_string($row['id']) ? strtolower(trim($row['id'])) : '';
+            if ($rowId === '') {
+                continue;
+            }
+            $val = $row[$field] ?? null;
+            $hit = false;
+            if ($isArray && is_array($val)) {
+                foreach ($val as $j => $v) {
+                    if (self::idEquals($v, $fromId)) {
+                        $val[$j] = $toId;
+                        $hit = true;
+                    }
+                }
+                if ($hit) {
+                    $row[$field] = $val;
+                }
+            } elseif (self::idEquals($val, $fromId)) {
+                $row[$field] = $toId;
+                $hit = true;
+            }
+            if ($hit) {
+                $rows[$i] = $row;
+                $dirty = true;
+                $out[] = ['kind' => $kind, 'id' => $rowId, 'field' => $field];
+            }
+        }
+        if ($dirty) {
+            $doc[$key] = array_values($rows);
+            self::writeJsonFile($path, $doc);
+        }
+        return $out;
+    }
+
+    /**
+     * @return list<array{kind: string, id: string, field: string}>
+     */
+    private static function rewriteFolderField(
+        string $modeId,
+        string $kind,
+        string $field,
+        string $fromId,
+        string $toId,
+        int $cap
+    ): array {
+        if (
+            !isset(self::KINDS[$kind])
+            || (
+                self::KINDS[$kind]['shape'] !== 'folder'
+                && self::KINDS[$kind]['shape'] !== 'nested_pack'
+            )
+        ) {
+            return [];
+        }
+        $cfg = self::KINDS[$kind];
+        $out = [];
+        $n = 0;
+        foreach (self::listFolderStems($modeId, $cfg) as $id) {
+            if ($n >= $cap) {
+                break;
+            }
+            $n += 1;
+            $path = self::folderPath($modeId, $cfg, $id);
+            if (!is_file($path)) {
+                continue;
+            }
+            try {
+                $data = self::readJsonFile($path);
+            } catch (\Throwable $e) {
+                continue;
+            }
+            if (!self::idEquals($data[$field] ?? null, $fromId)) {
+                continue;
+            }
+            $data[$field] = $toId;
+            self::writeJsonFile($path, $data);
+            $out[] = ['kind' => $kind, 'id' => $id, 'field' => $field];
+        }
+        return $out;
+    }
+
+    /**
+     * @return list<array{kind: string, id: string, field: string}>
+     */
+    private static function rewriteBiomeProfileRefs(
+        string $modeId,
+        string $fromDungeonId,
+        string $toDungeonId
+    ): array {
+        if (!isset(self::KINDS['biomes'])) {
+            return [];
+        }
+        $cfg = self::KINDS['biomes'];
+        $out = [];
+        foreach (self::listFolderStems($modeId, $cfg) as $biomeId) {
+            $path = self::folderPath($modeId, $cfg, $biomeId);
+            if (!is_file($path)) {
+                continue;
+            }
+            try {
+                $data = self::readJsonFile($path);
+            } catch (\Throwable $e) {
+                continue;
+            }
+            $dirty = false;
+            $profiles = $data['profiles'] ?? null;
+            if (is_array($profiles)) {
+                foreach (['procedural', 'fixed'] as $key) {
+                    $list = $profiles[$key] ?? null;
+                    if (!is_array($list)) {
+                        continue;
+                    }
+                    $changed = false;
+                    foreach ($list as $i => $pid) {
+                        if (self::idEquals($pid, $fromDungeonId)) {
+                            $list[$i] = $toDungeonId;
+                            $changed = true;
+                        }
+                    }
+                    if ($changed) {
+                        $profiles[$key] = $list;
+                        $dirty = true;
+                        $out[] = [
+                            'kind' => 'biomes',
+                            'id' => $biomeId,
+                            'field' => 'profiles.' . $key,
+                        ];
+                    }
+                }
+                if ($dirty) {
+                    $data['profiles'] = $profiles;
+                }
+            }
+            $floors = $data['floors'] ?? null;
+            if (is_array($floors)) {
+                $floorHit = false;
+                foreach ($floors as $fi => $floor) {
+                    if (!is_array($floor)) {
+                        continue;
+                    }
+                    if (self::idEquals($floor['profileId'] ?? null, $fromDungeonId)) {
+                        $floors[$fi]['profileId'] = $toDungeonId;
+                        $floorHit = true;
+                    }
+                }
+                if ($floorHit) {
+                    $data['floors'] = $floors;
+                    $dirty = true;
+                    $out[] = [
+                        'kind' => 'biomes',
+                        'id' => $biomeId,
+                        'field' => 'floors.profileId',
+                    ];
+                }
+            }
+            if ($dirty) {
+                self::writeJsonFile($path, $data);
+            }
+        }
+        return $out;
+    }
+
+    /**
+     * @return list<array{kind: string, id: string, field: string}>
+     */
+    private static function rewritePopulationCreatureRefs(
+        string $modeId,
+        string $fromCreatureId,
+        string $toCreatureId
+    ): array {
+        if (!isset(self::KINDS['populations'])) {
+            return [];
+        }
+        $cfg = self::KINDS['populations'];
+        $out = [];
+        foreach (self::listFolderStems($modeId, $cfg) as $popId) {
+            $path = self::folderPath($modeId, $cfg, $popId);
+            if (!is_file($path)) {
+                continue;
+            }
+            try {
+                $data = self::readJsonFile($path);
+            } catch (\Throwable $e) {
+                continue;
+            }
+            $groups = $data['groups'] ?? null;
+            if (!is_array($groups)) {
+                continue;
+            }
+            $dirty = false;
+            $fields = [];
+            foreach ($groups as $gName => $group) {
+                if (!is_array($group)) {
+                    continue;
+                }
+                $ids = $group['creatureIds'] ?? null;
+                if (!is_array($ids)) {
+                    continue;
+                }
+                $hit = false;
+                foreach ($ids as $i => $cid) {
+                    if (self::idEquals($cid, $fromCreatureId)) {
+                        $ids[$i] = $toCreatureId;
+                        $hit = true;
+                    }
+                }
+                if ($hit) {
+                    $group['creatureIds'] = $ids;
+                    $groups[$gName] = $group;
+                    $dirty = true;
+                    $fields[] = 'groups.' . $gName . '.creatureIds';
+                }
+            }
+            if ($dirty) {
+                $data['groups'] = $groups;
+                self::writeJsonFile($path, $data);
+                foreach ($fields as $field) {
+                    $out[] = ['kind' => 'populations', 'id' => $popId, 'field' => $field];
+                }
+            }
+        }
+        return $out;
+    }
+
+    /**
+     * @return list<array{kind: string, id: string, field: string}>
+     */
+    private static function rewritePartyProfileRefs(
+        string $modeId,
+        string $fromProfileId,
+        string $toProfileId
+    ): array {
+        if (!isset(self::KINDS['parties'])) {
+            return [];
+        }
+        $cfg = self::KINDS['parties'];
+        $out = [];
+        foreach (self::listFolderStems($modeId, $cfg) as $partyId) {
+            $path = self::folderPath($modeId, $cfg, $partyId);
+            if (!is_file($path)) {
+                continue;
+            }
+            try {
+                $data = self::readJsonFile($path);
+            } catch (\Throwable $e) {
+                continue;
+            }
+            $members = $data['members'] ?? null;
+            if (!is_array($members)) {
+                continue;
+            }
+            $dirty = false;
+            foreach ($members as $mi => $member) {
+                if (!is_array($member)) {
+                    continue;
+                }
+                if (self::idEquals($member['profileId'] ?? null, $fromProfileId)) {
+                    $members[$mi]['profileId'] = $toProfileId;
+                    $dirty = true;
+                    $out[] = [
+                        'kind' => 'parties',
+                        'id' => $partyId,
+                        'field' => 'members[' . $mi . '].profileId',
+                    ];
+                } elseif (self::idEquals($member['profile'] ?? null, $fromProfileId)) {
+                    $members[$mi]['profile'] = $toProfileId;
+                    $dirty = true;
+                    $out[] = [
+                        'kind' => 'parties',
+                        'id' => $partyId,
+                        'field' => 'members[' . $mi . '].profile',
+                    ];
+                }
+            }
+            if ($dirty) {
+                $data['members'] = $members;
+                self::writeJsonFile($path, $data);
+            }
+        }
+        return $out;
+    }
+
+    /**
+     * @return list<array{kind: string, id: string, field: string}>
+     */
+    private static function rewritePlayerProfileEquipmentRefs(
+        string $modeId,
+        string $fromItemId,
+        string $toItemId
+    ): array {
+        if (!isset(self::KINDS['player_profiles'])) {
+            return [];
+        }
+        $cfg = self::KINDS['player_profiles'];
+        $out = [];
+        $n = 0;
+        foreach (self::listFolderStems($modeId, $cfg) as $profileId) {
+            if ($n >= 300) {
+                break;
+            }
+            $n += 1;
+            $path = self::folderPath($modeId, $cfg, $profileId);
+            if (!is_file($path)) {
+                continue;
+            }
+            try {
+                $data = self::readJsonFile($path);
+            } catch (\Throwable $e) {
+                continue;
+            }
+            $eqp = $data['equipment'] ?? null;
+            if (!is_array($eqp)) {
+                continue;
+            }
+            $dirty = false;
+            foreach ($eqp as $slot => $slotItemId) {
+                if (self::idEquals($slotItemId, $fromItemId)) {
+                    $eqp[$slot] = $toItemId;
+                    $dirty = true;
+                    $out[] = [
+                        'kind' => 'player_profiles',
+                        'id' => $profileId,
+                        'field' => 'equipment.' . $slot,
+                    ];
+                }
+            }
+            if ($dirty) {
+                $data['equipment'] = $eqp;
+                self::writeJsonFile($path, $data);
+            }
+        }
+        return $out;
+    }
+
+    /**
+     * @return list<array{kind: string, id: string, field: string}>
+     */
+    private static function rewriteHuntsAndScenarios(
+        string $modeId,
+        string $targetKind,
+        string $fromId,
+        string $toId
+    ): array {
+        $out = [];
+        $modeRoot = HDL_ROOT . '/presets/' . $modeId;
+
+        $huntsDir = $modeRoot . '/hunts';
+        if (is_dir($huntsDir)) {
+            $files = scandir($huntsDir) ?: [];
+            $n = 0;
+            foreach ($files as $file) {
+                if ($n >= 300) {
+                    break;
+                }
+                if (!str_ends_with($file, '.json')) {
+                    continue;
+                }
+                $n += 1;
+                $path = $huntsDir . '/' . $file;
+                if (!is_file($path)) {
+                    continue;
+                }
+                try {
+                    $data = self::readJsonFile($path);
+                } catch (\Throwable $e) {
+                    continue;
+                }
+                $hits = self::applyHuntPointerRename($data, $targetKind, $fromId, $toId);
+                if ($hits === []) {
+                    continue;
+                }
+                self::writeJsonFile($path, $data);
+                $huntId = isset($data['id']) && is_string($data['id'])
+                    ? strtolower(trim($data['id']))
+                    : strtolower(basename($file, '.json'));
+                foreach ($hits as $field) {
+                    $out[] = ['kind' => 'hunts', 'id' => $huntId, 'field' => $field];
+                }
+            }
+        }
+
+        $scenDir = $modeRoot . '/scenarios';
+        if (is_dir($scenDir) && (
+            $targetKind === 'hunts' || $targetKind === 'dungeons'
+            || $targetKind === 'populations' || $targetKind === 'biomes'
+            || $targetKind === 'art_sets' || $targetKind === 'pieces'
+            || $targetKind === 'classes' || $targetKind === 'strategies'
+            || $targetKind === 'equipment' || $targetKind === 'creatures'
+        )) {
+            $files = scandir($scenDir) ?: [];
+            $n = 0;
+            foreach ($files as $file) {
+                if ($n >= 200) {
+                    break;
+                }
+                if (!str_ends_with($file, '.json')) {
+                    continue;
+                }
+                $n += 1;
+                $path = $scenDir . '/' . $file;
+                if (!is_file($path)) {
+                    continue;
+                }
+                try {
+                    $data = self::readJsonFile($path);
+                } catch (\Throwable $e) {
+                    continue;
+                }
+                $hits = self::applyHuntPointerRename($data, $targetKind, $fromId, $toId);
+                if ($targetKind === 'hunts' && self::idEquals($data['baseHuntId'] ?? null, $fromId)) {
+                    $data['baseHuntId'] = $toId;
+                    $hits[] = 'baseHuntId';
+                }
+                if ($hits === []) {
+                    continue;
+                }
+                self::writeJsonFile($path, $data);
+                $scenId = isset($data['id']) && is_string($data['id'])
+                    ? strtolower(trim($data['id']))
+                    : strtolower(basename($file, '.json'));
+                foreach ($hits as $field) {
+                    $out[] = ['kind' => 'scenarios', 'id' => $scenId, 'field' => $field];
+                }
+            }
+        }
+
+        return $out;
+    }
+
+    /**
+     * Mutate hunt/scenario-like JSON: replace $fromId with $toId for $targetKind pointers.
+     *
+     * @param array<string, mixed> $data
+     * @return list<string> field paths that changed
+     */
+    private static function applyHuntPointerRename(
+        array &$data,
+        string $targetKind,
+        string $fromId,
+        string $toId
+    ): array {
+        $hits = [];
+
+        if ($targetKind === 'populations' && self::idEquals($data['populationId'] ?? null, $fromId)) {
+            $data['populationId'] = $toId;
+            $hits[] = 'populationId';
+        }
+        if ($targetKind === 'art_sets' && self::idEquals($data['artSet'] ?? null, $fromId)) {
+            $data['artSet'] = $toId;
+            $hits[] = 'artSet';
+        }
+        if ($targetKind === 'pieces' && self::idEquals($data['piecePack'] ?? null, $fromId)) {
+            $data['piecePack'] = $toId;
+            $hits[] = 'piecePack';
+        }
+        if ($targetKind === 'biomes' && self::idEquals($data['biome'] ?? null, $fromId)) {
+            $data['biome'] = $toId;
+            $hits[] = 'biome';
+        }
+        if ($targetKind === 'biomes' && self::idEquals($data['biomeId'] ?? null, $fromId)) {
+            $data['biomeId'] = $toId;
+            $hits[] = 'biomeId';
+        }
+        if ($targetKind === 'markers' && self::idEquals($data['markersId'] ?? null, $fromId)) {
+            $data['markersId'] = $toId;
+            $hits[] = 'markersId';
+        }
+
+        $layout = $data['layout'] ?? null;
+        if (is_array($layout)) {
+            if ($targetKind === 'dungeons' && self::idEquals($layout['profileId'] ?? null, $fromId)) {
+                $layout['profileId'] = $toId;
+                $hits[] = 'layout.profileId';
+            }
+            if ($targetKind === 'pieces' && self::idEquals($layout['piecePack'] ?? null, $fromId)) {
+                $layout['piecePack'] = $toId;
+                $hits[] = 'layout.piecePack';
+            }
+            if ($targetKind === 'biomes' && self::idEquals($layout['biomeId'] ?? null, $fromId)) {
+                $layout['biomeId'] = $toId;
+                $hits[] = 'layout.biomeId';
+            }
+            $segments = $layout['segments'] ?? null;
+            if (is_array($segments)) {
+                foreach ($segments as $si => $seg) {
+                    if (!is_array($seg)) {
+                        continue;
+                    }
+                    if ($targetKind === 'biomes' && self::idEquals($seg['biomeId'] ?? null, $fromId)) {
+                        $segments[$si]['biomeId'] = $toId;
+                        $hits[] = 'layout.segments[' . $si . '].biomeId';
+                    }
+                    $floors = $seg['floors'] ?? null;
+                    if (is_array($floors) && $targetKind === 'dungeons') {
+                        foreach ($floors as $fi => $floor) {
+                            if (is_array($floor) && self::idEquals($floor['profileId'] ?? null, $fromId)) {
+                                $floors[$fi]['profileId'] = $toId;
+                                $hits[] = 'layout.segments[' . $si . '].floors[' . $fi . '].profileId';
+                            }
+                        }
+                        $segments[$si]['floors'] = $floors;
+                    }
+                }
+                $layout['segments'] = $segments;
+            }
+            $data['layout'] = $layout;
+        }
+
+        $parties = $data['parties'] ?? null;
+        if (is_array($parties)) {
+            foreach ($parties as $pi => $party) {
+                if (!is_array($party)) {
+                    continue;
+                }
+                $members = $party['members'] ?? null;
+                if (!is_array($members)) {
+                    continue;
+                }
+                foreach ($members as $mi => $member) {
+                    if (!is_array($member)) {
+                        continue;
+                    }
+                    $prefix = 'parties[' . $pi . '].members[' . $mi . ']';
+                    if ($targetKind === 'classes' && self::idEquals($member['classId'] ?? null, $fromId)) {
+                        $members[$mi]['classId'] = $toId;
+                        $hits[] = $prefix . '.classId';
+                    }
+                    if ($targetKind === 'strategies' && self::idEquals($member['strategyId'] ?? null, $fromId)) {
+                        $members[$mi]['strategyId'] = $toId;
+                        $hits[] = $prefix . '.strategyId';
+                    }
+                    if ($targetKind === 'creatures' && self::idEquals($member['creatureId'] ?? null, $fromId)) {
+                        $members[$mi]['creatureId'] = $toId;
+                        $hits[] = $prefix . '.creatureId';
+                    }
+                    if ($targetKind === 'equipment') {
+                        $eqp = $member['equipment'] ?? null;
+                        if (is_array($eqp)) {
+                            foreach ($eqp as $slot => $itemId) {
+                                if (self::idEquals($itemId, $fromId)) {
+                                    $eqp[$slot] = $toId;
+                                    $hits[] = $prefix . '.equipment.' . $slot;
+                                }
+                            }
+                            $members[$mi]['equipment'] = $eqp;
+                        }
+                    }
+                }
+                $parties[$pi]['members'] = $members;
+            }
+            $data['parties'] = $parties;
+        }
+
+        return $hits;
+    }
+
+    /**
+     * @param array{shape: string, path?: string, dir?: string, arrayKey?: string} $cfg
+     */
+    private static function entityExists(string $modeId, array $cfg, string $entityId): bool
+    {
+        if ($cfg['shape'] === 'catalog') {
+            $path = self::catalogPath($modeId, $cfg);
+            if (!is_file($path)) {
+                return false;
+            }
+            try {
+                $doc = self::readCatalogDocument($modeId, $cfg);
+            } catch (\Throwable $e) {
+                return false;
+            }
+            return self::findRowIndex($doc[$cfg['arrayKey']], $entityId) >= 0;
+        }
+        return is_file(self::folderPath($modeId, $cfg, $entityId));
+    }
+
+    private static function idEquals(mixed $value, string $entityId): bool
+    {
+        return is_string($value) && strtolower(trim($value)) === $entityId;
     }
 
     // ── Shared helpers ────────────────────────────────────────────────────
