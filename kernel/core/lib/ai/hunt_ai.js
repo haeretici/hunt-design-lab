@@ -42,6 +42,7 @@ const {
     stepToward
 } = require('./combat_actions.js');
 const { pathBudgetStats } = require('../path_budget.js');
+const { forceDue } = require('../logic_regulator.js');
 
 /**
  * Empty per-frame AI performance counters.
@@ -1475,6 +1476,26 @@ function tickHuntAi(sim, hooks) {
             // Movement stays rooted, but kit timers + casts still run so a
             // fleeing / pathing monster can wave/ball while mid-step.
             tryEngagedAttacks(c, ctx);
+
+            // Legacy parity (Option B): walk tasks are independent of think cadence.
+            // If the creature has a valid path and is ready to step, continue following it.
+            if (c.moveDelay <= 0 && Array.isArray(c.path) && c.path.length > 0) {
+                const step = c.path[0];
+                if (step.x === c.tile.x && step.y === c.tile.y) {
+                    c.path.shift();
+                } else if (sim.tileMap.moveEntityToTile(c, step.x, step.y, c.tile.z)) {
+                    c.path.shift();
+                } else {
+                    // Blocked while brain is gated: clear path and force critical repath
+                    // on the next brain tick.
+                    c.path = [];
+                    c._repathFailBackoffUntil = null;
+                    forceDue(c, '_repathReg');
+                    forceDue(c, '_repathNextAt');
+                    forceDue(c, '_creatureThinkNextAt');
+                }
+            }
+
             perf.brainsExecuted += 1;
             perf.brainsKitOnly += 1;
             continue;
