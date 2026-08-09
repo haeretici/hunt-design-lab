@@ -108,7 +108,7 @@ async function runTests() {
             huntId: 'cave_crawl_generated',
             frames: 15,
             commandHistory: recordedHistory,
-            members: [{ id: 'p1', type: 'player', name: 'Hero', controlMode: 'manual', stats: { maxHp: 100, hp: 100, speed: 4 } }]
+            members: [{ id: 'p1', type: 'player', name: 'Hero', controlMode: 'manual', stats: { maxHp: 100, hp: 100, speed: 4 }, skills: { combat_vitality: 1 } }]
         };
 
         const summaryA = await runHeadlessHunt(configA);
@@ -131,7 +131,7 @@ async function runTests() {
             huntId: 'cave_crawl_generated',
             frames: 10,
             commandHistory: recordedHistory,
-            members: [{ id: 'p1', type: 'player', name: 'Hero', controlMode: 'manual', stats: { maxHp: 100, hp: 100, speed: 4 } }]
+            members: [{ id: 'p1', type: 'player', name: 'Hero', controlMode: 'manual', stats: { maxHp: 100, hp: 100, speed: 4 }, skills: { combat_vitality: 1 } }]
         };
 
         const results = await runBatchSlice(config, 0, 3);
@@ -233,7 +233,8 @@ async function runTests() {
                     type: 'player',
                     name: 'Hero',
                     controlMode: 'manual',
-                    stats: { maxHp: 100, hp: 100, speed: 4 }
+                    stats: { maxHp: 100, hp: 100, speed: 4 },
+                    skills: { combat_vitality: 1 }
                 }
             ]
         };

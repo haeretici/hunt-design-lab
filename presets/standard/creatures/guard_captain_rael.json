@@ -1,0 +1,228 @@
+{
+    "id": "guard_captain_rael",
+    "label": "Guard Captain Rael",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A guard captain rael.",
+    "hp": 55000,
+    "hpMax": 55000,
+    "speed": 92,
+    "level": 824,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 28000,
+    "lootValue": 250,
+    "aggro": true,
+    "resists": {
+        "physical": 15,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 40,
+        "holy": -20,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 648
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 18,
+            "range": 4,
+            "element": "earth",
+            "min": 559,
+            "max": 693,
+            "radius": 4,
+            "target": true,
+            "effect": "me_green_rings",
+            "shootEffect": "ani_earth"
+        },
+        {
+            "id": "melee_2",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 22,
+            "range": 1,
+            "element": "physical",
+            "min": 503,
+            "max": 783,
+            "target": true,
+            "shootEffect": "ani_throwingknife"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 14,
+            "range": 4,
+            "element": "physical",
+            "min": 391,
+            "max": 615,
+            "length": 5,
+            "spread": 0,
+            "target": false,
+            "effect": "me_explosionhit"
+        },
+        {
+            "id": "melee_4",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 1,
+            "element": "fire",
+            "min": 447,
+            "max": 615,
+            "radius": 1,
+            "target": true,
+            "effect": "me_firearea",
+            "shootEffect": "ani_burstarrow"
+        },
+        {
+            "id": "wave_5",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 12,
+            "range": 4,
+            "element": "earth",
+            "min": 335,
+            "max": 537,
+            "length": 5,
+            "spread": 0,
+            "target": false,
+            "effect": "me_explosionhit"
+        },
+        {
+            "id": "area_6",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "earth",
+            "min": 335,
+            "max": 503,
+            "radius": 3,
+            "target": false,
+            "effect": "me_green_rings"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 20
+        },
+        {
+            "name": "leaf star",
+            "chance": 73000,
+            "maxCount": 2
+        },
+        {
+            "name": "throwing star",
+            "chance": 65000,
+            "maxCount": 6
+        },
+        {
+            "name": "hunting spear",
+            "chance": 62000
+        },
+        {
+            "name": "gold ingot",
+            "chance": 48000
+        },
+        {
+            "name": "blue gem",
+            "chance": 31000
+        },
+        {
+            "name": "yellow gem",
+            "chance": 31000
+        },
+        {
+            "name": "green crystal shard",
+            "chance": 8600
+        },
+        {
+            "id": 281,
+            "chance": 28000
+        },
+        {
+            "name": "skull helmet",
+            "chance": 7500
+        },
+        {
+            "chance": 7200,
+            "name": "collar of blue plasma"
+        },
+        {
+            "name": "viper crest",
+            "chance": 11000
+        },
+        {
+            "name": "viper boots",
+            "chance": 115
+        },
+        {
+            "name": "viper hood",
+            "chance": 120
+        },
+        {
+            "name": "viper crossbow",
+            "chance": 50
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "sun_orc_guard",
+    "threatDps": 411.215,
+    "burstDps": 411.215,
+    "avgHit": 430.5916,
+    "maxHit": 783,
+    "manaCost": 0
+}

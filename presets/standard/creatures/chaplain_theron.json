@@ -1,0 +1,230 @@
+{
+    "id": "chaplain_theron",
+    "label": "Chaplain Theron",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A chaplain theron.",
+    "hp": 18000,
+    "hpMax": 18000,
+    "speed": 105,
+    "level": 713,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 14000,
+    "lootValue": 1501.3604826546,
+    "aggro": true,
+    "resists": {
+        "physical": 80,
+        "fire": 50,
+        "ice": 50,
+        "energy": 50,
+        "earth": 50,
+        "holy": 0,
+        "death": 50
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 68,
+            "max": 383
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 1500,
+            "chance": 15,
+            "range": 4,
+            "element": "lifedrain",
+            "min": 171,
+            "max": 401,
+            "radius": 4,
+            "target": false,
+            "effect": "me_hitbypoison"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 20,
+            "range": 7,
+            "element": "physical",
+            "min": 131,
+            "max": 324,
+            "target": false,
+            "shootEffect": "ani_etherealspear"
+        },
+        {
+            "id": "wave_3",
+            "kind": "wave",
+            "intervalMs": 1500,
+            "chance": 14,
+            "range": 4,
+            "element": "holy",
+            "min": 135,
+            "max": 450,
+            "length": 8,
+            "spread": 0,
+            "target": false,
+            "effect": "me_blockhit"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 1000,
+            "chance": 15,
+            "range": 5,
+            "element": "lifedrain",
+            "min": 90,
+            "max": 315,
+            "radius": 3,
+            "target": false,
+            "effect": "me_smallclouds"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 2000,
+            "chance": 20,
+            "min": 200,
+            "max": 550,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        },
+        {
+            "id": "haste_1",
+            "kind": "haste",
+            "intervalMs": 1000,
+            "chance": 10,
+            "speedChange": 220,
+            "durationSec": 5,
+            "effect": "me_poff"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "flask of demonic blood",
+            "chance": 50000,
+            "maxCount": 2
+        },
+        {
+            "name": "ham",
+            "chance": 50000,
+            "maxCount": 2
+        },
+        {
+            "name": "onyx arrow",
+            "chance": 35000,
+            "maxCount": 3
+        },
+        {
+            "name": "small diamond",
+            "chance": 30000,
+            "maxCount": 3
+        },
+        {
+            "name": "small emerald",
+            "chance": 30000,
+            "maxCount": 3
+        },
+        {
+            "name": "small enchanted amethyst",
+            "chance": 20000,
+            "maxCount": 3
+        },
+        {
+            "name": "damaged armor plates",
+            "chance": 2350,
+            "maxCount": 3
+        },
+        {
+            "id": 281,
+            "chance": 12000,
+            "maxCount": 1
+        },
+        {
+            "name": "knight armor",
+            "chance": 7000
+        },
+        {
+            "name": "patch of fine cloth",
+            "chance": 1800
+        },
+        {
+            "name": "spiked squelcher",
+            "chance": 3200
+        },
+        {
+            "name": "titan axe",
+            "chance": 2400
+        },
+        {
+            "name": "griffin battleaxe",
+            "chance": 200
+        },
+        {
+            "name": "griffin longsword",
+            "chance": 200
+        },
+        {
+            "name": "griffin mace",
+            "chance": 210
+        },
+        {
+            "name": "griffin plate",
+            "chance": 100
+        },
+        {
+            "name": "griffin shield",
+            "chance": 100
+        }
+    ],
+    "changeTarget": {
+        "interval": 3000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "dragon_egg",
+    "threatDps": 221.775,
+    "burstDps": 249.725,
+    "avgHit": 235.0972,
+    "maxHit": 450,
+    "manaCost": 0
+}

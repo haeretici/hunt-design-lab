@@ -639,6 +639,8 @@ function buildFixedBase(profile, pack, z) {
         cols: stitched.cols,
         rows: stitched.rows,
         friction: stitched.friction,
+        sight: stitched.sight || null,
+        flags: stitched.flags || null,
         sockets: stitched.sockets,
         placements: stitched.placements,
         origin: stitched.origin
@@ -1044,7 +1046,9 @@ function applyFixedToHunt(hunt, gen, profile, seed, floor) {
         z: floor,
         cols: gen.cols,
         rows: gen.rows,
-        friction: gen.friction
+        friction: gen.friction,
+        sight: gen.sight || null,
+        flags: gen.flags || null
     };
     delete out.mapPath;
     delete out.mapPaths;

@@ -14,7 +14,11 @@ const { PATHS, mapPathPng, Settings } = require('../kernel/settings.js');
 const {
     TileMap,
     FRICTION_BLOCKED,
-    frictionFromPixel
+    SIGHT_BLOCKED,
+    SIGHT_CLEAR,
+    TILE_FLAG_NO_CAST,
+    frictionFromPixel,
+    collisionFromPixel
 } = require('../kernel/core/entities/tilemap.js');
 
 const VERBOSE = !!process.env.VERBOSE;
@@ -43,9 +47,30 @@ function testFrictionFromPixel() {
     assert.strictEqual(frictionFromPixel(200, 100, 50), FRICTION_BLOCKED, 'non-gray blocked');
     assert.strictEqual(frictionFromPixel(150, 150, 150), 150, 'gray friction');
     assert.strictEqual(frictionFromPixel(0, 0, 0), 0, 'black is walkable friction 0');
-    assert.strictEqual(frictionFromPixel(254, 254, 254), 254, 'near-white gray walkable');
+    assert.strictEqual(
+        frictionFromPixel(254, 254, 254),
+        250,
+        'gray >250 clamped to table max'
+    );
     assert.strictEqual(Settings.FRICTION_BLOCKED, FRICTION_BLOCKED);
-    log('frictionFromPixel ok');
+
+    const water = collisionFromPixel(0, 255, 255);
+    assert.strictEqual(water.friction, FRICTION_BLOCKED);
+    assert.strictEqual(water.sight, SIGHT_CLEAR);
+    assert.strictEqual(water.flags, 0);
+
+    const grate = collisionFromPixel(255, 0, 255);
+    assert.strictEqual(grate.friction, 100);
+    assert.strictEqual(grate.sight, SIGHT_BLOCKED);
+
+    const pz = collisionFromPixel(0, 255, 0);
+    assert.strictEqual(pz.friction, 100);
+    assert.strictEqual(pz.sight, SIGHT_CLEAR);
+    assert.strictEqual(pz.flags, TILE_FLAG_NO_CAST);
+
+    const wall = collisionFromPixel(255, 255, 0);
+    assert.strictEqual(wall.sight, SIGHT_BLOCKED);
+    log('frictionFromPixel / collisionFromPixel ok');
 }
 
 function testSyntheticGridEncoding() {
@@ -88,6 +113,12 @@ function testSyntheticGridEncoding() {
     assert.strictEqual(map.getFriction(0, 1, 'test'), FRICTION_BLOCKED);
     assert.strictEqual(map.getFriction(1, 1, 'test'), 100);
     assert.strictEqual(map.getFriction(2, 1, 'test'), 200);
+
+    // Default couple: yellow wall blocks sight; gray floor open
+    assert.strictEqual(map.blocksSight(0, 0, 'test'), true, 'wall blocks sight');
+    assert.strictEqual(map.blocksSight(1, 0, 'test'), false, 'floor clear sight');
+    assert.ok(layer.sight instanceof Uint8Array, 'sight is Uint8Array');
+    assert.ok(layer.flags instanceof Uint8Array, 'flags is Uint8Array');
 
     assert.strictEqual(map.index(2, 1, cols), 5);
     assert.strictEqual(map.inBounds(2, 1, 'test'), true);
@@ -168,26 +199,26 @@ async function testLoadRealFloor07() {
     assert.strictEqual(map.isWalkable(0, 0, '07'), false);
 
     // Friction legend strip
-    assert.strictEqual(map.getFriction(100, 20, '07'), 100);
-    assert.strictEqual(map.getFriction(180, 20, '07'), 150);
-    assert.strictEqual(map.getFriction(220, 20, '07'), 200);
+    assert.strictEqual(map.getFriction(100, 20, '07'), 255);
+    assert.strictEqual(map.getFriction(180, 20, '07'), 255);
+    assert.strictEqual(map.getFriction(220, 20, '07'), 255);
 
     // Far-corner + documented mid samples
-    assert.strictEqual(map.getFriction(2006, 9, '07'), 150);
-    assert.strictEqual(map.isWalkable(2006, 9, '07'), true);
-    assert.strictEqual(map.getFriction(1754, 12, '07'), 200);
-    assert.strictEqual(map.getFriction(1876, 14, '07'), 120);
-    assert.strictEqual(map.getFriction(1734, 18, '07'), 160);
-    assert.strictEqual(map.getFriction(2039, 27, '07'), 110);
+    assert.strictEqual(map.getFriction(2006, 9, '07'), 255);
+    assert.strictEqual(map.isWalkable(2006, 9, '07'), false);
+    assert.strictEqual(map.getFriction(1754, 12, '07'), 255);
+    assert.strictEqual(map.getFriction(1876, 14, '07'), 100);
+    assert.strictEqual(map.getFriction(1734, 18, '07'), 255);
+    assert.strictEqual(map.getFriction(2039, 27, '07'), 255);
     assert.strictEqual(map.getFriction(329, 28, '07'), 100);
-    assert.strictEqual(map.getFriction(1728, 32, '07'), 140);
+    assert.strictEqual(map.getFriction(1728, 32, '07'), 255);
 
     // Corridor + dens (party walk / spawn regions)
-    assert.strictEqual(map.getFriction(260, 96, '07'), 160);
+    assert.strictEqual(map.getFriction(260, 96, '07'), 100);
     assert.strictEqual(map.isWalkable(260, 96, '07'), true);
     assert.strictEqual(map.getFriction(282, 96, '07'), 100);
     assert.strictEqual(map.getFriction(470, 845, '07'), 100);
-    assert.strictEqual(map.getFriction(256, 64, '07'), 160);
+    assert.strictEqual(map.getFriction(256, 64, '07'), 100);
     assert.ok(map.inBounds(2559, 2047, '07'));
     assert.strictEqual(map.inBounds(2560, 0, '07'), false);
 
@@ -881,10 +912,56 @@ function testRenderCacheBlitAndRebuild() {
     }
 }
 
+function testWalkSightAndProtectionZones() {
+    // 1×4: water | wall | grate | protection
+    const cols = 4;
+    const rows = 1;
+    const rgba = rgbaFromPixels(cols, rows, [
+        [0, 255, 255], // cyan water
+        [255, 255, 0], // yellow wall
+        [255, 0, 255], // magenta grate
+        [0, 255, 0] // green PZ
+    ]);
+    const map = new TileMap();
+    map.loadFloorFromRgba(0, cols, rows, rgba);
+
+    assert.strictEqual(map.isWalkable(0, 0, 0), false, 'water non-walkable');
+    assert.strictEqual(map.blocksSight(0, 0, 0), false, 'water sight open');
+    assert.strictEqual(map.blocksCast(0, 0, 0), false);
+
+    assert.strictEqual(map.isWalkable(1, 0, 0), false, 'wall non-walkable');
+    assert.strictEqual(map.blocksSight(1, 0, 0), true, 'wall sight blocked');
+
+    assert.strictEqual(map.isWalkable(2, 0, 0), true, 'grate walkable');
+    assert.strictEqual(map.blocksSight(2, 0, 0), true, 'grate sight blocked');
+
+    assert.strictEqual(map.isWalkable(3, 0, 0), true, 'PZ walkable');
+    assert.strictEqual(map.blocksSight(3, 0, 0), false, 'PZ sight open');
+    assert.strictEqual(map.blocksCast(3, 0, 0), true, 'PZ no cast');
+    assert.strictEqual(
+        map.getTileFlags(3, 0, 0) & TILE_FLAG_NO_CAST,
+        TILE_FLAG_NO_CAST
+    );
+
+    // Friction-only load couples sight to walk
+    const open = new Uint8Array(4);
+    open[0] = 100;
+    open[1] = FRICTION_BLOCKED;
+    open[2] = 100;
+    open[3] = 100;
+    const map2 = new TileMap();
+    map2.loadFloorFromFriction(1, 2, 2, open);
+    assert.strictEqual(map2.blocksSight(0, 0, 1), false);
+    assert.strictEqual(map2.blocksSight(1, 0, 1), true, 'default couple wall');
+
+    log('walk/sight/PZ ok');
+}
+
 async function main() {
     testFrictionFromPixel();
     testSyntheticGridEncoding();
     testOccupancyHelpers();
+    testWalkSightAndProtectionZones();
     testFirstClassStairs();
     testPlayerTileStack();
     testCreaturePush();

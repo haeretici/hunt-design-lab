@@ -497,8 +497,9 @@ function syncTileMapFieldMask(groundStore, x, y, z) {
 }
 
 /**
- * Set or restore tile friction when deploying / removing solid obstacles.
- * Stores `savedFriction` on the field instance for exact restore.
+ * Set or restore tile friction + sight when deploying / removing solid obstacles.
+ * Stores `savedFriction` / `savedSight` on the field instance for exact restore.
+ * Full walls block walk and LoS; water (walk-block, sight-clear) restores correctly.
  * @param {object} groundStore
  * @param {number} x
  * @param {number} y
@@ -519,11 +520,22 @@ function syncObstacleFriction(groundStore, x, y, z, field, mode) {
         typeof tileMap.index === 'function'
             ? tileMap.index(ix, iy, layer.cols)
             : iy * layer.cols + ix;
+    if (!layer.sight || layer.sight.length < layer.friction.length) {
+        const sight = new Uint8Array(layer.friction.length);
+        for (let i = 0; i < layer.friction.length; i++) {
+            if (layer.friction[i] === FRICTION_BLOCKED) sight[i] = 255;
+        }
+        layer.sight = sight;
+    }
     if (mode === 'block') {
         if (field.savedFriction == null) {
             field.savedFriction = layer.friction[idx];
         }
+        if (field.savedSight == null) {
+            field.savedSight = layer.sight[idx];
+        }
         layer.friction[idx] = FRICTION_BLOCKED;
+        layer.sight[idx] = 255;
     } else if (mode === 'restore') {
         if (field.savedFriction != null && Number.isFinite(Number(field.savedFriction))) {
             // Only restore if we still own the block (another obstacle may have re-blocked).
@@ -531,7 +543,13 @@ function syncObstacleFriction(groundStore, x, y, z, field, mode) {
                 layer.friction[idx] = Number(field.savedFriction) & 0xff;
             }
         }
+        if (field.savedSight != null && Number.isFinite(Number(field.savedSight))) {
+            if (layer.sight[idx] === 255) {
+                layer.sight[idx] = Number(field.savedSight) & 0xff;
+            }
+        }
         field.savedFriction = null;
+        field.savedSight = null;
     }
 }
 

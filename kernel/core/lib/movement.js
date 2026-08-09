@@ -461,6 +461,8 @@ function getVisualTilePos(entity, extraDt) {
 module.exports = {
     DEFAULT_TILE_FRICTION,
     FRICTION_TABLE,
+    /** Sorted numeric keys of FRICTION_TABLE (70…250), for piece nibble maps. */
+    FRICTION_KEYS,
     DELAY_TABLE,
     normalizeFriction,
     getFrictionBreakpoints,

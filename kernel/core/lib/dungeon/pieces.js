@@ -1,17 +1,63 @@
 /**
  * Stage 11.3 — Modular friction pieces (Blueprint Phase 2, logic-only).
  *
- * A piece is a friction prefab + exit mask + sockets (spawns / markers /
+ * A piece is a collision prefab (friction + sight + flags) + exit mask + sockets
+ * (spawns / markers /
+
  * waypoints). 1 tile = 1 path-PNG pixel (the project's metric foot).
  * No decorative art here — collision + holes only.
  */
 
 'use strict';
 
-const { FRICTION_BLOCKED } = require('../../entities/tilemap.js');
+const {
+    FRICTION_BLOCKED,
+    SIGHT_BLOCKED,
+    SIGHT_CLEAR,
+    TILE_FLAG_NO_CAST
+} = require('../../entities/tilemap.js');
+const { FRICTION_KEYS } = require('../movement.js');
 
 /** Default walkable gray friction (matches common path-PNG mid-gray). */
 const DEFAULT_WALK_FRICTION = 100;
+
+/**
+ * Map piece alphabet hex nibble 1–f (1–15) → FRICTION_TABLE key by 1-based index.
+ *   '1' → keys[0] = 70
+ *   '2' → keys[1] = 90
+ *   '3' → keys[2] = 95
+ *   …
+ *   'f' → keys[14] = 200  (16th key 250 is not reachable via nibble; use numeric cell)
+ * '0' is not mapped here (stays raw 0; same idea as '+').
+ *
+ * @param {number} nibble 0–15
+ * @returns {number} friction value to store
+ */
+function frictionFromTableNibble(nibble) {
+    const n = nibble | 0;
+    if (n <= 0) return 0;
+    const keys = FRICTION_KEYS;
+    if (!keys || !keys.length) return DEFAULT_WALK_FRICTION;
+    const idx = Math.min(n, keys.length) - 1;
+    return keys[idx];
+}
+
+/**
+ * Inverse of frictionFromTableNibble for debug export (single hex char or null).
+ * @param {number} friction
+ * @returns {string|null} '1'–'f' or null if not a 1-based table slot
+ */
+function tableNibbleCharForFriction(friction) {
+    const f = friction | 0;
+    const keys = FRICTION_KEYS;
+    if (!keys || !keys.length) return null;
+    for (let i = 0; i < keys.length && i < 15; i++) {
+        if (keys[i] === f) {
+            return (i + 1).toString(16);
+        }
+    }
+    return null;
+}
 
 /** Cardinal directions and opposites. */
 const CARDINALS = ['N', 'S', 'E', 'W'];
@@ -28,53 +74,131 @@ function numOrNull(v) {
 }
 
 /**
- * Decode one friction cell token to 0–255.
- * Row-string chars: `#`/`X`/`W` blocked; `.`/` ` default walk; hex `0`-`9`/`a`-`f`
- * for 0–15 scaled later is NOT used — digits 0–9 map to friction 0,28,…,252
- * and `+` is full open (0). Prefer `.` for normal floors.
+ * Decode one collision cell token to friction + sight + flags.
  *
- * Number cells: 0–254 walkable, 255 blocked.
+ * Alphabet (string grids):
+ *   # X W   full wall — walk + sight blocked
+ *   . o     floor — walk open (walkDefault), sight clear
+ *   ~       water / solid clear-sight — walk blocked, sight open
+ *   ^       grate / glass — walk open, sight blocked
+ *   P       protection zone — walk open, sight open, NO_CAST
+ *   +       friction 0 floor (delay falls back to default 100)
+ *   1-9a-f  FRICTION_TABLE key by 1-based index (1→70, 2→90, …, f→200); sight clear
+ *   0       friction 0 (same delay fallback as +); sight clear
+ *   number  raw friction 0–255 (sight coupled: 255 ⇒ sight block)
  *
  * @param {string|number} cell
  * @param {number} walkDefault
- * @returns {number}
+ * @returns {{ friction: number, sight: number, flags: number }}
  */
-function decodeFrictionCell(cell, walkDefault) {
+function decodeCollisionCell(cell, walkDefault) {
     const walk =
         Number.isFinite(walkDefault) && walkDefault >= 0 && walkDefault < 255
             ? walkDefault | 0
             : DEFAULT_WALK_FRICTION;
 
     if (typeof cell === 'number') {
-        if (!Number.isFinite(cell)) return FRICTION_BLOCKED;
+        if (!Number.isFinite(cell)) {
+            return {
+                friction: FRICTION_BLOCKED,
+                sight: SIGHT_BLOCKED,
+                flags: 0
+            };
+        }
         const n = Math.floor(cell);
-        if (n < 0) return FRICTION_BLOCKED;
-        if (n > 255) return FRICTION_BLOCKED;
-        return n;
+        if (n < 0 || n > 255) {
+            return {
+                friction: FRICTION_BLOCKED,
+                sight: SIGHT_BLOCKED,
+                flags: 0
+            };
+        }
+        return {
+            friction: n,
+            sight: n === FRICTION_BLOCKED ? SIGHT_BLOCKED : SIGHT_CLEAR,
+            flags: 0
+        };
     }
 
     const s = String(cell);
-    if (!s.length) return FRICTION_BLOCKED;
+    if (!s.length) {
+        return {
+            friction: FRICTION_BLOCKED,
+            sight: SIGHT_BLOCKED,
+            flags: 0
+        };
+    }
     const ch = s.charAt(0);
     if (ch === '#' || ch === 'X' || ch === 'x' || ch === 'W') {
-        return FRICTION_BLOCKED;
+        return {
+            friction: FRICTION_BLOCKED,
+            sight: SIGHT_BLOCKED,
+            flags: 0
+        };
+    }
+    if (ch === '~') {
+        return {
+            friction: FRICTION_BLOCKED,
+            sight: SIGHT_CLEAR,
+            flags: 0
+        };
+    }
+    if (ch === '^') {
+        return {
+            friction: walk,
+            sight: SIGHT_BLOCKED,
+            flags: 0
+        };
+    }
+    if (ch === 'P') {
+        return {
+            friction: walk,
+            sight: SIGHT_CLEAR,
+            flags: TILE_FLAG_NO_CAST
+        };
     }
     if (ch === '.' || ch === ' ' || ch === 'o' || ch === 'O') {
-        return walk;
+        return { friction: walk, sight: SIGHT_CLEAR, flags: 0 };
     }
-    if (ch === '+') return 0;
-    // Single hex digit → friction 0–15 (fine-grained soft floors)
+    if (ch === '+') {
+        return { friction: 0, sight: SIGHT_CLEAR, flags: 0 };
+    }
     if (/^[0-9a-fA-F]$/.test(ch)) {
-        return parseInt(ch, 16);
+        const nibble = parseInt(ch, 16);
+        return {
+            friction: frictionFromTableNibble(nibble),
+            sight: SIGHT_CLEAR,
+            flags: 0
+        };
     }
-    // Multi-digit numeric string
     const n = Number(s);
-    if (Number.isFinite(n) && n >= 0 && n <= 255) return Math.floor(n);
-    return FRICTION_BLOCKED;
+    if (Number.isFinite(n) && n >= 0 && n <= 255) {
+        const f = Math.floor(n);
+        return {
+            friction: f,
+            sight: f === FRICTION_BLOCKED ? SIGHT_BLOCKED : SIGHT_CLEAR,
+            flags: 0
+        };
+    }
+    return {
+        friction: FRICTION_BLOCKED,
+        sight: SIGHT_BLOCKED,
+        flags: 0
+    };
 }
 
 /**
- * Parse friction field into a flat Uint8Array of length w*h.
+ * Decode friction only (compat).
+ * @param {string|number} cell
+ * @param {number} walkDefault
+ * @returns {number}
+ */
+function decodeFrictionCell(cell, walkDefault) {
+    return decodeCollisionCell(cell, walkDefault).friction;
+}
+
+/**
+ * Parse collision field into friction + sight + flags grids.
  *
  * Accepts:
  * - array of row strings (human-diffable, preferred)
@@ -86,23 +210,28 @@ function decodeFrictionCell(cell, walkDefault) {
  * @param {number} w
  * @param {number} h
  * @param {number} [walkDefault]
- * @returns {Uint8Array}
+ * @returns {{ friction: Uint8Array, sight: Uint8Array, flags: Uint8Array }}
  */
-function parseFrictionGrid(raw, w, h, walkDefault) {
+function parseCollisionGrid(raw, w, h, walkDefault) {
     const cols = Math.max(1, Math.floor(w));
     const rows = Math.max(1, Math.floor(h));
     const n = cols * rows;
-    const out = new Uint8Array(n);
-    out.fill(FRICTION_BLOCKED);
+    const friction = new Uint8Array(n);
+    const sight = new Uint8Array(n);
+    const flags = new Uint8Array(n);
+    friction.fill(FRICTION_BLOCKED);
+    sight.fill(SIGHT_BLOCKED);
 
-    if (raw == null) return out;
+    if (raw == null) return { friction, sight, flags };
 
-    // Flat number array
     if (Array.isArray(raw) && raw.length === n && typeof raw[0] === 'number') {
         for (let i = 0; i < n; i++) {
-            out[i] = decodeFrictionCell(raw[i], walkDefault);
+            const c = decodeCollisionCell(raw[i], walkDefault);
+            friction[i] = c.friction;
+            sight[i] = c.sight;
+            flags[i] = c.flags;
         }
-        return out;
+        return { friction, sight, flags };
     }
 
     /** @type {string[]|number[][]} */
@@ -116,7 +245,7 @@ function parseFrictionGrid(raw, w, h, walkDefault) {
     } else if (Array.isArray(raw)) {
         rowList = raw;
     } else {
-        return out;
+        return { friction, sight, flags };
     }
 
     for (let y = 0; y < rows; y++) {
@@ -125,18 +254,38 @@ function parseFrictionGrid(raw, w, h, walkDefault) {
         if (typeof row === 'string') {
             for (let x = 0; x < cols; x++) {
                 const ch = x < row.length ? row.charAt(x) : '#';
-                out[y * cols + x] = decodeFrictionCell(ch, walkDefault);
+                const c = decodeCollisionCell(ch, walkDefault);
+                const i = y * cols + x;
+                friction[i] = c.friction;
+                sight[i] = c.sight;
+                flags[i] = c.flags;
             }
         } else if (Array.isArray(row)) {
             for (let x = 0; x < cols; x++) {
-                out[y * cols + x] = decodeFrictionCell(
+                const c = decodeCollisionCell(
                     x < row.length ? row[x] : FRICTION_BLOCKED,
                     walkDefault
                 );
+                const i = y * cols + x;
+                friction[i] = c.friction;
+                sight[i] = c.sight;
+                flags[i] = c.flags;
             }
         }
     }
-    return out;
+    return { friction, sight, flags };
+}
+
+/**
+ * Parse friction only (compat wrapper over parseCollisionGrid).
+ * @param {*} raw
+ * @param {number} w
+ * @param {number} h
+ * @param {number} [walkDefault]
+ * @returns {Uint8Array}
+ */
+function parseFrictionGrid(raw, w, h, walkDefault) {
+    return parseCollisionGrid(raw, w, h, walkDefault).friction;
 }
 
 /**
@@ -306,7 +455,7 @@ function normalizePiece(raw) {
               ? Number(raw.defaultFriction)
               : DEFAULT_WALK_FRICTION;
 
-    const friction = parseFrictionGrid(frictionRaw, w, h, walkDefault);
+    const collision = parseCollisionGrid(frictionRaw, w, h, walkDefault);
     const exits = normalizeExits(raw.exits != null ? raw.exits : raw.exitsMask);
 
     const socketsRaw =
@@ -340,7 +489,9 @@ function normalizePiece(raw) {
         biome: raw.biome != null ? String(raw.biome) : null,
         size: { w, h },
         exits,
-        friction,
+        friction: collision.friction,
+        sight: collision.sight,
+        flags: collision.flags,
         sockets,
         tags,
         walkFriction: walkDefault | 0
@@ -503,26 +654,46 @@ function filterByExits(pieces, dirs) {
 }
 
 /**
- * Encode friction Uint8Array back to row strings for debug/export.
+ * Encode collision grids back to row strings for debug/export.
+ * Prefers special chars when sight/flags distinguish water / grate / PZ.
  * @param {Uint8Array} friction
  * @param {number} cols
  * @param {number} rows
  * @param {number} [walkDefault]
+ * @param {{ sight?: Uint8Array|null, flags?: Uint8Array|null }} [opts]
  * @returns {string[]}
  */
-function frictionToRowStrings(friction, cols, rows, walkDefault) {
+function frictionToRowStrings(friction, cols, rows, walkDefault, opts) {
     const walk =
         walkDefault != null ? walkDefault | 0 : DEFAULT_WALK_FRICTION;
+    const o = opts || {};
+    const sight = o.sight || null;
+    const flags = o.flags || null;
     const out = [];
     for (let y = 0; y < rows; y++) {
         let s = '';
         for (let x = 0; x < cols; x++) {
-            const f = friction[y * cols + x];
-            if (f === FRICTION_BLOCKED) s += '#';
-            else if (f === walk) s += '.';
-            else if (f === 0) s += '+';
-            else if (f >= 0 && f <= 15) s += f.toString(16);
-            else s += '.';
+            const i = y * cols + x;
+            const f = friction[i];
+            const si = sight ? sight[i] : f === FRICTION_BLOCKED ? SIGHT_BLOCKED : SIGHT_CLEAR;
+            const fl = flags ? flags[i] : 0;
+            if ((fl & TILE_FLAG_NO_CAST) !== 0 && f !== FRICTION_BLOCKED) {
+                s += 'P';
+            } else if (f === FRICTION_BLOCKED && si === SIGHT_CLEAR) {
+                s += '~';
+            } else if (f !== FRICTION_BLOCKED && si === SIGHT_BLOCKED) {
+                s += '^';
+            } else if (f === FRICTION_BLOCKED) {
+                s += '#';
+            } else if (f === walk) {
+                s += '.';
+            } else if (f === 0) {
+                s += '+';
+            } else {
+                const nib = tableNibbleCharForFriction(f);
+                if (nib) s += nib;
+                else s += '.';
+            }
         }
         out.push(s);
     }
@@ -534,8 +705,15 @@ module.exports = {
     CARDINALS,
     OPPOSITE,
     FRICTION_BLOCKED,
+    SIGHT_BLOCKED,
+    SIGHT_CLEAR,
+    TILE_FLAG_NO_CAST,
+    frictionFromTableNibble,
+    tableNibbleCharForFriction,
     decodeFrictionCell,
+    decodeCollisionCell,
     parseFrictionGrid,
+    parseCollisionGrid,
     normalizeExits,
     normalizePointList,
     normalizeStairDir,

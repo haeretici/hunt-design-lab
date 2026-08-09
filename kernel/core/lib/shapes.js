@@ -18,8 +18,11 @@
 
 'use strict';
 
-/** Friction value for non-walkable / LoS-blocking tiles (matches TileMap). */
+/** Friction value for non-walkable tiles (matches TileMap). */
 const FRICTION_BLOCKED = 255;
+
+/** Sight-block sentinel (matches TileMap.SIGHT_BLOCKED). */
+const SIGHT_BLOCKED = 255;
 
 const AREA_DIAMOND_5 = [
     [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
@@ -833,15 +836,18 @@ function rotateOffset(dx, dy, direction) {
 }
 
 /**
- * Whether a tile blocks LoS / area fill.
+ * Whether a tile is non-walkable (area footprint / solid ground).
+ * Does **not** mean LoS is blocked (water is walk-blocked, sight-clear).
  * @param {object|null|undefined} tileMap
  * @param {number} x
  * @param {number} y
  * @param {string|number} z
  * @returns {boolean}
  */
-function isTileBlocked(tileMap, x, y, z) {
+function isTileWalkBlocked(tileMap, x, y, z) {
     if (!tileMap) return false;
+    // Prefer friction (authoritative walk-block); mocks often set isWalkable
+    // always-true while using getFriction for walls.
     if (typeof tileMap.getFriction === 'function') {
         return tileMap.getFriction(x, y, z) === FRICTION_BLOCKED;
     }
@@ -852,8 +858,38 @@ function isTileBlocked(tileMap, x, y, z) {
 }
 
 /**
- * Bresenham line-of-sight (tiles with friction 255 block).
- * Adjacent tiles always clear. When tileMap is omitted, always true.
+ * Whether a tile blocks line of sight / projectiles.
+ * Prefers tileMap.blocksSight; falls back to walk-block (legacy couple).
+ * @param {object|null|undefined} tileMap
+ * @param {number} x
+ * @param {number} y
+ * @param {string|number} z
+ * @returns {boolean}
+ */
+function isTileSightBlocked(tileMap, x, y, z) {
+    if (!tileMap) return false;
+    if (typeof tileMap.blocksSight === 'function') {
+        return !!tileMap.blocksSight(x, y, z);
+    }
+    // Legacy mock maps: only getFriction / isWalkable — couple sight to walk
+    return isTileWalkBlocked(tileMap, x, y, z);
+}
+
+/**
+ * @deprecated Use isTileWalkBlocked (area) or isTileSightBlocked (LoS).
+ * Kept as walk-block alias for older call sites / tests.
+ */
+function isTileBlocked(tileMap, x, y, z) {
+    return isTileWalkBlocked(tileMap, x, y, z);
+}
+
+/**
+ * Bresenham line-of-sight (tiles with sight-block cut the ray).
+ * Walk-only blockers (water) do **not** cut. Adjacent always clear.
+ * When tileMap is omitted, always true.
+ *
+ * Intermediate tiles only: origin/destination are not required to be
+ * sight-clear (attacker stands on open ground; dest is usually a creature).
  *
  * @param {number} x1
  * @param {number} y1
@@ -880,7 +916,11 @@ function hasLineOfSight(x1, y1, z1, x2, y2, z2, tileMap) {
     let y = y1;
 
     while (true) {
-        if (isTileBlocked(tileMap, x, y, z1)) return false;
+        // Skip origin: standing tile must not self-block the ray.
+        if (!(x === x1 && y === y1)) {
+            if (x === x2 && y === y2) break;
+            if (isTileSightBlocked(tileMap, x, y, z1)) return false;
+        }
         if (x === x2 && y === y2) break;
         const e2 = 2 * err;
         if (e2 > -dy) {
@@ -924,7 +964,8 @@ function filterAffectedTilesWithObstacles(
         const out = [];
         for (let i = 0; i < affectedTiles.length; i++) {
             const tile = affectedTiles[i];
-            if (!isTileBlocked(tileMap, tile.x, tile.y, z)) {
+            // Area hits only walkable ground (water has no combatants / fields).
+            if (!isTileWalkBlocked(tileMap, tile.x, tile.y, z)) {
                 out.push({ x: tile.x, y: tile.y, z });
             }
         }
@@ -1214,11 +1255,14 @@ module.exports = {
     rotateOffset,
     hasLineOfSight,
     isTileBlocked,
+    isTileWalkBlocked,
+    isTileSightBlocked,
     filterAffectedTilesWithObstacles,
     getAffectedTiles,
     entitiesOnTiles,
     findTopAreaCenters,
     WAVE_SPREAD_MAP,
     AREA_ENTRIES,
-    FRICTION_BLOCKED
+    FRICTION_BLOCKED,
+    SIGHT_BLOCKED
 };

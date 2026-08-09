@@ -316,8 +316,8 @@ function testLoadFloor07Sample() {
                   const map = new TileMap();
                   await map.loadFloor(7, mapPathPng(7));
                   map.setNavmesh(mesh);
-                  const start = { x: 260, y: 96, z: 7 };
-                  const end = { x: 304, y: 96, z: 7 };
+                  const start = { x: 260, y: 92, z: 7 };
+                  const end = { x: 304, y: 92, z: 7 };
                   const dist = chebyshev(start, end);
                   assert.ok(dist < Settings.PATH_MAX_DISTANCE);
 

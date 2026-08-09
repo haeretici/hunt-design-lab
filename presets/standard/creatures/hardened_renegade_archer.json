@@ -1,0 +1,120 @@
+{
+    "id": "hardened_renegade_archer",
+    "label": "Hardened Renegade Archer",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A hardened renegade archer.",
+    "hp": 7300,
+    "hpMax": 7300,
+    "speed": 125,
+    "level": 623,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 10,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "ranged_0",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 476,
+            "target": true,
+            "shootEffect": "ani_burstarrow"
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 6000,
+            "chance": 8,
+            "range": 7,
+            "element": "death",
+            "min": 177,
+            "max": 537,
+            "target": true,
+            "shootEffect": "ani_smallholy"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 4000,
+            "chance": 6,
+            "range": 7,
+            "element": "death",
+            "min": 177,
+            "max": 603,
+            "target": true,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 4000,
+            "chance": 6,
+            "range": 4,
+            "element": "ice",
+            "min": 166,
+            "max": 471,
+            "radius": 3,
+            "target": true,
+            "effect": "me_icearea"
+        }
+    ],
+    "race": "blood",
+    "loot": [],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "bad_dream",
+    "threatDps": 134.3875,
+    "burstDps": 154.535,
+    "avgHit": 247.339,
+    "maxHit": 603,
+    "manaCost": 0
+}

@@ -1,0 +1,262 @@
+{
+    "id": "viper_vizier_zarith",
+    "label": "Viper Vizier Zarith",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A viper vizier zarith.",
+    "hp": 48500,
+    "hpMax": 48500,
+    "speed": 95,
+    "level": 812,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 25000,
+    "lootValue": 244.66666666667,
+    "aggro": true,
+    "resists": {
+        "physical": 20,
+        "fire": 30,
+        "ice": 0,
+        "energy": 0,
+        "earth": 100,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 70,
+        "health": 10,
+        "damage": 10,
+        "random": 10
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": true,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 769
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 8,
+            "range": 4,
+            "element": "physical",
+            "min": 629,
+            "max": 909,
+            "radius": 3,
+            "target": false,
+            "effect": "me_groundshaker"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 2000,
+            "chance": 10,
+            "range": 4,
+            "element": "earth",
+            "min": 559,
+            "max": 811,
+            "length": 5,
+            "spread": 0,
+            "target": false,
+            "effect": "me_explosionhit"
+        },
+        {
+            "id": "melee_3",
+            "kind": "melee",
+            "intervalMs": 3000,
+            "chance": 14,
+            "range": 1,
+            "element": "fire",
+            "min": 699,
+            "max": 1049,
+            "target": true,
+            "shootEffect": "ani_fire"
+        },
+        {
+            "id": "area_4",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 16,
+            "range": 4,
+            "element": "earth",
+            "min": 699,
+            "max": 867,
+            "radius": 4,
+            "target": true,
+            "effect": "me_green_rings",
+            "shootEffect": "ani_earth"
+        },
+        {
+            "id": "area_5",
+            "kind": "area",
+            "intervalMs": 3000,
+            "chance": 12,
+            "range": 4,
+            "element": "earth",
+            "min": 447,
+            "max": 699,
+            "radius": 2,
+            "target": false,
+            "effect": "me_green_rings"
+        }
+    ],
+    "race": "blood",
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 17
+        },
+        {
+            "name": "small amethyst",
+            "chance": 33500,
+            "maxCount": 2
+        },
+        {
+            "name": "small ruby",
+            "chance": 33500,
+            "maxCount": 2
+        },
+        {
+            "name": "small sapphire",
+            "chance": 33500
+        },
+        {
+            "name": "small topaz",
+            "chance": 33500
+        },
+        {
+            "name": "small diamond",
+            "chance": 33500
+        },
+        {
+            "name": "great dual potion",
+            "chance": 26400
+        },
+        {
+            "name": "Earthbound Rod",
+            "chance": 24000,
+            "maxCount": 3
+        },
+        {
+            "name": "Bloomshoot Rod",
+            "chance": 21000
+        },
+        {
+            "name": "blue crystal shard",
+            "chance": 21000
+        },
+        {
+            "name": "blue gem",
+            "chance": 21000
+        },
+        {
+            "name": "viper crest",
+            "chance": 12560
+        },
+        {
+            "name": "violet crystal shard",
+            "chance": 14800
+        },
+        {
+            "id": 281,
+            "chance": 14520
+        },
+        {
+            "name": "gold ingot",
+            "chance": 14500
+        },
+        {
+            "name": "spellbook of warding",
+            "chance": 6500
+        },
+        {
+            "chance": 5400,
+            "name": "ring of healing"
+        },
+        {
+            "name": "Earthbound Hood",
+            "chance": 1600
+        },
+        {
+            "name": "Amulet of Safekeeping",
+            "chance": 3400
+        },
+        {
+            "name": "wand of everblazing",
+            "chance": 2900
+        },
+        {
+            "name": "viper wand",
+            "chance": 100
+        },
+        {
+            "name": "viper axe",
+            "chance": 100
+        },
+        {
+            "name": "viper rod",
+            "chance": 100
+        },
+        {
+            "name": "viper crest",
+            "chance": 100
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "tempest_serpent_berserker",
+    "threatDps": 383.6067,
+    "burstDps": 415.46,
+    "avgHit": 506.9692,
+    "maxHit": 1049,
+    "manaCost": 0,
+    "summon": {
+        "maxSummons": 1,
+        "summons": [
+            {
+                "name": "Black Cobra",
+                "id": "black_cobra",
+                "chance": 10,
+                "interval": 2000,
+                "count": 1
+            }
+        ]
+    }
+}

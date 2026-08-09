@@ -1,0 +1,207 @@
+{
+    "id": "viper_vizier",
+    "label": "Viper Vizier",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A viper vizier.",
+    "hp": 8500,
+    "hpMax": 8500,
+    "speed": 160,
+    "level": 638,
+    "armor": 82,
+    "mitigation": 2.31,
+    "maxBlock": 0,
+    "exp": 7650,
+    "lootValue": 2452.9748833379,
+    "aggro": true,
+    "resists": {
+        "physical": 10,
+        "fire": 0,
+        "ice": 0,
+        "energy": 0,
+        "earth": 100,
+        "holy": -10,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 316
+        },
+        {
+            "id": "explosion_wave_1",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 15,
+            "range": 1,
+            "element": "physical",
+            "min": 184,
+            "max": 263,
+            "target": false
+        },
+        {
+            "id": "area_2",
+            "kind": "area",
+            "intervalMs": 2000,
+            "chance": 12,
+            "range": 4,
+            "element": "earth",
+            "min": 230,
+            "max": 342,
+            "radius": 4,
+            "target": true,
+            "effect": "me_green_rings",
+            "shootEffect": "ani_smallearth"
+        },
+        {
+            "id": "death_chain_3",
+            "kind": "ranged",
+            "intervalMs": 4000,
+            "chance": 30,
+            "range": 3,
+            "element": "physical",
+            "min": 362,
+            "max": 526,
+            "target": true
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "haste_0",
+            "kind": "haste",
+            "intervalMs": 2000,
+            "chance": 8,
+            "speedChange": 250,
+            "durationSec": 5,
+            "effect": "me_magic_green"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Human",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 85480,
+            "maxCount": 4
+        },
+        {
+            "name": "Earthbound Rod",
+            "chance": 43000
+        },
+        {
+            "name": "Viperfang Rod",
+            "chance": 20970
+        },
+        {
+            "name": "viper crest",
+            "chance": 16130
+        },
+        {
+            "name": "Earthbound Hood",
+            "chance": 13710
+        },
+        {
+            "name": "cyan crystal fragment",
+            "chance": 10805
+        },
+        {
+            "name": "Earthbound Boots",
+            "chance": 9680
+        },
+        {
+            "id": 281,
+            "chance": 8870
+        },
+        {
+            "chance": 6450,
+            "name": "red gem"
+        },
+        {
+            "name": "emerald bangle",
+            "chance": 5650
+        },
+        {
+            "name": "gemmed figurine",
+            "chance": 4840
+        },
+        {
+            "name": "green crystal fragment",
+            "chance": 3230
+        },
+        {
+            "name": "red crystal fragment",
+            "chance": 3230
+        },
+        {
+            "name": "serpent sword",
+            "chance": 2420
+        },
+        {
+            "name": "violet crystal shard",
+            "chance": 2420
+        },
+        {
+            "name": "green gem",
+            "chance": 1610
+        },
+        {
+            "name": "onyx chip",
+            "chance": 1610,
+            "maxCount": 3
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "tempest_serpent_berserker",
+    "threatDps": 146.2225,
+    "burstDps": 179.5225,
+    "avgHit": 205.9472,
+    "maxHit": 526,
+    "manaCost": 0
+}

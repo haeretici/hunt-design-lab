@@ -1,5 +1,5 @@
 /**
- * TileMap — single numeric collision grid per floor.
+ * TileMap — numeric collision grids per floor.
  *
  * Stage 1: load path PNG (each pixel = one tile), flat friction storage,
  * occupancy helpers.
@@ -8,10 +8,18 @@
  * Stage 12H: first-class stair tiles (registry + hop helpers). Local A* stays
  * same-floor; multi-floor hops use stairs / navmesh edges.
  *
- * Pixel encoding (contract, docs/08_tilemap_and_pathfinding.md):
- *   #ffff00 (pure yellow)     → blocked (FRICTION_BLOCKED)
- *   R === G === B, not white  → walkable; friction = channel 0–254
- *   white / non-gray          → blocked
+ * Walk vs sight are independent (docs/08):
+ *   friction — walk delay / FRICTION_BLOCKED (255) non-walkable
+ *   sight    — SIGHT_BLOCKED (255) cuts LoS / projectiles; 0 = clear
+ *   flags    — TILE_FLAG_* (e.g. NO_CAST protection zones)
+ *
+ * Path-PNG pixel encoding (docs/08, assets/.../REFERENCE.md):
+ *   #ffff00 pure yellow     → full wall (walk+sight blocked)
+ *   #00ffff pure cyan       → water / solid clear-sight (walk blocked, sight open)
+ *   #ff00ff pure magenta    → grate / glass (walk open, sight blocked)
+ *   #00ff00 pure green      → protection zone (walk+sight open, NO_CAST)
+ *   R === G === B, not white → walkable floor; friction = channel 0–250 (table)
+ *   white / other non-gray  → full wall
  */
 
 const { GameObject } = require('./gameobject.js');
@@ -81,6 +89,21 @@ function tileSpriteApi() {
 /** @type {number} Non-walkable sentinel stored in friction arrays */
 const FRICTION_BLOCKED = 255;
 
+/** @type {number} Line-of-sight / projectile block sentinel in sight arrays */
+const SIGHT_BLOCKED = 255;
+
+/** @type {number} Sight clear (projectiles pass) */
+const SIGHT_CLEAR = 0;
+
+/**
+ * Tile flag bits on layer.flags (parallel Uint8Array).
+ * Independent of walk/sight so protection zones and future zone types stack.
+ */
+const TILE_FLAG_NO_CAST = 1;
+
+/** Default walk friction for special walkable colors (grate, protection zone). */
+const PATH_PNG_DEFAULT_WALK_FRICTION = 100;
+
 /** Default: full-floor cache when map has ≤ this many tiles (80×80). */
 const DEFAULT_CACHE_FULL_MAX_TILES = 6400;
 /** Default minimum overscan margin in tiles. */
@@ -88,6 +111,7 @@ const DEFAULT_CACHE_MARGIN_MIN = 8;
 
 /**
  * Precomputed fill styles for friction gray (avoids `rgb(...)` alloc on rebuild).
+ * Special collision colors override in render when sight/flags differ.
  * @type {string[]}
  */
 const FRICTION_FILL_STYLE = (function buildFrictionFillStyle() {
@@ -292,30 +316,91 @@ function normalizeTileRef(t, defaultZ) {
 }
 
 /**
- * Decode one path-PNG pixel to a friction value.
+ * Decode one path-PNG pixel to friction + sight + flags.
  * @param {number} r
  * @param {number} g
  * @param {number} b
- * @returns {number} 0–254 walkable friction, or FRICTION_BLOCKED
+ * @returns {{ friction: number, sight: number, flags: number }}
+ */
+function collisionFromPixel(r, g, b) {
+    // Pure yellow → full wall (walk + sight)
+    if (r === 255 && g === 255 && b === 0) {
+        return {
+            friction: FRICTION_BLOCKED,
+            sight: SIGHT_BLOCKED,
+            flags: 0
+        };
+    }
+    // Pure cyan → water / solid clear-sight
+    if (r === 0 && g === 255 && b === 255) {
+        return {
+            friction: FRICTION_BLOCKED,
+            sight: SIGHT_CLEAR,
+            flags: 0
+        };
+    }
+    // Pure magenta → grate / glass (walk open, sight blocked)
+    if (r === 255 && g === 0 && b === 255) {
+        return {
+            friction: PATH_PNG_DEFAULT_WALK_FRICTION,
+            sight: SIGHT_BLOCKED,
+            flags: 0
+        };
+    }
+    // Pure green → protection zone (walk + sight open, no cast)
+    if (r === 0 && g === 255 && b === 0) {
+        return {
+            friction: PATH_PNG_DEFAULT_WALK_FRICTION,
+            sight: SIGHT_CLEAR,
+            flags: TILE_FLAG_NO_CAST
+        };
+    }
+    // Gray walkable (not pure white); clamp channel to table max 250
+    if (r === g && g === b && r !== 255) {
+        const f = r > 250 ? 250 : r;
+        return { friction: f, sight: SIGHT_CLEAR, flags: 0 };
+    }
+    // White or any other non-gray → full wall
+    return {
+        friction: FRICTION_BLOCKED,
+        sight: SIGHT_BLOCKED,
+        flags: 0
+    };
+}
+
+/**
+ * Decode friction only (compat). Prefer collisionFromPixel for full profile.
+ * @param {number} r
+ * @param {number} g
+ * @param {number} b
+ * @returns {number} 0–250 walkable friction, or FRICTION_BLOCKED
  */
 function frictionFromPixel(r, g, b) {
-    // Pure yellow wall/void marker
-    if (r === 255 && g === 255 && b === 0) {
-        return FRICTION_BLOCKED;
+    return collisionFromPixel(r, g, b).friction;
+}
+
+/**
+ * Build default sight grid from friction (blocked walk ⇒ blocked sight).
+ * Used when loaders omit an explicit sight buffer.
+ * @param {Uint8Array} friction
+ * @returns {Uint8Array}
+ */
+function defaultSightFromFriction(friction) {
+    const n = friction.length;
+    const sight = new Uint8Array(n);
+    for (let i = 0; i < n; i++) {
+        if (friction[i] === FRICTION_BLOCKED) sight[i] = SIGHT_BLOCKED;
     }
-    // Gray walkable (not pure white)
-    if (r === g && g === b && r !== 255) {
-        return r;
-    }
-    // White or any non-gray color → blocked
-    return FRICTION_BLOCKED;
+    return sight;
 }
 
 /**
  * @typedef {Object} FloorLayer
  * @property {number} cols
  * @property {number} rows
- * @property {Uint8Array} friction  length cols*rows; 255 = blocked
+ * @property {Uint8Array} friction  length cols*rows; 255 = walk blocked
+ * @property {Uint8Array} sight     length cols*rows; 255 = LoS blocked
+ * @property {Uint8Array} flags     length cols*rows; TILE_FLAG_* bits
  * @property {Int32Array} occupancy length cols*rows; 0 = empty, else first combatant id
  * @property {Uint8Array} [fields] elemental field bitmasks
  */
@@ -711,6 +796,120 @@ class TileMap extends GameObject {
      */
     isWalkable(x, y, z) {
         return this.getFriction(x, y, z) !== FRICTION_BLOCKED;
+    }
+
+    /**
+     * Whether the tile blocks line of sight / projectiles.
+     * Missing layer / OOB → blocked (same as walk OOB).
+     * Missing sight buffer → coupled fallback (friction === 255).
+     * @param {number} x
+     * @param {number} y
+     * @param {string|number} z
+     * @returns {boolean}
+     */
+    blocksSight(x, y, z) {
+        const layer = this.getLayer(z);
+        if (!layer) return true;
+        const ix = Math.round(x);
+        const iy = Math.round(y);
+        if (ix < 0 || iy < 0 || ix >= layer.cols || iy >= layer.rows) {
+            return true;
+        }
+        const idx = this.index(ix, iy, layer.cols);
+        if (layer.sight) {
+            return layer.sight[idx] === SIGHT_BLOCKED;
+        }
+        return layer.friction[idx] === FRICTION_BLOCKED;
+    }
+
+    /**
+     * Raw sight byte (0 clear, 255 blocked). OOB / missing → SIGHT_BLOCKED.
+     * @param {number} x
+     * @param {number} y
+     * @param {string|number} z
+     * @returns {number}
+     */
+    getSightBlock(x, y, z) {
+        return this.blocksSight(x, y, z) ? SIGHT_BLOCKED : SIGHT_CLEAR;
+    }
+
+    /**
+     * Set sight block for one tile (e.g. dynamic obstacles).
+     * @param {number} x
+     * @param {number} y
+     * @param {string|number} z
+     * @param {boolean|number} blocked true/255 block, false/0 clear
+     * @returns {boolean}
+     */
+    setSightBlock(x, y, z, blocked) {
+        const layer = this.getLayer(z);
+        if (!layer || !layer.friction) return false;
+        const ix = Math.round(x);
+        const iy = Math.round(y);
+        if (ix < 0 || iy < 0 || ix >= layer.cols || iy >= layer.rows) {
+            return false;
+        }
+        if (!layer.sight || layer.sight.length < layer.friction.length) {
+            layer.sight = defaultSightFromFriction(layer.friction);
+        }
+        const idx = this.index(ix, iy, layer.cols);
+        const on =
+            blocked === true ||
+            blocked === SIGHT_BLOCKED ||
+            blocked === 1;
+        layer.sight[idx] = on ? SIGHT_BLOCKED : SIGHT_CLEAR;
+        return true;
+    }
+
+    /**
+     * Tile flag bits (TILE_FLAG_*). Missing layer / OOB → 0.
+     * @param {number} x
+     * @param {number} y
+     * @param {string|number} z
+     * @returns {number}
+     */
+    getTileFlags(x, y, z) {
+        const layer = this.getLayer(z);
+        if (!layer || !layer.flags) return 0;
+        const ix = Math.round(x);
+        const iy = Math.round(y);
+        if (ix < 0 || iy < 0 || ix >= layer.cols || iy >= layer.rows) {
+            return 0;
+        }
+        return layer.flags[this.index(ix, iy, layer.cols)] & 0xff;
+    }
+
+    /**
+     * @param {number} x
+     * @param {number} y
+     * @param {string|number} z
+     * @param {number} flags
+     * @returns {boolean}
+     */
+    setTileFlags(x, y, z, flags) {
+        const layer = this.getLayer(z);
+        if (!layer) return false;
+        const ix = Math.round(x);
+        const iy = Math.round(y);
+        if (ix < 0 || iy < 0 || ix >= layer.cols || iy >= layer.rows) {
+            return false;
+        }
+        if (!layer.flags || layer.flags.length < layer.friction.length) {
+            layer.flags = new Uint8Array(layer.friction.length);
+        }
+        layer.flags[this.index(ix, iy, layer.cols)] = flags & 0xff;
+        return true;
+    }
+
+    /**
+     * Protection-zone style: standing here cannot cast magic / autos.
+     * @param {number} x
+     * @param {number} y
+     * @param {string|number} z
+     * @returns {boolean}
+     */
+    blocksCast(x, y, z) {
+        return (this.getTileFlags(x, y, z) & TILE_FLAG_NO_CAST) !== 0;
     }
 
     /**
@@ -1707,13 +1906,18 @@ class TileMap extends GameObject {
             );
         }
         const friction = new Uint8Array(n);
+        const sight = new Uint8Array(n);
+        const flags = new Uint8Array(n);
         const occupancy = new Int32Array(n);
         const fields = new Uint8Array(n);
         for (let i = 0; i < n; i++) {
             const o = i * 4;
-            friction[i] = frictionFromPixel(rgba[o], rgba[o + 1], rgba[o + 2]);
+            const c = collisionFromPixel(rgba[o], rgba[o + 1], rgba[o + 2]);
+            friction[i] = c.friction;
+            sight[i] = c.sight;
+            flags[i] = c.flags;
         }
-        const layer = { cols, rows, friction, occupancy, fields };
+        const layer = { cols, rows, friction, sight, flags, occupancy, fields };
         this.layers[String(z)] = layer;
         this.invalidateRenderCache();
         return layer;
@@ -1722,28 +1926,54 @@ class TileMap extends GameObject {
     /**
      * Install a floor from a flat friction grid (Stage 11.3 stitch output).
      * Copies the buffer; does not retain the caller's reference.
+     * Optional `opts.sight` / `opts.flags` copy in; otherwise sight defaults to
+     * "blocked walk ⇒ blocked sight" and flags are zero.
      *
      * @param {string|number} z
      * @param {number} cols
      * @param {number} rows
      * @param {Uint8Array|Buffer|ArrayLike<number>} friction length cols*rows
+     * @param {{
+     *   sight?: Uint8Array|ArrayLike<number>|null,
+     *   flags?: Uint8Array|ArrayLike<number>|null
+     * }} [opts]
      * @returns {FloorLayer}
      */
-    loadFloorFromFriction(z, cols, rows, friction) {
+    loadFloorFromFriction(z, cols, rows, friction, opts) {
         const n = cols * rows;
         if (!friction || friction.length < n) {
             throw new Error(
                 `loadFloorFromFriction: expected ${n} bytes, got ${friction ? friction.length : 0}`
             );
         }
+        const o = opts || {};
         const copy = new Uint8Array(n);
         for (let i = 0; i < n; i++) {
             const v = friction[i] & 0xff;
             copy[i] = v;
         }
+        let sight;
+        if (o.sight && o.sight.length >= n) {
+            sight = new Uint8Array(n);
+            for (let i = 0; i < n; i++) sight[i] = o.sight[i] & 0xff;
+        } else {
+            sight = defaultSightFromFriction(copy);
+        }
+        const flags = new Uint8Array(n);
+        if (o.flags && o.flags.length >= n) {
+            for (let i = 0; i < n; i++) flags[i] = o.flags[i] & 0xff;
+        }
         const occupancy = new Int32Array(n);
         const fields = new Uint8Array(n);
-        const layer = { cols, rows, friction: copy, occupancy, fields };
+        const layer = {
+            cols,
+            rows,
+            friction: copy,
+            sight,
+            flags,
+            occupancy,
+            fields
+        };
         this.layers[String(z)] = layer;
         this.invalidateRenderCache();
         return layer;
@@ -2501,7 +2731,13 @@ function decodePathPngNode(filePath) {
 module.exports = {
     TileMap,
     FRICTION_BLOCKED,
+    SIGHT_BLOCKED,
+    SIGHT_CLEAR,
+    TILE_FLAG_NO_CAST,
+    PATH_PNG_DEFAULT_WALK_FRICTION,
     frictionFromPixel,
+    collisionFromPixel,
+    defaultSightFromFriction,
     stairKey,
     resolveTilemapViewport,
     computeTilemapCacheRect,

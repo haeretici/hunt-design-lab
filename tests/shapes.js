@@ -296,6 +296,41 @@ function testLineOfSightBlocked() {
     });
     assert.ok(!foot.some((t) => t.x === 6 && t.y === 5));
     assert.ok(foot.length < 9);
+
+    // Water: walk blocked, sight open — LoS crosses
+    const waterMap = {
+        isWalkable(x, y) {
+            if (x === 2 && y === 0) return false;
+            return true;
+        },
+        blocksSight(x, y) {
+            return false;
+        },
+        getFriction(x, y) {
+            if (x === 2 && y === 0) return 255;
+            return 0;
+        }
+    };
+    assert.strictEqual(
+        hasLineOfSight(0, 0, 7, 4, 0, 7, waterMap),
+        true,
+        'LoS over water'
+    );
+
+    // Grate: walk open, sight blocked
+    const grateMap = {
+        isWalkable() {
+            return true;
+        },
+        blocksSight(x, y) {
+            return x === 2 && y === 0;
+        }
+    };
+    assert.strictEqual(
+        hasLineOfSight(0, 0, 7, 4, 0, 7, grateMap),
+        false,
+        'LoS blocked by grate'
+    );
 }
 
 function testEntitiesOnTilesAndCenters() {

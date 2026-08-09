@@ -471,7 +471,9 @@ function resolveHuntConfig(input) {
         floorLayers[String(z)] = {
             cols: floorFriction.cols,
             rows: floorFriction.rows,
-            friction: floorFriction.friction
+            friction: floorFriction.friction,
+            sight: floorFriction.sight || null,
+            flags: floorFriction.flags || null
         };
     }
 

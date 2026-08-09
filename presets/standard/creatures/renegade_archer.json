@@ -1,0 +1,220 @@
+{
+    "id": "renegade_archer",
+    "label": "Renegade Archer",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "An renegade archer.",
+    "hp": 7300,
+    "hpMax": 7300,
+    "speed": 125,
+    "level": 623,
+    "armor": 82,
+    "mitigation": 2.31,
+    "maxBlock": 0,
+    "exp": 6800,
+    "lootValue": 2018.4941272431,
+    "aggro": true,
+    "resists": {
+        "physical": 10,
+        "fire": 10,
+        "ice": 20,
+        "energy": 0,
+        "earth": 0,
+        "holy": 10,
+        "death": -20
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 4,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "ranged_0",
+            "kind": "ranged",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 7,
+            "element": "physical",
+            "min": 0,
+            "max": 445,
+            "target": true,
+            "shootEffect": "ani_burstarrow"
+        },
+        {
+            "id": "ranged_1",
+            "kind": "ranged",
+            "intervalMs": 6000,
+            "chance": 12,
+            "range": 7,
+            "element": "death",
+            "min": 165,
+            "max": 502,
+            "target": true,
+            "shootEffect": "ani_smallholy"
+        },
+        {
+            "id": "ranged_2",
+            "kind": "ranged",
+            "intervalMs": 4000,
+            "chance": 10,
+            "range": 7,
+            "element": "death",
+            "min": 165,
+            "max": 564,
+            "target": true,
+            "effect": "me_mortarea",
+            "shootEffect": "ani_suddendeath"
+        },
+        {
+            "id": "area_3",
+            "kind": "area",
+            "intervalMs": 4000,
+            "chance": 10,
+            "range": 4,
+            "element": "ice",
+            "min": 155,
+            "max": 440,
+            "radius": 3,
+            "target": true,
+            "effect": "me_icearea"
+        }
+    ],
+    "race": "blood",
+    "bestiary": {
+        "class": "Human",
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
+        "occurrence": 0
+    },
+    "loot": [
+        {
+            "name": "platinum coin",
+            "chance": 100000,
+            "maxCount": 5
+        },
+        {
+            "name": "ultimate health potion",
+            "chance": 75135,
+            "maxCount": 3
+        },
+        {
+            "name": "meat",
+            "chance": 47703
+        },
+        {
+            "name": "broken longbow",
+            "chance": 14595
+        },
+        {
+            "name": "tiger cloak patch",
+            "chance": 10135
+        },
+        {
+            "name": "black pearl",
+            "chance": 8784
+        },
+        {
+            "name": "warrior helmet",
+            "chance": 8784
+        },
+        {
+            "name": "mino shield",
+            "chance": 8514
+        },
+        {
+            "name": "silver brooch",
+            "chance": 7838
+        },
+        {
+            "name": "knife",
+            "chance": 7703
+        },
+        {
+            "name": "tiger crest",
+            "chance": 6892
+        },
+        {
+            "id": 281,
+            "chance": 5676
+        },
+        {
+            "name": "gemmed figurine",
+            "chance": 4189
+        },
+        {
+            "name": "white pearl",
+            "chance": 3514
+        },
+        {
+            "name": "Frostbound Shoes",
+            "chance": 2432
+        },
+        {
+            "name": "knight armor",
+            "chance": 1892
+        },
+        {
+            "name": "coral brooch",
+            "chance": 1757
+        },
+        {
+            "name": "assassin dagger",
+            "chance": 1622
+        },
+        {
+            "name": "ornate crossbow",
+            "chance": 946
+        },
+        {
+            "name": "emerald bangle",
+            "chance": 811
+        },
+        {
+            "name": "wood cape",
+            "chance": 405
+        },
+        {
+            "name": "elvish bow",
+            "chance": 270
+        }
+    ],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "ember_sky_dwarf_knight",
+    "threatDps": 134.47,
+    "burstDps": 164.36,
+    "avgHit": 235.9123,
+    "maxHit": 564,
+    "manaCost": 0
+}

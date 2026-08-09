@@ -1,0 +1,132 @@
+{
+    "id": "hardened_renegade_knight",
+    "label": "Hardened Renegade Knight",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A hardened renegade knight.",
+    "hp": 8200,
+    "hpMax": 8200,
+    "speed": 130,
+    "level": 635,
+    "armor": 0,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 0,
+        "fire": 10,
+        "ice": 0,
+        "energy": 0,
+        "earth": 0,
+        "holy": 0,
+        "death": 0
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 90,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 2000,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 0,
+            "max": 515,
+            "effect": "me_drawblood"
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 6000,
+            "chance": 9,
+            "range": 4,
+            "element": "death",
+            "min": 154,
+            "max": 309,
+            "radius": 3,
+            "target": false,
+            "effect": "me_mortarea"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 6000,
+            "chance": 13,
+            "range": 4,
+            "element": "ice",
+            "min": 154,
+            "max": 412,
+            "length": 4,
+            "spread": 0,
+            "target": false,
+            "effect": "me_iceattack"
+        },
+        {
+            "id": "singlecloudchain_3",
+            "kind": "ranged",
+            "intervalMs": 8000,
+            "chance": 12,
+            "range": 4,
+            "element": "physical",
+            "min": 206,
+            "max": 463,
+            "target": true,
+            "effect": "me_energyhit"
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 4000,
+            "chance": 40,
+            "min": 200,
+            "max": 550,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "crystal_fungal_knight_berserker",
+    "threatDps": 143.3717,
+    "burstDps": 177.6325,
+    "avgHit": 259.8882,
+    "maxHit": 515,
+    "manaCost": 0
+}

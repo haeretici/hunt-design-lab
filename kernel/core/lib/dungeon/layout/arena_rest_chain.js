@@ -470,7 +470,9 @@ function generateArenaRestChain(opts) {
         floorLayers[String(z)] = {
             cols: gen.cols,
             rows: gen.rows,
-            friction: gen.friction
+            friction: gen.friction,
+            sight: gen.sight || null,
+            flags: gen.flags || null
         };
         perFloorWaypoints[String(z)] = wps.slice();
         totalPieces +=
@@ -586,7 +588,9 @@ function generateArenaRestChain(opts) {
         floorLayers[String(z)] = {
             cols: genR.cols,
             rows: genR.rows,
-            friction: genR.friction
+            friction: genR.friction,
+            sight: genR.sight || null,
+            flags: genR.flags || null
         };
         perFloorWaypoints[String(z)] = rWps.slice();
         totalPieces +=

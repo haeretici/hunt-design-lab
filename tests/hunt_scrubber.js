@@ -232,6 +232,7 @@ async function runLiveSim(seed, frames) {
             });
             await live.seekToTick(late);
             assert.strictEqual(live.tickCount, late);
+            console.log("LIVE:", leaderTile(live.getPartyPositions()), "REF:", leaderTile(refLate.partyPositions));
             assert.deepStrictEqual(
                 leaderTile(live.getPartyPositions()),
                 leaderTile(refLate.partyPositions)

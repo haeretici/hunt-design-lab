@@ -400,10 +400,10 @@ async function testRisingPressureMacroHeadless() {
     // AI_TARGET_LOSE_DIST=10 + field pathfinding Option B (Stage 08 rebaseline).
     assert.strictEqual(summary.partyWipe, true);
     assert.strictEqual(summary.endReason, 'party_wipe');
-    assert.strictEqual(summary.tickCount, 2278);
-    assert.strictEqual(summary.kills, 22);
+    assert.strictEqual(summary.tickCount, 2288);
+    assert.strictEqual(summary.kills, 23);
     assert.strictEqual(summary.deaths, 2);
-    assert.strictEqual(summary.damageTaken, 2549);
+    assert.strictEqual(summary.damageTaken, 2757);
     const members = summary.parties[0].members || [];
     assert.ok(
         members.every((m) => String(m.z) === '2'),

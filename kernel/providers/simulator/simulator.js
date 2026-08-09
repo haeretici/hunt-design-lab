@@ -94,15 +94,43 @@ function clonePlain(value) {
 }
 
 /**
- * Clone floorLayers so scrub reseed keeps friction TypedArrays.
+ * Copy a typed collision buffer (friction / sight / flags).
+ * @param {ArrayLike<number>|null|undefined} src
+ * @param {number} n expected length (0 = derive)
+ * @returns {Uint8Array|null}
+ */
+function cloneU8Layer(src, n) {
+    if (src == null) return null;
+    if (src instanceof Uint8Array) {
+        return n > 0 && src.length >= n
+            ? new Uint8Array(src.subarray(0, n))
+            : new Uint8Array(src);
+    }
+    if (ArrayBuffer.isView(src)) {
+        return new Uint8Array(
+            src.buffer.slice(src.byteOffset, src.byteOffset + src.byteLength)
+        );
+    }
+    if (Array.isArray(src)) return Uint8Array.from(src);
+    if (typeof src === 'object') {
+        const len = n > 0 ? n : Object.keys(src).length;
+        const out = new Uint8Array(len);
+        for (let j = 0; j < len; j++) out[j] = src[j] | 0;
+        return out;
+    }
+    return null;
+}
+
+/**
+ * Clone floorLayers so scrub reseed keeps friction/sight/flags TypedArrays.
  * JSON.parse(JSON.stringify(Uint8Array)) becomes a number-keyed object and breaks loadFloorFromFriction.
  *
- * @param {Record<string, { cols?: number, rows?: number, friction?: ArrayLike<number> }>|null|undefined} layers
- * @returns {Record<string, { cols: number, rows: number, friction: Uint8Array }>|null}
+ * @param {Record<string, { cols?: number, rows?: number, friction?: ArrayLike<number>, sight?: ArrayLike<number>, flags?: ArrayLike<number> }>|null|undefined} layers
+ * @returns {Record<string, { cols: number, rows: number, friction: Uint8Array, sight?: Uint8Array, flags?: Uint8Array }>|null}
  */
 function cloneFloorLayers(layers) {
     if (!layers || typeof layers !== 'object') return null;
-    /** @type {Record<string, { cols: number, rows: number, friction: Uint8Array }>} */
+    /** @type {Record<string, { cols: number, rows: number, friction: Uint8Array, sight?: Uint8Array, flags?: Uint8Array }>} */
     const out = Object.create(null);
     const keys = Object.keys(layers);
     for (let i = 0; i < keys.length; i++) {
@@ -111,27 +139,16 @@ function cloneFloorLayers(layers) {
         if (!L || L.friction == null) continue;
         const cols = L.cols | 0;
         const rows = L.rows | 0;
-        const src = L.friction;
-        let friction;
-        if (src instanceof Uint8Array) {
-            friction = new Uint8Array(src);
-        } else if (ArrayBuffer.isView(src)) {
-            friction = new Uint8Array(
-                src.buffer.slice(src.byteOffset, src.byteOffset + src.byteLength)
-            );
-        } else if (Array.isArray(src)) {
-            friction = Uint8Array.from(src);
-        } else if (typeof src === 'object') {
-            // Defensive: recovered from bad JSON clone
-            const n = cols > 0 && rows > 0 ? cols * rows : Object.keys(src).length;
-            friction = new Uint8Array(n);
-            for (let j = 0; j < n; j++) {
-                friction[j] = src[j] | 0;
-            }
-        } else {
-            continue;
-        }
-        out[z] = { cols, rows, friction };
+        const n = cols > 0 && rows > 0 ? cols * rows : 0;
+        const friction = cloneU8Layer(L.friction, n);
+        if (!friction) continue;
+        /** @type {{ cols: number, rows: number, friction: Uint8Array, sight?: Uint8Array, flags?: Uint8Array }} */
+        const row = { cols, rows, friction };
+        const sight = cloneU8Layer(L.sight, friction.length);
+        if (sight) row.sight = sight;
+        const flags = cloneU8Layer(L.flags, friction.length);
+        if (flags) row.flags = flags;
+        out[z] = row;
     }
     return Object.keys(out).length ? out : null;
 }
@@ -397,7 +414,9 @@ class Simulator extends GameObject {
             this.floorLayers[String(z)] = {
                 cols: ff.cols,
                 rows: ff.rows,
-                friction: ff.friction
+                friction: ff.friction,
+                sight: ff.sight || null,
+                flags: ff.flags || null
             };
         }
         /**
@@ -874,6 +893,14 @@ class Simulator extends GameObject {
         this.parties = [];
         this.creatures = [];
         this.props = [];
+        if (this.groundItems) {
+            this.groundItems = createGroundStore();
+            if (this.tileMap) {
+                this.tileMap.groundStore = this.groundItems;
+                this.tileMap.groundItems = this.groundItems;
+                this.groundItems.tileMap = this.tileMap;
+            }
+        }
         this.entityById.clear();
         this.nextEntityId = 1;
         this.stepLog = [];
@@ -2218,7 +2245,11 @@ class Simulator extends GameObject {
                 z,
                 layer.cols | 0,
                 layer.rows | 0,
-                layer.friction
+                layer.friction,
+                {
+                    sight: layer.sight || null,
+                    flags: layer.flags || null
+                }
             );
             // Stage 11.9: attach decorative art when present
             if (this.artLayers) {

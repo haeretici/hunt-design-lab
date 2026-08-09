@@ -19,9 +19,12 @@ const {
     filterByTags,
     filterByExits,
     parseFrictionGrid,
+    decodeFrictionCell,
+    frictionFromTableNibble,
     DEFAULT_WALK_FRICTION,
     FRICTION_BLOCKED
 } = require('../kernel/core/lib/dungeon/pieces.js');
+const { FRICTION_KEYS } = require('../kernel/core/lib/movement.js');
 const {
     stitch,
     frictionToRgba,
@@ -48,6 +51,45 @@ const VERBOSE = !!process.env.VERBOSE;
 
 function log(...args) {
     if (VERBOSE) console.log(...args);
+}
+
+function testTableNibbleFriction() {
+    // 1-based index into FRICTION_KEYS: 1→70, 2→90, 3→95, 4→100, …
+    assert.strictEqual(FRICTION_KEYS[0], 70);
+    assert.strictEqual(FRICTION_KEYS[1], 90);
+    assert.strictEqual(FRICTION_KEYS[2], 95);
+    assert.strictEqual(FRICTION_KEYS[3], 100);
+    assert.strictEqual(frictionFromTableNibble(1), 70);
+    assert.strictEqual(frictionFromTableNibble(2), 90);
+    assert.strictEqual(frictionFromTableNibble(3), 95);
+    assert.strictEqual(frictionFromTableNibble(4), 100);
+    assert.strictEqual(frictionFromTableNibble(0), 0);
+    assert.strictEqual(
+        frictionFromTableNibble(15),
+        FRICTION_KEYS[14],
+        'f → 15th key (1-based)'
+    );
+    assert.strictEqual(decodeFrictionCell('1', 100), 70);
+    assert.strictEqual(decodeFrictionCell('2', 100), 90);
+    assert.strictEqual(decodeFrictionCell('4', 100), 100);
+    assert.strictEqual(decodeFrictionCell('a', 100), FRICTION_KEYS[9]);
+    assert.strictEqual(decodeFrictionCell('f', 100), FRICTION_KEYS[14]);
+    assert.strictEqual(decodeFrictionCell('0', 100), 0);
+    assert.strictEqual(decodeFrictionCell('.', 100), 100);
+
+    const p = normalizePiece({
+        id: 'nib',
+        size: { w: 4, h: 1 },
+        friction: ['12.f']
+    });
+    assert.strictEqual(p.friction[0], 70);
+    assert.strictEqual(p.friction[1], 90);
+    assert.strictEqual(p.friction[2], DEFAULT_WALK_FRICTION);
+    assert.strictEqual(p.friction[3], FRICTION_KEYS[14]);
+    log('table nibble friction ok', {
+        f15: FRICTION_KEYS[14],
+        keys: FRICTION_KEYS.length
+    });
 }
 
 function testParseFrictionAndNormalize() {
@@ -552,6 +594,7 @@ function testArenaAndRestPacks() {
 }
 
 function main() {
+    testTableNibbleFriction();
     testParseFrictionAndNormalize();
     testCardinalMatching();
     testStitchCorridorAndPathfind();

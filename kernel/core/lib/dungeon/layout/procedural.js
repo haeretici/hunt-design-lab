@@ -815,6 +815,8 @@ function generateProceduralLayout(opts) {
             cols: stitched.cols,
             rows: stitched.rows,
             friction: stitched.friction,
+            sight: stitched.sight || null,
+            flags: stitched.flags || null,
             sockets: stitched.sockets,
             placements: placementMeta,
             waypoints,
@@ -1118,7 +1120,9 @@ function resolveHuntLayout(hunt, opts) {
         z: floor,
         cols: gen.cols,
         rows: gen.rows,
-        friction: gen.friction
+        friction: gen.friction,
+        sight: gen.sight || null,
+        flags: gen.flags || null
     };
     // Clear map path so sim does not load continent PNG
     delete out.mapPath;

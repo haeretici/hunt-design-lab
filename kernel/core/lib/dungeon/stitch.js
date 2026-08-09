@@ -1,15 +1,17 @@
 /**
  * Stage 11.3 — Piece stitcher.
  *
- * Place normalized pieces at tile origins → world friction Uint8Array +
- * absolute sockets. Output is ready for TileMap.loadFloorFromFriction
- * (or loadFloorFromRgba via frictionToRgba helper).
+ * Place normalized pieces at tile origins → world friction / sight / flags
+ * grids + absolute sockets. Output is ready for TileMap.loadFloorFromFriction
+ * (or loadFloorFromRgba via frictionToRgba / collisionToRgba helpers).
  */
 
 'use strict';
 
 const {
     FRICTION_BLOCKED,
+    SIGHT_BLOCKED,
+    SIGHT_CLEAR,
     normalizePiece,
     DEFAULT_WALK_FRICTION,
     OPPOSITE,
@@ -112,34 +114,52 @@ function boundingBox(resolved) {
 }
 
 /**
- * Stamp one piece friction into the world buffer.
+ * Stamp one piece collision into world buffers.
  * Later pieces overwrite earlier ones (last-write wins) on overlap.
  *
- * @param {Uint8Array} dest
+ * @param {Uint8Array} destFriction
  * @param {number} cols
  * @param {number} rows
  * @param {object} piece normalized
  * @param {number} ox top-left x in dest coords
  * @param {number} oy top-left y in dest coords
- * @param {{ overwriteBlocked?: boolean }} [opts]
- *   overwriteBlocked (default true): stamp all cells including blocked.
- *   When false, only walkable cells of the piece overwrite dest.
+ * @param {{
+ *   overwriteBlocked?: boolean,
+ *   destSight?: Uint8Array|null,
+ *   destFlags?: Uint8Array|null
+ * }} [opts]
  */
-function stampPiece(dest, cols, rows, piece, ox, oy, opts) {
+function stampPiece(destFriction, cols, rows, piece, ox, oy, opts) {
     const o = opts || {};
     const overwriteBlocked = o.overwriteBlocked !== false;
+    const destSight = o.destSight || null;
+    const destFlags = o.destFlags || null;
     const w = piece.size.w;
     const h = piece.size.h;
-    const src = piece.friction;
+    const srcF = piece.friction;
+    const srcS = piece.sight || null;
+    const srcFl = piece.flags || null;
     for (let ly = 0; ly < h; ly++) {
         const wy = oy + ly;
         if (wy < 0 || wy >= rows) continue;
         for (let lx = 0; lx < w; lx++) {
             const wx = ox + lx;
             if (wx < 0 || wx >= cols) continue;
-            const f = src[ly * w + lx];
+            const li = ly * w + lx;
+            const f = srcF[li];
             if (!overwriteBlocked && f === FRICTION_BLOCKED) continue;
-            dest[wy * cols + wx] = f;
+            const di = wy * cols + wx;
+            destFriction[di] = f;
+            if (destSight) {
+                destSight[di] = srcS
+                    ? srcS[li]
+                    : f === FRICTION_BLOCKED
+                      ? SIGHT_BLOCKED
+                      : SIGHT_CLEAR;
+            }
+            if (destFlags) {
+                destFlags[di] = srcFl ? srcFl[li] : 0;
+            }
         }
     }
 }
@@ -260,10 +280,14 @@ function stitch(placements, opts) {
 
     if (!resolved.length) {
         const fill = o.fill != null ? o.fill | 0 : FRICTION_BLOCKED;
+        const fillSight =
+            fill === FRICTION_BLOCKED ? SIGHT_BLOCKED : SIGHT_CLEAR;
         return {
             cols: 1,
             rows: 1,
             friction: new Uint8Array([fill]),
+            sight: new Uint8Array([fillSight]),
+            flags: new Uint8Array([0]),
             sockets: { spawns: [], markers: [], waypoints: [], stairs: [] },
             placements: [],
             origin: { x: 0, y: 0 },
@@ -290,8 +314,13 @@ function stitch(placements, opts) {
 
     const fill =
         o.fill != null ? (o.fill | 0) & 0xff : FRICTION_BLOCKED;
+    const fillSight =
+        fill === FRICTION_BLOCKED ? SIGHT_BLOCKED : SIGHT_CLEAR;
     const friction = new Uint8Array(cols * rows);
     friction.fill(fill);
+    const sight = new Uint8Array(cols * rows);
+    sight.fill(fillSight);
+    const flags = new Uint8Array(cols * rows);
 
     const sockets = { spawns: [], markers: [], waypoints: [], stairs: [] };
     const placedMeta = [];
@@ -301,7 +330,9 @@ function stitch(placements, opts) {
         const ox = r.x - originX;
         const oy = r.y - originY;
         stampPiece(friction, cols, rows, r.piece, ox, oy, {
-            overwriteBlocked: o.overwriteBlocked
+            overwriteBlocked: o.overwriteBlocked,
+            destSight: sight,
+            destFlags: flags
         });
         const sock = offsetSockets(
             r.piece,
@@ -341,6 +372,8 @@ function stitch(placements, opts) {
         cols,
         rows,
         friction,
+        sight,
+        flags,
         sockets,
         placements: placedMeta,
         origin: { x: originX, y: originY },
@@ -354,35 +387,68 @@ function stitch(placements, opts) {
 }
 
 /**
- * Convert friction grid to RGBA suitable for TileMap.loadFloorFromRgba.
- * Walkable gray channel = friction value; blocked → pure yellow (255,255,0).
+ * Convert collision grids to RGBA suitable for TileMap.loadFloorFromRgba.
+ * Encodes special path-PNG colors for water / grate / protection zone.
  *
  * @param {Uint8Array} friction
  * @param {number} cols
  * @param {number} rows
+ * @param {{ sight?: Uint8Array|null, flags?: Uint8Array|null }} [opts]
  * @returns {Uint8Array} length cols*rows*4
  */
-function frictionToRgba(friction, cols, rows) {
+function frictionToRgba(friction, cols, rows, opts) {
+    const o = opts || {};
+    const sight = o.sight || null;
+    const flags = o.flags || null;
     const n = cols * rows;
     const out = new Uint8Array(n * 4);
+    const { TILE_FLAG_NO_CAST } = require('../../entities/tilemap.js');
     for (let i = 0; i < n; i++) {
         const f = friction[i];
-        const o = i * 4;
-        if (f === FRICTION_BLOCKED) {
-            out[o] = 255;
-            out[o + 1] = 255;
-            out[o + 2] = 0;
-            out[o + 3] = 255;
+        const si = sight
+            ? sight[i]
+            : f === FRICTION_BLOCKED
+              ? SIGHT_BLOCKED
+              : SIGHT_CLEAR;
+        const fl = flags ? flags[i] : 0;
+        const off = i * 4;
+        if ((fl & TILE_FLAG_NO_CAST) !== 0 && f !== FRICTION_BLOCKED) {
+            // Pure green — protection zone
+            out[off] = 0;
+            out[off + 1] = 255;
+            out[off + 2] = 0;
+            out[off + 3] = 255;
+        } else if (f === FRICTION_BLOCKED && si === SIGHT_CLEAR) {
+            // Pure cyan — water
+            out[off] = 0;
+            out[off + 1] = 255;
+            out[off + 2] = 255;
+            out[off + 3] = 255;
+        } else if (f !== FRICTION_BLOCKED && si === SIGHT_BLOCKED) {
+            // Pure magenta — grate
+            out[off] = 255;
+            out[off + 1] = 0;
+            out[off + 2] = 255;
+            out[off + 3] = 255;
+        } else if (f === FRICTION_BLOCKED) {
+            // Pure yellow — full wall
+            out[off] = 255;
+            out[off + 1] = 255;
+            out[off + 2] = 0;
+            out[off + 3] = 255;
         } else {
             const g = f & 0xff;
-            out[o] = g;
-            out[o + 1] = g;
-            out[o + 2] = g;
-            out[o + 3] = 255;
+            out[off] = g;
+            out[off + 1] = g;
+            out[off + 2] = g;
+            out[off + 3] = 255;
         }
     }
     return out;
 }
+
+/** Alias for explicit naming in authoring tools. */
+const collisionToRgba = frictionToRgba;
 
 /**
  * Build optional navmesh-style edges between consecutive waypoint sockets.
@@ -469,6 +535,7 @@ module.exports = {
     offsetSockets,
     stitch,
     frictionToRgba,
+    collisionToRgba,
     waypointSocketEdges,
     placementsConnect,
     attachOrigin,

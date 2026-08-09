@@ -714,6 +714,21 @@ function canCast(attacker, spell, ctx) {
     if (!isMoveUnlocked(attacker)) return false;
     // Phase M: Stage-1 swift foot pacify — block attack/auto (support+heal OK).
     if (isPacifiedAttack(attacker, spell)) return false;
+    // Protection zone (path PNG green / TILE_FLAG_NO_CAST): no magic or autos.
+    {
+        const c = ctx || {};
+        const tileMap =
+            c.tileMap || (c.sim && c.sim.tileMap) || null;
+        const t = attacker.tile;
+        if (
+            tileMap &&
+            t &&
+            typeof tileMap.blocksCast === 'function' &&
+            tileMap.blocksCast(t.x, t.y, t.z)
+        ) {
+            return false;
+        }
+    }
     Cooldowns.ensureCooldowns(attacker);
     if (!Cooldowns.canUse(attacker, spell.cooldowns)) return false;
     if (!hasMana(attacker, spell.mana || 0)) return false;

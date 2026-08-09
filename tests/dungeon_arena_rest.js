@@ -340,9 +340,9 @@ function testProductHuntExpands() {
     const expanded = expandHuntDefinition(raw, { seed: 1 });
     assert.strictEqual(expanded.layoutMeta.reason, 'ok');
     assert.strictEqual(expanded.layoutMeta.type, 'arena_rest_chain');
-    assert.strictEqual(expanded.floors.length, 3);
-    assert.strictEqual(expanded.stairLinks.length, 1);
-    assert.strictEqual(expanded.waves.wavesPerArena, 2);
+    assert.strictEqual(expanded.floors.length, 7);
+    assert.strictEqual(expanded.stairLinks.length, 3);
+    assert.strictEqual(expanded.waves.wavesPerArena, 1);
     assert.strictEqual(expanded.waves.pauseOnArenaBoundary, true);
     assert.strictEqual(expanded.waves.list.length, 4);
     log('product hunt expand ok');

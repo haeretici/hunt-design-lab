@@ -1,0 +1,92 @@
+{
+    "id": "king_aldric_ire",
+    "label": "King Aldric Ire",
+    "source": "pipeline",
+    "displayScale": 1,
+    "notes": "A king aldric ire.",
+    "hp": 10000,
+    "hpMax": 10000,
+    "speed": 0,
+    "level": 654,
+    "armor": 82,
+    "mitigation": 0,
+    "maxBlock": 0,
+    "exp": 20000,
+    "lootValue": 0,
+    "aggro": true,
+    "resists": {
+        "physical": 100,
+        "fire": 100,
+        "ice": 100,
+        "energy": 100,
+        "earth": 100,
+        "holy": 100,
+        "death": 100
+    },
+    "canBlock": false,
+    "strategiesTarget": {
+        "nearest": 100
+    },
+    "flags": {
+        "targetDistance": 1,
+        "runHealth": 0,
+        "staticAttackChance": 70,
+        "aggroRange": 7,
+        "loseTargetDistance": 12,
+        "summonable": false,
+        "attackable": true,
+        "hostile": true,
+        "convinceable": false,
+        "pushable": false,
+        "rewardBoss": false,
+        "illusionable": false,
+        "canPushItems": true,
+        "canPushCreatures": true,
+        "healthHidden": false,
+        "canWalkOnEnergy": false,
+        "canWalkOnFire": false,
+        "canWalkOnPoison": false
+    },
+    "attacks": [
+        {
+            "id": "melee_0",
+            "kind": "melee",
+            "intervalMs": 1400,
+            "chance": 100,
+            "range": 1,
+            "element": "physical",
+            "min": 71,
+            "max": 377
+        }
+    ],
+    "defenseSpells": [
+        {
+            "id": "heal_0",
+            "kind": "heal",
+            "intervalMs": 1400,
+            "chance": 20,
+            "min": 400,
+            "max": 550,
+            "hpBelow": 0.7,
+            "effect": "me_magic_blue"
+        }
+    ],
+    "race": "blood",
+    "loot": [],
+    "changeTarget": {
+        "interval": 4000,
+        "chance": 10
+    },
+    "immunities": {
+        "paralyze": true,
+        "outfit": false,
+        "invisible": true,
+        "bleed": false
+    },
+    "customSprite": "carrion_worm",
+    "threatDps": 160,
+    "burstDps": 224,
+    "avgHit": 224,
+    "maxHit": 377,
+    "manaCost": 0
+}

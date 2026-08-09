@@ -465,7 +465,9 @@ function mergeFloorResults(floorGens, stairLinks) {
         floorLayers[String(z)] = {
             cols: gen.cols,
             rows: gen.rows,
-            friction: gen.friction
+            friction: gen.friction,
+            sight: gen.sight || null,
+            flags: gen.flags || null
         };
         totalPieces +=
             (gen.meta && gen.meta.pieceCount) ||

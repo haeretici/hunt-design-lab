@@ -3,32 +3,29 @@
     "label": "Renegade Knight",
     "source": "pipeline",
     "displayScale": 1,
-    "notes": "A renegade knight.",
-    "hp": 1450,
-    "hpMax": 1450,
-    "speed": 135,
-    "level": 462,
-    "armor": 38,
-    "mitigation": 1.46,
+    "notes": "An renegade knight.",
+    "hp": 8200,
+    "hpMax": 8200,
+    "speed": 130,
+    "level": 635,
+    "armor": 83,
+    "mitigation": 2.4,
     "maxBlock": 0,
-    "exp": 1200,
-    "lootValue": 360.31817696659,
+    "exp": 6900,
+    "lootValue": 1722.9598214286,
     "aggro": true,
     "resists": {
-        "physical": 15,
-        "fire": 20,
-        "ice": 0,
-        "energy": 35,
-        "earth": 20,
-        "holy": 50,
-        "death": -10
+        "physical": 35,
+        "fire": 10,
+        "ice": 20,
+        "energy": 0,
+        "earth": 0,
+        "holy": 15,
+        "death": -14
     },
     "canBlock": false,
     "strategiesTarget": {
-        "nearest": 70,
-        "health": 10,
-        "damage": 10,
-        "random": 10
+        "nearest": 100
     },
     "flags": {
         "targetDistance": 1,
@@ -44,11 +41,11 @@
         "rewardBoss": false,
         "illusionable": false,
         "canPushItems": true,
-        "canPushCreatures": false,
+        "canPushCreatures": true,
         "healthHidden": false,
-        "canWalkOnEnergy": false,
-        "canWalkOnFire": false,
-        "canWalkOnPoison": false
+        "canWalkOnEnergy": true,
+        "canWalkOnFire": true,
+        "canWalkOnPoison": true
     },
     "attacks": [
         {
@@ -58,8 +55,48 @@
             "chance": 100,
             "range": 1,
             "element": "physical",
-            "min": 12,
-            "max": 208
+            "min": 0,
+            "max": 490,
+            "effect": "me_drawblood"
+        },
+        {
+            "id": "area_1",
+            "kind": "area",
+            "intervalMs": 6000,
+            "chance": 14,
+            "range": 4,
+            "element": "death",
+            "min": 147,
+            "max": 294,
+            "radius": 3,
+            "target": false,
+            "effect": "me_mortarea"
+        },
+        {
+            "id": "wave_2",
+            "kind": "wave",
+            "intervalMs": 6000,
+            "chance": 20,
+            "range": 4,
+            "element": "ice",
+            "min": 147,
+            "max": 392,
+            "length": 4,
+            "spread": 0,
+            "target": false,
+            "effect": "me_iceattack"
+        },
+        {
+            "id": "singlecloudchain_3",
+            "kind": "ranged",
+            "intervalMs": 8000,
+            "chance": 17,
+            "range": 4,
+            "element": "physical",
+            "min": 196,
+            "max": 441,
+            "target": true,
+            "effect": "me_energyhit"
         }
     ],
     "defenseSpells": [
@@ -67,9 +104,9 @@
             "id": "heal_0",
             "kind": "heal",
             "intervalMs": 4000,
-            "chance": 25,
+            "chance": 40,
             "min": 200,
-            "max": 250,
+            "max": 550,
             "hpBelow": 0.7,
             "effect": "me_magic_blue"
         }
@@ -77,94 +114,67 @@
     "race": "blood",
     "bestiary": {
         "class": "Human",
-        "toKill": 1000,
-        "firstUnlock": 50,
-        "secondUnlock": 500,
-        "charmsPoints": 25,
-        "stars": 3,
+        "toKill": 2500,
+        "firstUnlock": 100,
+        "secondUnlock": 1000,
+        "charmsPoints": 50,
+        "stars": 4,
         "occurrence": 0
     },
     "loot": [
         {
-            "chance": 90450,
-            "maxCount": 10,
-            "name": "arrow"
+            "name": "platinum coin",
+            "chance": 89725,
+            "maxCount": 5
         },
         {
-            "chance": 75410,
-            "maxCount": 30,
-            "name": "gold coin"
+            "name": "leather legs",
+            "chance": 27060
         },
         {
-            "chance": 1210,
-            "name": "grapes"
+            "name": "meat",
+            "chance": 16582
         },
         {
-            "chance": 1210,
-            "name": "great health potion"
+            "name": "tiger cloak patch",
+            "chance": 11190
         },
         {
-            "chance": 1210,
-            "maxCount": 2,
-            "name": "meat"
+            "name": "violet gem",
+            "chance": 6002
         },
         {
-            "chance": 1210,
-            "maxCount": 4,
-            "name": "sniper arrow"
+            "name": "gold ingot",
+            "chance": 5799
         },
         {
-            "chance": 210,
-            "name": "Regal Crown Armor"
+            "name": "tiger crest",
+            "chance": 5697
         },
         {
-            "chance": 310,
-            "name": "crown helmet"
+            "name": "knight legs",
+            "chance": 5290
         },
         {
-            "chance": 210,
-            "name": "crown shield"
+            "name": "great mana potion",
+            "chance": 4680
         },
         {
-            "chance": 110,
-            "name": "crown legs"
+            "name": "blue gem",
+            "chance": 4171
         },
         {
-            "chance": 310,
-            "name": "fire sword"
+            "name": "green gem",
+            "chance": 2238
         },
         {
-            "chance": 1610,
-            "name": "halberd"
-        },
-        {
-            "chance": 510,
-            "name": "red rose"
-        },
-        {
-            "chance": 1510,
-            "name": "rope"
-        },
-        {
-            "chance": 910,
-            "name": "scroll"
-        },
-        {
-            "chance": 910,
-            "name": "scroll of heroic deeds"
-        },
-        {
-            "chance": 910,
-            "name": "small notebook"
-        },
-        {
-            "chance": 510,
-            "name": "wedding ring"
+            "name": "Emberbound Legs",
+            "chance": 610
         }
     ],
     "changeTarget": {
         "interval": 4000,
-        "chance": 20
+        "chance": 10
     },
     "immunities": {
         "paralyze": true,
@@ -173,9 +183,9 @@
         "bleed": false
     },
     "customSprite": "crystal_fungal_knight_berserker",
-    "threatDps": 55,
-    "burstDps": 55,
-    "avgHit": 110,
-    "maxHit": 208,
+    "threatDps": 143.3965,
+    "burstDps": 191.9575,
+    "avgHit": 248.1265,
+    "maxHit": 490,
     "manaCost": 0
 }
