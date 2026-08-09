@@ -9,11 +9,11 @@
 
 /** @type {{ x: number, y: number, z: number }[]} */
 const DEFAULT_FLOOR07_WAYPOINTS = [
-    { x: 260, y: 96, z: 7 },
-    { x: 271, y: 96, z: 7 },
-    { x: 282, y: 96, z: 7 },
-    { x: 293, y: 96, z: 7 },
-    { x: 304, y: 96, z: 7 }
+    { x: 651, y: 1026, z: 7 },
+    { x: 670, y: 1026, z: 7 },
+    { x: 675, y: 1026, z: 7 },
+    { x: 680, y: 1026, z: 7 },
+    { x: 690, y: 1026, z: 7 }
 ];
 
 module.exports = {

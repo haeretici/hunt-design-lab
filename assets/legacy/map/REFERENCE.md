@@ -61,6 +61,8 @@ The sample floor is still **yellow + gray only** (no cyan/magenta/green demos ye
 
 ### Layout zones (map-local tiles)
 
+TODO: This needs to be updated according to the new "Default party waypoints", old values where (260…304, 96, z=7).
+
 | Zone | Region | Friction |
 | :--- | :--- | :--- |
 | Legend cells | `(100,20)`…`(220,20)`, plus a few extra samples | 100–200 |
@@ -68,7 +70,7 @@ The sample floor is still **yellow + gray only** (no cyan/magenta/green demos ye
 | Connector | vertical `x≈320` then east into dens | 100 |
 | **Dens room** | `x 400–540`, `y 800–900` | 150 (paths 100) |
 
-Default party waypoints (`DEFAULT_FLOOR07_WAYPOINTS`): `(260…304, 96, z=7)` along the corridor.
+Default party waypoints (`DEFAULT_FLOOR07_WAYPOINTS`): `(651…690, 1026, z=7)` along the corridor.
 
 ## Navmesh
 
