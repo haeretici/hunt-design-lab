@@ -42,7 +42,7 @@ const DEFAULT_URL = `http://localhost:8080/${PROJECT_BASE}/index.php`;
 const DEFAULT_HUNT = 'rising_pressure_macro';
 const DEFAULT_PARTY = 'rising_pressure_duo';
 const DEFAULT_SEED = 42;
-// Default past first stair hops + auto parity window (Guardian@731, Scout@747).
+// Default past first stair hops + auto parity window (Guardian@645, Scout@656).
 // Full A1 session: --to-tick 2400 (party_wipe ends @2278; both members both floors).
 const DEFAULT_TO_TICK = 780;
 const DEFAULT_SPEED = 20;
@@ -558,7 +558,7 @@ async function main() {
         (liveSnap.parityWindow && liveSnap.parityWindow.from != null
             ? liveSnap.parityWindow
             : null) ||
-        { from: 732, to: 756 };
+        { from: 646, to: 670 };
     const from = win.from;
     const to = Math.min(opts.toTick, win.to != null ? win.to : opts.toTick);
     const liveLog = sliceParityWindow(liveSnap.parityTickLog || [], from, to);

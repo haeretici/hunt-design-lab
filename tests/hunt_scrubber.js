@@ -225,12 +225,12 @@ async function runLiveSim(seed, frames) {
             );
 
             // Seek forward again to late and match a fresh late run
+            await live.seekToTick(late);
             const refLate = await runHeadlessHuntToTick({
                 seed,
                 huntId: 'cave_crawl_generated',
                 toTick: late
             });
-            await live.seekToTick(late);
             assert.strictEqual(live.tickCount, late);
             console.log("LIVE:", leaderTile(live.getPartyPositions()), "REF:", leaderTile(refLate.partyPositions));
             assert.deepStrictEqual(
@@ -505,8 +505,8 @@ async function runLiveSim(seed, frames) {
             const seed = 42;
             const huntId = 'rising_pressure_macro';
             const partyId = 'rising_pressure_duo';
-            // Past first hop window used by browser:parity default (Guardian@584, Scout@599).
-            const late = 620;
+            // Past first hop window used by browser:parity default (Guardian@645, Scout@656).
+            const late = 680;
             const mid = 300;
 
             const resolved = resolveHuntConfig({ seed, huntId, partyId });
