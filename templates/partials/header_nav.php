@@ -60,8 +60,8 @@ $is = static function (string ...$keys) use ($activeNav): string {
                        href="<?= htmlspecialchars($asset('sim-batch-builder.php'), ENT_QUOTES, 'UTF-8') ?>">Sim Batch</a>
                 </div>
             </div>
-            <div class="menu-dropdown<?= $is('wiki-creatures', 'wiki-equipment') ?>">
-                <span class="menu-item menu-dropdown-trigger<?= $is('wiki-creatures', 'wiki-equipment') ?>" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false">
+            <div class="menu-dropdown<?= $is('wiki-creatures', 'wiki-equipment', 'wiki-legacy-map') ?>">
+                <span class="menu-item menu-dropdown-trigger<?= $is('wiki-creatures', 'wiki-equipment', 'wiki-legacy-map') ?>" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false">
                     Wiki <i class="fa-solid fa-caret-down menu-dropdown-caret" aria-hidden="true"></i>
                 </span>
                 <div class="menu-dropdown-panel" role="menu">
@@ -69,6 +69,8 @@ $is = static function (string ...$keys) use ($activeNav): string {
                        href="<?= htmlspecialchars($asset('wiki-creatures.php'), ENT_QUOTES, 'UTF-8') ?>">Creatures</a>
                     <a class="menu-dropdown-item<?= $is('wiki-equipment') ?>" role="menuitem"
                        href="<?= htmlspecialchars($asset('wiki-equipment.php'), ENT_QUOTES, 'UTF-8') ?>">Equipments</a>
+                    <a class="menu-dropdown-item<?= $is('wiki-legacy-map') ?>" role="menuitem"
+                       href="<?= htmlspecialchars($asset('wiki-legacy-map.php'), ENT_QUOTES, 'UTF-8') ?>">Legacy Map</a>
                 </div>
             </div>
         </nav>
