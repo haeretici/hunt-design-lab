@@ -18,8 +18,11 @@ const {
     persistCamera,
     persistProgression,
     applyTileScale,
+    applySpriteJumpHeight,
     clampTileScale,
+    clampSpriteJumpHeight,
     TILE_SCALE_DEFAULT,
+    SPRITE_JUMP_HEIGHT_DEFAULT,
     snapshotProgressionPrefs,
     DEFAULT_EXP_RATES,
     DEFAULT_SKILL_RATES,
@@ -126,6 +129,11 @@ function mergeTweaksPatch(state, patch) {
         camera: {
             scale: clampTileScale(
                 baseCam.scale != null ? baseCam.scale : TILE_SCALE_DEFAULT
+            ),
+            spriteJumpHeight: clampSpriteJumpHeight(
+                baseCam.spriteJumpHeight != null
+                    ? baseCam.spriteJumpHeight
+                    : SPRITE_JUMP_HEIGHT_DEFAULT
             )
         },
         session: {
@@ -162,6 +170,9 @@ function mergeTweaksPatch(state, patch) {
     if (patch.camera && typeof patch.camera === 'object') {
         if (typeof patch.camera.scale === 'number' && Number.isFinite(patch.camera.scale)) {
             next.camera.scale = clampTileScale(patch.camera.scale);
+        }
+        if (typeof patch.camera.spriteJumpHeight === 'number' && Number.isFinite(patch.camera.spriteJumpHeight)) {
+            next.camera.spriteJumpHeight = clampSpriteJumpHeight(patch.camera.spriteJumpHeight);
         }
     }
     next.features = Object.assign(
@@ -327,12 +338,13 @@ function createEngineTweakingsParentBridge(ctx) {
         const scale = clampTileScale(
             Settings.tileWidth != null ? Settings.tileWidth : TILE_SCALE_DEFAULT
         );
+        const spriteJumpHeight = clampSpriteJumpHeight(Settings.spriteJumpHeight);
         const prog = snapshotProgressionPrefs(Settings);
         return {
             debugAI: snapshotDebugAI(),
             TIME_SPEED:
                 typeof Settings.TIME_SPEED === 'number' ? Settings.TIME_SPEED : 1,
-            camera: { scale },
+            camera: { scale, spriteJumpHeight },
             session: readSessionSnapshot(),
             features: prog.features,
             expRates: prog.expRates,
@@ -409,6 +421,13 @@ function createEngineTweakingsParentBridge(ctx) {
                 Number.isFinite(patch.camera.scale)
             ) {
                 applyTileScale(Settings, patch.camera.scale);
+                persistCamera(Settings);
+            }
+            if (
+                typeof patch.camera.spriteJumpHeight === 'number' &&
+                Number.isFinite(patch.camera.spriteJumpHeight)
+            ) {
+                applySpriteJumpHeight(Settings, patch.camera.spriteJumpHeight);
                 persistCamera(Settings);
             }
         }

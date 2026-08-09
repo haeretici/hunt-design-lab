@@ -4120,9 +4120,14 @@ class Simulator extends GameObject {
      * Point Settings.cameraTile* at the active view member (top-left of canvas viewport).
      * Defaults to the party leader; "Set Active" can follow any member (incl. floor hops).
      * Sets cameraTileZ so multi-floor TileMap.render / entity overlays match that floor.
+     * Uses presentation (step-slide) coords — including optional canvas sub-frame
+     * `extraDt` — so the camera eases with the same moveLock transition as sprites.
+     * Origins stay fractional; TileMap blits with sub-tile pixel offsets.
+     *
+     * @param {number} [extraDt=0] canvas sub-frame seconds (from getCanvasStepExtraDt)
      * @private
      */
-    _updateCamera() {
+    _updateCamera(extraDt) {
         const focus = this.getCameraFocusMember();
         if (!focus || !focus.tile) return;
         const app = Settings.app;
@@ -4136,11 +4141,19 @@ class Simulator extends GameObject {
         if (app && app.height > 0 && th > 0) {
             viewH = Math.max(1, Math.ceil(app.height / th));
         }
-        // Prefer presentation pos so the camera eases with the step slide
+        const vis = getVisualTilePos(focus, Number(extraDt) || 0);
         const camX =
-            Number.isFinite(focus.x) ? focus.x : focus.tile.x;
+            vis && Number.isFinite(vis.x)
+                ? vis.x
+                : Number.isFinite(focus.x)
+                  ? focus.x
+                  : focus.tile.x;
         const camY =
-            Number.isFinite(focus.y) ? focus.y : focus.tile.y;
+            vis && Number.isFinite(vis.y)
+                ? vis.y
+                : Number.isFinite(focus.y)
+                  ? focus.y
+                  : focus.tile.y;
         Settings.cameraTileX = camX - Math.floor(viewW / 2);
         Settings.cameraTileY = camY - Math.floor(viewH / 2);
         Settings.cameraTileZ =

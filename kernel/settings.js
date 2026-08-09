@@ -94,6 +94,7 @@ const ROOT =
  *   entitySpriteScale: number,
  *   entitySpriteScaleMax: number,
  *   entitySpriteScaleByAffix: Record<string, number>,
+ *   spriteJumpHeight: number,
  *   provider: string,
  *   app: object|null
  * }}
@@ -134,6 +135,7 @@ const Settings = {
     TILEMAP_CACHE_TRIP_MARGIN: 0,
     /**
      * Optional camera origin in tile coords (top-left of viewport).
+     * May be fractional so the watch camera eases with step slides (moveLock).
      * When null, TileMap draws the NW corner preview.
      * cameraTileZ selects which multi-floor layer to draw (null → first loaded).
      */
@@ -453,6 +455,11 @@ const Settings = {
         elite: 1.6,
         boss: 2
     },
+    /**
+     * Jump height (fraction of tile height) for the walking bob animation.
+     * Engine Tweakings clamps to [0, 0.5]; this value is the sole numeric default.
+     */
+    spriteJumpHeight: 0.05,
     /**
      * Configurable keyboard shortcut definitions for manual combat control.
      * Supports defining multiple keys per action (e.g. 'Space', 'Shift+Space').

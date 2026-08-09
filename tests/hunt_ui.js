@@ -23,6 +23,7 @@ const {
     normalizeMember,
     ensureSingleLeader,
     leaderFormSlot,
+    resolveActiveViewSlot,
     enabledMemberIndexForSlot,
     collectPrefsState,
     applyPrefsState,
@@ -631,7 +632,8 @@ test('prefs round-trip preserves party loadout', () => {
         speed: 2.5,
         modeId: 'legacy',
         huntId: 'cave_crawl_generated',
-        members: form.members
+        members: form.members,
+        activeViewSlot: 0
     });
     const applied = applyPrefsState(blob, collectPrefsState({}));
     assert.strictEqual(applied.seed, '99');
@@ -643,18 +645,67 @@ test('prefs round-trip preserves party loadout', () => {
         applied.members[0].equipment.rightHand,
         form.members[0].equipment.rightHand
     );
+    assert.strictEqual(applied.activeViewSlot, 0);
 });
 
 test('prefs defaults include modeId standard', () => {
     const defaults = collectPrefsState({});
     assert.strictEqual(defaults.modeId, 'standard');
     assert.strictEqual(defaults.huntId, 'cave_crawl_generated');
+    assert.strictEqual(
+        defaults.activeViewSlot,
+        leaderFormSlot(defaults.members)
+    );
     const applied = applyPrefsState(
         { huntId: 'custom_hunt' },
         collectPrefsState({ modeId: 'standard' })
     );
     assert.strictEqual(applied.modeId, 'standard');
     assert.strictEqual(applied.huntId, 'custom_hunt');
+});
+
+test('prefs round-trip preserves activeViewSlot', () => {
+    const members = [
+        normalizeMember(
+            { enabled: true, name: 'A', classId: 'guardian', isLeader: true },
+            0
+        ),
+        normalizeMember(
+            { enabled: true, name: 'B', classId: 'scout', isLeader: false },
+            1
+        ),
+        normalizeMember(
+            { enabled: false, name: 'C', classId: 'mystic', isLeader: false },
+            2
+        ),
+        normalizeMember(
+            { enabled: true, name: 'D', classId: 'adept', isLeader: false },
+            3
+        )
+    ];
+    ensureSingleLeader(members);
+    const blob = collectPrefsState({
+        members,
+        activeViewSlot: 1
+    });
+    assert.strictEqual(blob.activeViewSlot, 1);
+    const applied = applyPrefsState(blob, collectPrefsState({}));
+    assert.strictEqual(applied.activeViewSlot, 1);
+
+    // Disabled preferred slot → leader
+    assert.strictEqual(resolveActiveViewSlot(members, 2), 0);
+    const fallen = applyPrefsState(
+        { members, activeViewSlot: 2 },
+        collectPrefsState({ members })
+    );
+    assert.strictEqual(fallen.activeViewSlot, 0);
+
+    // Legacy prefs without activeViewSlot → leader default
+    const legacy = applyPrefsState(
+        { members, seed: '1' },
+        collectPrefsState({ members })
+    );
+    assert.strictEqual(legacy.activeViewSlot, leaderFormSlot(members));
 });
 
 test('ensureSingleLeader demotes extras', () => {

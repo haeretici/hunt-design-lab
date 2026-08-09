@@ -610,6 +610,24 @@ function testRenderCacheMath() {
     assert.strictEqual(viewNw.viewCols, 10, 'view cols from canvas');
     assert.strictEqual(viewNw.viewRows, 8, 'view rows from canvas');
 
+    // Fractional camera origin (smooth step-slide follow) must not snap to integers
+    const viewFrac = resolveTilemapViewport(small, {
+        tileWidth: 32,
+        tileHeight: 32,
+        appWidth: 320,
+        appHeight: 240,
+        cameraTileX: 3.25,
+        cameraTileY: 1.75
+    });
+    assert.ok(
+        Math.abs(viewFrac.originX - 3.25) < 1e-9,
+        `fractional originX kept, got ${viewFrac.originX}`
+    );
+    assert.ok(
+        Math.abs(viewFrac.originY - 1.75) < 1e-9,
+        `fractional originY kept, got ${viewFrac.originY}`
+    );
+
     const full = computeTilemapCacheRect(small, viewNw, { fullMaxTiles: 6400 });
     assert.strictEqual(full.mode, 'full', 'small map full cache');
     assert.strictEqual(full.w, 32);
@@ -775,6 +793,25 @@ function testRenderCacheBlitAndRebuild() {
         assert.strictEqual(blits.length, 2, 'second blit');
         assert.strictEqual(blits[1].sx, 3 * 8, 'blit sx follows camera');
         assert.strictEqual(blits[1].sy, 2 * 8, 'blit sy follows camera');
+
+        // Sub-tile pan: blit source offset is fractional (smooth camera)
+        Settings.cameraTileX = 3.5;
+        Settings.cameraTileY = 2.25;
+        map.render(g);
+        assert.strictEqual(map._renderCacheRebuilds, 1, 'fractional pan full: no rebuild');
+        assert.strictEqual(blits.length, 3, 'third blit');
+        assert.ok(
+            Math.abs(blits[2].sx - 3.5 * 8) < 1e-9,
+            `fractional blit sx, got ${blits[2].sx}`
+        );
+        assert.ok(
+            Math.abs(blits[2].sy - 2.25 * 8) < 1e-9,
+            `fractional blit sy, got ${blits[2].sy}`
+        );
+        assert.ok(
+            Math.abs(map._viewOriginX - 3.5) < 1e-9,
+            'view origin x fractional for entity overlays'
+        );
 
         map.invalidateRenderCache();
         map.render(g);

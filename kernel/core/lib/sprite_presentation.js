@@ -19,8 +19,6 @@ const { Settings } = require('../../settings.js');
 const { Time } = require('./time.js');
 const { stepVisualProgress } = require('./movement.js');
 
-/** Peak bob as a fraction of tile height (upward). */
-const BOB_FRAC = 0.12;
 /** Hit flash duration (sim seconds). */
 const HIT_FLASH_SEC = 0.12;
 /** Hit recoil duration (sim seconds). */
@@ -96,8 +94,12 @@ function stepBobOffsetPx(entity, extraDt, tileHeight) {
     const t = stepVisualProgress(entity, extraDt);
     if (t <= 0 || t >= 1) return 0;
     const th = Number(tileHeight) > 0 ? Number(tileHeight) : 32;
-    // Half-sine arch: 0 → peak → 0 over the step
-    return -Math.sin(Math.PI * t) * th * BOB_FRAC;
+    // Half-sine arch: 0 → peak → 0 over the step (height from Settings.spriteJumpHeight)
+    const jump =
+        typeof Settings.spriteJumpHeight === 'number' && Number.isFinite(Settings.spriteJumpHeight)
+            ? Settings.spriteJumpHeight
+            : 0;
+    return -Math.sin(Math.PI * t) * th * jump;
 }
 
 /**
@@ -758,7 +760,6 @@ function clearSpriteOpaqueFootCache() {
 }
 
 module.exports = {
-    BOB_FRAC,
     HIT_FLASH_SEC,
     HIT_RECOIL_SEC,
     HIT_RECOIL_TILES,

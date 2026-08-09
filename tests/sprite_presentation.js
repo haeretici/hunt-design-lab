@@ -10,7 +10,6 @@ const { Settings } = require('../kernel/settings.js');
 const { Time } = require('../kernel/core/lib/time.js');
 const { beginStepVisual, tickStepVisual } = require('../kernel/core/lib/movement.js');
 const {
-    BOB_FRAC,
     HIT_FLASH_SEC,
     HIT_RECOIL_SEC,
     RARITY_AURA,
@@ -45,30 +44,57 @@ function test(name, fn) {
 }
 
 test('stepBobOffsetPx peaks mid-slide and is zero at ends', () => {
-    const ent = {
-        tile: { x: 2, y: 0, z: 0 },
-        x: 1,
-        y: 0,
-        _moveVisDuration: 0,
-        _moveVisElapsed: 0
-    };
-    beginStepVisual(ent, { x: 1, y: 0, z: 0 }, 0.4);
-    assert.strictEqual(stepBobOffsetPx(ent, 0, 32), 0, 't=0 no bob');
+    const prevJump = Settings.spriteJumpHeight;
+    Settings.spriteJumpHeight = 0.12;
+    try {
+        const ent = {
+            tile: { x: 2, y: 0, z: 0 },
+            x: 1,
+            y: 0,
+            _moveVisDuration: 0,
+            _moveVisElapsed: 0
+        };
+        beginStepVisual(ent, { x: 1, y: 0, z: 0 }, 0.4);
+        assert.strictEqual(stepBobOffsetPx(ent, 0, 32), 0, 't=0 no bob');
 
-    // Force mid progress via elapsed
-    ent._moveVisElapsed = 0.2;
-    const mid = stepBobOffsetPx(ent, 0, 32);
-    assert.ok(mid < 0, 'bob lifts sprite (negative Y)');
-    assert.ok(
-        Math.abs(mid - -32 * BOB_FRAC) < 1e-9,
-        `mid bob expected ${-32 * BOB_FRAC} got ${mid}`
-    );
+        // Force mid progress via elapsed
+        ent._moveVisElapsed = 0.2;
+        const mid = stepBobOffsetPx(ent, 0, 32);
+        const expected = -32 * Settings.spriteJumpHeight;
+        assert.ok(mid < 0, 'bob lifts sprite (negative Y)');
+        assert.ok(
+            Math.abs(mid - expected) < 1e-9,
+            `mid bob expected ${expected} got ${mid}`
+        );
 
-    ent._moveVisElapsed = 0.4;
-    assert.strictEqual(stepBobOffsetPx(ent, 0, 32), 0, 't=1 no bob');
+        ent._moveVisElapsed = 0.4;
+        assert.strictEqual(stepBobOffsetPx(ent, 0, 32), 0, 't=1 no bob');
 
-    tickStepVisual(ent, 0.001);
-    assert.strictEqual(stepBobOffsetPx(ent, 0, 32), 0, 'after land no bob');
+        tickStepVisual(ent, 0.001);
+        assert.strictEqual(stepBobOffsetPx(ent, 0, 32), 0, 'after land no bob');
+    } finally {
+        Settings.spriteJumpHeight = prevJump;
+    }
+});
+
+test('stepBobOffsetPx respects Settings.spriteJumpHeight', () => {
+    const prevJump = Settings.spriteJumpHeight;
+    Settings.spriteJumpHeight = 0.25;
+    try {
+        const ent = {
+            tile: { x: 2, y: 0, z: 0 },
+            x: 1,
+            y: 0,
+            _moveVisDuration: 0,
+            _moveVisElapsed: 0
+        };
+        beginStepVisual(ent, { x: 1, y: 0, z: 0 }, 0.4);
+        ent._moveVisElapsed = 0.2;
+        const mid = stepBobOffsetPx(ent, 0, 32);
+        assert.ok(Math.abs(mid - -32 * 0.25) < 1e-9, `mid bob at 0.25 got ${mid}`);
+    } finally {
+        Settings.spriteJumpHeight = prevJump;
+    }
 });
 
 test('beginHitFeedback sets flash and recoil away from attacker', () => {

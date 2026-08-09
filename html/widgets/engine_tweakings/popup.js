@@ -115,6 +115,16 @@
         if (scaleSlider) scaleSlider.value = String(scale);
         if (scaleVal) scaleVal.innerText = String(scale);
 
+        // Bridge always sends spriteJumpHeight; HTML slider value is bootstrap only.
+        const jumpSlider = byId('spriteJumpHeightSlider');
+        const jumpVal = byId('spriteJumpHeightVal');
+        if (typeof cam.spriteJumpHeight === 'number') {
+            if (jumpSlider && document.activeElement !== jumpSlider) {
+                jumpSlider.value = String(cam.spriteJumpHeight);
+            }
+            if (jumpVal) jumpVal.innerText = Number(cam.spriteJumpHeight).toFixed(2);
+        }
+
         const speed = typeof s.TIME_SPEED === 'number' ? s.TIME_SPEED : 1;
         const speedSlider = byId('timeSpeedSlider');
         const speedVal = byId('timeSpeedVal');
@@ -254,10 +264,19 @@
         const id = target.id;
         const patch = {};
 
-        if (id === 'scaleSlider') {
-            const val = parseInt(byId('scaleSlider').value, 10);
-            if (byId('scaleVal')) byId('scaleVal').innerText = String(val);
-            patch.camera = { scale: val };
+        if (id === 'scaleSlider' || id === 'spriteJumpHeightSlider') {
+            const patchCam = {};
+            if (byId('scaleSlider')) {
+                const val = parseInt(byId('scaleSlider').value, 10);
+                if (byId('scaleVal')) byId('scaleVal').innerText = String(val);
+                patchCam.scale = val;
+            }
+            if (byId('spriteJumpHeightSlider')) {
+                const val = parseFloat(byId('spriteJumpHeightSlider').value);
+                if (byId('spriteJumpHeightVal')) byId('spriteJumpHeightVal').innerText = Number(val).toFixed(2);
+                patchCam.spriteJumpHeight = val;
+            }
+            patch.camera = patchCam;
             return patch;
         }
 

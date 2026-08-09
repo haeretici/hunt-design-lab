@@ -304,6 +304,27 @@ function leaderFormSlot(members) {
 }
 
 /**
+ * Prefer a stored Active camera slot when it is still enabled; else leader.
+ * @param {object[]} members
+ * @param {unknown} preferredSlot
+ * @returns {number}
+ */
+function resolveActiveViewSlot(members, preferredSlot) {
+    const s = Math.floor(Number(preferredSlot));
+    if (
+        Number.isFinite(s) &&
+        s >= 0 &&
+        s < MAX_PARTY_SLOTS &&
+        Array.isArray(members) &&
+        members[s] &&
+        members[s].enabled
+    ) {
+        return s;
+    }
+    return leaderFormSlot(members);
+}
+
+/**
  * Map a form slot index → index among enabled members (Simulator party.members order).
  * @param {object[]} members form members (MAX_PARTY_SLOTS rows)
  * @param {number} slot form slot 0..MAX_PARTY_SLOTS-1
@@ -748,15 +769,17 @@ function buildSimulatorOpts(opts) {
  */
 function collectPrefsState(state) {
     const s = state || {};
+    const members = Array.isArray(s.members)
+        ? s.members.map((m, i) => normalizeMember(m, i))
+        : partyFormFromParty(null).members;
     return {
         seed: s.seed != null ? String(s.seed) : '42',
         speed: s.speed != null ? Number(s.speed) : 1,
         modeId: s.modeId || 'standard',
         huntId: s.huntId || 'cave_crawl_generated',
         partyId: s.partyId != null ? String(s.partyId) : 'starter_duo',
-        members: Array.isArray(s.members)
-            ? s.members.map((m, i) => normalizeMember(m, i))
-            : partyFormFromParty(null).members
+        members,
+        activeViewSlot: resolveActiveViewSlot(members, s.activeViewSlot)
     };
 }
 
@@ -769,13 +792,15 @@ function collectPrefsState(state) {
 function applyPrefsState(prefs, defaults) {
     const d = defaults || collectPrefsState({});
     if (!prefs || typeof prefs !== 'object') {
+        const members = d.members.map((m, i) => normalizeMember(m, i));
         return {
             seed: d.seed,
             speed: d.speed,
             modeId: d.modeId,
             huntId: d.huntId,
             partyId: d.partyId,
-            members: d.members.map((m, i) => normalizeMember(m, i))
+            members,
+            activeViewSlot: resolveActiveViewSlot(members, d.activeViewSlot)
         };
     }
     let speed = d.speed;
@@ -808,7 +833,10 @@ function applyPrefsState(prefs, defaults) {
         ensureSingleLeader(members);
     }
 
-    return { seed, speed, modeId, huntId, partyId, members };
+    // Prefer stored Active slot when still enabled; missing/legacy prefs → leader of members.
+    const activeViewSlot = resolveActiveViewSlot(members, prefs.activeViewSlot);
+
+    return { seed, speed, modeId, huntId, partyId, members, activeViewSlot };
 }
 
 module.exports = {
@@ -826,6 +854,7 @@ module.exports = {
     partyFormFromPartyId,
     partyFormFromHunt,
     leaderFormSlot,
+    resolveActiveViewSlot,
     enabledMemberIndexForSlot,
     ensureSingleLeader,
     membersToPartyConfig,

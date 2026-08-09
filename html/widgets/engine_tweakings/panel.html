@@ -21,8 +21,22 @@
             value="32"
             title="Pixels per tile. Higher = closer; lower = more map visible."
         >
+        <div class="d-flex justify-content-between mb-1 align-items-center mt-2">
+            <span class="small text-muted">Sprite Jump Height</span>
+            <span class="badge bg-secondary font-monospace" id="spriteJumpHeightVal">0.05</span>
+        </div>
+        <input
+            type="range"
+            class="form-range"
+            id="spriteJumpHeightSlider"
+            min="0"
+            max="0.5"
+            step="0.01"
+            value="0.05"
+            title="Fraction of tile height for walking bob animation."
+        >
         <p class="small text-muted mb-0 mt-1">
-            Canvas zoom via tile size (px). Saved automatically. Live while a hunt is running.
+            Canvas zoom via tile size (px) and animation hop. Saved automatically. Live while a hunt is running.
         </p>
     </div>
 

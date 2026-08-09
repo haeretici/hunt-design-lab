@@ -3193,7 +3193,8 @@ function testMmbBalancedBrawl() {
 }
 
 /**
- * MM-C — mystic high-tier attacks: crushing_finisher, rising_blow.
+ * MM-C — mystic high-tier ST: crushing_finisher, rising_blow.
+ * Product gates (not legacy Lua mana): catalog + damage + CD buckets.
  */
 function testMmcMysticHighTierAttacks() {
     const spells = indexSpells(presets.loadSpells().spells);
@@ -3207,6 +3208,10 @@ function testMmcMysticHighTierAttacks() {
     assert.strictEqual(spells.crushing_finisher.basePower, 62);
     assert.strictEqual(spells.crushing_finisher.cooldowns.spell.crushing_finisher, 24);
     assert.strictEqual(spells.crushing_finisher.cooldowns.primary.attack, 2);
+    assert.ok(
+        spells.crushing_finisher.damageAmplitude > 0,
+        'crushing_finisher damageAmplitude populated'
+    );
 
     assert.strictEqual(spells.rising_blow.kind, 'strike');
     assert.strictEqual(spells.rising_blow.element, 'physical');
@@ -3215,14 +3220,136 @@ function testMmcMysticHighTierAttacks() {
     assert.strictEqual(spells.rising_blow.basePower, 130);
     assert.strictEqual(spells.rising_blow.cooldowns.spell.rising_blow, 60);
     assert.strictEqual(spells.rising_blow.cooldowns.primary.attack, 2);
+    assert.ok(
+        spells.rising_blow.damageAmplitude > 0,
+        'rising_blow damageAmplitude populated'
+    );
+
+    // Populate-style amplitude matches legacy spread around option-B mean.
+    const ref = { level: 100, skill: 50, atk: 50 };
+    for (const id of ['crushing_finisher', 'rising_blow']) {
+        const sp = spells[id];
+        const legacy = computeLegacyMeleeStrikeRange(ref, sp.basePower);
+        const mean = computeMeleeMean(ref, sp.basePower);
+        const expected = amplitudeFromLegacySpread(legacy.min, legacy.max, mean);
+        assert.ok(
+            Math.abs(sp.damageAmplitude - expected) < 1e-9,
+            id + ' amplitude inline with populate formula'
+        );
+    }
 
     const classes = presets.loadClasses().classes;
-    const mystic = classes.find((c) => c.id === 'mystic');
-    assert.ok(mystic);
-    assert.ok(mystic.spells.indexOf('crushing_finisher') >= 0);
-    assert.ok(mystic.spells.indexOf('rising_blow') >= 0);
+    const mysticClass = classes.find((c) => c.id === 'mystic');
+    assert.ok(mysticClass);
+    assert.ok(mysticClass.spells.indexOf('crushing_finisher') >= 0);
+    assert.ok(mysticClass.spells.indexOf('rising_blow') >= 0);
 
-    log('MM-C high-tier ST attacks ok');
+    const cls = presets.getClass('mystic');
+    const items = presets.loadEquipment().items;
+    const mystic = new Player({
+        name: 'Test Mystic MM-C',
+        id: 31,
+        classId: 'mystic',
+        equipment: { rightHand: 'iron_longsword' },
+        classDef: cls,
+        itemDb: items,
+        level: 125
+    });
+    mystic.conditions = [];
+    mystic.tile = { x: 0, y: 0, z: 7 };
+    if (mystic.mp) mystic.mp.current = 2000;
+    if (mystic.combatStats) {
+        mystic.combatStats.level = 125;
+        mystic.combatStats.skill = 80;
+        mystic.combatStats.atk = mystic.combatStats.atk || 40;
+        mystic.combatStats.spells = (mystic.combatStats.spells || []).concat([
+            'crushing_finisher',
+            'rising_blow'
+        ]);
+    }
+
+    const dummy = makeDummy();
+    dummy.tile = { x: 1, y: 0, z: 7 };
+    const hp0 = dummy.hp.current;
+    const mana0 = mystic.mp ? mystic.mp.current : 0;
+    const rng = rngFromSeed(42);
+
+    const rCrush = resolveAttack({
+        attacker: mystic,
+        defender: dummy,
+        spell: 'crushing_finisher',
+        spellBook: spells,
+        rng
+    });
+    assert.strictEqual(rCrush.ok, true, rCrush.reason || 'crushing_finisher ok');
+    assert.strictEqual(rCrush.hit, true);
+    assert.ok(rCrush.final > 0, 'crushing_finisher damage');
+    assert.ok(dummy.hp.current < hp0, 'dummy took crushing_finisher');
+    if (mystic.mp) {
+        assert.strictEqual(mystic.mp.current, mana0 - 210, 'crushing mana spent');
+    }
+    assert.ok(
+        Cooldowns.getRemaining(mystic, 'primary', 'attack') > 0,
+        'primary.attack after crushing_finisher'
+    );
+    assert.ok(
+        Cooldowns.getRemaining(mystic, 'spell', 'crushing_finisher') > 0,
+        'spell CD after crushing_finisher'
+    );
+    // Immediate recast blocked by primary and/or spell CD
+    const rCrushCd = resolveAttack({
+        attacker: mystic,
+        defender: dummy,
+        spell: 'crushing_finisher',
+        spellBook: spells,
+        rng
+    });
+    assert.strictEqual(rCrushCd.ok, false);
+    assert.strictEqual(rCrushCd.reason, 'cooldown');
+
+    // rising_blow: clear CDs; damage + spell CD 60s bucket
+    Cooldowns.ensureCooldowns(mystic);
+    mystic.cooldowns = {};
+    Cooldowns.ensureCooldowns(mystic);
+    if (mystic.mp) mystic.mp.current = 2000;
+    const hp1 = dummy.hp.current;
+    const rRise = resolveAttack({
+        attacker: mystic,
+        defender: dummy,
+        spell: 'rising_blow',
+        spellBook: spells,
+        rng
+    });
+    assert.strictEqual(rRise.ok, true, rRise.reason || 'rising_blow ok');
+    assert.ok(rRise.final > 0, 'rising_blow damage');
+    assert.ok(dummy.hp.current < hp1, 'dummy took rising_blow');
+    assert.ok(
+        Cooldowns.getRemaining(mystic, 'primary', 'attack') > 0,
+        'primary.attack after rising_blow'
+    );
+    const riseSpellCd = Cooldowns.getRemaining(mystic, 'spell', 'rising_blow');
+    assert.ok(riseSpellCd > 0, 'spell CD after rising_blow');
+    assert.ok(riseSpellCd >= 59, 'rising_blow spell CD ~60s, got ' + riseSpellCd);
+
+    // OOM gate
+    mystic.cooldowns = {};
+    Cooldowns.ensureCooldowns(mystic);
+    if (mystic.mp) mystic.mp.current = 50;
+    const rOom = resolveAttack({
+        attacker: mystic,
+        defender: dummy,
+        spell: 'rising_blow',
+        spellBook: spells,
+        rng
+    });
+    assert.strictEqual(rOom.ok, false);
+    assert.strictEqual(rOom.reason, 'mana');
+
+    log('MM-C high-tier ST attacks ok', {
+        crush: rCrush.final,
+        rise: rRise.final,
+        riseSpellCd
+    });
 }
 
 /**

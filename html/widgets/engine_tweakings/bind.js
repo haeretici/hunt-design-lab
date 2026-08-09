@@ -9,6 +9,7 @@ const {
     applyDebugAIPatch,
     DEBUG_AI_DEFAULTS
 } = require('../../../kernel/core/lib/ai_debug_draw.js');
+const { Settings: EngineSettings } = require('../../../kernel/settings.js');
 
 const STORAGE_KEY_DEBUG_AI = 'ai_debug_overlays';
 /** localStorage key for camera zoom (tile px scale) — soccer-oss camera_settings parity. */
@@ -23,6 +24,12 @@ const STORAGE_KEY_PROGRESSION = 'hdl_progression_prefs';
 const TILE_SCALE_DEFAULT = 32;
 const TILE_SCALE_MIN = 8;
 const TILE_SCALE_MAX = 48;
+
+/** Walk-bob jump fraction range (matches Engine Tweakings slider). */
+const SPRITE_JUMP_HEIGHT_MIN = 0;
+const SPRITE_JUMP_HEIGHT_MAX = 0.5;
+/** Snapshot of engine default at load — single numeric source is Settings.spriteJumpHeight. */
+const SPRITE_JUMP_HEIGHT_DEFAULT = Number(EngineSettings.spriteJumpHeight);
 
 const DEFAULT_EXP_RATES = {
     baseRate: 1,
@@ -172,6 +179,17 @@ function clampTileScale(n) {
 }
 
 /**
+ * Clamp walk-bob jump height (fraction of tile height).
+ * @param {unknown} n
+ * @returns {number}
+ */
+function clampSpriteJumpHeight(n) {
+    const v = Number(n);
+    if (!Number.isFinite(v)) return SPRITE_JUMP_HEIGHT_DEFAULT;
+    return Math.max(SPRITE_JUMP_HEIGHT_MIN, Math.min(SPRITE_JUMP_HEIGHT_MAX, v));
+}
+
+/**
  * Apply square tile size (zoom) on Settings.
  * @param {object} Settings
  * @param {number} scale
@@ -182,6 +200,18 @@ function applyTileScale(Settings, scale) {
     Settings.tileWidth = s;
     Settings.tileHeight = s;
     return s;
+}
+
+/**
+ * Apply walk-bob jump height on Settings.
+ * @param {object} Settings
+ * @param {number} jump
+ * @returns {number} clamped value written
+ */
+function applySpriteJumpHeight(Settings, jump) {
+    const j = clampSpriteJumpHeight(jump);
+    Settings.spriteJumpHeight = j;
+    return j;
 }
 
 /**
@@ -235,9 +265,12 @@ function loadPersistedCamera(Settings) {
         const saved = JSON.parse(raw);
         if (saved && typeof saved.scale === 'number') {
             applyTileScale(Settings, saved.scale);
-            return;
+        } else {
+            applyTileScale(Settings, TILE_SCALE_DEFAULT);
         }
-        applyTileScale(Settings, TILE_SCALE_DEFAULT);
+        if (saved && typeof saved.spriteJumpHeight === 'number') {
+            applySpriteJumpHeight(Settings, saved.spriteJumpHeight);
+        }
     } catch (e) {
         console.warn('Failed to load camera settings:', e);
         applyTileScale(Settings, TILE_SCALE_DEFAULT);
@@ -245,7 +278,7 @@ function loadPersistedCamera(Settings) {
 }
 
 /**
- * Persist camera zoom (browser only).
+ * Persist camera zoom + walk-bob jump (browser only).
  * @param {object} Settings
  */
 function persistCamera(Settings) {
@@ -254,7 +287,8 @@ function persistCamera(Settings) {
         const scale = clampTileScale(
             Settings.tileWidth != null ? Settings.tileWidth : TILE_SCALE_DEFAULT
         );
-        localStorage.setItem(STORAGE_KEY_CAMERA, JSON.stringify({ scale }));
+        const spriteJumpHeight = clampSpriteJumpHeight(Settings.spriteJumpHeight);
+        localStorage.setItem(STORAGE_KEY_CAMERA, JSON.stringify({ scale, spriteJumpHeight }));
     } catch (_) {
         /* ignore quota / private mode */
     }
@@ -267,12 +301,17 @@ module.exports = {
     TILE_SCALE_DEFAULT,
     TILE_SCALE_MIN,
     TILE_SCALE_MAX,
+    SPRITE_JUMP_HEIGHT_DEFAULT,
+    SPRITE_JUMP_HEIGHT_MIN,
+    SPRITE_JUMP_HEIGHT_MAX,
     DEFAULT_EXP_RATES,
     DEFAULT_SKILL_RATES,
     EXP_RATE_KEYS,
     SKILL_RATE_KEYS,
     clampTileScale,
+    clampSpriteJumpHeight,
     applyTileScale,
+    applySpriteJumpHeight,
     loadPersistedDebugAI,
     persistDebugAI,
     loadPersistedCamera,

@@ -24,7 +24,8 @@ const {
     isAdjacentStep,
     beginStepVisual,
     snapVisualToTile,
-    updateSpriteFacing
+    updateSpriteFacing,
+    getCanvasStepExtraDt
 } = require('../lib/movement.js');
 const { isTickDue, forceDue, isLogicIntervalDue } = require('../lib/logic_regulator.js');
 const { takePathBudget, noteFailBackoff } = require('../lib/path_budget.js');
@@ -149,14 +150,18 @@ function resolveTilemapViewport(layer, opts) {
     let originX = 0;
     let originY = 0;
     if (camX != null && camY != null) {
-        originX = Math.max(
-            0,
-            Math.min(layer.cols - viewCols, Math.round(camX))
-        );
-        originY = Math.max(
-            0,
-            Math.min(layer.rows - viewRows, Math.round(camY))
-        );
+        // Keep fractional tile coords so the camera eases with step slides
+        // (sprites use the same continuous space). Integer snap caused 1-tile jumps.
+        const cx = Number(camX);
+        const cy = Number(camY);
+        const maxX = layer.cols - viewCols;
+        const maxY = layer.rows - viewRows;
+        originX = Number.isFinite(cx)
+            ? Math.max(0, Math.min(maxX, cx))
+            : 0;
+        originY = Number.isFinite(cy)
+            ? Math.max(0, Math.min(maxY, cy))
+            : 0;
     }
     return { originX, originY, viewCols, viewRows };
 }
@@ -197,10 +202,11 @@ function computeTilemapCacheRect(layer, view, opts) {
 
     const marginX = Math.max(marginMin, Math.ceil(view.viewCols / 2));
     const marginY = Math.max(marginMin, Math.ceil(view.viewRows / 2));
-    const w = Math.min(layer.cols, view.viewCols + 2 * marginX);
-    const h = Math.min(layer.rows, view.viewRows + 2 * marginY);
-    const centerX = view.originX + Math.floor(view.viewCols / 2);
-    const centerY = view.originY + Math.floor(view.viewRows / 2);
+    // +1 tile so fractional camera origins still have a full pixel row/col of art
+    const w = Math.min(layer.cols, view.viewCols + 2 * marginX + 1);
+    const h = Math.min(layer.rows, view.viewRows + 2 * marginY + 1);
+    const centerX = Math.floor(view.originX + view.viewCols / 2);
+    const centerY = Math.floor(view.originY + view.viewRows / 2);
     const x = Math.max(0, Math.min(layer.cols - w, centerX - Math.floor(w / 2)));
     const y = Math.max(0, Math.min(layer.rows - h, centerY - Math.floor(h / 2)));
     return { x, y, w, h, mode: 'overscan' };
@@ -232,10 +238,11 @@ function tilemapCacheNeedsRebuild(view, cache, layer, opts) {
               ? Math.max(0, Settings.TILEMAP_CACHE_TRIP_MARGIN | 0)
               : 0;
 
-    const vx0 = view.originX;
-    const vy0 = view.originY;
-    const vx1 = view.originX + view.viewCols;
-    const vy1 = view.originY + view.viewRows;
+    // Continuous camera origin → need integer tile coverage of the painted span
+    const needX0 = Math.floor(view.originX);
+    const needY0 = Math.floor(view.originY);
+    const needX1 = Math.ceil(view.originX + view.viewCols);
+    const needY1 = Math.ceil(view.originY + view.viewRows);
     const cx0 = cache.x;
     const cy0 = cache.y;
     const cx1 = cache.x + cache.w;
@@ -243,14 +250,14 @@ function tilemapCacheNeedsRebuild(view, cache, layer, opts) {
 
     // Soft trip: still inside cache but within trip tiles of an expandable edge
     if (trip > 0) {
-        if (vx0 < cx0 + trip && cx0 > 0) return true;
-        if (vy0 < cy0 + trip && cy0 > 0) return true;
-        if (vx1 > cx1 - trip && cx1 < layer.cols) return true;
-        if (vy1 > cy1 - trip && cy1 < layer.rows) return true;
+        if (needX0 < cx0 + trip && cx0 > 0) return true;
+        if (needY0 < cy0 + trip && cy0 > 0) return true;
+        if (needX1 > cx1 - trip && cx1 < layer.cols) return true;
+        if (needY1 > cy1 - trip && cy1 < layer.rows) return true;
     }
 
-    // Hard edge: viewport not fully contained
-    if (vx0 < cx0 || vy0 < cy0 || vx1 > cx1 || vy1 > cy1) {
+    // Hard edge: painted span not fully contained in cache tiles
+    if (needX0 < cx0 || needY0 < cy0 || needX1 > cx1 || needY1 > cy1) {
         return true;
     }
     return false;
@@ -1996,14 +2003,23 @@ class TileMap extends GameObject {
 
     /**
      * Draw floor: static offscreen cache + one blit when possible; else direct paint.
-     * Viewport: Settings.cameraTileX/Y origin, else NW corner.
-     * Prefers the art layer matching the camera floor (or first friction layer).
+     * Viewport: Settings.cameraTileX/Y origin (may be fractional for smooth follow),
+     * else NW corner. Prefers the art layer matching the camera floor (or first
+     * friction layer).
      * @param {CanvasRenderingContext2D} g
      */
     render(g) {
         if (Settings.HEADLESS || !g) return;
         const keys = Object.keys(this.layers);
         if (!keys.length) return;
+
+        // Sub-frame: re-anchor camera on presentation pos so the floor pans with
+        // the same moveLock slide that entity_markers use (extraDt).
+        const level = Settings.app && Settings.app.currentLevel;
+        if (level && typeof level._updateCamera === 'function') {
+            level._updateCamera(getCanvasStepExtraDt());
+        }
+
         // Prefer floor under camera z when multi-floor; else first layer
         let zKey = keys[0];
         if (
@@ -2029,7 +2045,7 @@ class TileMap extends GameObject {
         });
         const { originX, originY, viewCols, viewRows } = view;
 
-        // Stash for entity overlay (Simulator / later scripts)
+        // Stash for entity overlay (Simulator / later scripts). Fractional OK.
         this._viewOriginX = originX;
         this._viewOriginY = originY;
         this._viewCols = viewCols;
@@ -2044,7 +2060,7 @@ class TileMap extends GameObject {
             (g.canvas != null || typeof OffscreenCanvas !== 'undefined');
 
         if (!canBlit) {
-            this._paintFloorRegion(
+            this._paintFloorRegionFractional(
                 g,
                 layer,
                 art,
@@ -2096,7 +2112,7 @@ class TileMap extends GameObject {
 
             if (!surface || !surface.ctx) {
                 // No offscreen available (typical Node unit tests): direct paint.
-                this._paintFloorRegion(
+                this._paintFloorRegionFractional(
                     g,
                     layer,
                     art,
@@ -2152,7 +2168,7 @@ class TileMap extends GameObject {
             cache = this._renderCache;
         }
 
-        // One blit: cache sub-rect → screen origin (0,0) in camera space
+        // One blit: cache sub-rect → screen (fractional sx/sy = sub-tile pan)
         const sx = (originX - cache.x) * tw;
         const sy = (originY - cache.y) * th;
         const sw = viewCols * tw;
@@ -2162,7 +2178,7 @@ class TileMap extends GameObject {
         } catch (_e) {
             // Corrupt surface: fall back once
             this.invalidateRenderCache();
-            this._paintFloorRegion(
+            this._paintFloorRegionFractional(
                 g,
                 layer,
                 art,
@@ -2175,6 +2191,65 @@ class TileMap extends GameObject {
                 th
             );
         }
+    }
+
+    /**
+     * Direct-paint path for fractional camera origins: paint integer tiles then
+     * translate by the sub-tile pixel remainder so the floor pans smoothly.
+     * @private
+     */
+    _paintFloorRegionFractional(
+        g,
+        layer,
+        art,
+        getTileImg,
+        originX,
+        originY,
+        viewCols,
+        viewRows,
+        tw,
+        th
+    ) {
+        const tileOx = Math.floor(originX);
+        const tileOy = Math.floor(originY);
+        const offX = (originX - tileOx) * tw;
+        const offY = (originY - tileOy) * th;
+        const paintCols = viewCols + (offX > 0 ? 1 : 0);
+        const paintRows = viewRows + (offY > 0 ? 1 : 0);
+        const canTranslate =
+            typeof g.save === 'function' &&
+            typeof g.restore === 'function' &&
+            typeof g.translate === 'function';
+        if (canTranslate && (offX !== 0 || offY !== 0)) {
+            g.save();
+            g.translate(-offX, -offY);
+            this._paintFloorRegion(
+                g,
+                layer,
+                art,
+                getTileImg,
+                tileOx,
+                tileOy,
+                paintCols,
+                paintRows,
+                tw,
+                th
+            );
+            g.restore();
+            return;
+        }
+        this._paintFloorRegion(
+            g,
+            layer,
+            art,
+            getTileImg,
+            tileOx,
+            tileOy,
+            viewCols,
+            viewRows,
+            tw,
+            th
+        );
     }
 }
 

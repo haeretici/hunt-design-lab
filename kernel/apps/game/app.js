@@ -53,6 +53,7 @@ const {
     normalizeMember,
     ensureSingleLeader,
     leaderFormSlot,
+    resolveActiveViewSlot,
     enabledMemberIndexForSlot,
     buildSimulatorOpts,
     collectPrefsState,
@@ -591,9 +592,10 @@ async function initGameApp() {
                         ? Application.currentLevel.parties[0]
                         : null
             });
-            schedulePrefsSave();
         }
+        if (s === activeViewSlot) return;
         activeViewSlot = s;
+        schedulePrefsSave();
         const root = document.getElementById('partySlots');
         syncActiveViewControls(root, activeViewSlot, setActiveViewSlot);
         if (sessionLive && Application.currentLevel) {
@@ -867,7 +869,8 @@ async function initGameApp() {
                 (partySelect && partySelect.value) ||
                 formPartyId ||
                 DEFAULT_PARTY_ID,
-            members: readPartyForm(formMembers)
+            members: readPartyForm(formMembers),
+            activeViewSlot
         });
 
     const schedulePrefsSave = createDebouncedPrefsSaver(PREFS_KEY, collectPrefs);
@@ -912,7 +915,8 @@ async function initGameApp() {
             huntId:
                 (huntSelect && huntSelect.value) || 'cave_crawl_generated',
             partyId: defaultPartyId,
-            members: defaultMembers
+            members: defaultMembers,
+            activeViewSlot: leaderFormSlot(defaultMembers)
         });
         const applied = applyPrefsState(storedPrefs, defaults);
         if (seedInput) seedInput.value = applied.seed;
@@ -943,10 +947,21 @@ async function initGameApp() {
         ) {
             formMembers = applied.members;
             formPartyId = applied.partyId || formPartyId;
-            activeViewSlot = leaderFormSlot(formMembers);
+            activeViewSlot = resolveActiveViewSlot(
+                formMembers,
+                applied.activeViewSlot
+            );
             paintPartyEditor(formMembers);
         } else {
             applyPartyDefaults(applied.partyId || defaultPartyId);
+            // Party preset reset wipes Active; still restore stored Active if valid.
+            if (storedPrefs && storedPrefs.activeViewSlot != null) {
+                activeViewSlot = resolveActiveViewSlot(
+                    formMembers,
+                    storedPrefs.activeViewSlot
+                );
+                paintPartyEditor(formMembers);
+            }
         }
     } catch (err) {
         console.warn('Hunt Simulator prefs apply failed', err);
