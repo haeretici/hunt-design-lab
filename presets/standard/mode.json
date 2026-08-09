@@ -7,12 +7,12 @@
     "assets": {
         "maps": "assets/legacy/map",
         "navmesh": "assets/legacy/map/navmesh",
-        "spawns": null,
+        "spawns": "assets/legacy/spawns",
         "sprites": "assets/sprites",
         "data": "assets/data"
     },
     "features": {
-        "legacySpawnSource": false,
+        "legacySpawnSource": true,
         "autoAttack": true,
         "ammoConsumption": true,
         "runeConsumption": true,
@@ -40,7 +40,8 @@
             "cave_to_crypt_macro",
             "biome_volume_macro",
             "test_arena",
-            "standard_arena_rest_chain"
+            "standard_arena_rest_chain",
+            "wp_test_1"
         ],
         "populations": [
             "cave_mid_mixed",

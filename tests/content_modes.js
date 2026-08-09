@@ -101,7 +101,7 @@ function main() {
         assert.ok(m.browser.scenarios.indexOf('golden_cave_crawl') >= 0);
         assert.ok(m.browser.scenarios.indexOf('standard_arena_waves') >= 0);
         assert.ok(m.browser.scenarios.indexOf('rising_pressure_macro') >= 0);
-        assert.strictEqual(m.features.legacySpawnSource, false);
+        assert.strictEqual(m.features.legacySpawnSource, true);
         assert.strictEqual(m.features.autoAttack, true);
         assert.strictEqual(m.features.monsterSummons, true);
         assert.strictEqual(m.features.expProgression, false);
