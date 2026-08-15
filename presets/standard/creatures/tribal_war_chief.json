@@ -116,7 +116,8 @@
     "race": "blood",
     "loot": [
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 100000,
             "maxCount": 100
         },
@@ -129,17 +130,20 @@
             "chance": 50000
         },
         {
-            "name": "great health potion",
+            "name": "Great Health Potion",
+            "id": "great_health_potion",
             "chance": 40000,
             "maxCount": 5
         },
         {
-            "name": "great dual potion",
+            "name": "Great Dual Potion",
+            "id": "great_dual_potion",
             "chance": 25530,
             "maxCount": 1
         },
         {
-            "name": "great mana potion",
+            "name": "Great Mana Potion",
+            "id": "great_mana_potion",
             "chance": 34040,
             "maxCount": 5
         },
@@ -162,42 +166,52 @@
         },
         {
             "chance": 3500,
-            "name": "ring of red plasma"
+            "name": "Ring of Red Plasma",
+            "id": "ring_of_red_plasma"
         },
         {
             "chance": 3500,
-            "name": "ring of green plasma"
+            "name": "Ring of Green Plasma",
+            "id": "ring_of_green_plasma"
         },
         {
             "chance": 3500,
-            "name": "ring of blue plasma"
+            "name": "Ring of Blue Plasma",
+            "id": "ring_of_blue_plasma"
         },
         {
             "chance": 3500,
-            "name": "collar of red plasma"
+            "name": "Collar of Red Plasma",
+            "id": "collar_of_red_plasma"
         },
         {
             "chance": 3500,
-            "name": "collar of blue plasma"
+            "name": "Collar of Blue Plasma",
+            "id": "collar_of_blue_plasma"
         },
         {
             "chance": 3500,
-            "name": "collar of green plasma"
+            "name": "Collar of Green Plasma",
+            "id": "collar_of_green_plasma"
         },
         {
-            "name": "broken iks headpiece",
+            "name": "Broken Tribal Headpiece",
+            "id": "broken_tribal_headpiece",
             "chance": 1000
         },
         {
-            "name": "broken macuahuitl",
+            "name": "Broken Macuahuitl",
+            "id": "broken_macuahuitl",
             "chance": 1000
         },
         {
-            "name": "broken iks faulds",
+            "name": "Broken Tribal Faulds",
+            "id": "broken_tribal_faulds",
             "chance": 1000
         },
         {
-            "name": "broken iks cuirass",
+            "name": "Broken Tribal Cuirass",
+            "id": "broken_tribal_cuirass",
             "chance": 1000
         }
     ],

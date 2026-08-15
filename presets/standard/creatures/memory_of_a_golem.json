@@ -88,17 +88,20 @@
     "race": "venom",
     "loot": [
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 100000,
             "maxCount": 160
         },
         {
-            "name": "small topaz",
+            "name": "Small Topaz",
+            "id": "small_topaz",
             "chance": 7000,
             "maxCount": 2
         },
         {
-            "name": "great mana potion",
+            "name": "Great Mana Potion",
+            "id": "great_mana_potion",
             "chance": 18830,
             "maxCount": 2
         },
@@ -107,7 +110,8 @@
             "chance": 3000
         },
         {
-            "name": "small emerald",
+            "name": "Small Emerald",
+            "id": "small_emerald",
             "chance": 7430,
             "maxCount": 2
         },
@@ -120,7 +124,8 @@
             "chance": 1500
         },
         {
-            "name": "heat core",
+            "name": "Heat Core",
+            "id": "heat_core",
             "chance": 5155
         }
     ],

@@ -112,18 +112,21 @@
     },
     "loot": [
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 100000,
             "maxCount": 30
         },
         {
-            "name": "platinum coin",
+            "name": "Platinum Coin",
+            "id": "platinum_coin",
             "chance": 82000,
             "maxCount": 6
         },
         {
-            "id": 281,
-            "chance": 6510
+            "chance": 6510,
+            "name": "Giant Shimmering Pearl",
+            "id": "giant_shimmering_pearl"
         },
         {
             "chance": 1400,
@@ -142,7 +145,8 @@
         },
         {
             "chance": 1550,
-            "name": "violet gem"
+            "name": "Violet Gem",
+            "id": "violet_gem"
         },
         {
             "chance": 1250,
@@ -159,15 +163,18 @@
         },
         {
             "chance": 502,
-            "name": "dreaded cleaver"
+            "name": "Dreaded Cleaver",
+            "id": "dreaded_cleaver"
         },
         {
             "chance": 1840,
-            "name": "wand of decay"
+            "name": "Wand of Decay",
+            "id": "wand_of_decay"
         },
         {
             "chance": 2830,
-            "name": "black shield"
+            "name": "Black Shield",
+            "id": "black_shield"
         }
     ],
     "changeTarget": {

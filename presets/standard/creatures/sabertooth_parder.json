@@ -98,12 +98,14 @@
     "loot": [
         {
             "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 100000,
             "minCount": 1,
             "maxCount": 285
         },
         {
             "name": "Ham",
+            "id": "ham",
             "chance": 24670
         },
         {
@@ -122,17 +124,20 @@
         },
         {
             "name": "Strong Health Potion",
+            "id": "strong_health_potion",
             "chance": 7560,
             "minCount": 1,
             "maxCount": 3
         },
         {
             "name": "Barbarian Axe",
+            "id": "barbarian_axe",
             "chance": 4540
         },
         {
             "chance": 1510,
-            "name": "crimson sword"
+            "name": "Crimson Sword",
+            "id": "crimson_sword"
         }
     ],
     "changeTarget": {

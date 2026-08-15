@@ -99,12 +99,14 @@
     },
     "loot": [
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 60000,
             "maxCount": 100
         },
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 60000,
             "maxCount": 80
         },
@@ -121,7 +123,8 @@
             "chance": 11111
         },
         {
-            "name": "great mana potion",
+            "name": "Great Mana Potion",
+            "id": "great_mana_potion",
             "chance": 10210
         },
         {
@@ -129,24 +132,29 @@
             "chance": 10040
         },
         {
-            "name": "great health potion",
+            "name": "Great Health Potion",
+            "id": "great_health_potion",
             "chance": 10030
         },
         {
-            "name": "vortex bolt",
+            "name": "Vortex Bolt",
+            "id": "vortex_bolt",
             "chance": 3431,
             "maxCount": 5
         },
         {
-            "name": "small emerald",
+            "name": "Small Emerald",
+            "id": "small_emerald",
             "chance": 3104
         },
         {
             "chance": 3001,
-            "name": "life ring"
+            "name": "Vitality Ring",
+            "id": "vitality_ring"
         },
         {
-            "name": "heavy trident",
+            "name": "Heavy Trident",
+            "id": "heavy_trident",
             "chance": 999
         },
         {
@@ -154,7 +162,8 @@
             "chance": 870
         },
         {
-            "name": "warrior's shield",
+            "name": "Warrior's Shield",
+            "id": "warriors_shield",
             "chance": 610
         },
         {
@@ -162,7 +171,8 @@
             "chance": 610
         },
         {
-            "name": "warrior's axe",
+            "name": "Warrior's Axe",
+            "id": "warriors_axe",
             "chance": 510
         }
     ],

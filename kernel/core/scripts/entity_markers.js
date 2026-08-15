@@ -18,8 +18,15 @@ const {
     resolveEntitySpriteScale,
     prefetchSprite,
     defaultVariantForDisplay,
+    defaultTileVariantForDisplay,
     idToFileStem
 } = require('../lib/creature_sprites.js');
+const {
+    resolveTileDrawBox,
+    sortDrawables,
+    DRAW_SUB_ENTITY,
+    DRAW_SUB_PROP
+} = require('../lib/tile_draw.js');
 const {
     getVisualTilePos,
     getCanvasStepExtraDt
@@ -48,6 +55,7 @@ const {
 } = require('../lib/combat/elemental_fields.js');
 const { Time } = require('../lib/time.js');
 const { uiState } = require('../../apps/game/ui_state.js');
+const { resolveManaShieldBar } = require('../lib/combat/conditions.js');
 
 /**
  * Stable entity identity helper for matching hovered entity key.
@@ -71,6 +79,52 @@ const BAR_H = 4;
 const BAR_GAP = 1;
 /** Gap between nameplate stack and sprite top. */
 const STACK_PAD = 2;
+/** Mana-shield nameplate fill (cyan — distinct from HP ramp and mana blue). */
+// Legacy nameplate uses Color::darkPink (#800080); brighter violet for Hunt HUD.
+const MANA_SHIELD_BAR_FILL = '#a855f7';
+
+/**
+ * HP color ramps like legacy ShowName (green → yellow → red).
+ * @param {number} frac 0..1
+ * @returns {string}
+ */
+function hpFill(frac) {
+    if (frac > 0.7) return '#00ff00';
+    if (frac > 0.4) return '#ffff00';
+    return '#ff0000';
+}
+
+/**
+ * Nameplate resource bars, top → bottom (mana shield sits above HP).
+ * @param {object|null|undefined} ent
+ * @param {boolean} [showMana]
+ * @returns {{ kind: string, frac: number, fill: string }[]}
+ */
+function nameplateBarsForEntity(ent, showMana) {
+    if (!ent) return [];
+    /** @type {{ kind: string, frac: number, fill: string }[]} */
+    const bars = [];
+    const shield = resolveManaShieldBar(ent);
+    if (shield) {
+        bars.push({
+            kind: 'mana_shield',
+            frac: shield.frac,
+            fill: MANA_SHIELD_BAR_FILL
+        });
+    }
+    if (ent.hp && ent.hp.max > 0) {
+        const frac = ent.hp.current / ent.hp.max;
+        bars.push({ kind: 'hp', frac, fill: hpFill(frac) });
+    }
+    if (showMana && ent.mp && ent.mp.max > 0) {
+        bars.push({
+            kind: 'mp',
+            frac: ent.mp.current / ent.mp.max,
+            fill: '#0000ff'
+        });
+    }
+    return bars;
+}
 
 class EntityMarkersScript extends Script {
     /**
@@ -150,17 +204,6 @@ class EntityMarkersScript extends Script {
         };
 
         /**
-         * HP color ramps like legacy ShowName (green → yellow → red).
-         * @param {number} frac 0..1
-         * @returns {string}
-         */
-        const hpFill = (frac) => {
-            if (frac > 0.7) return '#00ff00';
-            if (frac > 0.4) return '#ffff00';
-            return '#ff0000';
-        };
-
-        /**
          * Draw a single resource bar (filled fraction + black outline).
          * @param {number} px left
          * @param {number} py top
@@ -180,48 +223,35 @@ class EntityMarkersScript extends Script {
         };
 
         /**
-         * Name + HP (+ optional mana) stacked just above `stackTopY`.
-         * Horizontal center matches the sprite (tile center); stack sits above visual top.
+         * Name + optional mana-shield + HP (+ optional mana) stacked just above `stackTopY`.
+         * Shield sits above HP; mana stays the lower bar (closer to the sprite).
          * @param {object} ent
          * @param {number} tilePxX
          * @param {number} stackTopY canvas Y of the top of the sprite (or rect)
          * @param {boolean} showMana
          */
         const drawNameplate = (ent, tilePxX, stackTopY, showMana) => {
-            const hasHp = ent.hp && ent.hp.max > 0;
-            const hasMp =
-                showMana && ent.mp && ent.mp.max > 0;
-            if (!hasHp && !hasMp && !ent.name) return;
+            const bars = nameplateBarsForEntity(ent, showMana);
+            if (!bars.length && !ent.name) return;
 
-            const barCount = (hasHp ? 1 : 0) + (hasMp ? 1 : 0);
             const barsH =
-                barCount > 0
-                    ? barCount * BAR_H + (barCount - 1) * BAR_GAP
+                bars.length > 0
+                    ? bars.length * BAR_H + (bars.length - 1) * BAR_GAP
                     : 0;
             // Name sits above bars; leave a small gap under the name and over the sprite
             const fontPx = Math.max(8, Math.min(11, Math.round(tw * 0.55)));
             const nameGap = 3;
-            let cursorY = stackTopY - STACK_PAD - barsH;
+            const cursorY = stackTopY - STACK_PAD - barsH;
 
             // Center bars + name on the tile (sprites are also horizontal-center on the tile)
             const barW = tw;
             const barX = tilePxX + Math.floor((tw - barW) / 2);
             const centerX = tilePxX + tw / 2;
 
-            if (hasMp) {
-                // Mana is the lower bar (closer to the sprite), matching legacy
-                const mpY = cursorY + (hasHp ? BAR_H + BAR_GAP : 0);
-                drawBarAt(
-                    barX,
-                    mpY,
-                    barW,
-                    ent.mp.current / ent.mp.max,
-                    '#0000ff'
-                );
-            }
-            if (hasHp) {
-                const hpFrac = ent.hp.current / ent.hp.max;
-                drawBarAt(barX, cursorY, barW, hpFrac, hpFill(hpFrac));
+            let y = cursorY;
+            for (let i = 0; i < bars.length; i++) {
+                drawBarAt(barX, y, barW, bars[i].frac, bars[i].fill);
+                y += BAR_H + BAR_GAP;
             }
 
             const name = ent.name ? String(ent.name) : '';
@@ -433,12 +463,105 @@ class EntityMarkersScript extends Script {
             useSprites
         });
 
+        // Phase 6: y-sort tall TileMap props with entities (terrain already cached)
+        /** @type {Array<{ sortY: number, subOrder: number, stableKey: string, draw: () => void }>} */
+        const drawList = [];
+
+        const margin = 2;
+        const x0 = Math.floor(ox) - margin;
+        const y0 = Math.floor(oy) - margin;
+        const x1 = Math.ceil(ox + viewCols) + margin;
+        const y1 = Math.ceil(oy + viewRows) + margin;
+        const tallProps =
+            typeof sim.tileMap.collectTallProps === 'function'
+                ? sim.tileMap.collectTallProps(viewZ != null ? viewZ : 0, {
+                      x0,
+                      y0,
+                      x1,
+                      y1
+                  })
+                : [];
+
+        for (let i = 0; i < tallProps.length; i++) {
+            const p = tallProps[i];
+            if (!p) continue;
+            // Overhang: allow props just outside view
+            if (
+                p.tileX < x0 ||
+                p.tileY < y0 ||
+                p.tileX > x1 ||
+                p.tileY > y1
+            ) {
+                continue;
+            }
+            drawList.push({
+                sortY: p.sortY,
+                subOrder: p.subOrder != null ? p.subOrder : DRAW_SUB_PROP,
+                stableKey: p.stableKey || `prop:${p.tileX},${p.tileY}`,
+                draw: () => {
+                    drawTallProp(g, p, {
+                        tw,
+                        th,
+                        ox,
+                        oy,
+                        genre,
+                        useSprites
+                    });
+                }
+            });
+        }
+
         const creatures = sim.creatures || [];
         for (let i = 0; i < creatures.length; i++) {
-            drawEntity(creatures[i], '#e74c3c', padC, false);
+            const ent = creatures[i];
+            if (!ent || !ent.tile || !ent.alive) continue;
+            const vis = getVisualTilePos(ent, extraDt) || ent.tile;
+            if (!inView(vis) && !inView(ent.tile)) continue;
+            const sortY =
+                vis && Number.isFinite(Number(vis.y))
+                    ? Number(vis.y)
+                    : Number(ent.tile.y) || 0;
+            drawList.push({
+                sortY,
+                subOrder: DRAW_SUB_ENTITY,
+                stableKey: `creature:${ent.id != null ? ent.id : i}`,
+                draw: () => drawEntity(ent, '#e74c3c', padC, false)
+            });
+        }
+
+        const parties = sim.parties || [];
+        for (let p = 0; p < parties.length; p++) {
+            const members = parties[p].members || [];
+            for (let m = 0; m < members.length; m++) {
+                const ent = members[m];
+                if (!ent || !ent.tile || !ent.alive) continue;
+                const vis = getVisualTilePos(ent, extraDt) || ent.tile;
+                if (!inView(vis) && !inView(ent.tile)) continue;
+                const sortY =
+                    vis && Number.isFinite(Number(vis.y))
+                        ? Number(vis.y)
+                        : Number(ent.tile.y) || 0;
+                const color = ent.isLeader ? '#00f2fe' : '#f0a030';
+                drawList.push({
+                    sortY,
+                    subOrder: DRAW_SUB_ENTITY,
+                    stableKey: `player:${ent.id != null ? ent.id : `${p}:${m}`}`,
+                    draw: () => drawEntity(ent, color, padP, true)
+                });
+            }
+        }
+
+        sortDrawables(drawList);
+        for (let i = 0; i < drawList.length; i++) {
+            try {
+                drawList[i].draw();
+            } catch (_e) {
+                // keep painting remaining drawables
+            }
         }
 
         // Stage 11.2 gizmos (barrels / wells) — amber squares, no nameplate
+        // (keep after y-sort pass; scenario markers, not TileMap tall props)
         const props = sim.props || [];
         for (let i = 0; i < props.length; i++) {
             const prop = props[i];
@@ -456,18 +579,84 @@ class EntityMarkersScript extends Script {
             g.fillStyle = isWell ? '#34d399' : '#fbbf24';
             g.fillRect(px + pad, py + pad, tw - pad * 2, th - pad * 2);
         }
+    }
+}
 
-        const parties = sim.parties || [];
-        for (let p = 0; p < parties.length; p++) {
-            const members = parties[p].members || [];
-            for (let m = 0; m < members.length; m++) {
-                const ent = members[m];
-                const color = ent.isLeader ? '#00f2fe' : '#f0a030';
-                // Players always get mana bar when mp.max > 0
-                drawEntity(ent, color, padP, true);
+/**
+ * Draw one TileMap tall prop (scenery / furniture / vertical) with scale+anchor.
+ * @param {CanvasRenderingContext2D} g
+ * @param {object} prop from collectTallPropsFromFloor
+ * @param {{ tw: number, th: number, ox: number, oy: number, genre?: string, useSprites: boolean }} view
+ */
+function drawTallProp(g, prop, view) {
+    if (!g || !prop) return;
+    const { tw, th, ox, oy, genre, useSprites } = view;
+    const tilePx = (prop.tileX - ox) * tw;
+    const tilePy = (prop.tileY - oy) * th;
+
+    if (useSprites && prop.catalogId) {
+        const variant =
+            typeof defaultTileVariantForDisplay === 'function'
+                ? defaultTileVariantForDisplay()
+                : 'icon';
+        // Prefetch once; getReady returns null until loaded
+        if (typeof prefetchSprite === 'function') {
+            prefetchSprite({
+                genre,
+                kind:
+                    prop.kind === 'overlays'
+                        ? 'overlays'
+                        : prop.kind === 'objects'
+                          ? 'objects'
+                          : 'tiles',
+                id: prop.catalogId,
+                variant
+            });
+        }
+        const img = getReadySpriteImage({
+            genre,
+            kind:
+                prop.kind === 'overlays'
+                    ? 'overlays'
+                    : prop.kind === 'objects'
+                      ? 'objects'
+                      : 'tiles',
+            id: prop.catalogId,
+            variant
+        });
+        if (img) {
+            const iw =
+                img.naturalWidth || img.width || img.videoWidth || tw;
+            const ih =
+                img.naturalHeight || img.height || img.videoHeight || th;
+            const box = resolveTileDrawBox(
+                tilePx,
+                tilePy,
+                tw,
+                th,
+                iw,
+                ih,
+                prop.scale,
+                prop.anchor
+            );
+            try {
+                g.drawImage(img, box.dx, box.dy, box.dw, box.dh);
+                return;
+            } catch (_e) {
+                // fall through to placeholder
             }
         }
     }
+
+    // Placeholder diamond when sprite missing (watch still shows prop footprint)
+    const pad = Math.max(2, Math.floor(tw * 0.2));
+    g.fillStyle =
+        prop.subLayerId === 'vertical'
+            ? '#94a3b8'
+            : prop.subLayerId === 'furniture'
+              ? '#a16207'
+              : '#166534';
+    g.fillRect(tilePx + pad, tilePy + pad, tw - pad * 2, th - pad * 2);
 }
 
 /**
@@ -663,4 +852,8 @@ function drawGroundItems(g, sim, view) {
     }
 }
 
-module.exports = { EntityMarkersScript };
+module.exports = {
+    EntityMarkersScript,
+    nameplateBarsForEntity,
+    MANA_SHIELD_BAR_FILL
+};

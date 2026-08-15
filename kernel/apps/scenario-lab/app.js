@@ -16,6 +16,7 @@ const {
     getCatalogLists,
     listModesForBrowser,
     mapUrlForFloor,
+    fetchHybridPackForFloors,
     DEFAULT_MODE_ID,
     getActiveModeId,
     apiUrl: gameApiUrl
@@ -42,6 +43,7 @@ const {
     transferManualControlOnSlotChange,
     syncActiveControlToggle: syncActiveControlToggleUi,
     applyControlModeChange,
+    applyPersistedAutoChaseToMembers,
     bindManualCanvasClick,
     wireManualControlToggles
 } = require('../game/manual_control.js');
@@ -498,7 +500,8 @@ async function initScenarioLabApp() {
         syncActiveControlToggleUi({
             sessionLive,
             livePlayer,
-            formMember: formMembers[activeViewSlot]
+            formMember: formMembers[activeViewSlot],
+            formMembers
         });
     };
 
@@ -1071,6 +1074,7 @@ async function initScenarioLabApp() {
 
         const settings = readSettingsFromDom();
         formMembers = readPartyForm();
+        applyPersistedAutoChaseToMembers(formMembers);
         const partyId =
             (partySelect && partySelect.value) ||
             formPartyId ||
@@ -1100,6 +1104,19 @@ async function initScenarioLabApp() {
         // Stage 11.4/11.5: keep generated floorFriction; only set PNG for path hunts
         if (!built.simOpts.floorFriction && !built.simOpts.floorLayers) {
             built.simOpts.mapPath = mapUrlFromFloor(floor);
+            // Editor hybrid packs carry Fields channel for long-lived map fields
+            const floorList =
+                Array.isArray(built.simOpts.floors) && built.simOpts.floors.length
+                    ? built.simOpts.floors
+                    : [floor];
+            try {
+                const hybridMapPack = await fetchHybridPackForFloors(floorList);
+                if (hybridMapPack) built.simOpts.hybridMapPack = hybridMapPack;
+            } catch (err) {
+                if (typeof console !== 'undefined' && console.warn) {
+                    console.warn('scenario hybrid map load failed', err);
+                }
+            }
         }
 
         Settings.HEADLESS = false;

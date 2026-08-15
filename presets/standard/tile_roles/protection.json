@@ -1,0 +1,20 @@
+{
+  "id": "protection",
+  "label": "Protection Zone",
+  "notes": "PZ package: walkable for players; NO_CAST | NO_CREATURE (bits 1|64). Creatures and attack/AOE gated at runtime (Phase 2 helpers).",
+  "kindHints": ["tiles"],
+  "catalogCategories": ["floor", "special"],
+  "render": {
+    "scale": 1.0,
+    "anchor": "middle_center",
+    "variant": "retro"
+  },
+  "influence": {
+    "friction": 100,
+    "sight": 0,
+    "flags": 65,
+    "walkMode": "open",
+    "sightMode": "clear"
+  },
+  "vertical": null
+}

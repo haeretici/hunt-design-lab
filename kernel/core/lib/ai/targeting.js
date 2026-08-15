@@ -190,12 +190,29 @@ function resolveById(id, registry) {
 }
 
 /**
- * Whether target is still a valid living enemy on the same floor.
- * @param {object} self
- * @param {object|null} target
+ * True when the target's tile is a no-attack / protection-zone cell.
+ * Missing tileMap or tile → not protected (unit tests without a map).
+ * @param {object|null|undefined} target
+ * @param {{ attackMayAffectTile?: Function }|null|undefined} tileMap
  * @returns {boolean}
  */
-function isValidTarget(self, target) {
+function isProtectedTarget(target, tileMap) {
+    if (!tileMap || !target || !target.tile) return false;
+    if (typeof tileMap.attackMayAffectTile !== 'function') return false;
+    const t = target.tile;
+    return !tileMap.attackMayAffectTile(t.x, t.y, t.z);
+}
+
+/**
+ * Whether target is still a valid living enemy on the same floor.
+ * Optional opts.tileMap: reject targets standing on NO_CAST / PZ tiles
+ * (`attackMayAffectTile` false). Adjacent hostiles cannot hit into PZ.
+ * @param {object} self
+ * @param {object|null} target
+ * @param {{ tileMap?: { attackMayAffectTile?: Function } }} [opts]
+ * @returns {boolean}
+ */
+function isValidTarget(self, target, opts) {
     if (!self || !target) return false;
     if (target.alive === false) return false;
     if (target.hp && target.hp.current <= 0) return false;
@@ -204,6 +221,7 @@ function isValidTarget(self, target) {
     // Invisible targets: only observers that can see invis keep them (legacy canSeeCreature).
     // Most monsters with immunities.invisible can see; players typically cannot.
     if (!canSeeCreature(self, target)) return false;
+    if (isProtectedTarget(target, opts && opts.tileMap)) return false;
     return true;
 }
 
@@ -246,6 +264,7 @@ module.exports = {
     findNearestInRange,
     resolveById,
     isValidTarget,
+    isProtectedTarget,
     distBetween,
     allPartyMembers
 };

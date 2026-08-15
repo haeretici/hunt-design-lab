@@ -1,0 +1,143 @@
+{
+    "id": "town_guide",
+    "label": "Guide",
+    "notes": "Scenario / tutorial talkable NPC. Mission reply is gated on player.storage town_guide.mission. Vendor-lite shop on Trade. C.4 wander radius 2 + idle voices. Not a hunt target.",
+    "isNpc": true,
+    "kind": "npc",
+    "aggro": false,
+    "attacks": [],
+    "exp": 0,
+    "lootValue": 0,
+    "speed": 80,
+    "walkInterval": 2000,
+    "walkRadius": 2,
+    "voices": [
+        { "text": "Need directions?" },
+        { "text": "The arena is north of the fountain." }
+    ],
+    "voiceInterval": 15000,
+    "voiceChance": 25,
+    "hp": 80,
+    "hpMax": 80,
+    "level": 1,
+    "armor": 0,
+    "mitigation": 0,
+    "displayScale": 1,
+    "canBlock": false,
+    "customSprite": "adventurer",
+    "dialogId": "town_guide",
+    "shop": {
+        "currency": "gold_coin",
+        "items": [
+            { "item": "bread", "buy": 4, "sell": 1 },
+            { "item": "cookie", "buy": 2, "sell": 1 },
+            {
+                "item": "torch",
+                "buy": 8,
+                "when": { "storage": "town_guide.mission", "min": 1 }
+            }
+        ]
+    },
+    "flags": {
+        "isNpc": true,
+        "hostile": false,
+        "attackable": false
+    },
+    "dialog": {
+        "greeting": "Welcome, hunter. Need directions?",
+        "start": "start",
+        "nodes": {
+            "start": {
+                "text": "Welcome, hunter. Need directions?",
+                "replies": [
+                    {
+                        "label": "Arena",
+                        "goto": "arena"
+                    },
+                    {
+                        "label": "Mission",
+                        "goto": "mission",
+                        "when": { "storage": "town_guide.mission", "eq": 0 }
+                    },
+                    {
+                        "label": "How goes the hunt?",
+                        "goto": "mission_done",
+                        "when": { "storage": "town_guide.mission", "min": 1 }
+                    },
+                    {
+                        "label": "Trade",
+                        "action": "open_shop"
+                    },
+                    {
+                        "label": "Bye",
+                        "action": "close"
+                    }
+                ]
+            },
+            "arena": {
+                "text": "The arena portal is north of the fountain.",
+                "replies": [
+                    {
+                        "label": "Thanks",
+                        "action": "close"
+                    }
+                ]
+            },
+            "mission": {
+                "text": "Clear the north trail, then come back.",
+                "set": { "town_guide.mission": 1 },
+                "replies": [
+                    {
+                        "label": "I will.",
+                        "action": "close"
+                    }
+                ]
+            },
+            "mission_done": {
+                "text": "The trail is safer thanks to you.",
+                "replies": [
+                    {
+                        "label": "Thanks",
+                        "action": "close"
+                    },
+                    {
+                        "label": "Any supplies?",
+                        "action": "give_item",
+                        "item": "gold_coin",
+                        "count": 5,
+                        "goto": "ration",
+                        "when": { "storage": "town_guide.ration", "eq": 0 },
+                        "set": { "town_guide.ration": 1 }
+                    }
+                ]
+            },
+            "ration": {
+                "text": "A few coins for the road. Bring me one gold coin if you can spare it.",
+                "replies": [
+                    {
+                        "label": "Here is a coin",
+                        "action": "take_item",
+                        "item": "gold_coin",
+                        "count": 1,
+                        "goto": "tribute",
+                        "when": { "item": "gold_coin", "min": 1 }
+                    },
+                    {
+                        "label": "Later",
+                        "action": "close"
+                    }
+                ]
+            },
+            "tribute": {
+                "text": "Kind of you. Safe hunting.",
+                "set": { "town_guide.tribute": 1 },
+                "replies": [
+                    {
+                        "label": "Bye",
+                        "action": "close"
+                    }
+                ]
+            }
+        }
+    }
+}

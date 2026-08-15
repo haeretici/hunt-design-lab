@@ -504,6 +504,30 @@ function resolveHuntConfig(input) {
         ? config.mapPaths || hunt.mapPaths || undefined
         : config.mapPaths || hunt.mapPaths || undefined;
 
+    // Editor hybrid packs (fields + channels) when present and not a generated layout
+    let hybridMapPack =
+        config.hybridMapPack != null
+            ? config.hybridMapPack
+            : hunt && hunt.hybridMapPack != null
+              ? hunt.hybridMapPack
+              : null;
+    if (!hybridMapPack && !floorLayers) {
+        try {
+            const {
+                tryResolveHybridMapPack
+            } = require('../../core/lib/dungeon/tilemap_bake.js');
+            const floorList =
+                floors && floors.length
+                    ? floors
+                    : floor != null
+                      ? [floor]
+                      : [];
+            hybridMapPack = tryResolveHybridMapPack(floorList);
+        } catch (_e) {
+            hybridMapPack = null;
+        }
+    }
+
     // Stage 11.10: layout meta for runtime biome_transition + macro pacing
     const layoutMeta =
         (hunt && hunt.layoutMeta && typeof hunt.layoutMeta === 'object'
@@ -544,6 +568,7 @@ function resolveHuntConfig(input) {
         floors,
         mapPath,
         mapPaths,
+        hybridMapPack: hybridMapPack || null,
         floorFriction,
         floorLayers,
         floorArt,

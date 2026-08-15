@@ -86,28 +86,33 @@
     },
     "loot": [
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 50000,
             "maxCount": 45
         },
         {
             "chance": 20000,
-            "name": "cheese"
+            "name": "Cheese",
+            "id": "cheese"
         },
         {
             "name": "bola",
             "chance": 7692
         },
         {
-            "name": "spike shield",
+            "name": "Spike Shield",
+            "id": "spike_shield",
             "chance": 645
         },
         {
-            "name": "ratana",
+            "name": "Ratana",
+            "id": "ratana",
             "chance": 2702
         },
         {
-            "name": "life preserver",
+            "name": "Life Preserver",
+            "id": "life_preserver",
             "chance": 2941
         },
         {
@@ -135,7 +140,8 @@
             "chance": 12
         },
         {
-            "name": "leather harness",
+            "name": "Leather Harness",
+            "id": "leather_harness",
             "chance": 561
         }
     ],

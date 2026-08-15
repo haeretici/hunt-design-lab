@@ -717,6 +717,16 @@ function resolveShapedAttack(opts) {
         attacker,
         o.tileMap || null
     );
+    // NO_CAST / PZ: attack and AOE do not affect the tile (or entities on it).
+    if (o.tileMap && typeof o.tileMap.attackMayAffectTile === 'function') {
+        const tm = o.tileMap;
+        hits = hits.filter((e) => {
+            if (!e || !e.tile) return true;
+            const ez =
+                e.tile.z !== undefined && e.tile.z !== null ? e.tile.z : z;
+            return tm.attackMayAffectTile(e.tile.x, e.tile.y, ez);
+        });
+    }
     const applyMutations = o.apply !== false;
     const moveLock = resolveMoveLock(spell);
     /** @type {object|null} */
@@ -811,6 +821,14 @@ function resolveShapedAttack(opts) {
 
                 for (let k = 0; k < foot.affectedTiles.length; k++) {
                     const t = foot.affectedTiles[k];
+                    // NO_CAST / PZ: no harmful field deploy on protected tiles.
+                    if (
+                        o.tileMap &&
+                        typeof o.tileMap.attackMayAffectTile === 'function' &&
+                        !o.tileMap.attackMayAffectTile(t.x, t.y, z)
+                    ) {
+                        continue;
+                    }
                     // Obstacles: reject stairs / floor-change tiles (legacy TILESTATE_FLOORCHANGE).
                     if (
                         obstacleDeploy &&

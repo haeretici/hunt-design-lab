@@ -2,7 +2,7 @@
     "version": 1,
     "genre": "rpg_fantasy",
     "kind": "objects",
-    "updatedAt": "2026-07-25T00:48:06.128Z",
+    "updatedAt": "2026-08-14T23:22:31.509Z",
     "items": [
         {
             "id": "abandoned_castle_wall_piece",
@@ -877,6 +877,342 @@
             ],
             "source": "pipeline",
             "createdAt": "2026-07-25"
+        },
+        {
+            "id": "stone_wall_corner",
+            "technical": "Stone Wall Corner",
+            "alias": "Stone Wall Corner",
+            "genre": "rpg_fantasy",
+            "kind": "objects",
+            "category": "wall",
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/objects/original/Stone_Wall_Corner.png",
+                "transformed": null
+            },
+            "tags": [
+                "stone_wall"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-08-14",
+            "wallFamily": "stone_wall",
+            "wallAlign": "corner"
+        },
+        {
+            "id": "stone_wall_east_end",
+            "technical": "Stone Wall East End",
+            "alias": "Stone Wall East End",
+            "genre": "rpg_fantasy",
+            "kind": "objects",
+            "category": "wall",
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/objects/original/Stone_Wall_East_End.png",
+                "transformed": null
+            },
+            "tags": [
+                "stone_wall"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-08-14",
+            "wallFamily": "stone_wall",
+            "wallAlign": "east_end"
+        },
+        {
+            "id": "stone_wall_east_t",
+            "technical": "Stone Wall East T",
+            "alias": "Stone Wall East T",
+            "genre": "rpg_fantasy",
+            "kind": "objects",
+            "category": "wall",
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/objects/original/Stone_Wall_East_T.png",
+                "transformed": null
+            },
+            "tags": [
+                "stone_wall"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-08-14",
+            "wallFamily": "stone_wall",
+            "wallAlign": "east_t"
+        },
+        {
+            "id": "stone_wall_horizontal",
+            "technical": "Stone Wall Horizontal",
+            "alias": "Stone Wall Horizontal",
+            "genre": "rpg_fantasy",
+            "kind": "objects",
+            "category": "wall",
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/objects/original/Stone_Wall_Horizontal.png",
+                "transformed": null
+            },
+            "tags": [
+                "stone_wall"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-08-14",
+            "wallFamily": "stone_wall",
+            "wallAlign": "horizontal"
+        },
+        {
+            "id": "stone_wall_intersection",
+            "technical": "Stone Wall Intersection",
+            "alias": "Stone Wall Intersection",
+            "genre": "rpg_fantasy",
+            "kind": "objects",
+            "category": "wall",
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/objects/original/Stone_Wall_Intersection.png",
+                "transformed": null
+            },
+            "tags": [
+                "stone_wall"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-08-14",
+            "wallFamily": "stone_wall",
+            "wallAlign": "intersection"
+        },
+        {
+            "id": "stone_wall_north_end",
+            "technical": "Stone Wall North End",
+            "alias": "Stone Wall North End",
+            "genre": "rpg_fantasy",
+            "kind": "objects",
+            "category": "wall",
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/objects/original/Stone_Wall_North_End.png",
+                "transformed": null
+            },
+            "tags": [
+                "stone_wall"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-08-14",
+            "wallFamily": "stone_wall",
+            "wallAlign": "north_end"
+        },
+        {
+            "id": "stone_wall_north_t",
+            "technical": "Stone Wall North T",
+            "alias": "Stone Wall North T",
+            "genre": "rpg_fantasy",
+            "kind": "objects",
+            "category": "wall",
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/objects/original/Stone_Wall_North_T.png",
+                "transformed": null
+            },
+            "tags": [
+                "stone_wall"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-08-14",
+            "wallFamily": "stone_wall",
+            "wallAlign": "north_t"
+        },
+        {
+            "id": "stone_wall_northeast_diagonal",
+            "technical": "Stone Wall Northeast Diagonal",
+            "alias": "Stone Wall Northeast Diagonal",
+            "genre": "rpg_fantasy",
+            "kind": "objects",
+            "category": "wall",
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/objects/original/Stone_Wall_Northeast_Diagonal.png",
+                "transformed": null
+            },
+            "tags": [
+                "stone_wall"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-08-14",
+            "wallFamily": "stone_wall",
+            "wallAlign": "northeast_diagonal"
+        },
+        {
+            "id": "stone_wall_pole",
+            "technical": "Stone Wall Pole",
+            "alias": "Stone Wall Pole",
+            "genre": "rpg_fantasy",
+            "kind": "objects",
+            "category": "wall",
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/objects/original/Stone_Wall_Pole.png",
+                "transformed": null
+            },
+            "tags": [
+                "stone_wall"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-08-14",
+            "wallFamily": "stone_wall",
+            "wallAlign": "pole"
+        },
+        {
+            "id": "stone_wall_south_end",
+            "technical": "Stone Wall South End",
+            "alias": "Stone Wall South End",
+            "genre": "rpg_fantasy",
+            "kind": "objects",
+            "category": "wall",
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/objects/original/Stone_Wall_South_End.png",
+                "transformed": null
+            },
+            "tags": [
+                "stone_wall"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-08-14",
+            "wallFamily": "stone_wall",
+            "wallAlign": "south_end"
+        },
+        {
+            "id": "stone_wall_south_t",
+            "technical": "Stone Wall South T",
+            "alias": "Stone Wall South T",
+            "genre": "rpg_fantasy",
+            "kind": "objects",
+            "category": "wall",
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/objects/original/Stone_Wall_South_T.png",
+                "transformed": null
+            },
+            "tags": [
+                "stone_wall"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-08-14",
+            "wallFamily": "stone_wall",
+            "wallAlign": "south_t"
+        },
+        {
+            "id": "stone_wall_southeast_diagonal",
+            "technical": "Stone Wall Southeast Diagonal",
+            "alias": "Stone Wall Southeast Diagonal",
+            "genre": "rpg_fantasy",
+            "kind": "objects",
+            "category": "wall",
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/objects/original/Stone_Wall_Southeast_Diagonal.png",
+                "transformed": null
+            },
+            "tags": [
+                "stone_wall"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-08-14",
+            "wallFamily": "stone_wall",
+            "wallAlign": "southeast_diagonal"
+        },
+        {
+            "id": "stone_wall_southwest_diagonal",
+            "technical": "Stone Wall Southwest Diagonal",
+            "alias": "Stone Wall Southwest Diagonal",
+            "genre": "rpg_fantasy",
+            "kind": "objects",
+            "category": "wall",
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/objects/original/Stone_Wall_Southwest_Diagonal.png",
+                "transformed": null
+            },
+            "tags": [
+                "stone_wall"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-08-14",
+            "wallFamily": "stone_wall",
+            "wallAlign": "southwest_diagonal"
+        },
+        {
+            "id": "stone_wall_vertical",
+            "technical": "Stone Wall Vertical",
+            "alias": "Stone Wall Vertical",
+            "genre": "rpg_fantasy",
+            "kind": "objects",
+            "category": "wall",
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/objects/original/Stone_Wall_Vertical.png",
+                "transformed": null
+            },
+            "tags": [
+                "stone_wall"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-08-14",
+            "wallFamily": "stone_wall",
+            "wallAlign": "vertical"
+        },
+        {
+            "id": "stone_wall_west_end",
+            "technical": "Stone Wall West End",
+            "alias": "Stone Wall West End",
+            "genre": "rpg_fantasy",
+            "kind": "objects",
+            "category": "wall",
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/objects/original/Stone_Wall_West_End.png",
+                "transformed": null
+            },
+            "tags": [
+                "stone_wall"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-08-14",
+            "wallFamily": "stone_wall",
+            "wallAlign": "west_end"
+        },
+        {
+            "id": "stone_wall_west_t",
+            "technical": "Stone Wall West T",
+            "alias": "Stone Wall West T",
+            "genre": "rpg_fantasy",
+            "kind": "objects",
+            "category": "wall",
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/objects/original/Stone_Wall_West_T.png",
+                "transformed": null
+            },
+            "tags": [
+                "stone_wall"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-08-14",
+            "wallFamily": "stone_wall",
+            "wallAlign": "west_t"
         },
         {
             "id": "sturdy_archway",

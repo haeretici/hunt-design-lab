@@ -71,21 +71,25 @@
     },
     "loot": [
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 59000,
             "maxCount": 30
         },
         {
-            "name": "battle hammer",
+            "name": "Battle Hammer",
+            "id": "battle_hammer",
             "chance": 730
         },
         {
-            "name": "plate shield",
+            "name": "Plate Shield",
+            "id": "plate_shield",
             "chance": 2850
         },
         {
             "chance": 4600,
-            "name": "fish"
+            "name": "Fish",
+            "id": "fish"
         },
         {
             "name": "tortoise egg",
@@ -97,7 +101,8 @@
             "name": "turtle shell"
         },
         {
-            "name": "tortoise shield",
+            "name": "Tortoise Shield",
+            "id": "tortoise_shield",
             "chance": 200
         }
     ],

@@ -54,9 +54,83 @@
       "type": "object",
       "additionalProperties": { "$ref": "#/definitions/group" }
     },
+    "band": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Threat-band metadata for generated populations (docs/24). selected* ranges are derived cache from the last band build.",
+      "properties": {
+        "levelMin": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Inclusive threat-rank floor used to pick templates. 0 / omitted = unset (do not invent 1 on Save)."
+        },
+        "levelMax": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Inclusive threat-rank ceiling used to pick templates. 0 / omitted = unset."
+        },
+        "threatMin": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Inclusive threatDps floor."
+        },
+        "threatMax": {
+          "type": ["number", "null"],
+          "minimum": 0,
+          "description": "Inclusive threatDps ceiling. null = no ceiling."
+        },
+        "count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "How many templates the band picker selected. 0 / omitted = unset."
+        },
+        "seed": {
+          "type": "integer",
+          "description": "Seed used for even-spread template pick."
+        },
+        "selectedLevelRange": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": { "type": "number" },
+          "description": "Derived [min, max] threat rank of the selected templates."
+        },
+        "selectedThreatRange": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": { "type": "number" },
+          "description": "Derived [min, max] threatDps of the selected templates."
+        }
+      }
+    },
     "limits": {
       "type": "object",
-      "additionalProperties": true
+      "additionalProperties": true,
+      "description": "Pack-count caps for resolvePopulation. Each value is [min, max].",
+      "properties": {
+        "totalPacks": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": { "type": "integer", "minimum": 0 },
+          "description": "Total packs spawned [min, max]."
+        },
+        "championPacks": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": { "type": "integer", "minimum": 0 },
+          "description": "Champion-group packs [min, max]."
+        },
+        "elitePacks": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": { "type": "integer", "minimum": 0 },
+          "description": "Elite-group packs [min, max]."
+        }
+      }
     }
   }
 }

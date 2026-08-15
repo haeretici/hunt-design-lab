@@ -773,20 +773,32 @@ function testProfileSlotAliases() {
     };
     const member = memberFromPlayerProfile(profile, {
         name: 'Guardian Tank',
-        isLeader: true
+        isLeader: true,
+        autoChase: true
     });
     assert.strictEqual(member.classId, 'guardian');
     assert.strictEqual(member.equipment.helmet, 'steel_casque');
     assert.strictEqual(member.equipment.rightHand, 'jagged_sword');
     assert.strictEqual(member.equipment.leftHand, 'plate_shield');
     assert.strictEqual(member.isLeader, true);
+    assert.strictEqual(member.autoChase, true, 'profile expand keeps Auto Chase');
 
     const expanded = expandPartyMember(
-        { profileId: 'guardian_starter', name: 'Tank', isLeader: true },
+        {
+            profileId: 'guardian_starter',
+            name: 'Tank',
+            isLeader: true,
+            autoChase: true
+        },
         { loadPlayerProfile: () => profile }
     );
     assert.strictEqual(expanded.equipment.helmet, 'steel_casque');
     assert.strictEqual(expanded.classId, 'guardian');
+    assert.strictEqual(
+        expanded.autoChase,
+        true,
+        'expandPartyMember keeps Auto Chase through profileId'
+    );
 
     // Profile customSprite expands; wins over vocation baseSprite
     const profileWithArt = Object.assign({}, profile, {
@@ -1463,6 +1475,378 @@ function testWeaponAutoFormulasAndDistanceAmmo() {
     assert.strictEqual(miss, trials, 'hitChance 97 misses when rng=0.99');
 
     log('weapon auto + distance ammo ok', { distAuto, hitChance: distStats.hitChance });
+}
+
+/**
+ * Dual-element weapons split the auto roll; ammo maxHitChance + bow hitChance add.
+ */
+function testWeaponExtraElementAndHitChance() {
+    const items = [
+        {
+            id: 'fire_sword',
+            slot: 'rightHand',
+            category: 'sword',
+            weaponType: 'melee',
+            atk: 24,
+            extraAtk: 11,
+            extraAtkElement: 'fire'
+        },
+        {
+            id: 'amber_bow',
+            slot: 'rightHand',
+            category: 'bow',
+            weaponType: 'distance',
+            atk: 7,
+            hitChance: 6
+        },
+        {
+            id: 'arrow',
+            slot: 'leftHand',
+            category: 'ammo',
+            ammoType: 'arrow',
+            atk: 25,
+            maxHitChance: 92
+        }
+    ];
+
+    const swordGear = rollupEquipment({ rightHand: 'fire_sword' }, items);
+    assert.strictEqual(swordGear.atk, 24);
+    assert.strictEqual(swordGear.extraAtk, 11);
+    assert.strictEqual(swordGear.elementalAtk, 11);
+    assert.strictEqual(swordGear.extraAtkElement, 'fire');
+
+    const guardian = {
+        id: 'guardian',
+        skills: { melee: 80, distance: 10, shielding: 50, magic: 10, fist: 10 },
+        skillKey: 'melee',
+        weaponType: 'melee'
+    };
+    const swordStats = buildEffectiveStats(guardian, swordGear, { level: 100 });
+    assert.strictEqual(swordStats.atk, 35, '24 physical + 11 extra combined');
+    assert.strictEqual(swordStats.extraAtk, 11);
+    assert.strictEqual(swordStats.extraAtkElement, 'fire');
+
+    const spells = indexSpells(presets.loadSpells().spells);
+    const attacker = {
+        level: 100,
+        combatStats: swordStats,
+        hp: { current: 500, max: 500 },
+        mp: { current: 100, max: 100 }
+    };
+    const immune = {
+        hp: { current: 1000, max: 1000 },
+        combatStats: {
+            armor: 0,
+            mitigation: 0,
+            resists: { fire: 100 },
+            maxBlock: 0
+        }
+    };
+    const rImmune = resolveAttack({
+        attacker,
+        defender: immune,
+        spell: 'melee_auto',
+        spellBook: spells,
+        apply: false,
+        skipCooldown: true,
+        rng: () => 0
+    });
+    assert.ok(rImmune.hit);
+    assert.ok(rImmune.breakdown && rImmune.breakdown.secondary);
+    assert.strictEqual(rImmune.breakdown.extraAtkElement, 'fire');
+    assert.strictEqual(
+        rImmune.breakdown.secondary.final,
+        0,
+        'fire immune absorbs extraAtk share'
+    );
+    assert.ok(rImmune.final > 0, 'physical share still hits');
+    assert.strictEqual(rImmune.final, rImmune.breakdown.primary.final);
+
+    const naked = {
+        hp: { current: 1000, max: 1000 },
+        combatStats: {
+            armor: 0,
+            mitigation: 0,
+            resists: {},
+            maxBlock: 0
+        }
+    };
+    const rNaked = resolveAttack({
+        attacker,
+        defender: naked,
+        spell: 'melee_auto',
+        spellBook: spells,
+        apply: false,
+        skipCooldown: true,
+        rng: () => 0
+    });
+    assert.ok(rNaked.breakdown.secondary.final > 0, 'fire share hits when not immune');
+    assert.strictEqual(
+        rNaked.final,
+        rNaked.breakdown.primary.final + rNaked.breakdown.secondary.final
+    );
+    assert.ok(
+        rNaked.final > rImmune.final,
+        'same roll deals more when fire is not immune'
+    );
+
+    const bowGear = rollupEquipment(
+        { rightHand: 'amber_bow', leftHand: 'arrow' },
+        items
+    );
+    assert.strictEqual(bowGear.ammoHitChance, 92);
+    assert.strictEqual(bowGear.weaponHitChanceMod, 6);
+    const scout = {
+        id: 'scout',
+        skills: { melee: 10, distance: 80, shielding: 20, magic: 10, fist: 10 },
+        skillKey: 'distance',
+        weaponType: 'distance'
+    };
+    const distStats = buildEffectiveStats(scout, bowGear, { level: 100 });
+    assert.strictEqual(distStats.hitChance, 98, 'ammo 92 + bow hitChance 6');
+
+    const live = presets.loadEquipment().items;
+    const liveBow = live.find((it) => it.id === 'amber_bow');
+    assert.ok(liveBow, 'amber_bow in standard equipment');
+    assert.strictEqual(liveBow.hitChance, 6);
+    const liveArrow = live.find((it) => it.id === 'arrow');
+    assert.ok(liveArrow && liveArrow.maxHitChance > 0, 'arrow has maxHitChance');
+    const liveSplit = live.find(
+        (it) => it.id === 'ember_cleaver' || (it.extraAtk > 0 && it.extraAtkElement)
+    );
+    assert.ok(liveSplit && liveSplit.extraAtkElement, 'dual-element weapon on disk');
+
+    log('weapon extraAtkElement + maxHitChance ok', {
+        combinedAtk: swordStats.atk,
+        fireImmuneFinal: rImmune.final,
+        hitChance: distStats.hitChance
+    });
+}
+
+/**
+ * Equipment crit / leech add to class/profile percent.
+ * Catalog pipeline: 1000 critChance = +10%; leech chance is already 0–100.
+ */
+function testEquipmentCritAndLeech() {
+    const {
+        rollLeechAmount,
+        applyAttackLeech
+    } = require('../kernel/core/lib/combat/resolve.js');
+    const { pipelineToPercent } = require('../kernel/core/lib/character/stats.js');
+
+    assert.strictEqual(pipelineToPercent(1000), 10);
+    assert.strictEqual(pipelineToPercent(1800), 18);
+    assert.strictEqual(rollLeechAmount(100, 18, 100, () => 0), 18);
+    assert.strictEqual(rollLeechAmount(0, 18, 100, () => 0), 0);
+    assert.strictEqual(rollLeechAmount(50, 18, 100, () => 0.6), 0);
+    assert.strictEqual(rollLeechAmount(50, 18, 100, () => 0), 18);
+
+    const items = [
+        {
+            id: 'crit_wand',
+            slot: 'rightHand',
+            category: 'wand',
+            weaponType: 'magic',
+            atk: 10,
+            critChance: 1000,
+            critExtraDamage: 3500
+        },
+        {
+            id: 'leech_blade',
+            slot: 'rightHand',
+            category: 'sword',
+            weaponType: 'melee',
+            atk: 20,
+            lifeLeechChance: 100,
+            lifeLeechAmount: 1800,
+            manaLeechChance: 100,
+            manaLeechAmount: 300
+        },
+        {
+            id: 'leech_ring',
+            slot: 'ring',
+            category: 'ring',
+            lifeLeechChance: 100,
+            lifeLeechAmount: 200,
+            manaLeechChance: 100,
+            manaLeechAmount: 100
+        }
+    ];
+
+    const adept = {
+        id: 'adept',
+        skills: { melee: 10, distance: 10, shielding: 10, magic: 50, fist: 10 },
+        skillKey: 'magic',
+        weaponType: 'magic',
+        critChance: 0,
+        critDamage: 0
+    };
+    const wandGear = rollupEquipment({ rightHand: 'crit_wand' }, items);
+    assert.strictEqual(wandGear.critChance, 1000);
+    assert.strictEqual(wandGear.critExtraDamage, 3500);
+    const wandBare = buildEffectiveStats(adept, wandGear, { level: 50 });
+    assert.strictEqual(wandBare.critChance, 10, 'pipeline 1000 = +10%');
+    assert.strictEqual(wandBare.critDamage, 35, 'pipeline 3500 = +35%');
+    const wandPlusProfile = buildEffectiveStats(adept, wandGear, {
+        level: 50,
+        critChance: 5,
+        critDamage: 10
+    });
+    assert.strictEqual(wandPlusProfile.critChance, 15, 'profile 5 + gear 10');
+    assert.strictEqual(wandPlusProfile.critDamage, 45, 'profile 10 + gear 35');
+
+    const guardian = {
+        id: 'guardian',
+        skills: { melee: 80, distance: 10, shielding: 50, magic: 10, fist: 10 },
+        skillKey: 'melee',
+        weaponType: 'melee'
+    };
+    const stacked = rollupEquipment(
+        { rightHand: 'leech_blade', ring: 'leech_ring' },
+        items
+    );
+    assert.strictEqual(stacked.lifeLeechChance, 200);
+    assert.strictEqual(stacked.lifeLeechAmount, 2000);
+    assert.strictEqual(stacked.manaLeechChance, 200);
+    assert.strictEqual(stacked.manaLeechAmount, 400);
+    const leechStats = buildEffectiveStats(guardian, stacked, {
+        level: 50,
+        lifeLeech: 2
+    });
+    assert.strictEqual(leechStats.lifeLeechChance, 200);
+    assert.strictEqual(leechStats.lifeLeechAmount, 22, 'profile 2 + 18 + 2');
+    assert.strictEqual(leechStats.manaLeechAmount, 4, '3 + 1');
+
+    const spells = indexSpells(presets.loadSpells().spells);
+    const attacker = {
+        level: 50,
+        combatStats: leechStats,
+        hp: { current: 200, max: 1000 },
+        mp: { current: 10, max: 200 }
+    };
+    const defender = {
+        hp: { current: 500, max: 500 },
+        combatStats: {
+            armor: 0,
+            mitigation: 0,
+            resists: {},
+            maxBlock: 0
+        }
+    };
+    const r = resolveAttack({
+        attacker,
+        defender,
+        spell: 'melee_auto',
+        spellBook: spells,
+        skipCooldown: true,
+        rng: () => 0
+    });
+    assert.ok(r.hit);
+    assert.ok(r.final > 0);
+    assert.ok(r.hpDelta < 0);
+    const expectedLife = Math.round((-r.hpDelta) * 0.22);
+    const expectedMana = Math.round((-r.hpDelta) * 0.04);
+    assert.strictEqual(r.lifeLeech, expectedLife, 'life leech 22% of real HP lost');
+    assert.strictEqual(r.manaLeech, expectedMana, 'mana leech 4% of real HP lost');
+    assert.strictEqual(attacker.hp.current, 200 + expectedLife);
+    assert.strictEqual(attacker.mp.current, 10 + expectedMana);
+
+    const healer = {
+        level: 50,
+        combatStats: Object.assign({}, leechStats, {
+            critChance: 100,
+            critDamage: 50,
+            lifeLeechChance: 100,
+            lifeLeechAmount: 50
+        }),
+        hp: { current: 100, max: 1000 },
+        mp: { current: 200, max: 200 }
+    };
+    const healTarget = {
+        hp: { current: 100, max: 1000 },
+        combatStats: { armor: 0, mitigation: 0, resists: {}, maxBlock: 0 }
+    };
+    const healSpell = {
+        id: 'test_heal',
+        kind: 'heal',
+        element: 'healing',
+        min: 40,
+        max: 40,
+        mana: 0,
+        cooldowns: {}
+    };
+    const rHeal = resolveAttack({
+        attacker: healer,
+        defender: healTarget,
+        spell: healSpell,
+        skipCooldown: true,
+        rng: () => 0
+    });
+    assert.ok(rHeal.hit);
+    assert.strictEqual(rHeal.critical, false, 'healing does not crit');
+    assert.strictEqual(rHeal.final, 40);
+    assert.strictEqual(rHeal.lifeLeech, 0, 'healing does not leech');
+    assert.strictEqual(healer.hp.current, 100);
+
+    const misser = {
+        combatStats: Object.assign({}, leechStats, { hitChance: 0 }),
+        hp: { current: 200, max: 1000 },
+        mp: { current: 10, max: 200 }
+    };
+    const rMiss = resolveAttack({
+        attacker: misser,
+        defender,
+        spell: {
+            id: 'distance_auto',
+            kind: 'auto',
+            element: 'physical',
+            min: 50,
+            max: 50,
+            mana: 0,
+            cooldowns: {}
+        },
+        skipCooldown: true,
+        rng: () => 0.99
+    });
+    assert.strictEqual(rMiss.hit, false);
+    assert.strictEqual(rMiss.lifeLeech, 0);
+    assert.strictEqual(misser.hp.current, 200);
+
+    const live = presets.loadEquipment().items;
+    const liveCrit = live.find((it) => it.id === 'asp_wand');
+    assert.ok(liveCrit, 'asp_wand in standard equipment');
+    assert.strictEqual(liveCrit.critChance, 1000);
+    assert.strictEqual(liveCrit.critExtraDamage, 3500);
+    const liveLeech = live.find((it) => it.id === 'grand_crimson_blade');
+    assert.ok(liveLeech, 'grand_crimson_blade in standard equipment');
+    assert.strictEqual(liveLeech.lifeLeechChance, 100);
+    assert.strictEqual(liveLeech.lifeLeechAmount, 600);
+    assert.strictEqual(liveLeech.manaLeechChance, 100);
+    assert.strictEqual(liveLeech.manaLeechAmount, 300);
+
+    const direct = applyAttackLeech(
+        {
+            hp: { current: 50, max: 200 },
+            mp: { current: 0, max: 100 },
+            combatStats: {
+                lifeLeechChance: 100,
+                lifeLeechAmount: 18,
+                manaLeechChance: 100,
+                manaLeechAmount: 3
+            }
+        },
+        100,
+        () => 0
+    );
+    assert.strictEqual(direct.life, 18);
+    assert.strictEqual(direct.mana, 3);
+
+    log('equipment crit + leech ok', {
+        crit: wandPlusProfile.critChance,
+        critDamage: wandPlusProfile.critDamage,
+        lifeLeech: r.lifeLeech,
+        manaLeech: r.manaLeech
+    });
 }
 
 function makeGuardianKnight() {
@@ -5338,6 +5722,591 @@ function testWikiParityLightningGrenadeExecutioner() {
     });
 }
 
+/**
+ * Phase 1 mana shield: pooled condition + gear flag absorb in applyHpDelta.
+ * Catalog spells / potion land in later phases.
+ */
+function testManaShieldKernel() {
+    const {
+        applyCondition,
+        hasCondition,
+        tickConditions,
+        conditionDefFromSpell,
+        computeManaShieldPool,
+        getManaShieldState,
+        resolveManaShieldBar,
+        absorbWithManaShield
+    } = require('../kernel/core/lib/combat/conditions.js');
+    const { applyHpDelta } = require('../kernel/core/lib/combat/resolve.js');
+
+    assert.strictEqual(computeManaShieldPool(14, 0, 425), 406);
+    assert.strictEqual(computeManaShieldPool(14, 0, 100), 100, 'low maxMana clamps');
+    assert.strictEqual(
+        computeManaShieldPool(14, 0, 425),
+        406,
+        'Wheel 1.25× must not apply'
+    );
+
+    function makeShielded(opts) {
+        const o = opts || {};
+        return {
+            alive: true,
+            level: o.level != null ? o.level : 14,
+            magic: o.magic != null ? o.magic : 0,
+            hp: {
+                current: o.hp != null ? o.hp : 500,
+                max: o.hpMax != null ? o.hpMax : 500
+            },
+            mp: {
+                current: o.mana != null ? o.mana : 200,
+                max: o.manaMax != null ? o.manaMax : 425
+            },
+            combatStats: { flags: o.flags ? Object.assign({}, o.flags) : {} },
+            conditions: []
+        };
+    }
+
+    function applyPool(entity, pool, durationSec) {
+        return applyCondition(entity, {
+            type: 'mana_shield',
+            durationSec: durationSec != null ? durationSec : 180,
+            poolRemaining: pool,
+            poolMax: pool
+        });
+    }
+
+    // Incoming 100, pool 250, mana 200 → mana 100, pool 150, HP 0
+    const a = makeShielded({ mana: 200 });
+    applyPool(a, 250);
+    const rA = absorbWithManaShield(a, 100);
+    assert.strictEqual(rA.absorbed, 100);
+    assert.strictEqual(rA.leftoverHp, 0);
+    assert.strictEqual(rA.cleared, false);
+    assert.strictEqual(a.mp.current, 100);
+    assert.strictEqual(getManaShieldState(a).poolRemaining, 150);
+    assert.strictEqual(a.hp.current, 500);
+
+    // Same via applyHpDelta
+    const a2 = makeShielded({ mana: 200, hp: 500 });
+    applyPool(a2, 250);
+    const dA = applyHpDelta(a2, 100, 'physical');
+    assert.strictEqual(dA, 0, 'fully absorbed hit is 0 HP delta');
+    assert.strictEqual(a2.mp.current, 100);
+    assert.strictEqual(a2.hp.current, 500);
+    assert.strictEqual(getManaShieldState(a2).poolRemaining, 150);
+
+    // Incoming 100, pool 40, mana 200 → mana 160, pool gone, HP 60
+    const b = makeShielded({ mana: 200, hp: 500 });
+    applyPool(b, 40);
+    const dB = applyHpDelta(b, 100, 'fire');
+    assert.strictEqual(dB, -60);
+    assert.strictEqual(b.mp.current, 160);
+    assert.strictEqual(b.hp.current, 440);
+    assert.strictEqual(hasCondition(b, 'mana_shield'), false);
+    assert.strictEqual(hasCondition(b, 'CONDITION_MANASHIELD'), false);
+
+    // Incoming 100, pool 250, mana 30 → mana 0, pooled condition cleared, HP 70
+    const c = makeShielded({ mana: 30, hp: 500 });
+    applyPool(c, 250);
+    const dC = applyHpDelta(c, 100, 'earth');
+    assert.strictEqual(dC, -70);
+    assert.strictEqual(c.mp.current, 0);
+    assert.strictEqual(c.hp.current, 430);
+    assert.strictEqual(hasCondition(c, 'mana_shield'), false);
+
+    // Gear unpooled: incoming 100, mana 200 → mana 100, HP 0, flag stays
+    const g = makeShielded({ mana: 200, hp: 500, flags: { manaShield: true } });
+    const dG = applyHpDelta(g, 100, 'physical');
+    assert.strictEqual(dG, 0);
+    assert.strictEqual(g.mp.current, 100);
+    assert.strictEqual(g.hp.current, 500);
+    assert.strictEqual(g.combatStats.flags.manaShield, true);
+    assert.strictEqual(hasCondition(g, 'mana_shield'), false);
+
+    // Gear, mana 0 → HP 100, flag stays
+    const g0 = makeShielded({ mana: 0, hp: 500, flags: { manaShield: true } });
+    const dG0 = applyHpDelta(g0, 100, 'physical');
+    assert.strictEqual(dG0, -100);
+    assert.strictEqual(g0.mp.current, 0);
+    assert.strictEqual(g0.hp.current, 400);
+    assert.strictEqual(g0.combatStats.flags.manaShield, true);
+
+    // Healing never touches mana / pool
+    const h = makeShielded({ mana: 200, hp: 400 });
+    applyPool(h, 250);
+    const dH = applyHpDelta(h, 50, 'healing');
+    assert.strictEqual(dH, 50);
+    assert.strictEqual(h.hp.current, 450);
+    assert.strictEqual(h.mp.current, 200);
+    assert.strictEqual(getManaShieldState(h).poolRemaining, 250);
+
+    // Recast overwrites remaining + duration (weaker or stronger)
+    const rec = makeShielded({ mana: 200 });
+    applyPool(rec, 250, 30);
+    rec.conditions[0].poolRemaining = 10;
+    const recInst = applyPool(rec, 80, 180);
+    assert.strictEqual(rec.conditions.length, 1);
+    assert.strictEqual(recInst.poolRemaining, 80);
+    assert.strictEqual(recInst.poolMax, 80);
+    assert.strictEqual(recInst.durationSec, 180);
+
+    // Duration expiry clears; leftover incoming then hits HP
+    const exp = makeShielded({ mana: 200, hp: 500 });
+    applyPool(exp, 250, 2);
+    const ticked = tickConditions(exp, 2.1);
+    assert.ok(ticked.expired.indexOf('mana_shield') >= 0);
+    assert.strictEqual(hasCondition(exp, 'mana_shield'), false);
+    const dExp = applyHpDelta(exp, 100, 'physical');
+    assert.strictEqual(dExp, -100);
+    assert.strictEqual(exp.mp.current, 200);
+    assert.strictEqual(exp.hp.current, 400);
+
+    // poolFormula resolved at apply time from the target
+    const form = makeShielded({ level: 14, magic: 0, manaMax: 425, mana: 425 });
+    const def = conditionDefFromSpell(
+        {
+            type: 'mana_shield',
+            durationSec: 180,
+            poolFormula: 'legacy_mana_shield'
+        },
+        form
+    );
+    assert.ok(def);
+    assert.strictEqual(def.type, 'mana_shield');
+    assert.strictEqual(def.poolRemaining, 406);
+    assert.strictEqual(def.poolMax, 406);
+    const formInst = applyCondition(form, {
+        type: 'CONDITION_MANASHIELD',
+        durationSec: 180,
+        poolFormula: 'legacy_mana_shield'
+    });
+    assert.ok(formInst);
+    assert.strictEqual(formInst.kind, 'mana_shield');
+    assert.strictEqual(formInst.poolRemaining, 406);
+
+    // undefined / manadrain skip absorb
+    const skip = makeShielded({ mana: 200, hp: 500 });
+    applyPool(skip, 250);
+    assert.strictEqual(applyHpDelta(skip, 40, 'undefined'), -40);
+    assert.strictEqual(skip.mp.current, 200);
+    assert.strictEqual(getManaShieldState(skip).poolRemaining, 250);
+    assert.strictEqual(applyHpDelta(skip, 20, 'manadrain'), -20);
+    assert.strictEqual(skip.mp.current, 200);
+
+    // Watch-UI bar helper: pooled remaining/max; gear uses current mana.
+    const barPool = resolveManaShieldBar(
+        makeShielded({ mana: 200, hp: 500 })
+    );
+    assert.strictEqual(barPool, null);
+    const pooledEnt = makeShielded({ mana: 200, hp: 500 });
+    applyPool(pooledEnt, 250);
+    const pooledBar = resolveManaShieldBar(pooledEnt);
+    assert.ok(pooledBar);
+    assert.strictEqual(pooledBar.mode, 'pooled');
+    assert.strictEqual(pooledBar.remaining, 250);
+    assert.strictEqual(pooledBar.max, 250);
+    assert.strictEqual(pooledBar.frac, 1);
+    pooledEnt.conditions[0].poolRemaining = 50;
+    const halfBar = resolveManaShieldBar(pooledEnt);
+    assert.strictEqual(halfBar.remaining, 50);
+    assert.strictEqual(halfBar.frac, 50 / 250);
+    const gearEnt = makeShielded({
+        mana: 80,
+        manaMax: 200,
+        hp: 500,
+        flags: { manaShield: true }
+    });
+    const gearBar = resolveManaShieldBar(gearEnt);
+    assert.ok(gearBar);
+    assert.strictEqual(gearBar.mode, 'gear');
+    assert.strictEqual(gearBar.remaining, 80);
+    assert.strictEqual(gearBar.max, 200);
+    assert.strictEqual(gearBar.frac, 80 / 200);
+
+    log('Phase 1 mana shield kernel ok', {
+        pool14: 406,
+        leftoverAfterDry: dC
+    });
+}
+
+/**
+ * Phase 2 mana shield: catalog spells, vocation books, cast / cancel / absorb.
+ */
+function testManaShieldCatalog() {
+    const {
+        hasCondition,
+        hasHaste,
+        isInvisible,
+        getManaShieldState,
+        computeManaShieldPool
+    } = require('../kernel/core/lib/combat/conditions.js');
+    const { applyHpDelta } = require('../kernel/core/lib/combat/resolve.js');
+
+    const spells = indexSpells(presets.loadSpells().spells);
+    const shield = spells.magic_shield;
+    const cancel = spells.cancel_magic_shield;
+    assert.ok(shield, 'magic_shield preset');
+    assert.ok(cancel, 'cancel_magic_shield preset');
+    assert.strictEqual(shield.kind, 'support');
+    assert.strictEqual(cancel.kind, 'support');
+    assert.strictEqual(shield.statusOnly, true);
+    assert.strictEqual(cancel.statusOnly, true);
+    assert.strictEqual(shield.requiresTarget, false);
+    assert.strictEqual(cancel.requiresTarget, false);
+    assert.strictEqual(shield.level, 14);
+    assert.strictEqual(cancel.level, 14);
+    assert.strictEqual(shield.mana, 50);
+    assert.strictEqual(cancel.mana, 50);
+    assert.strictEqual(shield.cooldowns.primary.support, 2);
+    assert.strictEqual(cancel.cooldowns.primary.support, 2);
+    assert.strictEqual(shield.cooldowns.spell.magic_shield, 14);
+    assert.strictEqual(cancel.cooldowns.spell.cancel_magic_shield, 2);
+    assert.deepStrictEqual(shield.vocations, ['adept', 'warden']);
+    assert.deepStrictEqual(cancel.vocations, ['adept', 'warden']);
+    assert.ok(shield.condition && shield.condition.type === 'mana_shield');
+    assert.strictEqual(shield.condition.durationSec, 180);
+    assert.strictEqual(shield.condition.poolFormula, 'legacy_mana_shield');
+    assert.deepStrictEqual(cancel.dispel, ['mana_shield']);
+
+    const classes = presets.loadClasses();
+    const list = (classes.classes || []).slice();
+    function classById(id) {
+        return list.find((c) => c && c.id === id);
+    }
+    const adept = classById('adept');
+    const warden = classById('warden');
+    const guardian = classById('guardian');
+    const scout = classById('scout');
+    const mystic = classById('mystic');
+    assert.ok(adept && adept.spells.indexOf('magic_shield') >= 0, 'adept book shield');
+    assert.ok(adept.spells.indexOf('cancel_magic_shield') >= 0, 'adept book cancel');
+    assert.ok(warden && warden.spells.indexOf('magic_shield') >= 0, 'warden book shield');
+    assert.ok(warden.spells.indexOf('cancel_magic_shield') >= 0, 'warden book cancel');
+    assert.ok(!guardian || guardian.spells.indexOf('magic_shield') < 0, 'guardian no shield');
+    assert.ok(!scout || scout.spells.indexOf('magic_shield') < 0, 'scout no shield');
+    assert.ok(!mystic || mystic.spells.indexOf('magic_shield') < 0, 'mystic no shield');
+
+    function vocBag(classId, known) {
+        return {
+            classId,
+            level: 50,
+            combatStats: known
+                ? { spells: known, magic: 0, level: 50 }
+                : { magic: 0, level: 50 },
+            mp: { current: 200, max: 200 },
+            cooldowns: {},
+            moveDelay: 0
+        };
+    }
+    assert.strictEqual(canUseSpell(vocBag('adept', adept.spells), shield), true);
+    assert.strictEqual(canUseSpell(vocBag('warden', warden.spells), shield), true);
+    assert.strictEqual(canUseSpell(vocBag('guardian', guardian.spells), shield), false);
+    assert.strictEqual(canUseSpell(vocBag('scout'), shield), false, 'scout vocations');
+    assert.strictEqual(canUseSpell(vocBag('mystic'), cancel), false, 'mystic vocations');
+    assert.strictEqual(meetsSpellLevel({ level: 13 }, shield), false);
+    assert.strictEqual(meetsSpellLevel({ level: 14 }, shield), true);
+
+    const player = new Player({
+        name: 'Test Adept',
+        id: 21,
+        classId: 'adept',
+        classDef: adept,
+        itemDb: presets.loadEquipment().items,
+        level: 50
+    });
+    player.tile = { x: 0, y: 0, z: 7 };
+    if (player.mp) player.mp.current = player.mp.max;
+    const expectedPool = computeManaShieldPool(
+        player.level,
+        (player.combatStats && player.combatStats.magic) || 0,
+        player.mp.max
+    );
+    assert.ok(expectedPool > 0, 'pool snapshot');
+
+    const mpBefore = player.mp.current;
+    const rCast = resolveAttack({
+        attacker: player,
+        defender: player,
+        spell: 'magic_shield',
+        spellBook: spells,
+        rng: () => 0
+    });
+    assert.strictEqual(rCast.ok, true, rCast.reason || 'magic_shield ok');
+    assert.ok(rCast.conditionApplied, 'mana_shield applied');
+    assert.strictEqual(rCast.conditionApplied.kind, 'mana_shield');
+    assert.strictEqual(rCast.conditionApplied.durationSec, 180);
+    assert.strictEqual(rCast.conditionApplied.poolRemaining, expectedPool);
+    assert.strictEqual(rCast.conditionApplied.poolMax, expectedPool);
+    assert.ok(hasCondition(player, 'mana_shield'));
+    assert.strictEqual(player.mp.current, mpBefore - shield.mana);
+    assert.ok(Cooldowns.getRemaining(player, 'primary', 'support') > 0);
+    assert.strictEqual(Cooldowns.getRemaining(player, 'spell', 'magic_shield'), 14);
+
+    // Subsequent hit absorbs per Phase 1
+    const manaAfterCast = player.mp.current;
+    const hpBefore = player.hp.current;
+    const dmg = applyHpDelta(player, 100, 'physical');
+    assert.strictEqual(dmg, 0, 'pooled hit fully absorbed');
+    assert.strictEqual(player.hp.current, hpBefore);
+    assert.strictEqual(player.mp.current, manaAfterCast - 100);
+    assert.strictEqual(getManaShieldState(player).poolRemaining, expectedPool - 100);
+
+    // Not exclusive with haste / invisible
+    const rHaste = resolveAttack({
+        attacker: player,
+        defender: player,
+        spell: 'haste',
+        spellBook: spells,
+        rng: () => 0,
+        skipCooldown: true,
+        skipMana: true
+    });
+    assert.strictEqual(rHaste.ok, true, rHaste.reason || 'haste with shield');
+    const rInv = resolveAttack({
+        attacker: player,
+        defender: player,
+        spell: 'invisible',
+        spellBook: spells,
+        rng: () => 0,
+        skipCooldown: true,
+        skipMana: true
+    });
+    assert.strictEqual(rInv.ok, true, rInv.reason || 'invis with shield');
+    assert.ok(hasCondition(player, 'mana_shield'));
+    assert.ok(hasHaste(player));
+    assert.ok(isInvisible(player));
+
+    Cooldowns.tick(player, 14);
+    const rCancel = resolveAttack({
+        attacker: player,
+        defender: player,
+        spell: 'cancel_magic_shield',
+        spellBook: spells,
+        rng: () => 0
+    });
+    assert.strictEqual(rCancel.ok, true, rCancel.reason || 'cancel ok');
+    assert.ok(rCancel.conditionsRemoved >= 1);
+    assert.strictEqual(hasCondition(player, 'mana_shield'), false);
+    assert.ok(hasHaste(player), 'cancel does not strip haste');
+    assert.ok(isInvisible(player), 'cancel does not strip invis');
+    assert.strictEqual(Cooldowns.getRemaining(player, 'spell', 'cancel_magic_shield'), 2);
+
+    // After cancel, leftover hit goes to HP
+    const hp2 = player.hp.current;
+    const mana2 = player.mp.current;
+    assert.strictEqual(applyHpDelta(player, 40, 'fire'), -40);
+    assert.strictEqual(player.hp.current, hp2 - 40);
+    assert.strictEqual(player.mp.current, mana2);
+
+    log('Phase 2 mana shield catalog ok', {
+        pool: expectedPool,
+        manaAfterCast
+    });
+}
+
+/**
+ * Phase 3 mana shield: voltaic_ring unpooled absorb + potion 60s +
+ * cancel does not strip the gear flag.
+ */
+function testManaShieldGearAndPotion() {
+    const {
+        applyCondition,
+        hasCondition,
+        getManaShieldState,
+        computeManaShieldPool
+    } = require('../kernel/core/lib/combat/conditions.js');
+    const { applyHpDelta } = require('../kernel/core/lib/combat/resolve.js');
+    const {
+        resolveUseForItemId,
+        applyItemUseEffect
+    } = require('../kernel/core/lib/character/item_use.js');
+    const { unequipItem } = require('../kernel/core/lib/character/inventory.js');
+    const { findItem } = require('../kernel/core/lib/character/stats.js');
+
+    const items = presets.loadEquipment().items;
+    const ring = items.find((i) => i && i.id === 'voltaic_ring');
+    assert.ok(ring, 'voltaic_ring catalog');
+    assert.ok(ring.flags && ring.flags.manaShield, 'voltaic_ring flags.manaShield');
+    assert.strictEqual(ring.durationSec, 600);
+    assert.ok(Array.isArray(ring.vocation) && ring.vocation.indexOf('guardian') >= 0);
+    assert.ok(ring.vocation.indexOf('scout') >= 0);
+    assert.ok(ring.vocation.indexOf('mystic') < 0, 'ring is knight/paladin only');
+    assert.strictEqual(findItem(items, 'mana_ring'), ring, 'mana_ring aliases voltaic_ring');
+
+    const potEffect = resolveUseForItemId('magic_shield_potion', items);
+    assert.ok(potEffect.item, 'magic_shield_potion catalog');
+    assert.ok(potEffect.condition);
+    assert.strictEqual(potEffect.condition.type, 'mana_shield');
+    assert.strictEqual(potEffect.condition.durationSec, 60);
+    assert.strictEqual(potEffect.condition.poolFormula, 'legacy_mana_shield');
+
+    const guardian = presets.getClass('guardian');
+    const adept = presets.getClass('adept');
+    const spells = indexSpells(presets.loadSpells().spells);
+
+    const wearer = new Player({
+        name: 'Ring Tank',
+        id: 31,
+        classId: 'guardian',
+        classDef: guardian,
+        itemDb: items,
+        equipment: { ring: 'voltaic_ring' },
+        level: 50
+    });
+    assert.ok(wearer.combatStats.flags.manaShield, 'equipped ring sets flag');
+    const aliasWearer = new Player({
+        name: 'Alias Ring',
+        id: 36,
+        classId: 'guardian',
+        classDef: guardian,
+        itemDb: items,
+        equipment: { ring: 'mana_ring' },
+        level: 50
+    });
+    assert.ok(
+        aliasWearer.combatStats.flags.manaShield,
+        'mana_ring alias equips on guardian'
+    );
+    wearer.mp.max = Math.max(wearer.mp.max || 0, 400);
+    wearer.mp.current = 200;
+    wearer.hp.current = 500;
+    wearer.hp.max = Math.max(wearer.hp.max || 0, 500);
+    const dRing = applyHpDelta(wearer, 100, 'physical');
+    assert.strictEqual(dRing, 0, 'voltaic_ring absorbs while mana > 0');
+    assert.strictEqual(wearer.mp.current, 100);
+    assert.strictEqual(wearer.hp.current, 500);
+    assert.strictEqual(wearer.combatStats.flags.manaShield, true);
+    assert.strictEqual(hasCondition(wearer, 'mana_shield'), false);
+
+    wearer.tickEquipmentRuntime(600);
+    assert.strictEqual(wearer.equipment.ring, undefined, 'duration-0 ring destroyed');
+    assert.ok(!wearer.combatStats.flags.manaShield, 'flag clears when ring expires');
+    const hpAfterExpire = wearer.hp.current;
+    const mpAfterExpire = wearer.mp.current;
+    assert.strictEqual(applyHpDelta(wearer, 40, 'fire'), -40);
+    assert.strictEqual(wearer.hp.current, hpAfterExpire - 40);
+    assert.strictEqual(wearer.mp.current, mpAfterExpire);
+
+    const uqPlayer = new Player({
+        name: 'Unequip Tank',
+        id: 32,
+        classId: 'guardian',
+        classDef: guardian,
+        itemDb: items,
+        equipment: { ring: 'voltaic_ring', backpack: 'backpack' },
+        level: 50
+    });
+    uqPlayer.initInventory({ equipment: uqPlayer.equipment }, items);
+    assert.ok(uqPlayer.combatStats.flags.manaShield, 'flag before unequip');
+    uqPlayer.mp.max = Math.max(uqPlayer.mp.max || 0, 400);
+    uqPlayer.mp.current = 200;
+    uqPlayer.hp.current = 500;
+    uqPlayer.hp.max = Math.max(uqPlayer.hp.max || 0, 500);
+    const uq = unequipItem(uqPlayer.inventory, 'ring', items);
+    assert.strictEqual(uq.ok, true, uq.error || 'unequip ok');
+    uqPlayer.applyInventoryMutation();
+    assert.strictEqual(uqPlayer.equipment.ring, undefined);
+    assert.ok(!uqPlayer.combatStats.flags.manaShield, 'flag clears on unequip');
+    const hpUq = uqPlayer.hp.current;
+    const mpUq = uqPlayer.mp.current;
+    assert.strictEqual(applyHpDelta(uqPlayer, 40, 'physical'), -40);
+    assert.strictEqual(uqPlayer.hp.current, hpUq - 40);
+    assert.strictEqual(uqPlayer.mp.current, mpUq);
+
+    const drinker = new Player({
+        name: 'Potion Adept',
+        id: 33,
+        classId: 'adept',
+        classDef: adept,
+        itemDb: items,
+        level: 50
+    });
+    if (drinker.mp) drinker.mp.current = drinker.mp.max;
+    const expectedPool = computeManaShieldPool(
+        drinker.level,
+        (drinker.combatStats && drinker.combatStats.magic) || 0,
+        drinker.mp.max
+    );
+    assert.ok(expectedPool > 0, 'potion pool snapshot');
+    const drank = applyItemUseEffect(drinker, potEffect, { rng: () => 0 });
+    assert.ok(drank.conditionApplied, 'potion applied mana_shield');
+    assert.strictEqual(drank.conditionApplied.kind, 'mana_shield');
+    assert.strictEqual(drank.conditionApplied.durationSec, 60);
+    assert.strictEqual(drank.conditionApplied.poolRemaining, expectedPool);
+    assert.strictEqual(drank.conditionApplied.poolMax, expectedPool);
+    assert.ok(hasCondition(drinker, 'mana_shield'));
+    const manaAfterDrink = drinker.mp.current;
+    const hpAfterDrink = drinker.hp.current;
+    assert.strictEqual(applyHpDelta(drinker, 80, 'energy'), 0);
+    assert.strictEqual(drinker.hp.current, hpAfterDrink);
+    assert.strictEqual(drinker.mp.current, manaAfterDrink - 80);
+    assert.strictEqual(getManaShieldState(drinker).poolRemaining, expectedPool - 80);
+
+    const hybrid = new Player({
+        name: 'Hybrid Tank',
+        id: 34,
+        classId: 'guardian',
+        classDef: guardian,
+        itemDb: items,
+        equipment: { ring: 'voltaic_ring' },
+        level: 50
+    });
+    hybrid.mp.max = Math.max(hybrid.mp.max || 0, 400);
+    hybrid.mp.current = 300;
+    hybrid.hp.current = 500;
+    hybrid.hp.max = Math.max(hybrid.hp.max || 0, 500);
+    applyItemUseEffect(hybrid, potEffect, { rng: () => 0 });
+    assert.ok(hasCondition(hybrid, 'mana_shield'));
+    assert.ok(hybrid.combatStats.flags.manaShield);
+    const rCancel = resolveAttack({
+        attacker: hybrid,
+        defender: hybrid,
+        spell: 'cancel_magic_shield',
+        spellBook: spells,
+        rng: () => 0,
+        skipCooldown: true,
+        skipMana: true
+    });
+    assert.strictEqual(rCancel.ok, true, rCancel.reason || 'cancel ok');
+    assert.strictEqual(hasCondition(hybrid, 'mana_shield'), false);
+    assert.ok(hybrid.combatStats.flags.manaShield, 'cancel leaves gear flag');
+    const hpHybrid = hybrid.hp.current;
+    const mpHybrid = hybrid.mp.current;
+    assert.strictEqual(applyHpDelta(hybrid, 50, 'physical'), 0);
+    assert.strictEqual(hybrid.hp.current, hpHybrid);
+    assert.strictEqual(hybrid.mp.current, mpHybrid - 50);
+
+    const leftover = new Player({
+        name: 'Pool Then Gear',
+        id: 35,
+        classId: 'guardian',
+        classDef: guardian,
+        itemDb: items,
+        equipment: { ring: 'voltaic_ring' },
+        level: 50
+    });
+    leftover.mp.max = Math.max(leftover.mp.max || 0, 400);
+    leftover.mp.current = 300;
+    leftover.hp.current = 500;
+    leftover.hp.max = Math.max(leftover.hp.max || 0, 500);
+    applyCondition(leftover, {
+        type: 'mana_shield',
+        durationSec: 60,
+        poolRemaining: 30,
+        poolMax: 30
+    });
+    assert.strictEqual(applyHpDelta(leftover, 100, 'physical'), -70);
+    assert.strictEqual(leftover.mp.current, 270);
+    assert.strictEqual(leftover.hp.current, 430);
+    assert.strictEqual(hasCondition(leftover, 'mana_shield'), false);
+    assert.ok(leftover.combatStats.flags.manaShield, 'gear remains after pool gone');
+    assert.strictEqual(applyHpDelta(leftover, 40, 'fire'), 0);
+    assert.strictEqual(leftover.mp.current, 230);
+    assert.strictEqual(leftover.hp.current, 430);
+
+    log('Phase 3 mana shield gear + potion ok', { expectedPool });
+}
+
 function main() {
     testRollHitAndCrit();
     testRollRawAndArmor();
@@ -5354,6 +6323,8 @@ function main() {
     testEquipmentDurationAndCharges();
     testBuildGuardianStats();
     testWeaponAutoFormulasAndDistanceAmmo();
+    testWeaponExtraElementAndHitChance();
+    testEquipmentCritAndLeech();
     testStrikeMeanAmplitude();
     testGuardianAutoVsDummy();
     testAutoAndFrontSweepIndependent();
@@ -5362,6 +6333,9 @@ function main() {
     testSeedStableDamage();
     testHealLightSelfRestore();
     testHotRecoverySpells();
+    testManaShieldKernel();
+    testManaShieldCatalog();
+    testManaShieldGearAndPotion();
     testPhaseMStances();
     testMmaMonkHeals();
     testMmbBalancedBrawl();

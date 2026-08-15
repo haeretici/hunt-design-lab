@@ -126,7 +126,8 @@
     },
     "loot": [
         {
-            "name": "crystal coin",
+            "name": "Crystal Coin",
+            "id": "crystal_coin",
             "chance": 12516,
             "maxCount": 2
         },
@@ -141,7 +142,8 @@
             "maxCount": 1
         },
         {
-            "name": "zaoan armor",
+            "name": "Warlord Armor",
+            "id": "warlord_armor",
             "chance": 8574,
             "maxCount": 1
         },
@@ -151,19 +153,22 @@
             "maxCount": 1
         },
         {
-            "name": "small topaz",
+            "name": "Small Topaz",
+            "id": "small_topaz",
             "chance": 5784,
             "maxCount": 3
         },
         {
-            "name": "amber staff",
+            "name": "Amber Staff",
+            "id": "amber_staff",
             "chance": 6240,
             "maxCount": 1
         },
         {
             "chance": 8459,
             "maxCount": 1,
-            "name": "red gem"
+            "name": "Red Gem",
+            "id": "red_gem"
         }
     ],
     "changeTarget": {

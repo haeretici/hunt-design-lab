@@ -125,18 +125,21 @@
     },
     "loot": [
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 100000,
             "maxCount": 100
         },
         {
-            "name": "platinum coin",
+            "name": "Platinum Coin",
+            "id": "platinum_coin",
             "chance": 75000,
             "maxCount": 6
         },
         {
             "chance": 6000,
-            "name": "yellow gem"
+            "name": "Yellow Gem",
+            "id": "yellow_gem"
         },
         {
             "chance": 1090,
@@ -162,7 +165,8 @@
             "name": "raspberry"
         },
         {
-            "name": "assassin dagger",
+            "name": "Assassin Dagger",
+            "id": "assassin_dagger",
             "chance": 400
         },
         {

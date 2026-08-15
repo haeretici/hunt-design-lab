@@ -81,7 +81,8 @@
     },
     "loot": [
         {
-            "name": "platinum coin",
+            "name": "Platinum Coin",
+            "id": "platinum_coin",
             "chance": 80000,
             "maxCount": 5
         },
@@ -91,22 +92,26 @@
             "maxCount": 1
         },
         {
-            "name": "great mana potion",
+            "name": "Great Mana Potion",
+            "id": "great_mana_potion",
             "chance": 9720,
             "maxCount": 2
         },
         {
-            "name": "great health potion",
+            "name": "Great Health Potion",
+            "id": "great_health_potion",
             "chance": 9010,
             "maxCount": 2
         },
         {
-            "name": "small ruby",
+            "name": "Small Ruby",
+            "id": "small_ruby",
             "chance": 9010,
             "maxCount": 2
         },
         {
-            "name": "small diamond",
+            "name": "Small Diamond",
+            "id": "small_diamond",
             "chance": 7060,
             "maxCount": 2
         },
@@ -116,24 +121,29 @@
         },
         {
             "chance": 5120,
-            "name": "red gem"
+            "name": "Red Gem",
+            "id": "red_gem"
         },
         {
-            "name": "shrimp",
+            "name": "Shrimp",
+            "id": "shrimp",
             "chance": 4810,
             "maxCount": 5
         },
         {
-            "name": "vortex bolt",
+            "name": "Vortex Bolt",
+            "id": "vortex_bolt",
             "chance": 3790,
             "maxCount": 5
         },
         {
-            "id": 281,
-            "chance": 1430
+            "chance": 1430,
+            "name": "Giant Shimmering Pearl",
+            "id": "giant_shimmering_pearl"
         },
         {
-            "name": "warrior helmet",
+            "name": "Warrior Helmet",
+            "id": "warrior_helmet",
             "chance": 1430
         },
         {
@@ -142,11 +152,13 @@
         },
         {
             "name": "Regal Crown Armor",
+            "id": "regal_crown_armor",
             "chance": 611
         },
         {
             "chance": 410,
-            "name": "time ring"
+            "name": "Time Ring",
+            "id": "time_ring"
         },
         {
             "name": "talon",
@@ -154,6 +166,7 @@
         },
         {
             "name": "Frostbound Robe",
+            "id": "frostbound_robe",
             "chance": 200
         },
         {
@@ -161,7 +174,8 @@
             "chance": 100
         },
         {
-            "name": "twiceslicer",
+            "name": "Twiceslicer",
+            "id": "twiceslicer",
             "chance": 100
         }
     ],

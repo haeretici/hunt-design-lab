@@ -110,12 +110,14 @@
     },
     "loot": [
         {
-            "name": "platinum coin",
+            "name": "Platinum Coin",
+            "id": "platinum_coin",
             "chance": 77111,
             "maxCount": 4
         },
         {
-            "name": "gold ingot",
+            "name": "Gold Ingot",
+            "id": "gold_ingot",
             "chance": 11778
         },
         {
@@ -127,51 +129,63 @@
             "chance": 8222
         },
         {
-            "name": "black pearl",
+            "name": "Black Pearl",
+            "id": "black_pearl",
             "chance": 5778
         },
         {
-            "id": 281,
-            "chance": 5556
+            "chance": 5556,
+            "name": "Giant Shimmering Pearl",
+            "id": "giant_shimmering_pearl"
         },
         {
             "name": "Earthbound Hood",
+            "id": "earthbound_hood",
             "chance": 4667
         },
         {
             "name": "Stormbound Headband",
+            "id": "stormbound_headband",
             "chance": 3778
         },
         {
-            "name": "green gem",
+            "name": "Green Gem",
+            "id": "green_gem",
             "chance": 3556
         },
         {
             "name": "Bloomshoot Rod",
+            "id": "bloomshoot_rod",
             "chance": 2667
         },
         {
-            "name": "ham",
+            "name": "Ham",
+            "id": "ham",
             "chance": 2444
         },
         {
             "name": "Emberbound Monocle",
+            "id": "emberbound_monocle",
             "chance": 1778
         },
         {
-            "name": "wand of cosmic energy",
+            "name": "Wand of Cosmic Energy",
+            "id": "wand_of_cosmic_energy",
             "chance": 1778
         },
         {
             "name": "Nether Rod",
+            "id": "nether_rod",
             "chance": 1333
         },
         {
-            "name": "knight legs",
+            "name": "Guardian Legs",
+            "id": "guardian_legs",
             "chance": 1111
         },
         {
-            "name": "wand of starstorm",
+            "name": "Wand of Starstorm",
+            "id": "wand_of_starstorm",
             "chance": 667
         }
     ],

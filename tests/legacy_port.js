@@ -7,6 +7,7 @@
 const assert = require('assert');
 const fs = require('fs');
 const path = require('path');
+const os = require('os');
 
 const { ROOT, PATHS, mapPathPng } = require('../kernel/settings.js');
 const {
@@ -31,22 +32,8 @@ const {
     parseSpeedBonus,
     parseDurationSec,
     parseSkillBonuses,
-    parseResists,
-    parseEquipmentMapCsv,
-    formatEquipmentMapCsv,
-    mapLegacyEquipmentToStandard,
-    ensureEntityId
+    parseResists
 } = require('../kernel/core/lib/content/legacy_monster_port.js');
-const {
-    parseVocationMapCsv,
-    formatVocationMapCsv,
-    parseSpellMapCsv,
-    formatSpellMapCsv,
-    mapLegacyClassesToStandard,
-    mapLegacySpellsToStandard,
-    buildSpellIdMap,
-    buildVocationIdMap
-} = require('../kernel/core/lib/content/standard_catalog_map.js');
 const {
     applyCondition,
     tickConditions,
@@ -71,7 +58,15 @@ const {
     loadLegacyMonsterManifest,
     loadSpawnIndex,
     loadNavmeshAnalysis,
-    legacyPath
+    legacyPath,
+    parseSpawnRows,
+    loadFloorSpawnsFromDocs,
+    resolveCreatureSpawnId,
+    makeEditorSpawnPin,
+    DEFAULT_EDITOR_SPAWN_RESPAWN,
+    parseSpawnFloorZ,
+    planSpawnFloorMove,
+    applySpawnFloorMove
 } = require('../kernel/core/lib/content/legacy_assets.js');
 const presets = require('../kernel/core/lib/presets.js');
 const { setActiveMode } = require('../kernel/core/lib/modes.js');
@@ -1077,6 +1072,26 @@ function testOnDisk() {
     assert.ok(idx && idx.total > 0, 'spawn index');
     const f7 = loadFloorSpawns(7);
     assert.ok(f7.length > 0, 'floor 07 spawns');
+    const hybrid07 = JSON.parse(
+        fs.readFileSync(
+            legacyPath('map', 'hybrid', 'floor-07', 'map.json'),
+            'utf8'
+        )
+    );
+    assert.ok(Array.isArray(hybrid07.spawns) && hybrid07.spawns.length > 0);
+    assert.strictEqual(
+        f7.length,
+        hybrid07.spawns.length,
+        'floor 07 load uses hybrid map.json pins'
+    );
+    assert.deepStrictEqual(f7[0], hybrid07.spawns[0]);
+
+    const f0 = loadFloorSpawns(0);
+    assert.ok(f0.length > 0, 'floor 00 falls back to by_floor');
+    assert.ok(
+        !fs.existsSync(legacyPath('map', 'hybrid', 'floor-00', 'map.json')),
+        'floor 00 has no hybrid pack'
+    );
     const rats = filterFloorSpawns(7, { creatureId: 'cave_rat', limit: 5 });
     assert.ok(rats.length >= 1, 'cave_rat spawns on floor 07');
     const huntRows = toHuntSpawns(rats, { respawn: 0 });
@@ -1295,6 +1310,121 @@ function testDragonLordEquivalency() {
     });
 }
 
+function testSpawnPinHelpers() {
+    const presets = {
+        frost_imp: { id: 'frost_imp', label: 'Frost Imp' },
+        town_guide: { id: 'town_guide', label: 'Guide' }
+    };
+    assert.strictEqual(resolveCreatureSpawnId('frost_imp', presets), 'frost_imp');
+    assert.strictEqual(resolveCreatureSpawnId('frost imp', presets), 'frost_imp');
+    assert.strictEqual(resolveCreatureSpawnId('Frost Imp', presets), 'frost_imp');
+    assert.strictEqual(resolveCreatureSpawnId('Guide', presets), 'town_guide');
+    assert.strictEqual(resolveCreatureSpawnId('cave rat', {}), 'cave_rat');
+
+    const pin = makeEditorSpawnPin(
+        { creatureId: 'frost imp', x: 10.4, y: 20.6 },
+        presets,
+        { z: 7 }
+    );
+    assert.deepStrictEqual(pin, {
+        creatureId: 'frost_imp',
+        x: 10,
+        y: 21,
+        z: 7,
+        respawn: DEFAULT_EDITOR_SPAWN_RESPAWN
+    });
+    const oneShot = makeEditorSpawnPin(
+        { creatureId: 'cave_rat', x: 1, y: 2, z: 7, respawn: 0 },
+        presets
+    );
+    assert.strictEqual(oneShot.respawn, 0);
+    assert.strictEqual(makeEditorSpawnPin({ creatureId: 'x' }, presets), null);
+
+    const hybridWins = loadFloorSpawnsFromDocs(
+        { spawns: [{ creatureId: 'from_hybrid', x: 1, y: 1, z: 7, respawn: 60 }] },
+        { spawns: [{ creatureId: 'from_by_floor', x: 2, y: 2, z: 7, respawn: 60 }] }
+    );
+    assert.strictEqual(hybridWins[0].creatureId, 'from_hybrid');
+    const emptyHybrid = loadFloorSpawnsFromDocs({ version: 2, spawns: [] }, {
+        spawns: [{ creatureId: 'ignored', x: 0, y: 0, z: 0, respawn: 0 }]
+    });
+    assert.strictEqual(emptyHybrid.length, 0);
+    const fallback = loadFloorSpawnsFromDocs(null, {
+        floor: 0,
+        count: 1,
+        spawns: [{ creatureId: 'by_floor', x: 3, y: 4, z: 0, respawn: 90 }]
+    });
+    assert.strictEqual(fallback[0].creatureId, 'by_floor');
+    assert.deepStrictEqual(parseSpawnRows({ spawns: fallback }), fallback);
+
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'spawn-hybrid-first-'));
+    try {
+        const hybridDir = path.join(tmp, 'map', 'hybrid', 'floor-03');
+        const byDir = path.join(tmp, 'spawns', 'by_floor');
+        fs.mkdirSync(hybridDir, { recursive: true });
+        fs.mkdirSync(byDir, { recursive: true });
+        fs.writeFileSync(
+            path.join(hybridDir, 'map.json'),
+            JSON.stringify({
+                version: 2,
+                id: 'floor_03',
+                floors: [],
+                spawns: [
+                    { creatureId: 'hybrid_pin', x: 8, y: 9, z: 3, respawn: 60 }
+                ]
+            })
+        );
+        fs.writeFileSync(
+            path.join(byDir, '03.json'),
+            JSON.stringify({
+                floor: 3,
+                count: 1,
+                spawns: [
+                    { creatureId: 'stale_by_floor', x: 1, y: 1, z: 3, respawn: 1 }
+                ]
+            })
+        );
+        fs.writeFileSync(
+            path.join(byDir, '04.json'),
+            JSON.stringify({
+                floor: 4,
+                count: 1,
+                spawns: [
+                    { creatureId: 'only_by_floor', x: 5, y: 6, z: 4, respawn: 30 }
+                ]
+            })
+        );
+        const fromHybrid = loadFloorSpawns(3, { legacyRoot: tmp });
+        assert.strictEqual(fromHybrid.length, 1);
+        assert.strictEqual(fromHybrid[0].creatureId, 'hybrid_pin');
+        const fromBy = loadFloorSpawns(4, { legacyRoot: tmp });
+        assert.strictEqual(fromBy[0].creatureId, 'only_by_floor');
+    } finally {
+        fs.rmSync(tmp, { recursive: true, force: true });
+    }
+
+    assert.strictEqual(parseSpawnFloorZ('07'), 7);
+    assert.strictEqual(parseSpawnFloorZ(16), null);
+    assert.strictEqual(planSpawnFloorMove(7, 7).reason, 'same');
+    assert.strictEqual(planSpawnFloorMove(7, 99).reason, 'invalid');
+    const movePlan = planSpawnFloorMove('07', 6);
+    assert.strictEqual(movePlan.ok, true);
+    assert.strictEqual(movePlan.fromZ, 7);
+    assert.strictEqual(movePlan.toZ, 6);
+    const pinA = { creatureId: 'frost_imp', x: 10, y: 20, z: 7, respawn: 60 };
+    const pinB = { creatureId: 'rat', x: 1, y: 2, z: 7, respawn: 30 };
+    const dest = [{ creatureId: 'bat', x: 3, y: 4, z: 6, respawn: 60 }];
+    const moved = applySpawnFloorMove([pinA, pinB], dest, pinA, 6);
+    assert.strictEqual(moved.fromList.length, 1);
+    assert.strictEqual(moved.fromList[0], pinB);
+    assert.strictEqual(moved.destList.length, 2);
+    assert.strictEqual(moved.moved.z, 6);
+    assert.strictEqual(moved.moved.creatureId, 'frost_imp');
+    assert.strictEqual(dest.length, 1, 'applySpawnFloorMove must not mutate dest');
+    assert.strictEqual(applySpawnFloorMove([pinB], dest, pinA, 6), null);
+    log('spawn pin helpers + hybrid-first load');
+}
+
 function testLegacyEquipmentPreset() {
     if (!hasMode('legacy')) {
         log('skip legacy equipment preset (presets/legacy not installed)');
@@ -1329,286 +1459,13 @@ function testLegacyEquipmentPreset() {
     });
 }
 
-/**
- * Phase 3: map legacy equipment → standard via equipment_map.csv.
- */
-function testStandardEquipmentMap() {
-    assert.strictEqual(ensureEntityId('25_years_backpack'), 'item_25_years_backpack');
-    assert.strictEqual(ensureEntityId('time_ring'), 'time_ring');
-
-    const csvText =
-        'legacy_id,legacy_label,standard_id,standard_label\n' +
-        'boots_of_haste,Boots of Haste,boots_of_swiftness,Boots of Swiftness\n' +
-        '25_years_backpack,25 Years Backpack,25_years_backpack,25 Years Backpack\n';
-    const rows = parseEquipmentMapCsv(csvText);
-    assert.strictEqual(rows.length, 2);
-    assert.strictEqual(rows[0].standard_id, 'boots_of_swiftness');
-
-    const legacyMini = [
-        {
-            id: 'boots_of_haste',
-            label: 'Boots of Haste',
-            category: 'boots',
-            slot: 'boots',
-            speed: 20,
-            weight: 750
-        },
-        {
-            id: 'item_25_years_backpack',
-            label: '25 Years Backpack',
-            category: 'container',
-            slot: 'backpack',
-            weight: 1700,
-            volume: 25
-        },
-        {
-            id: 'time_ring',
-            label: 'Time Ring',
-            category: 'ring',
-            slot: 'ring',
-            speed: 30,
-            durationSec: 600,
-            weight: 90
-        }
-    ];
-    const mapped = mapLegacyEquipmentToStandard(legacyMini, rows);
-    assert.strictEqual(mapped.stats.total, 3);
-    assert.strictEqual(mapped.stats.fromMap, 2, 'boots + remapped backpack');
-    assert.strictEqual(mapped.stats.generated, 1, 'time_ring generated without csv row');
-    assert.strictEqual(mapped.stats.remappedLegacyIds, 1);
-
-    const byId = Object.create(null);
-    for (const it of mapped.items) byId[it.id] = it;
-    assert.ok(byId.boots_of_swiftness);
-    assert.strictEqual(byId.boots_of_swiftness.speed, 20);
-    assert.strictEqual(byId.boots_of_swiftness.label, 'Boots of Swiftness');
-    assert.ok(byId.item_25_years_backpack);
-    assert.strictEqual(byId.item_25_years_backpack.volume, 25);
-    assert.ok(byId.time_ring);
-    assert.strictEqual(byId.time_ring.speed, 30);
-    assert.ok(!byId.boots_of_haste, 'legacy id not kept when mapped');
-
-    const roundTrip = parseEquipmentMapCsv(formatEquipmentMapCsv(mapped.mapRows));
-    assert.strictEqual(roundTrip.length, 3);
-    assert.strictEqual(roundTrip[0].standard_id, 'boots_of_swiftness');
-
-    // On-disk standard preset after map:standard-equipment
-    const stdPath = path.join(ROOT, 'presets', 'standard', 'equipment.json');
-    const csvCandidates = [
-        path.join(ROOT, 'other', 'content_maps', 'equipment_map.csv'),
-        path.join(ROOT, 'other', 'equipment_map.csv'),
-        path.join(ROOT, 'equipment_map.csv')
-    ];
-    const csvPath = csvCandidates.find((p) => fs.existsSync(p));
-    if (fs.existsSync(stdPath) && csvPath) {
-        const stdDoc = JSON.parse(fs.readFileSync(stdPath, 'utf8'));
-        const stdItems = stdDoc.items || [];
-        assert.ok(stdItems.length >= 1500, 'standard catalog size');
-        const stdById = Object.create(null);
-        for (const it of stdItems) {
-            if (it && it.id) stdById[it.id] = it;
-        }
-        assert.ok(stdById.time_ring, 'standard time_ring');
-        assert.strictEqual(stdById.time_ring.speed, 30);
-        assert.strictEqual(stdById.time_ring.durationSec, 600);
-        assert.ok(stdById.boots_of_swiftness, 'boots_of_haste → boots_of_swiftness');
-        assert.strictEqual(stdById.boots_of_swiftness.speed, 20);
-        assert.ok(!stdById.boots_of_haste);
-        if (stdById.fiendish_helmet) {
-            assert.ok(stdById.fiendish_helmet.label.indexOf('Fiendish') >= 0);
-        }
-        // P0/P1 commercial-safe identity: id+label rewritten, legacy brands gone
-        assert.ok(stdById.raptorial_plate, 'falcon_plate → raptorial_plate');
-        assert.ok(!stdById.falcon_plate, 'legacy falcon_plate id not kept');
-        assert.ok(stdById.jubilee_backpack, '25 years → jubilee_backpack');
-        assert.ok(!stdById.item_25_years_backpack || stdById.jubilee_backpack);
-        assert.ok(
-            !stdItems.some((it) => /falcon|alicorn|eldritch|inferniarch/i.test(it.id || '')),
-            'no P0/P1 brand ids left on standard items'
-        );
-        assert.ok(
-            !stdItems.some((it) => it.legacyName || it.legacyId || it.originalName),
-            'no legacy name fingerprint keys on standard items'
-        );
-        assert.ok(!stdItems.some((it) => it.data), 'no raw data blobs in standard');
-        const withSpeed = stdItems.filter((i) => i.speed != null).length;
-        assert.ok(withSpeed >= 30, `standard speed items, got ${withSpeed}`);
-
-        const diskRows = parseEquipmentMapCsv(fs.readFileSync(csvPath, 'utf8'));
-        assert.ok(
-            diskRows.some((r) => r.legacy_id === 'item_25_years_backpack'),
-            'csv updated for item_25_years_backpack'
-        );
-        assert.ok(
-            diskRows.some(
-                (r) =>
-                    r.legacy_id === 'item_25_years_backpack' &&
-                    r.standard_id === 'jubilee_backpack'
-            ),
-            '25 years backpack maps to jubilee_backpack'
-        );
-
-        log('standard equipment map (on-disk)', {
-            items: stdItems.length,
-            version: stdDoc.version,
-            withSpeed,
-            csv: path.relative(ROOT, csvPath)
-        });
-    } else {
-        log('standard equipment map (fixtures only)');
-    }
-
-    log('standard equipment map');
-}
-
-/**
- * Standard vocations + spells maps (other/content_maps/vocation_map.csv, other/content_maps/spell_map.csv).
- */
-function testStandardCatalogMaps() {
-    const vocCsv =
-        'legacy_vocation,legacy_label,standard_id,standard_label\n' +
-        'knight,Knight,guardian,Guardian\n' +
-        'sorcerer,Sorcerer,adept,Adept\n';
-    const vocRows = parseVocationMapCsv(vocCsv);
-    assert.strictEqual(vocRows.length, 2);
-    assert.strictEqual(vocRows[0].standard_id, 'guardian');
-
-    const classDoc = {
-        version: 2,
-        vocationMap: { guardian: 'knight' },
-        classes: [
-            {
-                id: 'guardian',
-                label: 'Guardian',
-                legacyVocation: 'knight',
-                spells: ['front_sweep', 'melee_auto'],
-                autoAttack: 'melee_auto',
-                baseHp: 185
-            },
-            {
-                id: 'adept',
-                label: 'Adept',
-                legacyVocation: 'sorcerer',
-                spells: ['flame_strike'],
-                autoAttack: 'wand_auto',
-                baseHp: 185
-            }
-        ]
-    };
-    const spellIdMap = buildSpellIdMap([
-        { legacy_id: 'front_sweep', standard_id: 'front_sweep' },
-        { legacy_id: 'melee_auto', standard_id: 'melee_auto' },
-        { legacy_id: 'flame_strike', standard_id: 'ember_bolt_renamed' },
-        { legacy_id: 'wand_auto', standard_id: 'wand_auto' }
-    ]);
-    const mappedClasses = mapLegacyClassesToStandard(classDoc, vocRows, { spellIdMap });
-    assert.strictEqual(mappedClasses.stats.total, 2);
-    assert.strictEqual(mappedClasses.stats.fromMap, 2);
-    assert.ok(!mappedClasses.doc.vocationMap);
-    const g = mappedClasses.doc.classes.find((c) => c.id === 'guardian');
-    assert.ok(g);
-    assert.strictEqual(g.label, 'Guardian');
-    assert.ok(g.legacyVocation == null, 'no legacyVocation on standard class');
-    assert.deepStrictEqual(g.spells, ['front_sweep', 'melee_auto']);
-    const a = mappedClasses.doc.classes.find((c) => c.id === 'adept');
-    assert.deepStrictEqual(a.spells, ['ember_bolt_renamed']);
-
-    const roundVoc = parseVocationMapCsv(formatVocationMapCsv(mappedClasses.mapRows));
-    assert.strictEqual(roundVoc.length, 2);
-    assert.strictEqual(roundVoc[0].legacy_vocation, 'knight');
-
-    const spellCsv =
-        'legacy_id,legacy_label,standard_id,standard_label\n' +
-        "inferno_core,hell's core,inferno_core,Inferno Core\n" +
-        'flame_strike,flame strike,flame_strike,Flame Strike\n';
-    const spellRows = parseSpellMapCsv(spellCsv);
-    assert.strictEqual(spellRows[0].legacy_label, "hell's core");
-
-    const spellDoc = {
-        version: 2,
-        spells: [
-            {
-                id: 'inferno_core',
-                label: 'Inferno Core',
-                legacyName: "hell's core",
-                kind: 'spell',
-                mana: 100,
-                vocations: ['adept']
-            },
-            {
-                id: 'flame_strike',
-                label: 'Flame Strike',
-                legacyName: 'flame strike',
-                kind: 'spell',
-                mana: 20,
-                vocations: ['sorcerer']
-            }
-        ]
-    };
-    const vocationIdMap = buildVocationIdMap(vocRows);
-    const mappedSpells = mapLegacySpellsToStandard(spellDoc, spellRows, { vocationIdMap });
-    assert.strictEqual(mappedSpells.stats.total, 2);
-    const inf = mappedSpells.doc.spells.find((s) => s.id === 'inferno_core');
-    assert.ok(inf);
-    assert.strictEqual(inf.label, 'Inferno Core');
-    assert.ok(inf.legacyName == null, 'no legacyName on standard spell');
-    const fl = mappedSpells.doc.spells.find((s) => s.id === 'flame_strike');
-    assert.deepStrictEqual(fl.vocations, ['adept'], 'sorcerer → adept via vocation map');
-
-    const roundSpell = parseSpellMapCsv(formatSpellMapCsv(mappedSpells.mapRows));
-    assert.strictEqual(roundSpell[0].legacy_label, "hell's core");
-
-    // On-disk packs + CSVs
-    const vocPath = [
-        path.join(ROOT, 'other', 'content_maps', 'vocation_map.csv'),
-        path.join(ROOT, 'other', 'vocation_map.csv')
-    ].find((p) => fs.existsSync(p));
-    const spPath = [
-        path.join(ROOT, 'other', 'content_maps', 'spell_map.csv'),
-        path.join(ROOT, 'other', 'spell_map.csv')
-    ].find((p) => fs.existsSync(p));
-    const stdClassesPath = path.join(ROOT, 'presets', 'standard', 'classes.json');
-    const stdSpellsPath = path.join(ROOT, 'presets', 'standard', 'spells.json');
-    if (fs.existsSync(vocPath) && fs.existsSync(stdClassesPath)) {
-        const diskVoc = parseVocationMapCsv(fs.readFileSync(vocPath, 'utf8'));
-        assert.ok(diskVoc.length >= 6, 'vocation_map has six archetypes');
-        assert.ok(diskVoc.some((r) => r.legacy_vocation === 'knight' && r.standard_id === 'guardian'));
-        const stdClasses = JSON.parse(fs.readFileSync(stdClassesPath, 'utf8'));
-        assert.ok(!stdClasses.vocationMap, 'standard classes has no vocationMap');
-        assert.ok(
-            !(stdClasses.classes || []).some((c) => c && c.legacyVocation),
-            'no legacyVocation on standard classes'
-        );
-        assert.ok((stdClasses.classes || []).some((c) => c.id === 'guardian'));
-    }
-    if (fs.existsSync(spPath) && fs.existsSync(stdSpellsPath)) {
-        const diskSp = parseSpellMapCsv(fs.readFileSync(spPath, 'utf8'));
-        assert.ok(diskSp.length >= 70, 'spell_map size');
-        assert.ok(
-            diskSp.some(
-                (r) => r.legacy_id === 'inferno_core' && /hell/i.test(r.legacy_label || '')
-            ),
-            "inferno_core maps from hell's core"
-        );
-        const stdSpells = JSON.parse(fs.readFileSync(stdSpellsPath, 'utf8'));
-        assert.ok(
-            !(stdSpells.spells || []).some((s) => s && s.legacyName),
-            'no legacyName on standard spells'
-        );
-        assert.ok((stdSpells.spells || []).some((s) => s.id === 'inferno_core'));
-    }
-
-    log('standard vocation + spell maps');
-}
-
 function main() {
     console.log('tests/legacy_port.js');
     testConverters();
     testEquipmentConverters();
     testOnDisk();
+    testSpawnPinHelpers();
     testLegacyEquipmentPreset();
-    testStandardEquipmentMap();
-    testStandardCatalogMaps();
     testDragonLordEquivalency();
     console.log('All legacy_port tests passed.');
 }

@@ -72,21 +72,25 @@
     },
     "loot": [
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 96000,
             "maxCount": 100
         },
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 56000,
             "maxCount": 75
         },
         {
-            "name": "strong mana potion",
+            "name": "Strong Mana Potion",
+            "id": "strong_mana_potion",
             "chance": 8885
         },
         {
-            "name": "strong health potion",
+            "name": "Strong Health Potion",
+            "id": "strong_health_potion",
             "chance": 3880
         },
         {
@@ -96,10 +100,12 @@
         },
         {
             "chance": 3000,
-            "name": "ring of healing"
+            "name": "Ring of Mending",
+            "id": "ring_of_mending"
         },
         {
-            "name": "great mana potion",
+            "name": "Great Mana Potion",
+            "id": "great_mana_potion",
             "chance": 1220
         }
     ],

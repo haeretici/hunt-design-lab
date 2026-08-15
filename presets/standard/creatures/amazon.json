@@ -83,7 +83,8 @@
     },
     "loot": [
         {
-            "name": "dagger",
+            "name": "Dagger",
+            "id": "dagger",
             "chance": 80000
         },
         {
@@ -92,16 +93,19 @@
             "name": "skull"
         },
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 40000,
             "maxCount": 20
         },
         {
-            "name": "brown bread",
+            "name": "Brown Bread",
+            "id": "brown_bread",
             "chance": 30000
         },
         {
-            "name": "sabre",
+            "name": "Sabre",
+            "id": "sabre",
             "chance": 23000
         },
         {
@@ -114,14 +118,17 @@
         },
         {
             "chance": 1000,
-            "name": "torch"
+            "name": "Torch",
+            "id": "torch"
         },
         {
-            "name": "crystal necklace",
+            "name": "Crystal Necklace",
+            "id": "crystal_necklace",
             "chance": 260
         },
         {
-            "name": "small ruby",
+            "name": "Small Ruby",
+            "id": "small_ruby",
             "chance": 130
         }
     ],

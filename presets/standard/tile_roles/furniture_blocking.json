@@ -1,0 +1,20 @@
+{
+  "id": "furniture_blocking",
+  "label": "Furniture (blocking)",
+  "notes": "Chest, table, solid furniture — blocks walk and LoS.",
+  "kindHints": ["objects"],
+  "catalogCategories": ["furniture", "container"],
+  "render": {
+    "scale": 1.0,
+    "anchor": "bottom_center",
+    "variant": "retro"
+  },
+  "influence": {
+    "friction": 255,
+    "sight": 255,
+    "flags": 0,
+    "walkMode": "block",
+    "sightMode": "block"
+  },
+  "vertical": null
+}

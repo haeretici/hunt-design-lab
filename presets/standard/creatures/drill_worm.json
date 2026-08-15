@@ -123,12 +123,14 @@
     },
     "loot": [
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 50000,
             "maxCount": 100
         },
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 50000,
             "maxCount": 50
         },
@@ -146,11 +148,13 @@
             "chance": 1750
         },
         {
-            "name": "spiked squelcher",
+            "name": "Spiked Squelcher",
+            "id": "spiked_squelcher",
             "chance": 540
         },
         {
             "name": "Earthbound Amulet",
+            "id": "earthbound_amulet",
             "chance": 2360
         },
         {
@@ -186,7 +190,8 @@
             "chance": 7280
         },
         {
-            "name": "drill bolt",
+            "name": "Drill Bolt",
+            "id": "drill_bolt",
             "chance": 4870,
             "maxCount": 2
         }

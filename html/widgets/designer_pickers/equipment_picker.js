@@ -895,8 +895,12 @@
                     ${twoHanded ? `
                     <div class="eq-stat-row">
                         <div class="eq-stat-label"><i class="fa-solid fa-hands"></i> Hands</div>
-                        <div class="eq-stat-val">Two-handed</div>
-                    </div>` : ''}
+                        <div class="eq-stat-val">2-Handed (2h)</div>
+                    </div>` : (selected.category === 'weapon' || wt || selected.atk != null || selected.slot === 'weapon' ? `
+                    <div class="eq-stat-row">
+                        <div class="eq-stat-label"><i class="fa-solid fa-hand"></i> Hands</div>
+                        <div class="eq-stat-val">1-Handed (1h)</div>
+                    </div>` : '')}
                     ${lvl != null && !isNaN(lvl) ? `
                     <div class="eq-stat-row">
                         <div class="eq-stat-label"><i class="fa-solid fa-shield-cat text-warning"></i> Min Level</div>

@@ -109,6 +109,7 @@
     "loot": [
         {
             "name": "Crystal Coin",
+            "id": "crystal_coin",
             "chance": 25640,
             "minCount": 1,
             "maxCount": 2
@@ -119,6 +120,7 @@
         },
         {
             "name": "Ultimate Mana Potion",
+            "id": "ultimate_mana_potion",
             "chance": 9660,
             "minCount": 1,
             "maxCount": 3
@@ -145,14 +147,17 @@
         },
         {
             "chance": 1430,
-            "name": "crystal ring"
+            "name": "Crystal Ring",
+            "id": "crystal_ring"
         },
         {
             "name": "Gold Ring",
+            "id": "gold_ring",
             "chance": 1370
         },
         {
             "name": "Amulet of Safekeeping",
+            "id": "amulet_of_safekeeping",
             "chance": 170
         }
     ],

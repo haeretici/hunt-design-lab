@@ -109,17 +109,20 @@
     "race": "blood",
     "loot": [
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 100000,
             "maxCount": 99
         },
         {
-            "name": "meat",
+            "name": "Meat",
+            "id": "meat",
             "chance": 5000,
             "maxCount": 2
         },
         {
-            "name": "great dual potion",
+            "name": "Great Dual Potion",
+            "id": "great_dual_potion",
             "chance": 100000,
             "maxCount": 2
         },
@@ -128,7 +131,8 @@
             "chance": 1500
         },
         {
-            "name": "small diamond",
+            "name": "Small Diamond",
+            "id": "small_diamond",
             "chance": 1500,
             "maxCount": 2
         },

@@ -105,32 +105,38 @@
     },
     "loot": [
         {
-            "id": 2828,
-            "chance": 700
+            "chance": 700,
+            "name": "book"
         },
         {
-            "name": "small diamond",
+            "name": "Small Diamond",
+            "id": "small_diamond",
             "chance": 210
         },
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 43380,
             "maxCount": 40
         },
         {
-            "name": "wand of vortex",
+            "name": "Wand of Vortex",
+            "id": "wand_of_vortex",
             "chance": 450
         },
         {
-            "name": "garlic necklace",
+            "name": "Garlic Necklace",
+            "id": "garlic_necklace",
             "chance": 420
         },
         {
             "chance": 500,
-            "name": "dwarven ring"
+            "name": "Dwarven Ring",
+            "id": "dwarven_ring"
         },
         {
-            "name": "scarf",
+            "name": "Scarf",
+            "id": "scarf",
             "chance": 2900
         },
         {

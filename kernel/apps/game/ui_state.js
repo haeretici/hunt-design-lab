@@ -11,6 +11,9 @@ const { Settings } = require('../../settings.js');
 /** Browser localStorage key for mouse control prefs (shell-shared, not per-party). */
 const STORAGE_KEY_MOUSE_CONTROLS = 'hdl_mouse_controls';
 
+/** Browser localStorage key for Auto Chase (shell-shared, not per-party). */
+const STORAGE_KEY_AUTO_CHASE = 'hdl_auto_chase';
+
 /**
  * Product defaults (docs/29 Q0.1 / Stage 3–4).
  * Modes 0/1/2 all valid; default remains Classic (1).
@@ -43,7 +46,8 @@ const uiState = {
      */
     lootControlMode: DEFAULT_MOUSE_CONTROLS.lootControlMode,
     /**
-     * Regular mode: unshifted RMB on NPC talks when true (Stage 6). Stub field.
+     * Regular mode: unshifted RMB on NPC talks when true (Stage 6b).
+     * Default false — Regular RMB stays context menu. Setter persists.
      * @type {boolean}
      */
     talkOnRightClick: DEFAULT_MOUSE_CONTROLS.talkOnRightClick,
@@ -155,6 +159,43 @@ function loadMouseControls() {
 }
 
 /**
+ * Read persisted Auto Chase (shell pref). Missing / unreadable → false.
+ * @returns {boolean}
+ */
+function readPersistedAutoChase() {
+    try {
+        if (typeof localStorage !== 'undefined' && localStorage) {
+            return localStorage.getItem(STORAGE_KEY_AUTO_CHASE) === 'true';
+        }
+        if (typeof window !== 'undefined' && window.localStorage) {
+            return window.localStorage.getItem(STORAGE_KEY_AUTO_CHASE) === 'true';
+        }
+    } catch (_) {
+        /* ignore quota / private mode */
+    }
+    return false;
+}
+
+/**
+ * Persist Auto Chase for the next page load / Play spawn.
+ * @param {boolean} enabled
+ */
+function writePersistedAutoChase(enabled) {
+    const val = enabled ? 'true' : 'false';
+    try {
+        if (typeof localStorage !== 'undefined' && localStorage) {
+            localStorage.setItem(STORAGE_KEY_AUTO_CHASE, val);
+            return;
+        }
+        if (typeof window !== 'undefined' && window.localStorage) {
+            window.localStorage.setItem(STORAGE_KEY_AUTO_CHASE, val);
+        }
+    } catch (_) {
+        /* ignore quota / private mode */
+    }
+}
+
+/**
  * Enter target cursor mode for a multi-use item or spell (crosshair).
  * Prefer `enterActionCursor` from action_bars.js so `allowTileAim` is set from the spell book.
  * @param {{ type: string, sourceUid?: string, itemId?: string, spellId?: string, allowTileAim?: boolean }} cursor
@@ -262,6 +303,18 @@ function setLootControlMode(mode) {
     applyMouseControls({
         ...snapshotMouseControls(),
         lootControlMode: mode
+    });
+    saveMouseControls();
+}
+
+/**
+ * Set Regular-mode RMB talk preference (Stage 6b). Persists when available.
+ * @param {boolean} enabled
+ */
+function setTalkOnRightClick(enabled) {
+    applyMouseControls({
+        ...snapshotMouseControls(),
+        talkOnRightClick: !!enabled
     });
     saveMouseControls();
 }
@@ -648,17 +701,20 @@ function initManualKeyboardControls(opts = {}) {
 
             if (matchesKey(prevKeys, ev.key, ev.code, ev)) {
                 ev.preventDefault();
+                ev.stopPropagation();
                 if (typeof cycleTarget === 'function') cycleTarget(sim, player, -1);
                 return;
             }
             if (matchesKey(nextKeys, ev.key, ev.code, ev)) {
                 ev.preventDefault();
+                ev.stopPropagation();
                 if (typeof cycleTarget === 'function') cycleTarget(sim, player, 1);
                 return;
             }
             // "Stop Autowalk / Cancel Action": clear use-with crosshair and stop walk
             if (matchesKey(stopKeys, ev.key, ev.code, ev)) {
                 ev.preventDefault();
+                ev.stopPropagation();
                 cancelTargetCursorIfActive();
                 player.commandQueue.push({ type: 'STOP_AUTOWALK' });
                 return;
@@ -668,9 +724,7 @@ function initManualKeyboardControls(opts = {}) {
                 const currentChase = !player.autoChase;
                 player.autoChase = currentChase;
                 player.commandQueue.push({ type: 'SET_AUTO_CHASE', enabled: currentChase });
-                if (typeof window !== 'undefined' && window.localStorage) {
-                    window.localStorage.setItem('hdl_auto_chase', currentChase ? 'true' : 'false');
-                }
+                writePersistedAutoChase(currentChase);
                 if (typeof document !== 'undefined') {
                     const autoChaseEl = /** @type {HTMLInputElement|null} */ (document.getElementById('autoChaseToggle'));
                     if (autoChaseEl && autoChaseEl.checked !== undefined) autoChaseEl.checked = currentChase;
@@ -686,7 +740,7 @@ function initManualKeyboardControls(opts = {}) {
                 activeMoveKeys.set(keyId, delta);
                 feedManualMovementCommand(player);
             }
-        });
+        }, { capture: true });
 
         window.addEventListener('keyup', (ev) => {
             if (!ev.key && !ev.code) return;
@@ -705,7 +759,7 @@ function initManualKeyboardControls(opts = {}) {
             } else if (Number(player.moveDelay) > 0 && Array.isArray(player.commandQueue)) {
                 player.commandQueue = player.commandQueue.filter((cmd) => cmd && cmd.type !== 'MOVE_STEP');
             }
-        });
+        }, { capture: true });
 
         window.addEventListener('blur', () => {
             activeMoveKeys.clear();
@@ -742,7 +796,10 @@ function initManualKeyboardControls(opts = {}) {
 module.exports = {
     uiState,
     STORAGE_KEY_MOUSE_CONTROLS,
+    STORAGE_KEY_AUTO_CHASE,
     DEFAULT_MOUSE_CONTROLS,
+    readPersistedAutoChase,
+    writePersistedAutoChase,
     normalizeMouseControls,
     snapshotMouseControls,
     applyMouseControls,
@@ -750,6 +807,7 @@ module.exports = {
     saveMouseControls,
     setMouseControlMode,
     setLootControlMode,
+    setTalkOnRightClick,
     setMoveStack,
     isMouseButtonDown,
     getMouseButtonState,

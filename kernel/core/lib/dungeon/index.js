@@ -32,6 +32,9 @@ const macro = require('./layout/macro.js');
 const tester = require('./tester.js');
 const biome = require('./biome.js');
 const art = require('./art.js');
+const tileRoles = require('./tile_roles.js');
+const tilemapBake = require('./tilemap_bake.js');
+const tilemapEditor = require('./tilemap_editor.js');
 const navbake = require('./navbake.js');
 
 module.exports = {
@@ -144,12 +147,64 @@ module.exports = {
     evaluateArtSetVolume: art.evaluateArtSetVolume,
     MIN_ART_SET_VOLUME: art.MIN_ART_SET_VOLUME,
     TARGET_ART_SET_VOLUME: art.TARGET_ART_SET_VOLUME,
+    MAX_ART_SET_PER_ROLE: art.MAX_ART_SET_PER_ROLE,
+    bindArtFromRoles: art.bindArtFromRoles,
     bindArtToFriction: art.bindArtToFriction,
     bindHuntArt: art.bindHuntArt,
     resolveArtSetId: art.resolveArtSetId,
     tileIdAt: art.tileIdAt,
     tileIdAtXY: art.tileIdAtXY,
     artSeed: art.artSeed,
+
+    tileRoles,
+    normalizeTileRole: tileRoles.normalizeTileRole,
+    applyInfluence: tileRoles.applyInfluence,
+    applyRole: tileRoles.applyRole,
+    bakeCellChannels: tileRoles.bakeCellChannels,
+    finalizeBakeCell: tileRoles.finalizeBakeCell,
+    createBakeAccumulator: tileRoles.createBakeAccumulator,
+    indexTileRoles: tileRoles.indexTileRoles,
+    resolveTileRole: tileRoles.resolveTileRole,
+    hopDirOffset: tileRoles.hopDirOffset,
+    TILE_FLAG_PZ_PACKAGE: tileRoles.TILE_FLAG_PZ_PACKAGE,
+    TILE_FLAG_NO_CAST: tileRoles.TILE_FLAG_NO_CAST,
+    TILE_FLAG_NO_CREATURE: tileRoles.TILE_FLAG_NO_CREATURE,
+
+    tilemapBake,
+    SUB_LAYER_DEFS: tilemapBake.SUB_LAYER_DEFS,
+    OVERRIDE_FRICTION: tilemapBake.OVERRIDE_FRICTION,
+    OVERRIDE_SIGHT: tilemapBake.OVERRIDE_SIGHT,
+    OVERRIDE_FLAGS: tilemapBake.OVERRIDE_FLAGS,
+    bakeTileMapFloor: tilemapBake.bakeTileMapFloor,
+    bakeCellRect: tilemapBake.bakeCellRect,
+    bakeCellIndices: tilemapBake.bakeCellIndices,
+    diffOverrides: tilemapBake.diffOverrides,
+    applyBakeToTileMap: tilemapBake.applyBakeToTileMap,
+    createEmptyTileMapFloor: tilemapBake.createEmptyTileMapFloor,
+    normalizeTileMapFloor: tilemapBake.normalizeTileMapFloor,
+    normalizeHybridPack: tilemapBake.normalizeHybridPack,
+    writeHybridMapDir: tilemapBake.writeHybridMapDir,
+    readHybridMapDir: tilemapBake.readHybridMapDir,
+    isHybridMapDir: tilemapBake.isHybridMapDir,
+    bakeHybridPack: tilemapBake.bakeHybridPack,
+    loadHybridOntoTileMap: tilemapBake.loadHybridOntoTileMap,
+    resolveEditorStairLink: tilemapBake.resolveEditorStairLink,
+    collectHybridStairDestFloors: tilemapBake.collectHybridStairDestFloors,
+    bootstrapFloorFromPathPng: tilemapBake.bootstrapFloorFromPathPng,
+    resolveMapLoad: tilemapBake.resolveMapLoad,
+    padHybridFloorId: tilemapBake.padHybridFloorId,
+    hybridMapDirForFloor: tilemapBake.hybridMapDirForFloor,
+    tryResolveHybridMapPack: tilemapBake.tryResolveHybridMapPack,
+    deserializeHybridPack: tilemapBake.deserializeHybridPack,
+    exportChannelsToPngBuffer: tilemapBake.exportChannelsToPngBuffer,
+    exportChannelsToPngFile: tilemapBake.exportChannelsToPngFile,
+
+    tilemapEditor,
+    createEditorSession: tilemapEditor.createEditorSession,
+    buildStampsFromArtSet: tilemapEditor.buildStampsFromArtSet,
+    MAP_FIELD_DEFAULT_TTL_SEC: tilemapEditor.MAP_FIELD_DEFAULT_TTL_SEC,
+    UI_SUB_LAYER_ORDER: tilemapEditor.UI_SUB_LAYER_ORDER,
+    flagPaletteEntries: tilemapEditor.flagPaletteEntries,
 
     navbake,
     bakeFloorNavmesh: navbake.bakeFloorNavmesh,

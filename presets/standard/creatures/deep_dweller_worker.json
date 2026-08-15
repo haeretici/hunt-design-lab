@@ -75,21 +75,24 @@
     },
     "loot": [
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 75000,
             "maxCount": 25
         },
         {
             "chance": 12020,
             "maxCount": 3,
-            "name": "fish"
+            "name": "Fish",
+            "id": "fish"
         },
         {
             "name": "deepling scales",
             "chance": 6950
         },
         {
-            "name": "heavy trident",
+            "name": "Heavy Trident",
+            "id": "heavy_trident",
             "chance": 510
         },
         {
@@ -101,7 +104,8 @@
             "chance": 283
         },
         {
-            "name": "small emerald",
+            "name": "Small Emerald",
+            "id": "small_emerald",
             "chance": 110,
             "maxCount": 1
         }

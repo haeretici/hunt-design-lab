@@ -107,45 +107,55 @@
     "race": "venom",
     "loot": [
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 99990,
             "maxCount": 195
         },
         {
             "chance": 710,
-            "name": "time ring"
+            "name": "Time Ring",
+            "id": "time_ring"
         },
         {
-            "name": "platinum amulet",
+            "name": "Platinum Amulet",
+            "id": "platinum_amulet",
             "chance": 280
         },
         {
-            "name": "two handed sword",
+            "name": "Two Handed Sword",
+            "id": "two_handed_sword",
             "chance": 5100
         },
         {
-            "name": "steel helmet",
+            "name": "Steel Casque",
+            "id": "steel_casque",
             "chance": 4980
         },
         {
-            "name": "plate armor",
+            "name": "Plate Armor",
+            "id": "plate_armor",
             "chance": 9980
         },
         {
-            "name": "knight armor",
+            "name": "Guardian Armor",
+            "id": "guardian_armor",
             "chance": 500
         },
         {
-            "name": "knight legs",
+            "name": "Guardian Legs",
+            "id": "guardian_legs",
             "chance": 840
         },
         {
-            "name": "poison arrow",
+            "name": "Poison Arrow",
+            "id": "poison_arrow",
             "chance": 11950,
             "maxCount": 12
         },
         {
-            "name": "plate legs",
+            "name": "Plate Legs",
+            "id": "plate_legs",
             "chance": 8333
         },
         {
@@ -153,11 +163,13 @@
             "chance": 1990
         },
         {
-            "name": "strong health potion",
+            "name": "Strong Health Potion",
+            "id": "strong_health_potion",
             "chance": 3550
         },
         {
             "name": "Stormbound Headband",
+            "id": "stormbound_headband",
             "chance": 270
         }
     ],

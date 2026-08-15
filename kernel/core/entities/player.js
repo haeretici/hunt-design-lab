@@ -24,6 +24,7 @@ const {
 } = require('../lib/character/inventory.js');
 const { recomputeDerived } = require('../lib/combat/conditions.js');
 const { Settings } = require('../../settings.js');
+const { cloneStorageBag } = require('../lib/npc/storage.js');
 
 class Player extends Creature {
     /**
@@ -48,6 +49,10 @@ class Player extends Creature {
      * @param {object} [opts.skills] Character skills (profile / party member)
      * @param {number} [opts.critChance]
      * @param {number} [opts.critDamage]
+     * @param {number} [opts.lifeLeech]
+     * @param {number} [opts.manaLeech]
+     * @param {number} [opts.lifeLeechChance]
+     * @param {number} [opts.manaLeechChance]
      */
     constructor(opts = {}) {
         super(
@@ -137,6 +142,12 @@ class Player extends Creature {
                 : null;
         this.critChance = opts.critChance != null ? Number(opts.critChance) || 0 : null;
         this.critDamage = opts.critDamage != null ? Number(opts.critDamage) || 0 : null;
+        this.lifeLeech = opts.lifeLeech != null ? Number(opts.lifeLeech) || 0 : null;
+        this.manaLeech = opts.manaLeech != null ? Number(opts.manaLeech) || 0 : null;
+        this.lifeLeechChance =
+            opts.lifeLeechChance != null ? Number(opts.lifeLeechChance) || 0 : null;
+        this.manaLeechChance =
+            opts.manaLeechChance != null ? Number(opts.manaLeechChance) || 0 : null;
         this.promoted = !!opts.promoted;
         this.hasMonstersInEngage = false;
         this._nativeRegenHpTimerMs = 0;
@@ -156,6 +167,12 @@ class Player extends Creature {
         this._loadoutItemDb = null;
         /** @type {object} */
         this._loadoutOpts = {};
+        /**
+         * Hunt-scoped scenario KV for dialog `when` / node `set` (Phase C.1).
+         * Unset keys read as 0. Not combat `flags`.
+         * @type {Record<string, number|string>}
+         */
+        this.storage = cloneStorageBag(opts.storage);
 
         if (opts.classDef || opts.combatStats) {
             if (opts.combatStats) {
@@ -166,6 +183,10 @@ class Player extends Creature {
                     baseSkills: opts.skills,
                     critChance: opts.critChance,
                     critDamage: opts.critDamage,
+                    lifeLeech: opts.lifeLeech,
+                    manaLeech: opts.manaLeech,
+                    lifeLeechChance: opts.lifeLeechChance,
+                    manaLeechChance: opts.manaLeechChance,
                     promoted: opts.promoted
                 });
             }
@@ -178,7 +199,7 @@ class Player extends Creature {
      *
      * @param {object} classDef
      * @param {object[]|Record<string, object>|null} [itemDb]
-     * @param {{ level?: number, baseSkills?: object, skills?: object, skillOverrides?: object, critChance?: number, critDamage?: number }} [opts]
+     * @param {{ level?: number, baseSkills?: object, skills?: object, skillOverrides?: object, critChance?: number, critDamage?: number, lifeLeech?: number, manaLeech?: number, lifeLeechChance?: number, manaLeechChance?: number }} [opts]
      * @returns {object} combatStats
      */
     applyClassLoadout(classDef, itemDb, opts) {
@@ -196,6 +217,14 @@ class Player extends Creature {
         }
         if (options.critChance != null) this.critChance = Number(options.critChance) || 0;
         if (options.critDamage != null) this.critDamage = Number(options.critDamage) || 0;
+        if (options.lifeLeech != null) this.lifeLeech = Number(options.lifeLeech) || 0;
+        if (options.manaLeech != null) this.manaLeech = Number(options.manaLeech) || 0;
+        if (options.lifeLeechChance != null) {
+            this.lifeLeechChance = Number(options.lifeLeechChance) || 0;
+        }
+        if (options.manaLeechChance != null) {
+            this.manaLeechChance = Number(options.manaLeechChance) || 0;
+        }
         if (options.promoted !== undefined) this.promoted = !!options.promoted;
 
         this.equipmentRuntime = initEquipmentRuntime(
@@ -234,6 +263,30 @@ class Player extends Creature {
                     ? options.critDamage
                     : this.critDamage != null
                       ? this.critDamage
+                      : undefined,
+            lifeLeech:
+                options.lifeLeech != null
+                    ? options.lifeLeech
+                    : this.lifeLeech != null
+                      ? this.lifeLeech
+                      : undefined,
+            manaLeech:
+                options.manaLeech != null
+                    ? options.manaLeech
+                    : this.manaLeech != null
+                      ? this.manaLeech
+                      : undefined,
+            lifeLeechChance:
+                options.lifeLeechChance != null
+                    ? options.lifeLeechChance
+                    : this.lifeLeechChance != null
+                      ? this.lifeLeechChance
+                      : undefined,
+            manaLeechChance:
+                options.manaLeechChance != null
+                    ? options.manaLeechChance
+                    : this.manaLeechChance != null
+                      ? this.manaLeechChance
                       : undefined
         });
         return this.applyCombatStats(stats);

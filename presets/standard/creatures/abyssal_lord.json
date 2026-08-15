@@ -220,7 +220,8 @@
     "race": "fire",
     "loot": [
         {
-            "name": "platinum coin",
+            "name": "Platinum Coin",
+            "id": "platinum_coin",
             "chance": 95000,
             "maxCount": 74
         },
@@ -230,15 +231,18 @@
             "maxCount": 5
         },
         {
-            "name": "green gem",
+            "name": "Green Gem",
+            "id": "green_gem",
             "chance": 50000
         },
         {
-            "name": "great mana potion",
+            "name": "Great Mana Potion",
+            "id": "great_mana_potion",
             "chance": 45000
         },
         {
-            "name": "small amethyst",
+            "name": "Small Amethyst",
+            "id": "small_amethyst",
             "chance": 36000,
             "maxCount": 18
         },
@@ -247,12 +251,14 @@
             "chance": 36000
         },
         {
-            "name": "small emerald",
+            "name": "Small Emerald",
+            "id": "small_emerald",
             "chance": 27000,
             "maxCount": 7
         },
         {
-            "name": "small sapphire",
+            "name": "Small Sapphire",
+            "id": "small_sapphire",
             "chance": 27000,
             "maxCount": 9
         },
@@ -261,7 +267,8 @@
             "chance": 27000
         },
         {
-            "name": "ultimate health potion",
+            "name": "Ultimate Health Potion",
+            "id": "ultimate_health_potion",
             "chance": 27000
         },
         {
@@ -276,18 +283,22 @@
         },
         {
             "chance": 22000,
-            "name": "death ring"
+            "name": "Death Ring",
+            "id": "death_ring"
         },
         {
             "chance": 22000,
-            "name": "ring of healing"
+            "name": "Ring of Mending",
+            "id": "ring_of_mending"
         },
         {
-            "name": "chain bolter",
+            "name": "Chain Bolter",
+            "id": "chain_bolter",
             "chance": 22000
         },
         {
-            "name": "dark lord's cape",
+            "name": "Dark Lord's Cape",
+            "id": "dark_lords_cape",
             "chance": 22000
         },
         {
@@ -295,19 +306,23 @@
             "chance": 25000
         },
         {
-            "name": "double axe",
+            "name": "Double Axe",
+            "id": "double_axe",
             "chance": 18000
         },
         {
-            "name": "great dual potion",
+            "name": "Great Dual Potion",
+            "id": "great_dual_potion",
             "chance": 18000
         },
         {
             "name": "Arcane Plate Armor",
+            "id": "arcane_plate_armor",
             "chance": 18000
         },
         {
-            "name": "might ring",
+            "name": "Power Band",
+            "id": "power_band",
             "chance": 18000
         },
         {
@@ -316,14 +331,17 @@
         },
         {
             "chance": 18000,
-            "name": "stealth ring"
+            "name": "Stealth Ring",
+            "id": "stealth_ring"
         },
         {
-            "name": "fireborn giant armor",
+            "name": "Fireborn Giant Armor",
+            "id": "fireborn_giant_armor",
             "chance": 18000
         },
         {
-            "name": "royal crossbow",
+            "name": "Royal Crossbow",
+            "id": "royal_crossbow",
             "chance": 18000
         },
         {
@@ -331,22 +349,26 @@
             "chance": 18000
         },
         {
-            "name": "white pearl",
+            "name": "White Pearl",
+            "id": "white_pearl",
             "chance": 13000,
             "maxCount": 11
         },
         {
-            "name": "black pearl",
+            "name": "Black Pearl",
+            "id": "black_pearl",
             "chance": 13000,
             "maxCount": 13
         },
         {
-            "name": "assassin star",
+            "name": "Nightshade Star",
+            "id": "nightshade_star",
             "chance": 13000,
             "maxCount": 35
         },
         {
-            "name": "fiendbone",
+            "name": "Fiendbone",
+            "id": "fiendbone",
             "chance": 13000
         },
         {
@@ -358,7 +380,8 @@
             "chance": 13000
         },
         {
-            "name": "obsidian truncheon",
+            "name": "Obsidian Truncheon",
+            "id": "obsidian_truncheon",
             "chance": 13000
         },
         {
@@ -366,27 +389,33 @@
             "chance": 13000
         },
         {
-            "name": "blue gem",
+            "name": "Blue Gem",
+            "id": "blue_gem",
             "chance": 9000
         },
         {
-            "name": "gold ring",
+            "name": "Gold Ring",
+            "id": "gold_ring",
             "chance": 9000
         },
         {
-            "name": "demon shield",
+            "name": "Fiendish Shield",
+            "id": "fiendish_shield",
             "chance": 9000
         },
         {
             "chance": 9000,
-            "name": "voltaic ring"
+            "name": "Voltaic Ring",
+            "id": "voltaic_ring"
         },
         {
-            "name": "giant sword",
+            "name": "Colossus Blade",
+            "id": "colossus_blade",
             "chance": 9000
         },
         {
-            "name": "golden legs",
+            "name": "Golden Legs",
+            "id": "golden_legs",
             "chance": 9000
         },
         {
@@ -395,55 +424,67 @@
         },
         {
             "chance": 9000,
-            "name": "magic light wand"
+            "name": "Magic Light Wand",
+            "id": "magic_light_wand"
         },
         {
             "name": "orb",
             "chance": 9000
         },
         {
-            "name": "strange symbol",
+            "name": "Strange Symbol",
+            "id": "strange_symbol",
             "chance": 9000
         },
         {
-            "name": "steel boots",
+            "name": "Steel Boots",
+            "id": "steel_boots",
             "chance": 9000
         },
         {
-            "name": "thunder hammer",
+            "name": "Storm Hammer",
+            "id": "storm_hammer",
             "chance": 9000
         },
         {
-            "name": "small diamond",
+            "name": "Small Diamond",
+            "id": "small_diamond",
             "chance": 4500,
             "maxCount": 5
         },
         {
             "chance": 4500,
-            "name": "crystal ring"
+            "name": "Crystal Ring",
+            "id": "crystal_ring"
         },
         {
-            "name": "fire axe",
+            "name": "Ember Cleaver",
+            "id": "ember_cleaver",
             "chance": 4500
         },
         {
-            "name": "great health potion",
+            "name": "Great Health Potion",
+            "id": "great_health_potion",
             "chance": 4500
         },
         {
-            "name": "mastermind shield",
+            "name": "Grandmaster Shield",
+            "id": "grandmaster_shield",
             "chance": 4500
         },
         {
-            "name": "dragon robe",
+            "name": "Wyrm Robe",
+            "id": "wyrm_robe",
             "chance": 4500
         },
         {
-            "name": "molten plate",
+            "name": "Molten Plate",
+            "id": "molten_plate",
             "chance": 4500
         },
         {
-            "name": "great shield",
+            "name": "Great Shield",
+            "id": "great_shield",
             "chance": 500
         }
     ],

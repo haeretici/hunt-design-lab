@@ -73,6 +73,22 @@ const UNARMED_WEAPON_DEFENSE = 5;
 /** Rollup marker for empty right hand; effective attack family is still melee. */
 const UNARMED_WEAPON_TYPE = 'fist';
 
+/**
+ * Equipment catalog stores crit extra / leech *amount* as pipeline units.
+ * Divide by this to get percent: 1000 = 10%, 1800 = 18%.
+ * Leech *chance* is already 0–100 (100 = always).
+ */
+const COMBAT_PIPELINE_PER_PERCENT = 100;
+
+/**
+ * Catalog pipeline units → percent.
+ * @param {unknown} n
+ * @returns {number}
+ */
+function pipelineToPercent(n) {
+    return (Number(n) || 0) / COMBAT_PIPELINE_PER_PERCENT;
+}
+
 /** Profile / legacy skill keys that collapse into engine `melee`. */
 const MELEE_SKILL_ALIASES = ['sword', 'axe', 'club', 'fist'];
 
@@ -372,6 +388,8 @@ function emptyEquipmentRollup() {
         atk: 0,
         extraAtk: 0,
         extraAtkElement: null,
+        /** Weapon extraAtk that carries extraAtkElement (split on weapon auto). */
+        elementalAtk: 0,
         armor: 0,
         defense: 0,
         /** Weapon extradef / defense modifier; applied only when shield defense > 0 */
@@ -446,6 +464,18 @@ function emptyEquipmentRollup() {
             manaShield: false,
             invisible: false
         },
+        /**
+         * Catalog pipeline units (additive). 1000 critChance = +10%.
+         * Converted to percent in buildEffectiveStats.
+         */
+        critChance: 0,
+        critExtraDamage: 0,
+        /** Life/mana leech chance is already 0–100 percent (100 = always). */
+        lifeLeechChance: 0,
+        /** Catalog pipeline units (additive). 1800 = 18% of real HP damage. */
+        lifeLeechAmount: 0,
+        manaLeechChance: 0,
+        manaLeechAmount: 0,
         /** Additive percent lists per element (multiplicative product at end) */
         _resistStacks: null
     };
@@ -578,14 +608,37 @@ function normalizeEquipmentMap(equipment) {
  * @param {string|number|null} id
  * @returns {object|null}
  */
+/**
+ * Whether a catalog row matches `key` by id or `aliases[]`.
+ * @param {object|null|undefined} item
+ * @param {string} key
+ * @returns {boolean}
+ */
+function itemMatchesId(item, key) {
+    if (!item || key == null) return false;
+    if (String(item.id) === key) return true;
+    const aliases = item.aliases;
+    if (!Array.isArray(aliases)) return false;
+    for (let i = 0; i < aliases.length; i++) {
+        if (aliases[i] != null && String(aliases[i]) === key) return true;
+    }
+    return false;
+}
+
 function findItem(itemDb, id) {
     if (id == null || id === '' || !itemDb) return null;
     const key = String(id);
     if (!Array.isArray(itemDb)) {
-        return itemDb[key] || itemDb[id] || null;
+        if (itemDb[key] || itemDb[id]) return itemDb[key] || itemDb[id];
+        const vals = Object.keys(itemDb);
+        for (let i = 0; i < vals.length; i++) {
+            const row = itemDb[vals[i]];
+            if (itemMatchesId(row, key)) return row;
+        }
+        return null;
     }
     for (let i = 0; i < itemDb.length; i++) {
-        if (itemDb[i] && String(itemDb[i].id) === key) return itemDb[i];
+        if (itemMatchesId(itemDb[i], key)) return itemDb[i];
     }
     return null;
 }
@@ -596,9 +649,25 @@ function findItem(itemDb, id) {
  * @param {object} item
  * @param {string|null|undefined} [slot] engine slot key (e.g. rightHand)
  */
+/**
+ * Additive crit / leech from one equipped item (catalog pipeline units).
+ * @param {object} rollup
+ * @param {object} item
+ */
+function addProcStatsToRollup(rollup, item) {
+    if (!rollup || !item) return;
+    rollup.critChance += Number(item.critChance) || 0;
+    rollup.critExtraDamage += Number(item.critExtraDamage) || 0;
+    rollup.lifeLeechChance += Number(item.lifeLeechChance) || 0;
+    rollup.lifeLeechAmount += Number(item.lifeLeechAmount) || 0;
+    rollup.manaLeechChance += Number(item.manaLeechChance) || 0;
+    rollup.manaLeechAmount += Number(item.manaLeechAmount) || 0;
+}
+
 function addItemToRollup(rollup, item, slot) {
     if (!item) return;
     if (slot === 'leftHandAmmo' && !itemIsAmmo(item)) return;
+    addProcStatsToRollup(rollup, item);
     const isAmmo = itemIsAmmo(item);
     const isWeapon = !isAmmo && itemIsWeapon(item, slot);
     if (isWeapon) {
@@ -661,8 +730,12 @@ function addItemToRollup(rollup, item, slot) {
     if (!isWeapon && !isAmmo && item.atk != null) {
         rollup.extraAtk += Number(item.atk) || 0;
     }
-    rollup.extraAtk += Number(item.extraAtk) || 0;
-    if (item.extraAtkElement) rollup.extraAtkElement = item.extraAtkElement;
+    const extraAtk = Number(item.extraAtk) || 0;
+    rollup.extraAtk += extraAtk;
+    if (item.extraAtkElement) {
+        rollup.extraAtkElement = item.extraAtkElement;
+        if (extraAtk > 0) rollup.elementalAtk += extraAtk;
+    }
     rollup.armor += Number(item.armor) || 0;
     rollup.speed += Number(item.speed) || 0;
     rollup.weight += Number(item.weight) || 0;
@@ -1060,8 +1133,14 @@ function resolvePrimarySkillValue(skillKey, skills) {
  * @param {object} [opts.skills] alias of baseSkills
  * @param {object} [opts.skillOverrides] absolute final skill values (after gear)
  * @param {object} [opts.resistOverrides]
- * @param {number} [opts.critChance]
- * @param {number} [opts.critDamage]
+ * @param {number} [opts.critChance] class/profile percent; equipment adds pipeline/100
+ * @param {number} [opts.critDamage] class/profile percent; equipment adds pipeline/100
+ * @param {number} [opts.lifeLeechChance] percent 0–100; equipment adds as-is
+ * @param {number} [opts.lifeLeechAmount] percent; equipment adds pipeline/100
+ * @param {number} [opts.lifeLeech] alias of lifeLeechAmount (profile.stats.lifeLeech)
+ * @param {number} [opts.manaLeechChance]
+ * @param {number} [opts.manaLeechAmount]
+ * @param {number} [opts.manaLeech] alias of manaLeechAmount
  * @param {boolean} [opts.promoted]
  * @returns {object} effective stats bag used by combat modules
  */
@@ -1186,14 +1265,36 @@ function buildEffectiveStats(classDef, equipmentRollup, opts) {
     const skillKey = resolveSkillKeyFromGear(unarmed, gear, gearFamily, cls);
     const primarySkill = resolvePrimarySkillValue(skillKey, skills);
 
+    // Class/profile values are already percent. Equipment is catalog pipeline
+    // (1000 = +10%) except leech chance, which is already 0–100.
     const critChance =
-        options.critChance != null
+        (options.critChance != null
             ? Number(options.critChance) || 0
-            : Number(cls.critChance) || 0;
+            : Number(cls.critChance) || 0) + pipelineToPercent(gear.critChance);
     const critDamage =
-        options.critDamage != null
+        (options.critDamage != null
             ? Number(options.critDamage) || 0
-            : Number(cls.critDamage) || 0;
+            : Number(cls.critDamage) || 0) + pipelineToPercent(gear.critExtraDamage);
+    const lifeLeechChance =
+        (options.lifeLeechChance != null
+            ? Number(options.lifeLeechChance) || 0
+            : Number(cls.lifeLeechChance) || 0) + (Number(gear.lifeLeechChance) || 0);
+    const lifeLeechAmount =
+        (options.lifeLeechAmount != null
+            ? Number(options.lifeLeechAmount) || 0
+            : options.lifeLeech != null
+              ? Number(options.lifeLeech) || 0
+              : Number(cls.lifeLeech) || 0) + pipelineToPercent(gear.lifeLeechAmount);
+    const manaLeechChance =
+        (options.manaLeechChance != null
+            ? Number(options.manaLeechChance) || 0
+            : Number(cls.manaLeechChance) || 0) + (Number(gear.manaLeechChance) || 0);
+    const manaLeechAmount =
+        (options.manaLeechAmount != null
+            ? Number(options.manaLeechAmount) || 0
+            : options.manaLeech != null
+              ? Number(options.manaLeech) || 0
+              : Number(cls.manaLeech) || 0) + pipelineToPercent(gear.manaLeechAmount);
 
     let autoAttack = 'melee_auto';
     if (!unarmed) {
@@ -1260,6 +1361,12 @@ function buildEffectiveStats(classDef, equipmentRollup, opts) {
         mpMax,
         speed,
         atk: formulaAtk,
+        /**
+         * Weapon extra elemental atk (fire sword extraAtk). Combined into `atk`
+         * for the auto formula, then split by extraAtk/atk on resolve.
+         */
+        extraAtk: Number(gear.elementalAtk) || 0,
+        extraAtkElement: gear.extraAtkElement || null,
         /** Weapon-only atk (bow mod or melee body); excludes ammo. */
         weaponAtk,
         ammoAtk,
@@ -1320,6 +1427,10 @@ function buildEffectiveStats(classDef, equipmentRollup, opts) {
         },
         critChance,
         critDamage,
+        lifeLeechChance,
+        lifeLeechAmount,
+        manaLeechChance,
+        manaLeechAmount,
         spells: Array.isArray(cls.spells) ? cls.spells.slice() : [],
         autoAttack,
         skillKey,
@@ -1365,7 +1476,13 @@ function attackerBagFromStats(effective) {
         magic: effective.magic || 0,
         critChance: effective.critChance || 0,
         critDamage: effective.critDamage || 0,
-        hitChance: effective.hitChance != null ? effective.hitChance : 100
+        lifeLeechChance: effective.lifeLeechChance || 0,
+        lifeLeechAmount: effective.lifeLeechAmount || 0,
+        manaLeechChance: effective.manaLeechChance || 0,
+        manaLeechAmount: effective.manaLeechAmount || 0,
+        hitChance: effective.hitChance != null ? effective.hitChance : 100,
+        extraAtk: Number(effective.extraAtk) || 0,
+        extraAtkElement: effective.extraAtkElement || null
     };
 }
 
@@ -1383,6 +1500,8 @@ module.exports = {
     UNARMED_ATK,
     UNARMED_WEAPON_DEFENSE,
     UNARMED_WEAPON_TYPE,
+    COMBAT_PIPELINE_PER_PERCENT,
+    pipelineToPercent,
     emptyEquipmentRollup,
     findItem,
     canonicalEquipmentSlot,

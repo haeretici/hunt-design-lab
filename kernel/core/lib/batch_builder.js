@@ -1,5 +1,5 @@
 /**
- * Multi-kind sprite batch builder (creatures, equipment, tiles, objects).
+ * Multi-kind sprite batch builder (creatures, equipment, tiles, overlays, objects).
  *
  * Builds a configurable image-gen prompt and destination paths for
  * genre + asset-kind spritesheets.
@@ -24,6 +24,12 @@ const {
 } = require('../../settings.js');
 const { generateAssetNames, parseDoneList } = require('./asset_names.js');
 const { technicalToFileStem } = require('./creature_manifest.js');
+const {
+    parseWangId,
+    wangMaskHint,
+    WANG_MASK_COUNT
+} = require('./overlay_wang.js');
+const { parseWallId, WALL_ALIGN_COUNT } = require('./wall_wang.js');
 
 const DEFAULT_GRID = { rows: 4, cols: 4 };
 
@@ -199,7 +205,7 @@ function categoryFocusNote(kindId, category) {
  */
 function styleLineFor(genre, compose, category) {
     let camera = BASE_STYLE_CAMERA_DEFAULT;
-    if (compose === 'tile') {
+    if (compose === 'tile' || compose === 'overlay') {
         camera = BASE_STYLE_CAMERA_TILE;
     } else if (compose === 'item' && isFrontFacingEquipmentCategory(category)) {
         camera = BASE_STYLE_CAMERA_FRONT_ITEM;
@@ -256,6 +262,18 @@ const COMPOSE_TECHNICAL = {
         'Neutral pure top-down lighting, no strong directional shadows or cast light that ' +
         'encodes a light direction. ' +
         'NO pure green #00FF00 inside tile content (full opaque fill preferred).',
+    overlay:
+        'Single high-resolution PNG terrain OVERLAY sheet (Wang-16, one material family). ' +
+        'Exact uniform grid: equal cell size, no borders, gutters, labels, frames, or chrome. ' +
+        'Each cell is ONE overlay stamp of the SAME material (dirt or water or cobble). ' +
+        'This is NOT a seamless wrap-around tile and NOT an opaque full-bleed ground fill. ' +
+        'Where the overlay does not cover the cell, the pixel MUST be transparent PNG alpha ' +
+        '(preferred) or solid magenta #FF00FF plate — holes show the ground underneath. ' +
+        'MUST NOT use pure green #00FF00 anywhere (fights grass). ' +
+        'Connected edges (N/E/S/W per the roster mask) must read as the same material continuing ' +
+        'into the neighbor cell; unconnected edges fade or blob inside the cell. ' +
+        'Mask 15 is a full-cell opaque fill of that material. Mask 0 is an isolated island. ' +
+        'Neutral pure top-down lighting. No characters, props, text, or unique landmarks.',
     prop:
         'Single high-resolution PNG spritesheet. Solid pure green background (#00FF00) outside props. ' +
         'Exact uniform grid: equal cell size, no borders, gutters, or chrome; no overlapping tiles. ' +
@@ -273,6 +291,9 @@ const COMPOSE_RECAP = {
     tile:
         'edge-to-edge SEAMLESS wrap-around terrain tiles (left=right, top=bottom), ' +
         'anonymous uniform texture, no text, no vector art.',
+    overlay:
+        'alpha Wang-16 overlay stamps (holes show ground), no green #00FF00, ' +
+        'no seamless wrap, no text, no vector art.',
     prop:
         'isolated map props on green key, no text, no vector art.'
 };
@@ -453,12 +474,28 @@ function buildPrompt({
         gridCols ??
         (rows[0] ? rows[0].split(', ').length : DEFAULT_GRID.cols);
     const minSide = Math.max(nRows, nCols) * 256;
-    const rowBlock = rows.map((r, i) => `Row ${i + 1}: ${r}`).join('\n');
     const compose = kind.compose || 'character';
+    const rowBlock = rows
+        .map((r, i) => {
+            if (compose !== 'overlay') return `Row ${i + 1}: ${r}`;
+            const labeled = r.split(', ').map((tech) => {
+                const parsed = parseWangId(tech);
+                if (!parsed) return tech;
+                return `${tech} (mask ${parsed.mask}: ${wangMaskHint(parsed.mask)})`;
+            });
+            return `Row ${i + 1}: ${labeled.join(', ')}`;
+        })
+        .join('\n');
     const technical = composeTechnicalFor(compose, category);
     const recapTail = composeRecapFor(compose, category);
     const subject = subjectLineFor(genre.id, kind.id);
     const catNote = categoryFocusNote(kind.id, category);
+    const recapPlate =
+        compose === 'tile'
+            ? 'edge-to-edge SEAMLESS wrap-around tiles (each cell self-tileable), '
+            : compose === 'overlay'
+              ? 'alpha overlay stamps (transparent or magenta #FF00FF holes; NEVER green #00FF00), '
+              : 'pure green #00FF00 key, ';
 
     return [
         `Generate a 2D ${kind.sheetNoun} in ${spritesheetPath}`,
@@ -474,9 +511,7 @@ function buildPrompt({
         rowBlock,
         '',
         `Recap: pixel-art ${nRows}×${nCols} spritesheet, ` +
-            (compose === 'tile'
-                ? 'edge-to-edge SEAMLESS wrap-around tiles (each cell self-tileable), '
-                : 'pure green #00FF00 key, ') +
+            recapPlate +
             `cells ≥256px, ${recapTail}`
     ].join('\n');
 }
@@ -497,6 +532,73 @@ function cleanFileStem(name) {
 }
 
 /**
+ * Stamp wangFamily / wangMask on overlay roster rows (from fields or id/stem).
+ * @param {object} item
+ * @param {string} kindId
+ * @param {string|null} category
+ * @returns {object}
+ */
+function decorateOverlayItem(item, kindId, category) {
+    if (kindId !== 'overlays') return item;
+    const parsed = parseWangId(item.technical) || parseWangId(item.alias);
+    const wangFamily = item.wangFamily || parsed?.family || category || undefined;
+    const wangMask = item.wangMask != null ? item.wangMask : parsed ? parsed.mask : undefined;
+    const wangInner =
+        item.wangInner != null ? item.wangInner : parsed && parsed.inner ? parsed.inner : undefined;
+    return {
+        ...item,
+        kind: 'overlays',
+        category: item.category || wangFamily || category || undefined,
+        wangFamily,
+        wangMask,
+        wangInner,
+        opaqueAlpha: false
+    };
+}
+
+/**
+ * Wall family id from generate options. `wangFamily` is a CLI/config alias.
+ * @param {{ wallFamily?: unknown, wangFamily?: unknown }} options
+ * @returns {string|null}
+ */
+function resolveWallFamilyOption(options) {
+    const raw =
+        options.wallFamily != null && String(options.wallFamily).trim()
+            ? options.wallFamily
+            : options.wangFamily;
+    if (raw == null || !String(raw).trim()) return null;
+    return String(raw).trim().toLowerCase();
+}
+
+/**
+ * Stamp wallFamily / wallAlign on object wall-family roster rows.
+ * @param {object} item
+ * @param {string} kindId
+ * @param {string|null} category
+ * @param {string|null} [family]
+ * @returns {object}
+ */
+function decorateWallItem(item, kindId, category, family) {
+    if (kindId !== 'objects') return item;
+    const parsed = parseWallId(item.technical) || parseWallId(item.alias);
+    const wallFamily =
+        item.wallFamily || parsed?.family || family || undefined;
+    const wallAlign =
+        item.wallAlign != null ? item.wallAlign : parsed ? parsed.align : undefined;
+    if (!wallFamily && !wallAlign) return item;
+    const next = {
+        ...item,
+        kind: 'objects',
+        category: item.category || category || 'wall',
+        wallFamily,
+        wallAlign,
+        opaqueAlpha: false
+    };
+    delete next.wangFamily;
+    return next;
+}
+
+/**
  * Core: resolve options → batch plan (items, paths, prompt, image gen).
  * Does not write the done file or call image gen.
  *
@@ -509,6 +611,9 @@ function buildBatch(options = {}) {
     const kind = getAssetKind(kindId);
     const paths = genrePaths(genreId, kindId);
     const category = options.category || null;
+    const wallFamilyOpt = resolveWallFamilyOption(options);
+    const wangFamilyOpt = wallFamilyOpt;
+    const wallFamilyMode = kindId === 'objects' && !!wallFamilyOpt;
 
     const rows = options.rows ?? DEFAULT_GRID.rows;
     const cols = options.cols ?? DEFAULT_GRID.cols;
@@ -517,6 +622,21 @@ function buildBatch(options = {}) {
     if (count !== rows * cols) {
         throw new Error(
             `count (${count}) must equal rows*cols (${rows}*${cols}=${rows * cols}) for a full grid`
+        );
+    }
+    if (kindId === 'overlays' && options.opaqueAlpha === true) {
+        throw new Error(
+            'overlays MUST NOT use --opaque-alpha (keep PNG alpha on icon/small/medium)'
+        );
+    }
+    if (wallFamilyMode && options.opaqueAlpha === true) {
+        throw new Error(
+            'wall families MUST NOT use --opaque-alpha (keep PNG alpha so ground shows)'
+        );
+    }
+    if (wallFamilyMode && count !== WALL_ALIGN_COUNT) {
+        throw new Error(
+            `wall families generate as 4 faces (count must be ${WALL_ALIGN_COUNT}, got ${count})`
         );
     }
 
@@ -529,19 +649,47 @@ function buildBatch(options = {}) {
     const injected = options.items || options.creatures;
     let items;
     if (injected && injected.length) {
+        if (kindId === 'overlays' && injected.length !== count) {
+            throw new Error(
+                `overlays inject must be a full Wang-16 family (${WANG_MASK_COUNT} items); got ${injected.length}`
+            );
+        }
+        if (wallFamilyMode && injected.length !== count) {
+            throw new Error(
+                `wall family inject must be 4 faces (${WALL_ALIGN_COUNT} items); got ${injected.length}`
+            );
+        }
         if (injected.length > count) {
             throw new Error(
                 `Injected items length ${injected.length} exceeds count ${count}`
             );
         }
-        const fixed = injected.map((c) => ({
-            technical: c.technical,
-            alias: c.alias || c.technical,
-            genre: genreId,
-            kind: kindId,
-            category: c.category || category || undefined,
-            opaqueAlpha: options.opaqueAlpha === true
-        }));
+        const fixed = injected.map((c) =>
+            decorateWallItem(
+                decorateOverlayItem(
+                    {
+                        technical: c.technical,
+                        alias: c.alias || c.technical,
+                        genre: genreId,
+                        kind: kindId,
+                        category: c.category || category || undefined,
+                        wangFamily: c.wangFamily,
+                        wangMask: c.wangMask,
+                        wallFamily: c.wallFamily || wangFamilyOpt || undefined,
+                        wallAlign: c.wallAlign,
+                        opaqueAlpha:
+                            kindId === 'overlays' || wallFamilyMode
+                                ? false
+                                : options.opaqueAlpha === true
+                    },
+                    kindId,
+                    category
+                ),
+                kindId,
+                category,
+                wangFamilyOpt
+            )
+        );
         if (fixed.length === count) {
             items = fixed;
         } else {
@@ -554,27 +702,62 @@ function buildBatch(options = {}) {
                 genre: genreId,
                 kind: kindId,
                 category,
+                wallFamily: wangFamilyOpt || undefined,
                 count: count - fixed.length,
                 exclude: excludeAll,
                 seed: options.seed ?? null
-            }).map((c) => ({
-                ...c,
-                opaqueAlpha: options.opaqueAlpha === true
-            }));
+            }).map((c) =>
+                decorateWallItem(
+                    decorateOverlayItem(
+                        {
+                            ...c,
+                            opaqueAlpha:
+                                kindId === 'overlays' || wallFamilyMode
+                                    ? false
+                                    : options.opaqueAlpha === true
+                        },
+                        kindId,
+                        category
+                    ),
+                    kindId,
+                    category,
+                    wangFamilyOpt
+                )
+            );
             items = fixed.concat(fillers);
         }
     } else {
+        if (kindId === 'overlays' && count !== WANG_MASK_COUNT) {
+            throw new Error(
+                `overlays generate as a Wang-16 family sheet (count must be ${WANG_MASK_COUNT}, got ${count})`
+            );
+        }
         items = generateAssetNames({
             genre: genreId,
             kind: kindId,
             category,
+            wallFamily: wangFamilyOpt || undefined,
             count,
             exclude,
             seed: options.seed ?? null
-        }).map((c) => ({
-            ...c,
-            opaqueAlpha: options.opaqueAlpha === true
-        }));
+        }).map((c) =>
+            decorateWallItem(
+                decorateOverlayItem(
+                    {
+                        ...c,
+                        opaqueAlpha:
+                            kindId === 'overlays' || wallFamilyMode
+                                ? false
+                                : options.opaqueAlpha === true
+                    },
+                    kindId,
+                    category
+                ),
+                kindId,
+                category,
+                wangFamilyOpt
+            )
+        );
     }
 
     // Alias for BC with code that still says batch.creatures
@@ -596,7 +779,10 @@ function buildBatch(options = {}) {
     const imageGen = buildImageGenInvocation(model, prompt, spritesheetPath);
     // Explicit boolean; default false for character/item chroma unless caller sets true.
     // Tiles usually want true (batch UI defaults by kind).
-    const opaqueAlpha = options.opaqueAlpha === true;
+    const opaqueAlpha =
+        kindId === 'overlays' || wallFamilyMode
+            ? false
+            : options.opaqueAlpha === true || kindId === 'tiles';
 
     return {
         genre,
@@ -604,6 +790,8 @@ function buildBatch(options = {}) {
         kind,
         kindId,
         category,
+        wallFamily: wallFamilyMode ? wallFamilyOpt : undefined,
+        wangFamily: wallFamilyMode ? undefined : wangFamilyOpt,
         opaqueAlpha,
         paths,
         doneFile,
@@ -644,7 +832,13 @@ function formatBatchSummary(batch) {
                 ? ` · category ${categoryLabel(batch.kindId, batch.category)} (${batch.category})`
                 : ''),
         `Items: ${batch.count} (${batch.rows}×${batch.cols})`,
-        `Opaque alpha: ${batch.opaqueAlpha ? 'yes (no chroma)' : 'no (chroma key)'}`,
+        `Opaque alpha: ${
+            batch.opaqueAlpha
+                ? 'yes (no chroma)'
+                : batch.kindId === 'overlays'
+                  ? 'no (keep alpha)'
+                  : 'no (chroma key)'
+        }`,
         `Destination: ${batch.paths.spritesheet}`,
         `Done file: ${batch.doneFile}`,
         batch.seed != null ? `Seed: ${batch.seed}` : 'Seed: (random)',
@@ -703,6 +897,10 @@ function batchToConfigJson(batch, opts = {}) {
             technical: c.technical,
             alias: c.alias,
             category: c.category || undefined,
+            wangFamily: c.wangFamily || undefined,
+            wangMask: c.wangMask,
+            wallFamily: c.wallFamily || undefined,
+            wallAlign: c.wallAlign || undefined,
             opaqueAlpha: Boolean(c.opaqueAlpha ?? batch.opaqueAlpha)
         })),
         // BC for tools that still read creatures[]
@@ -753,6 +951,9 @@ function formatGenerateCommand(batch, opts = {}) {
     }
     if (batch.category) {
         parts.push('--category', batch.category);
+    }
+    if (batch.wallFamily) {
+        parts.push('--wall-family', batch.wallFamily);
     }
     if (batch.seed != null) {
         parts.push('--seed', String(batch.seed));
@@ -815,6 +1016,7 @@ module.exports = {
     buildRows,
     buildPrompt,
     cleanFileStem,
+    decorateOverlayItem,
     buildBatch,
     formatBatchSummary,
     batchToConfigJson,

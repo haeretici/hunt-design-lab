@@ -1,0 +1,83 @@
+{
+  "version": 2,
+  "id": "phase4_room",
+  "label": "Phase 4 hand-authored room",
+  "floors": [
+    {
+      "z": 0,
+      "cols": 8,
+      "rows": 8,
+      "palette": [
+        null,
+        {
+          "catalogId": "damp_moss_floor",
+          "kind": "tiles",
+          "roleId": "floor"
+        },
+        {
+          "catalogId": "damp_deep_water",
+          "kind": "tiles",
+          "roleId": "water"
+        },
+        {
+          "catalogId": "simple_dead_tree",
+          "kind": "objects",
+          "roleId": "scenery_blocking",
+          "scale": 1.4,
+          "anchor": "bottom_center"
+        },
+        {
+          "catalogId": "broken_cave_stairs",
+          "kind": "tiles",
+          "roleId": "stairs_up",
+          "hop": {
+            "dir": "north",
+            "deltaZ": -1
+          }
+        },
+        {
+          "catalogId": "polished_stone_floor",
+          "kind": "tiles",
+          "roleId": "protection"
+        }
+      ],
+      "subLayers": [
+        {
+          "id": "ground",
+          "zOrder": 0,
+          "blob": "floors/0/sub_ground.u16.gz"
+        },
+        {
+          "id": "path",
+          "zOrder": 1,
+          "blob": null,
+          "empty": true
+        },
+        {
+          "id": "scenery",
+          "zOrder": 2,
+          "blob": "floors/0/sub_scenery.u16.gz"
+        },
+        {
+          "id": "furniture",
+          "zOrder": 3,
+          "blob": null,
+          "empty": true
+        },
+        {
+          "id": "vertical",
+          "zOrder": 4,
+          "blob": "floors/0/sub_vertical.u16.gz"
+        }
+      ],
+      "channels": {
+        "friction": "floors/0/friction.u8.gz",
+        "sight": "floors/0/sight.u8.gz",
+        "flags": "floors/0/flags.u8.gz"
+      },
+      "overrideMask": null,
+      "stairs": []
+    }
+  ],
+  "spawns": null
+}

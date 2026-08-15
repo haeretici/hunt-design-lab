@@ -124,21 +124,25 @@
     },
     "loot": [
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 83740,
             "maxCount": 55
         },
         {
-            "name": "small amethyst",
+            "name": "Small Amethyst",
+            "id": "small_amethyst",
             "chance": 520
         },
         {
-            "name": "yellow gem",
+            "name": "Yellow Gem",
+            "id": "yellow_gem",
             "chance": 150
         },
         {
             "chance": 340,
-            "name": "life ring"
+            "name": "Vitality Ring",
+            "id": "vitality_ring"
         },
         {
             "name": "life crystal",
@@ -146,18 +150,22 @@
         },
         {
             "name": "Earthbound Rod",
+            "id": "earthbound_rod",
             "chance": 920
         },
         {
             "name": "Viperfang Rod",
+            "id": "viperfang_rod",
             "chance": 230
         },
         {
-            "name": "cape",
+            "name": "Cape",
+            "id": "cape",
             "chance": 8640
         },
         {
-            "name": "charmer's tiara",
+            "name": "Charmer's Tiara",
+            "id": "charmers_tiara",
             "chance": 230
         },
         {
@@ -169,7 +177,8 @@
             "chance": 860
         },
         {
-            "name": "mana potion",
+            "name": "Mana Potion",
+            "id": "mana_potion",
             "chance": 860
         }
     ],

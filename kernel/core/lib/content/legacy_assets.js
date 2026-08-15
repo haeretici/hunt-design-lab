@@ -8,6 +8,16 @@
 const path = require('path');
 const { ROOT, PATHS } = require('../../../settings.js');
 const { slugifyMonsterName } = require('./legacy_monster_port.js');
+const {
+    parseSpawnRows,
+    loadFloorSpawnsFromDocs,
+    resolveCreatureSpawnId,
+    makeEditorSpawnPin,
+    DEFAULT_EDITOR_SPAWN_RESPAWN,
+    parseSpawnFloorZ,
+    planSpawnFloorMove,
+    applySpawnFloorMove
+} = require('./spawn_rows.js');
 
 let fs = null;
 try {
@@ -62,19 +72,51 @@ function padFloorId(floorId) {
 }
 
 /**
+ * Absolute hybrid map.json for a floor, or a test root override.
+ * @param {string} id padded floor id
+ * @param {string} [legacyRoot]
+ * @returns {string}
+ */
+function hybridMapJsonPath(id, legacyRoot) {
+    if (legacyRoot) {
+        return path.join(legacyRoot, 'map', 'hybrid', `floor-${id}`, 'map.json');
+    }
+    return legacyPath('map', 'hybrid', `floor-${id}`, 'map.json');
+}
+
+/**
+ * Absolute by_floor JSON for a floor, or a test root override.
+ * @param {string} id padded floor id
+ * @param {string} [legacyRoot]
+ * @returns {string}
+ */
+function byFloorJsonPath(id, legacyRoot) {
+    if (legacyRoot) {
+        return path.join(legacyRoot, 'spawns', 'by_floor', `${id}.json`);
+    }
+    return legacyPath('spawns', 'by_floor', `${id}.json`);
+}
+
+/**
  * Spawns for one floor (0–15 or "07").
- * Node: reads assets/legacy/spawns/by_floor/NN.json.
+ * Node: hybrid `floor-XX/map.json` `spawns` when that pack exists;
+ * else `assets/legacy/spawns/by_floor/NN.json`.
  * Browser: returns [] unless a loader is injected via resolveSpawnSource opts.
  * @param {string|number} floorId
+ * @param {{ legacyRoot?: string }} [opts]
  * @returns {object[]}
  */
-function loadFloorSpawns(floorId) {
+function loadFloorSpawns(floorId, opts) {
     if (!fs) return [];
     const id = padFloorId(floorId);
-    const p = legacyPath('spawns', 'by_floor', `${id}.json`);
+    const root = opts && opts.legacyRoot;
+    const hybridP = hybridMapJsonPath(id, root);
+    if (fs.existsSync(hybridP)) {
+        return parseSpawnRows(readJson(hybridP));
+    }
+    const p = byFloorJsonPath(id, root);
     if (!fs.existsSync(p)) return [];
-    const data = readJson(p);
-    return Array.isArray(data.spawns) ? data.spawns : [];
+    return parseSpawnRows(readJson(p));
 }
 
 /**
@@ -177,10 +219,11 @@ function filterSpawnList(list, filter) {
  * Filter floor spawns by creature id/name and optional bounding box.
  * @param {string|number} floorId
  * @param {object} [filter]
+ * @param {{ legacyRoot?: string }} [opts]
  * @returns {object[]}
  */
-function filterFloorSpawns(floorId, filter) {
-    return filterSpawnList(loadFloorSpawns(floorId), filter);
+function filterFloorSpawns(floorId, filter, opts) {
+    return filterSpawnList(loadFloorSpawns(floorId, opts), filter);
 }
 
 /**
@@ -444,6 +487,14 @@ module.exports = {
     loadLegacyBounds,
     loadLegacyMonsterManifest,
     loadFloorSpawns,
+    parseSpawnRows,
+    loadFloorSpawnsFromDocs,
+    resolveCreatureSpawnId,
+    makeEditorSpawnPin,
+    DEFAULT_EDITOR_SPAWN_RESPAWN,
+    parseSpawnFloorZ,
+    planSpawnFloorMove,
+    applySpawnFloorMove,
     normalizeSpawnFilter,
     filterSpawnList,
     filterFloorSpawns,

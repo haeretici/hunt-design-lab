@@ -22,9 +22,12 @@ Pipeline per original PNG:
 
   With --opaque-alpha: skip chroma keying; alpha/ is an opaque RGBA copy of the
   original (full A=255). Used for terrain tiles and other full-bleed assets.
+  Overlay originals (…/overlays/original) refuse --opaque-alpha so icon/small/medium
+  keep PNG alpha.
 """
 
 import sys
+import subprocess
 from collections import Counter
 from pathlib import Path
 
@@ -497,8 +500,8 @@ SPRITES_ROOT = ROOT / "assets" / "sprites"
 def discover_original_dirs() -> list[Path]:
     """Find assets/sprites/<genre>/<kind>/original/ for every genre×kind on disk.
 
-    Known kind folders: creatures, equipment, tiles, objects (any sibling of
-    a genre that has an original/ subdir is accepted).
+    Known kind folders: creatures, equipment, tiles, overlays, objects, ui
+    (any sibling of a genre that has an original/ subdir is accepted).
     """
     if not SPRITES_ROOT.is_dir():
         return []
@@ -519,6 +522,12 @@ def discover_original_dirs() -> list[Path]:
 def _variant_dirs(kind_root: Path) -> dict[str, Path]:
     """Map variant name → …/<kind>/<variant>/ directory."""
     return {name: kind_root / name for name in OUTPUT_VARIANTS}
+
+
+def is_overlays_original(directory_path: str | Path) -> bool:
+    """True when processing assets/sprites/<genre>/overlays/original."""
+    p = Path(directory_path)
+    return p.name == "original" and p.parent.name == "overlays"
 
 
 def opaque_alpha_copy(img: Image.Image) -> tuple[Image.Image, str]:
@@ -545,9 +554,16 @@ def process_images(
 
     only_stems: if set, only process basenames (no .png) in this set (case-sensitive stem).
     opaque_alpha: if True, alpha is an opaque RGBA copy (no chroma key).
+    Overlay folders ignore opaque_alpha (keep existing alpha / chroma).
     Returns (ok, skipped, errors).
     """
     base_path = Path(directory_path)
+    if opaque_alpha and is_overlays_original(base_path):
+        print(
+            "[WARN] overlays refuse --opaque-alpha; "
+            "keeping existing-alpha / chroma so icon/small/medium stay transparent."
+        )
+        opaque_alpha = False
     ok = skipped = errors = 0
 
     if not base_path.is_dir():
@@ -606,15 +622,18 @@ def process_images(
             medium_img = alpha_img.resize(med_size, Image.Resampling.NEAREST)
             medium_img.save(paths["medium"])
 
-            # retro: medium + 16-color palette (index 0 transparent).
-            retro_img = quantize_with_transparency(medium_img, colors=16)
-            retro_img.save(paths["retro"], transparency=0)
-
             # small / icon: fixed-size smooth downscales from alpha.
             small_img = smooth_scale(alpha_img, SMALL_SIZE)
             small_img.save(paths["small"])
             icon_img = smooth_scale(alpha_img, ICON_SIZE)
             icon_img.save(paths["icon"])
+
+            # retro: small + 16-color palette (index 0 transparent).
+            retro_img = quantize_with_transparency(small_img, colors=16)
+            retro_img.save(paths["retro"], transparency=0)
+            
+            # apply imagemagick trim
+            subprocess.run(["magick", str(paths["retro"]), "-trim", "+repage", str(paths["retro"])], check=True)
 
             aw, ah = alpha_img.size
             mw, mh = medium_img.size
@@ -623,7 +642,7 @@ def process_images(
             print(
                 f"[OK] {file_path.name} -> {key_label}; "
                 f"alpha {aw}x{ah} RGBA, medium {mw}x{mh} RGBA, "
-                f"retro {mw}x{mh} 16-color, small {sw}x{sh} RGBA, "
+                f"retro trimmed 16-color, small {sw}x{sh} RGBA, "
                 f"icon {iw}x{ih} RGBA."
             )
             ok += 1

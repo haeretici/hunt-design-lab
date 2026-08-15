@@ -264,6 +264,9 @@ function scenarioToInput(scenario) {
     if (scenario.inventoryPractice === true) {
         out.inventoryPractice = true;
     }
+    if (scenario.storage && typeof scenario.storage === 'object' && !Array.isArray(scenario.storage)) {
+        out.storage = cloneJson(scenario.storage);
+    }
     return out;
 }
 

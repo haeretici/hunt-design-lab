@@ -142,12 +142,14 @@
     },
     "loot": [
         {
-            "name": "platinum coin",
+            "name": "Platinum Coin",
+            "id": "platinum_coin",
             "chance": 70000,
             "maxCount": 22
         },
         {
             "name": "Earthbound Rod",
+            "id": "earthbound_rod",
             "chance": 41860,
             "maxCount": 1
         },
@@ -159,10 +161,12 @@
         {
             "chance": 9300,
             "maxCount": 1,
-            "name": "red gem"
+            "name": "Red Gem",
+            "id": "red_gem"
         },
         {
             "name": "Hailburst Rod",
+            "id": "hailburst_rod",
             "chance": 4650
         },
         {
@@ -170,15 +174,18 @@
             "chance": 4000
         },
         {
-            "name": "violet gem",
+            "name": "Violet Gem",
+            "id": "violet_gem",
             "chance": 4650
         },
         {
-            "name": "wand of inferno",
+            "name": "Wand of Inferno",
+            "id": "wand_of_inferno",
             "chance": 4650
         },
         {
-            "name": "green gem",
+            "name": "Green Gem",
+            "id": "green_gem",
             "chance": 9300
         },
         {
@@ -206,7 +213,8 @@
             "chance": 4650
         },
         {
-            "name": "yellow gem",
+            "name": "Yellow Gem",
+            "id": "yellow_gem",
             "chance": 2330
         },
         {
@@ -214,32 +222,39 @@
             "chance": 9300
         },
         {
-            "name": "metal spats",
+            "name": "Metal Spats",
+            "id": "metal_spats",
             "chance": 6980
         },
         {
-            "name": "spellbook of warding",
+            "name": "Spellbook of Warding",
+            "id": "spellbook_of_warding",
             "chance": 2500
         },
         {
             "name": "Emberbound Amulet",
+            "id": "emberbound_amulet",
             "chance": 2330
         },
         {
-            "name": "focus cape",
+            "name": "Focus Cape",
+            "id": "focus_cape",
             "chance": 2330
         },
         {
-            "name": "wand of starstorm",
+            "name": "Wand of Starstorm",
+            "id": "wand_of_starstorm",
             "chance": 2330
         },
         {
-            "name": "crystal mace",
+            "name": "Crystal Mace",
+            "id": "crystal_mace",
             "chance": 1700
         },
         {
             "chance": 2330,
-            "name": "dwarven ring"
+            "name": "Dwarven Ring",
+            "id": "dwarven_ring"
         }
     ],
     "changeTarget": {

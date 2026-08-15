@@ -20,6 +20,7 @@ const {
     resolveCreatureSpeed
 } = require('../lib/content/defaults.js');
 const { ensureCreatureKit } = require('../lib/ai/creature_kit.js');
+const { copyNpcFields } = require('../lib/npc/flags.js');
 const {
     snapVisualToTile,
     tickStepVisual
@@ -351,6 +352,12 @@ class Creature extends GameObject {
 
         // Kit fields (multi-attack, strategies, range/flee)
         if (template.flags) this.flags = template.flags;
+        // Talk / NPC identity must survive spawn (Stage 6b). flags.* is not enough
+        // for the mouse matrix unless copied onto the instance.
+        copyNpcFields(this, template);
+        if (template.changeTarget && typeof template.changeTarget === 'object') {
+            this.changeTarget = template.changeTarget;
+        }
         if (template.strategiesTarget) {
             this.strategiesTarget = template.strategiesTarget;
         }
@@ -372,6 +379,7 @@ class Creature extends GameObject {
             attacks: this.attacks,
             flags: this.flags,
             strategiesTarget: this.strategiesTarget,
+            changeTarget: this.changeTarget,
             runHealthPercent: this.runHealthPercent,
             aggroRange: this.aggroRange,
             summon: this.summon,

@@ -108,24 +108,28 @@
     },
     "loot": [
         {
-            "id": 2824,
-            "chance": 520
+            "chance": 520,
+            "name": "book"
         },
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 90000,
             "maxCount": 5
         },
         {
-            "name": "wand of decay",
+            "name": "Wand of Decay",
+            "id": "wand_of_decay",
             "chance": 1000
         },
         {
-            "name": "spear",
+            "name": "Spear",
+            "id": "spear",
             "chance": 4850
         },
         {
-            "name": "chain armor",
+            "name": "Chain Armor",
+            "id": "chain_armor",
             "chance": 8750
         },
         {

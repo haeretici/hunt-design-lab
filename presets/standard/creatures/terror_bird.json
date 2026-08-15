@@ -72,12 +72,14 @@
     },
     "loot": [
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 82430,
             "maxCount": 30
         },
         {
-            "name": "meat",
+            "name": "Meat",
+            "id": "meat",
             "chance": 48550,
             "maxCount": 3
         },
@@ -95,7 +97,8 @@
             "chance": 3090
         },
         {
-            "name": "health potion",
+            "name": "Health Potion",
+            "id": "health_potion",
             "chance": 690
         },
         {
@@ -103,7 +106,8 @@
             "chance": 280
         },
         {
-            "name": "feather headdress",
+            "name": "Feather Headdress",
+            "id": "feather_headdress",
             "chance": 100
         }
     ],

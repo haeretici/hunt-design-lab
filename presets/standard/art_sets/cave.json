@@ -1,199 +1,44 @@
 {
-    "id": "cave",
-    "label": "Cave",
-    "notes": "Stage 11.11 — deeper cave art volume (blueprint 18–70). Dirt/moss/cobble/bone floors, gravel-stone paths, cave+stone walls, cave/stone stairs, optional deep-void water. Genre: rpg_fantasy/tiles.",
-    "genre": "rpg_fantasy",
-    "kind": "tiles",
-    "roles": {
-        "floor": [
-            {
-                "id": "damp_dirt_floor",
-                "weight": 12
-            },
-            {
-                "id": "damp_moss_floor",
-                "weight": 10
-            },
-            {
-                "id": "ancient_dirt_floor",
-                "weight": 8
-            },
-            {
-                "id": "ancient_moss_floor",
-                "weight": 7
-            },
-            {
-                "id": "dark_cobble_floor",
-                "weight": 6
-            },
-            {
-                "id": "weathered_cobble_floor",
-                "weight": 5
-            },
-            {
-                "id": "dark_moss_floor",
-                "weight": 5
-            },
-            {
-                "id": "cracked_bone_floor",
-                "weight": 3
-            },
-            {
-                "id": "dark_bone_floor",
-                "weight": 3
-            },
-            {
-                "id": "broken_tile_floor",
-                "weight": 2
-            },
-            {
-                "id": "weathered_tile_floor",
-                "weight": 2
-            },
-            {
-                "id": "damp_wood_floor",
-                "weight": 2
-            },
-            {
-                "id": "ancient_wood_floor",
-                "weight": 1
-            },
-            {
-                "id": "broken_wood_floor",
-                "weight": 1
-            }
-        ],
-        "path": [
-            {
-                "id": "dark_gravel_path",
-                "weight": 8
-            },
-            {
-                "id": "ancient_gravel_path",
-                "weight": 6
-            },
-            {
-                "id": "dark_stone_path",
-                "weight": 5
-            },
-            {
-                "id": "ancient_stone_path",
-                "weight": 4
-            },
-            {
-                "id": "polished_dirt_path",
-                "weight": 3
-            },
-            {
-                "id": "sunlit_dirt_path",
-                "weight": 2
-            },
-            {
-                "id": "damp_wood_path",
-                "weight": 2
-            },
-            {
-                "id": "mossy_wood_path",
-                "weight": 1
-            }
-        ],
-        "wall": [
-            {
-                "id": "damp_cave_wall",
-                "weight": 12
-            },
-            {
-                "id": "ancient_cave_wall",
-                "weight": 10
-            },
-            {
-                "id": "broken_cave_wall",
-                "weight": 7
-            },
-            {
-                "id": "weathered_cave_wall",
-                "weight": 6
-            },
-            {
-                "id": "overgrown_cave_wall",
-                "weight": 5
-            },
-            {
-                "id": "dark_stone_wall",
-                "weight": 5
-            },
-            {
-                "id": "damp_stone_wall",
-                "weight": 4
-            },
-            {
-                "id": "ancient_stone_wall",
-                "weight": 4
-            },
-            {
-                "id": "mossy_stone_wall",
-                "weight": 3
-            },
-            {
-                "id": "broken_ruined_wall",
-                "weight": 2
-            },
-            {
-                "id": "damp_ruined_wall",
-                "weight": 2
-            },
-            {
-                "id": "broken_crystal_wall",
-                "weight": 1
-            }
-        ],
-        "stairs": [
-            {
-                "id": "damp_cave_stairs",
-                "weight": 8
-            },
-            {
-                "id": "broken_cave_stairs",
-                "weight": 5
-            },
-            {
-                "id": "dark_stone_stairs",
-                "weight": 4
-            },
-            {
-                "id": "ancient_stone_stairs",
-                "weight": 3
-            },
-            {
-                "id": "sacred_stone_stairs",
-                "weight": 2
-            },
-            {
-                "id": "polished_wood_stairs",
-                "weight": 1
-            }
-        ],
-        "void": [
-            {
-                "id": "damp_deep_water",
-                "weight": 4
-            },
-            {
-                "id": "dark_shallow_water",
-                "weight": 3
-            },
-            {
-                "id": "ancient_deep_water",
-                "weight": 2
-            },
-            {
-                "id": "damp_shallow_water",
-                "weight": 2
-            }
-        ]
-    },
-    "rules": {
-        "blockedEdgeOnly": true,
-        "pathMix": 0.18
-    }
+  "id": "cave",
+  "label": "Cave",
+  "notes": "Slim art set (TileMap Phase 3): 1–2 tiles per terrain role. roleId links tile_roles. Scenery is editor palette only — procedural bind never stamps objects.",
+  "genre": "rpg_fantasy",
+  "kind": "tiles",
+  "roles": {
+    "floor": [
+      { "id": "damp_dirt_floor", "weight": 12, "roleId": "floor" },
+      { "id": "damp_moss_floor", "weight": 8, "roleId": "floor" }
+    ],
+    "path": [
+      { "id": "dark_gravel_path", "weight": 3, "roleId": "path" }
+    ],
+    "wall": [
+      { "id": "damp_cave_wall", "weight": 12, "roleId": "wall" }
+    ],
+    "water": [
+      { "id": "damp_deep_water", "weight": 4, "roleId": "water" }
+    ],
+    "stairs_up": [
+      {
+        "id": "broken_cave_stairs",
+        "weight": 5,
+        "roleId": "stairs_up",
+        "anchor": "bottom_center"
+      }
+    ],
+    "scenery": [
+      {
+        "id": "simple_dead_tree",
+        "weight": 2,
+        "roleId": "scenery_blocking",
+        "kind": "objects",
+        "scale": 1.4,
+        "anchor": "bottom_center"
+      }
+    ]
+  },
+  "rules": {
+    "blockedEdgeOnly": true,
+    "pathMix": 0.18
+  }
 }

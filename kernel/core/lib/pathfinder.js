@@ -314,6 +314,16 @@ function findPath(tileMap, start, end, options) {
         // Solid obstacle fields (barrier / vine, bit 16) always hard-block,
         // including as a path goal — unlike combat targets behind open tiles.
         if (fields && (fields[idx] & 16) !== 0) return true;
+        // NO_CREATURE (PZ package bit): creatures cannot path onto the tile.
+        // Players are exempt via creatureMayEnterTile. Applies to goal too.
+        if (
+            mover &&
+            tileMap &&
+            typeof tileMap.creatureMayEnterTile === 'function' &&
+            !tileMap.creatureMayEnterTile(x, y, z, mover)
+        ) {
+            return true;
+        }
         if (!isEnd) {
             if (friction[idx] === blockedValue()) return true;
             if (occupancyKind(x, y) === 'hard') return true;

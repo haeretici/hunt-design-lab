@@ -1,7 +1,7 @@
 {
     "id": "standard_arena_rest_chain",
     "label": "Standard Arena Rest Chain (multi-arena PoC)",
-    "notes": "docs/23 / design other/arena_rest_piece_packs_plan.md — multi-arena loop: Arena N → X waves (scatter) → death-tile portal → Rest → portal → Arena N+1. layout.type arena_rest_chain (Option C). Art alternates cave_simple ↔ ice_simple. Does not replace standard_arena_waves (single-room ladder).",
+    "notes": "docs/23 / docs/10 — multi-arena loop: Arena N → X waves (scatter) → death-tile portal → Rest → portal → Arena N+1. layout.type arena_rest_chain. Art alternates cave_simple ↔ ice_simple. Does not replace standard_arena_waves (single-room ladder).",
     "artSet": "cave_simple",
     "spawnMode": "eager",
     "layout": {

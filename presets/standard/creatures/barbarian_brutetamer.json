@@ -111,20 +111,23 @@
     },
     "loot": [
         {
-            "id": 2824,
-            "chance": 4750
+            "chance": 4750,
+            "name": "book"
         },
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 90230,
             "maxCount": 15
         },
         {
             "chance": 6550,
-            "name": "staff"
+            "name": "Staff",
+            "id": "staff"
         },
         {
-            "name": "chain armor",
+            "name": "Chain Armor",
+            "id": "chain_armor",
             "chance": 9300
         },
         {
@@ -133,31 +136,38 @@
             "maxCount": 2
         },
         {
-            "name": "hunting spear",
+            "name": "Hunting Spear",
+            "id": "hunting_spear",
             "chance": 5200
         },
         {
-            "name": "fur bag",
+            "name": "Fur Bag",
+            "id": "fur_bag",
             "chance": 7590
         },
         {
-            "name": "brutetamer's staff",
+            "name": "Brutetamer's Staff",
+            "id": "brutetamers_staff",
             "chance": 340
         },
         {
-            "name": "fur boots",
+            "name": "Fur Boots",
+            "id": "fur_boots",
             "chance": 170
         },
         {
-            "name": "mammoth fur cape",
+            "name": "Mammoth Fur Cape",
+            "id": "mammoth_fur_cape",
             "chance": 150
         },
         {
-            "name": "mammoth fur shorts",
+            "name": "Mammoth Fur Shorts",
+            "id": "mammoth_fur_shorts",
             "chance": 90
         },
         {
-            "name": "mana potion",
+            "name": "Mana Potion",
+            "id": "mana_potion",
             "chance": 580
         }
     ],

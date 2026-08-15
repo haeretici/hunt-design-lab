@@ -601,6 +601,51 @@ function computeDamage(params) {
         p.critDamage || 0,
         rng
     );
+
+    const extraAtk =
+        Number(
+            p.extraAtk != null
+                ? p.extraAtk
+                : p.attacker && p.attacker.extraAtk
+        ) || 0;
+    const extraEl =
+        p.extraAtkElement ||
+        (p.attacker && p.attacker.extraAtkElement) ||
+        null;
+    const combinedAtk = Number(p.attacker && p.attacker.atk) || 0;
+    if (extraAtk > 0 && extraEl && combinedAtk > 0) {
+        const elemShare = Math.min(1, extraAtk / combinedAtk);
+        const elemRaw = Math.round(rolled.raw * elemShare);
+        const physRaw = Math.max(0, rolled.raw - elemRaw);
+        const phys = applyMitigation(physRaw, element, p.defender || {}, {
+            isMelee: !!p.isMelee,
+            rng
+        });
+        const elemMit = applyMitigation(elemRaw, extraEl, p.defender || {}, {
+            isMelee: false,
+            rng
+        });
+        const final = phys.final + elemMit.final;
+        return {
+            hit: true,
+            critical: rolled.critical,
+            range,
+            breakdown: {
+                raw: rolled.raw,
+                mitigation: phys.mitigation + elemMit.mitigation,
+                elementReduction: phys.elementReduction + elemMit.elementReduction,
+                shieldBlock: phys.shieldBlock,
+                armorReduction: phys.armorReduction,
+                element,
+                extraAtkElement: extraEl,
+                primary: phys,
+                secondary: elemMit,
+                final
+            },
+            final
+        };
+    }
+
     const breakdown = applyMitigation(rolled.raw, element, p.defender || {}, {
         isMelee: !!p.isMelee,
         rng

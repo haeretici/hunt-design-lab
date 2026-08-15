@@ -84,24 +84,29 @@
     "loot": [
         {
             "chance": 9880,
-            "name": "torch"
+            "name": "Torch",
+            "id": "torch"
         },
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 77670,
             "maxCount": 40
         },
         {
-            "name": "spear",
+            "name": "Spear",
+            "id": "spear",
             "chance": 5140,
             "maxCount": 2
         },
         {
-            "name": "chain armor",
+            "name": "Chain Armor",
+            "id": "chain_armor",
             "chance": 3000
         },
         {
-            "name": "plate shield",
+            "name": "Plate Shield",
+            "id": "plate_shield",
             "chance": 5000
         },
         {
@@ -113,15 +118,17 @@
             "chance": 110
         },
         {
-            "id": 5792,
-            "chance": 90
+            "chance": 90,
+            "name": "die"
         },
         {
-            "name": "bandana",
+            "name": "Bandana",
+            "id": "bandana",
             "chance": 880
         },
         {
-            "name": "pirate bag",
+            "name": "Pirate Bag",
+            "id": "pirate_bag",
             "chance": 430
         },
         {

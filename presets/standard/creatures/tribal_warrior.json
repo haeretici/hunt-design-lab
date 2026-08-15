@@ -94,21 +94,25 @@
     },
     "loot": [
         {
-            "name": "platinum coin",
+            "name": "Platinum Coin",
+            "id": "platinum_coin",
             "chance": 100000,
             "maxCount": 10
         },
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 100000,
             "maxCount": 50
         },
         {
-            "id": 281,
-            "chance": 14830
+            "chance": 14830,
+            "name": "Giant Shimmering Pearl",
+            "id": "giant_shimmering_pearl"
         },
         {
-            "name": "great health potion",
+            "name": "Great Health Potion",
+            "id": "great_health_potion",
             "chance": 14530
         },
         {
@@ -129,7 +133,8 @@
             "maxCount": 2
         },
         {
-            "name": "gearwheel chain",
+            "name": "Gearwheel Chain",
+            "id": "gearwheel_chain",
             "chance": 3150
         },
         {
@@ -141,7 +146,8 @@
             "chance": 2410
         },
         {
-            "name": "spiked squelcher",
+            "name": "Spiked Squelcher",
+            "id": "spiked_squelcher",
             "chance": 1700
         },
         {

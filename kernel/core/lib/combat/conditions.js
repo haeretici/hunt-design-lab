@@ -5,6 +5,7 @@
  * not full stack parity. DoT kinds: poison, fire, ice, energy, bleed, curse, holy.
  * HoT kind: regen (legacy CONDITION_REGENERATION — fixed HP every interval for duration).
  * Stance kind: attributes (legacy CONDITION_ATTRIBUTES — skill%/damage%/defense).
+ * Pooled absorb: mana_shield (legacy CONDITION_MANASHIELD — HP → mana against a pool).
  *
  * Entity shape:
  *   entity.conditions: ConditionInstance[]
@@ -20,7 +21,7 @@ const { applyMitigation } = require('./damage.js');
 
 /**
  * @typedef {object} ConditionDef
- * @property {string} type  poison | fire | ice | energy | bleed | curse | holy | freezing | slow | haste | invisible | regen | attributes
+ * @property {string} type  poison | fire | ice | energy | bleed | curse | holy | freezing | slow | haste | invisible | regen | attributes | mana_shield
  * @property {number} [totalDamage]
  * @property {number} [intervalMs]
  * @property {number} [intervalSec]
@@ -37,12 +38,15 @@ const { applyMitigation } = require('./damage.js');
  * @property {boolean} [disableDefense] block shield / defense rolls
  * @property {boolean} [cannotAttack] pacify — block attack/auto casts
  * @property {object} [speedFormula] optional haste/slow formula (attributes stances)
+ * @property {number} [poolRemaining] mana_shield live absorb pool
+ * @property {number} [poolMax] mana_shield snapshot cap
+ * @property {string} [poolFormula] e.g. legacy_mana_shield (resolved at apply)
  */
 
 /**
  * @typedef {object} ConditionInstance
  * @property {string} id
- * @property {string} kind  poison | fire | ice | energy | bleed | curse | holy | slow | haste | invisible | regen | attributes
+ * @property {string} kind  poison | fire | ice | energy | bleed | curse | holy | slow | haste | invisible | regen | attributes | mana_shield
  * @property {number} [remainingDamage]
  * @property {number} [tickIntervalSec]
  * @property {number} [tickTimer]
@@ -57,6 +61,8 @@ const { applyMitigation } = require('./damage.js');
  * @property {number} [damageReceivedPercent]
  * @property {boolean} [disableDefense]
  * @property {boolean} [cannotAttack]
+ * @property {number} [poolRemaining]
+ * @property {number} [poolMax]
  */
 
 /** Canonical DoT kinds (engine-stored). Aliases resolve here at normalize time. */
@@ -332,6 +338,18 @@ function normalizeConditionDef(raw) {
         return def;
     }
 
+    // Pooled mana absorb (legacy CONDITION_MANASHIELD). Recast always overwrites.
+    if (isManaShieldType(type)) {
+        const pool = readManaShieldPool(raw);
+        return {
+            type: 'mana_shield',
+            durationSec: durationSec > 0 ? durationSec : 180,
+            poolRemaining: pool.poolRemaining,
+            poolMax: pool.poolMax,
+            poolFormula: raw.poolFormula || undefined
+        };
+    }
+
     return null;
 }
 
@@ -405,6 +423,7 @@ function recomputeDerived(entity) {
  * Buffs (haste/slow/invis) refresh duration / overwrite same kind.
  * HoT (regen): always overwrite same kind — duration + healthGain + interval
  * reset to the new spell (legacy recast of CONDITION_REGENERATION).
+ * mana_shield: always overwrite same kind — duration + pool snapshot reset.
  *
  * @param {object} entity
  * @param {ConditionDef|object} def
@@ -413,7 +432,11 @@ function recomputeDerived(entity) {
  */
 function applyCondition(entity, def, opts) {
     if (!entity || !entity.alive) return null;
-    const norm = normalizeConditionDef(def);
+    const incoming =
+        def && isManaShieldType(def.type || def.kind || def.name)
+            ? resolveManaShieldDef(def, entity)
+            : def;
+    const norm = normalizeConditionDef(incoming);
     if (!norm) return null;
     // Respect immunities.paralyze (and other kind keys) before applying.
     if (isImmuneToCondition(entity, norm.type)) return null;
@@ -562,6 +585,27 @@ function applyCondition(entity, def, opts) {
         }
         recomputeDerived(entity);
         return inst;
+    } else if (norm.type === 'mana_shield') {
+        // Always replace — weaker or stronger, duration + pool fully reset.
+        const poolRemaining = Math.max(
+            0,
+            Math.floor(Number(norm.poolRemaining) || 0)
+        );
+        let poolMax = Math.max(0, Math.floor(Number(norm.poolMax) || 0));
+        if (poolMax < poolRemaining) poolMax = poolRemaining;
+        inst = {
+            id: 'mana_shield',
+            kind: 'mana_shield',
+            durationSec: norm.durationSec > 0 ? Number(norm.durationSec) : 180,
+            poolRemaining,
+            poolMax,
+            source: o.source || null
+        };
+        const idx = list.findIndex((c) => c && c.kind === 'mana_shield');
+        if (idx >= 0) list[idx] = inst;
+        else list.push(inst);
+        recomputeDerived(entity);
+        return inst;
     } else {
         return null;
     }
@@ -646,7 +690,7 @@ function tickConditions(entity, dtSec, hooks) {
             continue;
         }
 
-        // Duration buffs (haste / slow / invisible)
+        // Duration buffs (haste / slow / invisible / mana_shield / attributes)
         if (c.durationSec != null) {
             c.durationSec -= dt;
             if (c.durationSec <= 0) {
@@ -812,6 +856,310 @@ function hasteSpeedChangeFromFormula(baseSpeed, formula) {
 }
 
 /**
+ * Whether a raw type / kind is the pooled mana-shield condition.
+ * Accepts engine `mana_shield` plus legacy aliases (CONDITION_MANASHIELD).
+ * @param {string|null|undefined} type
+ * @returns {boolean}
+ */
+function isManaShieldType(type) {
+    const t = String(type || '')
+        .toLowerCase()
+        .replace(/^condition_/, '');
+    return t === 'mana_shield' || t === 'manashield' || t === 'mana-shield';
+}
+
+/**
+ * Read explicit pool numbers from a condition bag (no formula eval).
+ * @param {object} raw
+ * @returns {{ poolRemaining: number, poolMax: number }}
+ */
+function readManaShieldPool(raw) {
+    const explicit =
+        raw.poolRemaining != null
+            ? Number(raw.poolRemaining)
+            : raw.pool != null
+              ? Number(raw.pool)
+              : raw.poolMax != null
+                ? Number(raw.poolMax)
+                : 0;
+    const remaining = Math.max(0, Math.floor(Number.isFinite(explicit) ? explicit : 0));
+    const maxRaw =
+        raw.poolMax != null ? Number(raw.poolMax) : remaining;
+    let poolMax = Math.max(0, Math.floor(Number.isFinite(maxRaw) ? maxRaw : 0));
+    if (poolMax < remaining) poolMax = remaining;
+    return { poolRemaining: remaining, poolMax };
+}
+
+/**
+ * Stage-1 pool (no Wheel 1.25×). floor(min(maxMana, 300 + 7.6*level + 7*magicLevel)).
+ * @param {number} level
+ * @param {number} magicLevel
+ * @param {number} maxMana
+ * @returns {number}
+ */
+function computeManaShieldPool(level, magicLevel, maxMana) {
+    const lvl = Math.max(0, Number(level));
+    const ml = Math.max(0, Number(magicLevel));
+    const cap = Math.max(0, Number(maxMana));
+    const L = Number.isFinite(lvl) ? lvl : 0;
+    const M = Number.isFinite(ml) ? ml : 0;
+    const C = Number.isFinite(cap) ? cap : 0;
+    const raw = 300 + 7.6 * L + 7 * M;
+    return Math.max(0, Math.floor(Math.min(C, raw)));
+}
+
+/**
+ * Level / magic / maxMana snapshot for poolFormula evaluation.
+ * @param {object|null|undefined} entity
+ * @returns {{ level: number, magic: number, maxMana: number }}
+ */
+function manaShieldStatsFromEntity(entity) {
+    if (!entity) return { level: 0, magic: 0, maxMana: 0 };
+    const stats = entity.combatStats || null;
+    const skills = entity.skills || (stats && stats.skills) || null;
+    let level = 0;
+    if (entity.level != null && Number.isFinite(Number(entity.level))) {
+        level = Number(entity.level);
+    } else if (stats && stats.level != null && Number.isFinite(Number(stats.level))) {
+        level = Number(stats.level);
+    }
+    let magic = 0;
+    if (entity.magic != null && Number.isFinite(Number(entity.magic))) {
+        magic = Number(entity.magic);
+    } else if (stats && stats.magic != null && Number.isFinite(Number(stats.magic))) {
+        magic = Number(stats.magic);
+    } else if (skills && skills.magic != null && Number.isFinite(Number(skills.magic))) {
+        magic = Number(skills.magic);
+    }
+    let maxMana = 0;
+    if (entity.mp && entity.mp.max != null && Number.isFinite(Number(entity.mp.max))) {
+        maxMana = Number(entity.mp.max);
+    } else if (stats && stats.mpMax != null && Number.isFinite(Number(stats.mpMax))) {
+        maxMana = Number(stats.mpMax);
+    } else if (entity.manaMax != null && Number.isFinite(Number(entity.manaMax))) {
+        maxMana = Number(entity.manaMax);
+    }
+    return { level, magic, maxMana };
+}
+
+/**
+ * Fill poolRemaining / poolMax from poolFormula when the bag has no explicit pool.
+ * @param {object} raw
+ * @param {object|null|undefined} entity
+ * @returns {object}
+ */
+function resolveManaShieldDef(raw, entity) {
+    const bag = Object.assign({}, raw);
+    const hasExplicit =
+        bag.poolRemaining != null || bag.poolMax != null || bag.pool != null;
+    if (!hasExplicit && bag.poolFormula === 'legacy_mana_shield') {
+        const snap = manaShieldStatsFromEntity(entity);
+        const pool = computeManaShieldPool(snap.level, snap.magic, snap.maxMana);
+        bag.poolRemaining = pool;
+        bag.poolMax = pool;
+    } else if (bag.pool != null && bag.poolRemaining == null) {
+        bag.poolRemaining = bag.pool;
+        if (bag.poolMax == null) bag.poolMax = bag.pool;
+    }
+    return bag;
+}
+
+/**
+ * Current mana, or null when the entity has no MP bag.
+ * @param {object|null|undefined} entity
+ * @returns {number|null}
+ */
+function readCurrentMana(entity) {
+    if (!entity) return null;
+    if (entity.mp && entity.mp.current != null) {
+        return Math.max(0, Math.floor(Number(entity.mp.current) || 0));
+    }
+    if (entity.mana != null) {
+        return Math.max(0, Math.floor(Number(entity.mana) || 0));
+    }
+    return null;
+}
+
+/**
+ * Drain mana (same mutation as resolve.spendMana; kept here to avoid a cycle).
+ * @param {object} entity
+ * @param {number} amount
+ * @returns {number} actually drained
+ */
+function drainEntityMana(entity, amount) {
+    const cost = Math.max(0, Math.floor(Number(amount) || 0));
+    if (cost <= 0 || !entity) return 0;
+    if (entity.mp && entity.mp.current != null) {
+        const before = entity.mp.current;
+        entity.mp.current = Math.max(0, before - cost);
+        return before - entity.mp.current;
+    }
+    if (entity.mana != null) {
+        const before = entity.mana;
+        entity.mana = Math.max(0, before - cost);
+        return before - entity.mana;
+    }
+    return 0;
+}
+
+/**
+ * Active pooled mana_shield instance, or null.
+ * @param {object|null|undefined} entity
+ * @returns {object|null}
+ */
+function getPooledManaShield(entity) {
+    const list = entity && Array.isArray(entity.conditions) ? entity.conditions : [];
+    for (let i = 0; i < list.length; i++) {
+        const c = list[i];
+        if (!c) continue;
+        if (normalizeKindKey(c.kind || c.type || c.id || '') === 'mana_shield') {
+            return c;
+        }
+    }
+    return null;
+}
+
+/**
+ * Equipped gear unpooled absorb (combatStats.flags.manaShield).
+ * @param {object|null|undefined} entity
+ * @returns {boolean}
+ */
+function hasGearManaShield(entity) {
+    const flags = entity && entity.combatStats && entity.combatStats.flags;
+    return !!(flags && flags.manaShield);
+}
+
+/**
+ * Combined shield snapshot (pooled condition + optional gear flag).
+ * Pooled remaining > 0 wins over gear; gear stays after the pool is gone.
+ *
+ * @param {object|null|undefined} entity
+ * @returns {{
+ *   condition: object|null,
+ *   pooled: boolean,
+ *   poolRemaining: number,
+ *   poolMax: number,
+ *   gear: boolean,
+ *   active: boolean
+ * }}
+ */
+function getManaShieldState(entity) {
+    const cond = getPooledManaShield(entity);
+    const poolRemaining = cond
+        ? Math.max(0, Math.floor(Number(cond.poolRemaining) || 0))
+        : 0;
+    const poolMax = cond
+        ? Math.max(
+              0,
+              Math.floor(
+                  Number(cond.poolMax != null ? cond.poolMax : cond.poolRemaining) || 0
+              )
+          )
+        : 0;
+    const gear = hasGearManaShield(entity);
+    const pooled = !!(cond && poolRemaining > 0);
+    return {
+        condition: cond,
+        pooled,
+        poolRemaining,
+        poolMax,
+        gear,
+        active: pooled || gear
+    };
+}
+
+/**
+ * Watch-UI bar for an active mana shield (nameplate / party / combat list).
+ * Pooled: remaining / snapshot max. Gear-only: current mana / max mana.
+ *
+ * @param {object|null|undefined} entity
+ * @returns {{ mode: 'pooled'|'gear', remaining: number, max: number, frac: number }|null}
+ */
+function resolveManaShieldBar(entity) {
+    const state = getManaShieldState(entity);
+    if (!state || !state.active) return null;
+    if (state.pooled) {
+        const max = state.poolMax > 0 ? state.poolMax : state.poolRemaining;
+        const remaining = state.poolRemaining;
+        return {
+            mode: 'pooled',
+            remaining,
+            max,
+            frac: max > 0 ? Math.max(0, Math.min(1, remaining / max)) : 0
+        };
+    }
+    const mana = readCurrentMana(entity);
+    let maxMana = 0;
+    if (entity && entity.mp && Number.isFinite(Number(entity.mp.max))) {
+        maxMana = Math.max(0, Number(entity.mp.max));
+    }
+    const remaining = mana != null ? mana : 0;
+    const max = maxMana > 0 ? maxMana : remaining;
+    return {
+        mode: 'gear',
+        remaining,
+        max,
+        frac: max > 0 ? Math.max(0, Math.min(1, remaining / max)) : 0
+    };
+}
+
+/**
+ * Convert incoming post-mitigation HP into mana drain.
+ * Pooled (spell/potion) caps at remaining; unpooled (gear) uses current mana only.
+ * Clearing the pool / mana-dry never strips the gear flag.
+ *
+ * @param {object} entity
+ * @param {number} incomingHp
+ * @returns {{ absorbed: number, leftoverHp: number, cleared: boolean }}
+ */
+function absorbWithManaShield(entity, incomingHp) {
+    const raw = Number(incomingHp);
+    const original = Number.isFinite(raw) ? raw : 0;
+    const incoming = Math.max(0, Math.floor(original));
+    // Preserve the caller's amount when we skip (no floor change on unshielded hits).
+    const none = { absorbed: 0, leftoverHp: original, cleared: false };
+    if (!(incoming > 0) || !entity) return none;
+    const mana = readCurrentMana(entity);
+    if (mana == null) return none;
+    const state = getManaShieldState(entity);
+    if (!state.active) return none;
+
+    let manaDamage = Math.min(mana, incoming);
+    let remaining = state.poolRemaining;
+    let cleared = false;
+    const cond = state.condition;
+
+    if (remaining > 0) {
+        if (remaining > manaDamage) {
+            remaining -= manaDamage;
+            if (cond) cond.poolRemaining = remaining;
+        } else {
+            manaDamage = remaining;
+            remaining = 0;
+            if (cond) cond.poolRemaining = 0;
+            removeCondition(entity, 'mana_shield');
+            cleared = true;
+        }
+    }
+
+    if (manaDamage > 0) {
+        drainEntityMana(entity, manaDamage);
+        const after = readCurrentMana(entity);
+        if (after === 0 && remaining > 0) {
+            removeCondition(entity, 'mana_shield');
+            cleared = true;
+            remaining = 0;
+        }
+    }
+
+    return {
+        absorbed: manaDamage,
+        leftoverHp: incoming - manaDamage,
+        cleared
+    };
+}
+
+/**
  * Build a ConditionDef from a spell.condition payload (may include speedFormula).
  * Mutates nothing on the entity; returns a normalized def ready for applyCondition.
  *
@@ -833,6 +1181,9 @@ function conditionDefFromSpell(raw, entity) {
         rawType === 'paralysed'
     ) {
         bag.type = 'slow';
+    }
+    if (isManaShieldType(rawType)) {
+        Object.assign(bag, resolveManaShieldDef(bag, entity));
     }
     const needsSpeedFormula =
         (bag.type === 'haste' ||
@@ -1017,6 +1368,7 @@ function normalizeKindKey(kind) {
     if (k === 'dazzled' || k === 'dazzle') k = 'holy';
     if (k === 'invisibility') k = 'invisible';
     if (k === 'regeneration' || k === 'hot' || k === 'recovery') k = 'regen';
+    if (k === 'manashield' || k === 'mana-shield') k = 'mana_shield';
     const meta = DOT_KINDS[k];
     if (meta) return meta.kind;
     return k;
@@ -1108,6 +1460,10 @@ module.exports = {
     normalizeKindKey,
     getAttributeMods,
     isCannotAttack,
+    computeManaShieldPool,
+    getManaShieldState,
+    resolveManaShieldBar,
+    absorbWithManaShield,
     DOT_KINDS,
     DOT_KIND_SET
 };

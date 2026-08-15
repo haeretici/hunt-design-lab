@@ -1,0 +1,20 @@
+{
+  "id": "path",
+  "label": "Path",
+  "notes": "Walkable path / road over ground. Topmost open friction wins when stacked on floor.",
+  "kindHints": ["tiles"],
+  "catalogCategories": ["path"],
+  "render": {
+    "scale": 1.0,
+    "anchor": "middle_center",
+    "variant": "retro"
+  },
+  "influence": {
+    "friction": 100,
+    "sight": 0,
+    "flags": 0,
+    "walkMode": "open",
+    "sightMode": "clear"
+  },
+  "vertical": null
+}

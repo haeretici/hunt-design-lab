@@ -42,8 +42,19 @@ const {
     listBrowsableStackUids,
     isInBrowseOpenRange,
     resolveBrowseFieldApproach,
+    resolveApproach,
     BROWSE_FIELD_CAPACITY
 } = require('./mouse_dispatcher.js');
+const { isTalkableNpc } = require('../../core/lib/npc/flags.js');
+const { resolveDialog } = require('../../core/lib/npc/dialog.js');
+const {
+    TALK_RANGE,
+    openTalk,
+    closeTalk,
+    getTalkSession,
+    findTalkNpc,
+    canTalkToNpc
+} = require('../../core/lib/npc/session.js');
 const {
     ROOT_UID,
     itemIsContainer,
@@ -97,6 +108,14 @@ const {
     openSidebarPanel,
     isSidebarPanelOpen
 } = require('./sidebar_panels.js');
+const { createNpcDialogPanel } = require('./npc_dialog_panel.js');
+const {
+    tileClientRect,
+    slotClientRect,
+    collectOccupiedRects,
+    placeFloatPanel,
+    boundsForOrigin
+} = require('./float_panel_place.js');
 
 const DRAG_THRESHOLD_PX = 5;
 
@@ -158,6 +177,31 @@ function bindInventoryPanel(opts) {
         document.body.appendChild(floatRoot);
     }
 
+    function talkCtx() {
+        const sim = typeof o.getSim === 'function' ? o.getSim() : null;
+        if (!sim) return null;
+        return {
+            sim,
+            entityById: sim.entityById,
+            creatureById: sim.creatureById,
+            creatures: sim.creatures,
+            itemDb: sim.itemDb || sim._itemDb || null
+        };
+    }
+
+    const npcDialog = createNpcDialogPanel({
+        floatRoot,
+        getPlayer: () => activePlayer() || getActivePlayerFromSim(simOf()),
+        getCtx: talkCtx,
+        getCanvas: () => canvasEl,
+        getTileSize: () => ({
+            w: Settings.tileWidth || 32,
+            h: Settings.tileHeight || 32
+        }),
+        onSystemFloat: (player, text) => emitSystemFloat(player, text),
+        onInventoryMutation: () => notifyMutation()
+    });
+
     /** @type {HTMLElement|null} */
     let ctxMenu = null;
     /** @type {string|null} selected item uid */
@@ -183,6 +227,30 @@ function bindInventoryPanel(opts) {
      * @type {{ uid: string, x: number, y: number, z: string|number }|null}
      */
     let pendingOpenGround = null;
+    /**
+     * Walk-then-talk deferred open (same family as pendingBrowse).
+     * @type {{ npcId: *, x: number, y: number, z: string|number }|null}
+     */
+    let pendingTalk = null;
+
+    /**
+     * True while a walk-then-* is still in flight. paint() can run after the
+     * adapter enqueues START_AUTOWALK but before hunt_ai sets _manualDest —
+     * treat the queued command as “still walking” so pending* is not dropped.
+     * @param {object|null|undefined} player
+     * @returns {boolean}
+     */
+    function isQueuedOrWalkingToward(player) {
+        if (!player) return false;
+        if (player._manualDest) return true;
+        if (player.path && player.path.length > 0) return true;
+        const q = player.commandQueue;
+        if (!Array.isArray(q)) return false;
+        for (let i = 0; i < q.length; i++) {
+            if (q[i] && q[i].type === 'START_AUTOWALK') return true;
+        }
+        return false;
+    }
 
     /**
      * @param {string} containerUid
@@ -765,8 +833,10 @@ function bindInventoryPanel(opts) {
         // Stage 8: walk-then-browse arrival + live browse panel refresh
         tickPendingBrowse();
         tickPendingOpenGround();
+        tickTalkSession();
         refreshBrowsePanels(itemDb, genre);
         refreshGroundContainerPanels(itemDb, genre);
+        if (npcDialog) npcDialog.sync(player, talkCtx());
 
         if (!player || !player.inventory) {
             if (gridEl) {
@@ -786,7 +856,8 @@ function bindInventoryPanel(opts) {
                 renderContainerGrid(gridEl, ROOT_UID, invStub, itemDb, genre);
             }
             if (titleEl) titleEl.textContent = 'Backpack';
-            closeAllPanels();
+            // Empty backpack chrome must not cancel walk-then-talk / browse.
+            closeFloatingItemPanels();
             hideContextMenu();
             lastSig = 'idle';
             return;
@@ -952,8 +1023,77 @@ function bindInventoryPanel(opts) {
     }
 
     /**
+     * @param {object|null|undefined} intent
+     * @param {object} [extra]
+     * @returns {{ slotEl?: *, tile?: object, origin?: string }}
+     */
+    function placeOptsFromOpen(intent, extra) {
+        const out = extra && typeof extra === 'object' ? Object.assign({}, extra) : {};
+        if (intent && intent.slotEl) {
+            out.slotEl = intent.slotEl;
+            if (!out.origin) out.origin = 'slot';
+        }
+        if (intent && intent.tile && intent.tile.x != null && intent.tile.y != null) {
+            if (!out.tile) out.tile = intent.tile;
+            if (!out.origin && !out.slotEl) out.origin = 'canvas';
+        }
+        return out;
+    }
+
+    /**
+     * Place a newly appended float next to its slot or tile.
+     * @param {HTMLElement} el
+     * @param {{
+     *   origin?: string,
+     *   slotEl?: *,
+     *   tile?: { x?: number, y?: number },
+     *   anchor?: object,
+     *   x?: number,
+     *   y?: number
+     * }} [opts]
+     */
+    function placeNewFloat(el, opts) {
+        const o2 = opts || {};
+        let origin = o2.origin;
+        let anchor = o2.anchor || null;
+        if (!anchor && o2.slotEl) {
+            anchor = slotClientRect(o2.slotEl);
+            if (!origin) origin = 'slot';
+        }
+        if (!anchor && o2.tile && o2.tile.x != null && o2.tile.y != null) {
+            const sim = simOf();
+            anchor = tileClientRect(
+                o2.tile,
+                canvasEl,
+                sim && sim.tileMap,
+                Settings.tileWidth || 32,
+                Settings.tileHeight || 32
+            );
+            if (!origin) origin = 'canvas';
+        }
+        if (!anchor && o2.x != null && o2.y != null) {
+            const px = Number(o2.x);
+            const py = Number(o2.y);
+            if (Number.isFinite(px) && Number.isFinite(py)) {
+                anchor = { left: px, top: py, right: px, bottom: py };
+            }
+        }
+        placeFloatPanel(el, {
+            anchor,
+            bounds: boundsForOrigin(
+                origin,
+                canvasEl,
+                typeof window !== 'undefined' ? window : null
+            ),
+            occupied: collectOccupiedRects(floatRoot, el),
+            fallbackW: 200,
+            fallbackH: 80
+        });
+    }
+
+    /**
      * @param {string} containerUid
-     * @param {{ forceNew?: boolean, x?: number, y?: number, ground?: boolean, source?: 'player'|'ground' }} [opts]
+     * @param {{ forceNew?: boolean, x?: number, y?: number, ground?: boolean, source?: 'player'|'ground', slotEl?: *, tile?: object, origin?: string }} [opts]
      */
     function openContainerPanel(containerUid, opts) {
         const o2 = opts || {};
@@ -996,10 +1136,6 @@ function bindInventoryPanel(opts) {
         el.className = 'inv-float-panel';
         el.dataset.containerUid = containerUid;
         el.dataset.invSource = 'player';
-        const left = o2.x != null ? o2.x : 80 + openPanels.size * 24;
-        const top = o2.y != null ? o2.y : 120 + openPanels.size * 24;
-        el.style.left = left + 'px';
-        el.style.top = top + 'px';
 
         const header = document.createElement('div');
         header.className = 'inv-panel-header';
@@ -1026,6 +1162,7 @@ function bindInventoryPanel(opts) {
         el.appendChild(header);
         el.appendChild(scroll);
         floatRoot.appendChild(el);
+        placeNewFloat(el, o2);
 
         wirePanelHeaderDrag(header, el);
 
@@ -1040,7 +1177,7 @@ function bindInventoryPanel(opts) {
     /**
      * Open a bag/corpse container that lives on the ground store.
      * @param {string} containerUid
-     * @param {{ forceNew?: boolean, x?: number, y?: number, forceOpen?: boolean }} [opts]
+     * @param {{ forceNew?: boolean, x?: number, y?: number, forceOpen?: boolean, slotEl?: *, tile?: object, origin?: string }} [opts]
      */
     function openGroundContainerPanel(containerUid, opts) {
         const o2 = opts || {};
@@ -1082,10 +1219,6 @@ function bindInventoryPanel(opts) {
         el.className = 'inv-float-panel inv-ground-container-panel';
         el.dataset.containerUid = containerUid;
         el.dataset.invSource = 'ground';
-        const left = o2.x != null ? o2.x : 120 + openPanels.size * 28;
-        const top = o2.y != null ? o2.y : 160 + openPanels.size * 28;
-        el.style.left = left + 'px';
-        el.style.top = top + 'px';
 
         const header = document.createElement('div');
         header.className = 'inv-panel-header';
@@ -1112,6 +1245,15 @@ function bindInventoryPanel(opts) {
         el.appendChild(header);
         el.appendChild(scroll);
         floatRoot.appendChild(el);
+        const groundPlace = Object.assign({}, o2);
+        if (!groundPlace.tile && !groundPlace.slotEl && sim.groundItems) {
+            const root = groundRootLocation(sim.groundItems, containerUid);
+            if (root) {
+                groundPlace.tile = { x: root.x, y: root.y, z: root.z };
+                if (!groundPlace.origin) groundPlace.origin = 'canvas';
+            }
+        }
+        placeNewFloat(el, groundPlace);
 
         wirePanelHeaderDrag(header, el);
 
@@ -1149,12 +1291,18 @@ function bindInventoryPanel(opts) {
         });
     }
 
-    function closeAllPanels() {
+    function closeFloatingItemPanels() {
         openPanels.forEach((p) => p.el.remove());
         openPanels.clear();
         closeAllBrowsePanels();
+    }
+
+    function closeAllPanels() {
+        closeFloatingItemPanels();
         pendingBrowse = null;
         pendingOpenGround = null;
+        pendingTalk = null;
+        if (npcDialog) npcDialog.hide();
     }
 
     /**
@@ -1233,11 +1381,15 @@ function bindInventoryPanel(opts) {
         if (isInBrowseOpenRange(player.tile, tile)) {
             const dest = pendingBrowse;
             pendingBrowse = null;
-            openBrowseFieldPanel(dest.x, dest.y, dest.z, { forceOpen: true });
+            openBrowseFieldPanel(dest.x, dest.y, dest.z, {
+                forceOpen: true,
+                origin: 'canvas',
+                tile: { x: dest.x, y: dest.y, z: dest.z }
+            });
             return;
         }
-        // Still walking: keep pending while manual dest aims nearby, else drop if idle far
-        if (!player._manualDest && (!player.path || player.path.length === 0)) {
+        // Still walking: keep pending while dest / path / queued autowalk exists
+        if (!isQueuedOrWalkingToward(player)) {
             // Walk cancelled / no route — abandon without re-FCT (path fail already announced)
             pendingBrowse = null;
         }
@@ -1268,11 +1420,151 @@ function bindInventoryPanel(opts) {
         }
         if (isInBrowseOpenRange(player.tile, dest)) {
             pendingOpenGround = null;
-            openGroundContainerPanel(dest.uid, { forceOpen: true });
+            openGroundContainerPanel(dest.uid, {
+                forceOpen: true,
+                origin: 'canvas',
+                tile: { x: dest.x, y: dest.y, z: dest.z }
+            });
             return;
         }
-        if (!player._manualDest && (!player.path || player.path.length === 0)) {
+        if (!isQueuedOrWalkingToward(player)) {
             pendingOpenGround = null;
+        }
+    }
+
+    /**
+     * Open talk immediately: session + queueable npc_dialog + panel sync.
+     * @param {object} player
+     * @param {object} npc
+     */
+    function beginTalkNow(player, npc) {
+        const opened = openTalk(player, npc);
+        if (!opened.ok) return;
+        if (!Array.isArray(player.commandQueue)) player.commandQueue = [];
+        player.commandQueue.push({
+            type: 'CUSTOM_COMMAND',
+            command: 'npc_dialog',
+            args: { npcId: npc.id, nodeId: opened.nodeId }
+        });
+        if (npcDialog) npcDialog.sync(player, talkCtx());
+    }
+
+    /**
+     * After walk-then-talk: open when Chebyshev ≤ 3. Drop session if the
+     * player walks away or the NPC dies after the panel is already open.
+     */
+    function tickTalkSession() {
+        const player = activePlayer();
+        if (pendingTalk) {
+            if (!player || !player.tile) return;
+            const dest = pendingTalk;
+            if (
+                String(player.tile.z != null ? player.tile.z : 0) !==
+                String(dest.z != null ? dest.z : 0)
+            ) {
+                pendingTalk = null;
+                return;
+            }
+            const npc = findTalkNpc(talkCtx(), dest.npcId);
+            if (!npc || !isTalkableNpc(npc)) {
+                pendingTalk = null;
+                return;
+            }
+            if (canTalkToNpc(player, npc).ok) {
+                pendingTalk = null;
+                beginTalkNow(player, npc);
+                return;
+            }
+            if (!isQueuedOrWalkingToward(player)) {
+                pendingTalk = null;
+            }
+            return;
+        }
+        if (!player) return;
+        const session = getTalkSession(player);
+        if (!session) return;
+        const npc = findTalkNpc(talkCtx(), session.npcId);
+        if (!npc || !canTalkToNpc(player, npc).ok) {
+            closeTalk(player);
+            if (npcDialog) npcDialog.hide();
+        }
+    }
+
+    /**
+     * Stage 6b adapter: TALK_NPC range + walk-then-talk.
+     * @param {object} intent
+     * @param {object} player
+     * @param {object} sim
+     */
+    function handleTalkNpcIntent(intent, player, sim) {
+        if (!intent || !player || !sim) return;
+        const npcId =
+            intent.creatureId != null
+                ? intent.creatureId
+                : intent.creature && intent.creature.id;
+        const npc =
+            findTalkNpc(talkCtx(), npcId) ||
+            (intent.creature && isTalkableNpc(intent.creature)
+                ? intent.creature
+                : null);
+        if (!npc || !isTalkableNpc(npc)) {
+            emitSystemFloat(player, 'No one to talk to');
+            pendingTalk = null;
+            return;
+        }
+        const resolved = resolveDialog(npc);
+        if (!resolved.ok) {
+            emitSystemFloat(player, 'Nothing to say.');
+            pendingTalk = null;
+            return;
+        }
+        const tile = npc.tile
+            ? { x: npc.tile.x, y: npc.tile.y, z: npc.tile.z }
+            : intent.tile
+              ? {
+                    x: intent.tile.x,
+                    y: intent.tile.y,
+                    z: intent.tile.z != null ? intent.tile.z : 0
+                }
+              : null;
+        if (!tile || tile.x == null || tile.y == null) {
+            emitSystemFloat(player, 'No one to talk to');
+            pendingTalk = null;
+            return;
+        }
+        const approach = resolveApproach(
+            player.tile,
+            sim.tileMap || null,
+            tile,
+            TALK_RANGE
+        );
+        if (approach.status === 'wrong_floor') {
+            emitSystemFloat(player, 'You cannot talk to that floor.');
+            pendingTalk = null;
+            return;
+        }
+        if (approach.status === 'no_path') {
+            emitSystemFloat(player, 'There is no way.');
+            pendingTalk = null;
+            return;
+        }
+        if (approach.status === 'in_range') {
+            pendingTalk = null;
+            beginTalkNow(player, npc);
+            return;
+        }
+        if (approach.status === 'walk' && approach.dest) {
+            pendingTalk = {
+                npcId: npc.id,
+                x: tile.x,
+                y: tile.y,
+                z: tile.z != null ? tile.z : 0
+            };
+            if (!Array.isArray(player.commandQueue)) player.commandQueue = [];
+            player.commandQueue.push({
+                type: 'START_AUTOWALK',
+                dest: approach.dest
+            });
         }
     }
 
@@ -1290,7 +1582,7 @@ function bindInventoryPanel(opts) {
             !!(sim && sim.groundItems && sim.groundItems.inventory.items[uid]);
 
         if (!isGround) {
-            openContainerPanel(uid);
+            openContainerPanel(uid, placeOptsFromOpen(intent));
             return;
         }
         if (!sim || !sim.groundItems) {
@@ -1333,7 +1625,13 @@ function bindInventoryPanel(opts) {
         }
         if (approach.status === 'in_range') {
             pendingOpenGround = null;
-            openGroundContainerPanel(uid);
+            openGroundContainerPanel(
+                uid,
+                placeOptsFromOpen(intent, {
+                    origin: intent.slotEl ? 'slot' : 'canvas',
+                    tile: intent.tile || tile
+                })
+            );
             return;
         }
         if (approach.status === 'walk' && approach.dest) {
@@ -1398,7 +1696,7 @@ function bindInventoryPanel(opts) {
      * @param {number} x
      * @param {number} y
      * @param {string|number} z
-     * @param {{ forceOpen?: boolean, x?: number, y?: number }} [opts]
+     * @param {{ forceOpen?: boolean, x?: number, y?: number, tile?: object, origin?: string, slotEl?: * }} [opts]
      */
     function openBrowseFieldPanel(x, y, z, opts) {
         const o2 = opts || {};
@@ -1433,12 +1731,6 @@ function bindInventoryPanel(opts) {
         el.className = 'inv-float-panel inv-browse-field-panel';
         el.dataset.browseField = '1';
         el.dataset.browseTileKey = key;
-        const left =
-            o2.x != null ? o2.x : 100 + browsePanels.size * 28;
-        const top =
-            o2.y != null ? o2.y : 140 + browsePanels.size * 28;
-        el.style.left = left + 'px';
-        el.style.top = top + 'px';
 
         const header = document.createElement('div');
         header.className = 'inv-panel-header';
@@ -1464,6 +1756,13 @@ function bindInventoryPanel(opts) {
         el.appendChild(header);
         el.appendChild(scroll);
         floatRoot.appendChild(el);
+        placeNewFloat(el, {
+            origin: o2.origin || 'canvas',
+            tile: o2.tile || { x: tx, y: ty, z: tz },
+            slotEl: o2.slotEl,
+            x: o2.x,
+            y: o2.y
+        });
 
         // Drag panel by header (same as bag panels)
         let pan = /** @type {{ x: number, y: number, sl: number, st: number }|null} */ (null);
@@ -1547,7 +1846,10 @@ function bindInventoryPanel(opts) {
         }
         if (approach.status === 'in_range') {
             pendingBrowse = null;
-            openBrowseFieldPanel(tile.x, tile.y, tile.z);
+            openBrowseFieldPanel(tile.x, tile.y, tile.z, {
+                origin: 'canvas',
+                tile
+            });
             return;
         }
         if (approach.status === 'walk' && approach.dest) {
@@ -1571,8 +1873,9 @@ function bindInventoryPanel(opts) {
      * @param {number} x
      * @param {number} y
      * @param {string} uid
+     * @param {HTMLElement|null} [slotEl]
      */
-    function showContextMenu(x, y, uid) {
+    function showContextMenu(x, y, uid, slotEl) {
         hideContextMenu();
         const player = activePlayer();
         if (!player || !player.inventory) return;
@@ -1675,12 +1978,14 @@ function bindInventoryPanel(opts) {
             const isMainBackpackOpen =
                 eqSlotOpen === 'backpack' && uid === inv.rootUid;
             if (!isMainBackpackOpen) {
-                addItem('Open', () => openContainerPanel(uid));
+                addItem('Open', () =>
+                    openContainerPanel(uid, { slotEl, origin: 'slot' })
+                );
                 addItem('Open in new panel', () =>
                     openContainerPanel(uid, {
                         forceNew: true,
-                        x: x + 12,
-                        y: y + 12
+                        slotEl,
+                        origin: 'slot'
                     })
                 );
             }
@@ -2967,7 +3272,7 @@ function bindInventoryPanel(opts) {
                 closeContainerPanel(pk);
                 paint();
             } else {
-                openContainerPanel(hit.uid);
+                openContainerPanel(hit.uid, { slotEl: hit.el, origin: 'slot' });
             }
             return true;
         }
@@ -3078,12 +3383,11 @@ function bindInventoryPanel(opts) {
             }
 
             if (id === 'talk') {
-                // Stage 6a: menu Talk → same stub adapter as classic/smart TALK_NPC
                 addItem(entry.label || 'Talk', () => {
                     handleCanvasAdapterIntent(
                         {
                             type: 'TALK_NPC',
-                            stub: true,
+                            stub: entry.stub === true,
                             creature: entry.creature,
                             creatureId: entry.creatureId,
                             tile: entry.tile || tile
@@ -3192,7 +3496,8 @@ function bindInventoryPanel(opts) {
                             type: 'OPEN_CONTAINER',
                             sourceUid: entry.sourceUid || menuIntent.pickableUid,
                             ground: entry.ground !== false,
-                            itemId: entry.itemId
+                            itemId: entry.itemId,
+                            tile: entry.tile || menuIntent.tile || tile
                         },
                         player,
                         sim
@@ -3287,11 +3592,7 @@ function bindInventoryPanel(opts) {
                 handleOpenContainerIntent(intent, player, sim);
                 break;
             case 'TALK_NPC':
-                // Stage 6a stub — no dialog content yet (one-line swap at 6b)
-                emitSystemFloat(
-                    player,
-                    intent.stub !== false ? 'Not available yet' : 'No one to talk to'
-                );
+                handleTalkNpcIntent(intent, player, sim);
                 break;
             case 'QUICKLOOT':
                 // Stage 5a stub — no vacuum until 5b (no inventory mutation)
@@ -3469,7 +3770,8 @@ function bindInventoryPanel(opts) {
                     {
                         type: 'OPEN_CONTAINER',
                         sourceUid: hit.uid,
-                        ground: true
+                        ground: true,
+                        slotEl: hit.el
                     },
                     player,
                     simG
@@ -3529,7 +3831,7 @@ function bindInventoryPanel(opts) {
 
         // Classic Ctrl → full context menu
         if (mode === 1 && ctrl) {
-            showContextMenu(ev.clientX, ev.clientY, hit.uid);
+            showContextMenu(ev.clientX, ev.clientY, hit.uid, hit.el);
             return;
         }
 
@@ -3548,7 +3850,7 @@ function bindInventoryPanel(opts) {
             ) {
                 return;
             }
-            showContextMenu(ev.clientX, ev.clientY, hit.uid);
+            showContextMenu(ev.clientX, ev.clientY, hit.uid, hit.el);
             return;
         }
 
@@ -3574,7 +3876,7 @@ function bindInventoryPanel(opts) {
         }
 
         // Regular / Smart unshifted → always menu; Classic fallthrough when no direct action
-        showContextMenu(ev.clientX, ev.clientY, hit.uid);
+        showContextMenu(ev.clientX, ev.clientY, hit.uid, hit.el);
     }
 
     /**
@@ -3691,7 +3993,8 @@ function bindInventoryPanel(opts) {
                         {
                             type: 'OPEN_CONTAINER',
                             sourceUid: hit.uid,
-                            ground: true
+                            ground: true,
+                            slotEl: hit.el
                         },
                         player,
                         sim
@@ -3790,7 +4093,8 @@ function bindInventoryPanel(opts) {
                         {
                             type: 'OPEN_CONTAINER',
                             sourceUid: hit.uid,
-                            ground: true
+                            ground: true,
+                            slotEl: hit.el
                         },
                         player,
                         sim
@@ -3826,7 +4130,8 @@ function bindInventoryPanel(opts) {
                     {
                         type: 'OPEN_CONTAINER',
                         sourceUid: hit.uid,
-                        ground: true
+                        ground: true,
+                        slotEl: hit.el
                     },
                     player,
                     sim
@@ -3846,7 +4151,8 @@ function bindInventoryPanel(opts) {
                     {
                         type: 'OPEN_CONTAINER',
                         sourceUid: hit.uid,
-                        ground: true
+                        ground: true,
+                        slotEl: hit.el
                     },
                     player,
                     sim
@@ -3860,7 +4166,7 @@ function bindInventoryPanel(opts) {
         const item = findItem(itemDbOf(), inst.itemId);
         // Containers open whether nested or equipped; main backpack opens the sidebar panel
         if (itemIsContainer(item) && hit.uid !== player.inventory.rootUid) {
-            openContainerPanel(hit.uid);
+            openContainerPanel(hit.uid, { slotEl: hit.el, origin: 'slot' });
             return;
         }
         if (
@@ -3943,6 +4249,21 @@ function bindInventoryPanel(opts) {
     paint();
     schedulePaint();
 
+    /**
+     * Test hook (mouse Talk also goes through handleTalkNpcIntent).
+     * `window.__hdlOpenNpcDialog(npcOrId)` is also bound while this panel is live.
+     * @param {*} npcOrId
+     */
+    function openNpcDialogForTest(npcOrId) {
+        const sim = typeof o.getSim === 'function' ? o.getSim() : null;
+        const player = getActivePlayerFromSim(sim) || activePlayer();
+        return npcDialog.openForTest(npcOrId, player, talkCtx());
+    }
+
+    if (typeof window !== 'undefined') {
+        window.__hdlOpenNpcDialog = openNpcDialogForTest;
+    }
+
     return {
         refresh: () => {
             lastSig = '';
@@ -3954,10 +4275,18 @@ function bindInventoryPanel(opts) {
          * @param {{ player: object, sim: object, clientX?: number, clientY?: number }} ctx
          */
         handleCanvasAdapterIntent,
+        openNpcDialogForTest,
         dispose: () => {
             disposed = true;
             if (timer) clearTimeout(timer);
             timer = null;
+            if (npcDialog) npcDialog.dispose();
+            if (
+                typeof window !== 'undefined' &&
+                window.__hdlOpenNpcDialog === openNpcDialogForTest
+            ) {
+                delete window.__hdlOpenNpcDialog;
+            }
             closeAllPanels();
             hideContextMenu();
             hideStackSplitModal();

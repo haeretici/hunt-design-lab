@@ -117,14 +117,16 @@
     "race": "fire",
     "loot": [
         {
-            "name": "platinum coin",
+            "name": "Platinum Coin",
+            "id": "platinum_coin",
             "chance": 100000,
             "maxCount": 9
         },
         {
             "chance": 65000,
             "maxCount": 2,
-            "name": "red gem"
+            "name": "Red Gem",
+            "id": "red_gem"
         },
         {
             "name": "green crystal shard",
@@ -135,29 +137,35 @@
             "chance": 2400
         },
         {
-            "name": "winged boots",
+            "name": "Winged Boots",
+            "id": "winged_boots",
             "chance": 120
         },
         {
-            "name": "small sapphire",
+            "name": "Small Sapphire",
+            "id": "small_sapphire",
             "chance": 48000,
             "maxCount": 3
         },
         {
             "name": "Stonehide Amulet",
+            "id": "stonehide_amulet",
             "chance": 54000
         },
         {
             "chance": 6500,
-            "name": "gryphon mask"
+            "name": "Gryphon Mask",
+            "id": "gryphon_mask"
         },
         {
-            "name": "fire axe",
+            "name": "Ember Cleaver",
+            "id": "ember_cleaver",
             "chance": 34000
         },
         {
             "chance": 520,
-            "name": "enchanted blister ring"
+            "name": "Enchanted Blister Ring",
+            "id": "enchanted_blister_ring"
         }
     ],
     "changeTarget": {

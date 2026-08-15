@@ -5,7 +5,6 @@
     "pieces": [
         {
             "id": "corr_ns_01",
-            "biome": "cave",
             "size": {
                 "w": 5,
                 "h": 5
@@ -32,9 +31,9 @@
                 ],
                 "markers": [
                     {
-                        "id": "A",
                         "x": 1,
-                        "y": 2
+                        "y": 2,
+                        "id": "A"
                     }
                 ],
                 "waypoints": [
@@ -51,11 +50,11 @@
             "tags": [
                 "corridor",
                 "ns"
-            ]
+            ],
+            "biome": "cave"
         },
         {
             "id": "corr_ew_01",
-            "biome": "cave",
             "size": {
                 "w": 5,
                 "h": 5
@@ -82,9 +81,9 @@
                 ],
                 "markers": [
                     {
-                        "id": "A",
                         "x": 2,
-                        "y": 1
+                        "y": 1,
+                        "id": "A"
                     }
                 ],
                 "waypoints": [
@@ -101,11 +100,11 @@
             "tags": [
                 "corridor",
                 "ew"
-            ]
+            ],
+            "biome": "cave"
         },
         {
             "id": "corr_ne_01",
-            "biome": "cave",
             "size": {
                 "w": 5,
                 "h": 5
@@ -145,11 +144,11 @@
                 "corridor",
                 "corner",
                 "ne"
-            ]
+            ],
+            "biome": "cave"
         },
         {
             "id": "corr_nw_01",
-            "biome": "cave",
             "size": {
                 "w": 5,
                 "h": 5
@@ -189,11 +188,11 @@
                 "corridor",
                 "corner",
                 "nw"
-            ]
+            ],
+            "biome": "cave"
         },
         {
             "id": "corr_se_01",
-            "biome": "cave",
             "size": {
                 "w": 5,
                 "h": 5
@@ -233,11 +232,11 @@
                 "corridor",
                 "corner",
                 "se"
-            ]
+            ],
+            "biome": "cave"
         },
         {
             "id": "corr_sw_01",
-            "biome": "cave",
             "size": {
                 "w": 5,
                 "h": 5
@@ -277,11 +276,11 @@
                 "corridor",
                 "corner",
                 "sw"
-            ]
+            ],
+            "biome": "cave"
         },
         {
             "id": "corr_nse_01",
-            "biome": "cave",
             "size": {
                 "w": 5,
                 "h": 5
@@ -308,9 +307,9 @@
                 ],
                 "markers": [
                     {
-                        "id": "A",
                         "x": 1,
-                        "y": 1
+                        "y": 1,
+                        "id": "A"
                     }
                 ],
                 "waypoints": [
@@ -332,11 +331,11 @@
                 "corridor",
                 "junction",
                 "t"
-            ]
+            ],
+            "biome": "cave"
         },
         {
             "id": "hub_cross_01",
-            "biome": "cave",
             "size": {
                 "w": 7,
                 "h": 7
@@ -373,14 +372,14 @@
                 ],
                 "markers": [
                     {
-                        "id": "A",
                         "x": 1,
-                        "y": 3
+                        "y": 3,
+                        "id": "A"
                     },
                     {
-                        "id": "B",
                         "x": 5,
-                        "y": 3
+                        "y": 3,
+                        "id": "B"
                     }
                 ],
                 "waypoints": [
@@ -406,11 +405,11 @@
                 "hub",
                 "cross",
                 "room"
-            ]
+            ],
+            "biome": "cave"
         },
         {
             "id": "room_ns_01",
-            "biome": "cave",
             "size": {
                 "w": 7,
                 "h": 7
@@ -447,14 +446,14 @@
                 ],
                 "markers": [
                     {
-                        "id": "A",
                         "x": 1,
-                        "y": 2
+                        "y": 2,
+                        "id": "A"
                     },
                     {
-                        "id": "A",
                         "x": 5,
-                        "y": 4
+                        "y": 4,
+                        "id": "A"
                     }
                 ],
                 "waypoints": [
@@ -471,11 +470,11 @@
             "tags": [
                 "room",
                 "ns"
-            ]
+            ],
+            "biome": "cave"
         },
         {
             "id": "deadend_s_01",
-            "biome": "cave",
             "size": {
                 "w": 5,
                 "h": 5
@@ -502,9 +501,9 @@
                 ],
                 "markers": [
                     {
-                        "id": "B",
                         "x": 2,
-                        "y": 1
+                        "y": 1,
+                        "id": "B"
                     }
                 ],
                 "waypoints": [
@@ -518,11 +517,11 @@
                 "deadend",
                 "deadend-ok",
                 "room"
-            ]
+            ],
+            "biome": "cave"
         },
         {
             "id": "stair_down_s_01",
-            "biome": "cave",
             "size": {
                 "w": 5,
                 "h": 5
@@ -568,11 +567,11 @@
                 "deadend",
                 "deadend-ok",
                 "room"
-            ]
+            ],
+            "biome": "cave"
         },
         {
             "id": "stair_up_s_01",
-            "biome": "cave",
             "size": {
                 "w": 5,
                 "h": 5
@@ -618,7 +617,8 @@
                 "deadend",
                 "deadend-ok",
                 "room"
-            ]
+            ],
+            "biome": "cave"
         }
     ]
 }

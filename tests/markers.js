@@ -339,12 +339,59 @@ function testEntityMarkersHoverHighlight() {
     log('hover highlight unit test ok');
 }
 
+function testNameplateManaShieldBar() {
+    const {
+        nameplateBarsForEntity,
+        MANA_SHIELD_BAR_FILL
+    } = require('../kernel/core/scripts/entity_markers.js');
+
+    const plain = nameplateBarsForEntity(
+        { hp: { current: 80, max: 100 }, mp: { current: 40, max: 50 } },
+        true
+    );
+    assert.strictEqual(plain.length, 2);
+    assert.strictEqual(plain[0].kind, 'hp');
+    assert.strictEqual(plain[1].kind, 'mp');
+
+    const shielded = nameplateBarsForEntity(
+        {
+            hp: { current: 80, max: 100 },
+            mp: { current: 40, max: 50 },
+            conditions: [
+                { kind: 'mana_shield', poolRemaining: 100, poolMax: 400 }
+            ]
+        },
+        true
+    );
+    assert.strictEqual(shielded.length, 3);
+    assert.strictEqual(shielded[0].kind, 'mana_shield');
+    assert.strictEqual(shielded[0].fill, MANA_SHIELD_BAR_FILL);
+    assert.strictEqual(shielded[0].frac, 0.25);
+    assert.strictEqual(shielded[1].kind, 'hp');
+    assert.strictEqual(shielded[2].kind, 'mp');
+
+    const gearOnly = nameplateBarsForEntity(
+        {
+            hp: { current: 10, max: 10 },
+            mp: { current: 25, max: 100 },
+            combatStats: { flags: { manaShield: true } }
+        },
+        false
+    );
+    assert.strictEqual(gearOnly.length, 2);
+    assert.strictEqual(gearOnly[0].kind, 'mana_shield');
+    assert.strictEqual(gearOnly[0].frac, 0.25);
+    assert.strictEqual(gearOnly[1].kind, 'hp');
+    log('nameplate mana shield bar ok');
+}
+
 async function main() {
     testNormalizeAndResolveUnit();
     testExplicitPropsWin();
     testStandardMarkerPreset();
     testLegacyMarkerPreset();
     testEntityMarkersHoverHighlight();
+    testNameplateManaShieldBar();
     await testStandardHeadless();
     await testLegacyHeadless();
     console.log('markers: ok');

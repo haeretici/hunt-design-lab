@@ -612,6 +612,37 @@ function listArtSetIds() {
 }
 
 /**
+ * Load a tile role definition (presets/tile_roles/<id>.json).
+ * TileMap authoring / bake: influence + render defaults.
+ * @param {string} roleId e.g. 'water'
+ * @returns {object}
+ */
+function loadTileRole(roleId) {
+    return loadJson(path.join('tile_roles', `${roleId}.json`));
+}
+
+/**
+ * @returns {string[]}
+ */
+function listTileRoleIds() {
+    if (!fs) {
+        const ids = [];
+        for (const k of Object.keys(cache)) {
+            const m = /^tile_roles[/\\](.+)\.json$/.exec(k);
+            if (m) ids.push(m[1]);
+        }
+        return ids.sort();
+    }
+    const dir = path.join(getPresetsDirResolved(), 'tile_roles');
+    if (!fs.existsSync(dir)) return [];
+    return fs
+        .readdirSync(dir)
+        .filter((f) => f.endsWith('.json'))
+        .map((f) => f.replace(/\.json$/, ''))
+        .sort();
+}
+
+/**
  * Load a hunt definition (waypoints, spawns, parties).
  * Expands waypointPreset, spawnSource → defs, and population tables when present.
  * @param {string} huntId e.g. 'cave_crawl_generated'
@@ -813,6 +844,8 @@ module.exports = {
     listBiomePackIds,
     loadArtSet,
     listArtSetIds,
+    loadTileRole,
+    listTileRoleIds,
     loadHunt,
     expandHuntDefinition,
     listHuntIds

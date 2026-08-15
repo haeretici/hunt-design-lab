@@ -43,6 +43,18 @@
           "minLength": 1,
           "maxLength": 120
         },
+        "customUISprite": {
+          "type": "string",
+          "format": "catalog_asset_id",
+          "options": {
+            "assetKind": "ui",
+            "previewVariant": "alpha",
+            "selectLabel": "Browse UI art",
+            "showCategoryFilter": true,
+            "inferCategoryFromPath": false
+          },
+          "description": "UI catalog id for the action-bar / spell icon (assets/sprites/<genre>/ui/). Designer: Select opens the UI catalog. Runtime falls back to customSprite then spell id."
+        },
         "kind": {
           "type": "string",
           "enum": ["auto", "strike", "spell", "heal", "support"],
@@ -58,9 +70,16 @@
           "maxLength": 80,
           "description": "Machine-readable reason the spell is a stub (e.g. no_light_model)."
         },
+        "notes": {
+          "type": "string",
+          "maxLength": 4000,
+          "description": "Author notes. Omit when empty."
+        },
         "element": {
           "type": "string",
+          "default": "",
           "enum": [
+            "",
             "physical",
             "fire",
             "ice",
@@ -70,12 +89,13 @@
             "death",
             "healing"
           ],
-          "description": "Damage/heal element for resist pipeline."
+          "description": "Damage/heal element for resist pipeline. Empty = unset (omit on disk)."
         },
         "powerCurve": {
           "type": "string",
-          "enum": ["melee_auto", "melee_strike", "magic_strike"],
-          "description": "Power curve id (docs/09)."
+          "default": "",
+          "enum": ["", "melee_auto", "melee_strike", "magic_strike"],
+          "description": "Power curve id (docs/09). Empty = unset (omit on disk)."
         },
         "basePower": {
           "type": "number",
@@ -178,8 +198,9 @@
           "properties": {
             "type": {
               "type": "string",
-              "enum": ["area", "wave", "beam"],
-              "description": "area = radial matrix by code; wave/beam = directed pattern by spread×length."
+              "default": "",
+              "enum": ["", "area", "wave", "beam"],
+              "description": "area = radial matrix by code; wave/beam = directed pattern by spread×length. Empty = unset."
             },
             "code": {
               "description": "Area effect code (int or legacy name string). Used when type=area.",
@@ -253,8 +274,9 @@
         },
         "source": {
           "type": "string",
-          "enum": ["rune", "spell", "auto"],
-          "description": "Cast origin. source=rune spells are inventory-linked (runeItemId); mana is typically 0."
+          "default": "",
+          "enum": ["", "rune", "spell", "auto"],
+          "description": "Cast origin. source=rune spells are inventory-linked (runeItemId); mana is typically 0. Empty = unset (omit on disk)."
         },
         "rune": {
           "type": "string",
@@ -266,13 +288,15 @@
         },
         "field": {
           "type": "string",
-          "enum": ["fire", "poison", "energy", "barrier", "vine"],
-          "description": "Field kind deployed on the spell footprint (docs/26). fire/poison/energy = elemental hazards; barrier/vine = solid path obstacles (Phase K)."
+          "default": "",
+          "enum": ["", "fire", "poison", "energy", "barrier", "vine"],
+          "description": "Field kind deployed on the spell footprint (docs/26). fire/poison/energy = elemental hazards; barrier/vine = solid path obstacles (Phase K). Empty = unset (omit on disk)."
         },
         "deploysField": {
           "type": "string",
-          "enum": ["fire", "poison", "energy", "barrier", "vine"],
-          "description": "Alias of field for deploy path (creature kits use the same keys)."
+          "default": "",
+          "enum": ["", "fire", "poison", "energy", "barrier", "vine"],
+          "description": "Alias of field for deploy path (creature kits use the same keys). Empty = unset (omit on disk)."
         },
         "fieldDurationSec": {
           "type": "number",
@@ -347,7 +371,9 @@
           "properties": {
             "type": {
               "type": "string",
+              "default": "",
               "enum": [
+                "",
                 "poison",
                 "fire",
                 "ice",
@@ -358,10 +384,28 @@
                 "slow",
                 "haste",
                 "invisible",
-                "regen"
+                "regen",
+                "attributes",
+                "mana_shield"
               ]
             },
             "durationSec": { "type": "number", "minimum": 0 },
+            "poolFormula": {
+              "type": "string",
+              "default": "",
+              "enum": ["", "legacy_mana_shield"],
+              "description": "Resolved at apply time to poolRemaining/poolMax from the target's level, magic, and max mana (mana_shield). Empty = unset."
+            },
+            "poolRemaining": {
+              "type": "number",
+              "minimum": 0,
+              "description": "Optional explicit mana_shield absorb remaining (catalog prefers poolFormula)."
+            },
+            "poolMax": {
+              "type": "number",
+              "minimum": 0,
+              "description": "Optional explicit mana_shield pool snapshot (catalog prefers poolFormula)."
+            },
             "speedChange": { "type": "number" },
             "speedFormula": {
               "type": "object",
@@ -398,7 +442,7 @@
         },
         "dispel": {
           "type": "array",
-          "description": "Condition kinds cleared on the defender when the cast hits (cure spells). Engine kinds: poison, fire, ice, energy, bleed, curse, holy, slow, haste, invisible, regen.",
+          "description": "Condition kinds cleared on the defender when the cast hits (cure spells). Engine kinds: poison, fire, ice, energy, bleed, curse, holy, slow, haste, invisible, regen, mana_shield.",
           "items": {
             "type": "string",
             "enum": [
@@ -412,7 +456,8 @@
               "slow",
               "haste",
               "invisible",
-              "regen"
+              "regen",
+              "mana_shield"
             ]
           },
           "minItems": 1,

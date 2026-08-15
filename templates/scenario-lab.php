@@ -173,7 +173,7 @@ $modesList = function_exists('hdl_list_modes') ? hdl_list_modes() : [
                                 <path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/>
                             </svg>
                         </button>
-                        <canvas id="gameCanvas" width="720" height="480" aria-label="Scenario view"></canvas>
+                        <canvas id="gameCanvas" width="720" height="480" tabindex="-1" aria-label="Scenario view"></canvas>
                     </div>
                     <div id="actionBarDockRight" class="action-bar-dock action-bar-dock--vertical action-bar-dock--right"></div>
                 </div>

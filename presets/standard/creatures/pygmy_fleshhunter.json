@@ -89,10 +89,12 @@
     "loot": [
         {
             "chance": 4750,
-            "name": "torch"
+            "name": "Torch",
+            "id": "torch"
         },
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 69000,
             "maxCount": 13
         },
@@ -102,11 +104,13 @@
             "name": "skull"
         },
         {
-            "name": "poison dagger",
+            "name": "Poison Dagger",
+            "id": "poison_dagger",
             "chance": 2250
         },
         {
-            "name": "bone shield",
+            "name": "Bone Shield",
+            "id": "bone_shield",
             "chance": 1000
         },
         {
@@ -114,15 +118,18 @@
             "chance": 9750
         },
         {
-            "name": "ripper lance",
+            "name": "Ripper Lance",
+            "id": "ripper_lance",
             "chance": 90
         },
         {
-            "name": "hunting spear",
+            "name": "Hunting Spear",
+            "id": "hunting_spear",
             "chance": 2000
         },
         {
-            "name": "tribal mask",
+            "name": "Tribal Mask",
+            "id": "tribal_mask",
             "chance": 500
         }
     ],

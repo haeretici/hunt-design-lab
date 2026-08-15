@@ -219,6 +219,15 @@
             lootWrap.hidden = mode !== 1;
         }
 
+        const talkEl = byId('talkOnRightClickCheck');
+        if (talkEl) {
+            talkEl.checked = mc.talkOnRightClick === true;
+        }
+        const talkWrap = byId('talkOnRightClickWrap');
+        if (talkWrap) {
+            talkWrap.hidden = mode !== 0;
+        }
+
         const moveStackEl = byId('moveStackCheck');
         if (moveStackEl) {
             moveStackEl.checked = mc.moveStack === true;
@@ -327,10 +336,12 @@
         if (
             id === 'mouseControlModeSelect' ||
             id === 'lootControlModeSelect' ||
+            id === 'talkOnRightClickCheck' ||
             id === 'moveStackCheck'
         ) {
             const modeEl = byId('mouseControlModeSelect');
             const lootEl = byId('lootControlModeSelect');
+            const talkEl = byId('talkOnRightClickCheck');
             const moveStackEl = byId('moveStackCheck');
             let mode = modeEl ? parseInt(modeEl.value, 10) : 1;
             if (mode !== 0 && mode !== 1 && mode !== 2) mode = 1;
@@ -338,9 +349,12 @@
             if (loot !== 0 && loot !== 1 && loot !== 2) loot = 0;
             const lootWrap = byId('lootControlModeWrap');
             if (lootWrap) lootWrap.hidden = mode !== 1;
+            const talkWrap = byId('talkOnRightClickWrap');
+            if (talkWrap) talkWrap.hidden = mode !== 0;
             patch.mouseControls = {
                 mouseControlMode: mode,
                 lootControlMode: loot,
+                talkOnRightClick: !!(talkEl && talkEl.checked),
                 moveStack: !!(moveStackEl && moveStackEl.checked)
             };
             return patch;

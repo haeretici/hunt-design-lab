@@ -132,21 +132,25 @@
     },
     "loot": [
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 100000,
             "maxCount": 200
         },
         {
-            "name": "small emerald",
+            "name": "Small Emerald",
+            "id": "small_emerald",
             "chance": 2702,
             "maxCount": 4
         },
         {
             "chance": 892,
-            "name": "stealth ring"
+            "name": "Stealth Ring",
+            "id": "stealth_ring"
         },
         {
-            "name": "platinum amulet",
+            "name": "Platinum Amulet",
+            "id": "platinum_amulet",
             "chance": 110
         },
         {
@@ -154,11 +158,13 @@
             "chance": 1639
         },
         {
-            "name": "strong health potion",
+            "name": "Strong Health Potion",
+            "id": "strong_health_potion",
             "chance": 9003
         },
         {
-            "name": "strong mana potion",
+            "name": "Strong Mana Potion",
+            "id": "strong_mana_potion",
             "chance": 9025
         },
         {

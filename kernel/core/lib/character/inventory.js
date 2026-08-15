@@ -1277,7 +1277,15 @@ function itemIsUsable(item) {
             if (t === 'potion' || t === 'consumable' || t === 'food' || t === 'scroll') return true;
         }
     }
-    if (item.heal != null || item.restoreMana != null || item.effect != null) return true;
+    if (
+        item.heal != null ||
+        item.restoreMana != null ||
+        item.dispel != null ||
+        item.condition != null ||
+        item.effect != null
+    ) {
+        return true;
+    }
     return false;
 }
 

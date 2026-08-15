@@ -138,11 +138,13 @@
     },
     "loot": [
         {
-            "name": "platinum coin",
+            "name": "Platinum Coin",
+            "id": "platinum_coin",
             "chance": 80120
         },
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 75110,
             "maxCount": 60
         },
@@ -160,10 +162,12 @@
         },
         {
             "chance": 3448,
-            "name": "fish"
+            "name": "Fish",
+            "id": "fish"
         },
         {
-            "name": "small sapphire",
+            "name": "Small Sapphire",
+            "id": "small_sapphire",
             "chance": 2934
         },
         {
@@ -172,14 +176,17 @@
         },
         {
             "chance": 2459,
-            "name": "life ring"
+            "name": "Vitality Ring",
+            "id": "vitality_ring"
         },
         {
-            "name": "deepling staff",
+            "name": "Deepsea Staff",
+            "id": "deepsea_staff",
             "chance": 2020
         },
         {
-            "name": "necklace of the deep",
+            "name": "Deep Sea Necklace",
+            "id": "deep_sea_necklace",
             "chance": 790
         },
         {
@@ -187,7 +194,8 @@
             "chance": 520
         },
         {
-            "name": "ornate crossbow",
+            "name": "Chiseled Crossbow",
+            "id": "chiseled_crossbow",
             "chance": 220
         }
     ],

@@ -35,6 +35,25 @@ const ImageDB = {
         img.decoding = 'async';
         img.onload = () => {
             /* keep in cache */
+            if (key.indexOf('/retro/') !== -1 && typeof document !== 'undefined') {
+                const w = img.naturalWidth;
+                const h = img.naturalHeight;
+                if (w > 0 && h > 0) {
+                    const bp = Math.ceil(Math.max(w, h) / 32) * 32;
+                    if (w !== bp || h !== bp) {
+                        const canvas = document.createElement('canvas');
+                        canvas.width = bp;
+                        canvas.height = bp;
+                        const ctx = canvas.getContext('2d');
+                        if (ctx) {
+                            const dx = Math.floor((bp - w) / 2);
+                            const dy = Math.floor((bp - h) / 2);
+                            ctx.drawImage(img, dx, dy);
+                            this.images[key] = canvas;
+                        }
+                    }
+                }
+            }
         };
         img.onerror = () => {
             this.failed[key] = true;

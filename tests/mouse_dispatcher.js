@@ -1,5 +1,5 @@
 /**
- * mouse_dispatcher — Classic / Regular / Smart + Stage 5a/6a stubs + Stage 8 Browse Field.
+ * mouse_dispatcher — Classic / Regular / Smart + Stage 5a stubs + Stage 6b talk + Stage 8 Browse Field.
  */
 
 'use strict';
@@ -25,9 +25,12 @@ const {
     isInBrowseOpenRange,
     buildBrowseFieldIntent,
     resolveBrowseFieldApproach,
+    resolveApproach,
+    npcHasDialogData,
     browseFieldTileKey,
     isBrowsableGroundInst,
-    BROWSE_FIELD_CAPACITY
+    BROWSE_FIELD_CAPACITY,
+    TALK_NPC_RANGE
 } = require('../kernel/apps/game/mouse_dispatcher.js');
 const { createGroundStore } = require('../kernel/core/lib/character/ground_items.js');
 const {
@@ -35,6 +38,7 @@ const {
     createItemInstance,
     getItem
 } = require('../kernel/core/lib/character/inventory.js');
+const { TileMap } = require('../kernel/core/entities/tilemap.js');
 
 let passed = 0;
 let failed = 0;
@@ -98,6 +102,17 @@ function placeGround(store, x, y, z, itemId, extra) {
     store.stacks[key].push(uid);
     return inst;
 }
+
+const SAMPLE_DIALOG = {
+    greeting: 'Welcome, hunter.',
+    start: 'start',
+    nodes: {
+        start: {
+            text: 'Welcome, hunter.',
+            replies: [{ label: 'Bye', action: 'close' }]
+        }
+    }
+};
 
 function baseInput(hit, extra) {
     return Object.assign(
@@ -887,6 +902,12 @@ test('isTalkableNpc flags', () => {
     assert.strictEqual(isTalkableNpc({ id: 'm1' }), false);
     assert.strictEqual(isTalkableNpc({ isNpc: true }), true);
     assert.strictEqual(isTalkableNpc({ kind: 'npc' }), true);
+    assert.strictEqual(isTalkableNpc({ flags: { isNpc: true } }), true);
+    assert.strictEqual(
+        isTalkableNpc({ isNpc: true, attackableNpc: true }),
+        false,
+        'Q6.2 hostile never-talk'
+    );
 });
 
 test('Smart LMB creature → SET_TARGET', () => {
@@ -1008,9 +1029,32 @@ test('Smart LMB empty → START_AUTOWALK', () => {
     assert.strictEqual(intents[0].type, 'START_AUTOWALK');
 });
 
-test('Smart LMB NPC in range → TALK_NPC stub', () => {
+test('Smart LMB NPC in range with dialog → TALK_NPC (not stub)', () => {
     const npc = {
         id: 'npc1',
+        isNpc: true,
+        alive: true,
+        dialog: SAMPLE_DIALOG,
+        tile: { x: 6, y: 5, z: 0 }
+    };
+    const player = makePlayer({ tile: { x: 5, y: 5, z: 0 } });
+    const hit = resolveCanvasHit({
+        sim: makeSim({ creatures: [npc] }),
+        player,
+        tile: { x: 6, y: 5, z: 0 },
+        itemDb
+    });
+    const intents = processMouseAction(
+        baseInput(hit, { button: 'left', mode: 2, playerTile: player.tile })
+    );
+    assert.strictEqual(intents[0].type, 'TALK_NPC');
+    assert.strictEqual(intents[0].stub, false);
+    assert.strictEqual(intents[0].creatureId, 'npc1');
+});
+
+test('Smart LMB NPC in range without dialog → TALK_NPC stub', () => {
+    const npc = {
+        id: 'npc1b',
         isNpc: true,
         alive: true,
         tile: { x: 6, y: 5, z: 0 }
@@ -1027,14 +1071,14 @@ test('Smart LMB NPC in range → TALK_NPC stub', () => {
     );
     assert.strictEqual(intents[0].type, 'TALK_NPC');
     assert.strictEqual(intents[0].stub, true);
-    assert.strictEqual(intents[0].creatureId, 'npc1');
 });
 
-test('Smart LMB NPC out of range → walk (never attack NPC)', () => {
+test('Smart LMB NPC out of range → TALK_NPC (adapter walks, never attack)', () => {
     const npc = {
         id: 'npc2',
         isNpc: true,
         alive: true,
+        dialog: SAMPLE_DIALOG,
         tile: { x: 12, y: 12, z: 0 }
     };
     const player = makePlayer({ tile: { x: 5, y: 5, z: 0 } });
@@ -1047,8 +1091,9 @@ test('Smart LMB NPC out of range → walk (never attack NPC)', () => {
     const intents = processMouseAction(
         baseInput(hit, { button: 'left', mode: 2, playerTile: player.tile })
     );
-    // Out of talk range: legacy skips isNpc attack → autowalk
-    assert.strictEqual(intents[0].type, 'START_AUTOWALK');
+    assert.strictEqual(intents[0].type, 'TALK_NPC');
+    assert.strictEqual(intents[0].stub, false);
+    assert.notStrictEqual(intents[0].type, 'SET_TARGET');
 });
 
 test('Smart unshifted RMB → OPEN_CONTEXT_MENU', () => {
@@ -1369,11 +1414,12 @@ test('QUICKLOOT / OPEN_CORPSE remain adapter intents (not command queue)', () =>
 
 // --- Stage 6a: NPC talk proximity stubs ---
 
-test('Classic RMB NPC in range → TALK_NPC stub', () => {
+test('Classic RMB NPC in range with dialog → TALK_NPC (not stub)', () => {
     const npc = {
         id: 'npc_c1',
         isNpc: true,
         alive: true,
+        dialog: SAMPLE_DIALOG,
         tile: { x: 6, y: 5, z: 0 }
     };
     const player = makePlayer({ tile: { x: 5, y: 5, z: 0 } });
@@ -1392,14 +1438,15 @@ test('Classic RMB NPC in range → TALK_NPC stub', () => {
         })
     );
     assert.strictEqual(intents[0].type, 'TALK_NPC');
-    assert.strictEqual(intents[0].stub, true);
+    assert.strictEqual(intents[0].stub, false);
 });
 
-test('Classic RMB NPC out of range → walk (never attack NPC)', () => {
+test('Classic RMB NPC out of range → TALK_NPC (adapter walks, never attack)', () => {
     const npc = {
         id: 'npc_c2',
         isNpc: true,
         alive: true,
+        dialog: SAMPLE_DIALOG,
         tile: { x: 12, y: 12, z: 0 }
     };
     const player = makePlayer({ tile: { x: 5, y: 5, z: 0 } });
@@ -1416,7 +1463,8 @@ test('Classic RMB NPC out of range → walk (never attack NPC)', () => {
             playerTile: player.tile
         })
     );
-    assert.strictEqual(intents[0].type, 'START_AUTOWALK');
+    assert.strictEqual(intents[0].type, 'TALK_NPC');
+    assert.notStrictEqual(intents[0].type, 'SET_TARGET');
 });
 
 test('Regular/Classic LMB on NPC → walk (never SET_TARGET)', () => {
@@ -1496,11 +1544,40 @@ test('Smart Ctrl on corpse → OPEN_CORPSE stub', () => {
     assert.strictEqual(intents[0].stub, true);
 });
 
+test('Classic RMB hostile NPC → SET_TARGET, never TALK_NPC', () => {
+    const npc = {
+        id: 'boss_npc',
+        isNpc: true,
+        attackableNpc: true,
+        alive: true,
+        dialog: SAMPLE_DIALOG,
+        tile: { x: 6, y: 5, z: 0 }
+    };
+    const player = makePlayer({ tile: { x: 5, y: 5, z: 0 } });
+    const hit = resolveCanvasHit({
+        sim: makeSim({ creatures: [npc] }),
+        player,
+        tile: { x: 6, y: 5, z: 0 },
+        itemDb
+    });
+    assert.strictEqual(hit.isNpc, false, 'Q6.2: hostile is not talkable');
+    const intents = processMouseAction(
+        baseInput(hit, {
+            button: 'right',
+            mode: 1,
+            playerTile: player.tile
+        })
+    );
+    assert.strictEqual(intents[0].type, 'SET_TARGET');
+    assert.notStrictEqual(intents[0].type, 'TALK_NPC');
+});
+
 test('Regular RMB talkOnRightClick NPC → TALK_NPC; default → menu', () => {
     const npc = {
         id: 'npc_r1',
         kind: 'npc',
         alive: true,
+        dialog: SAMPLE_DIALOG,
         tile: { x: 5, y: 6, z: 0 }
     };
     const player = makePlayer({ tile: { x: 5, y: 5, z: 0 } });
@@ -1519,6 +1596,7 @@ test('Regular RMB talkOnRightClick NPC → TALK_NPC; default → menu', () => {
         })
     );
     assert.strictEqual(withTalk[0].type, 'TALK_NPC');
+    assert.strictEqual(withTalk[0].stub, false);
     const noTalk = processMouseAction(
         baseInput(hit, {
             button: 'right',
@@ -1530,11 +1608,12 @@ test('Regular RMB talkOnRightClick NPC → TALK_NPC; default → menu', () => {
     assert.strictEqual(noTalk[0].type, 'OPEN_CONTEXT_MENU');
 });
 
-test('Context menu Talk entry for NPC (clickable stub)', () => {
+test('Context menu Talk entry for NPC (clickable; stub only without dialog)', () => {
     const npc = {
         id: 'npc_m1',
         isNpc: true,
         alive: true,
+        dialog: SAMPLE_DIALOG,
         tile: { x: 5, y: 6, z: 0 }
     };
     const player = makePlayer();
@@ -1548,8 +1627,30 @@ test('Context menu Talk entry for NPC (clickable stub)', () => {
     const talk = entries.find((e) => e.id === 'talk');
     assert.ok(talk, 'Talk entry present');
     assert.strictEqual(talk.disabled, undefined);
-    assert.strictEqual(talk.stub, true);
+    assert.strictEqual(talk.stub, false);
     assert.strictEqual(talk.creatureId, 'npc_m1');
+    assert.ok(
+        !entries.some((e) => e.id === 'attack'),
+        'Attack hidden for talkable NPC'
+    );
+
+    const mute = {
+        id: 'npc_m2',
+        isNpc: true,
+        alive: true,
+        tile: { x: 5, y: 6, z: 0 }
+    };
+    const muteHit = resolveCanvasHit({
+        sim: makeSim({ creatures: [mute] }),
+        player,
+        tile: { x: 5, y: 6, z: 0 },
+        itemDb
+    });
+    const muteTalk = buildCanvasContextMenuEntries(muteHit).find(
+        (e) => e.id === 'talk'
+    );
+    assert.ok(muteTalk);
+    assert.strictEqual(muteTalk.stub, true);
 });
 
 // --- Stage 7: Classic Look chord + moveStack amount rules ---
@@ -1754,6 +1855,76 @@ test('resolveBrowseFieldApproach in_range / wrong_floor / walk / no_path', () =>
         { x: 10, y: 10, z: 0 }
     );
     assert.strictEqual(blocked.status, 'no_path');
+});
+
+test('npcHasDialogData and TALK_NPC_RANGE', () => {
+    assert.strictEqual(TALK_NPC_RANGE, 3);
+    assert.strictEqual(npcHasDialogData(null), false);
+    assert.strictEqual(npcHasDialogData({ isNpc: true }), false);
+    assert.strictEqual(npcHasDialogData({ dialogId: 'town_guide' }), true);
+    assert.strictEqual(npcHasDialogData({ dialog: SAMPLE_DIALOG }), true);
+    assert.strictEqual(npcHasDialogData({ dialog: { nodes: {} } }), false);
+});
+
+function openFloorMap(cols, rows) {
+    const rgba = new Uint8Array(cols * rows * 4);
+    for (let i = 0; i < cols * rows; i++) {
+        rgba[i * 4] = 100;
+        rgba[i * 4 + 1] = 100;
+        rgba[i * 4 + 2] = 100;
+        rgba[i * 4 + 3] = 255;
+    }
+    const map = new TileMap();
+    map.loadFloorFromRgba(0, cols, rows, rgba);
+    return map;
+}
+
+test('resolveApproach talk maxDist 3 vs browse 1', () => {
+    const at3 = resolveApproach(
+        { x: 5, y: 5, z: 0 },
+        null,
+        { x: 8, y: 5, z: 0 },
+        3
+    );
+    assert.strictEqual(at3.status, 'in_range');
+
+    const at4 = resolveApproach(
+        { x: 5, y: 5, z: 0 },
+        null,
+        { x: 9, y: 5, z: 0 },
+        3
+    );
+    assert.strictEqual(at4.status, 'walk');
+    assert.deepStrictEqual(
+        at4.dest,
+        { x: 6, y: 5, z: 0 },
+        'no-map dest is the on-axis tile that first enters range'
+    );
+
+    const browseFar = resolveApproach(
+        { x: 5, y: 5, z: 0 },
+        null,
+        { x: 8, y: 5, z: 0 },
+        1
+    );
+    assert.strictEqual(browseFar.status, 'walk');
+    assert.deepStrictEqual(browseFar.dest, { x: 7, y: 5, z: 0 });
+});
+
+test('resolveApproach prefers corridor over equal-length NW alcove', () => {
+    const map = openFloorMap(10, 7);
+    const got = resolveApproach(
+        { x: 0, y: 3, z: 0 },
+        map,
+        { x: 6, y: 3, z: 0 },
+        3
+    );
+    assert.strictEqual(got.status, 'walk');
+    assert.deepStrictEqual(
+        got.dest,
+        { x: 3, y: 3, z: 0 },
+        'npc_talk_lab-shaped open floor must not pick alcove (3,0)'
+    );
 });
 
 test('browseFieldTileKey stable and BROWSE_FIELD_CAPACITY is 30', () => {

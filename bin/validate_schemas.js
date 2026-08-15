@@ -44,6 +44,12 @@ const FOLDER_ENTITIES = [
     dirRel: 'parties',
     storage: 'folder',
   },
+  {
+    kind: 'tile_roles',
+    schemaFile: 'schemas/tile_roles.schema.json',
+    dirRel: 'tile_roles',
+    storage: 'folder',
+  },
 ];
 
 function loadJson(absPath) {

@@ -1,207 +1,34 @@
 {
-    "id": "ruins",
-    "label": "Ruins",
-    "notes": "Stage 11.11 — sunlit ruins / desert-ruin art pack. Sand and grass floors, adobe and ruined walls, sand paths, wood stairs. Outdoor-feel contrast for macro chains.",
-    "genre": "rpg_fantasy",
-    "kind": "tiles",
-    "roles": {
-        "floor": [
-            {
-                "id": "sunlit_sand_floor",
-                "weight": 10
-            },
-            {
-                "id": "polished_sand_floor",
-                "weight": 8
-            },
-            {
-                "id": "weathered_sand_floor",
-                "weight": 7
-            },
-            {
-                "id": "broken_sand_floor",
-                "weight": 6
-            },
-            {
-                "id": "sunlit_grass_floor",
-                "weight": 6
-            },
-            {
-                "id": "ancient_grass_floor",
-                "weight": 5
-            },
-            {
-                "id": "runic_grass_floor",
-                "weight": 4
-            },
-            {
-                "id": "dark_grass_floor",
-                "weight": 3
-            },
-            {
-                "id": "weathered_cobble_floor",
-                "weight": 4
-            },
-            {
-                "id": "dark_cobble_floor",
-                "weight": 3
-            },
-            {
-                "id": "broken_tile_floor",
-                "weight": 3
-            },
-            {
-                "id": "weathered_tile_floor",
-                "weight": 2
-            },
-            {
-                "id": "weathered_altar_floor",
-                "weight": 2
-            },
-            {
-                "id": "broken_altar_floor",
-                "weight": 1
-            }
-        ],
-        "path": [
-            {
-                "id": "ancient_sand_path",
-                "weight": 8
-            },
-            {
-                "id": "polished_sand_path",
-                "weight": 7
-            },
-            {
-                "id": "broken_sand_path",
-                "weight": 5
-            },
-            {
-                "id": "sunlit_dirt_path",
-                "weight": 5
-            },
-            {
-                "id": "polished_dirt_path",
-                "weight": 4
-            },
-            {
-                "id": "ancient_stone_path",
-                "weight": 3
-            },
-            {
-                "id": "dark_stone_path",
-                "weight": 2
-            },
-            {
-                "id": "broken_wood_path",
-                "weight": 2
-            }
-        ],
-        "wall": [
-            {
-                "id": "weathered_adobe_wall",
-                "weight": 10
-            },
-            {
-                "id": "mossy_adobe_wall",
-                "weight": 8
-            },
-            {
-                "id": "broken_adobe_wall",
-                "weight": 7
-            },
-            {
-                "id": "broken_ruined_wall",
-                "weight": 6
-            },
-            {
-                "id": "overgrown_ruined_wall",
-                "weight": 5
-            },
-            {
-                "id": "damp_ruined_wall",
-                "weight": 4
-            },
-            {
-                "id": "ancient_brick_wall",
-                "weight": 4
-            },
-            {
-                "id": "overgrown_brick_wall",
-                "weight": 3
-            },
-            {
-                "id": "sunlit_wood_wall",
-                "weight": 3
-            },
-            {
-                "id": "polished_wood_wall",
-                "weight": 2
-            },
-            {
-                "id": "weathered_wood_wall",
-                "weight": 2
-            },
-            {
-                "id": "ancient_plaster_wall",
-                "weight": 2
-            }
-        ],
-        "stairs": [
-            {
-                "id": "sunlit_wood_stairs",
-                "weight": 8
-            },
-            {
-                "id": "polished_wood_stairs",
-                "weight": 6
-            },
-            {
-                "id": "ancient_stone_stairs",
-                "weight": 5
-            },
-            {
-                "id": "sacred_stone_stairs",
-                "weight": 4
-            },
-            {
-                "id": "dark_stone_stairs",
-                "weight": 3
-            },
-            {
-                "id": "damp_cave_stairs",
-                "weight": 1
-            }
-        ],
-        "void": [
-            {
-                "id": "sunlit_deep_water",
-                "weight": 4
-            },
-            {
-                "id": "ancient_shore_water",
-                "weight": 3
-            },
-            {
-                "id": "weathered_shore_water",
-                "weight": 3
-            },
-            {
-                "id": "broken_shore_water",
-                "weight": 2
-            },
-            {
-                "id": "sunlit_lava_pool",
-                "weight": 2
-            },
-            {
-                "id": "polished_lava_pool",
-                "weight": 1
-            }
-        ]
-    },
-    "rules": {
-        "blockedEdgeOnly": true,
-        "pathMix": 0.2
-    }
+  "id": "ruins",
+  "label": "Ruins",
+  "notes": "Slim ruins pack. Sand floors, adobe walls, wood stairs.",
+  "genre": "rpg_fantasy",
+  "kind": "tiles",
+  "roles": {
+    "floor": [
+      { "id": "sunlit_sand_floor", "weight": 10, "roleId": "floor" },
+      { "id": "polished_sand_floor", "weight": 6, "roleId": "floor" }
+    ],
+    "path": [
+      { "id": "ancient_sand_path", "weight": 3, "roleId": "path" }
+    ],
+    "wall": [
+      { "id": "weathered_adobe_wall", "weight": 12, "roleId": "wall" }
+    ],
+    "water": [
+      { "id": "sunlit_deep_water", "weight": 4, "roleId": "water" }
+    ],
+    "stairs_up": [
+      {
+        "id": "sunlit_wood_stairs",
+        "weight": 5,
+        "roleId": "stairs_up",
+        "anchor": "bottom_center"
+      }
+    ]
+  },
+  "rules": {
+    "blockedEdgeOnly": true,
+    "pathMix": 0.16
+  }
 }

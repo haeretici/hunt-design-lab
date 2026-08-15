@@ -102,27 +102,32 @@
     "race": "blood",
     "loot": [
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 13600000,
             "maxCount": 200
         },
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 13600000,
             "maxCount": 100
         },
         {
-            "name": "platinum coin",
+            "name": "Platinum Coin",
+            "id": "platinum_coin",
             "chance": 13600000,
             "maxCount": 5
         },
         {
-            "name": "black pearl",
+            "name": "Black Pearl",
+            "id": "black_pearl",
             "chance": 13600000,
             "maxCount": 2
         },
         {
-            "name": "ham",
+            "name": "Ham",
+            "id": "ham",
             "chance": 13600000,
             "maxCount": 2
         },
@@ -142,15 +147,18 @@
             "maxCount": 2
         },
         {
-            "name": "furry club",
+            "name": "Furry Club",
+            "id": "furry_club",
             "chance": 13600000
         },
         {
-            "id": 281,
-            "chance": 5000
+            "chance": 5000,
+            "name": "Giant Shimmering Pearl",
+            "id": "giant_shimmering_pearl"
         },
         {
-            "name": "great health potion",
+            "name": "Great Health Potion",
+            "id": "great_health_potion",
             "chance": 13600000,
             "maxCount": 5
         },
@@ -160,11 +168,13 @@
             "maxCount": 2
         },
         {
-            "name": "spiked squelcher",
+            "name": "Spiked Squelcher",
+            "id": "spiked_squelcher",
             "chance": 13600000
         },
         {
-            "name": "ultimate health potion",
+            "name": "Ultimate Health Potion",
+            "id": "ultimate_health_potion",
             "chance": 13600000,
             "maxCount": 5
         },
@@ -179,15 +189,18 @@
             "maxCount": 2
         },
         {
-            "name": "dreaded cleaver",
+            "name": "Dreaded Cleaver",
+            "id": "dreaded_cleaver",
             "chance": 550
         },
         {
-            "name": "fur armor",
+            "name": "Fur Armor",
+            "id": "fur_armor",
             "chance": 550
         },
         {
-            "name": "relic sword",
+            "name": "Relic Sword",
+            "id": "relic_sword",
             "chance": 550
         },
         {
@@ -199,7 +212,8 @@
             "name": "werebear trophy"
         },
         {
-            "name": "wolf backpack",
+            "name": "Wolf Backpack",
+            "id": "wolf_backpack",
             "chance": 100
         }
     ],

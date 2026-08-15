@@ -21,6 +21,8 @@ const {
     registerRelationPickers,
     setRelationPickerContext
 } = require('./relation_pickers.js');
+const { preserveLiveEntity } = require('./live_value_preserve.js');
+const { patchJsonEditorNumberStartval } = require('./json_editor_number_startval.js');
 
 const ID_RE = /^[a-z][a-z0-9_]{0,79}$/;
 
@@ -504,8 +506,12 @@ function injectRelationEnums(schema, fields, idsByKind) {
             it.enum = ids.slice();
             it.type = 'string';
         } else {
-            n.enum = ids.slice();
+            // Optional relation selects must keep "" so a no-op Save cannot
+            // coerce an empty profile slot into the first catalog id.
+            const nonempty = ids.filter((id) => id !== '');
+            n.enum = [''].concat(nonempty);
             n.type = 'string';
+            if (n.default === undefined) n.default = '';
         }
     }
     return out;
@@ -635,6 +641,14 @@ async function initDesignerUiApp() {
     /** @type {string|null} */
     let loadedId = null;
 
+    /**
+     * Last committed entity (disk load, Raw→Form, or post-save remount).
+     * Form getValue() is reconciled against this so hidden dependency keys
+     * and invented enum / tuple defaults cannot change combat on Save.
+     * @type {object|null}
+     */
+    let loadedEntity = null;
+
     /** @type {boolean} */
     let isNew = false;
 
@@ -751,7 +765,8 @@ async function initDesignerUiApp() {
         }
         if (jsonEditor) {
             try {
-                const val = jsonEditor.getValue();
+                let val = jsonEditor.getValue();
+                if (loadedEntity) val = preserveLiveEntity(loadedEntity, val);
                 if (val && typeof val === 'object') {
                     const cloned = JSON.parse(JSON.stringify(val));
                     if (!cloned.id && els.id) {
@@ -855,6 +870,7 @@ async function initDesignerUiApp() {
             entity = JSON.parse(els.json.value);
         } else if (jsonEditor) {
             entity = jsonEditor.getValue();
+            if (loadedEntity) entity = preserveLiveEntity(loadedEntity, entity);
         } else if (els.json && els.json.value) {
             entity = JSON.parse(els.json.value);
         } else {
@@ -1224,6 +1240,10 @@ async function initDesignerUiApp() {
     async function mountEditor(entity, opts = {}) {
         const captureClean = opts.captureClean !== false;
         destroyEditor();
+        loadedEntity =
+            entity && typeof entity === 'object' && !Array.isArray(entity)
+                ? JSON.parse(JSON.stringify(entity))
+                : null;
         if (!els.editorHolder) return;
 
         const meta = kindMeta();
@@ -1236,6 +1256,8 @@ async function initDesignerUiApp() {
             if (captureClean) captureCleanSnapshot();
             return;
         }
+
+        patchJsonEditorNumberStartval(window.JSONEditor);
 
         // Custom widgets: piece grid, dungeon profile, relation Select pickers
         registerPieceGridEditor();
@@ -1264,6 +1286,9 @@ async function initDesignerUiApp() {
                     disable_properties: false,
                     no_additional_properties: false,
                     required_by_default: false,
+                    // Invented 0 / first-enum would change combat. Number startval
+                    // needs patchJsonEditorNumberStartval (json-editor 2.15 wipe).
+                    use_default_values: false,
                     keep_oneof_values: false,
                     show_errors: 'interaction',
                     object_layout: 'normal',
@@ -1364,7 +1389,9 @@ async function initDesignerUiApp() {
                 .join('; ');
             throw new Error('Schema validation: ' + msg);
         }
-        return jsonEditor.getValue();
+        let entity = jsonEditor.getValue();
+        if (loadedEntity) entity = preserveLiveEntity(loadedEntity, entity);
+        return entity;
     }
 
     function clearValidateReport() {
@@ -1535,6 +1562,7 @@ async function initDesignerUiApp() {
      */
     function showEmpty(opts = {}) {
         loadedId = null;
+        loadedEntity = null;
         isNew = false;
         cleanSnapshot = null;
         destroyEditor();
@@ -2337,5 +2365,6 @@ async function initDesignerUiApp() {
 }
 
 module.exports = {
-    initDesignerUiApp
+    initDesignerUiApp,
+    injectRelationEnums
 };

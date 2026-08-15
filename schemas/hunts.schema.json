@@ -315,6 +315,19 @@
       "items": { "type": "integer" },
       "description": "Multi-floor index list (e.g. [7, 8])."
     },
+    "waypoints": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/point" },
+      "description": "Explicit waypoints route."
+    },
+    "waypointPreset": {
+      "type": "string",
+      "description": "Id for an external waypoint preset."
+    },
+    "waypointsId": {
+      "type": "string",
+      "description": "Alias for external waypoint preset."
+    },
     "loopWaypoints": {
       "type": "boolean",
       "default": false,

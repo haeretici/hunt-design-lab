@@ -161,12 +161,14 @@
     "race": "fire",
     "loot": [
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 50000,
             "maxCount": 190
         },
         {
-            "name": "platinum coin",
+            "name": "Platinum Coin",
+            "id": "platinum_coin",
             "chance": 20000,
             "maxCount": 26
         },
@@ -183,39 +185,48 @@
             "chance": 20000
         },
         {
-            "name": "spike sword",
+            "name": "Spike Sword",
+            "id": "spike_sword",
             "chance": 9090
         },
         {
-            "name": "fire sword",
+            "name": "Ember Blade",
+            "id": "ember_blade",
             "chance": 14285
         },
         {
-            "name": "giant sword",
+            "name": "Colossus Blade",
+            "id": "colossus_blade",
             "chance": 7692
         },
         {
             "chance": 11111,
-            "name": "scimitar"
+            "name": "Scimitar",
+            "id": "scimitar"
         },
         {
-            "name": "warrior helmet",
+            "name": "Warrior Helmet",
+            "id": "warrior_helmet",
             "chance": 20000
         },
         {
-            "name": "strange helmet",
+            "name": "Strange Helmet",
+            "id": "strange_helmet",
             "chance": 8333
         },
         {
-            "name": "crown helmet",
+            "name": "Crown Helmet",
+            "id": "crown_helmet",
             "chance": 6250
         },
         {
-            "name": "royal helmet",
+            "name": "Royal Helmet",
+            "id": "royal_helmet",
             "chance": 20000
         },
         {
-            "name": "brown mushroom",
+            "name": "Brown Mushroom",
+            "id": "brown_mushroom",
             "chance": 50000,
             "maxCount": 30
         },
@@ -224,7 +235,8 @@
             "chance": 12500
         },
         {
-            "name": "skull helmet",
+            "name": "Skull Helmet",
+            "id": "skull_helmet",
             "chance": 20000
         },
         {
@@ -267,34 +279,42 @@
         },
         {
             "chance": 10000,
-            "name": "crimson sword"
+            "name": "Crimson Sword",
+            "id": "crimson_sword"
         },
         {
-            "name": "thaian sword",
+            "name": "Royal Sword",
+            "id": "royal_sword",
             "chance": 25000
         },
         {
-            "name": "dragon slayer",
+            "name": "Wyrm Slayer",
+            "id": "wyrm_slayer",
             "chance": 8333
         },
         {
-            "name": "runed sword",
+            "name": "Runed Sword",
+            "id": "runed_sword",
             "chance": 6666
         },
         {
-            "name": "great mana potion",
+            "name": "Great Mana Potion",
+            "id": "great_mana_potion",
             "chance": 20000
         },
         {
-            "name": "great health potion",
+            "name": "Great Health Potion",
+            "id": "great_health_potion",
             "chance": 20000
         },
         {
-            "name": "great dual potion",
+            "name": "Great Dual Potion",
+            "id": "great_dual_potion",
             "chance": 20000
         },
         {
-            "name": "ultimate health potion",
+            "name": "Ultimate Health Potion",
+            "id": "ultimate_health_potion",
             "chance": 20000
         },
         {
@@ -302,7 +322,8 @@
             "name": "heavily rusted armor"
         },
         {
-            "name": "gold ingot",
+            "name": "Gold Ingot",
+            "id": "gold_ingot",
             "chance": 16666
         }
     ],

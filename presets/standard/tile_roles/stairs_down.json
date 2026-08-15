@@ -1,0 +1,26 @@
+{
+  "id": "stairs_down",
+  "label": "Stairs (down)",
+  "notes": "Walkable stairs down. Floor down is z+1. STAIR flag + vertical link.",
+  "kindHints": ["tiles"],
+  "catalogCategories": ["special"],
+  "render": {
+    "scale": 1.0,
+    "anchor": "bottom_center",
+    "variant": "retro"
+  },
+  "influence": {
+    "friction": 100,
+    "sight": 0,
+    "flags": 2,
+    "walkMode": "open",
+    "sightMode": "clear"
+  },
+  "vertical": {
+    "type": "stairs",
+    "deltaZ": 1,
+    "defaultDir": "center",
+    "bidirectional": false,
+    "registerStairLink": true
+  }
+}

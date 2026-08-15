@@ -71,13 +71,15 @@
     },
     "loot": [
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 100000,
             "maxCount": 4
         },
         {
             "chance": 39410,
-            "name": "cheese"
+            "name": "Cheese",
+            "id": "cheese"
         }
     ],
     "changeTarget": {

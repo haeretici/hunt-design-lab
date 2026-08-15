@@ -1,0 +1,20 @@
+{
+  "id": "water",
+  "label": "Water",
+  "notes": "Unwalkable moat / water / lava surface. Projectiles and LoS pass (sight clear).",
+  "kindHints": ["tiles"],
+  "catalogCategories": ["water"],
+  "render": {
+    "scale": 1.0,
+    "anchor": "middle_center",
+    "variant": "retro"
+  },
+  "influence": {
+    "friction": 255,
+    "sight": 0,
+    "flags": 0,
+    "walkMode": "block",
+    "sightMode": "clear"
+  },
+  "vertical": null
+}

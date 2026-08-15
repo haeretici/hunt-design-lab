@@ -23,6 +23,8 @@ const {
     listKindIds
 } = require('../../settings.js');
 const { formatJson } = require('./json_format.js');
+const { parseWangId } = require('./overlay_wang.js');
+const { parseWallId } = require('./wall_wang.js');
 
 const CATALOG_VERSION = 1;
 
@@ -30,7 +32,7 @@ const CATALOG_VERSION = 1;
  * Resolve catalog `opaqueAlpha` for process_sprites / UI.
  * Explicit true/false always win. When missing:
  *   - kind `tiles` → true (opaque full-bleed; default for terrain)
- *   - other kinds → false (legacy creatures use chroma)
+ *   - other kinds → false (overlays + chroma families)
  * @param {unknown} value
  * @param {string} [kindId]
  * @returns {boolean}
@@ -355,6 +357,43 @@ function upsertCreature(catalog, partial) {
             existing?.createdAt ||
             new Date().toISOString().slice(0, 10)
     };
+    const wang =
+        parseWangId(id) ||
+        parseWangId(record.technical) ||
+        (partial.wangFamily != null || existing?.wangFamily != null
+            ? {
+                  family: partial.wangFamily || existing.wangFamily,
+                  mask:
+                      partial.wangMask != null
+                          ? partial.wangMask
+                          : existing?.wangMask
+              }
+            : null);
+    if (wang && wang.family != null && wang.mask != null) {
+        record.wangFamily = wang.family;
+        record.wangMask = wang.mask;
+        if (wang.inner) record.wangInner = wang.inner;
+        else if (partial.wangInner) record.wangInner = String(partial.wangInner).toLowerCase();
+        if (!record.category) record.category = wang.family;
+    }
+    const wall =
+        parseWallId(id) ||
+        parseWallId(record.technical) ||
+        (partial.wallFamily != null ||
+        existing?.wallFamily != null ||
+        partial.wallAlign != null ||
+        existing?.wallAlign != null
+            ? {
+                  family: partial.wallFamily || existing?.wallFamily,
+                  align: partial.wallAlign || existing?.wallAlign
+              }
+            : null);
+    if (wall && wall.family && wall.align && record.kind === 'objects') {
+        record.wallFamily = wall.family;
+        record.wallAlign = wall.align;
+        if (!record.category) record.category = 'wall';
+        delete record.wangFamily;
+    }
 
     if (existing) {
         const idx = catalog.creatures.findIndex((c) => c.id === id);
@@ -379,6 +418,47 @@ function listPngStems(dir) {
         .filter((f) => f.toLowerCase().endsWith('.png'))
         .map((f) => f.replace(/\.png$/i, ''))
         .sort((a, b) => a.localeCompare(b));
+}
+
+/**
+ * Sole category id when the kind declares exactly one (e.g. ui → spells).
+ * Multi-category kinds stay unset so inventory does not guess.
+ * @param {{ categories?: string[] }} kind
+ * @returns {string|null}
+ */
+function defaultCategoryForKind(kind) {
+    const cats = Array.isArray(kind && kind.categories) ? kind.categories : [];
+    return cats.length === 1 && cats[0] ? String(cats[0]) : null;
+}
+
+/**
+ * technical (lowercased) → alias from `technical\\talias` done-list lines.
+ * @param {string} doneFile
+ * @returns {Map<string, string>}
+ */
+function loadDoneAliasMap(doneFile) {
+    /** @type {Map<string, string>} */
+    const map = new Map();
+    if (!doneFile || !fs.existsSync(doneFile)) {
+        return map;
+    }
+    let text = '';
+    try {
+        text = fs.readFileSync(doneFile, 'utf8');
+    } catch {
+        return map;
+    }
+    for (const line of text.split(/\r?\n/)) {
+        const trimmed = line.trim();
+        if (!trimmed) continue;
+        const tab = trimmed.indexOf('\t');
+        if (tab < 0) continue;
+        const technical = trimmed.slice(0, tab).trim();
+        const alias = trimmed.slice(tab + 1).trim();
+        if (!technical || !alias) continue;
+        map.set(technical.toLowerCase(), alias);
+    }
+    return map;
 }
 
 /**
@@ -420,6 +500,8 @@ function inventoryGenre(genreId, options = {}) {
 
     const originalStems = listPngStems(paths.original);
     const originalIds = new Set(originalStems.map((s) => s.toLowerCase()));
+    const doneAliases = loadDoneAliasMap(paths.doneFile);
+    const defaultCategory = defaultCategoryForKind(kind);
 
     /** @type {Map<string, object>} */
     const byId = new Map();
@@ -459,29 +541,74 @@ function inventoryGenre(genreId, options = {}) {
         const abs = path.join(paths.original, `${stem}.png`);
 
         let rec = byId.get(id);
+        const doneAlias = doneAliases.get(technical.toLowerCase()) || null;
+        const wang = parseWangId(stem) || parseWangId(id);
+        const wall = kindId === 'objects' ? parseWallId(stem) || parseWallId(id) : null;
         if (!rec) {
             rec = {
                 id,
                 technical,
-                alias: deriveAliasFromTechnical(technical),
+                alias: doneAlias || deriveAliasFromTechnical(technical),
                 genre: genreId,
                 kind: kindId,
+                category:
+                    (wang && wang.family) ||
+                    (wall ? 'wall' : null) ||
+                    defaultCategory,
                 status: STATUSES.ORIGINAL_ONLY,
                 sprites: { original: rel, transformed: null },
-                tags: [],
+                tags: wang
+                    ? [wang.family]
+                    : wall
+                      ? [wall.family]
+                      : defaultCategory
+                        ? [defaultCategory]
+                        : [],
                 opaqueAlpha: resolveOpaqueAlpha(undefined, kindId),
                 source: SOURCES.PIPELINE,
                 createdAt: dateFromMtime(abs)
             };
+            if (wang) {
+                rec.wangFamily = wang.family;
+                rec.wangMask = wang.mask;
+                if (wang.inner) rec.wangInner = wang.inner;
+            }
+            if (wall) {
+                rec.wallFamily = wall.family;
+                rec.wallAlign = wall.align;
+                rec.category = rec.category || 'wall';
+                delete rec.wangFamily;
+            }
             byId.set(id, rec);
             added += 1;
         } else {
             updated += 1;
             if (!rec.technical) rec.technical = technical;
-            if (!rec.alias) rec.alias = deriveAliasFromTechnical(rec.technical);
+            if (!rec.alias) {
+                rec.alias = doneAlias || deriveAliasFromTechnical(rec.technical);
+            } else if (
+                doneAlias &&
+                rec.alias === deriveAliasFromTechnical(rec.technical)
+            ) {
+                rec.alias = doneAlias;
+            }
             if (!rec.genre) rec.genre = genreId;
             if (!rec.kind) rec.kind = kindId;
+            if (wang) {
+                if (!rec.wangFamily) rec.wangFamily = wang.family;
+                if (rec.wangMask == null) rec.wangMask = wang.mask;
+                if (wang.inner && !rec.wangInner) rec.wangInner = wang.inner;
+                if (!rec.category) rec.category = wang.family;
+            }
+            if (wall) {
+                if (!rec.wallFamily) rec.wallFamily = wall.family;
+                if (!rec.wallAlign) rec.wallAlign = wall.align;
+                if (!rec.category) rec.category = 'wall';
+                if (rec.wallFamily) delete rec.wangFamily;
+            }
+            if (!rec.category && defaultCategory) rec.category = defaultCategory;
             if (!Array.isArray(rec.tags)) rec.tags = [];
+            if (rec.category && rec.tags.length === 0) rec.tags = [rec.category];
             rec.sprites = { original: rel, transformed: null };
             rec.status = STATUSES.ORIGINAL_ONLY;
             if (!rec.source || rec.source === SOURCES.LEGACY) {
@@ -565,6 +692,8 @@ module.exports = {
     listCreatures,
     upsertCreature,
     listPngStems,
+    defaultCategoryForKind,
+    loadDoneAliasMap,
     inventoryGenre,
     inventoryAll
 };

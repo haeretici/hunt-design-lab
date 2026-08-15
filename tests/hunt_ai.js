@@ -11,7 +11,10 @@ const { hasMode } = require('./helpers/modes.js');
 
 const assert = require('assert');
 const { Settings } = require('../kernel/settings.js');
-const { TileMap } = require('../kernel/core/entities/tilemap.js');
+const {
+    TileMap,
+    TILE_FLAG_PZ_PACKAGE
+} = require('../kernel/core/entities/tilemap.js');
 const { Creature } = require('../kernel/core/entities/creature.js');
 const { Player } = require('../kernel/core/entities/player.js');
 const { Party } = require('../kernel/core/entities/party.js');
@@ -68,6 +71,7 @@ const {
     isSelfCenteredAreaSpell
 } = require('../kernel/core/lib/combat/area.js');
 const { indexSpells } = require('../kernel/core/lib/combat/resolve.js');
+const { isTalkableNpc } = require('../kernel/core/lib/npc/flags.js');
 const Cooldowns = require('../kernel/core/lib/combat/cooldowns.js');
 const { StateMachine } = require('../kernel/core/lib/fsm.js');
 const presets = require('../kernel/core/lib/presets.js');
@@ -102,7 +106,8 @@ const {
     armStrategyRetarget,
     strategyRetargetDue,
     clearStrategyRetarget,
-    retargetIntervalSec
+    retargetIntervalSec,
+    retargetChance
 } = require('../kernel/core/lib/ai/creature_kit.js');
 const {
     combatMove,
@@ -114,6 +119,7 @@ const {
     beyondLeash,
     insideLeashReaggro,
     leashReaggroRange,
+    leashPathMaxDistance,
     hasLivingPresence,
     changeCreatureState
 } = require('../kernel/core/lib/ai/creature_states.js');
@@ -3190,8 +3196,7 @@ function testThreatDecayAndStrategyRetarget() {
             strategiesTarget: { damage: 100 },
             flags: {
                 aggroRange: 10,
-                threatDecayHalflifeSec: 10,
-                retargetIntervalSec: 0
+                threatDecayHalflifeSec: 10
             },
             attacks: [
                 {
@@ -3206,7 +3211,7 @@ function testThreatDecayAndStrategyRetarget() {
             ]
         });
         assert.strictEqual(monster.kit.flags.threatDecayHalflifeSec, 10);
-        assert.strictEqual(monster.kit.flags.retargetIntervalSec, 0);
+        assert.strictEqual(retargetIntervalSec(monster), 0);
 
         Time.timeSinceLevelLoad = 0;
         recordDamageTakenBy(monster, { id: 'p1', type: 'player' }, 100);
@@ -3267,10 +3272,12 @@ function testThreatDecayAndStrategyRetarget() {
 
         // --- Strategy retarget interval ---
         const kitRetarget = normalizeCreatureKit({
-            flags: { retargetIntervalSec: 2, threatDecayHalflifeSec: 0 },
+            changeTarget: { interval: 2000, chance: 100 },
+            flags: { threatDecayHalflifeSec: 0 },
             strategiesTarget: { nearest: 100 }
         });
-        assert.strictEqual(kitRetarget.flags.retargetIntervalSec, 2);
+        assert.strictEqual(kitRetarget.changeTarget.intervalSec, 2);
+        assert.strictEqual(kitRetarget.changeTarget.chance, 100);
 
         const retargetOwner = {
             tile: { x: 0, y: 0, z: 0 },
@@ -3281,9 +3288,9 @@ function testThreatDecayAndStrategyRetarget() {
         };
         ensureCreatureKit(retargetOwner, {
             strategiesTarget: { health: 100 },
+            changeTarget: { interval: 2000, chance: 100 },
             flags: {
                 aggroRange: 10,
-                retargetIntervalSec: 2,
                 threatDecayHalflifeSec: 0,
                 targetDistance: 1,
                 staticAttackChance: 0
@@ -3341,10 +3348,10 @@ function testThreatDecayAndStrategyRetarget() {
             hpMax: 200,
             speed: 0,
             strategiesTarget: { health: 100 },
+            changeTarget: { interval: 1000, chance: 100 },
             flags: {
                 targetDistance: 1,
                 aggroRange: 8,
-                retargetIntervalSec: 1,
                 threatDecayHalflifeSec: 0,
                 staticAttackChance: 0
             },
@@ -3431,6 +3438,107 @@ function testThreatDecayAndStrategyRetarget() {
         log('threat decay + strategy retarget ok');
     } finally {
         Settings.AI_CREATURE_THREAT_DECAY_HALFLIFE_SEC = prevDecay;
+        Settings.AI_CREATURE_RETARGET_INTERVAL = prevRetarget;
+        Time.timeSinceLevelLoad = prevTs;
+    }
+}
+
+/**
+ * Live changeTarget {interval ms, chance %} overrides AI_CREATURE_RETARGET_INTERVAL.
+ */
+function testChangeTargetOverridesGlobal() {
+    const prevRetarget = Settings.AI_CREATURE_RETARGET_INTERVAL;
+    const prevTs = Time.timeSinceLevelLoad;
+    try {
+        Settings.AI_CREATURE_RETARGET_INTERVAL = 0;
+
+        const fromDisk = normalizeCreatureKit({
+            changeTarget: { interval: 4000, chance: 20 },
+            flags: { targetDistance: 1 }
+        });
+        assert.strictEqual(fromDisk.changeTarget.intervalSec, 4);
+        assert.strictEqual(fromDisk.changeTarget.chance, 20);
+        assert.ok(
+            fromDisk.flags.retargetIntervalSec == null,
+            'retarget is not a flags field'
+        );
+        assert.ok(fromDisk.flags.retargetChance == null);
+
+        const chanceZero = {
+            tile: { x: 0, y: 0, z: 0 },
+            alive: true,
+            hp: { current: 100, max: 100 }
+        };
+        ensureCreatureKit(chanceZero, {
+            changeTarget: { interval: 4000, chance: 0 },
+            flags: { targetDistance: 1 }
+        });
+        assert.strictEqual(retargetIntervalSec(chanceZero), 4);
+        assert.strictEqual(retargetChance(chanceZero), 0);
+        Time.timeSinceLevelLoad = 10;
+        armStrategyRetarget(chanceZero);
+        Time.timeSinceLevelLoad = 15;
+        assert.strictEqual(
+            strategyRetargetDue(chanceZero, undefined, () => 0),
+            false,
+            'chance 0 never switches'
+        );
+
+        const rollOwner = {
+            tile: { x: 0, y: 0, z: 0 },
+            alive: true
+        };
+        ensureCreatureKit(rollOwner, {
+            changeTarget: { interval: 2000, chance: 20 },
+            flags: { targetDistance: 1 }
+        });
+        Time.timeSinceLevelLoad = 0;
+        armStrategyRetarget(rollOwner);
+        Time.timeSinceLevelLoad = 2.1;
+        assert.strictEqual(
+            strategyRetargetDue(rollOwner, undefined, () => 0.5),
+            false,
+            '20% fail when rng=0.5'
+        );
+        Time.timeSinceLevelLoad = 4.2;
+        assert.strictEqual(
+            strategyRetargetDue(rollOwner, undefined, () => 0.1),
+            true,
+            '20% pass when rng=0.1'
+        );
+
+        const flagsIgnored = normalizeCreatureKit({
+            changeTarget: { interval: 4000, chance: 10 },
+            flags: { retargetIntervalSec: 2, retargetChance: 100 }
+        });
+        assert.strictEqual(flagsIgnored.changeTarget.intervalSec, 4);
+        assert.strictEqual(flagsIgnored.changeTarget.chance, 10);
+
+        const demon = presets.loadCreatureTemplateRaw('demon');
+        assert.ok(demon && demon.changeTarget, 'demon authors changeTarget');
+        const spawned = new Creature({
+            id: 1,
+            tile: { x: 0, y: 0, z: 0 }
+        });
+        spawned.applyTemplate(demon);
+        assert.strictEqual(
+            spawned.kit.changeTarget.intervalSec,
+            demon.changeTarget.interval / 1000
+        );
+        assert.strictEqual(
+            spawned.kit.changeTarget.chance,
+            demon.changeTarget.chance
+        );
+        assert.ok(
+            spawned.kit.changeTarget.intervalSec > 0,
+            'demon changeTarget overrides global 0'
+        );
+
+        log('changeTarget overrides global retarget ok', {
+            intervalSec: spawned.kit.changeTarget.intervalSec,
+            chance: spawned.kit.changeTarget.chance
+        });
+    } finally {
         Settings.AI_CREATURE_RETARGET_INTERVAL = prevRetarget;
         Time.timeSinceLevelLoad = prevTs;
     }
@@ -3768,6 +3876,79 @@ function testLeashReaggroHysteresis() {
         Settings.AI_CREATURE_AGGRO_RANGE = prev.aggro;
     }
     log('leash re-aggro hysteresis ok');
+}
+
+/**
+ * Return-home must use the full local A* cap. Chase radius 12 cannot
+ * contain a home tile at leash distance (default 18), so monsters that
+ * followed the party then leashed used to freeze in place.
+ */
+function testLeashReturnWalksBeyondChaseRadius() {
+    const prev = {
+        chase: Settings.AI_CREATURE_PATH_MAX_DISTANCE,
+        leash: Settings.AI_CREATURE_LEASH
+    };
+    Settings.AI_CREATURE_PATH_MAX_DISTANCE = 12;
+    Settings.AI_CREATURE_LEASH = 18;
+    try {
+        assert.ok(
+            leashPathMaxDistance() > 12,
+            'leash search cap must exceed chase radius'
+        );
+        assert.ok(
+            leashPathMaxDistance() >= 19,
+            'leash search cap must reach a just-leashed home tile'
+        );
+
+        const map = openFloor(32, 4);
+        const home = { x: 1, y: 1, z: 0 };
+        const startX = 20; // Chebyshev 19 from home — outside chase 12
+        const creature = new Creature({
+            id: 9101,
+            name: 'LeashRat',
+            tile: { x: startX, y: 1, z: 0 },
+            homeTile: home,
+            speed: 220,
+            hp: 50,
+            hpMax: 50
+        });
+        creature.alive = true;
+        creature.aggro = true;
+        map.tryOccupy(startX, 1, 0, creature);
+        initCreatureAi(creature);
+        creature.brain.changeState(Leash);
+        creature.aiState = 'leash';
+        creature.moveDelay = 0;
+
+        const ctx = {
+            players: [],
+            tileMap: map,
+            rng: () => 0,
+            sim: {
+                getEntityById() {
+                    return null;
+                }
+            }
+        };
+        Leash.execute(creature, ctx);
+        assert.strictEqual(creature.aiState, 'leash', 'still walking home');
+        assert.ok(
+            creature.tile.x < startX,
+            `leash return must step toward home beyond chase 12 (x=${creature.tile.x})`
+        );
+        const homeDist = Math.max(
+            Math.abs(creature.tile.x - home.x),
+            Math.abs(creature.tile.y - home.y)
+        );
+        assert.ok(
+            homeDist < 19,
+            'home Chebyshev must shrink after the leash step'
+        );
+    } finally {
+        Settings.AI_CREATURE_PATH_MAX_DISTANCE = prev.chase;
+        Settings.AI_CREATURE_LEASH = prev.leash;
+    }
+    log('leash return walks beyond chase radius ok');
 }
 
 /**
@@ -4357,6 +4538,256 @@ function testManualControlAndCommandQueue() {
 }
 
 /**
+ * Stage 6b Phase 3: npc_dialog CUSTOM_COMMAND advances a session; talkable
+ * NPCs stay out of AOI enemies; unknown macros still no-op.
+ */
+function testManualAutowalkFloorHopClearsDest() {
+    const open = new Uint8Array(25);
+    open.fill(100);
+
+    function makeSim(bidirectional) {
+        const map = new TileMap('autowalk_hop');
+        map.loadFloorFromFriction(0, 5, 5, open);
+        map.loadFloorFromFriction(1, 5, 5, open);
+        map.addStair(
+            { x: 2, y: 2, z: 0 },
+            { x: 2, y: 2, z: 1 },
+            { dir: 'down', link: 'portal_autowalk', bidirectional: !!bidirectional }
+        );
+        if (bidirectional) {
+            map.addStair(
+                { x: 2, y: 2, z: 1 },
+                { x: 2, y: 2, z: 0 },
+                { dir: 'up', link: 'portal_autowalk', bidirectional: true }
+            );
+        }
+        const sim = new Simulator({ seed: 4, combatAi: true, recordSteps: false });
+        sim.setTileMap(map);
+        sim.floor = 0;
+        sim._ensurePresetLoaders();
+        sim.sessionState = 'running';
+        sim.active = true;
+        const floats = [];
+        sim.emitCombatText = (opts) => {
+            floats.push(opts);
+        };
+        const party = new Party({ name: 'HopParty' });
+        const player = new Player({
+            id: sim.allocEntityId(),
+            name: 'HopPlayer',
+            classId: 'guardian',
+            isLeader: true,
+            controlMode: 'manual',
+            level: 20,
+            tile: { x: 1, y: 2, z: 0 }
+        });
+        map.tryOccupy(1, 2, 0, player);
+        party.addMember(player);
+        sim.parties.push(party);
+        initPlayerAi(player);
+        return { sim, map, player, floats };
+    }
+
+    // Click the stair pad (same-floor dest) → hop must not announce no-way
+    {
+        const { sim, player, floats } = makeSim(false);
+        player.commandQueue.push({
+            type: 'START_AUTOWALK',
+            dest: { x: 2, y: 2, z: 0 }
+        });
+        tickHuntAi(sim);
+        assert.strictEqual(String(player.tile.z), '1', 'autowalk onto pad hops');
+        assert.strictEqual(
+            player._manualDest,
+            null,
+            'same-floor dest dropped after hop'
+        );
+        player.moveDelay = 0;
+        tickHuntAi(sim);
+        assert.strictEqual(String(player.tile.z), '1', 'stays on dest floor');
+        assert.strictEqual(player._manualDest, null, 'dest stays cleared');
+        assert.ok(
+            !floats.some((f) => f && f.text === 'There is no way.'),
+            'hop must not emit There is no way.'
+        );
+    }
+
+    // Bidirectional pad: leftover dest must not bounce back
+    {
+        const { sim, player, floats } = makeSim(true);
+        player.commandQueue.push({
+            type: 'START_AUTOWALK',
+            dest: { x: 2, y: 2, z: 0 }
+        });
+        tickHuntAi(sim);
+        assert.strictEqual(String(player.tile.z), '1', 'bidirectional hop lands');
+        player.moveDelay = 0;
+        tickHuntAi(sim);
+        assert.strictEqual(
+            String(player.tile.z),
+            '1',
+            'must not bounce back up the stair'
+        );
+        assert.ok(
+            !floats.some((f) => f && f.text === 'There is no way.'),
+            'bidirectional hop must not emit There is no way.'
+        );
+    }
+
+    // Intentional dest on the dest floor survives the hop
+    {
+        const { sim, player } = makeSim(false);
+        player.commandQueue.push({
+            type: 'START_AUTOWALK',
+            dest: { x: 4, y: 2, z: 1 }
+        });
+        tickHuntAi(sim);
+        assert.strictEqual(String(player.tile.z), '1', 'cross-floor dest hops');
+        assert.ok(player._manualDest, 'dest.z on new floor is kept');
+        assert.strictEqual(player._manualDest.x, 4);
+        assert.strictEqual(String(player._manualDest.z), '1');
+    }
+
+    log('manual autowalk floor-hop dest clear ok');
+}
+
+function testNpcDialogCustomCommand() {
+    const map = openFloor(16, 16, 100);
+    const sim = new Simulator({ seed: 63, combatAi: true, recordSteps: false });
+    sim.setTileMap(map);
+    sim.floor = 0;
+    sim._ensurePresetLoaders();
+    sim.sessionState = 'running';
+    sim.active = true;
+
+    try {
+        const party = new Party({ name: 'TalkParty' });
+        const player = new Player({
+            id: sim.allocEntityId(),
+            name: 'Talker',
+            classId: 'guardian',
+            isLeader: true,
+            controlMode: 'manual',
+            level: 20,
+            tile: { x: 2, y: 2, z: 0 }
+        });
+        map.tryOccupy(2, 2, 0, player);
+        party.addMember(player);
+        sim.parties.push(party);
+        sim.entityById.set(player.id, player);
+        initPlayerAi(player);
+
+        const tpl = presets.loadCreatureTemplate('town_guide');
+        const guide = sim.spawnFromTable({
+            creatureId: 'town_guide',
+            x: 4,
+            y: 2,
+            z: 0,
+            template: tpl
+        });
+        assert.ok(guide, 'town_guide spawned');
+        assert.ok(isTalkableNpc(guide), 'guide is talkable after spawn');
+
+        invalidateAoiFrame(sim);
+        const ctx = buildCtx(sim, null, null);
+        assert.ok(
+            !ctx.enemies.some((c) => c.id === guide.id),
+            'AOI enemies exclude talkable NPC'
+        );
+
+        player.commandQueue.push({
+            type: 'CUSTOM_COMMAND',
+            command: 'npc_dialog',
+            args: { npcId: guide.id, nodeId: 'start' }
+        });
+        tickHuntAi(sim);
+        assert.strictEqual(player.commandQueue.length, 0, 'npc_dialog dequeued');
+        assert.ok(player._npcTalk, 'session opened');
+        assert.strictEqual(player._npcTalk.npcId, guide.id);
+        assert.strictEqual(player._npcTalk.nodeId, 'start');
+        assert.strictEqual(player._npcTalk.dialogId, 'town_guide');
+
+        player.commandQueue.push({
+            type: 'CUSTOM_COMMAND',
+            command: 'npc_dialog ' + guide.id + ' arena'
+        });
+        tickHuntAi(sim);
+        assert.strictEqual(player._npcTalk.nodeId, 'arena', 'string form goto');
+
+        player.commandQueue.push({
+            type: 'CUSTOM_COMMAND',
+            command: 'npc_dialog',
+            args: { action: 'close' }
+        });
+        tickHuntAi(sim);
+        assert.strictEqual(player._npcTalk, null, 'close clears session');
+
+        const savedTile = { x: guide.tile.x, y: guide.tile.y, z: guide.tile.z };
+        guide.tile = { x: 14, y: 14, z: 0 };
+        player.commandQueue.push({
+            type: 'CUSTOM_COMMAND',
+            command: 'npc_dialog',
+            args: { npcId: guide.id }
+        });
+        tickHuntAi(sim);
+        assert.strictEqual(player._npcTalk, null, 'out-of-range open is a no-op');
+        guide.tile = savedTile;
+
+        guide.alive = false;
+        guide.hp.current = 0;
+        player.commandQueue.push({
+            type: 'CUSTOM_COMMAND',
+            command: 'npc_dialog',
+            args: { npcId: guide.id }
+        });
+        tickHuntAi(sim);
+        assert.strictEqual(player._npcTalk, null, 'dead NPC open is a no-op');
+        guide.alive = true;
+        guide.hp.current = guide.hp.max;
+
+        const rat = sim.spawnFromTable({
+            creatureId: 'cave_rat',
+            x: 3,
+            y: 2,
+            z: 0,
+            template: {
+                id: 'cave_rat',
+                label: 'Cave Rat',
+                hp: 20,
+                hpMax: 20,
+                attacks: [{ id: 'melee_0', kind: 'melee', min: 1, max: 4 }]
+            }
+        });
+        player.commandQueue.push({
+            type: 'CUSTOM_COMMAND',
+            command: 'npc_dialog',
+            args: { npcId: rat.id }
+        });
+        tickHuntAi(sim);
+        assert.strictEqual(player._npcTalk, null, 'hostile / non-talkable is a no-op');
+
+        player.commandQueue.push({
+            type: 'CUSTOM_COMMAND',
+            command: 'xyzzy_not_a_macro'
+        });
+        player.commandQueue.push({ type: 'SET_AUTO_CHASE', enabled: true });
+        tickHuntAi(sim);
+        assert.strictEqual(
+            player.commandQueue.length,
+            1,
+            'unknown CUSTOM_COMMAND dequeued; next cmd remains'
+        );
+        assert.strictEqual(player._npcTalk, null, 'unknown macro does not open talk');
+        tickHuntAi(sim);
+        assert.strictEqual(player.autoChase, true, 'queue continues after unknown macro');
+        assert.strictEqual(player.commandQueue.length, 0);
+    } finally {
+        sim.destroy();
+    }
+    log('npc_dialog custom command ok');
+}
+
+/**
  * Invisible players nearby: monsters must not attack, but still random-walk
  * (legacy doRandomStep while non-idle). Alone with idleWander off → freeze.
  */
@@ -4525,6 +4956,186 @@ function testInvisiblePresenceIdleWander() {
     log('invisible presence idle wander ok');
 }
 
+/**
+ * Adjacent monsters must not target or damage a player standing on a
+ * protection-zone tile — including the PZ border (bug 20260812_203007).
+ */
+function testProtectionZoneBlocksIncomingTargetAndHits() {
+    const map = openFloor(8, 8, 100);
+    // 2×2 PZ; player stands on the south-west border cell.
+    map.setTileFlags(2, 2, 0, TILE_FLAG_PZ_PACKAGE);
+    map.setTileFlags(3, 2, 0, TILE_FLAG_PZ_PACKAGE);
+    map.setTileFlags(2, 3, 0, TILE_FLAG_PZ_PACKAGE);
+    map.setTileFlags(3, 3, 0, TILE_FLAG_PZ_PACKAGE);
+    assert.strictEqual(map.isProtectionZonePackage(2, 3, 0), true);
+    assert.strictEqual(map.attackMayAffectTile(2, 3, 0), false);
+    assert.strictEqual(map.attackMayAffectTile(2, 4, 0), true);
+
+    const player = new Player({
+        id: 9401,
+        name: 'Adept',
+        tile: { x: 2, y: 3, z: 0 },
+        speed: 100,
+        hp: 200,
+        hpMax: 200
+    });
+    player.alive = true;
+    if (player.hp && typeof player.hp === 'object') {
+        player.hp.current = 200;
+        player.hp.max = 200;
+    }
+    player.combatStats = {
+        level: 20,
+        atk: 1,
+        skill: 1,
+        magic: 0,
+        armor: 0,
+        mitigation: 0,
+        maxBlock: 0,
+        resists: {},
+        hpMax: 200,
+        mpMax: 0
+    };
+    map.tryOccupy(2, 3, 0, player);
+
+    const monster = new Creature({
+        id: 9402,
+        name: 'Rat',
+        type: 'creature',
+        tile: { x: 2, y: 4, z: 0 },
+        speed: 100,
+        hp: 50,
+        hpMax: 50
+    });
+    monster.alive = true;
+    monster.homeTile = { x: 2, y: 4, z: 0 };
+    monster.spawnTile = { x: 2, y: 4, z: 0 };
+    monster.aggro = true;
+    ensureCreatureKit(monster, {
+        attacks: [
+            {
+                id: 'melee',
+                kind: 'melee',
+                min: 10,
+                max: 10,
+                range: 1,
+                intervalSec: 1,
+                chance: 100
+            }
+        ],
+        flags: {
+            targetDistance: 1,
+            aggroRange: 7,
+            loseTargetDistance: 10,
+            staticAttackChance: 100
+        },
+        strategiesTarget: { nearest: 100 }
+    });
+    initCreatureAi(monster);
+    map.tryOccupy(2, 4, 0, monster);
+
+    const targetOpts = { tileMap: map };
+    assert.strictEqual(
+        isValidTarget(monster, player),
+        true,
+        'without tileMap, PZ is not visible to the helper'
+    );
+    assert.strictEqual(
+        isValidTarget(monster, player, targetOpts),
+        false,
+        'with tileMap, player on PZ is not a valid target'
+    );
+    const pickedBare = pickCreatureTarget(monster, [player], {
+        rng: () => 0,
+        range: 7
+    });
+    assert.ok(
+        pickedBare && pickedBare.id === player.id,
+        'pick without tileMap cannot see PZ flags'
+    );
+    assert.strictEqual(
+        pickCreatureTarget(monster, [player], {
+            rng: () => 0,
+            range: 7,
+            tileMap: map
+        }),
+        null,
+        'pickCreatureTarget skips player on PZ'
+    );
+
+    const ctx = {
+        tileMap: map,
+        players: [player],
+        rng: () => 0,
+        sim: {
+            getEntityById(id) {
+                return id === player.id ? player : null;
+            }
+        }
+    };
+
+    const hp0 = player.hp.current;
+    const fired = tryCreatureAttacks(monster, player, ctx);
+    assert.ok(fired.fired, 'kit pass still runs (timer consumed)');
+    assert.strictEqual(
+        player.hp.current,
+        hp0,
+        'melee from adjacent tile does not damage a PZ player'
+    );
+    assert.ok(
+        !fired.results || fired.results.length === 0,
+        'no kit hit results on PZ'
+    );
+
+    // Sticky target from before entering PZ must drop and not deal damage.
+    monster.target = player;
+    monster.targetId = player.id;
+    monster._attackReadyIn = [0];
+    player.hp.current = hp0;
+    const status = runCombatTick(monster, ctx);
+    assert.strictEqual(status, 'no_target', 'combat tick drops PZ sticky');
+    assert.strictEqual(monster.target, null);
+    assert.strictEqual(player.hp.current, hp0, 'sticky tick deals no PZ damage');
+
+    // Idle: do not acquire a player standing on PZ.
+    changeCreatureState(monster, Idle);
+    Idle.execute(monster, ctx);
+    assert.strictEqual(monster.target, null, 'idle does not aggro into PZ');
+    assert.notStrictEqual(
+        monster.aiState,
+        'aggro',
+        'idle stays out of combat vs PZ player'
+    );
+
+    // Off-PZ neighbor is still attackable.
+    const openPlayer = new Player({
+        id: 9403,
+        name: 'Open',
+        tile: { x: 1, y: 4, z: 0 },
+        speed: 100,
+        hp: 200,
+        hpMax: 200
+    });
+    openPlayer.alive = true;
+    if (openPlayer.hp && typeof openPlayer.hp === 'object') {
+        openPlayer.hp.current = 200;
+        openPlayer.hp.max = 200;
+    }
+    openPlayer.combatStats = player.combatStats;
+    map.tryOccupy(1, 4, 0, openPlayer);
+    const pickedOpen = pickCreatureTarget(monster, [player, openPlayer], {
+        rng: () => 0,
+        range: 7,
+        tileMap: map
+    });
+    assert.ok(
+        pickedOpen && pickedOpen.id === openPlayer.id,
+        'still picks a player standing off PZ'
+    );
+
+    log('protection zone blocks incoming target and hits ok');
+}
+
 async function main() {
     testStrategyHelpers();
     testSelfAoeSpellRangeAndPriorityFallback();
@@ -4544,10 +5155,13 @@ async function main() {
     testCreatureKit();
     testRangedLineOfSightBlockedByWalls();
     testThreatDecayAndStrategyRetarget();
+    testChangeTargetOverridesGlobal();
     testFleeHoldsAndAttacksDuringMoveDelay();
     testLeashReaggroHysteresis();
+    testLeashReturnWalksBeyondChaseRadius();
     testCreaturePathFailCircleAndLoseTarget();
     testInvisiblePresenceIdleWander();
+    testProtectionZoneBlocksIncomingTargetAndHits();
     testDragonLordWaveCast();
     testEngageAttackAndMoveDecoupled();
     testEngageSpellPriorityOverAuto();
@@ -4558,6 +5172,8 @@ async function main() {
     await testHeadlessHuntFloor07();
     await testGhostWalkStillWorks();
     testManualControlAndCommandQueue();
+    testManualAutowalkFloorHopClearsDest();
+    testNpcDialogCustomCommand();
     console.log('hunt_ai: ok');
 }
 

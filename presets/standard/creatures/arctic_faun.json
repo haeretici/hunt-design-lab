@@ -101,7 +101,8 @@
     },
     "loot": [
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 100000,
             "maxCount": 105
         },
@@ -110,7 +111,8 @@
             "chance": 14870
         },
         {
-            "name": "strong health potion",
+            "name": "Strong Health Potion",
+            "id": "strong_health_potion",
             "chance": 11760
         },
         {
@@ -122,7 +124,8 @@
             "chance": 9330
         },
         {
-            "name": "leaf star",
+            "name": "Leaf Star",
+            "id": "leaf_star",
             "chance": 8720,
             "maxCount": 3
         },
@@ -131,12 +134,14 @@
             "chance": 7280
         },
         {
-            "name": "cookie",
+            "name": "Cookie",
+            "id": "cookie",
             "chance": 6150,
             "maxCount": 5
         },
         {
-            "name": "grapes",
+            "name": "Grapes",
+            "id": "grapes",
             "chance": 5400
         },
         {
@@ -145,7 +150,8 @@
             "maxCount": 2
         },
         {
-            "name": "small stone",
+            "name": "Small Stone",
+            "id": "small_stone",
             "chance": 5260,
             "maxCount": 2
         },
@@ -154,24 +160,28 @@
             "chance": 4510
         },
         {
-            "name": "great health potion",
+            "name": "Great Health Potion",
+            "id": "great_health_potion",
             "chance": 3590
         },
         {
-            "name": "wood cape",
+            "name": "Wood Cape",
+            "id": "wood_cape",
             "chance": 820
         },
         {
-            "name": "leaf legs",
+            "name": "Leaf Legs",
+            "id": "leaf_legs",
             "chance": 340
         },
         {
-            "name": "wooden spellbook",
+            "name": "Wooden Spellbook",
+            "id": "wooden_spellbook",
             "chance": 210
         },
         {
-            "id": 5792,
-            "chance": 140
+            "chance": 140,
+            "name": "die"
         }
     ],
     "changeTarget": {

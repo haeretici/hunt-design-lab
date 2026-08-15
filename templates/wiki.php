@@ -10,8 +10,8 @@ declare(strict_types=1);
 
 $pageTitle = $pageTitle ?? 'Wiki — Hunt Design Lab';
 $appRoot = isset($appRoot) ? rtrim((string) $appRoot, '/') : '';
-$wikiKind = isset($wikiKind) && $wikiKind === 'equipment' ? 'equipment' : 'creatures';
-$activeNav = $activeNav ?? ($wikiKind === 'equipment' ? 'wiki-equipment' : 'wiki-creatures');
+$wikiKind = isset($wikiKind) && in_array($wikiKind, ['equipment', 'spells']) ? $wikiKind : 'creatures';
+$activeNav = $activeNav ?? 'wiki-' . $wikiKind;
 $asset = static function (string $path) use ($appRoot): string {
     $path = ltrim($path, '/');
     return ($appRoot === '' ? '' : $appRoot) . '/' . $path;
@@ -26,8 +26,8 @@ $modesList = function_exists('hdl_list_modes') ? hdl_list_modes() : [
     ['id' => 'standard', 'label' => 'Standard', 'isDefault' => true, 'genre' => 'rpg_fantasy'],
     ['id' => 'legacy', 'label' => 'Legacy (dev port)', 'isDefault' => false, 'genre' => 'rpg_fantasy'],
 ];
-$kindLabel = $wikiKind === 'equipment' ? 'Equipments' : 'Creatures';
-$kindIcon = $wikiKind === 'equipment' ? 'fa-shield-halved' : 'fa-dragon';
+$kindLabel = $wikiKind === 'equipment' ? 'Equipments' : ($wikiKind === 'spells' ? 'Spells' : 'Creatures');
+$kindIcon = $wikiKind === 'equipment' ? 'fa-shield-halved' : ($wikiKind === 'spells' ? 'fa-wand-magic-sparkles' : 'fa-dragon');
 ?>
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="dark">

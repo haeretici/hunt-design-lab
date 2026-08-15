@@ -102,25 +102,30 @@
     "race": "undead",
     "loot": [
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 100000,
             "maxCount": 100
         },
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 50000,
             "maxCount": 90
         },
         {
             "chance": 10000,
-            "name": "sword ring"
+            "name": "Sword Ring",
+            "id": "sword_ring"
         },
         {
-            "name": "broadsword",
+            "name": "Broadsword",
+            "id": "broadsword",
             "chance": 4000
         },
         {
             "name": "Arcane Plate Armor",
+            "id": "arcane_plate_armor",
             "chance": 2000
         },
         {
@@ -128,7 +133,8 @@
             "chance": 800
         },
         {
-            "name": "skull helmet",
+            "name": "Skull Helmet",
+            "id": "skull_helmet",
             "chance": 50000
         },
         {
@@ -137,23 +143,25 @@
         },
         {
             "chance": 4000,
-            "name": "death ring"
+            "name": "Death Ring",
+            "id": "death_ring"
         },
         {
             "name": "demonic essence",
             "chance": 1538
         },
         {
-            "id": 6570,
             "chance": 5538,
-            "maxCount": 3
+            "maxCount": 3,
+            "name": "surprise bag"
         },
         {
-            "id": 6571,
-            "chance": 1538
+            "chance": 1538,
+            "name": "surprise bag"
         },
         {
-            "name": "dragonbone staff",
+            "name": "Wyrmbone Staff",
+            "id": "wyrmbone_staff",
             "chance": 50000
         }
     ],

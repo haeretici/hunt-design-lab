@@ -136,7 +136,8 @@
     },
     "loot": [
         {
-            "name": "platinum coin",
+            "name": "Platinum Coin",
+            "id": "platinum_coin",
             "chance": 100000,
             "maxCount": 3
         },
@@ -150,27 +151,33 @@
         },
         {
             "chance": 8390,
-            "name": "red gem"
+            "name": "Red Gem",
+            "id": "red_gem"
         },
         {
             "name": "Emberbound Amulet",
+            "id": "emberbound_amulet",
             "chance": 6060
         },
         {
-            "name": "wand of inferno",
+            "name": "Wand of Inferno",
+            "id": "wand_of_inferno",
             "chance": 5710
         },
         {
-            "name": "small sapphire",
+            "name": "Small Sapphire",
+            "id": "small_sapphire",
             "chance": 5590,
             "maxCount": 2
         },
         {
-            "name": "dragon necklace",
+            "name": "Wyrm Necklace",
+            "id": "wyrm_necklace",
             "chance": 5590
         },
         {
-            "name": "blue gem",
+            "name": "Blue Gem",
+            "id": "blue_gem",
             "chance": 5480
         },
         {
@@ -182,23 +189,28 @@
             "chance": 5240
         },
         {
-            "name": "fire axe",
+            "name": "Ember Cleaver",
+            "id": "ember_cleaver",
             "chance": 4200
         },
         {
-            "name": "wand of draconia",
+            "name": "Wand of Draconia",
+            "id": "wand_of_draconia",
             "chance": 2910
         },
         {
-            "name": "green gem",
+            "name": "Green Gem",
+            "id": "green_gem",
             "chance": 2680
         },
         {
             "name": "Emberbound Monocle",
+            "id": "emberbound_monocle",
             "chance": 1400
         },
         {
             "name": "Emberbound Boots",
+            "id": "emberbound_boots",
             "chance": 1280
         },
         {
@@ -208,6 +220,7 @@
         },
         {
             "name": "Emberbound Legs",
+            "id": "emberbound_legs",
             "chance": 930
         }
     ],

@@ -770,6 +770,48 @@ test('listActiveStatusIcons maps engine conditions to FA status strip', () => {
     assert.strictEqual(listActiveStatusIcons(null).length, 0);
 });
 
+test('listActiveStatusIcons shows mana_shield from condition or gear flag', () => {
+    const pooled = listActiveStatusIcons({
+        conditions: [
+            { kind: 'mana_shield', poolRemaining: 120, poolMax: 406 }
+        ]
+    });
+    assert.strictEqual(pooled.length, 1);
+    assert.strictEqual(pooled[0].kind, 'mana_shield');
+    assert.strictEqual(pooled[0].icon, 'fa-shield-halved');
+    assert.ok(
+        String(pooled[0].title).indexOf('120 / 406') >= 0,
+        'tooltip includes remaining / max'
+    );
+    const alias = listActiveStatusIcons({
+        conditions: [{ type: 'manashield', poolRemaining: 10, poolMax: 10 }]
+    });
+    assert.strictEqual(alias[0].kind, 'mana_shield');
+    const gear = listActiveStatusIcons({
+        combatStats: { flags: { manaShield: true } }
+    });
+    assert.strictEqual(gear.length, 1);
+    assert.strictEqual(gear[0].kind, 'mana_shield');
+    assert.ok(
+        String(gear[0].title).toLowerCase().indexOf('gear') >= 0,
+        'gear tooltip marks unpooled'
+    );
+    assert.strictEqual(
+        statusIconsSignature({
+            conditions: [{ kind: 'haste' }, { kind: 'mana_shield' }]
+        }),
+        'haste,mana_shield'
+    );
+    // Card dirty signature stays kinds-only (pool remaining does not flicker slots).
+    const kindsOnly = statusIconsSignature({
+        conditions: [{ kind: 'mana_shield', poolRemaining: 50, poolMax: 406 }]
+    });
+    const kindsOnlyAfter = statusIconsSignature({
+        conditions: [{ kind: 'mana_shield', poolRemaining: 10, poolMax: 406 }]
+    });
+    assert.strictEqual(kindsOnly, kindsOnlyAfter);
+});
+
 test('buildPreviewProfile exposes live vitals for profile preview popup', () => {
     const profile = buildPreviewProfile(
         {
@@ -2011,7 +2053,8 @@ test('ui_state: mouse controls normalize + apply (Stage 3)', () => {
         normalizeMouseControls,
         applyMouseControls,
         snapshotMouseControls,
-        setLootControlMode
+        setLootControlMode,
+        setTalkOnRightClick
     } = require('../kernel/apps/game/ui_state.js');
 
     assert.strictEqual(STORAGE_KEY_MOUSE_CONTROLS, 'hdl_mouse_controls');
@@ -2058,11 +2101,169 @@ test('ui_state: mouse controls normalize + apply (Stage 3)', () => {
         assert.strictEqual(uiState.lootControlMode, 1);
         setLootControlMode(2);
         assert.strictEqual(uiState.lootControlMode, 2);
+        setTalkOnRightClick(true);
+        assert.strictEqual(uiState.talkOnRightClick, true);
+        setTalkOnRightClick(0);
+        assert.strictEqual(uiState.talkOnRightClick, false, 'setter is strict boolean');
+        setTalkOnRightClick(true);
         const snap = snapshotMouseControls();
         assert.strictEqual(snap.mouseControlMode, 0);
         assert.strictEqual(snap.lootControlMode, 2);
+        assert.strictEqual(snap.talkOnRightClick, true);
     } finally {
         applyMouseControls(prev);
+    }
+});
+
+test('manual_control: Auto Chase persists in localStorage and seeds members', () => {
+    const {
+        STORAGE_KEY_AUTO_CHASE,
+        readPersistedAutoChase,
+        writePersistedAutoChase
+    } = require('../kernel/apps/game/ui_state.js');
+    const {
+        readActiveControlState,
+        applyAutoChaseChange,
+        applyPersistedAutoChaseToMembers
+    } = require('../kernel/apps/game/manual_control.js');
+
+    assert.strictEqual(STORAGE_KEY_AUTO_CHASE, 'hdl_auto_chase');
+
+    const store = Object.create(null);
+    const fake = {
+        getItem: (k) => (Object.prototype.hasOwnProperty.call(store, k) ? store[k] : null),
+        setItem: (k, v) => {
+            store[k] = String(v);
+        },
+        removeItem: (k) => {
+            delete store[k];
+        }
+    };
+    const origLS = global.localStorage;
+    const origWin = global.window;
+    global.localStorage = fake;
+    global.window = Object.assign({}, origWin || {}, { localStorage: fake });
+
+    try {
+        assert.strictEqual(readPersistedAutoChase(), false, 'missing key is false');
+        writePersistedAutoChase(true);
+        assert.strictEqual(store[STORAGE_KEY_AUTO_CHASE], 'true');
+        assert.strictEqual(readPersistedAutoChase(), true);
+
+        const idle = readActiveControlState({
+            sessionLive: false,
+            formMember: { autoChase: false, controlMode: 'manual' }
+        });
+        assert.strictEqual(
+            idle.autoChase,
+            true,
+            'idle checkbox reads persist, not the form default false'
+        );
+
+        writePersistedAutoChase(false);
+        const members = [
+            { name: 'A', autoChase: false },
+            { name: 'B', autoChase: false }
+        ];
+        applyAutoChaseChange({
+            enabled: true,
+            activeViewSlot: 0,
+            formMembers: members,
+            sessionLive: false
+        });
+        assert.strictEqual(readPersistedAutoChase(), true);
+        assert.strictEqual(members[0].autoChase, true, 'toggle stamps every form member');
+        assert.strictEqual(members[1].autoChase, true);
+
+        members[0].autoChase = false;
+        members[1].autoChase = false;
+        applyPersistedAutoChaseToMembers(members);
+        assert.strictEqual(members[0].autoChase, true, 'Play seed restores persist');
+        assert.strictEqual(members[1].autoChase, true);
+
+        const livePlayer = { autoChase: false, commandQueue: [] };
+        applyAutoChaseChange({
+            enabled: true,
+            formMembers: members,
+            sessionLive: true,
+            livePlayer
+        });
+        assert.strictEqual(livePlayer.autoChase, true);
+        assert.strictEqual(livePlayer.commandQueue[0].type, 'SET_AUTO_CHASE');
+        assert.strictEqual(livePlayer.commandQueue[0].enabled, true);
+
+        const liveState = readActiveControlState({
+            sessionLive: true,
+            livePlayer: { autoChase: false }
+        });
+        assert.strictEqual(
+            liveState.autoChase,
+            false,
+            'live checkbox follows the player while a session is running'
+        );
+    } finally {
+        if (origLS === undefined) delete global.localStorage;
+        else global.localStorage = origLS;
+        if (origWin === undefined) delete global.window;
+        else global.window = origWin;
+    }
+});
+
+test('buildSimulatorOpts keeps Auto Chase through profile expansion on Play', () => {
+    const hunt = loadHunt('cave_crawl_generated', { seed: 42 });
+    const form = partyFormFromHunt(hunt);
+    for (let i = 0; i < form.members.length; i++) {
+        if (form.members[i]) form.members[i].autoChase = true;
+    }
+    const opts = buildSimulatorOpts({
+        seed: 42,
+        hunt,
+        huntId: 'cave_crawl_generated',
+        members: form.members
+    });
+    const spawned = opts.parties[0] && opts.parties[0].members;
+    assert.ok(spawned && spawned.length >= 1, 'Play party has members');
+    for (let i = 0; i < spawned.length; i++) {
+        assert.strictEqual(
+            spawned[i].autoChase,
+            true,
+            `party member ${i} keeps Auto Chase after expandParties`
+        );
+    }
+});
+
+test('manual_control: Auto Chase click returns focus to the hunt canvas', () => {
+    const { returnFocusToHuntCanvas } = require('../kernel/apps/game/manual_control.js');
+
+    const calls = [];
+    const chaseEl = {
+        blur() {
+            calls.push('blur');
+        }
+    };
+    const canvas = {
+        hasAttribute(name) {
+            return name === 'tabindex';
+        },
+        setAttribute() {},
+        focus(opts) {
+            calls.push(opts && opts.preventScroll ? 'focus-noscroll' : 'focus');
+        }
+    };
+    const origDoc = global.document;
+    global.document = {
+        getElementById(id) {
+            if (id === 'autoChaseToggle') return chaseEl;
+            if (id === 'gameCanvas') return canvas;
+            return null;
+        }
+    };
+    try {
+        returnFocusToHuntCanvas();
+        assert.deepStrictEqual(calls, ['blur', 'focus-noscroll']);
+    } finally {
+        if (origDoc === undefined) delete global.document;
+        else global.document = origDoc;
     }
 });
 

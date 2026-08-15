@@ -110,7 +110,8 @@
     },
     "loot": [
         {
-            "name": "platinum coin",
+            "name": "Platinum Coin",
+            "id": "platinum_coin",
             "chance": 100000,
             "maxCount": 28
         },
@@ -125,12 +126,14 @@
             "name": "glowing rune"
         },
         {
-            "name": "ultimate health potion",
+            "name": "Ultimate Health Potion",
+            "id": "ultimate_health_potion",
             "chance": 10000,
             "maxCount": 7
         },
         {
-            "name": "ultimate mana potion",
+            "name": "Ultimate Mana Potion",
+            "id": "ultimate_mana_potion",
             "chance": 10000,
             "maxCount": 7
         },
@@ -146,34 +149,42 @@
         },
         {
             "name": "Stormbound Pendant",
+            "id": "stormbound_pendant",
             "chance": 500
         },
         {
             "name": "Stormbound Boots",
+            "id": "stormbound_boots",
             "chance": 500
         },
         {
             "name": "Stormbound Headband",
+            "id": "stormbound_headband",
             "chance": 500
         },
         {
-            "name": "might ring",
+            "name": "Power Band",
+            "id": "power_band",
             "chance": 500
         },
         {
-            "name": "spellweaver's robe",
+            "name": "Spellweaver's Robe",
+            "id": "spellweavers_robe",
             "chance": 350
         },
         {
-            "name": "wand of defiance",
+            "name": "Wand of Defiance",
+            "id": "wand_of_defiance",
             "chance": 350
         },
         {
-            "name": "haunted blade",
+            "name": "Haunted Blade",
+            "id": "haunted_blade",
             "chance": 550
         },
         {
             "name": "Stormbound Legs",
+            "id": "stormbound_legs",
             "chance": 350
         }
     ],

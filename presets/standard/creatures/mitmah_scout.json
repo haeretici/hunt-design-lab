@@ -112,7 +112,8 @@
     },
     "loot": [
         {
-            "name": "platinum coin",
+            "name": "Platinum Coin",
+            "id": "platinum_coin",
             "chance": 100000,
             "maxCount": 10
         },
@@ -125,15 +126,17 @@
             "chance": 7620
         },
         {
-            "id": 281,
-            "chance": 7400
+            "chance": 7400,
+            "name": "Giant Shimmering Pearl",
+            "id": "giant_shimmering_pearl"
         },
         {
             "name": "green crystal splinter",
             "chance": 6890
         },
         {
-            "name": "strong health potion",
+            "name": "Strong Health Potion",
+            "id": "strong_health_potion",
             "chance": 6170,
             "maxCount": 3
         },
@@ -146,19 +149,22 @@
             "chance": 3670
         },
         {
-            "name": "gold ingot",
+            "name": "Gold Ingot",
+            "id": "gold_ingot",
             "chance": 2880
         },
         {
             "chance": 2450,
-            "name": "yellow gem"
+            "name": "Yellow Gem",
+            "id": "yellow_gem"
         },
         {
             "name": "prismatic quartz",
             "chance": 2410
         },
         {
-            "name": "ruby necklace",
+            "name": "Ruby Necklace",
+            "id": "ruby_necklace",
             "chance": 1810
         },
         {
@@ -166,7 +172,8 @@
             "chance": 1340
         },
         {
-            "name": "drill bolt",
+            "name": "Drill Bolt",
+            "id": "drill_bolt",
             "chance": 1270,
             "maxCount": 10
         },
@@ -175,7 +182,8 @@
             "name": "gold nugget"
         },
         {
-            "name": "ornate crossbow",
+            "name": "Chiseled Crossbow",
+            "id": "chiseled_crossbow",
             "chance": 140
         }
     ],

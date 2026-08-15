@@ -85,7 +85,8 @@
     },
     "loot": [
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 100000,
             "maxCount": 50
         },
@@ -94,40 +95,49 @@
             "chance": 91770
         },
         {
-            "name": "shiver arrow",
+            "name": "Shiver Arrow",
+            "id": "shiver_arrow",
             "chance": 7310
         },
         {
-            "name": "ice rapier",
+            "name": "Frost Rapier",
+            "id": "frost_rapier",
             "chance": 4750
         },
         {
             "name": "Frostbound Mask",
+            "id": "frostbound_mask",
             "chance": 4570
         },
         {
             "chance": 4000,
             "maxCount": 5,
-            "name": "snowball"
+            "name": "Snowball",
+            "id": "snowball"
         },
         {
             "name": "Hailburst Rod",
+            "id": "hailburst_rod",
             "chance": 3470
         },
         {
             "name": "Frostbound Mask",
+            "id": "frostbound_mask",
             "chance": 250
         },
         {
             "name": "Frostbound Amulet",
+            "id": "frostbound_amulet",
             "chance": 3290
         },
         {
             "name": "Lunar Rod",
+            "id": "lunar_rod",
             "chance": 1830
         },
         {
             "name": "Frostbound Kilt",
+            "id": "frostbound_kilt",
             "chance": 1100
         }
     ],

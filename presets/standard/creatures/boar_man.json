@@ -122,7 +122,8 @@
     },
     "loot": [
         {
-            "name": "platinum coin",
+            "name": "Platinum Coin",
+            "id": "platinum_coin",
             "chance": 78950,
             "maxCount": 22
         },
@@ -134,7 +135,8 @@
         {
             "chance": 6390,
             "maxCount": 2,
-            "name": "red gem"
+            "name": "Red Gem",
+            "id": "red_gem"
         },
         {
             "name": "boar man hoof",
@@ -142,29 +144,35 @@
             "maxCount": 2
         },
         {
-            "name": "great health potion",
+            "name": "Great Health Potion",
+            "id": "great_health_potion",
             "chance": 3810,
             "maxCount": 4
         },
         {
-            "name": "sapphire hammer",
+            "name": "Sapphire Hammer",
+            "id": "sapphire_hammer",
             "chance": 2700
         },
         {
-            "name": "crystal mace",
+            "name": "Crystal Mace",
+            "id": "crystal_mace",
             "chance": 2160
         },
         {
-            "name": "crystal sword",
+            "name": "Crystal Sword",
+            "id": "crystal_sword",
             "chance": 1310
         },
         {
-            "name": "tower shield",
+            "name": "Tower Shield",
+            "id": "tower_shield",
             "chance": 930
         },
         {
             "chance": 710,
-            "name": "crystal ring"
+            "name": "Crystal Ring",
+            "id": "crystal_ring"
         }
     ],
     "changeTarget": {

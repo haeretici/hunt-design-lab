@@ -44,11 +44,13 @@ const { appUrl } = require('../../core/lib/app_paths.js');
 const {
     padFloorId,
     floorsFromSpawnSource,
-    resolveHuntSpawnDefs
+    resolveHuntSpawnDefs,
+    parseSpawnRows
 } = require('../../core/lib/content/legacy_assets.js');
 
 /**
- * In-memory by_floor spawn rows (browser only). Key: "07".
+ * In-memory spawn rows (browser only). Key: "07".
+ * Filled hybrid-first (`map.json` `spawns`, else `by_floor`).
  * @type {Record<string, object[]>}
  */
 const legacyFloorSpawnCache = Object.create(null);
@@ -457,7 +459,38 @@ async function listModesForBrowser() {
 }
 
 /**
- * Fetch legacy by_floor/NN.json for the given floors only.
+ * Fetch spawn rows for one floor: hybrid map.json first, by_floor fallback.
+ * Hybrid pack present (even with empty `spawns`) is SoT.
+ * @param {string} id padded floor id
+ * @returns {Promise<object[]>}
+ */
+async function fetchFloorSpawnRows(id) {
+    const mapsRel = mapsRelRoot();
+    try {
+        const hybrid = await fetchAssetJson(
+            `${mapsRel}/hybrid/floor-${id}/map.json`
+        );
+        if (hybrid && typeof hybrid === 'object' && !Array.isArray(hybrid)) {
+            return Array.isArray(hybrid.spawns) ? hybrid.spawns : [];
+        }
+    } catch (_) {
+        /* pack missing — fall back */
+    }
+    const mode = getActiveMode();
+    if (!mode.features.legacySpawnSource || !mode.assets.spawns) {
+        return [];
+    }
+    const spawnsRel = String(mode.assets.spawns).replace(/\/$/, '');
+    try {
+        const data = await fetchAssetJson(`${spawnsRel}/by_floor/${id}.json`);
+        return parseSpawnRows(data);
+    } catch (_) {
+        return [];
+    }
+}
+
+/**
+ * Fetch spawn pins for the given floors only (hybrid-first).
  * @param {(string|number)[]} floorIds
  * @returns {Promise<void>}
  */
@@ -466,18 +499,15 @@ async function ensureLegacyFloorSpawns(floorIds) {
     if (!mode.features.legacySpawnSource || !mode.assets.spawns) {
         return;
     }
-    const spawnsRel = String(mode.assets.spawns).replace(/\/$/, '');
     const list = Array.isArray(floorIds) ? floorIds : [];
     const pending = [];
     for (let i = 0; i < list.length; i++) {
         const id = padFloorId(list[i]);
         if (legacyFloorSpawnCache[id]) continue;
         pending.push(
-            fetchAssetJson(`${spawnsRel}/by_floor/${id}.json`)
-                .then((data) => {
-                    legacyFloorSpawnCache[id] = Array.isArray(data.spawns)
-                        ? data.spawns
-                        : [];
+            fetchFloorSpawnRows(id)
+                .then((rows) => {
+                    legacyFloorSpawnCache[id] = rows;
                 })
                 .catch(() => {
                     legacyFloorSpawnCache[id] = [];
@@ -1233,6 +1263,123 @@ function mapUrlForFloor(floorId) {
 }
 
 /**
+ * Relative maps root for hybrid / path assets (active mode).
+ * @returns {string}
+ */
+function mapsRelRoot() {
+    let mapsRel = 'assets/legacy/map';
+    try {
+        mapsRel = modePaths().mapsRel || mapsRel;
+    } catch (_) {
+        /* keep default */
+    }
+    return String(mapsRel).replace(/\/$/, '');
+}
+
+/**
+ * Fetch one hybrid pack for a floor via API + asset blobs (browser).
+ * Returns null when no pack is present.
+ *
+ * @param {string|number} floorId
+ * @returns {Promise<object|null>} normalized hybrid pack
+ */
+async function fetchHybridPackForFloor(floorId) {
+    const pad = padFloorId(floorId);
+    const res = await fetch(
+        `${apiUrl()}?action=legacy_map_load_hybrid&floor=${encodeURIComponent(pad)}`
+    );
+    if (!res.ok) return null;
+    const body = await res.json();
+    const data = body.data || body;
+    if (!data || !data.present || !data.meta) return null;
+
+    /** @type {Record<string, Uint8Array>} */
+    const blobs = Object.create(null);
+    const paths = Array.isArray(data.blobPaths)
+        ? data.blobPaths
+        : Object.keys(data.blobsBase64 || {});
+    if (data.dir && paths.length) {
+        const root = appUrl(String(data.dir).replace(/\/$/, ''));
+        await Promise.all(
+            paths.map(async (rel) => {
+                const url = `${root}/${rel}`;
+                const br = await fetch(url, { cache: 'no-store' });
+                if (!br.ok) {
+                    throw new Error(
+                        `hybrid blob ${rel} HTTP ${br.status}`
+                    );
+                }
+                blobs[rel] = new Uint8Array(await br.arrayBuffer());
+            })
+        );
+    } else if (data.blobsBase64 && typeof data.blobsBase64 === 'object') {
+        const keys = Object.keys(data.blobsBase64);
+        for (let i = 0; i < keys.length; i++) {
+            const k = keys[i];
+            const b64 = data.blobsBase64[k];
+            if (typeof b64 !== 'string') continue;
+            // atob → binary string → Uint8Array
+            const bin = atob(b64);
+            const u8 = new Uint8Array(bin.length);
+            for (let j = 0; j < bin.length; j++) u8[j] = bin.charCodeAt(j);
+            blobs[k] = u8;
+        }
+    }
+
+    const {
+        deserializeHybridPack
+    } = require('../../core/lib/dungeon/tilemap_bake.js');
+    return deserializeHybridPack(data.meta, blobs);
+}
+
+/**
+ * Load and merge hybrid packs for hunt floors (browser).
+ * @param {Array<string|number>|null|undefined} floorIds
+ * @returns {Promise<object|null>}
+ */
+async function fetchHybridPackForFloors(floorIds) {
+    const list = Array.isArray(floorIds) ? floorIds : [];
+    if (!list.length) return null;
+    /** @type {object[]} */
+    const floors = [];
+    /** @type {object[]} */
+    const spawns = [];
+    for (let i = 0; i < list.length; i++) {
+        try {
+            const pack = await fetchHybridPackForFloor(list[i]);
+            if (!pack || !pack.floors) continue;
+            const keys = Object.keys(pack.floors);
+            for (let k = 0; k < keys.length; k++) {
+                floors.push(pack.floors[keys[k]]);
+            }
+            if (Array.isArray(pack.spawns)) {
+                for (let s = 0; s < pack.spawns.length; s++) {
+                    spawns.push(pack.spawns[s]);
+                }
+            }
+        } catch (err) {
+            if (typeof console !== 'undefined' && console.warn) {
+                console.warn(
+                    'fetchHybridPackForFloors: floor',
+                    list[i],
+                    err && err.message ? err.message : err
+                );
+            }
+        }
+    }
+    if (!floors.length) return null;
+    const {
+        normalizeHybridPack
+    } = require('../../core/lib/dungeon/tilemap_bake.js');
+    return normalizeHybridPack({
+        id: 'browser_hybrid',
+        label: 'Browser hybrid packs',
+        floors,
+        spawns: spawns.length ? spawns : null
+    });
+}
+
+/**
  * Snapshot of browser hunt ids for the active mode (compat for tests).
  * @returns {string[]}
  */
@@ -1265,6 +1412,9 @@ module.exports = {
     getCatalogLists,
     getScenarioLists,
     mapUrlForFloor,
+    mapsRelRoot,
+    fetchHybridPackForFloor,
+    fetchHybridPackForFloors,
     getBrowserHuntIds,
     getActiveModeId,
     DEFAULT_MODE_ID,

@@ -97,15 +97,17 @@
     "race": "blood",
     "loot": [
         {
-            "id": 282,
-            "chance": 26900
+            "chance": 26900,
+            "name": "Giant Shimmering Pearl",
+            "id": "giant_shimmering_pearl"
         },
         {
             "name": "magic sulphur",
             "chance": 18920
         },
         {
-            "name": "mino shield",
+            "name": "Mino Shield",
+            "id": "mino_shield",
             "chance": 17620
         },
         {
@@ -117,12 +119,14 @@
             "chance": 1532
         },
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 100000,
             "maxCount": 200
         },
         {
-            "name": "platinum coin",
+            "name": "Platinum Coin",
+            "id": "platinum_coin",
             "chance": 29840,
             "maxCount": 30
         },
@@ -137,23 +141,28 @@
             "maxCount": 6
         },
         {
-            "name": "yellow gem",
+            "name": "Yellow Gem",
+            "id": "yellow_gem",
             "chance": 29460
         },
         {
-            "name": "blue gem",
+            "name": "Blue Gem",
+            "id": "blue_gem",
             "chance": 21892
         },
         {
             "name": "Nether Rod",
+            "id": "nether_rod",
             "chance": 117270
         },
         {
-            "name": "war axe",
+            "name": "War Axe",
+            "id": "war_axe",
             "chance": 127270
         },
         {
-            "name": "pair of iron fists",
+            "name": "Pair of Iron Fists",
+            "id": "pair_of_iron_fists",
             "chance": 9510
         },
         {
@@ -161,32 +170,38 @@
             "chance": 100000
         },
         {
-            "name": "small diamond",
+            "name": "Small Diamond",
+            "id": "small_diamond",
             "chance": 12760,
             "maxCount": 10
         },
         {
-            "name": "small amethyst",
+            "name": "Small Amethyst",
+            "id": "small_amethyst",
             "chance": 14700,
             "maxCount": 10
         },
         {
-            "name": "small topaz",
+            "name": "Small Topaz",
+            "id": "small_topaz",
             "chance": 11520,
             "maxCount": 10
         },
         {
-            "name": "small sapphire",
+            "name": "Small Sapphire",
+            "id": "small_sapphire",
             "chance": 13790,
             "maxCount": 10
         },
         {
-            "name": "small emerald",
+            "name": "Small Emerald",
+            "id": "small_emerald",
             "chance": 14700,
             "maxCount": 10
         },
         {
-            "name": "small amethyst",
+            "name": "Small Amethyst",
+            "id": "small_amethyst",
             "chance": 12259,
             "maxCount": 10
         },
@@ -196,17 +211,20 @@
             "maxCount": 3
         },
         {
-            "name": "ultimate health potion",
+            "name": "Ultimate Health Potion",
+            "id": "ultimate_health_potion",
             "chance": 27652,
             "maxCount": 10
         },
         {
-            "name": "great mana potion",
+            "name": "Great Mana Potion",
+            "id": "great_mana_potion",
             "chance": 33721,
             "maxCount": 10
         },
         {
-            "name": "great dual potion",
+            "name": "Great Dual Potion",
+            "id": "great_dual_potion",
             "chance": 25690,
             "maxCount": 5
         },
@@ -215,19 +233,23 @@
             "chance": 15890
         },
         {
-            "name": "execowtioner axe",
+            "name": "Execowtioner Axe",
+            "id": "execowtioner_axe",
             "chance": 7890
         },
         {
-            "name": "maimer",
+            "name": "Maimer",
+            "id": "maimer",
             "chance": 1890
         },
         {
-            "name": "ornate mace",
+            "name": "Chiseled Mace",
+            "id": "chiseled_mace",
             "chance": 7890
         },
         {
-            "name": "velvet mantle",
+            "name": "Velvet Mantle",
+            "id": "velvet_mantle",
             "chance": 1890
         },
         {
@@ -235,7 +257,8 @@
             "chance": 14542
         },
         {
-            "name": "giant sword",
+            "name": "Colossus Blade",
+            "id": "colossus_blade",
             "chance": 16892
         }
     ],

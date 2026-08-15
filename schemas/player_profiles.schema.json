@@ -79,10 +79,30 @@
       "description": "Combat attributes, imbuements, and leech stats.",
       "additionalProperties": { "type": "number", "minimum": 0 },
       "properties": {
-        "lifeLeech": { "type": "number", "minimum": 0, "default": 0 },
-        "manaLeech": { "type": "number", "minimum": 0, "default": 0 },
-        "critChance": { "type": "number", "minimum": 0, "default": 5 },
-        "critDamage": { "type": "number", "minimum": 0, "default": 10 }
+        "lifeLeech": {
+          "type": "number",
+          "minimum": 0,
+          "default": 0,
+          "description": "Life-leech amount percent. Additive with equipment lifeLeechAmount (pipeline/100)."
+        },
+        "manaLeech": {
+          "type": "number",
+          "minimum": 0,
+          "default": 0,
+          "description": "Mana-leech amount percent. Additive with equipment manaLeechAmount (pipeline/100)."
+        },
+        "critChance": {
+          "type": "number",
+          "minimum": 0,
+          "default": 5,
+          "description": "Crit chance percent. Additive with equipment critChance (pipeline/100)."
+        },
+        "critDamage": {
+          "type": "number",
+          "minimum": 0,
+          "default": 10,
+          "description": "Extra crit damage percent. Additive with equipment critExtraDamage (pipeline/100)."
+        }
       }
     },
     "equipment": {
@@ -90,15 +110,15 @@
       "description": "Equipped items by designer slot (relation: kind=equipment). Runtime maps head→helmet, chest→armor, weapon→rightHand, shield→leftHand via normalizeEquipmentMap (Phase 5).",
       "additionalProperties": { "type": "string" },
       "properties": {
-        "head": { "type": "string", "format": "equipment_id", "description": "Helmet (engine: helmet)." },
-        "chest": { "type": "string", "format": "equipment_id", "description": "Chest armor (engine: armor)." },
-        "legs": { "type": "string", "format": "equipment_id", "description": "Legs equipment item." },
-        "boots": { "type": "string", "format": "equipment_id", "description": "Boots equipment item." },
-        "weapon": { "type": "string", "format": "equipment_id", "description": "Weapon (engine: rightHand)." },
-        "shield": { "type": "string", "format": "equipment_id", "description": "Shield (engine: leftHand)." },
-        "amulet": { "type": "string", "format": "equipment_id", "description": "Amulet equipment item." },
-        "ring": { "type": "string", "format": "equipment_id", "description": "Ring equipment item." },
-        "backpack": { "type": "string", "format": "equipment_id", "description": "Backpack (not rolled into combat stats)." },
+        "head": { "type": "string", "format": "equipment_id", "default": "", "description": "Helmet (engine: helmet). Empty = unset." },
+        "chest": { "type": "string", "format": "equipment_id", "default": "", "description": "Chest armor (engine: armor). Empty = unset." },
+        "legs": { "type": "string", "format": "equipment_id", "default": "", "description": "Legs equipment item. Empty = unset." },
+        "boots": { "type": "string", "format": "equipment_id", "default": "", "description": "Boots equipment item. Empty = unset." },
+        "weapon": { "type": "string", "format": "equipment_id", "default": "", "description": "Weapon (engine: rightHand). Empty = unset." },
+        "shield": { "type": "string", "format": "equipment_id", "default": "", "description": "Shield (engine: leftHand). Empty = unset." },
+        "amulet": { "type": "string", "format": "equipment_id", "default": "", "description": "Amulet equipment item. Empty = unset." },
+        "ring": { "type": "string", "format": "equipment_id", "default": "", "description": "Ring equipment item. Empty = unset." },
+        "backpack": { "type": "string", "format": "equipment_id", "default": "", "description": "Backpack (not rolled into combat stats). Empty = unset." },
         "helmet": { "type": "string", "format": "equipment_id", "description": "Engine alias for head (optional)." },
         "armor": { "type": "string", "format": "equipment_id", "description": "Engine alias for chest (optional)." },
         "rightHand": { "type": "string", "format": "equipment_id", "description": "Engine alias for weapon (optional)." },

@@ -512,8 +512,17 @@ async function initBatchBuilderApp() {
         const opaqueEl = /** @type {HTMLInputElement|null} */ (document.getElementById('opaqueAlpha'));
         if (!opaqueEl) return;
         const k = ASSET_KINDS[kindId];
-        // Full-bleed terrain benefits from opaque alpha; others keep chroma.
-        opaqueEl.checked = !!(k && k.compose === 'tile');
+        const overlay = kindId === 'overlays';
+        // Full-bleed terrain benefits from opaque alpha; overlays MUST keep alpha.
+        opaqueEl.checked = !overlay && !!(k && k.compose === 'tile');
+        opaqueEl.disabled = overlay;
+        if (overlay) {
+            const rowsEl = /** @type {HTMLInputElement|null} */ (document.getElementById('rows'));
+            const colsEl = /** @type {HTMLInputElement|null} */ (document.getElementById('cols'));
+            if (rowsEl) rowsEl.value = '4';
+            if (colsEl) colsEl.value = '4';
+            updateCounts();
+        }
     }
 
     function updateCounts() {
@@ -926,6 +935,7 @@ async function initBatchBuilderApp() {
         await refreshDoneCount();
     });
     categorySelect?.addEventListener('change', () => {
+        applyKindOpaqueDefault(kindSelect.value || DEFAULT_KIND);
         refreshCliCommand();
         schedulePrefsSave();
     });

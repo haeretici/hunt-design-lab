@@ -1,6 +1,6 @@
 /**
  * Catalog asset picker popup (Designer relation field).
- * Lists genre assets via catalog_list (kind=tiles|creatures|equipment|objects);
+ * Lists genre assets via catalog_list (kind=tiles|creatures|equipment|objects|overlays);
  * posts select back to opener. Prefers alpha (or init.previewVariant) for thumbs.
  *
  * Message kind is always `catalog` (parent openCatalogAssetPicker).
@@ -28,6 +28,7 @@
      *   category?: string,
      *   previewVariant?: string,
      *   showCategoryFilter?: boolean|string,
+     *   categories?: string[]|string,
      *   fieldPath?: string,
      *   title?: string,
      *   requestId?: string
@@ -149,7 +150,79 @@
         if (k === 'creatures') return 'creature sprite';
         if (k === 'equipment') return 'equipment';
         if (k === 'objects') return 'object';
+        if (k === 'overlays') return 'overlay';
         return k;
+    }
+
+    /**
+     * Category options for the current catalog family.
+     * @param {string} kind
+     * @returns {string[]}
+     */
+    function defaultCategories(kind) {
+        if (kind === 'objects') {
+            return [
+                'tree',
+                'rock',
+                'house',
+                'wall',
+                'door',
+                'furniture',
+                'container',
+                'deco'
+            ];
+        }
+        if (kind === 'tiles') {
+            return ['floor', 'path', 'wall', 'water', 'special'];
+        }
+        if (kind === 'overlays') {
+            return ['dirt', 'water', 'cobble'];
+        }
+        return [];
+    }
+
+    /**
+     * @param {unknown} raw
+     * @returns {string[]}
+     */
+    function parseCategories(raw) {
+        if (Array.isArray(raw)) {
+            return raw.map((c) => String(c).trim()).filter(Boolean);
+        }
+        if (raw == null || raw === '') return [];
+        return String(raw)
+            .split(',')
+            .map((c) => c.trim())
+            .filter(Boolean);
+    }
+
+    /**
+     * Rebuild the category <select> for tiles vs objects.
+     * @param {string} kind
+     * @param {string} selected
+     * @param {string[]} [list]
+     */
+    function fillCategorySelect(kind, selected, list) {
+        const catEl = byId('tpCategory');
+        if (!catEl) return;
+        const cats = list && list.length ? list : defaultCategories(kind);
+        const cur = String(selected || '');
+        catEl.innerHTML = '';
+        const all = document.createElement('option');
+        all.value = '';
+        all.textContent = 'All categories';
+        catEl.appendChild(all);
+        for (let i = 0; i < cats.length; i++) {
+            const opt = document.createElement('option');
+            opt.value = cats[i];
+            opt.textContent = cats[i];
+            catEl.appendChild(opt);
+        }
+        if (cur && cats.indexOf(cur) >= 0) {
+            catEl.value = cur;
+        } else {
+            catEl.value = '';
+        }
     }
 
     function matchesSlot(item) {
@@ -226,11 +299,15 @@
         }
 
         const catEl = byId('tpCategory');
+        const kind = assetKind();
         const showCat =
             init &&
             (init.showCategoryFilter === true ||
                 init.showCategoryFilter === '1' ||
-                (init.showCategoryFilter == null && assetKind() === 'tiles'));
+                (init.showCategoryFilter == null &&
+                    (kind === 'tiles' ||
+                        kind === 'objects' ||
+                        kind === 'overlays')));
         if (catEl) {
             catEl.hidden = !showCat;
             if (!showCat) catEl.value = '';
@@ -490,7 +567,14 @@
             pill.className = 'tp-pill';
             pill.style.borderColor = 'rgba(210, 168, 255, 0.4)';
             pill.style.color = '#d2a8ff';
-            pill.innerHTML = '<i class="fa-solid fa-hands"></i> 2-Handed';
+            pill.innerHTML = '<i class="fa-solid fa-hands"></i> 2-Handed (2h)';
+            quickBadges.appendChild(pill);
+        } else if (item.category === 'weapon' || item.weaponType || item.atk != null || item.slot === 'weapon') {
+            const pill = document.createElement('span');
+            pill.className = 'tp-pill';
+            pill.style.borderColor = 'rgba(168, 210, 255, 0.4)';
+            pill.style.color = '#a8d2ff';
+            pill.innerHTML = '<i class="fa-solid fa-hand"></i> 1-Handed (1h)';
             quickBadges.appendChild(pill);
         }
         if (item.imbuementSlots != null && Number(item.imbuementSlots) > 0) {
@@ -787,8 +871,13 @@
         if (!init.assetKind) init.assetKind = 'tiles';
 
         category = init.category ? String(init.category) : '';
+        fillCategorySelect(
+            assetKind(),
+            category,
+            parseCategories(init.categories)
+        );
         const catEl = byId('tpCategory');
-        if (catEl && category) catEl.value = category;
+        if (catEl) category = String(catEl.value || '');
 
         if (init.slotFilter) {
             slotFilter = String(init.slotFilter);
@@ -872,6 +961,7 @@
                     slotFilter: q.get('slotFilter') || '',
                     previewVariant: q.get('previewVariant') || 'alpha',
                     showCategoryFilter: q.get('showCategoryFilter') || '',
+                    categories: q.get('categories') || '',
                     fieldPath: q.get('fieldPath') || '',
                     title: q.get('title') || '',
                     requestId: q.get('requestId') || ''

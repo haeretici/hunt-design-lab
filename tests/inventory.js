@@ -2188,6 +2188,11 @@ test('item behavioral helpers: itemIsMultiUse, itemIsUsable, itemIsEquipable', (
     assert.ok(!itemIsMultiUse({ id: 'health_potion', category: 'potion' }), 'potions are not multi-use');
     
     assert.ok(itemIsUsable({ category: 'potion', id: 'health_potion' }), 'potions are usable');
+    assert.ok(itemIsUsable({ id: 'antidote_potion', dispel: ['poison'] }), 'dispel is usable');
+    assert.ok(
+        itemIsUsable({ id: 'magic_shield_potion', condition: { type: 'mana_shield' } }),
+        'condition is usable'
+    );
     assert.ok(itemIsUsable({ id: 'apple', category: 'food' }), 'food is usable');
     assert.ok(!itemIsUsable({ category: 'rune', id: 'blaze_field_rune' }), 'runes are not in usable category');
     assert.ok(!itemIsUsable({ category: 'container', volume: 20 }), 'containers are not usable');

@@ -53,7 +53,7 @@ $activeNav = 'sprites';
     <div class="editor-workspace editor-workspace--scroll">
         <div class="editor-content">
             <p class="text-muted text-xxs mb-3">
-                Plan asset spritesheets: pick genre, asset kind (creatures, equipment, tiles, objects),
+                Plan asset spritesheets: pick genre, asset kind (creatures, equipment, tiles, overlays, objects),
                 optional category, seed and iterations, preview the first sheet roster,
                 then <strong>Run batch</strong> from this page (or copy the CLI flags). The server validates
                 arguments and runs <code>node bin/generate_sprite.js</code> in the background —

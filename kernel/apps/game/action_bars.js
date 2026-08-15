@@ -26,7 +26,7 @@ const {
 } = require('../../core/lib/combat/area.js');
 const Cooldowns = require('../../core/lib/combat/cooldowns.js');
 const { enterTargetCursorMode, loadGeneralHotkeys } = require('./ui_state.js');
-const { resolveItemSpriteUrl } = require('./equipment_panel.js');
+const { resolveItemSpriteUrl, resolveUiSpriteUrl } = require('./equipment_panel.js');
 const { getUiPreferences, createDebouncedPrefsSaver } = require('../../core/lib/ui_preferences.js');
 const {
     showSlotContextMenu,
@@ -1551,6 +1551,7 @@ function modalDeps() {
         getActiveProfileId: () => state.activeProfileId,
         getSimulator: () => (state.getSimulator ? state.getSimulator() : null),
         resolveItemSpriteUrl,
+        resolveUiSpriteUrl,
         isSlotBarLocked,
         setBarLocked,
         findBarForSlotId,
@@ -2256,14 +2257,27 @@ function updateActionBars() {
                 }
             } else if (paintType === 'spell' && paintSpellId) {
                 let spellTitle = paintSpellId;
+                let spellObj = null;
                 if (Array.isArray(spellBook)) {
                     const sp = spellBook.find(s => s && s.id === paintSpellId);
-                    if (sp && (sp.label || sp.name)) spellTitle = `${sp.label || sp.name} (${paintSpellId})`;
+                    if (sp) {
+                        spellObj = sp;
+                        if (sp.label || sp.name) spellTitle = `${sp.label || sp.name} (${paintSpellId})`;
+                    }
                 } else if (spellBook && typeof spellBook === 'object' && spellBook[paintSpellId]) {
                     const sp = spellBook[paintSpellId];
-                    if (sp && (sp.label || sp.name)) spellTitle = `${sp.label || sp.name} (${paintSpellId})`;
+                    if (sp) {
+                        spellObj = sp;
+                        if (sp.label || sp.name) spellTitle = `${sp.label || sp.name} (${paintSpellId})`;
+                    }
                 }
-                html += `<div class="slot-icon-thumb" title="${escapeHtml(spellTitle)}"><i class="fa-solid fa-wand-magic-sparkles"></i></div>`;
+                const spriteId = spellObj ? (spellObj.customUISprite || spellObj.customSprite || spellObj.id) : null;
+                const url = spriteId && resolveUiSpriteUrl ? resolveUiSpriteUrl(spriteId, genre) : null;
+                if (url) {
+                    html += `<img class="slot-icon-thumb" src="${escapeHtml(url)}" alt="">`;
+                } else {
+                    html += `<div class="slot-icon-thumb" title="${escapeHtml(spellTitle)}"><i class="fa-solid fa-wand-magic-sparkles"></i></div>`;
+                }
             } else if (slot.actionType === 'command' && slot.command) {
                 html += `<div class="slot-icon-thumb" title="${escapeHtml(slot.command)}"><i class="fa-solid fa-terminal"></i></div>`;
             } else if (paintType === 'text' && paintText) {
@@ -2387,6 +2401,7 @@ function onDocumentKeyDown(ev) {
     if (!slot || slot.actionType === 'empty') return;
 
     ev.preventDefault();
+    ev.stopPropagation();
     executeSlot(slot);
 }
 
@@ -2435,7 +2450,7 @@ function initActionBars(opts) {
         mountDocks();
         updateActionBars();
         if (!state.keyDispatcherBound) {
-            window.addEventListener('keydown', onDocumentKeyDown);
+            window.addEventListener('keydown', onDocumentKeyDown, { capture: true });
             state.keyDispatcherBound = true;
         }
         if (!state.visibilityBound) {
@@ -2458,7 +2473,7 @@ function initActionBars(opts) {
             hideSlotContextMenu();
             cancelItemPickMode();
             if (state.keyDispatcherBound && typeof window !== 'undefined') {
-                window.removeEventListener('keydown', onDocumentKeyDown);
+                window.removeEventListener('keydown', onDocumentKeyDown, { capture: true });
                 state.keyDispatcherBound = false;
             }
         }

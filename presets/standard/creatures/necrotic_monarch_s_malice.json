@@ -114,14 +114,16 @@
     "race": "undead",
     "loot": [
         {
-            "name": "crystal coin",
+            "name": "Crystal Coin",
+            "id": "crystal_coin",
             "chance": 55000,
             "minCount": 70,
             "maxCount": 75
         },
         {
-            "id": 281,
-            "chance": 1150
+            "chance": 1150,
+            "name": "Giant Shimmering Pearl",
+            "id": "giant_shimmering_pearl"
         },
         {
             "name": "giant sapphire",
@@ -134,32 +136,38 @@
             "maxCount": 1
         },
         {
-            "name": "violet gem",
+            "name": "Violet Gem",
+            "id": "violet_gem",
             "chance": 6000,
             "maxCount": 1
         },
         {
-            "name": "blue gem",
+            "name": "Blue Gem",
+            "id": "blue_gem",
             "chance": 10000,
             "maxCount": 3
         },
         {
             "chance": 10000,
             "maxCount": 3,
-            "name": "red gem"
+            "name": "Red Gem",
+            "id": "red_gem"
         },
         {
-            "name": "green gem",
+            "name": "Green Gem",
+            "id": "green_gem",
             "chance": 10000,
             "maxCount": 3
         },
         {
-            "name": "yellow gem",
+            "name": "Yellow Gem",
+            "id": "yellow_gem",
             "chance": 10000,
             "maxCount": 3
         },
         {
-            "name": "white gem",
+            "name": "White Gem",
+            "id": "white_gem",
             "chance": 6000,
             "maxCount": 3
         },
@@ -169,37 +177,43 @@
             "maxCount": 1
         },
         {
-            "name": "marksman potion",
+            "name": "Marksman Potion",
+            "id": "marksman_potion",
             "chance": 15000,
             "minCount": 10,
             "maxCount": 25
         },
         {
-            "name": "savant potion",
+            "name": "Savant Potion",
+            "id": "savant_potion",
             "chance": 15000,
             "minCount": 10,
             "maxCount": 25
         },
         {
-            "name": "berserk potion",
+            "name": "Berserk Potion",
+            "id": "berserk_potion",
             "chance": 15000,
             "minCount": 10,
             "maxCount": 25
         },
         {
-            "name": "ultimate mana potion",
+            "name": "Ultimate Mana Potion",
+            "id": "ultimate_mana_potion",
             "chance": 18000,
             "minCount": 50,
             "maxCount": 100
         },
         {
-            "name": "supreme health potion",
+            "name": "Supreme Health Potion",
+            "id": "supreme_health_potion",
             "chance": 18000,
             "minCount": 50,
             "maxCount": 100
         },
         {
-            "name": "ultimate dual potion",
+            "name": "Ultimate Dual Potion",
+            "id": "ultimate_dual_potion",
             "chance": 18000,
             "minCount": 50,
             "maxCount": 100

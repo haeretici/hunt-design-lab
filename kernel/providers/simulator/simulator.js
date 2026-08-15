@@ -12,6 +12,8 @@ const { Player } = require('../../core/entities/player.js');
 const { Creature } = require('../../core/entities/creature.js');
 const { Prop } = require('../../core/entities/prop.js');
 const { Time } = require('../../core/lib/time.js');
+const { isTalkableNpc } = require('../../core/lib/npc/flags.js');
+const { mergeStorageBags } = require('../../core/lib/npc/storage.js');
 const { Utils, unbindSeededRandom } = require('../../core/lib/utils.js');
 const { Settings, mapPathPng } = require('../../settings.js');
 const { Navmesh } = require('../../core/lib/navmesh.js');
@@ -397,6 +399,32 @@ class Simulator extends GameObject {
         this.mapPaths =
             opts.mapPaths && typeof opts.mapPaths === 'object'
                 ? opts.mapPaths
+                : null;
+        /**
+         * Phase 4: hybrid map pack (JSON meta + binary cells) or directory path.
+         * When set, loadMaps prefers hybrid bake over floorLayers / path PNG.
+         * @type {object|string|null}
+         */
+        this.hybridMapPack =
+            opts.hybridMapPack != null
+                ? opts.hybridMapPack
+                : opts.hybridMapDir != null
+                  ? opts.hybridMapDir
+                  : null;
+        /**
+         * When true (default), loadMaps auto-resolves hybrid packs under
+         * assets/.../map/hybrid/floor-XX/ if hybridMapPack is unset and no
+         * generated floorLayers are present (Node only; browser injects pack).
+         * @type {boolean}
+         */
+        this.autoHybridMap =
+            opts.autoHybridMap !== undefined ? !!opts.autoHybridMap : true;
+        /** @type {boolean} map-seeded ground fields applied for current tilemap */
+        this._mapFieldsSeeded = false;
+        /** @type {object|null} role catalog Map/object for TileMap bake */
+        this.tileRoleCatalog =
+            opts.tileRoleCatalog && typeof opts.tileRoleCatalog === 'object'
+                ? opts.tileRoleCatalog
                 : null;
         /**
          * Stage 11.4: in-memory friction layers (generated layouts).
@@ -900,6 +928,9 @@ class Simulator extends GameObject {
                 this.tileMap.groundItems = this.groundItems;
                 this.groundItems.tileMap = this.tileMap;
             }
+            // Re-seed long-lived map fields after ground wipe (layer.fields kept)
+            this._mapFieldsSeeded = false;
+            this._seedMapFieldsFromLayers();
         }
         this.entityById.clear();
         this.nextEntityId = 1;
@@ -2225,7 +2256,7 @@ class Simulator extends GameObject {
 
     /**
      * Load one collision floor into the tile map.
-     * Prefer in-memory floorLayers (Stage 11.4) over path PNG when present.
+     * Order: hybrid pack (Phase 4) → in-memory floorLayers (Stage 11.4) → path PNG.
      * @param {string|number|null} [floor]
      * @param {string|null} [pathOverride]
      * @returns {Promise<TileMap>}
@@ -2237,6 +2268,26 @@ class Simulator extends GameObject {
             this._wireTileMapSpatialHooks(this.tileMap);
         }
         const z = floor != null ? floor : 7;
+
+        // Phase 4: hybrid JSON+bin pack (bake TileMap stacks → flat channels)
+        if (this.hybridMapPack != null) {
+            await this._ensureHybridLoaded();
+            const layer = this.tileMap.getLayer
+                ? this.tileMap.getLayer(z)
+                : this.tileMap.layers[String(z)];
+            if (layer) {
+                if (this.floor == null) this.floor = z;
+                if (!this.mapPath) {
+                    this.mapPath =
+                        typeof this.hybridMapPack === 'string'
+                            ? `hybrid://${this.hybridMapPack}`
+                            : `hybrid://${(this.hybridMapPack && this.hybridMapPack.id) || 'pack'}`;
+                }
+                return this.tileMap;
+            }
+            // Floor not in pack — fall through to other sources
+        }
+
         const layer =
             this.floorLayers &&
             (this.floorLayers[String(z)] || this.floorLayers[z]);
@@ -2278,12 +2329,134 @@ class Simulator extends GameObject {
     }
 
     /**
+     * Apply hybrid map pack once (all floors) onto tileMap.
+     * @returns {Promise<void>}
+     * @private
+     */
+    async _ensureHybridLoaded() {
+        if (this._hybridLoaded) return;
+        if (this.hybridMapPack == null) return;
+        if (!this.tileMap) {
+            this.tileMap = new TileMap();
+            this.insertChild(this.tileMap);
+            this._wireTileMapSpatialHooks(this.tileMap);
+        }
+        const {
+            loadHybridOntoTileMap,
+            indexTileRoles
+        } = require('../../core/lib/dungeon/tilemap_bake.js');
+        let roleCatalog = this.tileRoleCatalog;
+        if (!roleCatalog) {
+            try {
+                const presets = require('../../core/lib/presets.js');
+                if (typeof presets.listTileRoleIds === 'function') {
+                    const ids = presets.listTileRoleIds();
+                    const list = ids.map((id) => presets.loadTileRole(id));
+                    roleCatalog = indexTileRoles(list);
+                    this.tileRoleCatalog = roleCatalog;
+                }
+            } catch (_e) {
+                roleCatalog = null;
+            }
+        }
+        // Do not forceBake: path-PNG bootstrap packs store friction/sight/flags
+        // channels with empty sub-layers. forceBake re-bakes empty stacks → all
+        // blocked (255) and spawnParty fails. bakeHybridPack still bakes when
+        // channels are missing or short.
+        loadHybridOntoTileMap(this.tileMap, this.hybridMapPack, {
+            roleCatalog
+        });
+        this._hybridLoaded = true;
+        // Sync floors list from pack when not set
+        if (!this.floors || !this.floors.length) {
+            const layers = this.tileMap.layers || {};
+            const keys = Object.keys(layers);
+            if (keys.length) {
+                this.floors = keys.map((k) => (Number.isFinite(Number(k)) ? Number(k) : k));
+            }
+        }
+    }
+
+    /**
+     * Prefer editor hybrid packs (channels + fields) over path PNGs when present.
+     * Node only — browser injects `hybridMapPack` after API fetch.
+     * @private
+     */
+    _autoResolveHybridMapPack() {
+        if (!this.autoHybridMap) return;
+        if (this.hybridMapPack != null) return;
+        if (this.floorLayers) return;
+        /** @type {(string|number)[]} */
+        let list = [];
+        if (this.floors && this.floors.length) list = this.floors.slice();
+        else if (this.floor != null) list = [this.floor];
+        else if (this.mapPaths) list = Object.keys(this.mapPaths);
+        if (!list.length) return;
+        try {
+            const {
+                tryResolveHybridMapPack
+            } = require('../../core/lib/dungeon/tilemap_bake.js');
+            const pack = tryResolveHybridMapPack(list);
+            if (pack) this.hybridMapPack = pack;
+        } catch (_e) {
+            // fs unavailable (browser) or pack unreadable — keep PNG path
+        }
+    }
+
+    /**
+     * Materialize editor-painted fields channel bits as long-lived ground fields.
+     * @returns {number}
+     * @private
+     */
+    _seedMapFieldsFromLayers() {
+        if (this._mapFieldsSeeded) return 0;
+        if (!this.tileMap || !this.groundItems) return 0;
+        this._wireTileMapSpatialHooks(this.tileMap);
+        let deployed = 0;
+        try {
+            const {
+                seedMapFieldsFromTileMap
+            } = require('../../core/lib/combat/elemental_fields.js');
+            deployed = seedMapFieldsFromTileMap(this.groundItems, this.tileMap);
+        } catch (_e) {
+            deployed = 0;
+        }
+        this._mapFieldsSeeded = true;
+        return deployed;
+    }
+
+    /**
      * Load all configured floors (Stage 9 multi-floor).
-     * Uses `floors` array when set; else single `floor` / `mapPath` / floorLayers.
+     * Uses `floors` array when set; else hybrid pack / floor / mapPath / floorLayers.
      * Stage 12H: installs first-class stair tiles + optional navmesh after floors load.
      * @returns {Promise<TileMap>}
      */
     async loadMaps() {
+        this._autoResolveHybridMapPack();
+
+        // Phase 4: hybrid pack loads all floors in one bake pass
+        if (this.hybridMapPack != null) {
+            if (!this.tileMap) {
+                this.tileMap = new TileMap();
+                this.insertChild(this.tileMap);
+                this._wireTileMapSpatialHooks(this.tileMap);
+            }
+            await this._ensureHybridLoaded();
+            if (this.floor == null && this.floors && this.floors.length) {
+                this.floor = this.floors[0];
+            }
+            if (!this.mapPath) {
+                this.mapPath =
+                    typeof this.hybridMapPack === 'string'
+                        ? `hybrid://${this.hybridMapPack}`
+                        : `hybrid://${(this.hybridMapPack && this.hybridMapPack.id) || 'pack'}`;
+            }
+            this._installStairsAndNavmesh();
+            await this._ensureStairDestinationFloors();
+            this._seedMapFieldsFromLayers();
+            return this.tileMap;
+        }
+
         /** @type {(string|number)[]} */
         let list = [];
         if (this.floors && this.floors.length) {
@@ -2311,7 +2484,142 @@ class Simulator extends GameObject {
             await this.loadMap(z, override);
         }
         this._installStairsAndNavmesh();
+        await this._ensureStairDestinationFloors();
+        this._seedMapFieldsFromLayers();
         return this.tileMap;
+    }
+
+    /**
+     * Load dest floors referenced by registered stairs (hybrid hop lands there).
+     * Hunt floors often list only the spawn floor; dest is inferred from hops.
+     * @returns {Promise<void>}
+     * @private
+     */
+    async _ensureStairDestinationFloors() {
+        if (!this.tileMap || typeof this.tileMap.listStairs !== 'function') {
+            return;
+        }
+        const rows = this.tileMap.listStairs();
+        /** @type {Array<string|number>} */
+        const needed = [];
+        const seen = Object.create(null);
+        for (let i = 0; i < rows.length; i++) {
+            const dest = rows[i] && rows[i].to;
+            if (!dest || dest.z == null) continue;
+            const key = String(dest.z);
+            if (seen[key]) continue;
+            seen[key] = true;
+            needed.push(dest.z);
+        }
+        for (let i = 0; i < needed.length; i++) {
+            const z = needed[i];
+            const layer = this.tileMap.getLayer
+                ? this.tileMap.getLayer(z)
+                : this.tileMap.layers && this.tileMap.layers[String(z)];
+            if (layer) continue;
+            if (this._tryLoadDestHybridFloor(z)) {
+                this._rememberHuntFloor(z);
+                continue;
+            }
+            try {
+                await this.loadMap(z, this._resolveMapPathForFloor(z));
+                this._rememberHuntFloor(z);
+            } catch (err) {
+                if (typeof console !== 'undefined' && console.warn) {
+                    console.warn(
+                        'Simulator: stair dest floor failed to load',
+                        z,
+                        err && err.message ? err.message : err
+                    );
+                }
+            }
+        }
+    }
+
+    /**
+     * Node: merge a dest-floor hybrid pack when one exists.
+     * @param {string|number} z
+     * @returns {boolean}
+     * @private
+     */
+    _tryLoadDestHybridFloor(z) {
+        try {
+            const {
+                isHybridMapDir,
+                hybridMapDirForFloor,
+                readHybridMapDir,
+                loadHybridOntoTileMap
+            } = require('../../core/lib/dungeon/tilemap_bake.js');
+            const dir = hybridMapDirForFloor(z);
+            if (!isHybridMapDir(dir)) return false;
+            const pack = readHybridMapDir(dir);
+            loadHybridOntoTileMap(this.tileMap, pack, {
+                roleCatalog: this.tileRoleCatalog || null
+            });
+            return !!(this.tileMap.getLayer
+                ? this.tileMap.getLayer(z)
+                : this.tileMap.layers && this.tileMap.layers[String(z)]);
+        } catch (_e) {
+            return false;
+        }
+    }
+
+    /**
+     * Path PNG for a dest floor: hunt mapPaths, sibling of current mapPath, or
+     * `mapPathPng` (Node). Browser hunt mapPath is already an HTTP floor URL.
+     * @param {string|number} z
+     * @returns {string|null}
+     * @private
+     */
+    _resolveMapPathForFloor(z) {
+        if (this.mapPaths) {
+            const hit = this.mapPaths[String(z)] || this.mapPaths[z];
+            if (hit) return hit;
+        }
+        const sibling = this._siblingMapPath(z);
+        if (sibling) return sibling;
+        return mapPathPng(z);
+    }
+
+    /**
+     * @param {string|number} z
+     * @returns {string|null}
+     * @private
+     */
+    _siblingMapPath(z) {
+        const raw = String(z);
+        const id = /^\d+$/.test(raw) ? raw.padStart(2, '0') : raw;
+        /** @type {string[]} */
+        const candidates = [];
+        if (this.mapPath && typeof this.mapPath === 'string') {
+            candidates.push(this.mapPath);
+        }
+        if (this.mapPaths) {
+            const keys = Object.keys(this.mapPaths);
+            for (let i = 0; i < keys.length; i++) {
+                const p = this.mapPaths[keys[i]];
+                if (typeof p === 'string') candidates.push(p);
+            }
+        }
+        for (let i = 0; i < candidates.length; i++) {
+            const p = candidates[i];
+            if (/floor-\d+-path\.png/i.test(p)) {
+                return p.replace(/floor-\d+-path\.png/i, `floor-${id}-path.png`);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @param {string|number} z
+     * @private
+     */
+    _rememberHuntFloor(z) {
+        if (!Array.isArray(this.floors)) this.floors = [];
+        const already = this.floors.some((f) => String(f) === String(z));
+        if (already) return;
+        const n = Number(z);
+        this.floors.push(Number.isFinite(n) && String(n) === String(z).trim() ? n : z);
     }
 
     /**
@@ -2539,13 +2847,18 @@ class Simulator extends GameObject {
                 skills: def.skills || null,
                 critChance: def.critChance,
                 critDamage: def.critDamage,
+                lifeLeech: def.lifeLeech,
+                manaLeech: def.manaLeech,
+                lifeLeechChance: def.lifeLeechChance,
+                manaLeechChance: def.manaLeechChance,
                 promoted: def.promoted,
                 controlMode: this.forceAiControl ? 'ai' : (def.controlMode || 'ai'),
                 autoChase: !!def.autoChase,
                 commandQueue: this.forceAiControl ? [] : (Array.isArray(def.commandQueue) ? clonePlain(def.commandQueue) : (def.commandQueue || [])),
                 spriteId: art.spriteId || undefined,
                 spriteGenre: art.spriteGenre || undefined,
-                tile: { x: spawnTile.x, y: spawnTile.y, z }
+                tile: { x: spawnTile.x, y: spawnTile.y, z },
+                storage: mergeStorageBags(config.storage, def.storage)
             });
 
             // Inventory (root backpack + nested bags) then combat loadout.
@@ -2579,6 +2892,10 @@ class Simulator extends GameObject {
                         skillOverrides: def.skillOverrides || null,
                         critChance: def.critChance,
                         critDamage: def.critDamage,
+                        lifeLeech: def.lifeLeech,
+                        manaLeech: def.manaLeech,
+                        lifeLeechChance: def.lifeLeechChance,
+                        manaLeechChance: def.manaLeechChance,
                         promoted: def.promoted
                     });
                 }
@@ -2880,6 +3197,7 @@ class Simulator extends GameObject {
         }
 
         const id = this.allocEntityId();
+        const defaultAggro = isTalkableNpc(template) ? false : true;
         const creature = new Creature({
             id,
             name: template.label || creatureId,
@@ -2887,7 +3205,8 @@ class Simulator extends GameObject {
             tile: { x: tile.x, y: tile.y, z },
             homeTile: { x: tile.x, y: tile.y, z },
             respawn: entry.respawn != null ? entry.respawn : 0,
-            aggro: template.aggro !== undefined ? template.aggro : true
+            aggro:
+                template.aggro !== undefined ? !!template.aggro : defaultAggro
         });
         creature.applyTemplate(template);
         if (entry.respawn != null) creature.respawnTime = Number(entry.respawn);

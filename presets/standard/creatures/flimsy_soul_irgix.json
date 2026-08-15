@@ -116,7 +116,8 @@
     "race": "undead",
     "loot": [
         {
-            "name": "platinum coin",
+            "name": "Platinum Coin",
+            "id": "platinum_coin",
             "chance": 10000,
             "maxCount": 8
         },
@@ -134,31 +135,38 @@
             "maxCount": 2
         },
         {
-            "name": "white gem",
+            "name": "White Gem",
+            "id": "white_gem",
             "chance": 33333
         },
         {
             "name": "Earthbound Rod",
+            "id": "earthbound_rod",
             "chance": 16670
         },
         {
-            "name": "yellow gem",
+            "name": "Yellow Gem",
+            "id": "yellow_gem",
             "chance": 16670
         },
         {
             "chance": 16670,
-            "name": "red gem"
+            "name": "Red Gem",
+            "id": "red_gem"
         },
         {
-            "name": "necklace of the deep",
+            "name": "Deep Sea Necklace",
+            "id": "deep_sea_necklace",
             "chance": 1000
         },
         {
-            "name": "wand of starstorm",
+            "name": "Wand of Starstorm",
+            "id": "wand_of_starstorm",
             "chance": 1000
         },
         {
-            "name": "wand of cosmic energy",
+            "name": "Wand of Cosmic Energy",
+            "id": "wand_of_cosmic_energy",
             "chance": 1000
         },
         {
@@ -166,7 +174,8 @@
             "chance": 1000
         },
         {
-            "name": "pair of nightmare boots",
+            "name": "Pair of Dread Boots",
+            "id": "pair_of_dread_boots",
             "chance": 230
         }
     ],

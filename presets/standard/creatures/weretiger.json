@@ -124,12 +124,14 @@
     },
     "loot": [
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 100000,
             "maxCount": 100
         },
         {
-            "name": "platinum coin",
+            "name": "Platinum Coin",
+            "id": "platinum_coin",
             "chance": 100000,
             "maxCount": 13
         },
@@ -138,11 +140,13 @@
             "chance": 10800
         },
         {
-            "name": "furry club",
+            "name": "Furry Club",
+            "id": "furry_club",
             "chance": 6230
         },
         {
-            "name": "meat",
+            "name": "Meat",
+            "id": "meat",
             "chance": 5500,
             "maxCount": 4
         },
@@ -156,14 +160,17 @@
         },
         {
             "chance": 1200,
-            "name": "blue gem"
+            "name": "Blue Gem",
+            "id": "blue_gem"
         },
         {
-            "name": "knight armor",
+            "name": "Guardian Armor",
+            "id": "guardian_armor",
             "chance": 3000
         },
         {
-            "name": "angelic axe",
+            "name": "Angelic Axe",
+            "id": "angelic_axe",
             "chance": 1430
         },
         {
@@ -172,7 +179,8 @@
         },
         {
             "chance": 1770,
-            "name": "Emberbound Amulet"
+            "name": "Emberbound Amulet",
+            "id": "emberbound_amulet"
         },
         {
             "name": "silver moon coin",

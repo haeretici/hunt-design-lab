@@ -55,7 +55,10 @@ Options:
   -k, --kind <id>        ${listKindIds().join(' | ')}
                          (default: ${DEFAULT_KIND})
   --category <id>        Optional subcategory (equipment: sword|axe|…;
-                         tiles: floor|wall|…; objects: tree|house|…)
+                         tiles: floor|wall|…; overlays: dirt|water|cobble;
+                         objects: tree|house|…)
+  --wall-family <id>     Wall Wang family (objects): 4 faces, count must be 4
+  --wang-family <id>     Alias of --wall-family (objects only)
   --seed <n>             Reproducible name batch
   --model <name>         Image model label (default: ${DEFAULT_MODEL})
                          Gemini * → agy; Grok 4.5 (Low|Medium|High) → grok
@@ -75,6 +78,7 @@ Options:
   --skip-inventory       Skip refreshing assets/data/<genre>/<kind>.json
   --opaque-alpha         process_sprites: opaque alpha copy (no chroma key);
                          stamps opaqueAlpha=true on all catalog rows in this batch
+                         (forbidden for --kind overlays and wall families)
   --no-record            Do not append names to done file
   --resplit-last         Re-crop existing sprites.png onto the last sheet's roster
                          (last rows×cols names from the done list). Overwrites only
@@ -87,6 +91,8 @@ One-shot (copy from Batch Builder CLI box):
   node bin/generate_sprite.js -g steampunk --seed 42 --iterations 2 --model 'Gemini 3.6 Flash (High)'
   node bin/generate_sprite.js -g rpg_fantasy --kind equipment --category sword --seed 1
   node bin/generate_sprite.js -g rpg_fantasy --kind objects --seed 3 --model 'Grok 4.5 (High)'
+  node bin/generate_sprite.js -g rpg_fantasy --kind overlays --category dirt --dry-run
+  node bin/generate_sprite.js -g rpg_fantasy --kind objects --category wall --wall-family stone_wall --rows 2 --cols 2 --dry-run
 
 Re-split after fixing crop alignment on sprites.png (last batch only):
   node bin/generate_sprite.js -g rpg_fantasy --resplit-last
@@ -102,6 +108,8 @@ function parseArgs(argv) {
         genre: DEFAULT_GENRE,
         kind: DEFAULT_KIND,
         category: null,
+        wallFamily: null,
+        wangFamily: null,
         seed: null,
         model: null,
         doneFile: null,
@@ -144,6 +152,12 @@ function parseArgs(argv) {
                 break;
             case '--category':
                 opts.category = next();
+                break;
+            case '--wall-family':
+                opts.wallFamily = next();
+                break;
+            case '--wang-family':
+                opts.wangFamily = next();
                 break;
             case '--seed':
                 opts.seed = parseInt(next(), 10);
@@ -286,6 +300,10 @@ function batchOptsFromConfig(raw, opts) {
         genre: raw.genre || opts.genre,
         kind: raw.kind || opts.kind,
         category: raw.category != null ? raw.category : opts.category,
+        wallFamily:
+            raw.wallFamily != null
+                ? raw.wallFamily
+                : opts.wallFamily || raw.wangFamily || opts.wangFamily,
         seed: raw.seed != null ? raw.seed : opts.seed,
         rows: raw.rows || opts.rows,
         cols: raw.cols || opts.cols,
@@ -318,6 +336,10 @@ function refreshCreatureCatalog(batch) {
             genre: batch.genreId,
             kind: kindId,
             category: c.category || batch.category || null,
+            wangFamily: c.wangFamily,
+            wangMask: c.wangMask,
+            wallFamily: c.wallFamily,
+            wallAlign: c.wallAlign,
             opaqueAlpha: Boolean(
                 c.opaqueAlpha !== undefined ? c.opaqueAlpha : batch.opaqueAlpha
             ),
@@ -492,7 +514,9 @@ function runOneIteration(batch, opts, meta) {
 
     if (!opts.skipProcess) {
         const py = path.join(ROOT, 'bin', 'process_sprites.py');
-        const opaque = batch.opaqueAlpha === true || opts.opaqueAlpha === true;
+        const opaque =
+            batch.kindId !== 'overlays' &&
+            (batch.opaqueAlpha === true || opts.opaqueAlpha === true);
         const modeNote = opaque
             ? 'opaque alpha copy (no chroma)'
             : 'chroma key + quantize';
@@ -560,6 +584,7 @@ function main() {
         genre: opts.genre,
         kind: opts.kind,
         category: opts.category || undefined,
+        wallFamily: opts.wallFamily || opts.wangFamily || undefined,
         seed: opts.seed,
         rows: opts.rows,
         cols: opts.cols,

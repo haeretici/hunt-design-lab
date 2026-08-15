@@ -136,12 +136,14 @@
     },
     "loot": [
         {
-            "name": "platinum coin",
+            "name": "Platinum Coin",
+            "id": "platinum_coin",
             "chance": 120000,
             "maxCount": 4
         },
         {
-            "name": "envenomed arrow",
+            "name": "Envenomed Arrow",
+            "id": "envenomed_arrow",
             "chance": 1200,
             "maxCount": 14
         },
@@ -156,62 +158,74 @@
             "maxCount": 4
         },
         {
-            "name": "small diamond",
+            "name": "Small Diamond",
+            "id": "small_diamond",
             "chance": 1200,
             "maxCount": 4
         },
         {
-            "name": "small topaz",
+            "name": "Small Topaz",
+            "id": "small_topaz",
             "chance": 1200,
             "maxCount": 4
         },
         {
-            "id": 282,
             "chance": 900,
-            "maxCount": 4
+            "maxCount": 4,
+            "name": "Giant Shimmering Pearl",
+            "id": "giant_shimmering_pearl"
         },
         {
-            "name": "blue gem",
+            "name": "Blue Gem",
+            "id": "blue_gem",
             "chance": 950,
             "maxCount": 4
         },
         {
             "name": "Earthbound Boots",
+            "id": "earthbound_boots",
             "chance": 850,
             "maxCount": 4
         },
         {
             "name": "Earthbound Hood",
+            "id": "earthbound_hood",
             "chance": 980,
             "maxCount": 4
         },
         {
-            "name": "protection amulet",
+            "name": "Protection Amulet",
+            "id": "protection_amulet",
             "chance": 1200,
             "maxCount": 4
         },
         {
-            "name": "sacred tree amulet",
+            "name": "Sacred Tree Amulet",
+            "id": "sacred_tree_amulet",
             "chance": 1200,
             "maxCount": 4
         },
         {
             "name": "Bloomshoot Rod",
+            "id": "bloomshoot_rod",
             "chance": 790,
             "maxCount": 4
         },
         {
             "name": "Stonehide Amulet",
+            "id": "stonehide_amulet",
             "chance": 1200,
             "maxCount": 4
         },
         {
             "name": "Earthbound Legs",
+            "id": "earthbound_legs",
             "chance": 650,
             "maxCount": 4
         },
         {
             "name": "Earthbound Mantle",
+            "id": "earthbound_mantle",
             "chance": 550,
             "maxCount": 4
         },
@@ -222,6 +236,7 @@
         },
         {
             "name": "Earthbound Amulet",
+            "id": "earthbound_amulet",
             "chance": 1200,
             "maxCount": 4
         }

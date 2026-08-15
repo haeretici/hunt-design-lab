@@ -112,12 +112,14 @@
         {
             "chance": 100000,
             "maxCount": 197,
-            "name": "gold coin"
+            "name": "Gold Coin",
+            "id": "gold_coin"
         },
         {
             "chance": 100000,
             "maxCount": 50,
-            "name": "platinum coin"
+            "name": "Platinum Coin",
+            "id": "platinum_coin"
         },
         {
             "chance": 100000,
@@ -132,8 +134,9 @@
             "name": "demonic essence"
         },
         {
-            "id": 281,
-            "chance": 40000
+            "chance": 40000,
+            "name": "Giant Shimmering Pearl",
+            "id": "giant_shimmering_pearl"
         },
         {
             "chance": 40000,
@@ -143,17 +146,20 @@
         {
             "chance": 34440,
             "maxCount": 10,
-            "name": "great mana potion"
+            "name": "Great Mana Potion",
+            "id": "great_mana_potion"
         },
         {
             "chance": 34440,
             "maxCount": 10,
-            "name": "ultimate health potion"
+            "name": "Ultimate Health Potion",
+            "id": "ultimate_health_potion"
         },
         {
             "chance": 34440,
             "maxCount": 5,
-            "name": "great dual potion"
+            "name": "Great Dual Potion",
+            "id": "great_dual_potion"
         },
         {
             "chance": 30000,
@@ -167,35 +173,43 @@
         },
         {
             "chance": 20000,
-            "name": "green gem"
+            "name": "Green Gem",
+            "id": "green_gem"
         },
         {
             "chance": 15030,
-            "name": "guardian shield"
+            "name": "Guardian Shield",
+            "id": "guardian_shield"
         },
         {
             "chance": 15030,
-            "name": "guardian halberd"
+            "name": "Warden Halberd",
+            "id": "warden_halberd"
         },
         {
             "chance": 15030,
-            "name": "blue gem"
+            "name": "Blue Gem",
+            "id": "blue_gem"
         },
         {
             "chance": 15030,
-            "name": "gold ingot"
+            "name": "Gold Ingot",
+            "id": "gold_ingot"
         },
         {
             "chance": 15030,
-            "name": "bonebreaker"
+            "name": "Bonebreaker",
+            "id": "bonebreaker"
         },
         {
             "chance": 12940,
-            "name": "heavy mace"
+            "name": "Heavy Mace",
+            "id": "heavy_mace"
         },
         {
             "chance": 11540,
-            "name": "crown shield"
+            "name": "Crown Shield",
+            "id": "crown_shield"
         },
         {
             "chance": 10000,
@@ -203,31 +217,38 @@
         },
         {
             "chance": 9620,
-            "name": "paladin armor"
+            "name": "Scout Armor",
+            "id": "scout_armor"
         },
         {
             "chance": 8390,
-            "name": "diamond sceptre"
+            "name": "Diamond Sceptre",
+            "id": "diamond_sceptre"
         },
         {
             "chance": 6290,
-            "name": "demon shield"
+            "name": "Fiendish Shield",
+            "id": "fiendish_shield"
         },
         {
             "chance": 1400,
-            "name": "mastermind shield"
+            "name": "Grandmaster Shield",
+            "id": "grandmaster_shield"
         },
         {
             "chance": 700,
-            "name": "fiendbone"
+            "name": "Fiendbone",
+            "id": "fiendbone"
         },
         {
             "chance": 350,
-            "name": "lavos armor"
+            "name": "Lavos Armor",
+            "id": "lavos_armor"
         },
         {
             "chance": 170,
-            "name": "obsidian truncheon"
+            "name": "Obsidian Truncheon",
+            "id": "obsidian_truncheon"
         }
     ],
     "changeTarget": {

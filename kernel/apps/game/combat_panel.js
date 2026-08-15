@@ -6,6 +6,49 @@
 'use strict';
 
 const { getActivePlayerFromSim, readSourceVitals } = require('./equipment_panel.js');
+const { resolveManaShieldBar } = require('../../core/lib/combat/conditions.js');
+
+/** Sidebar mana-shield fill (matches canvas nameplate). */
+const MANA_SHIELD_BAR_FILL = '#a855f7';
+
+/**
+ * Insert / update / remove the thin mana-shield bar above the HP bar.
+ * @param {HTMLElement|null} row
+ * @param {object|null|undefined} source
+ */
+function syncManaShieldBar(row, source) {
+    if (!row) return;
+    const info = row.querySelector('.entity-list-info');
+    if (!info) return;
+    const bar = resolveManaShieldBar(source);
+    let wrap = info.querySelector('.entity-list-ms-bar-bg');
+    if (!bar) {
+        if (wrap) wrap.remove();
+        return;
+    }
+    const pct = Math.max(0, Math.min(100, Math.round(bar.frac * 100)));
+    const title =
+        bar.mode === 'pooled'
+            ? `Magic shield ${bar.remaining} / ${bar.max}`
+            : 'Magic shield (gear)';
+    if (!wrap) {
+        wrap = document.createElement('div');
+        wrap.className = 'entity-list-ms-bar-bg';
+        wrap.innerHTML =
+            `<div class="entity-list-ms-bar-fill" style="width:${pct}%;` +
+            `background-color:${MANA_SHIELD_BAR_FILL};"></div>`;
+        const hpBg = info.querySelector('.entity-list-hp-bar-bg');
+        if (hpBg) info.insertBefore(wrap, hpBg);
+        else info.appendChild(wrap);
+    } else {
+        const fill = wrap.querySelector('.entity-list-ms-bar-fill');
+        if (fill) {
+            fill.style.width = `${pct}%`;
+            fill.style.backgroundColor = MANA_SHIELD_BAR_FILL;
+        }
+    }
+    wrap.title = title;
+}
 const { entitySpriteOpts, resolveSpriteUrl } = require('../../core/lib/creature_sprites.js');
 const { resolvePlayerSpriteArt } = require('../../core/lib/character/player_profile.js');
 const {
@@ -21,6 +64,7 @@ const {
     consumeSuppressNextContextMenu
 } = require('./ui_state.js');
 const { isClassicLookChord, creatureLookText } = require('./mouse_dispatcher.js');
+const { isAttackableCreature } = require('../../core/lib/npc/flags.js');
 const {
     bindCollapsiblePanels,
     bindSidebarPanels
@@ -414,6 +458,8 @@ function bindCombatPanel(opts) {
 
         const creatures = (sim.creatures || []).filter((c) => {
             if (!c || c.alive === false || !c.tile) return false;
+            // Talkable guides are not hunt targets (Q6.2 / Stage 6b)
+            if (!isAttackableCreature(c)) return false;
             const cz = c.tile.z != null ? String(c.tile.z) : '0';
             if (cz !== viewZ) return false;
             // Phase G2: hide invisible monsters from combat list (players cannot see them)
@@ -553,6 +599,7 @@ function bindCombatPanel(opts) {
                     img.setAttribute('title', name);
                 }
             }
+            syncManaShieldBar(row, c);
             row.classList.toggle('is-target', isTarget);
             row.onmouseenter = () => {
                 if (uiState) {
@@ -658,6 +705,7 @@ function bindCombatPanel(opts) {
                 }
 
                 hideCombatContextMenu();
+                if (!isAttackableCreature(c)) return;
                 activeCombatCtxMenu = document.createElement('div');
                 activeCombatCtxMenu.className = 'inv-context-menu';
                 activeCombatCtxMenu.style.left = ev.clientX + 'px';
@@ -911,6 +959,7 @@ function bindPartyPanel(opts) {
                     img.setAttribute('title', name);
                 }
             }
+            syncManaShieldBar(row, m);
             row.classList.toggle('is-active-member', isActive);
             row.classList.toggle('is-dead', m.alive === false);
             row.onclick = (ev) => {

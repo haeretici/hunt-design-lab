@@ -807,11 +807,26 @@ html.cursor-targeting * {
   border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
+.entity-list-ms-bar-bg {
+  width: 100%;
+  height: 4px;
+  background: #05070a;
+  border-radius: 3px;
+  overflow: hidden;
+  border: 1px solid rgba(168, 85, 247, 0.35);
+  margin-bottom: 2px;
+}
+
 .entity-list-hp-bar-fill,
-.entity-list-mp-bar-fill {
+.entity-list-mp-bar-fill,
+.entity-list-ms-bar-fill {
   height: 100%;
   transition: width 0.2s ease, background-color 0.2s ease;
   border-radius: 2px;
+}
+
+.entity-list-ms-bar-fill {
+  background: #a855f7;
 }
 
 // Scroll when a bag has more than ~20 slots (5×4 visible)
@@ -1095,6 +1110,133 @@ html.cursor-targeting * {
   border-radius: 6px;
   box-shadow: 0 8px 28px rgba(0, 0, 0, 0.55);
   padding: 0.35rem 0.4rem 0.5rem;
+}
+
+// Stage 6b NPC dialog — same chrome as Browse Field, slightly wider for text
+.inv-npc-dialog-panel {
+  min-width: 200px;
+  max-width: 280px;
+}
+
+.inv-npc-dialog-text {
+  font-size: 0.8rem;
+  line-height: 1.35;
+  color: $text-main;
+  white-space: pre-wrap;
+  margin-bottom: 0.4rem;
+}
+
+.inv-npc-dialog-replies {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.inv-npc-dialog-reply {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: 1px solid $border-color;
+  background: $bg-dark;
+  color: $text-main;
+  font-size: 0.78rem;
+  padding: 0.3rem 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    border-color: $accent-primary;
+    color: $accent-primary;
+    background: rgba($accent-primary, 0.12);
+  }
+
+  &:disabled,
+  &.is-stub {
+    opacity: 0.45;
+    cursor: default;
+  }
+}
+
+.inv-npc-dialog-panel.is-shop {
+  max-width: 320px;
+}
+
+.inv-npc-shop {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.inv-npc-shop-currency {
+  font-size: 0.75rem;
+  color: $text-main;
+  margin-bottom: 0.15rem;
+}
+
+.inv-npc-shop-heading {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: $text-main;
+  margin-top: 0.2rem;
+}
+
+.inv-npc-shop-row {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.inv-npc-shop-name {
+  flex: 1;
+  font-size: 0.75rem;
+  color: $text-main;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.inv-npc-shop-price {
+  font-size: 0.72rem;
+  color: $text-main;
+  min-width: 1.4rem;
+  text-align: right;
+}
+
+.inv-npc-shop-buy,
+.inv-npc-shop-sell,
+.inv-npc-shop-back {
+  border: 1px solid $border-color;
+  background: $bg-dark;
+  color: $text-main;
+  font-size: 0.72rem;
+  padding: 0.18rem 0.4rem;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    border-color: $accent-primary;
+    color: $accent-primary;
+    background: rgba($accent-primary, 0.12);
+  }
+}
+
+.inv-npc-shop-back {
+  width: 100%;
+  text-align: left;
+  margin-top: 0.25rem;
+}
+
+.inv-npc-shop-empty {
+  font-size: 0.78rem;
+  color: $text-main;
 }
 
 .inv-panel-header {

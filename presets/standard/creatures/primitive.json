@@ -79,37 +79,43 @@
     "race": "blood",
     "loot": [
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 12500,
             "maxCount": 10
         },
         {
-            "name": "sabre",
+            "name": "Sabre",
+            "id": "sabre",
             "chance": 10250
         },
         {
-            "name": "axe",
+            "name": "Axe",
+            "id": "axe",
             "chance": 12250
         },
         {
-            "name": "studded helmet",
+            "name": "Studded Helmet",
+            "id": "studded_helmet",
             "chance": 9500
         },
         {
-            "name": "studded armor",
+            "name": "Studded Armor",
+            "id": "studded_armor",
             "chance": 7000
         },
         {
-            "name": "studded shield",
+            "name": "Studded Shield",
+            "id": "studded_shield",
             "chance": 1200
         },
         {
-            "id": 6570,
-            "chance": 500
+            "chance": 500,
+            "name": "surprise bag"
         },
         {
-            "id": 6571,
-            "chance": 500
+            "chance": 500,
+            "name": "surprise bag"
         }
     ],
     "changeTarget": {

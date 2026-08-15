@@ -183,6 +183,6 @@ $modesList = function_exists('hdl_list_modes') ? hdl_list_modes() : [
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@json-editor/json-editor@2.15.1/dist/jsoneditor.min.js"></script>
-<script src="<?= htmlspecialchars($bundleUrl, ENT_QUOTES, 'UTF-8') ?>?v=1.14.2"></script>
+<script src="<?= htmlspecialchars($bundleUrl, ENT_QUOTES, 'UTF-8') ?>?v=1.14.3"></script>
 </body>
 </html>

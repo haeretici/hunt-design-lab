@@ -10,7 +10,9 @@ const { Settings } = require('../../settings.js');
 const {
     uiState,
     clearTargetCursorMode,
-    consumeSuppressNextCanvasClick
+    consumeSuppressNextCanvasClick,
+    readPersistedAutoChase,
+    writePersistedAutoChase
 } = require('./ui_state.js');
 const {
     findCreatureAtTile,
@@ -85,6 +87,11 @@ function transferManualControlOnSlotChange(opts) {
         const newIdx = idxFn(formMembers, newSlot);
         if (newIdx != null && party.members[newIdx]) {
             queueSetControlMode(party.members[newIdx], 'manual');
+            const chase = readPersistedAutoChase();
+            const next = party.members[newIdx];
+            next.autoChase = chase;
+            if (!Array.isArray(next.commandQueue)) next.commandQueue = [];
+            next.commandQueue.push({ type: 'SET_AUTO_CHASE', enabled: chase });
         }
     }
 }
@@ -107,17 +114,11 @@ function readActiveControlState(opts) {
         mode = o.formMember.controlMode;
     }
 
-    let autoChase = false;
+    // Auto Chase is a shell pref (`hdl_auto_chase`), not a party-form field.
+    // Form rows default to false and would hide the persisted value on reload.
+    let autoChase = readPersistedAutoChase();
     if (o.sessionLive && o.livePlayer && o.livePlayer.autoChase !== undefined) {
         autoChase = !!o.livePlayer.autoChase;
-    } else if (o.formMember && o.formMember.autoChase !== undefined) {
-        autoChase = !!o.formMember.autoChase;
-    } else {
-        try {
-            if (typeof window !== 'undefined' && window.localStorage) {
-                autoChase = window.localStorage.getItem('hdl_auto_chase') === 'true';
-            }
-        } catch (_) {}
     }
     return { mode, autoChase };
 }
@@ -129,6 +130,7 @@ function readActiveControlState(opts) {
  * @param {boolean} opts.sessionLive
  * @param {object|null|undefined} [opts.livePlayer]
  * @param {object|null|undefined} [opts.formMember]
+ * @param {object[]|null|undefined} [opts.formMembers]
  */
 function syncActiveControlToggle(opts) {
     if (typeof document === 'undefined') return;
@@ -136,7 +138,15 @@ function syncActiveControlToggle(opts) {
     const manualRadio = document.getElementById('controlModeManual');
     if (!aiRadio || !manualRadio) return;
 
-    const { mode, autoChase } = readActiveControlState(opts || {});
+    const o = opts || {};
+    if (!o.sessionLive) {
+        if (Array.isArray(o.formMembers)) {
+            applyPersistedAutoChaseToMembers(o.formMembers);
+        } else if (o.formMember) {
+            o.formMember.autoChase = readPersistedAutoChase();
+        }
+    }
+    const { mode, autoChase } = readActiveControlState(o);
     if (mode === 'manual') {
         manualRadio.checked = true;
     } else {
@@ -187,6 +197,40 @@ function applyControlModeChange(opts) {
 }
 
 /**
+ * Stamp the persisted Auto Chase pref onto every form / spawn member.
+ * Call before Play so the Simulator seeds `player.autoChase` correctly.
+ *
+ * @param {object[]|null|undefined} members
+ * @returns {object[]|null|undefined}
+ */
+function applyPersistedAutoChaseToMembers(members) {
+    if (!Array.isArray(members)) return members;
+    const enabled = readPersistedAutoChase();
+    for (let i = 0; i < members.length; i++) {
+        if (members[i]) members[i].autoChase = enabled;
+    }
+    return members;
+}
+
+/**
+ * Move keyboard focus back to the hunt canvas so Space cycles targets
+ * instead of toggling the Auto Chase checkbox.
+ */
+function returnFocusToHuntCanvas() {
+    if (typeof document === 'undefined') return;
+    const chaseEl = document.getElementById('autoChaseToggle');
+    if (chaseEl && typeof chaseEl.blur === 'function') chaseEl.blur();
+    const canvas = document.getElementById('gameCanvas');
+    if (!canvas || typeof canvas.focus !== 'function') return;
+    if (!canvas.hasAttribute('tabindex')) canvas.setAttribute('tabindex', '-1');
+    try {
+        canvas.focus({ preventScroll: true });
+    } catch (_) {
+        canvas.focus();
+    }
+}
+
+/**
  * Apply Auto Chase checkbox / form state + queue SET_AUTO_CHASE when live.
  *
  * @param {object} opts
@@ -199,12 +243,12 @@ function applyControlModeChange(opts) {
 function applyAutoChaseChange(opts) {
     const o = opts || {};
     const enabled = !!o.enabled;
-    try {
-        if (typeof window !== 'undefined' && window.localStorage) {
-            window.localStorage.setItem('hdl_auto_chase', enabled ? 'true' : 'false');
+    writePersistedAutoChase(enabled);
+    if (Array.isArray(o.formMembers)) {
+        for (let i = 0; i < o.formMembers.length; i++) {
+            if (o.formMembers[i]) o.formMembers[i].autoChase = enabled;
         }
-    } catch (_) {}
-    if (o.formMembers && o.formMembers[o.activeViewSlot]) {
+    } else if (o.formMembers && o.formMembers[o.activeViewSlot]) {
         o.formMembers[o.activeViewSlot].autoChase = enabled;
     }
     if (o.sessionLive && o.livePlayer) {
@@ -424,6 +468,13 @@ function wireManualControlToggles(opts) {
 
     const autoChaseToggleEl = document.getElementById('autoChaseToggle');
     if (autoChaseToggleEl) {
+        const focusCanvasSoon = () => {
+            if (typeof setTimeout === 'function') {
+                setTimeout(returnFocusToHuntCanvas, 0);
+            } else {
+                returnFocusToHuntCanvas();
+            }
+        };
         autoChaseToggleEl.addEventListener('change', (ev) => {
             const slot =
                 typeof o.getActiveViewSlot === 'function' ? o.getActiveViewSlot() : 0;
@@ -439,7 +490,9 @@ function wireManualControlToggles(opts) {
             });
             if (typeof o.schedulePrefsSave === 'function') o.schedulePrefsSave();
             if (typeof o.onAfterChange === 'function') o.onAfterChange();
+            focusCanvasSoon();
         });
+        autoChaseToggleEl.addEventListener('click', focusCanvasSoon);
     }
 
     return { sync: refreshSync };
@@ -451,6 +504,8 @@ module.exports = {
     readActiveControlState,
     syncActiveControlToggle,
     applyControlModeChange,
+    applyPersistedAutoChaseToMembers,
+    returnFocusToHuntCanvas,
     applyAutoChaseChange,
     canvasEventToTile,
     findCreatureAtTile,

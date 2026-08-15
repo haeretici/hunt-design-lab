@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://hunt-design-lab.local/schemas/art_sets.schema.json",
   "title": "Art set",
-  "description": "Shape of presets/<mode>/art_sets/<id>.json. Loaded by presets.loadArtSet. Storage: folder entity. Tile ids are genre catalog ids.",
+  "description": "Shape of presets/<mode>/art_sets/<id>.json. Loaded by presets.loadArtSet. Storage: folder entity. Catalog ids are genre tiles or objects. Prefer 1–4 entries per role (slim packs); roleId links tile_roles for bake/editor.",
   "type": "object",
   "required": ["id"],
   "additionalProperties": true,
@@ -13,16 +13,67 @@
       "minLength": 1,
       "maxLength": 80
     },
+    "anchor": {
+      "type": "string",
+      "description": "Draw pivot (creature-style). bottom_center for tall props; middle_center for terrain cells.",
+      "enum": [
+        "top_left",
+        "top_center",
+        "top_right",
+        "middle_left",
+        "middle_center",
+        "middle_right",
+        "bottom_left",
+        "bottom_center",
+        "bottom_right"
+      ]
+    },
     "weightedTile": {
       "type": "object",
       "additionalProperties": true,
+      "required": ["id"],
       "properties": {
         "id": {
           "type": "string",
           "format": "tile_id",
-          "description": "Genre tile catalog id. Designer: Select opens tile browser; alpha thumb preview sits left of the id field."
+          "minLength": 1,
+          "maxLength": 120,
+          "description": "Genre catalog id. Designer Select follows the role: scenery/furniture → objects; terrain → tiles. Entry kind overrides (overlays for path/water families; objects + wallFamily for face walls). One family row uses representative *_wang_15 / *_pole. Alpha thumb (original fallback)."
         },
-        "weight": { "type": "number", "minimum": 0 }
+        "weight": { "type": "number", "minimum": 0 },
+        "roleId": {
+          "$ref": "#/definitions/entityId",
+          "description": "Tile role id under presets/<mode>/tile_roles/ (bake + editor defaults)."
+        },
+        "kind": {
+          "type": "string",
+          "enum": ["tiles", "objects", "overlays"],
+          "description": "Catalog family. Default from the role key (scenery/furniture → objects; terrain → tiles). overlays = Wang path/water family. objects + wallFamily = P4 faces. Select writes this when you pick an asset."
+        },
+        "wangFamily": {
+          "type": "string",
+          "enum": ["", "dirt", "water", "cobble"],
+          "description": "Overlay family token. Set when kind is overlays. One art-set row per family; id is the representative *_wang_15. Empty = unset (omit on disk)."
+        },
+        "wallFamily": {
+          "type": "string",
+          "pattern": "^$|^[a-z][a-z0-9_]{0,63}$",
+          "description": "P4 wall-face family (e.g. stone_wall). Set when kind is objects and the stamp is a wall family. Empty = unset (omit on disk)."
+        },
+        "wallAlign": {
+          "type": "string",
+          "enum": ["", "pole", "horizontal", "vertical", "corner"],
+          "description": "Representative wall face. Select writes pole; the brush resolves the other faces. Empty = unset (omit on disk)."
+        },
+        "scale": {
+          "type": "number",
+          "minimum": 0.05,
+          "maximum": 8,
+          "description": "Optional draw scale (1 = tile box). Tall props often >1."
+        },
+        "anchor": {
+          "$ref": "#/definitions/anchor"
+        }
       }
     }
   },
@@ -31,12 +82,36 @@
     "label": { "type": "string", "minLength": 1, "maxLength": 120 },
     "notes": { "type": "string", "maxLength": 4000 },
     "genre": { "type": "string" },
-    "kind": { "type": "string" },
+    "kind": {
+      "type": "string",
+      "description": "Default catalog kind for entries that omit kind (usually tiles)."
+    },
     "roles": {
       "type": "object",
+      "description": "Pick lists by decorative key. Procedural bind uses terrain keys only (floor/path/wall/stairs/void|water). Scenery/furniture are editor palette only.",
       "additionalProperties": {
         "type": "array",
-        "items": { "$ref": "#/definitions/weightedTile" }
+        "maxItems": 4,
+        "items": {
+          "oneOf": [
+            {
+              "type": "string",
+              "format": "tile_id",
+              "minLength": 1,
+              "description": "Genre tile catalog id. Designer: Select opens the tile catalog."
+            },
+            { "$ref": "#/definitions/weightedTile" }
+          ]
+        }
+      }
+    },
+    "rules": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "blockedEdgeOnly": { "type": "boolean" },
+        "pathMix": { "type": "number", "minimum": 0, "maximum": 1 },
+        "walkDefault": { "type": "integer", "minimum": 0, "maximum": 254 }
       }
     }
   }

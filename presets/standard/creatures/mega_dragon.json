@@ -135,6 +135,7 @@
     "loot": [
         {
             "name": "Platinum Coin",
+            "id": "platinum_coin",
             "chance": 50780,
             "minCount": 1,
             "maxCount": 48
@@ -145,7 +146,8 @@
         },
         {
             "chance": 10090,
-            "name": "red gem"
+            "name": "Red Gem",
+            "id": "red_gem"
         },
         {
             "name": "Molten Dragon Essence",
@@ -163,7 +165,8 @@
         },
         {
             "chance": 6790,
-            "name": "blue gem"
+            "name": "Blue Gem",
+            "id": "blue_gem"
         },
         {
             "name": "Mega Dragon Heart",
@@ -171,10 +174,12 @@
         },
         {
             "name": "Violet Gem",
+            "id": "violet_gem",
             "chance": 1470
         },
         {
-            "name": "Dragon Slayer",
+            "name": "Wyrm Slayer",
+            "id": "wyrm_slayer",
             "chance": 130
         }
     ],

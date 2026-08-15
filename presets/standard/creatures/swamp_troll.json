@@ -77,10 +77,12 @@
     "loot": [
         {
             "chance": 15000,
-            "name": "torch"
+            "name": "Torch",
+            "id": "torch"
         },
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 50300,
             "maxCount": 5
         },
@@ -89,7 +91,8 @@
             "chance": 10000
         },
         {
-            "name": "spear",
+            "name": "Spear",
+            "id": "spear",
             "chance": 13000
         },
         {
@@ -97,12 +100,14 @@
             "chance": 60
         },
         {
-            "name": "leather boots",
+            "name": "Leather Boots",
+            "id": "leather_boots",
             "chance": 9500
         },
         {
             "chance": 60000,
-            "name": "fish"
+            "name": "Fish",
+            "id": "fish"
         },
         {
             "name": "troll green",

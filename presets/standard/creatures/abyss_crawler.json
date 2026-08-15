@@ -170,12 +170,14 @@
     "race": "blood",
     "loot": [
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 100000,
             "maxCount": 100
         },
         {
-            "name": "platinum coin",
+            "name": "Platinum Coin",
+            "id": "platinum_coin",
             "chance": 100000,
             "maxCount": 7
         },
@@ -204,16 +206,19 @@
             "name": "big bone"
         },
         {
-            "name": "two handed sword",
+            "name": "Two Handed Sword",
+            "id": "two_handed_sword",
             "chance": 3200
         },
         {
             "chance": 6750,
             "maxCount": 3,
-            "name": "fish"
+            "name": "Fish",
+            "id": "fish"
         },
         {
-            "name": "ham",
+            "name": "Ham",
+            "id": "ham",
             "chance": 6000,
             "maxCount": 2
         },
@@ -234,33 +239,40 @@
             "name": "fish tail"
         },
         {
-            "name": "assassin dagger",
+            "name": "Assassin Dagger",
+            "id": "assassin_dagger",
             "chance": 1000
         },
         {
-            "name": "haunted blade",
+            "name": "Haunted Blade",
+            "id": "haunted_blade",
             "chance": 2240
         },
         {
-            "name": "nightmare blade",
+            "name": "Dread Blade",
+            "id": "dread_blade",
             "chance": 1100
         },
         {
-            "name": "great mana potion",
+            "name": "Great Mana Potion",
+            "id": "great_mana_potion",
             "chance": 15000,
             "maxCount": 3
         },
         {
-            "name": "great health potion",
+            "name": "Great Health Potion",
+            "id": "great_health_potion",
             "chance": 15000,
             "maxCount": 2
         },
         {
-            "name": "gold ingot",
+            "name": "Gold Ingot",
+            "id": "gold_ingot",
             "chance": 2300
         },
         {
-            "name": "sai",
+            "name": "Sai",
+            "id": "sai",
             "chance": 1460
         },
         {

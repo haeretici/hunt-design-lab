@@ -109,12 +109,14 @@
     },
     "loot": [
         {
-            "name": "platinum coin",
+            "name": "Platinum Coin",
+            "id": "platinum_coin",
             "chance": 100000,
             "maxCount": 3
         },
         {
-            "name": "knife",
+            "name": "Knife",
+            "id": "knife",
             "chance": 10500
         },
         {
@@ -123,31 +125,38 @@
         },
         {
             "chance": 7750,
-            "name": "scimitar"
+            "name": "Scimitar",
+            "id": "scimitar"
         },
         {
-            "name": "protection amulet",
+            "name": "Protection Amulet",
+            "id": "protection_amulet",
             "chance": 7500
         },
         {
-            "name": "heavy machete",
+            "name": "Heavy Machete",
+            "id": "heavy_machete",
             "chance": 6500
         },
         {
-            "name": "bone sword",
+            "name": "Bone Sword",
+            "id": "bone_sword",
             "chance": 5000
         },
         {
-            "name": "machete",
+            "name": "Machete",
+            "id": "machete",
             "chance": 2250
         },
         {
-            "name": "carlin sword",
+            "name": "Highland Sword",
+            "id": "highland_sword",
             "chance": 2250
         },
         {
             "chance": 1690,
-            "name": "ring of red plasma"
+            "name": "Ring of Red Plasma",
+            "id": "ring_of_red_plasma"
         }
     ],
     "changeTarget": {

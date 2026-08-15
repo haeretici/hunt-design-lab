@@ -10,6 +10,8 @@ const {
     floodFillFriction,
     rectFillFriction,
     normalizeFrictionRows,
+    normalizeStairPoints,
+    serializeStairPoint,
     clampDim
 } = require('../kernel/apps/designer-ui/piece_grid_editor.js');
 
@@ -90,6 +92,32 @@ test('rectFillFriction swaps corners', () => {
     const rows = ['####', '####', '####'];
     rectFillFriction(rows, 3, 2, 0, 0, '.', 4, 3);
     assert.deepStrictEqual(rows, ['....', '....', '....']);
+});
+
+test('stair dir and link survive normalize + serialize (getValue)', () => {
+    const loaded = normalizeStairPoints([
+        { x: 2, y: 2, dir: 'down', link: 'main' },
+        { x: 1, y: 1, dir: 'UP', id: 's1' },
+        { x: 0, y: 0 },
+        { x: 3, y: 3, dir: 'sideways', link: '' }
+    ]);
+    assert.strictEqual(loaded.length, 4);
+    assert.deepStrictEqual(loaded[0], { x: 2, y: 2, dir: 'down', link: 'main' });
+    assert.deepStrictEqual(loaded[1], { x: 1, y: 1, id: 's1', dir: 'up' });
+    assert.deepStrictEqual(loaded[2], { x: 0, y: 0 });
+    assert.deepStrictEqual(loaded[3], { x: 3, y: 3 });
+    assert.deepStrictEqual(serializeStairPoint(loaded[0]), {
+        x: 2,
+        y: 2,
+        dir: 'down',
+        link: 'main'
+    });
+    assert.deepStrictEqual(serializeStairPoint(loaded[1]), {
+        x: 1,
+        y: 1,
+        id: 's1',
+        dir: 'up'
+    });
 });
 
 if (!process.exitCode) {

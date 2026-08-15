@@ -84,12 +84,14 @@
     },
     "loot": [
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 96120,
             "maxCount": 257
         },
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 38670,
             "maxCount": 11
         },
@@ -98,16 +100,19 @@
             "chance": 13890
         },
         {
-            "name": "small amethyst",
+            "name": "Small Amethyst",
+            "id": "small_amethyst",
             "chance": 8140,
             "maxCount": 1
         },
         {
-            "name": "protection amulet",
+            "name": "Protection Amulet",
+            "id": "protection_amulet",
             "chance": 2750
         },
         {
-            "name": "plate armor",
+            "name": "Plate Armor",
+            "id": "plate_armor",
             "chance": 1630
         },
         {
@@ -115,17 +120,20 @@
             "chance": 1250
         },
         {
-            "name": "health potion",
+            "name": "Health Potion",
+            "id": "health_potion",
             "chance": 500,
             "maxCount": 1
         },
         {
             "chance": 380,
-            "name": "power ring"
+            "name": "Power Ring",
+            "id": "power_ring"
         },
         {
             "chance": 250,
-            "name": "club ring"
+            "name": "Club Ring",
+            "id": "club_ring"
         }
     ],
     "changeTarget": {

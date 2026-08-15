@@ -113,16 +113,19 @@
     },
     "loot": [
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 100000,
             "maxCount": 57
         },
         {
             "chance": 12500,
-            "name": "life ring"
+            "name": "Vitality Ring",
+            "id": "vitality_ring"
         },
         {
-            "name": "meat",
+            "name": "Meat",
+            "id": "meat",
             "chance": 25000,
             "maxCount": 4
         },

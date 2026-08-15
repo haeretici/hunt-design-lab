@@ -4,7 +4,7 @@
  *
  * Usage:
  *   const batch = DeSmartUpdate.createController({
- *     kind: 'creatures',           // or 'equipment'
+ *     kind: 'creatures',           // or 'equipment' | 'spells'
  *     getMode: () => init.mode,
  *     getGenre: () => init.genre,
  *     getCategory: () => categoryFilter,  // equipment wiki filter → modal default
@@ -78,7 +78,7 @@
      * @param {object} opts
      */
     function createController(opts) {
-        const kind = opts.kind === 'equipment' ? 'equipment' : 'creatures';
+        const kind = opts.kind === 'equipment' ? 'equipment' : (opts.kind === 'spells' ? 'spells' : 'creatures');
         /** @type {Set<string>} */
         const selected = new Set();
         let modalEl = null;
@@ -225,7 +225,7 @@
       </div>
       <p class="small text-secondary mt-3 mb-0" id="deSuHint">
         Each sheet is 4×4 (16 cells). Short sheets fill from library entities whose
-        customSprite ≠ id (level low→high). Empty selection runs one sheet from that backlog.
+        dedicated sprite ≠ id (level low→high). Empty selection runs one sheet from that backlog.
         More than 16 runs multiple sheets.
       </p>
       <div class="small text-danger mt-2" id="deSuError" hidden></div>
@@ -293,24 +293,36 @@
                     : 'rpg_fantasy';
             const n = selected.size;
             let fillNote;
+            const spriteField =
+                kind === 'spells' ? 'customUISprite' : 'customSprite';
             if (n === 0) {
                 fillNote =
-                    'no selection · will fill up to 16 from library backlog (customSprite ≠ id)';
+                    `no selection · will fill up to 16 from library backlog (${spriteField} ≠ id)`;
             } else if (n % SLOT === 0) {
                 fillNote = `${Math.ceil(n / SLOT)} full sheet(s)`;
             } else {
                 const fill = SLOT - (n % SLOT);
                 fillNote =
                     `${Math.ceil(n / SLOT)} sheet(s); last sheet fills ${fill} slot(s) ` +
-                    'from library backlog (customSprite ≠ id, level low→high)';
+                    `from library backlog (${spriteField} ≠ id, level low→high)`;
             }
 
             const genreEl = el.querySelector('#deSuGenre');
             const kindEl = el.querySelector('#deSuKind');
             const summaryEl = el.querySelector('#deSuSummary');
             const catWrap = el.querySelector('#deSuCategoryWrap');
+            const hintEl = el.querySelector('#deSuHint');
             if (genreEl instanceof HTMLInputElement) genreEl.value = genre;
-            if (kindEl instanceof HTMLInputElement) kindEl.value = kind;
+            // Pipeline asset kind: spells wiki generates UI icons (kind=ui).
+            if (kindEl instanceof HTMLInputElement) {
+                kindEl.value = kind === 'spells' ? 'ui' : kind;
+            }
+            if (hintEl) {
+                hintEl.textContent =
+                    kind === 'spells'
+                        ? 'Each sheet is 4×4 (16 cells). Short sheets fill from library spells whose customUISprite ≠ id (requiredLevel low→high). Empty selection runs one sheet from that backlog. Art is written to the ui catalog (category spells).'
+                        : 'Each sheet is 4×4 (16 cells). Short sheets fill from library entities whose customSprite ≠ id (level low→high). Empty selection runs one sheet from that backlog. More than 16 runs multiple sheets.';
+            }
             if (summaryEl) {
                 summaryEl.textContent = `${n} selected · ${fillNote}`;
             }

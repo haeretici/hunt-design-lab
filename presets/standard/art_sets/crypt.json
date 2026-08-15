@@ -1,191 +1,34 @@
 {
-    "id": "crypt",
-    "label": "Crypt",
-    "notes": "Stage 11.11 — deeper crypt art volume. Ash/altar/marble/bone floors, carpet paths, brick/plaster/ruined walls, stone stairs, dark void. Macro contrast vs cave.",
-    "genre": "rpg_fantasy",
-    "kind": "tiles",
-    "roles": {
-        "floor": [
-            {
-                "id": "ancient_ash_floor",
-                "weight": 10
-            },
-            {
-                "id": "mossy_ash_floor",
-                "weight": 8
-            },
-            {
-                "id": "polished_ash_floor",
-                "weight": 6
-            },
-            {
-                "id": "broken_altar_floor",
-                "weight": 5
-            },
-            {
-                "id": "weathered_altar_floor",
-                "weight": 4
-            },
-            {
-                "id": "dark_marble_floor",
-                "weight": 5
-            },
-            {
-                "id": "dark_bone_floor",
-                "weight": 4
-            },
-            {
-                "id": "cracked_bone_floor",
-                "weight": 3
-            },
-            {
-                "id": "broken_crystal_floor",
-                "weight": 2
-            },
-            {
-                "id": "broken_tile_floor",
-                "weight": 3
-            },
-            {
-                "id": "weathered_tile_floor",
-                "weight": 2
-            },
-            {
-                "id": "dark_cobble_floor",
-                "weight": 2
-            },
-            {
-                "id": "weathered_cobble_floor",
-                "weight": 1
-            }
-        ],
-        "path": [
-            {
-                "id": "dark_carpet_path",
-                "weight": 8
-            },
-            {
-                "id": "cracked_carpet_path",
-                "weight": 6
-            },
-            {
-                "id": "broken_carpet_path",
-                "weight": 4
-            },
-            {
-                "id": "dark_stone_path",
-                "weight": 4
-            },
-            {
-                "id": "ancient_stone_path",
-                "weight": 3
-            },
-            {
-                "id": "dark_gravel_path",
-                "weight": 2
-            },
-            {
-                "id": "broken_wood_path",
-                "weight": 2
-            }
-        ],
-        "wall": [
-            {
-                "id": "ancient_brick_wall",
-                "weight": 10
-            },
-            {
-                "id": "overgrown_brick_wall",
-                "weight": 8
-            },
-            {
-                "id": "broken_ruined_wall",
-                "weight": 7
-            },
-            {
-                "id": "damp_ruined_wall",
-                "weight": 6
-            },
-            {
-                "id": "overgrown_ruined_wall",
-                "weight": 5
-            },
-            {
-                "id": "ancient_plaster_wall",
-                "weight": 5
-            },
-            {
-                "id": "dark_stone_wall",
-                "weight": 4
-            },
-            {
-                "id": "ancient_stone_wall",
-                "weight": 3
-            },
-            {
-                "id": "broken_crystal_wall",
-                "weight": 2
-            },
-            {
-                "id": "sunlit_crystal_wall",
-                "weight": 1
-            },
-            {
-                "id": "dark_force_wall",
-                "weight": 1
-            },
-            {
-                "id": "overgrown_force_wall",
-                "weight": 1
-            }
-        ],
-        "stairs": [
-            {
-                "id": "sacred_stone_stairs",
-                "weight": 8
-            },
-            {
-                "id": "ancient_stone_stairs",
-                "weight": 6
-            },
-            {
-                "id": "dark_stone_stairs",
-                "weight": 5
-            },
-            {
-                "id": "polished_wood_stairs",
-                "weight": 2
-            },
-            {
-                "id": "broken_cave_stairs",
-                "weight": 2
-            },
-            {
-                "id": "damp_cave_stairs",
-                "weight": 1
-            }
-        ],
-        "void": [
-            {
-                "id": "dark_shallow_water",
-                "weight": 3
-            },
-            {
-                "id": "dark_oil_slick",
-                "weight": 2
-            },
-            {
-                "id": "dark_toxic_pool",
-                "weight": 2
-            },
-            {
-                "id": "ancient_oil_slick",
-                "weight": 1
-            }
-        ]
-    },
-    "rules": {
-        "blockedEdgeOnly": true,
-        "pathMix": 0.2
-    }
+  "id": "crypt",
+  "label": "Crypt",
+  "notes": "Slim crypt pack for macro contrast vs cave. Ash floors, brick walls, carpet path.",
+  "genre": "rpg_fantasy",
+  "kind": "tiles",
+  "roles": {
+    "floor": [
+      { "id": "ancient_ash_floor", "weight": 10, "roleId": "floor" },
+      { "id": "mossy_ash_floor", "weight": 6, "roleId": "floor" }
+    ],
+    "path": [
+      { "id": "dark_carpet_path", "weight": 3, "roleId": "path" }
+    ],
+    "wall": [
+      { "id": "ancient_brick_wall", "weight": 12, "roleId": "wall" }
+    ],
+    "water": [
+      { "id": "dark_shallow_water", "weight": 4, "roleId": "water" }
+    ],
+    "stairs_up": [
+      {
+        "id": "sacred_stone_stairs",
+        "weight": 5,
+        "roleId": "stairs_up",
+        "anchor": "bottom_center"
+      }
+    ]
+  },
+  "rules": {
+    "blockedEdgeOnly": true,
+    "pathMix": 0.16
+  }
 }

@@ -1,0 +1,20 @@
+{
+  "id": "void",
+  "label": "Void",
+  "notes": "Out-of-map / empty pit art. Blocks walk and sight like a wall.",
+  "kindHints": ["tiles"],
+  "catalogCategories": ["special"],
+  "render": {
+    "scale": 1.0,
+    "anchor": "middle_center",
+    "variant": "retro"
+  },
+  "influence": {
+    "friction": 255,
+    "sight": 255,
+    "flags": 0,
+    "walkMode": "block",
+    "sightMode": "block"
+  },
+  "vertical": null
+}

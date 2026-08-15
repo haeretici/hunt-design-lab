@@ -138,21 +138,25 @@
     },
     "loot": [
         {
-            "name": "crystal coin",
+            "name": "Crystal Coin",
+            "id": "crystal_coin",
             "chance": 42860
         },
         {
-            "name": "ultimate mana potion",
+            "name": "Ultimate Mana Potion",
+            "id": "ultimate_mana_potion",
             "chance": 42860,
             "minCount": 2,
             "maxCount": 3
         },
         {
             "chance": 14290,
-            "name": "crimson sword"
+            "name": "Crimson Sword",
+            "id": "crimson_sword"
         },
         {
-            "name": "ultimate health potion",
+            "name": "Ultimate Health Potion",
+            "id": "ultimate_health_potion",
             "chance": 14290,
             "maxCount": 2
         },
@@ -173,33 +177,39 @@
         },
         {
             "name": "Nether Rod",
+            "id": "nether_rod",
             "chance": 8380,
             "maxCount": 1
         },
         {
-            "name": "violet gem",
+            "name": "Violet Gem",
+            "id": "violet_gem",
             "chance": 5084,
             "maxCount": 1
         },
         {
-            "name": "blue gem",
+            "name": "Blue Gem",
+            "id": "blue_gem",
             "chance": 9808,
             "maxCount": 1
         },
         {
-            "name": "relic sword",
+            "name": "Relic Sword",
+            "id": "relic_sword",
             "chance": 6964,
             "maxCount": 1
         },
         {
-            "name": "skullcracker armor",
+            "name": "Skullcracker Armor",
+            "id": "skullcracker_armor",
             "chance": 7270,
             "maxCount": 1
         },
         {
             "chance": 3073,
             "maxCount": 1,
-            "name": "ring of green plasma"
+            "name": "Ring of Green Plasma",
+            "id": "ring_of_green_plasma"
         }
     ],
     "changeTarget": {

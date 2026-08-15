@@ -59,6 +59,23 @@
     let isCapturingKey = false;
     let isCapturingGeneralKey = null;
 
+    function appRoot() {
+        return window.__APP_ROOT__ || '/';
+    }
+
+    function resolveUiSpriteUrl(spriteId, genre) {
+        if (!spriteId) return null;
+        const stem = String(spriteId)
+            .trim()
+            .replace(/\.png$/i, '')
+            .split(/[_\s-]+/)
+            .filter(Boolean)
+            .map((part) => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
+            .join('_');
+        const g = genre || appState.genre || 'rpg_fantasy';
+        return new URL(`assets/sprites/${g}/ui/alpha/${stem}.png`, window.location.origin + appRoot()).href;
+    }
+
     function normalizeHotkey(str) {
         if (!str || typeof str !== 'string') return '';
         const parts = str.toUpperCase().split('+').map(p => p.trim()).filter(Boolean);
@@ -585,7 +602,14 @@
                 iconHtml = '<i class="fa-solid fa-flask text-success me-2"></i>';
                 actionText = `<span class="fw-semibold text-light">${escapeHtml(itemLabel(slot.itemId))}</span>`;
             } else if (type === 'spell' && slot.spellId) {
-                iconHtml = '<i class="fa-solid fa-wand-magic-sparkles text-warning me-2"></i>';
+                const sp = Array.isArray(appState.spellBook) ? appState.spellBook.find(s => s && s.id === slot.spellId) : appState.spellBook[slot.spellId];
+                const spriteId = sp ? (sp.customUISprite || sp.customSprite || sp.id) : null;
+                const url = spriteId ? resolveUiSpriteUrl(spriteId) : null;
+                if (url) {
+                    iconHtml = `<img src="${escapeHtml(url)}" style="width: 24px; height: 24px;" class="me-2" alt="">`;
+                } else {
+                    iconHtml = '<i class="fa-solid fa-wand-magic-sparkles text-warning me-2"></i>';
+                }
                 actionText = `<span class="fw-semibold text-light">${escapeHtml(spellLabel(slot.spellId))}</span>`;
             } else if (type === 'command' && slot.command) {
                 iconHtml = '<i class="fa-solid fa-terminal text-info me-2"></i>';
@@ -1094,7 +1118,8 @@
                 }
                 const level = Number(sp.level != null ? sp.level : sp.minLevel) || 0;
                 const kind = String(sp.group || sp.kind || '');
-                return { id, name, cost, cd, level, kind, bound: boundIds.has(id) };
+                const spriteId = sp.customUISprite || sp.customSprite || id;
+                return { id, name, cost, cd, level, kind, bound: boundIds.has(id), spriteId };
             });
 
             if (!spells.length) {
@@ -1110,9 +1135,13 @@
                 if (sp.level > 0) badges.push(`<span class="badge bg-dark border border-secondary text-xxs">L${sp.level}</span>`);
                 if (sp.kind) badges.push(`<span class="badge bg-dark border border-secondary text-xxs">${escapeHtml(sp.kind)}</span>`);
                 if (sp.bound) badges.push('<span class="badge bg-success text-xxs">Bound</span>');
+                const url = sp.spriteId ? resolveUiSpriteUrl(sp.spriteId) : null;
+                const iconHtml = url 
+                    ? `<img src="${escapeHtml(url)}" style="width: 24px; height: 24px;" class="me-2" alt="">`
+                    : `<i class="fa-solid fa-wand-magic-sparkles text-warning me-2"></i>`;
                 div.innerHTML = `
                     <div class="text-truncate pe-2">
-                        <i class="fa-solid fa-wand-magic-sparkles text-warning me-2"></i>
+                        ${iconHtml}
                         <span class="fw-bold text-light">${escapeHtml(sp.name)}</span>
                         <span class="ms-1">${badges.join(' ')}</span>
                         <span class="text-muted text-xxs d-block font-monospace">${escapeHtml(sp.id)} | MP ${sp.cost} | CD ${sp.cd}s</span>

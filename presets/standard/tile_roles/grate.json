@@ -1,0 +1,20 @@
+{
+  "id": "grate",
+  "label": "Grate",
+  "notes": "Walkable grate / glass: open walk, blocked sight.",
+  "kindHints": ["tiles"],
+  "catalogCategories": ["special"],
+  "render": {
+    "scale": 1.0,
+    "anchor": "middle_center",
+    "variant": "retro"
+  },
+  "influence": {
+    "friction": 100,
+    "sight": 255,
+    "flags": 0,
+    "walkMode": "open",
+    "sightMode": "block"
+  },
+  "vertical": null
+}

@@ -27,7 +27,18 @@
         "properties": {
           "objectIds": {
             "type": "array",
-            "items": { "type": "string" }
+            "description": "Genre objects-catalog ids placed for this pool (e.g. barrel, rest_well).",
+            "items": {
+              "type": "string",
+              "format": "catalog_asset_id",
+              "options": {
+                "assetKind": "objects",
+                "previewVariant": "alpha",
+                "selectLabel": "Browse objects",
+                "inferCategoryFromPath": false
+              },
+              "description": "Objects catalog id. Designer: Select opens the objects catalog."
+            }
           },
           "spawnCount": {
             "type": "array",
@@ -37,6 +48,13 @@
           },
           "effect": { "type": "string" },
           "blocking": { "type": "boolean" },
+          "healAmount": {
+            "type": "array",
+            "minItems": 2,
+            "maxItems": 2,
+            "items": { "type": "number" },
+            "description": "Well/heal pool HP restore [min, max] (cave_clickies pool B)."
+          },
           "lootValue": {
             "type": "array",
             "items": { "type": "number" }

@@ -111,7 +111,8 @@
     },
     "loot": [
         {
-            "name": "ham",
+            "name": "Ham",
+            "id": "ham",
             "chance": 40080,
             "maxCount": 4
         },
@@ -152,28 +153,34 @@
             "maxCount": 2
         },
         {
-            "name": "small emerald",
+            "name": "Small Emerald",
+            "id": "small_emerald",
             "chance": 5080,
             "maxCount": 2
         },
         {
-            "name": "gold ingot",
+            "name": "Gold Ingot",
+            "id": "gold_ingot",
             "chance": 2970
         },
         {
-            "id": 281,
-            "chance": 3100
+            "chance": 3100,
+            "name": "Giant Shimmering Pearl",
+            "id": "giant_shimmering_pearl"
         },
         {
-            "name": "suspicious device",
+            "name": "Suspicious Device",
+            "id": "suspicious_device",
             "chance": 600
         },
         {
-            "name": "mycological bow",
+            "name": "Sporewood Bow",
+            "id": "sporewood_bow",
             "chance": 200
         },
         {
-            "name": "mushroom backpack",
+            "name": "Mushroom Backpack",
+            "id": "mushroom_backpack",
             "chance": 1500
         }
     ],

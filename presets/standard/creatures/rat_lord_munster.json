@@ -66,16 +66,19 @@
     "loot": [
         {
             "chance": 87000,
-            "name": "bone club"
+            "name": "Bone Club",
+            "id": "bone_club"
         },
         {
             "chance": 71000,
             "maxCount": 22,
-            "name": "gold coin"
+            "name": "Gold Coin",
+            "id": "gold_coin"
         },
         {
             "chance": 56000,
-            "name": "cheese"
+            "name": "Cheese",
+            "id": "cheese"
         },
         {
             "chance": 51000,
@@ -85,11 +88,12 @@
         {
             "chance": 2500,
             "maxCount": 2,
-            "name": "cookie"
+            "name": "Cookie",
+            "id": "cookie"
         },
         {
-            "id": 5792,
-            "chance": 250
+            "chance": 250,
+            "name": "die"
         }
     ],
     "changeTarget": {

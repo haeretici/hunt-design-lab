@@ -86,16 +86,19 @@
     },
     "loot": [
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 100000,
             "maxCount": 150
         },
         {
             "name": "Viperfang Rod",
+            "id": "viperfang_rod",
             "chance": 11670
         },
         {
-            "name": "taurus mace",
+            "name": "Taurus Mace",
+            "id": "taurus_mace",
             "chance": 5360
         },
         {
@@ -107,46 +110,55 @@
             "chance": 16230
         },
         {
-            "name": "strong mana potion",
+            "name": "Strong Mana Potion",
+            "id": "strong_mana_potion",
             "chance": 10660,
             "maxCount": 3
         },
         {
-            "name": "small ruby",
+            "name": "Small Ruby",
+            "id": "small_ruby",
             "chance": 2030,
             "maxCount": 2
         },
         {
-            "name": "small topaz",
+            "name": "Small Topaz",
+            "id": "small_topaz",
             "chance": 2680,
             "maxCount": 2
         },
         {
-            "name": "yellow gem",
+            "name": "Yellow Gem",
+            "id": "yellow_gem",
             "chance": 220
         },
         {
-            "name": "platinum coin",
+            "name": "Platinum Coin",
+            "id": "platinum_coin",
             "chance": 39350,
             "maxCount": 3
         },
         {
-            "name": "small emerald",
+            "name": "Small Emerald",
+            "id": "small_emerald",
             "chance": 2540,
             "maxCount": 2
         },
         {
-            "name": "small sapphire",
+            "name": "Small Sapphire",
+            "id": "small_sapphire",
             "chance": 2170,
             "maxCount": 2
         },
         {
-            "name": "small diamond",
+            "name": "Small Diamond",
+            "id": "small_diamond",
             "chance": 2900,
             "maxCount": 2
         },
         {
-            "name": "small amethyst",
+            "name": "Small Amethyst",
+            "id": "small_amethyst",
             "chance": 2610,
             "maxCount": 2
         },
@@ -156,7 +168,8 @@
         },
         {
             "chance": 70,
-            "name": "red gem"
+            "name": "Red Gem",
+            "id": "red_gem"
         },
         {
             "name": "minotaur leather",

@@ -18,7 +18,8 @@
                 "auto": {
                     "attack": 2
                 }
-            }
+            },
+            "customUISprite": "melee_auto"
         },
         {
             "id": "distance_auto",
@@ -38,7 +39,8 @@
                 "auto": {
                     "attack": 2
                 }
-            }
+            },
+            "customUISprite": "distance_auto"
         },
         {
             "id": "wand_auto",
@@ -57,7 +59,8 @@
                     "attack": 2
                 }
             },
-            "damageAmplitude": 0.1579
+            "damageAmplitude": 0.1579,
+            "customUISprite": "wand_auto"
         },
         {
             "id": "flame_strike",
@@ -82,7 +85,8 @@
                 "adept",
                 "warden"
             ],
-            "damageAmplitude": 0.1881
+            "damageAmplitude": 0.1881,
+            "customUISprite": "flame_strike"
         },
         {
             "id": "ice_strike",
@@ -107,7 +111,8 @@
                 "adept",
                 "warden"
             ],
-            "damageAmplitude": 0.1881
+            "damageAmplitude": 0.1881,
+            "customUISprite": "ice_strike"
         },
         {
             "id": "energy_strike",
@@ -132,7 +137,8 @@
                 "adept",
                 "warden"
             ],
-            "damageAmplitude": 0.1881
+            "damageAmplitude": 0.1881,
+            "customUISprite": "energy_strike"
         },
         {
             "id": "terra_strike",
@@ -157,7 +163,8 @@
                 "adept",
                 "warden"
             ],
-            "damageAmplitude": 0.1881
+            "damageAmplitude": 0.1881,
+            "customUISprite": "terra_strike"
         },
         {
             "id": "death_strike",
@@ -181,7 +188,8 @@
                 "adept"
             ],
             "level": 16,
-            "damageAmplitude": 0.1881
+            "damageAmplitude": 0.1881,
+            "customUISprite": "death_strike"
         },
         {
             "id": "physical_strike",
@@ -206,7 +214,8 @@
                 "warden"
             ],
             "damageAmplitude": 0.1893,
-            "level": 16
+            "level": 16,
+            "customUISprite": "physical_strike"
         },
         {
             "id": "ember_bolt",
@@ -234,7 +243,8 @@
                 "warden"
             ],
             "damageAmplitude": 0.1839,
-            "level": 8
+            "level": 8,
+            "customUISprite": "ember_bolt"
         },
         {
             "id": "strong_ice_strike",
@@ -261,7 +271,8 @@
             "vocations": [
                 "warden"
             ],
-            "damageAmplitude": 0.2659
+            "damageAmplitude": 0.2659,
+            "customUISprite": "strong_ice_strike"
         },
         {
             "id": "strong_terra_strike",
@@ -288,7 +299,8 @@
             "vocations": [
                 "warden"
             ],
-            "damageAmplitude": 0.2659
+            "damageAmplitude": 0.2659,
+            "customUISprite": "strong_terra_strike"
         },
         {
             "id": "strong_flame_strike",
@@ -315,7 +327,8 @@
             "vocations": [
                 "adept"
             ],
-            "damageAmplitude": 0.2753
+            "damageAmplitude": 0.2753,
+            "customUISprite": "strong_flame_strike"
         },
         {
             "id": "strong_energy_strike",
@@ -342,7 +355,8 @@
             "vocations": [
                 "adept"
             ],
-            "damageAmplitude": 0.2753
+            "damageAmplitude": 0.2753,
+            "customUISprite": "strong_energy_strike"
         },
         {
             "id": "mud_strike",
@@ -367,7 +381,8 @@
                 "warden"
             ],
             "damageAmplitude": 0.1639,
-            "level": 1
+            "level": 1,
+            "customUISprite": "mud_strike"
         },
         {
             "id": "buzz",
@@ -392,7 +407,8 @@
                 "warden"
             ],
             "damageAmplitude": 0.1639,
-            "level": 1
+            "level": 1,
+            "customUISprite": "buzz"
         },
         {
             "id": "novice_strike",
@@ -417,7 +433,8 @@
                 "adept",
                 "warden"
             ],
-            "damageAmplitude": 0.1639
+            "damageAmplitude": 0.1639,
+            "customUISprite": "novice_strike"
         },
         {
             "id": "ice_wave",
@@ -449,7 +466,8 @@
                 "warden"
             ],
             "level": 18,
-            "damageAmplitude": 0.1855
+            "damageAmplitude": 0.1855,
+            "customUISprite": "ice_wave"
         },
         {
             "id": "fire_wave",
@@ -481,7 +499,8 @@
                 "adept"
             ],
             "level": 18,
-            "damageAmplitude": 0.1874
+            "damageAmplitude": 0.1874,
+            "customUISprite": "fire_wave"
         },
         {
             "id": "energy_beam",
@@ -513,7 +532,8 @@
                 "adept"
             ],
             "level": 23,
-            "damageAmplitude": 0.1899
+            "damageAmplitude": 0.1899,
+            "customUISprite": "energy_beam"
         },
         {
             "id": "great_energy_beam",
@@ -545,7 +565,8 @@
                 "adept"
             ],
             "level": 29,
-            "damageAmplitude": 0.2876
+            "damageAmplitude": 0.2876,
+            "customUISprite": "great_energy_beam"
         },
         {
             "id": "terra_wave",
@@ -577,7 +598,8 @@
                 "warden"
             ],
             "level": 38,
-            "damageAmplitude": 0.2693
+            "damageAmplitude": 0.2693,
+            "customUISprite": "terra_wave"
         },
         {
             "id": "energy_wave",
@@ -609,7 +631,8 @@
                 "adept"
             ],
             "level": 38,
-            "damageAmplitude": 0.2864
+            "damageAmplitude": 0.2864,
+            "customUISprite": "energy_wave"
         },
         {
             "id": "strong_ice_wave",
@@ -641,7 +664,8 @@
                 "warden"
             ],
             "damageAmplitude": 0.2864,
-            "level": 40
+            "level": 40,
+            "customUISprite": "strong_ice_wave"
         },
         {
             "id": "great_fire_wave",
@@ -673,7 +697,8 @@
                 "adept"
             ],
             "level": 38,
-            "damageAmplitude": 0.2497
+            "damageAmplitude": 0.2497,
+            "customUISprite": "great_fire_wave"
         },
         {
             "id": "scorch",
@@ -705,7 +730,8 @@
                 "adept"
             ],
             "damageAmplitude": 0.1508,
-            "level": 1
+            "level": 1,
+            "customUISprite": "scorch"
         },
         {
             "id": "chill_out",
@@ -737,7 +763,8 @@
                 "warden"
             ],
             "damageAmplitude": 0.1508,
-            "level": 1
+            "level": 1,
+            "customUISprite": "chill_out"
         },
         {
             "id": "sky_rage",
@@ -768,7 +795,8 @@
                 "adept"
             ],
             "level": 55,
-            "damageAmplitude": 0.2857
+            "damageAmplitude": 0.2857,
+            "customUISprite": "sky_rage"
         },
         {
             "id": "inferno_core",
@@ -799,7 +827,8 @@
                 "adept"
             ],
             "level": 60,
-            "damageAmplitude": 0.2629
+            "damageAmplitude": 0.2629,
+            "customUISprite": "inferno_core"
         },
         {
             "id": "nature_wrath",
@@ -830,7 +859,8 @@
                 "warden"
             ],
             "level": 55,
-            "damageAmplitude": 0.291
+            "damageAmplitude": 0.291,
+            "customUISprite": "nature_wrath"
         },
         {
             "id": "glacial_cataclysm",
@@ -861,7 +891,8 @@
                 "warden"
             ],
             "level": 60,
-            "damageAmplitude": 0.2857
+            "damageAmplitude": 0.2857,
+            "customUISprite": "glacial_cataclysm"
         },
         {
             "id": "lesser_arc_bolt",
@@ -894,7 +925,8 @@
             "damageAmplitude": 0.1462,
             "runeItemId": "lesser_arc_bolt_rune",
             "magicLevel": 0,
-            "allowFarUse": true
+            "allowFarUse": true,
+            "customUISprite": "lesser_arc_bolt"
         },
         {
             "id": "greater_arc_bolt",
@@ -927,7 +959,8 @@
             "damageAmplitude": 0.1723,
             "runeItemId": "greater_arc_bolt_rune",
             "magicLevel": 3,
-            "allowFarUse": true
+            "allowFarUse": true,
+            "customUISprite": "greater_arc_bolt"
         },
         {
             "id": "stone_spike",
@@ -960,7 +993,8 @@
             "damageAmplitude": 0.1723,
             "runeItemId": "stone_spike_rune",
             "magicLevel": 3,
-            "allowFarUse": true
+            "allowFarUse": true,
+            "customUISprite": "stone_spike"
         },
         {
             "id": "fireburst",
@@ -993,7 +1027,8 @@
             "damageAmplitude": 0.1921,
             "runeItemId": "fireburst_rune",
             "magicLevel": 4,
-            "allowFarUse": true
+            "allowFarUse": true,
+            "customUISprite": "fireburst"
         },
         {
             "id": "frost_spike",
@@ -1026,7 +1061,8 @@
             "damageAmplitude": 0.1921,
             "runeItemId": "frost_spike_rune",
             "magicLevel": 4,
-            "allowFarUse": true
+            "allowFarUse": true,
+            "customUISprite": "frost_spike"
         },
         {
             "id": "deathburst",
@@ -1059,7 +1095,8 @@
             "damageAmplitude": 0.2864,
             "runeItemId": "deathburst_rune",
             "magicLevel": 15,
-            "allowFarUse": true
+            "allowFarUse": true,
+            "customUISprite": "deathburst"
         },
         {
             "id": "radiant_bolt",
@@ -1088,7 +1125,8 @@
             "damageAmplitude": 0.2127,
             "runeItemId": "radiant_bolt_rune",
             "magicLevel": 4,
-            "allowFarUse": true
+            "allowFarUse": true,
+            "customUISprite": "radiant_bolt"
         },
         {
             "id": "gravel_rain",
@@ -1125,7 +1163,8 @@
             "damageAmplitude": 0.1884,
             "runeItemId": "gravel_rain_rune",
             "magicLevel": 4,
-            "allowFarUse": true
+            "allowFarUse": true,
+            "customUISprite": "gravel_rain"
         },
         {
             "id": "stormlash",
@@ -1162,7 +1201,8 @@
             "damageAmplitude": 0.1884,
             "runeItemId": "stormlash_rune",
             "magicLevel": 4,
-            "allowFarUse": true
+            "allowFarUse": true,
+            "customUISprite": "stormlash"
         },
         {
             "id": "grand_fireburst",
@@ -1199,7 +1239,8 @@
             "damageAmplitude": 0.1893,
             "runeItemId": "grand_fireburst_rune",
             "magicLevel": 4,
-            "allowFarUse": true
+            "allowFarUse": true,
+            "customUISprite": "grand_fireburst"
         },
         {
             "id": "rockfall",
@@ -1236,7 +1277,8 @@
             "damageAmplitude": 0.1893,
             "runeItemId": "rockfall_rune",
             "magicLevel": 4,
-            "allowFarUse": true
+            "allowFarUse": true,
+            "customUISprite": "rockfall"
         },
         {
             "id": "blastwave",
@@ -1273,7 +1315,8 @@
             "damageAmplitude": 0.1894,
             "runeItemId": "blastwave_rune",
             "magicLevel": 6,
-            "allowFarUse": true
+            "allowFarUse": true,
+            "customUISprite": "blastwave"
         },
         {
             "id": "magic_patch",
@@ -1303,7 +1346,8 @@
                 "scout",
                 "mystic"
             ],
-            "damageAmplitude": 0.1702
+            "damageAmplitude": 0.1702,
+            "customUISprite": "magic_patch"
         },
         {
             "id": "heal_light",
@@ -1333,7 +1377,8 @@
                 "scout",
                 "mystic"
             ],
-            "damageAmplitude": 0.1874
+            "damageAmplitude": 0.1874,
+            "customUISprite": "heal_light"
         },
         {
             "id": "heal_intense",
@@ -1363,7 +1408,8 @@
                 "scout",
                 "mystic"
             ],
-            "damageAmplitude": 0.2693
+            "damageAmplitude": 0.2693,
+            "customUISprite": "heal_intense"
         },
         {
             "id": "heal_ultimate",
@@ -1391,7 +1437,8 @@
                 "adept",
                 "warden"
             ],
-            "damageAmplitude": 0.2629
+            "damageAmplitude": 0.2629,
+            "customUISprite": "heal_ultimate"
         },
         {
             "id": "wound_cleanse",
@@ -1418,7 +1465,8 @@
                 "guardian"
             ],
             "level": 8,
-            "damageAmplitude": 0.205
+            "damageAmplitude": 0.205,
+            "customUISprite": "wound_cleanse"
         },
         {
             "id": "fair_wound_cleanse",
@@ -1445,7 +1493,8 @@
                 "guardian"
             ],
             "level": 300,
-            "damageAmplitude": 0.2766
+            "damageAmplitude": 0.2766,
+            "customUISprite": "fair_wound_cleanse"
         },
         {
             "id": "mass_heal",
@@ -1472,7 +1521,8 @@
                 "warden"
             ],
             "level": 36,
-            "damageAmplitude": 0.2857
+            "damageAmplitude": 0.2857,
+            "customUISprite": "mass_heal"
         },
         {
             "id": "heal_friend",
@@ -1499,7 +1549,8 @@
                 "warden"
             ],
             "level": 18,
-            "damageAmplitude": 0.2561
+            "damageAmplitude": 0.2561,
+            "customUISprite": "heal_friend"
         },
         {
             "id": "divine_heal",
@@ -1526,7 +1577,8 @@
                 "scout"
             ],
             "level": 35,
-            "damageAmplitude": 0.2629
+            "damageAmplitude": 0.2629,
+            "customUISprite": "divine_heal"
         },
         {
             "id": "sacred_mending",
@@ -1553,7 +1605,8 @@
                 "scout"
             ],
             "level": 60,
-            "damageAmplitude": 0.2159
+            "damageAmplitude": 0.2159,
+            "customUISprite": "sacred_mending"
         },
         {
             "id": "divine_missile",
@@ -1577,7 +1630,8 @@
                 "scout"
             ],
             "level": 40,
-            "damageAmplitude": 0.1899
+            "damageAmplitude": 0.1899,
+            "customUISprite": "divine_missile"
         },
         {
             "id": "radiant_crater",
@@ -1608,7 +1662,8 @@
                 "scout"
             ],
             "level": 50,
-            "damageAmplitude": 0.2864
+            "damageAmplitude": 0.2864,
+            "customUISprite": "radiant_crater"
         },
         {
             "id": "lesser_spirit_javelin",
@@ -1632,7 +1687,8 @@
                 "scout"
             ],
             "damageAmplitude": 0.1462,
-            "level": 1
+            "level": 1,
+            "customUISprite": "lesser_spirit_javelin"
         },
         {
             "id": "spirit_javelin",
@@ -1656,7 +1712,8 @@
                 "scout"
             ],
             "level": 23,
-            "damageAmplitude": 0.1746
+            "damageAmplitude": 0.1746,
+            "customUISprite": "spirit_javelin"
         },
         {
             "id": "strong_spirit_javelin",
@@ -1680,7 +1737,8 @@
                 "scout"
             ],
             "level": 90,
-            "damageAmplitude": 0.1886
+            "damageAmplitude": 0.1886,
+            "customUISprite": "strong_spirit_javelin"
         },
         {
             "id": "piercing_shot",
@@ -1707,7 +1765,8 @@
                 "scout"
             ],
             "damageAmplitude": 0.2493,
-            "level": 15
+            "level": 15,
+            "customUISprite": "piercing_shot"
         },
         {
             "id": "lesser_front_sweep",
@@ -1739,7 +1798,8 @@
                 "guardian"
             ],
             "damageAmplitude": 0.1853,
-            "level": 1
+            "level": 1,
+            "customUISprite": "lesser_front_sweep"
         },
         {
             "id": "front_sweep",
@@ -1771,7 +1831,8 @@
                 "guardian"
             ],
             "level": 70,
-            "damageAmplitude": 0.2587
+            "damageAmplitude": 0.2587,
+            "customUISprite": "front_sweep"
         },
         {
             "id": "brutal_strike",
@@ -1798,7 +1859,8 @@
                 "guardian"
             ],
             "level": 16,
-            "damageAmplitude": 0.2505
+            "damageAmplitude": 0.2505,
+            "customUISprite": "brutal_strike"
         },
         {
             "id": "whirlwind_throw",
@@ -1825,7 +1887,8 @@
                 "guardian"
             ],
             "level": 28,
-            "damageAmplitude": 0.2549
+            "damageAmplitude": 0.2549,
+            "customUISprite": "whirlwind_throw"
         },
         {
             "id": "tremor_slam",
@@ -1856,7 +1919,8 @@
                 "guardian"
             ],
             "level": 33,
-            "damageAmplitude": 0.2549
+            "damageAmplitude": 0.2549,
+            "customUISprite": "tremor_slam"
         },
         {
             "id": "rampage",
@@ -1887,7 +1951,8 @@
                 "guardian"
             ],
             "level": 35,
-            "damageAmplitude": 0.2478
+            "damageAmplitude": 0.2478,
+            "customUISprite": "rampage"
         },
         {
             "id": "fierce_rampage",
@@ -1918,7 +1983,8 @@
                 "guardian"
             ],
             "level": 90,
-            "damageAmplitude": 0.2616
+            "damageAmplitude": 0.2616,
+            "customUISprite": "fierce_rampage"
         },
         {
             "id": "snap_jab",
@@ -1942,7 +2008,8 @@
                 "mystic"
             ],
             "level": 1,
-            "damageAmplitude": 0.1726
+            "damageAmplitude": 0.1726,
+            "customUISprite": "snap_jab"
         },
         {
             "id": "fang_clash",
@@ -1969,7 +2036,8 @@
                 "mystic"
             ],
             "level": 1,
-            "damageAmplitude": 0.2012
+            "damageAmplitude": 0.2012,
+            "customUISprite": "fang_clash"
         },
         {
             "id": "twin_jab",
@@ -1996,7 +2064,8 @@
                 "mystic"
             ],
             "level": 14,
-            "damageAmplitude": 0.2516
+            "damageAmplitude": 0.2516,
+            "customUISprite": "twin_jab"
         },
         {
             "id": "greater_fang_clash",
@@ -2023,7 +2092,8 @@
                 "mystic"
             ],
             "level": 18,
-            "damageAmplitude": 0.2478
+            "damageAmplitude": 0.2478,
+            "customUISprite": "greater_fang_clash"
         },
         {
             "id": "rapid_strikes",
@@ -2055,7 +2125,8 @@
                 "mystic"
             ],
             "level": 35,
-            "damageAmplitude": 0.2532
+            "damageAmplitude": 0.2532,
+            "customUISprite": "rapid_strikes"
         },
         {
             "id": "wide_takedown",
@@ -2097,7 +2168,8 @@
                 "mystic"
             ],
             "level": 60,
-            "damageAmplitude": 0.253
+            "damageAmplitude": 0.253,
+            "customUISprite": "wide_takedown"
         },
         {
             "id": "chain_rebuke",
@@ -2129,7 +2201,8 @@
                 "mystic"
             ],
             "level": 70,
-            "damageAmplitude": 0.2536
+            "damageAmplitude": 0.2536,
+            "customUISprite": "chain_rebuke"
         },
         {
             "id": "spirit_repulse",
@@ -2156,7 +2229,8 @@
                 "mystic"
             ],
             "level": 30,
-            "damageAmplitude": 0.2576
+            "damageAmplitude": 0.2576,
+            "customUISprite": "spirit_repulse"
         },
         {
             "id": "greater_rapid_strikes",
@@ -2188,7 +2262,8 @@
                 "mystic"
             ],
             "level": 90,
-            "damageAmplitude": 0.2589
+            "damageAmplitude": 0.2589,
+            "customUISprite": "greater_rapid_strikes"
         },
         {
             "id": "venom_field_rune",
@@ -2227,7 +2302,8 @@
             "field": "poison",
             "deploysField": "poison",
             "magicLevel": 0,
-            "allowFarUse": true
+            "allowFarUse": true,
+            "customUISprite": "venom_field_rune"
         },
         {
             "id": "blaze_field_rune",
@@ -2266,7 +2342,8 @@
             "field": "fire",
             "deploysField": "fire",
             "magicLevel": 1,
-            "allowFarUse": true
+            "allowFarUse": true,
+            "customUISprite": "blaze_field_rune"
         },
         {
             "id": "purge_field_rune",
@@ -2304,7 +2381,8 @@
             },
             "destroysField": true,
             "magicLevel": 3,
-            "allowFarUse": true
+            "allowFarUse": true,
+            "customUISprite": "purge_field_rune"
         },
         {
             "id": "spark_field_rune",
@@ -2343,7 +2421,8 @@
             "field": "energy",
             "deploysField": "energy",
             "magicLevel": 3,
-            "allowFarUse": true
+            "allowFarUse": true,
+            "customUISprite": "spark_field_rune"
         },
         {
             "id": "venom_bomb_rune",
@@ -2382,7 +2461,8 @@
             "field": "poison",
             "deploysField": "poison",
             "magicLevel": 4,
-            "allowFarUse": true
+            "allowFarUse": true,
+            "customUISprite": "venom_bomb_rune"
         },
         {
             "id": "blaze_bomb_rune",
@@ -2421,7 +2501,8 @@
             "field": "fire",
             "deploysField": "fire",
             "magicLevel": 5,
-            "allowFarUse": true
+            "allowFarUse": true,
+            "customUISprite": "blaze_bomb_rune"
         },
         {
             "id": "venom_wall_rune",
@@ -2460,7 +2541,8 @@
             "field": "poison",
             "deploysField": "poison",
             "magicLevel": 5,
-            "allowFarUse": true
+            "allowFarUse": true,
+            "customUISprite": "venom_wall_rune"
         },
         {
             "id": "blaze_wall_rune",
@@ -2499,7 +2581,8 @@
             "field": "fire",
             "deploysField": "fire",
             "magicLevel": 6,
-            "allowFarUse": true
+            "allowFarUse": true,
+            "customUISprite": "blaze_wall_rune"
         },
         {
             "id": "spark_bomb_rune",
@@ -2538,7 +2621,8 @@
             "field": "energy",
             "deploysField": "energy",
             "magicLevel": 10,
-            "allowFarUse": true
+            "allowFarUse": true,
+            "customUISprite": "spark_bomb_rune"
         },
         {
             "id": "spark_wall_rune",
@@ -2577,7 +2661,8 @@
             "field": "energy",
             "deploysField": "energy",
             "magicLevel": 9,
-            "allowFarUse": true
+            "allowFarUse": true,
+            "customUISprite": "spark_wall_rune"
         },
         {
             "id": "light",
@@ -2609,7 +2694,8 @@
             "min": 0,
             "max": 0,
             "stub": true,
-            "stubReason": "no_light_model"
+            "stubReason": "no_light_model",
+            "customUISprite": "light"
         },
         {
             "id": "great_light",
@@ -2641,7 +2727,8 @@
             "min": 0,
             "max": 0,
             "stub": true,
-            "stubReason": "no_light_model"
+            "stubReason": "no_light_model",
+            "customUISprite": "great_light"
         },
         {
             "id": "ultimate_light",
@@ -2670,7 +2757,8 @@
             "min": 0,
             "max": 0,
             "stub": true,
-            "stubReason": "no_light_model"
+            "stubReason": "no_light_model",
+            "customUISprite": "ultimate_light"
         },
         {
             "id": "levitate",
@@ -2702,7 +2790,8 @@
             "min": 0,
             "max": 0,
             "stub": true,
-            "stubReason": "no_spell_elevation"
+            "stubReason": "no_spell_elevation",
+            "customUISprite": "levitate"
         },
         {
             "id": "magic_rope",
@@ -2734,7 +2823,8 @@
             "min": 0,
             "max": 0,
             "stub": true,
-            "stubReason": "no_rope_spots"
+            "stubReason": "no_rope_spots",
+            "customUISprite": "magic_rope"
         },
         {
             "id": "find_person",
@@ -2766,7 +2856,8 @@
             "min": 0,
             "max": 0,
             "stub": true,
-            "stubReason": "no_player_tracking"
+            "stubReason": "no_player_tracking",
+            "customUISprite": "find_person"
         },
         {
             "id": "find_fiend",
@@ -2798,7 +2889,8 @@
             "min": 0,
             "max": 0,
             "stub": true,
-            "stubReason": "no_fiend_tracking"
+            "stubReason": "no_fiend_tracking",
+            "customUISprite": "find_fiend"
         },
         {
             "id": "create_food",
@@ -2826,7 +2918,8 @@
             "min": 0,
             "max": 0,
             "stub": true,
-            "stubReason": "no_food_economy"
+            "stubReason": "no_food_economy",
+            "customUISprite": "create_food"
         },
         {
             "id": "creature_illusion",
@@ -2855,7 +2948,8 @@
             "min": 0,
             "max": 0,
             "stub": true,
-            "stubReason": "no_outfit_disguise"
+            "stubReason": "no_outfit_disguise",
+            "customUISprite": "creature_illusion"
         },
         {
             "id": "cure_poison",
@@ -2890,7 +2984,8 @@
             "basePower": 0,
             "dispel": [
                 "poison"
-            ]
+            ],
+            "customUISprite": "cure_poison"
         },
         {
             "id": "cure_burning",
@@ -2921,7 +3016,8 @@
             "basePower": 0,
             "dispel": [
                 "fire"
-            ]
+            ],
+            "customUISprite": "cure_burning"
         },
         {
             "id": "cure_electrification",
@@ -2952,7 +3048,8 @@
             "basePower": 0,
             "dispel": [
                 "energy"
-            ]
+            ],
+            "customUISprite": "cure_electrification"
         },
         {
             "id": "cure_bleeding",
@@ -2984,7 +3081,8 @@
             "basePower": 0,
             "dispel": [
                 "bleed"
-            ]
+            ],
+            "customUISprite": "cure_bleeding"
         },
         {
             "id": "cure_curse",
@@ -3015,7 +3113,8 @@
             "basePower": 0,
             "dispel": [
                 "curse"
-            ]
+            ],
+            "customUISprite": "cure_curse"
         },
         {
             "id": "haste",
@@ -3056,7 +3155,8 @@
                     "maxa": 1.3,
                     "maxb": 40
                 }
-            }
+            },
+            "customUISprite": "haste"
         },
         {
             "id": "strong_haste",
@@ -3095,7 +3195,8 @@
                     "maxa": 1.7,
                     "maxb": 40
                 }
-            }
+            },
+            "customUISprite": "strong_haste"
         },
         {
             "id": "charge",
@@ -3132,7 +3233,8 @@
                     "maxa": 1.9,
                     "maxb": 40
                 }
-            }
+            },
+            "customUISprite": "charge"
         },
         {
             "id": "invisible",
@@ -3164,7 +3266,8 @@
             "condition": {
                 "type": "invisible",
                 "durationSec": 200
-            }
+            },
+            "customUISprite": "invisible"
         },
         {
             "id": "cancel_invisibility",
@@ -3198,7 +3301,74 @@
             },
             "dispel": [
                 "invisible"
-            ]
+            ],
+            "customUISprite": "cancel_invisibility"
+        },
+        {
+            "id": "magic_shield",
+            "label": "Magic Shield",
+            "kind": "support",
+            "range": 0,
+            "mana": 50,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "support": 2
+                },
+                "spell": {
+                    "magic_shield": 14
+                }
+            },
+            "requiresTarget": false,
+            "level": 14,
+            "vocations": [
+                "adept",
+                "warden"
+            ],
+            "statusOnly": true,
+            "min": 0,
+            "max": 0,
+            "basePower": 0,
+            "condition": {
+                "type": "mana_shield",
+                "durationSec": 180,
+                "poolFormula": "legacy_mana_shield"
+            },
+            "customUISprite": "magic_shield"
+        },
+        {
+            "id": "cancel_magic_shield",
+            "label": "Cancel Magic Shield",
+            "kind": "support",
+            "range": 0,
+            "mana": 50,
+            "hitChance": 100,
+            "isMelee": false,
+            "moveLock": 0.05,
+            "cooldowns": {
+                "primary": {
+                    "support": 2
+                },
+                "spell": {
+                    "cancel_magic_shield": 2
+                }
+            },
+            "requiresTarget": false,
+            "level": 14,
+            "vocations": [
+                "adept",
+                "warden"
+            ],
+            "statusOnly": true,
+            "min": 0,
+            "max": 0,
+            "basePower": 0,
+            "dispel": [
+                "mana_shield"
+            ],
+            "customUISprite": "cancel_magic_shield"
         },
         {
             "id": "ultimate_flame_strike",
@@ -3225,7 +3395,8 @@
             "vocations": [
                 "adept"
             ],
-            "damageAmplitude": 0.2831
+            "damageAmplitude": 0.2831,
+            "customUISprite": "ultimate_flame_strike"
         },
         {
             "id": "ultimate_ice_strike",
@@ -3252,7 +3423,8 @@
             "vocations": [
                 "warden"
             ],
-            "damageAmplitude": 0.2875
+            "damageAmplitude": 0.2875,
+            "customUISprite": "ultimate_ice_strike"
         },
         {
             "id": "ultimate_terra_strike",
@@ -3279,7 +3451,8 @@
             "vocations": [
                 "warden"
             ],
-            "damageAmplitude": 0.2875
+            "damageAmplitude": 0.2875,
+            "customUISprite": "ultimate_terra_strike"
         },
         {
             "id": "ultimate_energy_strike",
@@ -3306,7 +3479,8 @@
             "vocations": [
                 "adept"
             ],
-            "damageAmplitude": 0.2831
+            "damageAmplitude": 0.2831,
+            "customUISprite": "ultimate_energy_strike"
         },
         {
             "id": "annihilation",
@@ -3333,7 +3507,8 @@
             "vocations": [
                 "guardian"
             ],
-            "damageAmplitude": 0.2699
+            "damageAmplitude": 0.2699,
+            "customUISprite": "annihilation"
         },
         {
             "id": "executioners_throw",
@@ -3365,7 +3540,8 @@
             "vocations": [
                 "guardian"
             ],
-            "damageAmplitude": 0.2517
+            "damageAmplitude": 0.2517,
+            "customUISprite": "executioners_throw"
         },
         {
             "id": "great_death_beam",
@@ -3400,7 +3576,8 @@
             "vocations": [
                 "adept"
             ],
-            "damageAmplitude": 0.2876
+            "damageAmplitude": 0.2876,
+            "customUISprite": "great_death_beam"
         },
         {
             "id": "ice_burst",
@@ -3431,7 +3608,8 @@
             "vocations": [
                 "warden"
             ],
-            "damageAmplitude": 0.2659
+            "damageAmplitude": 0.2659,
+            "customUISprite": "ice_burst"
         },
         {
             "id": "terra_burst",
@@ -3440,8 +3618,10 @@
             "element": "earth",
             "powerCurve": "magic_strike",
             "basePower": 115,
+            "damageAmplitude": 0.2659,
             "range": 0,
             "mana": 230,
+            "level": 300,
             "hitChance": 100,
             "isMelee": false,
             "moveLock": 0.05,
@@ -3453,16 +3633,15 @@
                     "burstsofnature": 22
                 }
             },
-            "requiresTarget": false,
             "shape": {
                 "type": "area",
                 "code": "ring1_burst3"
             },
-            "level": 300,
             "vocations": [
                 "warden"
             ],
-            "damageAmplitude": 0.2659
+            "requiresTarget": false,
+            "customUISprite": "terra_burst"
         },
         {
             "id": "lightning",
@@ -3494,7 +3673,8 @@
                 "maxTargets": 3,
                 "distance": 3,
                 "backtracking": false
-            }
+            },
+            "customUISprite": "lightning"
         },
         {
             "id": "divine_grenade",
@@ -3527,7 +3707,8 @@
             ],
             "damageAmplitude": 0.2876,
             "delaySec": 3,
-            "delayPlaceRange": 4
+            "delayPlaceRange": 4,
+            "customUISprite": "divine_grenade"
         },
         {
             "id": "ignite",
@@ -3567,7 +3748,8 @@
                         "intervalSec": 3
                     }
                 ]
-            }
+            },
+            "customUISprite": "ignite"
         },
         {
             "id": "electrify",
@@ -3607,7 +3789,8 @@
                         "intervalSec": 3
                     }
                 ]
-            }
+            },
+            "customUISprite": "electrify"
         },
         {
             "id": "envenom",
@@ -3647,7 +3830,8 @@
                         "intervalSec": 3
                     }
                 ]
-            }
+            },
+            "customUISprite": "envenom"
         },
         {
             "id": "inflict_wound",
@@ -3688,7 +3872,8 @@
                         "intervalSec": 2
                     }
                 ]
-            }
+            },
+            "customUISprite": "inflict_wound"
         },
         {
             "id": "curse",
@@ -3808,7 +3993,8 @@
                         "intervalSec": 3
                     }
                 ]
-            }
+            },
+            "customUISprite": "curse"
         },
         {
             "id": "holy_flash",
@@ -3848,7 +4034,8 @@
                         "intervalSec": 3
                     }
                 ]
-            }
+            },
+            "customUISprite": "holy_flash"
         },
         {
             "id": "bruise_bane",
@@ -3875,7 +4062,8 @@
                 "guardian"
             ],
             "level": 1,
-            "damageAmplitude": 0.12
+            "damageAmplitude": 0.12,
+            "customUISprite": "bruise_bane"
         },
         {
             "id": "intense_wound_cleanse",
@@ -3902,7 +4090,8 @@
                 "guardian"
             ],
             "level": 80,
-            "damageAmplitude": 0.14
+            "damageAmplitude": 0.14,
+            "customUISprite": "intense_wound_cleanse"
         },
         {
             "id": "restoration",
@@ -3930,7 +4119,8 @@
                 "warden"
             ],
             "level": 300,
-            "damageAmplitude": 0.12
+            "damageAmplitude": 0.12,
+            "customUISprite": "restoration"
         },
         {
             "id": "natures_embrace",
@@ -3957,7 +4147,8 @@
                 "warden"
             ],
             "level": 300,
-            "damageAmplitude": 0.16
+            "damageAmplitude": 0.16,
+            "customUISprite": "natures_embrace"
         },
         {
             "id": "recovery",
@@ -3992,7 +4183,8 @@
                 "healthGain": 20,
                 "intervalSec": 3,
                 "durationSec": 60
-            }
+            },
+            "customUISprite": "recovery"
         },
         {
             "id": "intense_recovery",
@@ -4027,7 +4219,8 @@
                 "healthGain": 40,
                 "intervalSec": 3,
                 "durationSec": 60
-            }
+            },
+            "customUISprite": "intense_recovery"
         },
         {
             "id": "barrier_wall_rune",
@@ -4070,7 +4263,8 @@
             "field": "barrier",
             "deploysField": "barrier",
             "fieldDurationSec": 20,
-            "allowFarUse": true
+            "allowFarUse": true,
+            "customUISprite": "barrier_wall_rune"
         },
         {
             "id": "vine_barrier_rune",
@@ -4109,7 +4303,8 @@
             "field": "vine",
             "deploysField": "vine",
             "fieldDurationSec": 30,
-            "allowFarUse": true
+            "allowFarUse": true,
+            "customUISprite": "vine_barrier_rune"
         },
         {
             "id": "paralyze_rune",
@@ -4151,7 +4346,8 @@
                     "maxb": 0
                 }
             },
-            "allowFarUse": true
+            "allowFarUse": true,
+            "customUISprite": "paralyze_rune"
         },
         {
             "id": "challenge",
@@ -4183,7 +4379,8 @@
                 "type": "area",
                 "code": 3
             },
-            "tauntDurationSec": 6
+            "tauntDurationSec": 6,
+            "customUISprite": "challenge"
         },
         {
             "id": "chivalrous_challenge",
@@ -4218,7 +4415,8 @@
             },
             "chainOnlyRanged": true,
             "tauntDurationSec": 12,
-            "forceMeleeDurationSec": 12
+            "forceMeleeDurationSec": 12,
+            "customUISprite": "chivalrous_challenge"
         },
         {
             "id": "divine_dazzle",
@@ -4252,7 +4450,8 @@
                 "backtracking": false
             },
             "chainOnlyRanged": true,
-            "forceMeleeDurationSec": 12
+            "forceMeleeDurationSec": 12,
+            "customUISprite": "divine_dazzle"
         },
         {
             "id": "blood_rage",
@@ -4292,7 +4491,8 @@
                 },
                 "damageReceivedPercent": 115,
                 "disableDefense": true
-            }
+            },
+            "customUISprite": "blood_rage"
         },
         {
             "id": "protector",
@@ -4332,7 +4532,8 @@
                 },
                 "damageDealtPercent": 65,
                 "damageReceivedPercent": 85
-            }
+            },
+            "customUISprite": "protector"
         },
         {
             "id": "sharpshooter",
@@ -4377,7 +4578,8 @@
                     "maxa": 0.7,
                     "maxb": 56
                 }
-            }
+            },
+            "customUISprite": "sharpshooter"
         },
         {
             "id": "swift_foot",
@@ -4419,7 +4621,8 @@
                     "maxa": 1.8,
                     "maxb": 72
                 }
-            }
+            },
+            "customUISprite": "swift_foot"
         },
         {
             "id": "soul_mend",
@@ -4446,7 +4649,8 @@
             "vocations": [
                 "mystic"
             ],
-            "damageAmplitude": 0.2629
+            "damageAmplitude": 0.2629,
+            "customUISprite": "soul_mend"
         },
         {
             "id": "mass_soul_mend",
@@ -4473,7 +4677,8 @@
             "vocations": [
                 "mystic"
             ],
-            "damageAmplitude": 0.2905
+            "damageAmplitude": 0.2905,
+            "customUISprite": "mass_soul_mend"
         },
         {
             "id": "renew_balance",
@@ -4500,7 +4705,8 @@
             "vocations": [
                 "mystic"
             ],
-            "damageAmplitude": 0.156
+            "damageAmplitude": 0.156,
+            "customUISprite": "renew_balance"
         },
         {
             "id": "even_contest",
@@ -4533,7 +4739,8 @@
                 "spread": "custom",
                 "length": "even_contest"
             },
-            "forceMeleeDurationSec": 16
+            "forceMeleeDurationSec": 16,
+            "customUISprite": "even_contest"
         },
         {
             "id": "crushing_finisher",
@@ -4560,7 +4767,8 @@
             "vocations": [
                 "mystic"
             ],
-            "damageAmplitude": 0.2561
+            "damageAmplitude": 0.2561,
+            "customUISprite": "crushing_finisher"
         },
         {
             "id": "rising_blow",
@@ -4587,7 +4795,8 @@
             "vocations": [
                 "mystic"
             ],
-            "damageAmplitude": 0.2703
+            "damageAmplitude": 0.2703,
+            "customUISprite": "rising_blow"
         }
     ]
 }

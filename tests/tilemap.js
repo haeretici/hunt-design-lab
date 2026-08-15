@@ -11,14 +11,31 @@ const assert = require('assert');
 const path = require('path');
 const fs = require('fs');
 const { PATHS, mapPathPng, Settings } = require('../kernel/settings.js');
+const { ImageDB } = require('../kernel/core/lib/imagedb.js');
+const {
+    resolveSpriteUrl,
+    defaultTileVariantForDisplay
+} = require('../kernel/core/lib/creature_sprites.js');
+const {
+    createEmptyTileMapFloor,
+    setSubLayerCell,
+    normalizePaletteEntry
+} = require('../kernel/core/lib/dungeon/tilemap_bake.js');
 const {
     TileMap,
     FRICTION_BLOCKED,
     SIGHT_BLOCKED,
     SIGHT_CLEAR,
     TILE_FLAG_NO_CAST,
+    TILE_FLAG_STAIR,
+    TILE_FLAG_LADDER,
+    TILE_FLAG_HOLE,
+    TILE_FLAG_NO_CREATURE,
+    TILE_FLAG_PZ_PACKAGE,
     frictionFromPixel,
-    collisionFromPixel
+    collisionFromPixel,
+    registerVerticalFromPlacement,
+    reverseHopDir
 } = require('../kernel/core/entities/tilemap.js');
 
 const VERBOSE = !!process.env.VERBOSE;
@@ -315,6 +332,52 @@ function testFirstClassStairs() {
     }
 
     log('first-class stairs ok', listed.length);
+}
+
+function testStairLinkBidirectionalOverride() {
+    const open = new Uint8Array(9);
+    open.fill(100);
+
+    const oneWay = new TileMap('stairs_one_way');
+    oneWay.loadFloorFromFriction(0, 3, 3, open);
+    oneWay.loadFloorFromFriction(1, 3, 3, open);
+    oneWay.addStairLinks(
+        [
+            {
+                from: { x: 1, y: 1, z: 0 },
+                to: { x: 1, y: 1, z: 1 },
+                dir: 'center',
+                bidirectional: false
+            }
+        ]
+        // opts default is bidirectional — per-link false must win
+    );
+    assert.ok(oneWay.isStair(1, 1, 0), 'forward pad');
+    assert.ok(
+        !oneWay.isStair(1, 1, 1),
+        'per-link bidirectional false skips reverse pad'
+    );
+
+    const forced = new TileMap('stairs_forced_bi');
+    forced.loadFloorFromFriction(0, 3, 3, open);
+    forced.loadFloorFromFriction(1, 3, 3, open);
+    forced.addStairLinks(
+        [
+            {
+                from: { x: 1, y: 1, z: 0 },
+                to: { x: 1, y: 1, z: 1 },
+                dir: 'center',
+                bidirectional: true
+            }
+        ],
+        { bidirectional: false }
+    );
+    assert.ok(forced.isStair(1, 1, 0));
+    assert.ok(
+        forced.isStair(1, 1, 1),
+        'per-link bidirectional true wins over opts false'
+    );
+    log('stair link bidirectional override ok');
 }
 
 /**
@@ -912,6 +975,103 @@ function testRenderCacheBlitAndRebuild() {
     }
 }
 
+/**
+ * Failed overlay/wall PNGs must not keep pendingSprites (Hunt CPU leak).
+ */
+function testFailedArtDoesNotKeepPendingSprites() {
+    const prev = {
+        HEADLESS: Settings.HEADLESS,
+        useEntitySprites: Settings.useEntitySprites,
+        cameraTileX: Settings.cameraTileX,
+        cameraTileY: Settings.cameraTileY,
+        cameraTileZ: Settings.cameraTileZ,
+        tileWidth: Settings.tileWidth,
+        tileHeight: Settings.tileHeight,
+        tileSpriteVariant: Settings.tileSpriteVariant,
+        app: Settings.app
+    };
+    ImageDB.clear();
+    try {
+        Settings.HEADLESS = false;
+        Settings.useEntitySprites = true;
+        Settings.tileSpriteVariant = null;
+        Settings.tileWidth = 32;
+        Settings.tileHeight = 32;
+        Settings.cameraTileX = 0;
+        Settings.cameraTileY = 0;
+        Settings.cameraTileZ = null;
+        Settings.app = { width: 64, height: 64 };
+
+        const map = new TileMap();
+        const fr = new Uint8Array(8 * 8);
+        fr.fill(100);
+        map.loadFloorFromFriction(0, 8, 8, fr);
+
+        const floor = createEmptyTileMapFloor(8, 8, { z: 0 });
+        floor.palette = [
+            null,
+            normalizePaletteEntry({
+                catalogId: 'dirt_wang_15',
+                kind: 'overlays',
+                roleId: 'path',
+                wangFamily: 'dirt'
+            })
+        ];
+        setSubLayerCell(floor, 'path', 1, 1, 1);
+        map.setAuthoringFloor(0, floor);
+
+        const variant = defaultTileVariantForDisplay();
+        const opts = {
+            genre: 'rpg_fantasy',
+            kind: 'overlays',
+            id: 'dirt_wang_15',
+            variant
+        };
+        const urls = [
+            resolveSpriteUrl(opts),
+            resolveSpriteUrl(Object.assign({}, opts, { variant: 'icon' })),
+            resolveSpriteUrl(Object.assign({}, opts, { variant: 'original' }))
+        ];
+        for (let i = 0; i < urls.length; i++) {
+            if (urls[i]) ImageDB.failed[urls[i]] = true;
+        }
+
+        map._allocRenderCache = (pw, ph) => mockCacheSurface(pw, ph);
+        const g = {
+            canvas: { width: 64, height: 64 },
+            fillStyle: '',
+            fillRect() {},
+            drawImage() {}
+        };
+        map.render(g);
+        assert.ok(map._renderCache, 'cache built');
+        assert.strictEqual(
+            map._renderCache.pendingSprites,
+            false,
+            'failed overlay is not pending'
+        );
+        const first = map._renderCacheRebuilds;
+        map.render(g);
+        assert.strictEqual(
+            map._renderCacheRebuilds,
+            first,
+            '404 must not rebuild the floor cache every frame'
+        );
+        log('failed art pendingSprites ok');
+    } finally {
+        Settings.HEADLESS = prev.HEADLESS;
+        Settings.useEntitySprites = prev.useEntitySprites;
+        Settings.cameraTileX = prev.cameraTileX;
+        Settings.cameraTileY = prev.cameraTileY;
+        Settings.cameraTileZ = prev.cameraTileZ;
+        Settings.tileWidth = prev.tileWidth;
+        Settings.tileHeight = prev.tileHeight;
+        Settings.tileSpriteVariant = prev.tileSpriteVariant;
+        Settings.app = prev.app;
+        ImageDB.clear();
+    }
+}
+
 function testWalkSightAndProtectionZones() {
     // 1×4: water | wall | grate | protection
     const cols = 4;
@@ -957,17 +1117,228 @@ function testWalkSightAndProtectionZones() {
     log('walk/sight/PZ ok');
 }
 
+/**
+ * Phase 2: flag packages, creature/attack helpers, vertical registration.
+ */
+function testPhase2FlagsStairsAndPz() {
+    const open = new Uint8Array(25);
+    open.fill(100);
+    const map = new TileMap('phase2');
+    map.loadFloorFromFriction(0, 5, 5, open);
+    map.loadFloorFromFriction(1, 5, 5, open); // deeper floor (z+1)
+    // Upper floor for stairs_up (z-1)
+    map.loadFloorFromFriction(-1, 5, 5, open);
+
+    // --- Single-bit NO_CAST (legacy green PNG style) ---
+    map.setTileFlags(0, 0, 0, TILE_FLAG_NO_CAST);
+    assert.strictEqual(map.blocksCast(0, 0, 0), true);
+    assert.strictEqual(map.attackMayAffectTile(0, 0, 0), false);
+    assert.strictEqual(map.blocksCreatures(0, 0, 0), false);
+    assert.strictEqual(map.isProtectionZonePackage(0, 0, 0), false);
+    assert.strictEqual(
+        map.creatureMayEnterTile(0, 0, 0, { id: 1, type: 'monster' }),
+        true,
+        'NO_CAST alone does not block creatures'
+    );
+
+    // --- Full PZ package ---
+    map.setTileFlags(1, 1, 0, TILE_FLAG_PZ_PACKAGE);
+    assert.strictEqual(map.getTileFlags(1, 1, 0), TILE_FLAG_PZ_PACKAGE);
+    assert.ok((map.getTileFlags(1, 1, 0) & TILE_FLAG_NO_CAST) !== 0);
+    assert.ok((map.getTileFlags(1, 1, 0) & TILE_FLAG_NO_CREATURE) !== 0);
+    assert.strictEqual(map.isProtectionZonePackage(1, 1, 0), true);
+    assert.strictEqual(map.blocksCast(1, 1, 0), true);
+    assert.strictEqual(map.attackMayAffectTile(1, 1, 0), false);
+    assert.strictEqual(map.blocksCreatures(1, 1, 0), true);
+
+    const player = { id: 10, type: 'player' };
+    const creature = { id: 20, type: 'monster' };
+    assert.strictEqual(
+        map.creatureMayEnterTile(1, 1, 0, player),
+        true,
+        'players may enter full PZ'
+    );
+    assert.strictEqual(
+        map.creatureMayEnterTile(1, 1, 0, creature),
+        false,
+        'creatures blocked on NO_CREATURE'
+    );
+    assert.strictEqual(map.canEnter(1, 1, 0, player), true);
+    assert.strictEqual(map.canEnter(1, 1, 0, creature), false);
+
+    // NO_CREATURE alone (no cast block)
+    map.setTileFlags(2, 2, 0, TILE_FLAG_NO_CREATURE);
+    assert.strictEqual(map.attackMayAffectTile(2, 2, 0), true, 'single-bit no cast open');
+    assert.strictEqual(map.blocksCast(2, 2, 0), false);
+    assert.strictEqual(map.canEnter(2, 2, 0, creature), false);
+    assert.strictEqual(map.canEnter(2, 2, 0, player), true);
+    assert.strictEqual(map.isProtectionZonePackage(2, 2, 0), false);
+
+    // Pathfinding: creature cannot path onto full PZ
+    const path = map.search(
+        { x: 0, y: 1, z: 0 },
+        { x: 1, y: 1, z: 0 },
+        { allowDiagonal: false, mover: creature, useStackPolicy: true }
+    );
+    assert.strictEqual(path, null, 'A* blocks creature goal on NO_CREATURE');
+
+    const playerPath = map.search(
+        { x: 0, y: 1, z: 0 },
+        { x: 1, y: 1, z: 0 },
+        { allowDiagonal: false, mover: player, useStackPolicy: true }
+    );
+    assert.ok(playerPath && playerPath.length >= 2, 'player can path onto PZ');
+
+    // --- Hop north exit offset (stairs_up: deltaZ -1) ---
+    const north = registerVerticalFromPlacement(
+        map,
+        {
+            vertical: {
+                type: 'stairs',
+                deltaZ: -1,
+                defaultDir: 'center',
+                registerStairLink: true
+            },
+            hop: { dir: 'north' }
+        },
+        2,
+        2,
+        0
+    );
+    assert.strictEqual(north.registered, true);
+    assert.strictEqual(north.exitDx, 0);
+    assert.strictEqual(north.exitDy, -1);
+    assert.strictEqual(north.deltaZ, -1);
+    assert.deepStrictEqual(north.to, { x: 2, y: 1, z: -1 });
+    assert.ok(map.isStair(2, 2, 0));
+    const stairN = map.getStair(2, 2, 0);
+    assert.strictEqual(stairN.x, 2);
+    assert.strictEqual(stairN.y, 1);
+    assert.strictEqual(String(stairN.z), '-1');
+    assert.strictEqual(stairN.dir, 'north');
+    assert.strictEqual(stairN.type, 'stairs');
+    assert.strictEqual(stairN.exitDx, 0);
+    assert.strictEqual(stairN.exitDy, -1);
+    assert.ok(
+        (map.getTileFlags(2, 2, 0) & TILE_FLAG_STAIR) !== 0,
+        'STAIR flag ORd (with prior NO_CREATURE still present)'
+    );
+
+    // --- Hole down (deltaZ +1), center ---
+    const hole = registerVerticalFromPlacement(
+        map,
+        {
+            vertical: {
+                type: 'hole',
+                deltaZ: 1,
+                defaultDir: 'center',
+                registerStairLink: true
+            },
+            hop: { dir: 'center' }
+        },
+        3,
+        3,
+        0
+    );
+    assert.strictEqual(hole.registered, true);
+    assert.strictEqual(hole.exitDx, 0);
+    assert.strictEqual(hole.exitDy, 0);
+    assert.strictEqual(hole.deltaZ, 1);
+    assert.deepStrictEqual(hole.to, { x: 3, y: 3, z: 1 });
+    const holeStair = map.getStair(3, 3, 0);
+    assert.strictEqual(holeStair.type, 'hole');
+    assert.strictEqual(String(holeStair.z), '1');
+    assert.ok((map.getTileFlags(3, 3, 0) & TILE_FLAG_HOLE) !== 0);
+
+    // --- Ladder flag + type on registry ---
+    const ladder = registerVerticalFromPlacement(
+        map,
+        {
+            vertical: {
+                type: 'ladder',
+                deltaZ: -1,
+                defaultDir: 'center',
+                bidirectional: true,
+                registerStairLink: true
+            },
+            hop: { dir: 'east' },
+            link: 'ladder-a'
+        },
+        4,
+        4,
+        0
+    );
+    assert.strictEqual(ladder.registered, true);
+    assert.strictEqual(ladder.exitDx, 1);
+    assert.strictEqual(ladder.exitDy, 0);
+    assert.deepStrictEqual(ladder.to, { x: 5, y: 4, z: -1 });
+    assert.ok((map.getTileFlags(4, 4, 0) & TILE_FLAG_LADDER) !== 0);
+    const lad = map.getStair(4, 4, 0);
+    assert.strictEqual(lad.type, 'ladder');
+    assert.strictEqual(lad.dir, 'east');
+    assert.strictEqual(lad.link, 'ladder-a');
+    // Bidirectional reverse
+    const rev = map.getStair(5, 4, -1);
+    assert.ok(rev, 'reverse ladder pad');
+    assert.strictEqual(rev.x, 4);
+    assert.strictEqual(rev.y, 4);
+    assert.strictEqual(String(rev.z), '0');
+    assert.strictEqual(rev.dir, 'west');
+    assert.strictEqual(reverseHopDir('east'), 'west');
+    assert.strictEqual(reverseHopDir('north'), 'south');
+
+    // Explicit hop.to overrides offset math
+    const explicit = registerVerticalFromPlacement(
+        map,
+        {
+            vertical: {
+                type: 'stairs',
+                deltaZ: 1,
+                registerStairLink: true
+            },
+            hop: { dir: 'north', to: { x: 0, y: 4, z: 1 } }
+        },
+        0,
+        0,
+        0
+    );
+    assert.strictEqual(explicit.registered, true);
+    assert.deepStrictEqual(explicit.to, { x: 0, y: 4, z: 1 });
+
+    // Rope spot: flag only, no stair link by default
+    const rope = registerVerticalFromPlacement(
+        map,
+        {
+            vertical: {
+                type: 'rope',
+                deltaZ: -1,
+                registerStairLink: false
+            }
+        },
+        1,
+        0,
+        0
+    );
+    assert.strictEqual(rope.registered, false);
+    assert.strictEqual(map.isStair(1, 0, 0), false);
+
+    log('phase2 flags/stairs/PZ ok');
+}
+
 async function main() {
     testFrictionFromPixel();
     testSyntheticGridEncoding();
     testOccupancyHelpers();
     testWalkSightAndProtectionZones();
     testFirstClassStairs();
+    testStairLinkBidirectionalOverride();
     testPlayerTileStack();
     testCreaturePush();
+    testPhase2FlagsStairsAndPz();
     testCameraTileZSelectsFloor();
     testRenderCacheMath();
     testRenderCacheBlitAndRebuild();
+    testFailedArtDoesNotKeepPendingSprites();
     await testLoadRealFloor07();
     console.log('tilemap: ok');
 }

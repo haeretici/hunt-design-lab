@@ -22,8 +22,16 @@
 
 'use strict';
 
+const { ASSET_KINDS } = require('../../settings.js');
 const { appUrl } = require('../../core/lib/app_paths.js');
 const { resolveSpriteUrl } = require('../../core/lib/creature_sprites.js');
+const {
+    inferRoleKeyFromPath,
+    defaultCatalogKindForRole,
+    catalogCategoryForRole,
+    normalizeCatalogKind,
+    artSetPickFields
+} = require('../../core/lib/dungeon/art_set_context.js');
 const {
     listShapeCatalog,
     catalogIdForShape,
@@ -88,28 +96,135 @@ function nextRequestId() {
 }
 
 /**
- * Infer tile category from json-editor path (e.g. root.roles.floor.0.id).
+ * Infer catalog category from json-editor path (e.g. root.roles.floor.0.id).
+ * Scenery/furniture map to the objects family (no forced object category).
  * @param {string} path
  * @returns {string}
  */
 function inferCategoryFromPath(path) {
-    const p = String(path || '');
-    const m = p.match(/\.roles\.([a-zA-Z0-9_]+)\./);
-    if (!m) return '';
-    const role = m[1].toLowerCase();
-    if (
-        role === 'floor' ||
-        role === 'path' ||
-        role === 'wall' ||
-        role === 'water' ||
-        role === 'stairs' ||
-        role === 'special'
-    ) {
-        // stairs often use special tiles in catalog
-        if (role === 'stairs') return '';
-        return role;
+    const roleKey = inferRoleKeyFromPath(path);
+    const kind = defaultCatalogKindForRole(roleKey) || 'tiles';
+    return catalogCategoryForRole(kind, roleKey);
+}
+
+/**
+ * Walk json-editor parents for the weighted role entry (has id, not pack root).
+ * @param {any} editor
+ * @param {string} [path]
+ * @returns {Record<string, unknown>|null}
+ */
+function findRoleEntryValue(editor, path) {
+    const p = String(path || (editor && editor.path) || '');
+    if (!/\.roles\./.test(p)) return null;
+    let node = editor;
+    while (node) {
+        try {
+            if (typeof node.getValue === 'function') {
+                const v = node.getValue();
+                if (
+                    v &&
+                    typeof v === 'object' &&
+                    !Array.isArray(v) &&
+                    v.id != null &&
+                    v.roles == null
+                ) {
+                    return /** @type {Record<string, unknown>} */ (v);
+                }
+            }
+        } catch (_) {
+            /* ignore */
+        }
+        node = node.parent;
     }
-    return '';
+    return null;
+}
+
+/**
+ * Resolve catalog family + category for an art-set role field.
+ * Priority: entry.kind → role key / roleId → schema fallback.
+ * Pack-level kind (almost always tiles) is ignored — scenery is objects.
+ * @param {any} editor
+ * @param {string} [path]
+ * @param {string} [fallbackKind]
+ * @returns {{
+ *   assetKind: string,
+ *   category: string,
+ *   roleKey: string,
+ *   roleId: string,
+ *   entry: Record<string, unknown>|null
+ * }}
+ */
+function resolvePickerContext(editor, path, fallbackKind) {
+    const fieldPath = String(path || (editor && editor.path) || '');
+    const roleKey = inferRoleKeyFromPath(fieldPath);
+    const entry = findRoleEntryValue(editor, fieldPath);
+    const entryKind = entry ? normalizeCatalogKind(entry.kind) : '';
+    const roleId =
+        entry && entry.roleId != null ? String(entry.roleId) : '';
+    const fromRole = defaultCatalogKindForRole(roleKey, roleId);
+    const assetKind = entryKind || fromRole || fallbackKind || 'tiles';
+    const category = catalogCategoryForRole(assetKind, roleKey);
+    return { assetKind, category, roleKey, roleId, entry };
+}
+
+/**
+ * @param {string} kind
+ * @returns {string[]}
+ */
+function catalogCategoriesForKind(kind) {
+    const meta = ASSET_KINDS[kind];
+    if (meta && Array.isArray(meta.categories)) {
+        return meta.categories.slice();
+    }
+    return [];
+}
+
+/**
+ * Write a sibling property on a role-entry object editor.
+ * @param {any} editor
+ * @param {string} key
+ * @param {unknown} value
+ */
+function setSiblingField(editor, key, value) {
+    if (!editor || !key) return;
+    try {
+        const parent = editor.parent;
+        if (parent && parent.editors && parent.editors[key]) {
+            const child = parent.editors[key];
+            if (child && typeof child.setValue === 'function') {
+                child.setValue(value);
+                return;
+            }
+        }
+        const parentPath = String(editor.path || '').replace(/\.[^.]+$/, '');
+        const root = editor.jsoneditor;
+        if (parentPath && root && typeof root.getEditor === 'function') {
+            const child = root.getEditor(parentPath + '.' + key);
+            if (child && typeof child.setValue === 'function') {
+                child.setValue(value);
+                return;
+            }
+        }
+        if (
+            parent &&
+            typeof parent.getValue === 'function' &&
+            typeof parent.setValue === 'function'
+        ) {
+            const v = parent.getValue();
+            if (
+                v &&
+                typeof v === 'object' &&
+                !Array.isArray(v) &&
+                v.roles == null
+            ) {
+                const next = Object.assign({}, v);
+                next[key] = value;
+                parent.setValue(next);
+            }
+        }
+    } catch (_) {
+        /* ignore */
+    }
 }
 
 /**
@@ -153,6 +268,20 @@ function resolveGenre(editor, fallback, schemaGenre) {
     }
     if (pickerContext.modeGenre) return pickerContext.modeGenre;
     return fallback || 'rpg_fantasy';
+}
+
+/**
+ * Infer catalog family for a field (art-set role context, else schema fallback).
+ * @param {any} editor
+ * @param {string} [fallback]
+ * @returns {string}
+ */
+function resolveAssetKind(editor, fallback) {
+    return resolvePickerContext(
+        editor,
+        editor && editor.path,
+        fallback
+    ).assetKind;
 }
 
 /**
@@ -230,6 +359,9 @@ function catalogAssetConfig(schema) {
         else if (assetKind === 'tiles') selectLabel = 'Browse tiles';
         else if (assetKind === 'creatures') selectLabel = 'Browse creature sprites';
         else if (assetKind === 'equipment') selectLabel = 'Browse equipment';
+        else if (assetKind === 'ui') selectLabel = 'Browse UI art';
+        else if (assetKind === 'objects') selectLabel = 'Browse objects';
+        else if (assetKind === 'overlays') selectLabel = 'Browse overlays';
         else selectLabel = 'Browse catalog';
     }
 
@@ -423,6 +555,7 @@ function openPickerSession(opts) {
  *   slotFilter?: string,
  *   previewVariant?: string,
  *   showCategoryFilter?: boolean,
+ *   categories?: string[],
  *   fieldPath?: string,
  *   title?: string,
  *   onSelect: (id: string, meta?: Record<string, unknown>) => void
@@ -435,10 +568,15 @@ function openCatalogAssetPicker(opts) {
     const category = opts.category || '';
     const slotFilter = opts.slotFilter || '';
     const previewVariant = opts.previewVariant || 'alpha';
+    const categories = Array.isArray(opts.categories)
+        ? opts.categories.map((c) => String(c)).filter(Boolean)
+        : catalogCategoriesForKind(assetKind);
     const showCategoryFilter =
         opts.showCategoryFilter != null
             ? !!opts.showCategoryFilter
-            : assetKind === 'tiles';
+            : assetKind === 'tiles' ||
+              assetKind === 'objects' ||
+              assetKind === 'overlays';
     // Window name is shared so one catalog browser is reused; navigation reloads params.
     const windowName =
         assetKind === 'tiles' ? TILE_PICKER_WINDOW : `du_catalog_${assetKind}`;
@@ -452,6 +590,7 @@ function openCatalogAssetPicker(opts) {
             kind: assetKind,
             id: currentId,
             category,
+            categories: categories.join(','),
             slotFilter,
             previewVariant,
             showCategoryFilter: showCategoryFilter ? '1' : '0',
@@ -463,6 +602,7 @@ function openCatalogAssetPicker(opts) {
             assetKind,
             currentId,
             category,
+            categories,
             slotFilter,
             previewVariant,
             showCategoryFilter,
@@ -743,6 +883,7 @@ function registerRelationPickers() {
             });
 
             this.thumbImg.addEventListener('error', () => {
+                if (this._tryOriginalThumb()) return;
                 this.showThumbMissing();
             });
             this.thumbImg.addEventListener('load', () => {
@@ -769,25 +910,90 @@ function registerRelationPickers() {
             return resolveGenre(this, 'rpg_fantasy', this.cfg && this.cfg.genre);
         }
 
+        currentAssetKind() {
+            return this.pickerContext().assetKind;
+        }
+
+        pickerContext() {
+            return resolvePickerContext(
+                this,
+                this.path || '',
+                (this.cfg && this.cfg.assetKind) || 'tiles'
+            );
+        }
+
+        refreshSelectChrome() {
+            if (!this.selectBtn) return;
+            const format = String((this.schema && this.schema.format) || '');
+            const kind = this.currentAssetKind();
+            let icon = 'fa-image';
+            let title = (this.cfg && this.cfg.selectLabel) || 'Browse catalog';
+            if (format === 'creature_id') {
+                icon = 'fa-dragon';
+            } else if (format === 'equipment_id') {
+                icon = 'fa-shield-halved';
+            } else if (kind === 'objects') {
+                icon = 'fa-tree';
+                title = 'Browse objects';
+            } else if (kind === 'overlays') {
+                icon = 'fa-layer-group';
+                title = 'Browse overlays';
+            } else if (kind === 'ui') {
+                icon = 'fa-icons';
+                title = (this.cfg && this.cfg.selectLabel) || 'Browse UI art';
+            } else if (kind === 'tiles') {
+                icon = 'fa-border-all';
+                title = 'Browse tiles';
+            }
+            this.selectBtn.innerHTML = `<i class="fa-solid ${icon}"></i> Select`;
+            this.selectBtn.title = title;
+        }
+
         openPicker() {
             const path = this.path || '';
+            const ctx = this.pickerContext();
+            const assetKind = ctx.assetKind;
             const category =
-                this.cfg.inferCategoryFromPath ? inferCategoryFromPath(path) : '';
+                this.cfg.inferCategoryFromPath !== false ? ctx.category : '';
             const slotFilter =
-                this.cfg.assetKind === 'equipment' ? inferSlotFromPath(path) : '';
+                assetKind === 'equipment' ? inferSlotFromPath(path) : '';
             const genre = this.currentGenre();
+            const showCategoryFilter =
+                this.cfg.showCategoryFilter != null
+                    ? !!this.cfg.showCategoryFilter
+                    : assetKind === 'tiles' ||
+                      assetKind === 'objects' ||
+                      assetKind === 'overlays';
+            const title =
+                assetKind === 'objects'
+                    ? 'Select object'
+                    : assetKind === 'overlays'
+                      ? 'Select overlay'
+                      : assetKind === 'tiles'
+                        ? 'Select tile'
+                        : this.cfg.selectLabel;
             openCatalogAssetPicker({
                 genre,
-                assetKind: this.cfg.assetKind,
+                assetKind,
                 currentId: String(this.value || ''),
                 category,
+                categories: catalogCategoriesForKind(assetKind),
                 slotFilter,
                 previewVariant: this.cfg.previewVariant,
-                showCategoryFilter: this.cfg.showCategoryFilter,
+                showCategoryFilter,
                 fieldPath: path,
-                title: this.cfg.selectLabel,
-                onSelect: (id) => {
-                    this.setValue(id);
+                title,
+                onSelect: (id, meta) => {
+                    if (/\.roles\./.test(path)) {
+                        const fields = artSetPickFields(id, meta);
+                        this.setValue(fields.id);
+                        setSiblingField(this, 'kind', fields.kind);
+                        setSiblingField(this, 'wangFamily', fields.wangFamily);
+                        setSiblingField(this, 'wallFamily', fields.wallFamily);
+                        setSiblingField(this, 'wallAlign', fields.wallAlign);
+                    } else {
+                        this.setValue(id);
+                    }
                     this.onChange(true);
                 }
             });
@@ -804,24 +1010,47 @@ function registerRelationPickers() {
             }
         }
 
+        /**
+         * original_only catalog items (e.g. simple_dead_tree) have no alpha.
+         * @returns {boolean}
+         */
+        _tryOriginalThumb() {
+            if (this._thumbTriedOriginal || !this.thumbImg) return false;
+            const id = String(this.value || '').trim();
+            if (!id) return false;
+            const orig = resolveSpriteUrl({
+                genre: this.currentGenre(),
+                kind: this.currentAssetKind(),
+                id,
+                variant: 'original'
+            });
+            if (!orig || orig === this.thumbImg.src) return false;
+            this._thumbTriedOriginal = true;
+            this.thumbImg.src = orig;
+            return true;
+        }
+
         refreshThumb() {
             if (!this.thumbWrap) return;
+            this.refreshSelectChrome();
             const id = String(this.value || '').trim();
             if (!id) {
                 this.showThumbMissing();
                 if (this.thumbMissing) this.thumbMissing.textContent = '—';
                 return;
             }
+            const preferred = this.cfg.previewVariant || 'alpha';
             const url = resolveSpriteUrl({
                 genre: this.currentGenre(),
-                kind: this.cfg.assetKind,
+                kind: this.currentAssetKind(),
                 id,
-                variant: this.cfg.previewVariant || 'alpha'
+                variant: preferred
             });
             if (!url) {
                 this.showThumbMissing();
                 return;
             }
+            this._thumbTriedOriginal = preferred === 'original';
             if (this.thumbMissing) {
                 this.thumbMissing.hidden = false;
                 this.thumbMissing.textContent = '…';
@@ -1065,5 +1294,7 @@ module.exports = {
     catalogAssetConfig,
     inferCategoryFromPath,
     inferSlotFromPath,
-    resolveGenre
+    resolveGenre,
+    resolveAssetKind,
+    resolvePickerContext
 };

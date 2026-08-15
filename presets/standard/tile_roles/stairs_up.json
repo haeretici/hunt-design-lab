@@ -1,0 +1,26 @@
+{
+  "id": "stairs_up",
+  "label": "Stairs (up)",
+  "notes": "Walkable stair/ladder pad. Floor up is z-1. Registers stair link on bake (Phase 2+).",
+  "kindHints": ["tiles"],
+  "catalogCategories": ["special"],
+  "render": {
+    "scale": 1.0,
+    "anchor": "bottom_center",
+    "variant": "retro"
+  },
+  "influence": {
+    "friction": 100,
+    "sight": 0,
+    "flags": 2,
+    "walkMode": "open",
+    "sightMode": "clear"
+  },
+  "vertical": {
+    "type": "stairs",
+    "deltaZ": -1,
+    "defaultDir": "center",
+    "bidirectional": false,
+    "registerStairLink": true
+  }
+}

@@ -173,6 +173,48 @@ function normalizePoints(list) {
 }
 
 /**
+ * Stair sockets keep dir (up/down) and optional link so Save does not strip
+ * cave_v1 / rest_area_v1 hops.
+ * @param {unknown} list
+ * @returns {{ x: number, y: number, id?: string, dir?: string, link?: string }[]}
+ */
+function normalizeStairPoints(list) {
+    if (!Array.isArray(list)) return [];
+    /** @type {{ x: number, y: number, id?: string, dir?: string, link?: string }[]} */
+    const out = [];
+    for (const p of list) {
+        if (!p || typeof p !== 'object') continue;
+        const rec = /** @type {{x?:unknown,y?:unknown,id?:unknown,dir?:unknown,link?:unknown}} */ (
+            p
+        );
+        const x = Math.floor(Number(rec.x));
+        const y = Math.floor(Number(rec.y));
+        if (!Number.isFinite(x) || !Number.isFinite(y)) continue;
+        /** @type {{ x: number, y: number, id?: string, dir?: string, link?: string }} */
+        const row = { x, y };
+        if (rec.id != null && String(rec.id) !== '') row.id = String(rec.id);
+        const dir = String(rec.dir || '').toLowerCase();
+        if (dir === 'up' || dir === 'down') row.dir = dir;
+        if (rec.link != null && String(rec.link) !== '') row.link = String(rec.link);
+        out.push(row);
+    }
+    return out;
+}
+
+/**
+ * @param {{ x: number, y: number, id?: string, dir?: string, link?: string }} p
+ * @returns {{ x: number, y: number, id?: string, dir?: string, link?: string }}
+ */
+function serializeStairPoint(p) {
+    /** @type {{ x: number, y: number, id?: string, dir?: string, link?: string }} */
+    const st = { x: p.x, y: p.y };
+    if (p.id) st.id = p.id;
+    if (p.dir === 'up' || p.dir === 'down') st.dir = p.dir;
+    if (p.link) st.link = p.link;
+    return st;
+}
+
+/**
  * Register custom editor once JSONEditor is on window.
  * Safe to call multiple times.
  */
@@ -857,7 +899,7 @@ function registerPieceGridEditor() {
                     spawns: normalizePoints(socks.spawns),
                     markers: normalizePoints(socks.markers),
                     waypoints: normalizePoints(socks.waypoints),
-                    stairs: normalizePoints(socks.stairs)
+                    stairs: normalizeStairPoints(socks.stairs)
                 },
                 tags: Array.isArray(v.tags)
                     ? v.tags.map((t) => String(t)).filter(Boolean)
@@ -905,12 +947,7 @@ function registerPieceGridEditor() {
             if (s.biome) out.biome = s.biome;
             if (s.sockets.stairs && s.sockets.stairs.length) {
                 /** @type {Record<string, unknown>} */ (out.sockets).stairs =
-                    s.sockets.stairs.map((p) => {
-                        /** @type {{x:number,y:number,id?:string}} */
-                        const st = { x: p.x, y: p.y };
-                        if (p.id) st.id = p.id;
-                        return st;
-                    });
+                    s.sockets.stairs.map((p) => serializeStairPoint(p));
             }
             if (s.walkFriction != null && s.walkFriction !== 100) {
                 out.walkFriction = s.walkFriction;
@@ -943,6 +980,9 @@ module.exports = {
     registerPieceGridEditor,
     normalizeFrictionRows,
     normalizeExits,
+    normalizePoints,
+    normalizeStairPoints,
+    serializeStairPoint,
     clampDim,
     floodFillFriction,
     rectFillFriction

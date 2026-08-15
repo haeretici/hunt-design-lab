@@ -63,6 +63,11 @@
             "enum": ["ai", "manual"],
             "default": "ai",
             "description": "Control mode override for this member."
+          },
+          "storage": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Hunt-scoped scenario KV seed (dialog when / node set). Merged with party/scenario storage. Unset keys read as 0."
           }
         }
       }

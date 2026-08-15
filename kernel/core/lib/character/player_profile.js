@@ -117,6 +117,13 @@ function memberFromPlayerProfile(profile, overrides) {
             : profile.controlMode != null && String(profile.controlMode) !== ''
               ? String(profile.controlMode)
               : 'ai',
+        // Shell pref stamped on form members before Play. Dropping it here
+        // makes spawn default false and Hunt UI unchecks Auto Chase on Play.
+        autoChase: o.autoChase != null
+            ? !!o.autoChase
+            : profile.autoChase != null
+              ? !!profile.autoChase
+              : false,
         equipment
     };
     if (strategyId) member.strategyId = strategyId;
@@ -160,9 +167,29 @@ function memberFromPlayerProfile(profile, overrides) {
         if (profile.stats.critDamage != null && o.critDamage == null) {
             member.critDamage = Number(profile.stats.critDamage) || 0;
         }
+        if (profile.stats.lifeLeech != null && o.lifeLeech == null) {
+            member.lifeLeech = Number(profile.stats.lifeLeech) || 0;
+        }
+        if (profile.stats.manaLeech != null && o.manaLeech == null) {
+            member.manaLeech = Number(profile.stats.manaLeech) || 0;
+        }
+        if (profile.stats.lifeLeechChance != null && o.lifeLeechChance == null) {
+            member.lifeLeechChance = Number(profile.stats.lifeLeechChance) || 0;
+        }
+        if (profile.stats.manaLeechChance != null && o.manaLeechChance == null) {
+            member.manaLeechChance = Number(profile.stats.manaLeechChance) || 0;
+        }
     }
     if (o.critChance != null) member.critChance = Number(o.critChance) || 0;
     if (o.critDamage != null) member.critDamage = Number(o.critDamage) || 0;
+    if (o.lifeLeech != null) member.lifeLeech = Number(o.lifeLeech) || 0;
+    if (o.manaLeech != null) member.manaLeech = Number(o.manaLeech) || 0;
+    if (o.lifeLeechChance != null) {
+        member.lifeLeechChance = Number(o.lifeLeechChance) || 0;
+    }
+    if (o.manaLeechChance != null) {
+        member.manaLeechChance = Number(o.manaLeechChance) || 0;
+    }
     if (o.strategy != null) member.strategy = o.strategy;
     if (o.combatStats != null) member.combatStats = o.combatStats;
     if (o.classDef != null) member.classDef = o.classDef;

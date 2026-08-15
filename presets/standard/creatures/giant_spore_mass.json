@@ -167,12 +167,14 @@
     },
     "loot": [
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 100000,
             "maxCount": 200
         },
         {
-            "name": "platinum coin",
+            "name": "Platinum Coin",
+            "id": "platinum_coin",
             "chance": 999900,
             "maxCount": 6
         },
@@ -186,7 +188,8 @@
             "chance": 15120
         },
         {
-            "name": "drill bolt",
+            "name": "Drill Bolt",
+            "id": "drill_bolt",
             "chance": 15120,
             "maxCount": 15
         },
@@ -199,27 +202,32 @@
             "chance": 10230
         },
         {
-            "name": "strong health potion",
+            "name": "Strong Health Potion",
+            "id": "strong_health_potion",
             "chance": 5040,
             "maxCount": 2
         },
         {
-            "name": "great mana potion",
+            "name": "Great Mana Potion",
+            "id": "great_mana_potion",
             "chance": 4960,
             "maxCount": 2
         },
         {
-            "name": "great health potion",
+            "name": "Great Health Potion",
+            "id": "great_health_potion",
             "chance": 4950,
             "maxCount": 2
         },
         {
-            "name": "strong mana potion",
+            "name": "Strong Mana Potion",
+            "id": "strong_mana_potion",
             "chance": 4930,
             "maxCount": 2
         },
         {
-            "name": "mana potion",
+            "name": "Mana Potion",
+            "id": "mana_potion",
             "chance": 4750,
             "maxCount": 3
         },
@@ -233,34 +241,42 @@
         },
         {
             "name": "Earthbound Amulet",
+            "id": "earthbound_amulet",
             "chance": 2180
         },
         {
             "name": "Earthbound Boots",
+            "id": "earthbound_boots",
             "chance": 1950
         },
         {
-            "name": "angelic axe",
+            "name": "Angelic Axe",
+            "id": "angelic_axe",
             "chance": 1420
         },
         {
             "name": "Earthbound Legs",
+            "id": "earthbound_legs",
             "chance": 1160
         },
         {
             "name": "Earthbound Mantle",
+            "id": "earthbound_mantle",
             "chance": 870
         },
         {
-            "name": "muck rod",
+            "name": "Muck Rod",
+            "id": "muck_rod",
             "chance": 640
         },
         {
-            "name": "mushroom backpack",
+            "name": "Mushroom Backpack",
+            "id": "mushroom_backpack",
             "chance": 20
         },
         {
-            "name": "mycological bow",
+            "name": "Sporewood Bow",
+            "id": "sporewood_bow",
             "chance": 140
         }
     ],

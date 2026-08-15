@@ -3,22 +3,21 @@
     "label": "Legacy Hunt wp_test_1",
     "notes": "Hunt converted from waypoint file.",
     "floor": 6,
-    "floors": [
-        6
-    ],
+    "floors": [6, 7],
+    "spawnMode": "on_demand",
     "spawnSource": {
         "type": "legacy_floor",
-        "floor": 6
+        "floors": [6, 7]
     },
     "waypoints": [
         {
-            "x": 1576,
-            "y": 333,
+            "x": 296,
+            "y": 910,
             "z": 6
         },
         {
-            "x": 1576,
-            "y": 400,
+            "x": 299,
+            "y": 949,
             "z": 6
         }
     ]

@@ -105,32 +105,38 @@
     },
     "loot": [
         {
-            "id": 2828,
-            "chance": 730
+            "chance": 730,
+            "name": "book"
         },
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 66940,
             "maxCount": 40
         },
         {
-            "name": "small emerald",
+            "name": "Small Emerald",
+            "id": "small_emerald",
             "chance": 550
         },
         {
             "chance": 560,
-            "name": "life ring"
+            "name": "Vitality Ring",
+            "id": "vitality_ring"
         },
         {
             "name": "Earthbound Rod",
+            "id": "earthbound_rod",
             "chance": 250
         },
         {
-            "name": "dragon necklace",
+            "name": "Wyrm Necklace",
+            "id": "wyrm_necklace",
             "chance": 1050
         },
         {
-            "name": "morning star",
+            "name": "Morning Star",
+            "id": "morning_star",
             "chance": 4990
         },
         {

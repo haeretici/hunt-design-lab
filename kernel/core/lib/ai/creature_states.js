@@ -12,6 +12,26 @@ const {
     distBetween,
     queryWithinRange
 } = require('./targeting.js');
+
+/**
+ * TileMap from hunt ctx (direct or via sim).
+ * @param {object|null|undefined} ctx
+ * @returns {object|null}
+ */
+function tileMapFromCtx(ctx) {
+    return (ctx && ctx.tileMap) || (ctx && ctx.sim && ctx.sim.tileMap) || null;
+}
+
+/**
+ * Hostile still valid, including PZ / NO_CAST (cannot be hit into).
+ * @param {object} owner
+ * @param {object|null} target
+ * @param {object|null|undefined} ctx
+ * @returns {boolean}
+ */
+function isAttackableTarget(owner, target, ctx) {
+    return isValidTarget(owner, target, { tileMap: tileMapFromCtx(ctx) });
+}
 const { isCreatureChallenged } = require('../combat/resolve.js');
 const {
     stepToward,
@@ -57,7 +77,7 @@ function resolveChallengeTarget(owner, ctx) {
         t = owner.target;
     }
     if (!t && owner.target) t = owner.target;
-    if (!isValidTarget(owner, t)) {
+    if (!isAttackableTarget(owner, t, ctx)) {
         owner.challengeUntil = 0;
         owner.challengedById = null;
         return null;
@@ -108,6 +128,25 @@ function leashReaggroRange() {
             ? Settings.AI_CREATURE_LEASH_REAGGRO_MARGIN
             : 2;
     return Math.max(0, leash - Math.max(0, margin));
+}
+
+/**
+ * A* cap for walking home. Chase uses AI_CREATURE_PATH_MAX_DISTANCE (12),
+ * but leash trips at AI_CREATURE_LEASH (18) — the chase box cannot contain
+ * home, so return-home must use the full local search (PATH_MAX_DISTANCE).
+ * @returns {number}
+ */
+function leashPathMaxDistance() {
+    const local =
+        Settings.PATH_MAX_DISTANCE != null
+            ? Number(Settings.PATH_MAX_DISTANCE)
+            : 100;
+    if (Number.isFinite(local) && local > 0) return local;
+    const chase =
+        Settings.AI_CREATURE_PATH_MAX_DISTANCE != null
+            ? Number(Settings.AI_CREATURE_PATH_MAX_DISTANCE)
+            : 12;
+    return Math.max(chase, leashRange() + 4);
 }
 
 function changeCreatureState(owner, next) {
@@ -205,7 +244,7 @@ function tryIdleRandomStep(owner, ctx, pool) {
 }
 
 function resolveTarget(owner, ctx) {
-    if (owner.target && isValidTarget(owner, owner.target)) {
+    if (owner.target && isAttackableTarget(owner, owner.target, ctx)) {
         const lose = loseTargetDistance(owner);
         if (distBetween(owner, owner.target) > lose) {
             clearTarget(owner);
@@ -215,7 +254,7 @@ function resolveTarget(owner, ctx) {
     }
     if (owner.targetId != null && ctx.sim && ctx.sim.getEntityById) {
         const t = ctx.sim.getEntityById(owner.targetId);
-        if (isValidTarget(owner, t)) {
+        if (isAttackableTarget(owner, t, ctx)) {
             const lose = loseTargetDistance(owner);
             if (distBetween(owner, t) > lose) {
                 clearTarget(owner);
@@ -358,7 +397,7 @@ function runCombatTick(owner, ctx) {
     if (forced) {
         setTarget(owner, forced);
         tryCreatureAttacks(owner, forced, ctx);
-        if (!isValidTarget(owner, forced)) {
+        if (!isAttackableTarget(owner, forced, ctx)) {
             clearTarget(owner);
             owner.challengeUntil = 0;
             owner.challengedById = null;
@@ -373,19 +412,21 @@ function runCombatTick(owner, ctx) {
     if (!target) {
         target = pickCreatureTarget(owner, pool.list, {
             rng: ctx.rng,
-            index: pool.index
+            index: pool.index,
+            tileMap: tileMapFromCtx(ctx)
         });
         if (target) {
             setTarget(owner, target);
             // Full interval before first mid-combat strategy re-roll.
             armStrategyRetarget(owner);
         }
-    } else if (strategyRetargetDue(owner)) {
-        // flags.retargetIntervalSec / AI_CREATURE_RETARGET_INTERVAL: re-apply
-        // weighted strategiesTarget without requiring lose-target first.
+    } else if (strategyRetargetDue(owner, undefined, ctx && ctx.rng)) {
+        // changeTarget.interval/chance override AI_CREATURE_RETARGET_INTERVAL.
+        // Re-apply weighted strategiesTarget.
         const next = pickCreatureTarget(owner, pool.list, {
             rng: ctx.rng,
-            index: pool.index
+            index: pool.index,
+            tileMap: tileMapFromCtx(ctx)
         });
         if (next) {
             setTarget(owner, next);
@@ -401,7 +442,7 @@ function runCombatTick(owner, ctx) {
     tryCreatureAttacks(owner, target, ctx);
 
     // Still valid after hits?
-    if (!isValidTarget(owner, target)) {
+    if (!isAttackableTarget(owner, target, ctx)) {
         clearTarget(owner);
         return 'no_target';
     }
@@ -436,7 +477,8 @@ const Idle = {
         const idlePool = aggroPool(owner, ctx);
         const t = pickCreatureTarget(owner, idlePool.list, {
             rng: ctx.rng,
-            index: idlePool.index
+            index: idlePool.index,
+            tileMap: tileMapFromCtx(ctx)
         });
         if (t) {
             setTarget(owner, t);
@@ -529,7 +571,8 @@ const Retarget = {
         const retargetPool = aggroPool(owner, ctx);
         const t = pickCreatureTarget(owner, retargetPool.list, {
             rng: ctx.rng,
-            index: retargetPool.index
+            index: retargetPool.index,
+            tileMap: tileMapFromCtx(ctx)
         });
         if (t) {
             setTarget(owner, t);
@@ -609,7 +652,13 @@ const Leash = {
         }
 
         if (owner.speed > 0) {
-            stepToward(owner, home, ctx.tileMap);
+            const moved = stepToward(owner, home, ctx.tileMap, {
+                maxDistance: leashPathMaxDistance()
+            });
+            // Occupancy / blocked corridor: do not freeze on an empty path.
+            if (!moved) {
+                stepRandomAdjacent(owner, ctx.tileMap, ctx.rng);
+            }
         } else {
             changeCreatureState(owner, Idle);
         }
@@ -622,7 +671,8 @@ const Leash = {
             const leashPool = aggroPool(owner, ctx);
             const t = pickCreatureTarget(owner, leashPool.list, {
                 rng: ctx.rng,
-                index: leashPool.index
+                index: leashPool.index,
+                tileMap: tileMapFromCtx(ctx)
             });
             if (t) {
                 setTarget(owner, t);
@@ -652,6 +702,7 @@ module.exports = {
     beyondLeash,
     insideLeashReaggro,
     leashReaggroRange,
+    leashPathMaxDistance,
     resolveChallengeTarget,
     hasLivingPresence,
     tryIdleRandomStep

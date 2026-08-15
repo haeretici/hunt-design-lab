@@ -233,17 +233,13 @@ function enrichHuntSchema(schemaDoc, idsByKind) {
 }
 
 /**
- * Sanitize hunt for authoring: drop route fields (owned by dungeon profile),
- * migrate legacy waves.region → waves.regions.
+ * Sanitize hunt for authoring: migrate legacy waves.region → waves.regions.
  * @param {object} hunt
  * @returns {object}
  */
 function sanitizeHuntForEditor(hunt) {
     if (!hunt || typeof hunt !== 'object' || Array.isArray(hunt)) return hunt;
     const out = cloneJson(hunt);
-    delete out.waypoints;
-    delete out.waypointPreset;
-    delete out.waypointsId;
 
     if (out.waves && typeof out.waves === 'object' && !Array.isArray(out.waves)) {
         const waves = /** @type {Record<string, unknown>} */ (out.waves);

@@ -203,6 +203,27 @@ final class PresetCrud
     }
 
     /**
+     * Raw rows from a catalog-shaped document (spells[], items[], …).
+     * Uses the kind's arrayKey so callers do not hard-code `items` vs `spells`.
+     *
+     * @return list<mixed>
+     */
+    public static function catalogRows(string $modeId, string $kind): array
+    {
+        $modeId = self::assertModeId($modeId);
+        $cfg = self::assertKind($kind);
+        if (($cfg['shape'] ?? '') !== 'catalog') {
+            throw new \InvalidArgumentException($kind . ' is not a catalog kind');
+        }
+        $doc = self::readCatalogDocument($modeId, $cfg);
+        $key = isset($cfg['arrayKey']) && is_string($cfg['arrayKey']) && $cfg['arrayKey'] !== ''
+            ? $cfg['arrayKey']
+            : 'items';
+        $rows = $doc[$key] ?? [];
+        return is_array($rows) ? array_values($rows) : [];
+    }
+
+    /**
      * Get one entity, or the whole catalog document when $entityId is empty (catalog only).
      *
      * @return array<string, mixed>
@@ -1193,6 +1214,9 @@ final class PresetCrud
                             'customSprite',
                             'customSpriteGenre',
                             'spriteId',
+                            // Map editor NPC filter (P2) — identity only, not dialog trees.
+                            'isNpc',
+                            'kind',
                         ] as $key) {
                             if (!array_key_exists($key, $data)) {
                                 continue;

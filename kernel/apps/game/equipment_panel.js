@@ -22,6 +22,7 @@ const {
     resolveItemBudgetDisplay
 } = require('../../core/lib/character/equipment_runtime.js');
 const { appUrl } = require('../../core/lib/app_paths.js');
+const { getManaShieldState } = require('../../core/lib/combat/conditions.js');
 
 /** Shared popup window name (Designer + Hunt + Scenario Lab). */
 const PROFILE_PREVIEW_WINDOW = 'hdl_profile_preview';
@@ -156,6 +157,12 @@ const STATUS_ICON_META = Object.freeze({
         color: '#63b3ed',
         label: 'Strengthened',
         title: 'You are strengthened'
+    },
+    mana_shield: {
+        icon: 'fa-shield-halved',
+        color: '#22d3ee',
+        label: 'Magic Shield',
+        title: 'You are protected by a magic shield'
     }
 });
 
@@ -171,6 +178,7 @@ const STATUS_ICON_ORDER = Object.freeze([
     'slow',
     'haste',
     'invisible',
+    'mana_shield',
     'regen',
     'attributes'
 ]);
@@ -213,6 +221,12 @@ function listActiveStatusIcons(source) {
             k = 'slow';
         } else if (k === 'invisibility') k = 'invisible';
         else if (
+            k === 'manashield' ||
+            k === 'mana-shield' ||
+            k === 'magic_shield'
+        ) {
+            k = 'mana_shield';
+        } else if (
             k === 'regeneration' ||
             k === 'hot' ||
             k === 'recovery'
@@ -228,6 +242,10 @@ function listActiveStatusIcons(source) {
     if (source.invisible || (gearFlags && gearFlags.invisible)) {
         kinds.add('invisible');
     }
+    // Gear mana shield (voltaic ring / spellbooks) without a pooled condition.
+    if (gearFlags && gearFlags.manaShield) {
+        kinds.add('mana_shield');
+    }
 
     /** @type {{ kind: string, icon: string, color: string, label: string, title: string }[]} */
     const out = [];
@@ -236,12 +254,21 @@ function listActiveStatusIcons(source) {
         if (!kinds.has(kind)) continue;
         const meta = STATUS_ICON_META[kind];
         if (!meta) continue;
+        let title = meta.title;
+        if (kind === 'mana_shield') {
+            const state = getManaShieldState(source);
+            if (state && state.pooled) {
+                title = `${meta.title} (${state.poolRemaining} / ${state.poolMax})`;
+            } else if (state && state.gear) {
+                title = `${meta.title} (gear)`;
+            }
+        }
         out.push({
             kind,
             icon: meta.icon,
             color: meta.color,
             label: meta.label,
-            title: meta.title
+            title
         });
         kinds.delete(kind);
     }
@@ -281,7 +308,8 @@ function renderStatusBar(barEl, source, opts) {
     if (!barEl) return;
     const force = !!(opts && opts.force);
     const icons = listActiveStatusIcons(source);
-    const sig = icons.map((x) => x.kind).join(',');
+    // Include title so pooled remaining (tooltip) can refresh without a new kind.
+    const sig = icons.map((x) => `${x.kind}:${x.title}`).join('|');
     if (!force && barEl.dataset.statusSig === sig) return;
     barEl.dataset.statusSig = sig;
     if (!icons.length) {
@@ -468,6 +496,19 @@ function buildPreviewProfile(source, opts) {
  * @param {string} genre
  * @returns {string|null}
  */
+function resolveUiSpriteUrl(spriteId, genre) {
+    if (!spriteId) return null;
+    const stem = String(spriteId)
+        .trim()
+        .replace(/\.png$/i, '')
+        .split(/[_\s-]+/)
+        .filter(Boolean)
+        .map((part) => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
+        .join('_');
+    const g = genre || 'rpg_fantasy';
+    return appUrl(`assets/sprites/${g}/ui/alpha/${stem}.png`);
+}
+
 function resolveItemSpriteUrl(item, genre) {
     if (!item) return null;
     if (typeof item === 'object') {
@@ -776,7 +817,10 @@ function buildEquipmentItemDetailHtml(item, opts) {
         item.twoHanded === 1
     ) {
         pillsHtml +=
-            '<span class="eq-pill" style="color:#d2a8ff;border-color:rgba(210,168,255,0.4)"><i class="fa-solid fa-hands"></i> 2-Handed</span>';
+            '<span class="eq-pill" style="color:#d2a8ff;border-color:rgba(210,168,255,0.4)"><i class="fa-solid fa-hands"></i> 2-Handed (2h)</span>';
+    } else if (item.category === 'weapon' || item.weaponType || item.atk != null || item.slot === 'weapon') {
+        pillsHtml +=
+            '<span class="eq-pill" style="color:#a8d2ff;border-color:rgba(168,210,255,0.4)"><i class="fa-solid fa-hand"></i> 1-Handed (1h)</span>';
     }
     if (item.imbuementSlots != null && Number(item.imbuementSlots) > 0) {
         pillsHtml += `<span class="eq-pill" style="color:#7bc8ff;border-color:rgba(123,200,255,0.4)"><i class="fa-solid fa-gem"></i> ${escapeHtml(String(item.imbuementSlots))} Imbuement Slots</span>`;
@@ -1182,6 +1226,7 @@ function bindEquipmentPanel(opts) {
      * HP/MP change every combat tick and must NOT dirty the card (that
      * rebuilt <img> nodes and caused the equipment panel to flicker).
      * Condition kind set dirties when statuses appear/expire (not every DoT tick).
+     * Mana-shield pool remaining updates the strip tooltip without rebuilding slots.
      * Preview popup still gets live vitals via pushPreview ~1/s.
      * null = never painted (so first empty idle still runs once).
      * @type {string|null}
@@ -1289,7 +1334,12 @@ function bindEquipmentPanel(opts) {
             budgetSig,
             statusSig
         );
-        if (lastCardSig !== null && sig === lastCardSig) return;
+        if (lastCardSig !== null && sig === lastCardSig) {
+            // Kinds / gear / Cap unchanged — skip slot rebuild (HP/MP flicker).
+            // Pool remaining still updates the status-strip tooltip.
+            renderStatusBar(statusBarEl, source);
+            return;
+        }
         lastCardSig = sig;
         renderEquipmentCard(cardEl, payload ? payload.profile : null, {
             itemDb,
@@ -1420,6 +1470,7 @@ module.exports = {
     readSourceVitals,
     buildPreviewProfile,
     resolveItemSpriteUrl,
+    resolveUiSpriteUrl,
     renderEquipmentCard,
     budgetForDesignerSlot,
     equipmentBudgetSignature,

@@ -110,7 +110,8 @@
     },
     "loot": [
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 100000,
             "maxCount": 382
         },
@@ -123,17 +124,20 @@
             "chance": 12350
         },
         {
-            "name": "small sapphire",
+            "name": "Small Sapphire",
+            "id": "small_sapphire",
             "chance": 9940
         },
         {
-            "name": "royal spear",
+            "name": "Royal Spear",
+            "id": "royal_spear",
             "chance": 3960,
             "maxCount": 1
         },
         {
             "chance": 1760,
-            "name": "crystal ring"
+            "name": "Crystal Ring",
+            "id": "crystal_ring"
         },
         {
             "name": "rotten feather",
@@ -148,11 +152,13 @@
             "chance": 960
         },
         {
-            "name": "broken iks spear",
+            "name": "Broken Tribal Spear",
+            "id": "broken_tribal_spear",
             "chance": 110
         },
         {
-            "name": "broken iks headpiece",
+            "name": "Broken Tribal Headpiece",
+            "id": "broken_tribal_headpiece",
             "chance": 50
         }
     ],

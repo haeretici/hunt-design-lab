@@ -45,16 +45,184 @@
         },
         "slot": {
           "type": "string",
-          "description": "Equipment slot (rightHand, leftHand, head, body, legs, feet, …)."
+          "default": "",
+          "enum": [
+            "",
+            "rightHand",
+            "leftHand",
+            "helmet",
+            "armor",
+            "legs",
+            "boots",
+            "amulet",
+            "ring",
+            "backpack",
+            "ammunition"
+          ],
+          "description": "Equipment slot. Relation filters on player profiles use these strings. Empty = unset (omit on disk). Potions / runes / currency usually have no slot."
         },
-        "category": { "type": "string" },
+        "category": {
+          "type": "string",
+          "enum": [
+            "sword",
+            "axe",
+            "club",
+            "spear",
+            "bow",
+            "crossbow",
+            "wand",
+            "fist",
+            "shield",
+            "spellbook",
+            "helmet",
+            "armor",
+            "legs",
+            "boots",
+            "ring",
+            "amulet",
+            "ammo",
+            "quiver",
+            "light",
+            "container",
+            "potion",
+            "rune",
+            "currency",
+            "gem",
+            "food"
+          ],
+          "description": "Item family. Combat + loot-only (currency / gem / food / potion / rune)."
+        },
         "weaponType": {
           "type": "string",
-          "description": "Weapon family for power curves (melee, distance, magic, shield, …)."
+          "default": "",
+          "enum": ["", "melee", "distance", "magic", "shield"],
+          "description": "Weapon family for power curves. Empty = unset (omit on disk). Armor / potions / currency must not invent melee."
+        },
+        "type": {
+          "type": "array",
+          "description": "Pipeline type tags (potion, consumable, container, …). Distinct from category.",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": [
+              "ammunition",
+              "amulet",
+              "armor",
+              "axe",
+              "boots",
+              "bow",
+              "club",
+              "consumable",
+              "container",
+              "crossbow",
+              "currency",
+              "fist",
+              "food",
+              "gem",
+              "helmet",
+              "legs",
+              "light",
+              "potion",
+              "quiver",
+              "ring",
+              "rod",
+              "rune",
+              "shield",
+              "spellbook",
+              "stackable",
+              "sword",
+              "throwing",
+              "wand"
+            ]
+          }
+        },
+        "vocation": {
+          "type": "array",
+          "description": "Allowed class vocations (same ids as classes / spells.vocations).",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": [
+              "guardian",
+              "scout",
+              "mystic",
+              "adept",
+              "warden",
+              "adventurer"
+            ]
+          }
+        },
+        "level": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Minimum character level to equip or use."
+        },
+        "heal": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": { "type": "number", "minimum": 0 },
+          "description": "On-use HP restore [min, max]. Catalog is source of truth (e.g. small_health_potion [60, 90])."
+        },
+        "restoreMana": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": { "type": "number", "minimum": 0 },
+          "description": "On-use mana restore [min, max]. Catalog is source of truth (e.g. mana_potion [75, 125])."
+        },
+        "worth": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Currency value in gold units (gold_coin = 1, platinum_coin = 100)."
+        },
+        "volume": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Container capacity (backpack / depot volume)."
+        },
+        "imbuementSlots": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of imbuement slots on this item."
+        },
+        "consumable": {
+          "type": "boolean",
+          "description": "When true, use consumes one stack unit (potions, food)."
+        },
+        "usable": {
+          "type": "boolean",
+          "description": "When true, the item can be used from the backpack (potions)."
+        },
+        "hitChance": {
+          "type": "number",
+          "description": "Distance-weapon hit-chance modifier added to ammo/throw maxHitChance (e.g. amber_bow +6 → 91 becomes 97). Not an absolute percent on bows. Live values may be outside 0–100."
+        },
+        "perfectShotDamage": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Bonus damage when the target is at perfectShotRange."
+        },
+        "perfectShotRange": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Chebyshev range at which perfectShotDamage applies."
+        },
+        "twoHanded": {
+          "type": "boolean",
+          "description": "True if the weapon requires both hands to be wielded (e.g. bows, crossbows, some swords/axes/clubs)."
         },
         "atk": { "type": "number" },
-        "extraAtk": { "type": "number" },
-        "extraAtkElement": { "type": "string" },
+        "extraAtk": {
+          "type": "number",
+          "description": "Second attack value on dual-element weapons (fire sword extra 11). Combined with atk for the auto formula, then split by extraAtk/(atk+extraAtk). Physical share uses armor+block; extra share uses extraAtkElement resist only."
+        },
+        "extraAtkElement": {
+          "type": "string",
+          "default": "",
+          "enum": ["", "physical", "fire", "ice", "energy", "earth", "holy", "death"],
+          "description": "Element of extraAtk on dual-element weapons. Required with extraAtk for the split. Empty = unset (omit on disk)."
+        },
         "defense": { "type": "number" },
         "defenseBonus": {
           "type": "number",
@@ -65,8 +233,7 @@
         "weight": { "type": "number", "minimum": 0 },
         "stackable": {
           "type": "boolean",
-          "default": false,
-          "description": "When true, identical itemId instances merge into one container slot with count (weight = unit × count). Max stack size is 100. Used for arrows/bolts, throwing weapons (spears/stars), and runes (category rune)."
+          "description": "When true, identical itemId instances merge into one container slot with count (weight = unit × count). Max stack size is 100. Used for arrows/bolts, throwing weapons (spears/stars), and runes (category rune). Omit when false."
         },
         "breakChance": {
           "type": "number",
@@ -76,8 +243,9 @@
         },
         "ammoType": {
           "type": "string",
-          "enum": ["arrow", "bolt"],
-          "description": "Required for category ammo: which distance weapon may fire this stack. Bows consume arrow; crossbows consume bolt. Used for O(1) matching when scanning a quiver."
+          "default": "",
+          "enum": ["", "arrow", "bolt"],
+          "description": "Required for category ammo: which distance weapon may fire this stack. Bows consume arrow; crossbows consume bolt. Empty = unset (omit on disk)."
         },
         "range": { "type": "number", "minimum": 0 },
         "durationSec": {
@@ -107,13 +275,80 @@
           }
         },
         "notes": { "type": "string", "maxLength": 2000 },
-        "customSprite": {
-          "type": "string",
-          "description": "Temporary art catalog stem when combat id has no matching sprite under assets/sprites/<genre>/equipment/."
-        },
         "spriteId": {
           "type": "string",
           "description": "Alias of customSprite (equipment picker historically reads spriteId)."
+        },
+        "maxHitChance": {
+          "type": "number",
+          "description": "Ammo or throwing-weapon hit-chance cap (percent). Distance auto rolls min(100, maxHitChance + equipped weapon hitChance). Live arrows/bolts are ~76–100. Omit when not ammo/throw."
+        },
+        "critChance": {
+          "type": "number",
+          "description": "Additive crit chance. Catalog pipeline units: 1000 = +10%. Stacks with class/profile percent. Runtime roll is 0–100. Omit when none."
+        },
+        "critExtraDamage": {
+          "type": "number",
+          "description": "Additive extra crit damage. Catalog pipeline units: 3500 = +35%. Stacks with class/profile critDamage percent. Omit when none."
+        },
+        "lifeLeechChance": {
+          "type": "number",
+          "description": "Life-leech proc chance 0–100 (100 = always). Additive across equipped items. Omit when none."
+        },
+        "lifeLeechAmount": {
+          "type": "number",
+          "description": "Life-leech amount. Catalog pipeline units: 1800 = 18% of real HP damage on proc. Additive. Omit when none."
+        },
+        "manaLeechChance": {
+          "type": "number",
+          "description": "Mana-leech proc chance 0–100 (100 = always). Additive across equipped items. Omit when none."
+        },
+        "manaLeechAmount": {
+          "type": "number",
+          "description": "Mana-leech amount. Catalog pipeline units: 300 = 3% of real HP damage on proc. Additive. Omit when none."
+        },
+        "aliases": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Alternate ids that resolve to this row."
+        },
+        "dispel": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Condition kinds this item removes on use. Catalog is source of truth (e.g. poison on antidote_potion)."
+        },
+        "condition": {
+          "type": "object",
+          "additionalProperties": true,
+          "description": "On-use condition applied via applyCondition. Catalog is source of truth (e.g. magic_shield_potion mana_shield). Same shape as spell.condition.",
+          "properties": {
+            "type": {
+              "type": "string",
+              "default": "",
+              "enum": [
+                "",
+                "poison",
+                "fire",
+                "ice",
+                "energy",
+                "bleed",
+                "curse",
+                "holy",
+                "slow",
+                "haste",
+                "invisible",
+                "regen",
+                "attributes",
+                "mana_shield"
+              ]
+            },
+            "durationSec": { "type": "number", "minimum": 0 },
+            "poolFormula": {
+              "type": "string",
+              "default": "",
+              "enum": ["", "legacy_mana_shield"]
+            }
+          }
         }
       }
     }

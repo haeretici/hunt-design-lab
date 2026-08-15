@@ -61,6 +61,13 @@ const FIELD_DURATIONS_SEC = {
 /** Fields longer than this never enter the active expiry registry. */
 const ACTIVE_FIELD_MAX_DURATION_SEC = 24 * 3600;
 
+/**
+ * Default duration for map-authored fields (seconds).
+ * Matches `MAP_FIELD_DEFAULT_TTL_SEC` in tilemap_editor — above the active-heap
+ * max so props stay until overwritten / Destroy Field (not short combat timers).
+ */
+const MAP_FIELD_DEFAULT_TTL_SEC = 7 * 24 * 3600;
+
 const FIELD_ITEM_IDS = {
     fire: 'fire_field',
     poison: 'poison_field',
@@ -959,6 +966,92 @@ function isFieldInActiveRegistry(groundStore, x, y, z) {
     return !!groundStore._fieldRegistry.byKey[key];
 }
 
+/**
+ * Resolve elemental/obstacle kind from a TileMap fields-channel mask.
+ * Prefers fire → poison → energy → obstacle when multiple bits are set.
+ *
+ * @param {number} mask
+ * @returns {'fire'|'poison'|'energy'|'barrier'|null}
+ */
+function fieldKindFromMask(mask) {
+    const m = mask & 0xff;
+    if ((m & FIELD_MASKS.FIRE) !== 0) return FIELD_KINDS.FIRE;
+    if ((m & FIELD_MASKS.POISON) !== 0) return FIELD_KINDS.POISON;
+    if ((m & FIELD_MASKS.ENERGY) !== 0) return FIELD_KINDS.ENERGY;
+    if ((m & FIELD_MASKS.OBSTACLE) !== 0) return FIELD_KINDS.BARRIER;
+    return null;
+}
+
+/**
+ * Deploy ground-item fields from TileMap `layer.fields` channel bits.
+ * Used after hybrid/map load so editor-painted hazards become combat fields.
+ *
+ * @param {import('../character/ground_items.js').GroundStore|null|undefined} groundStore
+ * @param {object|null|undefined} tileMap TileMap with layers[z].fields
+ * @param {{
+ *   durationSec?: number,
+ *   source?: string,
+ *   createdAt?: number,
+ *   zFilter?: Array<string|number>|null
+ * }} [opts]
+ * @returns {number} count of fields deployed
+ */
+function seedMapFieldsFromTileMap(groundStore, tileMap, opts) {
+    if (!groundStore || !tileMap || !tileMap.layers) return 0;
+    const o = opts || {};
+    const durationSec =
+        o.durationSec != null && Number.isFinite(Number(o.durationSec))
+            ? Math.max(0, Number(o.durationSec))
+            : MAP_FIELD_DEFAULT_TTL_SEC;
+    const source = o.source || FIELD_SOURCES.SCENARIO;
+    const createdAt =
+        o.createdAt != null && Number.isFinite(Number(o.createdAt))
+            ? Number(o.createdAt)
+            : Time.timeSinceLevelLoad;
+    const zFilter =
+        o.zFilter && o.zFilter.length
+            ? new Set(o.zFilter.map((z) => String(z)))
+            : null;
+
+    // Wire mask sync for deployFieldToTile
+    if (!groundStore.tileMap) groundStore.tileMap = tileMap;
+
+    let deployed = 0;
+    const zKeys = Object.keys(tileMap.layers);
+    for (let zi = 0; zi < zKeys.length; zi++) {
+        const zKey = zKeys[zi];
+        if (zFilter && !zFilter.has(zKey)) continue;
+        const layer = tileMap.layers[zKey];
+        if (!layer || !layer.fields) continue;
+        const cols = layer.cols | 0;
+        const rows = layer.rows | 0;
+        const fields = layer.fields;
+        const n = Math.min(fields.length | 0, cols * rows);
+        const z =
+            layer.z != null
+                ? layer.z
+                : Number.isFinite(Number(zKey))
+                  ? Number(zKey)
+                  : zKey;
+        for (let i = 0; i < n; i++) {
+            const mask = fields[i] & 0xff;
+            if (!mask) continue;
+            const kind = fieldKindFromMask(mask);
+            if (!kind) continue;
+            const x = i % cols;
+            const y = (i / cols) | 0;
+            const item = deployFieldToTile(groundStore, x, y, z, {
+                kind,
+                source,
+                durationSec,
+                createdAt
+            });
+            if (item) deployed++;
+        }
+    }
+    return deployed;
+}
+
 module.exports = {
     FIELD_KINDS,
     FIELD_SOURCES,
@@ -967,7 +1060,9 @@ module.exports = {
     FIELD_ITEM_IDS,
     FIELD_DISPLAY_NAMES,
     ACTIVE_FIELD_MAX_DURATION_SEC,
+    MAP_FIELD_DEFAULT_TTL_SEC,
     getFieldKind,
+    fieldKindFromMask,
     isFieldItem,
     isObstacleFieldKind,
     isObstacleField,
@@ -990,5 +1085,6 @@ module.exports = {
     deployFieldAndTriggerOccupants,
     purgeExpiredFields,
     isFieldInActiveRegistry,
-    ensureFieldRegistry
+    ensureFieldRegistry,
+    seedMapFieldsFromTileMap
 };

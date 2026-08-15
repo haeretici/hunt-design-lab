@@ -85,19 +85,22 @@
     },
     "loot": [
         {
-            "name": "platinum coin",
+            "name": "Platinum Coin",
+            "id": "platinum_coin",
             "chance": 50000,
             "maxCount": 1
         },
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 50000,
             "maxCount": 148
         },
         {
             "chance": 1052,
             "maxCount": 3,
-            "name": "small ruby"
+            "name": "Small Ruby",
+            "id": "small_ruby"
         },
         {
             "name": "tooth file",
@@ -117,23 +120,28 @@
         },
         {
             "name": "Bloodfang Shield",
+            "id": "bloodfang_shield",
             "chance": 50
         },
         {
-            "name": "strong health potion",
+            "name": "Strong Health Potion",
+            "id": "strong_health_potion",
             "chance": 4761
         },
         {
-            "name": "strong mana potion",
+            "name": "Strong Mana Potion",
+            "id": "strong_mana_potion",
             "chance": 5000
         },
         {
             "chance": 55,
-            "name": "red gem"
+            "name": "Red Gem",
+            "id": "red_gem"
         },
         {
             "chance": 1000,
-            "name": "ring of healing"
+            "name": "Ring of Mending",
+            "id": "ring_of_mending"
         }
     ],
     "changeTarget": {

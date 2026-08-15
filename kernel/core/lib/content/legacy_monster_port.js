@@ -2065,16 +2065,6 @@ function convertWikiEquipmentItem(wikiItem) {
         if (!Number.isNaN(n) && n > 0) item.volume = n;
     }
 
-    const transform =
-        data.transformdeequipto != null
-            ? data.transformdeequipto
-            : data.transformDeEquipTo != null
-              ? data.transformDeEquipTo
-              : null;
-    if (transform != null && transform !== '' && String(transform) !== '0') {
-        item.transformOnUnequip = String(transform);
-    }
-
     return item;
 }
 

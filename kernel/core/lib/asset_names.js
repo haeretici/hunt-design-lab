@@ -21,6 +21,8 @@ const {
     getAssetKind,
     GENRES
 } = require('../../settings.js');
+const { generateWangFamilyRoster, WANG_MASK_COUNT } = require('./overlay_wang.js');
+const { generateWallFamilyRoster, WALL_ALIGN_COUNT } = require('./wall_wang.js');
 
 // ---------------------------------------------------------------------------
 // Shared helpers (mirror creature_names patterns)
@@ -457,6 +459,46 @@ const OBJECT_ADJECTIVES = {
 };
 
 // ---------------------------------------------------------------------------
+// UI banks
+// ---------------------------------------------------------------------------
+
+/** @type {Record<string, string[]>} */
+const UI_CORES = {
+    spells: [
+        'Fireball Icon', 'Heal Icon', 'Shield Icon', 'Strike Icon', 'Blast Icon',
+        'Aura Icon', 'Curse Icon', 'Blessing Icon', 'Bolt Icon', 'Nova Icon',
+        'Ward Icon', 'Beam Icon'
+    ]
+};
+
+const UI_ADJECTIVES = {
+    rpg_fantasy: [
+        'Arcane', 'Holy', 'Dark', 'Mystic', 'Divine', 'Corrupt', 'Radiant',
+        'Shadow', 'Elemental', 'Ancient'
+    ],
+    fantastic_ecology: [
+        'Nature', 'Storm', 'Tidal', 'Earth', 'Fungal', 'Crystal', 'Luminous',
+        'Verdant', 'Solar', 'Lunar'
+    ],
+    ultra_tech: [
+        'Cyber', 'Plasma', 'Ion', 'Laser', 'Quantum', 'Nano', 'Magnetic',
+        'Sonic', 'EMP', 'Force'
+    ],
+    space_creatures: [
+        'Cosmic', 'Void', 'Stellar', 'Astral', 'Nebula', 'Warp', 'Gravity',
+        'Psyonic', 'Alien', 'Meteor'
+    ],
+    steampunk: [
+        'Steam', 'Clockwork', 'Aether', 'Volt', 'Alchemical', 'Brass',
+        'Galvanic', 'Pressure', 'Magnetic', 'Combustion'
+    ],
+    super_heroes: [
+        'Heroic', 'Super', 'Power', 'Energy', 'Kinetic', 'Atomic', 'Vivid',
+        'Dynamic', 'Smash', 'Blast'
+    ]
+};
+
+// ---------------------------------------------------------------------------
 // Generators
 // ---------------------------------------------------------------------------
 
@@ -651,6 +693,31 @@ function generateObjectOne(genreId, category, rng) {
 }
 
 /**
+ * @param {string} genreId
+ * @param {string|null} category
+ * @param {() => number} rng
+ */
+function generateUiOne(genreId, category, rng) {
+    const cats = Object.keys(UI_CORES);
+    const cat = category && UI_CORES[category] ? category : pick(rng, cats);
+    const core = pick(rng, UI_CORES[cat]);
+    const adjPool = UI_ADJECTIVES[genreId] || UI_ADJECTIVES.rpg_fantasy;
+    const adj = pick(rng, adjPool);
+    let technical = cleanPhrase(`${adj} ${core}`);
+    if (technical.split(' ').length > 4) {
+        technical = wordsCap(technical, 4);
+    }
+    const alias = shortAlias(technical, core);
+    return {
+        technical,
+        alias,
+        genre: genreId,
+        kind: 'ui',
+        category: cat
+    };
+}
+
+/**
  * Generate unique asset names for any kind.
  *
  * Uniqueness policy (equipment):
@@ -685,6 +752,32 @@ function generateAssetNames(options) {
             requireUniqueAlias: options.requireUniqueAlias
         });
         return list.map((c) => ({ ...c, kind: 'creatures' }));
+    }
+    if (kindId === 'overlays') {
+        if (count !== WANG_MASK_COUNT) {
+            throw new Error(
+                `overlays generate as a Wang-16 family (${WANG_MASK_COUNT} names); got count=${count}`
+            );
+        }
+        return generateWangFamilyRoster({
+            genre,
+            category,
+            exclude: options.exclude
+        });
+    }
+    const wallFamily = options.wallFamily || options.wangFamily;
+    if (kindId === 'objects' && wallFamily) {
+        if (count !== WALL_ALIGN_COUNT) {
+            throw new Error(
+                `wall families generate as 4 faces (${WALL_ALIGN_COUNT} names); got count=${count}`
+            );
+        }
+        return generateWallFamilyRoster({
+            genre,
+            wallFamily,
+            category,
+            exclude: options.exclude
+        });
     }
 
     getAssetKind(kindId);
@@ -739,6 +832,7 @@ function generateAssetNames(options) {
         if (kindId === 'equipment') return generateEquipmentOne(genre, category, rng);
         if (kindId === 'tiles') return generateTileOne(genre, category, rng);
         if (kindId === 'objects') return generateObjectOne(genre, category, rng);
+        if (kindId === 'ui') return generateUiOne(genre, category, rng);
         throw new Error(`No name generator for kind "${kindId}"`);
     };
 
@@ -821,6 +915,7 @@ module.exports = {
     generateEquipmentOne,
     generateTileOne,
     generateObjectOne,
+    generateUiOne,
     buildEquipmentAliasCandidates,
     pickEquipmentAlias,
     estimateEquipmentCapacity,

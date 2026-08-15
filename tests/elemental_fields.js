@@ -13,6 +13,7 @@ const {
     FIELD_SOURCES,
     FIELD_MASKS,
     ACTIVE_FIELD_MAX_DURATION_SEC,
+    MAP_FIELD_DEFAULT_TTL_SEC,
     getFieldState,
     deployFieldToTile,
     getFieldOnTile,
@@ -23,11 +24,13 @@ const {
     isFieldInActiveRegistry,
     purgeExpiredFields,
     getFieldKind,
+    fieldKindFromMask,
     computeEntityAvoidFieldMask,
     removeFieldFromTile,
     isTileFieldHazardForEntity,
     isObstacleFieldKind,
-    isObstacleField
+    isObstacleField,
+    seedMapFieldsFromTileMap
 } = require('../kernel/core/lib/combat/elemental_fields.js');
 const { TileMap, FRICTION_BLOCKED } = require('../kernel/core/entities/tilemap.js');
 const { findPath } = require('../kernel/core/lib/pathfinder.js');
@@ -1483,7 +1486,82 @@ function main() {
     testEnergyExpireUnderfootAllCombatants();
     testObstacleBarrierAndVine();
     testFieldAndBarrierFloorStickAfterCasterHop();
+    testSeedMapFieldsFromTileMap();
     console.log('elemental_fields: ok');
+}
+
+/**
+ * Editor fields channel → long-lived scenario ground fields (map seed).
+ */
+function testSeedMapFieldsFromTileMap() {
+    log('Running testSeedMapFieldsFromTileMap...');
+    assert.ok(MAP_FIELD_DEFAULT_TTL_SEC >= 7 * 24 * 3600);
+    assert.strictEqual(fieldKindFromMask(1), 'fire');
+    assert.strictEqual(fieldKindFromMask(2), 'poison');
+    assert.strictEqual(fieldKindFromMask(4), 'energy');
+    assert.strictEqual(fieldKindFromMask(16), 'barrier');
+    assert.strictEqual(fieldKindFromMask(0), null);
+
+    const cols = 6;
+    const rows = 4;
+    const friction = new Uint8Array(cols * rows);
+    friction.fill(100);
+    const tileMap = new TileMap();
+    tileMap.loadFloorFromFriction(6, cols, rows, friction);
+    const layer = tileMap.getLayer ? tileMap.getLayer(6) : tileMap.layers['6'];
+    assert.ok(layer && layer.fields);
+    layer.fields[1 * cols + 2] = FIELD_MASKS.FIRE; // (2,1)
+    layer.fields[2 * cols + 3] = FIELD_MASKS.POISON; // (3,2)
+    layer.fields[0] = FIELD_MASKS.ENERGY; // (0,0)
+
+    const ground = createGroundStore();
+    ground.tileMap = tileMap;
+    tileMap.groundStore = ground;
+
+    const n = seedMapFieldsFromTileMap(ground, tileMap, {
+        createdAt: 0,
+        source: FIELD_SOURCES.SCENARIO
+    });
+    assert.strictEqual(n, 3);
+
+    const fire = getFieldOnTile(ground, 2, 1, 6);
+    assert.ok(fire);
+    assert.strictEqual(fire.fieldKind, 'fire');
+    assert.strictEqual(fire.source, FIELD_SOURCES.SCENARIO);
+    assert.strictEqual(fire.durationSec, MAP_FIELD_DEFAULT_TTL_SEC);
+    assert.ok(
+        fire.durationSec > ACTIVE_FIELD_MAX_DURATION_SEC,
+        'map fields skip short-lived heap'
+    );
+    assert.strictEqual(
+        isFieldInActiveRegistry(ground, 2, 1, 6),
+        false,
+        'week-long map fields not on active heap'
+    );
+
+    const poison = getFieldOnTile(ground, 3, 2, 6);
+    assert.ok(poison);
+    assert.strictEqual(poison.fieldKind, 'poison');
+
+    const energy = getFieldOnTile(ground, 0, 0, 6);
+    assert.ok(energy);
+    assert.strictEqual(energy.fieldKind, 'energy');
+
+    // Overwrite with short combat field works the same
+    deployFieldToTile(ground, 2, 1, 6, {
+        kind: 'fire',
+        source: FIELD_SOURCES.PLAYER,
+        createdAt: 0,
+        durationSec: 10
+    });
+    const replaced = getFieldOnTile(ground, 2, 1, 6);
+    assert.strictEqual(replaced.source, FIELD_SOURCES.PLAYER);
+    assert.strictEqual(replaced.durationSec, 10);
+
+    removeFieldFromTile(ground, 0, 0, 6);
+    assert.strictEqual(getFieldOnTile(ground, 0, 0, 6), null);
+
+    log('testSeedMapFieldsFromTileMap: ok');
 }
 
 function testCreatureRangedFieldDeployment() {

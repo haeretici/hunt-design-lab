@@ -109,35 +109,40 @@
     },
     "loot": [
         {
-            "id": 2829,
-            "chance": 2350
+            "chance": 2350,
+            "name": "book"
         },
         {
             "name": "small oil lamp",
             "chance": 690
         },
         {
-            "name": "small sapphire",
+            "name": "Small Sapphire",
+            "id": "small_sapphire",
             "chance": 2560,
             "maxCount": 4
         },
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 60000,
             "maxCount": 70
         },
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 70000,
             "maxCount": 45
         },
         {
-            "name": "mystic turban",
+            "name": "Mystic Turban",
+            "id": "mystic_turban",
             "chance": 70
         },
         {
             "chance": 23480,
-            "name": "carrot"
+            "name": "Carrot",
+            "id": "carrot"
         },
         {
             "name": "blue rose",
@@ -148,12 +153,14 @@
             "chance": 1920
         },
         {
-            "name": "royal spear",
+            "name": "Royal Spear",
+            "id": "royal_spear",
             "chance": 4500,
             "maxCount": 2
         },
         {
-            "name": "mana potion",
+            "name": "Mana Potion",
+            "id": "mana_potion",
             "chance": 860
         },
         {

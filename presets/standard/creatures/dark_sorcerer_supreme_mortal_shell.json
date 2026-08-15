@@ -193,58 +193,71 @@
     "loot": [
         {
             "chance": 800,
-            "name": "Stormbound Legs"
+            "name": "Stormbound Legs",
+            "id": "stormbound_legs"
         },
         {
             "chance": 400,
-            "name": "greenwood coat"
+            "name": "Greenwood Coat",
+            "id": "greenwood_coat"
         },
         {
             "chance": 10000,
             "maxCount": 10,
-            "name": "small sapphire"
+            "name": "Small Sapphire",
+            "id": "small_sapphire"
         },
         {
             "chance": 800,
-            "name": "bloody edge"
+            "name": "Bloody Edge",
+            "id": "bloody_edge"
         },
         {
             "chance": 800,
-            "name": "Maelstrom Mace"
+            "name": "Maelstrom Mace",
+            "id": "maelstrom_mace"
         },
         {
             "chance": 800,
-            "name": "golden armor"
+            "name": "Gilded Plate",
+            "id": "gilded_plate"
         },
         {
             "chance": 400,
-            "name": "emerald sword"
+            "name": "Emerald Sword",
+            "id": "emerald_sword"
         },
         {
             "chance": 800,
-            "name": "boots of homecoming"
+            "name": "Boots of Homecoming",
+            "id": "boots_of_homecoming"
         },
         {
             "chance": 100000,
             "maxCount": 100,
-            "name": "gold coin"
+            "name": "Gold Coin",
+            "id": "gold_coin"
         },
         {
             "chance": 10000,
             "maxCount": 10,
-            "name": "small emerald"
-        },
-        {
-            "id": 281,
-            "chance": 1000
+            "name": "Small Emerald",
+            "id": "small_emerald"
         },
         {
             "chance": 1000,
-            "name": "red gem"
+            "name": "Giant Shimmering Pearl",
+            "id": "giant_shimmering_pearl"
+        },
+        {
+            "chance": 1000,
+            "name": "Red Gem",
+            "id": "red_gem"
         },
         {
             "chance": 300,
-            "name": "velvet mantle"
+            "name": "Velvet Mantle",
+            "id": "velvet_mantle"
         },
         {
             "chance": 1000,
@@ -252,12 +265,14 @@
         },
         {
             "chance": 300,
-            "name": "skullcrusher"
+            "name": "Skullcrusher",
+            "id": "skullcrusher"
         },
         {
             "chance": 10000,
             "maxCount": 10,
-            "name": "small amethyst"
+            "name": "Small Amethyst",
+            "id": "small_amethyst"
         },
         {
             "chance": 800,
@@ -265,24 +280,29 @@
         },
         {
             "chance": 800,
-            "name": "jade hammer"
+            "name": "Jade Hammer",
+            "id": "jade_hammer"
         },
         {
             "chance": 10000,
             "maxCount": 5,
-            "name": "white pearl"
+            "name": "White Pearl",
+            "id": "white_pearl"
         },
         {
             "chance": 600,
-            "name": "nightmare blade"
+            "name": "Dread Blade",
+            "id": "dread_blade"
         },
         {
             "chance": 800,
-            "name": "phoenix shield"
+            "name": "Phoenix Shield",
+            "id": "phoenix_shield"
         },
         {
             "chance": 800,
-            "name": "demon shield"
+            "name": "Fiendish Shield",
+            "id": "fiendish_shield"
         },
         {
             "chance": 150,
@@ -291,32 +311,39 @@
         {
             "chance": 100000,
             "maxCount": 100,
-            "name": "gold coin"
+            "name": "Gold Coin",
+            "id": "gold_coin"
         },
         {
             "chance": 800,
-            "name": "Frostbound Kilt"
+            "name": "Frostbound Kilt",
+            "id": "frostbound_kilt"
         },
         {
             "chance": 400,
-            "name": "Arcane Plate Armor"
+            "name": "Arcane Plate Armor",
+            "id": "arcane_plate_armor"
         },
         {
             "chance": 100,
             "unique": true,
-            "name": "death gaze"
+            "name": "Death Gaze",
+            "id": "death_gaze"
         },
         {
             "chance": 800,
-            "name": "berserker"
+            "name": "Berserker",
+            "id": "berserker"
         },
         {
             "chance": 500,
-            "name": "rift bow"
+            "name": "Breach Bow",
+            "id": "breach_bow"
         },
         {
             "chance": 300,
-            "name": "demonwing axe"
+            "name": "Fiendwing Axe",
+            "id": "fiendwing_axe"
         },
         {
             "chance": 3000,
@@ -324,29 +351,35 @@
         },
         {
             "chance": 800,
-            "name": "queen's sceptre"
+            "name": "Queen's Sceptre",
+            "id": "queens_sceptre"
         },
         {
             "chance": 800,
-            "name": "blue gem"
+            "name": "Blue Gem",
+            "id": "blue_gem"
         },
         {
             "chance": 100000,
             "maxCount": 25,
-            "name": "platinum coin"
+            "name": "Platinum Coin",
+            "id": "platinum_coin"
         },
         {
             "chance": 400,
-            "name": "obsidian truncheon"
+            "name": "Obsidian Truncheon",
+            "id": "obsidian_truncheon"
         },
         {
             "chance": 800,
-            "name": "abyss hammer"
+            "name": "Abyss Hammer",
+            "id": "abyss_hammer"
         },
         {
             "chance": 100,
             "unique": true,
-            "name": "Ferumbras' hat"
+            "name": "Archmage's Hat",
+            "id": "archmage_s_hat"
         },
         {
             "chance": 800,
@@ -354,19 +387,23 @@
         },
         {
             "chance": 800,
-            "name": "demonrage sword"
+            "name": "Fiendrage Sword",
+            "id": "fiendrage_sword"
         },
         {
             "chance": 4000,
-            "name": "green gem"
+            "name": "Green Gem",
+            "id": "green_gem"
         },
         {
             "chance": 600,
-            "name": "mastermind shield"
+            "name": "Grandmaster Shield",
+            "id": "grandmaster_shield"
         },
         {
             "chance": 800,
-            "name": "Skewering Spear"
+            "name": "Skewering Spear",
+            "id": "skewering_spear"
         },
         {
             "chance": 1000000,
@@ -376,12 +413,14 @@
         {
             "chance": 10000,
             "maxCount": 5,
-            "name": "black pearl"
+            "name": "Black Pearl",
+            "id": "black_pearl"
         },
         {
             "chance": 10000,
             "maxCount": 10,
-            "name": "small diamond"
+            "name": "Small Diamond",
+            "id": "small_diamond"
         },
         {
             "chance": 800,
@@ -390,44 +429,54 @@
         {
             "chance": 10000,
             "maxCount": 10,
-            "name": "small topaz"
+            "name": "Small Topaz",
+            "id": "small_topaz"
         },
         {
             "chance": 800,
-            "name": "Ferumbras' amulet"
+            "name": "Archmage's Amulet",
+            "id": "archmage_s_amulet"
         },
         {
             "chance": 500,
-            "name": "rift crossbow"
+            "name": "Breach Crossbow",
+            "id": "breach_crossbow"
         },
         {
             "chance": 800,
-            "name": "divine plate"
+            "name": "Divine Plate",
+            "id": "divine_plate"
         },
         {
             "chance": 700,
-            "name": "great axe"
+            "name": "Great Axe",
+            "id": "great_axe"
         },
         {
             "chance": 100,
             "unique": true,
-            "name": "great shield"
+            "name": "Great Shield",
+            "id": "great_shield"
         },
         {
             "chance": 800,
-            "name": "Emberbound Legs"
+            "name": "Emberbound Legs",
+            "id": "emberbound_legs"
         },
         {
             "chance": 800,
-            "name": "gold ingot"
+            "name": "Gold Ingot",
+            "id": "gold_ingot"
         },
         {
             "chance": 800,
-            "name": "Ruin Blade"
+            "name": "Ruin Blade",
+            "id": "ruin_blade"
         },
         {
             "chance": 400,
-            "name": "ornamented axe"
+            "name": "Ornamented Axe",
+            "id": "ornamented_axe"
         },
         {
             "chance": 3500,

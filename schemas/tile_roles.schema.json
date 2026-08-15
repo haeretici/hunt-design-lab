@@ -1,0 +1,120 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://hunt-design-lab.local/schemas/tile_roles.schema.json",
+  "title": "Tile role",
+  "description": "Shape of presets/<mode>/tile_roles/<id>.json. Loaded by presets.loadTileRole. Declares gameplay influence (friction/sight/flags) and default render scale/anchor for map editor bake and palette.",
+  "type": "object",
+  "required": ["id"],
+  "additionalProperties": true,
+  "definitions": {
+    "entityId": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]{0,79}$",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "anchor": {
+      "type": "string",
+      "enum": [
+        "top_left",
+        "top_center",
+        "top_right",
+        "middle_left",
+        "middle_center",
+        "middle_right",
+        "bottom_left",
+        "bottom_center",
+        "bottom_right"
+      ]
+    },
+    "hopDir": {
+      "type": "string",
+      "enum": ["center", "north", "south", "east", "west"]
+    },
+    "verticalType": {
+      "type": "string",
+      "enum": ["stairs", "ladder", "hole", "rope", "shovel"]
+    },
+    "influence": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "friction": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255,
+          "description": "Walk delay 0–250 when open; 255 = blocked."
+        },
+        "sight": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255,
+          "description": "0 = clear LoS; 255 = blocks sight/projectiles."
+        },
+        "flags": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255,
+          "description": "TILE_FLAG_* bitmask OR'd into the cell."
+        },
+        "walkMode": {
+          "type": "string",
+          "enum": ["open", "block"],
+          "description": "open = walkable contributor; block = solid for walk OR."
+        },
+        "sightMode": {
+          "type": "string",
+          "enum": ["clear", "block"],
+          "description": "clear = does not add sight block; block = OR's sight block."
+        }
+      }
+    },
+    "render": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "scale": { "type": "number", "minimum": 0.05, "maximum": 8 },
+        "anchor": { "$ref": "#/definitions/anchor" },
+        "variant": { "type": "string", "minLength": 1, "maxLength": 40 }
+      }
+    },
+    "vertical": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "type": { "$ref": "#/definitions/verticalType" },
+        "deltaZ": {
+          "type": "integer",
+          "description": "Floor index delta: up = -1, down = +1 (top of world is z=0)."
+        },
+        "defaultDir": { "$ref": "#/definitions/hopDir" },
+        "bidirectional": { "type": "boolean" },
+        "registerStairLink": { "type": "boolean" }
+      }
+    }
+  },
+  "properties": {
+    "id": { "$ref": "#/definitions/entityId" },
+    "label": { "type": "string", "minLength": 1, "maxLength": 120 },
+    "notes": { "type": "string", "maxLength": 4000 },
+    "kindHints": {
+      "type": "array",
+      "items": { "type": "string", "enum": ["tiles", "objects"] },
+      "description": "Preferred catalog kinds for palette filtering."
+    },
+    "catalogCategories": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1, "maxLength": 40 },
+      "description": "Optional genre catalog category filters (floor, water, tree, …)."
+    },
+    "render": { "$ref": "#/definitions/render" },
+    "influence": { "$ref": "#/definitions/influence" },
+    "vertical": {
+      "description": "Null or omitted for non-transit roles.",
+      "oneOf": [
+        { "type": "null" },
+        { "$ref": "#/definitions/vertical" }
+      ]
+    }
+  }
+}

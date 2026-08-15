@@ -234,6 +234,21 @@ function defaultVariantForDisplay() {
 }
 
 /**
+ * Pick draw variant from Settings or tile size for tiles.
+ * Browser default is 32×32 tiles → **icon** (32×32 source thumbs).
+ * @returns {string}
+ */
+function defaultTileVariantForDisplay() {
+    if (Settings.tileSpriteVariant) {
+        return normalizeVariant(Settings.tileSpriteVariant);
+    }
+    const tw = Settings.tileWidth || 32;
+    if (tw <= 32) return 'icon';
+    if (tw <= 64) return 'small';
+    return 'medium';
+}
+
+/**
  * Sprite height mult relative to tile height for an entity.
  *
  * ```
@@ -363,16 +378,76 @@ function entitySpriteOpts(entity, overrides) {
 }
 
 /**
+ * Requested variant, then icon, then original. Hunt tall-props used to ask
+ * for entity `small/` while debug tiles only shipped `icon/` — 404 forever.
+ * @param {Parameters<typeof resolveSpriteRelPath>[0]} opts
+ * @returns {string[]}
+ */
+function spriteUrlCandidates(opts) {
+    const o = opts || {};
+    const requested = normalizeVariant(o.variant);
+    /** @type {string[]} */
+    const variants = [requested];
+    if (requested !== 'icon') variants.push('icon');
+    if (requested !== 'original') variants.push('original');
+    /** @type {string[]} */
+    const urls = [];
+    /** @type {Record<string, true>} */
+    const seen = Object.create(null);
+    for (let i = 0; i < variants.length; i++) {
+        const url = resolveSpriteUrl(Object.assign({}, o, { variant: variants[i] }));
+        if (!url || seen[url]) continue;
+        seen[url] = true;
+        urls.push(url);
+    }
+    return urls;
+}
+
+/**
+ * @param {Parameters<typeof resolveSpriteRelPath>[0]} opts
+ * @returns {'skip'|'missing'|'ready'|'pending'|'failed'}
+ */
+function getSpriteLoadState(opts) {
+    if (Settings.HEADLESS) return 'skip';
+    if (Settings.useEntitySprites === false) return 'skip';
+    const urls = spriteUrlCandidates(opts);
+    if (!urls.length) return 'missing';
+    for (let i = 0; i < urls.length; i++) {
+        const url = urls[i];
+        if (ImageDB.hasFailed(url)) continue;
+        const img = ImageDB.get(url);
+        if (isDrawableReady(img)) return 'ready';
+        if (img) return 'pending';
+        return 'missing';
+    }
+    return 'failed';
+}
+
+/**
+ * True only while a candidate is in-flight. Failed / missing is false
+ * so the floor cache does not rebuild every frame on 404.
+ * @param {Parameters<typeof resolveSpriteRelPath>[0]} opts
+ * @returns {boolean}
+ */
+function isSpritePending(opts) {
+    return getSpriteLoadState(opts) === 'pending';
+}
+
+/**
  * Start async load (no-op headless / no Image). Returns URL or null.
  * @param {Parameters<typeof resolveSpriteRelPath>[0]} opts
  * @returns {string|null}
  */
 function prefetchSprite(opts) {
     if (Settings.HEADLESS) return null;
-    const url = resolveSpriteUrl(opts);
-    if (!url) return null;
-    ImageDB.get(url);
-    return url;
+    const urls = spriteUrlCandidates(opts);
+    if (!urls.length) return null;
+    for (let i = 0; i < urls.length; i++) {
+        if (ImageDB.hasFailed(urls[i])) continue;
+        ImageDB.get(urls[i]);
+        return urls[i];
+    }
+    return null;
 }
 
 /**
@@ -619,17 +694,21 @@ function prefetchHuntSprites(opts) {
 
 /**
  * Return a ready drawable for opts, starting load if needed. Null until ready or failed.
+ * After the requested variant 404s, tries `icon/` then `original/`.
  * @param {Parameters<typeof resolveSpriteRelPath>[0]} opts
  * @returns {import('./imagedb.js').Drawable|null}
  */
 function getReadySpriteImage(opts) {
     if (Settings.HEADLESS) return null;
     if (Settings.useEntitySprites === false) return null;
-    const url = resolveSpriteUrl(opts);
-    if (!url) return null;
-    if (ImageDB.hasFailed(url)) return null;
-    const img = ImageDB.get(url);
-    if (isDrawableReady(img)) return img;
+    const urls = spriteUrlCandidates(opts);
+    for (let i = 0; i < urls.length; i++) {
+        const url = urls[i];
+        if (ImageDB.hasFailed(url)) continue;
+        const img = ImageDB.get(url);
+        if (isDrawableReady(img)) return img;
+        return null;
+    }
     return null;
 }
 
@@ -758,7 +837,11 @@ module.exports = {
     resolveFileStem,
     resolveSpriteRelPath,
     resolveSpriteUrl,
+    spriteUrlCandidates,
+    getSpriteLoadState,
+    isSpritePending,
     defaultVariantForDisplay,
+    defaultTileVariantForDisplay,
     entitySpriteOpts,
     resolveEntitySpriteScale,
     prefetchSprite,

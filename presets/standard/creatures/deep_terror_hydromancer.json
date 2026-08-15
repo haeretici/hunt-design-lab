@@ -160,12 +160,14 @@
     },
     "loot": [
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 50000,
             "maxCount": 60
         },
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 40000,
             "maxCount": 50
         },
@@ -174,25 +176,30 @@
             "chance": 15930
         },
         {
-            "name": "white pearl",
+            "name": "White Pearl",
+            "id": "white_pearl",
             "chance": 5250
         },
         {
-            "name": "small emerald",
+            "name": "Small Emerald",
+            "id": "small_emerald",
             "chance": 5111,
             "maxCount": 2
         },
         {
-            "name": "shrimp",
+            "name": "Shrimp",
+            "id": "shrimp",
             "chance": 4545,
             "maxCount": 5
         },
         {
-            "name": "black pearl",
+            "name": "Black Pearl",
+            "id": "black_pearl",
             "chance": 3150
         },
         {
-            "name": "great mana potion",
+            "name": "Great Mana Potion",
+            "id": "great_mana_potion",
             "chance": 2880
         },
         {
@@ -201,14 +208,17 @@
         },
         {
             "chance": 1218,
-            "name": "ring of healing"
+            "name": "Ring of Mending",
+            "id": "ring_of_mending"
         },
         {
-            "name": "wand of cosmic energy",
+            "name": "Wand of Cosmic Energy",
+            "id": "wand_of_cosmic_energy",
             "chance": 980
         },
         {
-            "name": "knight armor",
+            "name": "Guardian Armor",
+            "id": "guardian_armor",
             "chance": 230
         }
     ],

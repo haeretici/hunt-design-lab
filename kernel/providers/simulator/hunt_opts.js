@@ -87,6 +87,12 @@ function huntToSimulatorOpts(resolved, extra) {
         mapPath: mapPath || null,
         mapPaths:
             r.mapPaths && typeof r.mapPaths === 'object' ? r.mapPaths : null,
+        hybridMapPack:
+            x.hybridMapPack !== undefined
+                ? x.hybridMapPack
+                : r.hybridMapPack != null
+                  ? r.hybridMapPack
+                  : null,
         floorFriction: r.floorFriction || null,
         floorLayers:
             r.floorLayers && typeof r.floorLayers === 'object'
@@ -186,6 +192,7 @@ const SIMULATOR_HUNT_FIELD_KEYS = Object.freeze([
     'floors',
     'mapPath',
     'mapPaths',
+    'hybridMapPack',
     'floorFriction',
     'floorLayers',
     'floorArt',

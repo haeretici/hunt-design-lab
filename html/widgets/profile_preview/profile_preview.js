@@ -210,7 +210,9 @@
 
         let pillsHtml = '';
         if (item.twoHanded === true || item.twoHanded === 'true' || item.twoHanded === 1) {
-            pillsHtml += '<span class="eq-pill" style="color:#d2a8ff;border-color:rgba(210,168,255,0.4)"><i class="fa-solid fa-hands"></i> 2-Handed</span>';
+            pillsHtml += '<span class="eq-pill" style="color:#d2a8ff;border-color:rgba(210,168,255,0.4)"><i class="fa-solid fa-hands"></i> 2-Handed (2h)</span>';
+        } else if (item.category === 'weapon' || item.weaponType || item.atk != null || item.slot === 'weapon') {
+            pillsHtml += '<span class="eq-pill" style="color:#a8d2ff;border-color:rgba(168,210,255,0.4)"><i class="fa-solid fa-hand"></i> 1-Handed (1h)</span>';
         }
         if (item.imbuementSlots != null && Number(item.imbuementSlots) > 0) {
             pillsHtml += `<span class="eq-pill" style="color:#7bc8ff;border-color:rgba(123,200,255,0.4)"><i class="fa-solid fa-gem"></i> ${item.imbuementSlots} Imbuement Slots</span>`;
@@ -605,7 +607,10 @@
 
             let statsDesc = [];
             if (item.armor) statsDesc.push(`Arm: ${item.armor}`);
-            if (item.atk) statsDesc.push(`Atk: ${item.atk}`);
+            if (item.atk) {
+                const is2h = (item.twoHanded === true || item.twoHanded === 'true' || item.twoHanded === 1);
+                statsDesc.push(`Atk: ${item.atk} (${is2h ? '2h' : '1h'})`);
+            }
             if (item.defense) statsDesc.push(`Def: ${item.defense}`);
             if (item.weight) statsDesc.push(`${(item.weight / 100).toFixed(1)} oz`);
 

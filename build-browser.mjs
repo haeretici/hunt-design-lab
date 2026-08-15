@@ -9,10 +9,8 @@ import { fileURLToPath } from 'node:url';
 
 const root = path.dirname(fileURLToPath(import.meta.url));
 
-await esbuild.build({
-    entryPoints: [path.join(root, 'app.js')],
+const shared = {
     bundle: true,
-    outfile: path.join(root, 'build', 'app.bundle.js'),
     format: 'iife',
     platform: 'browser',
     sourcemap: true,
@@ -24,6 +22,19 @@ await esbuild.build({
         fs: path.join(root, 'kernel/core/lib/shims/fs-browser.js'),
         path: path.join(root, 'kernel/core/lib/shims/path-browser.js')
     }
+};
+
+await esbuild.build({
+    ...shared,
+    entryPoints: [path.join(root, 'app.js')],
+    outfile: path.join(root, 'build', 'app.bundle.js')
+});
+
+await esbuild.build({
+    ...shared,
+    entryPoints: [path.join(root, 'kernel/apps/wiki/map_editor_entry.js')],
+    outfile: path.join(root, 'build', 'map-editor.bundle.js')
 });
 
 console.log('Browser bundle → build/app.bundle.js');
+console.log('Map editor bundle → build/map-editor.bundle.js');

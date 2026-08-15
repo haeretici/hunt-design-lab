@@ -110,12 +110,14 @@
     "loot": [
         {
             "chance": 100000,
-            "name": "Gorgon Shield"
+            "name": "Gorgon Shield",
+            "id": "gorgon_shield"
         },
         {
             "chance": 100000,
             "maxCount": 20,
-            "name": "platinum coin"
+            "name": "Platinum Coin",
+            "id": "platinum_coin"
         },
         {
             "chance": 100000,
@@ -124,37 +126,45 @@
         {
             "chance": 87000,
             "maxCount": 2,
-            "name": "great mana potion"
+            "name": "Great Mana Potion",
+            "id": "great_mana_potion"
         },
         {
             "chance": 60000,
-            "name": "sacred tree amulet"
+            "name": "Sacred Tree Amulet",
+            "id": "sacred_tree_amulet"
         },
         {
             "chance": 60000,
             "maxCount": 2,
-            "name": "ultimate health potion"
+            "name": "Ultimate Health Potion",
+            "id": "ultimate_health_potion"
         },
         {
             "chance": 46470,
             "maxCount": 4,
-            "name": "small emerald"
+            "name": "Small Emerald",
+            "id": "small_emerald"
         },
         {
             "chance": 46470,
-            "name": "Earthbound Amulet"
+            "name": "Earthbound Amulet",
+            "id": "earthbound_amulet"
         },
         {
             "chance": 46470,
-            "name": "Earthbound Mantle"
+            "name": "Earthbound Mantle",
+            "id": "earthbound_mantle"
         },
         {
             "chance": 33300,
-            "name": "Earthbound Legs"
+            "name": "Earthbound Legs",
+            "id": "earthbound_legs"
         },
         {
             "chance": 33300,
-            "name": "titan axe"
+            "name": "Titan Axe",
+            "id": "titan_axe"
         }
     ],
     "changeTarget": {

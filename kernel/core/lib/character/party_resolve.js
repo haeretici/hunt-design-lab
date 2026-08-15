@@ -189,6 +189,18 @@ function resolveSessionParties(config, opts) {
         loopWaypoints
     });
 
+    if (cfg.storage && typeof cfg.storage === 'object' && !Array.isArray(cfg.storage)) {
+        parties = parties.map((p) =>
+            Object.assign({}, p, {
+                storage: Object.assign(
+                    {},
+                    cfg.storage,
+                    p.storage && typeof p.storage === 'object' ? p.storage : {}
+                )
+            })
+        );
+    }
+
     // Character-first: expand profileId, then auto-bind class starter profiles
     // for any remaining skill-less rows (create-char analog). Hard-fail only
     // when materialize cannot produce an authored skills bag (§7.2).

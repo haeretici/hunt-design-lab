@@ -78,7 +78,8 @@
     "race": "undead",
     "loot": [
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 100000,
             "maxCount": 40
         },
@@ -87,24 +88,27 @@
             "chance": 10000
         },
         {
-            "name": "battle hammer",
+            "name": "Battle Hammer",
+            "id": "battle_hammer",
             "chance": 5000
         },
         {
-            "name": "battle shield",
+            "name": "Battle Shield",
+            "id": "battle_shield",
             "chance": 1000
         },
         {
-            "name": "guardian shield",
+            "name": "Guardian Shield",
+            "id": "guardian_shield",
             "chance": 5000
         },
         {
-            "id": 6570,
-            "chance": 5538
+            "chance": 5538,
+            "name": "surprise bag"
         },
         {
-            "id": 6571,
-            "chance": 1538
+            "chance": 1538,
+            "name": "surprise bag"
         }
     ],
     "changeTarget": {

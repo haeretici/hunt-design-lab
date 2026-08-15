@@ -593,8 +593,15 @@ function openAssignSpellModal(slot, deps) {
                 'action-bar-assign-list-item' + (selectedId === id ? ' is-selected' : '');
             row.setAttribute('role', 'option');
             row.setAttribute('aria-selected', selectedId === id ? 'true' : 'false');
+            const spriteId = sp.customUISprite || sp.customSprite || id;
+            const genre = deps.getGenre ? deps.getGenre() : 'rpg_fantasy';
+            const url = deps.resolveUiSpriteUrl ? deps.resolveUiSpriteUrl(spriteId, genre) : null;
+            const iconHtml = url 
+                ? `<img src="${escapeHtml(url)}" style="width: 16px; height: 16px;" class="me-1" alt="">`
+                : `<i class="fa-solid fa-wand-magic-sparkles text-warning me-1"></i>`;
+            
             row.innerHTML = `
-                <span class="ab-spell-name"><i class="fa-solid fa-wand-magic-sparkles text-warning me-1"></i>${escapeHtml(String(name))}</span>
+                <span class="ab-spell-name">${iconHtml}${escapeHtml(String(name))}</span>
                 <span class="ab-spell-meta font-monospace text-muted">${escapeHtml(id)}${mana != null ? ` · ${mana} mana` : ''}${lvl != null ? ` · L${lvl}` : ''}</span>
             `;
             row.addEventListener('click', () => {
@@ -1321,8 +1328,15 @@ function openAssignMultiModal(slot, deps) {
                 row.type = 'button';
                 row.className =
                     'action-bar-assign-list-item' + (selectedId === id ? ' is-selected' : '');
+                const spriteId = sp.customUISprite || sp.customSprite || id;
+                const genre = deps.getGenre ? deps.getGenre() : 'rpg_fantasy';
+                const url = deps.resolveUiSpriteUrl ? deps.resolveUiSpriteUrl(spriteId, genre) : null;
+                const iconHtml = url 
+                    ? `<img src="${escapeHtml(url)}" style="width: 16px; height: 16px;" class="me-1" alt="">`
+                    : `<i class="fa-solid fa-wand-magic-sparkles text-warning me-1"></i>`;
+
                 row.innerHTML = `
-                    <span class="ab-spell-name"><i class="fa-solid fa-wand-magic-sparkles text-warning me-1"></i>${escapeHtml(String(name))}</span>
+                    <span class="ab-spell-name">${iconHtml}${escapeHtml(String(name))}</span>
                     <span class="ab-spell-meta font-monospace text-muted">${escapeHtml(id)}</span>
                 `;
                 row.addEventListener('click', () => {

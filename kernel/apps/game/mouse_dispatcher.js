@@ -2,7 +2,8 @@
  * Canvas mouse action dispatcher — pure hit resolve + intent matrix.
  *
  * Modes 0/1/2 live. Classic unshifted RMB: useThing (open/use) before pickup
- * (legacy parity). Stage 5a/6a: QUICKLOOT / OPEN_CORPSE / TALK_NPC stubs.
+ * (legacy parity). Stage 5a: QUICKLOOT / OPEN_CORPSE stubs. Stage 6b: TALK_NPC
+ * is an adapter intent (walk-then-talk; stub only when the NPC has no dialog).
  * Stage 7: Classic LMB+RMB Look chord + moveStack amount rules (pure).
  * Stage 8: Browse Field (virtual tile container).
  * Ground drag stays in inventory_panel (Q1.1 A).
@@ -23,11 +24,17 @@ const {
 } = require('../../core/lib/character/inventory.js');
 const { getStack } = require('../../core/lib/character/ground_items.js');
 const { findPath } = require('../../core/lib/pathfinder.js');
+const {
+    isTalkableNpc,
+    isAttackableCreature
+} = require('../../core/lib/npc/flags.js');
 
 /** Browse Field virtual capacity (legacy create size 30). */
 const BROWSE_FIELD_CAPACITY = 30;
 /** Open range: player tile or adjacent (Chebyshev ≤ 1, same floor). */
 const BROWSE_FIELD_RANGE = 1;
+/** Talk initiate / stay range (Chebyshev, same floor). Client lock; not server 4. */
+const TALK_NPC_RANGE = 3;
 
 /**
  * Fields / immovables live on the ground stack but cannot be collected.
@@ -362,17 +369,22 @@ function buildBrowseFieldIntent(tileOrHit) {
 }
 
 /**
- * Resolve open vs walk-then-browse vs cancel (server-shaped range).
+ * Resolve in-range vs walk-then-act vs cancel.
+ * Browse Field uses maxDist 1; NPC talk uses maxDist 3.
  *
  * @param {{ x: number, y: number, z?: string|number }|null|undefined} playerTile
  * @param {object|null|undefined} tileMap
  * @param {{ x: number, y: number, z?: string|number }} target
+ * @param {number} [maxDist=1] Chebyshev inclusive, same floor
  * @returns {{ status: 'in_range' }|{ status: 'wrong_floor' }|{ status: 'no_path' }|{ status: 'walk', dest: { x: number, y: number, z: string|number } }}
  */
-function resolveBrowseFieldApproach(playerTile, tileMap, target) {
+function resolveApproach(playerTile, tileMap, target, maxDist) {
     if (!playerTile || !target || target.x == null || target.y == null) {
         return { status: 'no_path' };
     }
+    const raw = Number(maxDist);
+    const lim =
+        Number.isFinite(raw) && raw >= 0 ? Math.floor(raw) : BROWSE_FIELD_RANGE;
     const tx = Math.round(target.x);
     const ty = Math.round(target.y);
     const tz = target.z !== undefined && target.z !== null ? target.z : 0;
@@ -384,7 +396,7 @@ function resolveBrowseFieldApproach(playerTile, tileMap, target) {
     if (String(pz) !== String(tz)) {
         return { status: 'wrong_floor' };
     }
-    if (Math.max(Math.abs(px - tx), Math.abs(py - ty)) <= BROWSE_FIELD_RANGE) {
+    if (Math.max(Math.abs(px - tx), Math.abs(py - ty)) <= lim) {
         return { status: 'in_range' };
     }
 
@@ -406,8 +418,35 @@ function resolveBrowseFieldApproach(playerTile, tileMap, target) {
 
     let best = null;
     let bestLen = Infinity;
-    for (let dy = -1; dy <= 1; dy++) {
-        for (let dx = -1; dx <= 1; dx++) {
+    let bestManh = Infinity;
+    let bestToTarget = Infinity;
+
+    /**
+     * Prefer shorter path (or Chebyshev when there is no map). Equal length
+     * used to pick the NW scan-order tile — alcove (3,0) beat corridor (3,3)
+     * on npc_talk_lab. Tie-break toward the player→target axis.
+     * @param {number} nx
+     * @param {number} ny
+     * @param {number} len
+     */
+    function consider(nx, ny, len) {
+        const manh = Math.abs(px - nx) + Math.abs(py - ny);
+        const toTarget = Math.abs(nx - tx) + Math.abs(ny - ty);
+        if (
+            len > bestLen ||
+            (len === bestLen && manh > bestManh) ||
+            (len === bestLen && manh === bestManh && toTarget >= bestToTarget)
+        ) {
+            return;
+        }
+        bestLen = len;
+        bestManh = manh;
+        bestToTarget = toTarget;
+        best = { x: nx, y: ny, z: tz };
+    }
+
+    for (let dy = -lim; dy <= lim; dy++) {
+        for (let dx = -lim; dx <= lim; dx++) {
             const nx = tx + dx;
             const ny = ty + dy;
             if (!tileEnterable(nx, ny)) continue;
@@ -415,11 +454,11 @@ function resolveBrowseFieldApproach(playerTile, tileMap, target) {
                 return { status: 'in_range' };
             }
             if (!tileMap) {
-                const dist = Math.max(Math.abs(px - nx), Math.abs(py - ny));
-                if (dist < bestLen) {
-                    bestLen = dist;
-                    best = { x: nx, y: ny, z: tz };
-                }
+                consider(
+                    nx,
+                    ny,
+                    Math.max(Math.abs(px - nx), Math.abs(py - ny))
+                );
                 continue;
             }
             const path = findPath(
@@ -432,14 +471,23 @@ function resolveBrowseFieldApproach(playerTile, tileMap, target) {
                 }
             );
             if (!path || !path.length) continue;
-            if (path.length < bestLen) {
-                bestLen = path.length;
-                best = { x: nx, y: ny, z: tz };
-            }
+            consider(nx, ny, path.length);
         }
     }
     if (!best) return { status: 'no_path' };
     return { status: 'walk', dest: best };
+}
+
+/**
+ * Resolve open vs walk-then-browse vs cancel (Chebyshev ≤ 1).
+ *
+ * @param {{ x: number, y: number, z?: string|number }|null|undefined} playerTile
+ * @param {object|null|undefined} tileMap
+ * @param {{ x: number, y: number, z?: string|number }} target
+ * @returns {{ status: 'in_range' }|{ status: 'wrong_floor' }|{ status: 'no_path' }|{ status: 'walk', dest: { x: number, y: number, z: string|number } }}
+ */
+function resolveBrowseFieldApproach(playerTile, tileMap, target) {
+    return resolveApproach(playerTile, tileMap, target, BROWSE_FIELD_RANGE);
 }
 
 /**
@@ -612,18 +660,20 @@ function buildCanvasContextMenuEntries(hit, opts) {
             text: creatureLookText(hit.creature),
             creature: hit.creature
         });
-        entries.push({
-            id: 'attack',
-            label: 'Attack',
-            targetId: hit.creature.id,
-            creature: hit.creature
-        });
-        // Stage 6a: Talk reserved for talkable NPCs (adapter → FCT stub)
+        if (isAttackableCreature(hit.creature, hit)) {
+            entries.push({
+                id: 'attack',
+                label: 'Attack',
+                targetId: hit.creature.id,
+                creature: hit.creature
+            });
+        }
+        // Stage 6b: Talk reserved for talkable NPCs (adapter opens dialog)
         if (isTalkableNpc(hit.creature) || hit.isNpc === true) {
             entries.push({
                 id: 'talk',
                 label: 'Talk',
-                stub: true,
+                stub: !npcHasDialogData(hit.creature),
                 creature: hit.creature,
                 creatureId: hit.creature.id,
                 tile: { x: hit.x, y: hit.y, z: hit.z }
@@ -796,24 +846,6 @@ function unshiftedLeftDefault(hit) {
 }
 
 /**
- * True if creature is flagged as talkable NPC (content may set later).
- * @param {object|null|undefined} creature
- * @returns {boolean}
- */
-function isTalkableNpc(creature) {
-    if (!creature || typeof creature !== 'object') return false;
-    if (creature.isNpc === true || creature.npc === true || creature.talkable === true) {
-        return true;
-    }
-    const kind = creature.kind != null ? String(creature.kind).toLowerCase() : '';
-    if (kind === 'npc') return true;
-    const faction =
-        creature.faction != null ? String(creature.faction).toLowerCase() : '';
-    if (faction === 'npc') return true;
-    return false;
-}
-
-/**
  * Chebyshev distance on the same floor, or Infinity if floors differ / missing.
  * @param {{ x?: number, y?: number, z?: string|number }|null|undefined} a
  * @param {{ x?: number, y?: number, z?: string|number }|null|undefined} b
@@ -830,42 +862,41 @@ function chebyshevSameFloor(a, b) {
 }
 
 /**
- * Stage 6a: TALK_NPC stub when talkable NPC within Chebyshev ≤ 3 same floor.
+ * True when the creature carries dialog content (inline tree or dialogId).
+ * Adapter re-resolves; this only drops `stub` on the intent.
+ * @param {object|null|undefined} creature
+ * @returns {boolean}
+ */
+function npcHasDialogData(creature) {
+    if (!creature || typeof creature !== 'object') return false;
+    if (creature.dialogId != null && String(creature.dialogId).trim()) return true;
+    const d = creature.dialog;
+    if (!d || typeof d !== 'object' || Array.isArray(d)) return false;
+    if (!d.nodes || typeof d.nodes !== 'object' || Array.isArray(d.nodes)) {
+        return false;
+    }
+    return Object.keys(d.nodes).length > 0;
+}
+
+/**
+ * Stage 6b: TALK_NPC for a talkable NPC (any range — adapter walk-then-talk).
+ * `stub` is true only when the creature has no dialog / dialogId.
  * @param {object} hit
- * @param {{ x: number, y: number, z?: string|number }|null|undefined} playerTile
+ * @param {{ x: number, y: number, z?: string|number }|null|undefined} [_playerTile]
  * @returns {object[]|null}
  */
-function tryTalkNpc(hit, playerTile) {
+function tryTalkNpc(hit, _playerTile) {
     if (!hit || !hit.creature) return null;
     if (!isTalkableNpc(hit.creature) && hit.isNpc !== true) return null;
-    const dist = chebyshevSameFloor(playerTile, {
-        x: hit.x,
-        y: hit.y,
-        z: hit.z
-    });
-    if (dist > 3) return null;
     return [
         {
             type: 'TALK_NPC',
-            stub: true,
+            stub: !npcHasDialogData(hit.creature),
             creature: hit.creature,
             creatureId: hit.creature.id,
             tile: { x: hit.x, y: hit.y, z: hit.z }
         }
     ];
-}
-
-/**
- * Legacy never attacks NPCs (smart/classic attack branches skip isNpc).
- * @param {object|null|undefined} creature
- * @param {object|null|undefined} [hit] optional hit for isNpc flag
- * @returns {boolean}
- */
-function isAttackableCreature(creature, hit) {
-    if (!creature) return false;
-    if (isTalkableNpc(creature)) return false;
-    if (hit && hit.isNpc === true) return false;
-    return true;
 }
 
 /**
@@ -956,7 +987,7 @@ function classicCorpseLootIntents(hit, lootMode, mods, button) {
  * @returns {object[]}
  */
 function smartUnshiftedLeft(hit, flags, playerTile) {
-    // 1. NPC ≤ 3 same z → TALK_NPC stub (Stage 6a)
+    // 1. Talkable NPC → TALK_NPC (adapter walk-then-talk, Stage 6b)
     const talk = tryTalkNpc(hit, playerTile);
     if (talk) return talk;
 
@@ -1111,7 +1142,7 @@ function classicGroundUseThingIntents(hit) {
  * @returns {object[]}
  */
 function classicUnshiftedRight(hit, flags, playerTile, lootMode) {
-    // Stage 6a: NPC ≤ 3 always on classic (legacy parity slot)
+    // Stage 6b: talkable NPC always on classic (adapter handles range)
     const talk = tryTalkNpc(hit, playerTile);
     if (talk) return talk;
 
@@ -1187,7 +1218,7 @@ function regularCtrlUse(hit) {
  * @param {object|null} input.hit from resolveCanvasHit
  * @param {number} [input.mode] mouseControlMode (0 Regular, 1 Classic, 2 Smart); default 1
  * @param {number} [input.lootMode] classic lootControlMode (0/1/2); stub body until 5b
- * @param {boolean} [input.talkOnRightClick] Regular: RMB talks to NPC when true (Stage 6a)
+ * @param {boolean} [input.talkOnRightClick] Regular: RMB talks to NPC when true (Stage 6b)
  * @param {object|null|undefined} [input.activeCursor] uiState.activeActionCursor
  * @param {string} [input.playerControlMode] 'manual' | 'ai'
  * @param {boolean} [input.playerAlive]
@@ -1316,7 +1347,7 @@ function processMouseAction(input) {
             if (playerControlMode !== 'manual' || !playerAlive) return [];
             return unshiftedLeftDefault(hit);
         }
-        // Stage 6a: optional talkOnRightClick for Regular RMB on NPC
+        // Stage 6b: optional talkOnRightClick for Regular RMB on NPC
         if (talkOnRightClick) {
             const talk = tryTalkNpc(hit, playerTile);
             if (talk) return talk;
@@ -1487,9 +1518,12 @@ module.exports = {
     thingLabel,
     creatureLookText,
     isTalkableNpc,
+    isAttackableCreature,
     isCorpseLike,
     chebyshevSameFloor,
     tryTalkNpc,
+    npcHasDialogData,
+    TALK_NPC_RANGE,
     quicklootStubIntent,
     openCorpseStubIntent,
     normalizeLootMode,
@@ -1512,5 +1546,6 @@ module.exports = {
     hitHasBrowsableItems,
     isInBrowseOpenRange,
     buildBrowseFieldIntent,
-    resolveBrowseFieldApproach
+    resolveBrowseFieldApproach,
+    resolveApproach
 };

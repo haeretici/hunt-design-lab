@@ -109,6 +109,7 @@
     "loot": [
         {
             "name": "Platinum Coin",
+            "id": "platinum_coin",
             "chance": 52610,
             "minCount": 1,
             "maxCount": 46
@@ -122,8 +123,9 @@
             "chance": 8320
         },
         {
-            "id": 282,
-            "chance": 7580
+            "chance": 7580,
+            "name": "Giant Shimmering Pearl",
+            "id": "giant_shimmering_pearl"
         },
         {
             "name": "Dragolisk Eye",
@@ -131,6 +133,7 @@
         },
         {
             "name": "Green Gem",
+            "id": "green_gem",
             "chance": 8260
         },
         {
@@ -138,7 +141,8 @@
             "chance": 1003
         },
         {
-            "name": "Dragon Shield",
+            "name": "Wyrm Shield",
+            "id": "wyrm_shield",
             "chance": 400
         }
     ],

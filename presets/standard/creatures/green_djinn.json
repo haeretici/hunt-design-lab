@@ -109,31 +109,36 @@
     },
     "loot": [
         {
-            "id": 2831,
-            "chance": 2280
+            "chance": 2280,
+            "name": "book"
         },
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 41000,
             "maxCount": 70
         },
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 51000,
             "maxCount": 45
         },
         {
-            "name": "small emerald",
+            "name": "Small Emerald",
+            "id": "small_emerald",
             "chance": 2960,
             "maxCount": 4
         },
         {
-            "name": "mystic turban",
+            "name": "Mystic Turban",
+            "id": "mystic_turban",
             "chance": 140
         },
         {
             "chance": 23500,
-            "name": "cheese"
+            "name": "Cheese",
+            "id": "cheese"
         },
         {
             "name": "grave flower",
@@ -144,12 +149,14 @@
             "chance": 2000
         },
         {
-            "name": "royal spear",
+            "name": "Royal Spear",
+            "id": "royal_spear",
             "chance": 4870,
             "maxCount": 2
         },
         {
-            "name": "mana potion",
+            "name": "Mana Potion",
+            "id": "mana_potion",
             "chance": 490
         },
         {

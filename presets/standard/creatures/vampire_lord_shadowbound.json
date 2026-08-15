@@ -87,43 +87,50 @@
     "race": "venom",
     "loot": [
         {
-            "name": "platinum coin",
+            "name": "Platinum Coin",
+            "id": "platinum_coin",
             "minCount": 1,
             "maxCount": 5,
             "chance": 100000
         },
         {
-            "name": "crystal coin",
+            "name": "Crystal Coin",
+            "id": "crystal_coin",
             "minCount": 0,
             "maxCount": 2,
             "chance": 50000
         },
         {
-            "name": "supreme health potion",
+            "name": "Supreme Health Potion",
+            "id": "supreme_health_potion",
             "minCount": 0,
             "maxCount": 6,
             "chance": 35000
         },
         {
-            "name": "ultimate mana potion",
+            "name": "Ultimate Mana Potion",
+            "id": "ultimate_mana_potion",
             "minCount": 0,
             "maxCount": 20,
             "chance": 32000
         },
         {
-            "name": "ultimate dual potion",
+            "name": "Ultimate Dual Potion",
+            "id": "ultimate_dual_potion",
             "minCount": 0,
             "maxCount": 20,
             "chance": 32000
         },
         {
-            "name": "marksman potion",
+            "name": "Marksman Potion",
+            "id": "marksman_potion",
             "minCount": 0,
             "maxCount": 10,
             "chance": 12000
         },
         {
-            "name": "berserk potion",
+            "name": "Berserk Potion",
+            "id": "berserk_potion",
             "minCount": 0,
             "maxCount": 10,
             "chance": 12000
@@ -138,10 +145,12 @@
             "minCount": 0,
             "maxCount": 2,
             "chance": 12000,
-            "name": "red gem"
+            "name": "Red Gem",
+            "id": "red_gem"
         },
         {
-            "name": "blue gem",
+            "name": "Blue Gem",
+            "id": "blue_gem",
             "minCount": 0,
             "maxCount": 2,
             "chance": 12000
@@ -158,22 +167,26 @@
         },
         {
             "chance": 5200,
-            "name": "collar of blue plasma"
+            "name": "Collar of Blue Plasma",
+            "id": "collar_of_blue_plasma"
         },
         {
             "chance": 5200,
-            "name": "collar of red plasma"
+            "name": "Collar of Red Plasma",
+            "id": "collar_of_red_plasma"
         },
         {
             "chance": 5200,
-            "name": "collar of green plasma"
+            "name": "Collar of Green Plasma",
+            "id": "collar_of_green_plasma"
         },
         {
             "name": "giant sapphire",
             "chance": 7000
         },
         {
-            "name": "haunted blade",
+            "name": "Haunted Blade",
+            "id": "haunted_blade",
             "chance": 9000
         },
         {
@@ -181,35 +194,41 @@
             "chance": 4500
         },
         {
-            "name": "knight armor",
+            "name": "Guardian Armor",
+            "id": "guardian_armor",
             "chance": 15000
         },
         {
-            "name": "violet gem",
+            "name": "Violet Gem",
+            "id": "violet_gem",
             "minCount": 0,
             "maxCount": 1,
             "chance": 10000
         },
         {
-            "name": "yellow gem",
+            "name": "Yellow Gem",
+            "id": "yellow_gem",
             "minCount": 0,
             "maxCount": 1,
             "chance": 10000
         },
         {
             "chance": 5000,
-            "name": "ring of green plasma"
+            "name": "Ring of Green Plasma",
+            "id": "ring_of_green_plasma"
         },
         {
             "chance": 5000,
-            "name": "ring of red plasma"
+            "name": "Ring of Red Plasma",
+            "id": "ring_of_red_plasma"
         },
         {
             "name": "young lich worm",
             "chance": 5800
         },
         {
-            "name": "bear skin",
+            "name": "Bear Skin",
+            "id": "bear_skin",
             "chance": 1600
         },
         {
@@ -218,6 +237,7 @@
         },
         {
             "name": "Earthbound Helmet",
+            "id": "earthbound_helmet",
             "chance": 720
         },
         {

@@ -14,8 +14,9 @@ python3 bin/build_legacy_map_reference.py
 
 See `map/REFERENCE.md` for the floor-07 layout zones. Product combat content is
 `presets/standard/`. The historical combat pack is on git branch **`legacy`**
-(`git checkout legacy -- presets/legacy`); rebuild with `npm run port:legacy:full`
-only when that pack is present. See [docs/16_legacy_port.md](../../docs/16_legacy_port.md).
+(`git checkout legacy -- presets/legacy`); rebuild with
+`node other/content_maps/bin/port_legacy_full.js` only when that pack is present.
+See [docs/16_legacy_port.md](../../docs/16_legacy_port.md).
 
 ## Public tree
 

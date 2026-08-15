@@ -61,6 +61,7 @@ use De\CreatureAssets;
 use De\HuntPresets;
 use De\JobRunner;
 use De\JobStore;
+use De\LegacyMapEditor;
 use De\PresetCrud;
 use De\Request;
 use De\Response;
@@ -88,7 +89,7 @@ if ($action === '') {
         'catalog_genres, catalog_list, creature_remove, creature_rename, creature_flip, creature_replace, creature_opaque_alpha, creature_reprocess, creature_fix_green, ' .
         'modes_list, hunts_list, hunts_get, hunts_template, hunts_save, hunts_delete, presets_browser_pack, ' .
         'presets_kinds, presets_list, presets_get, presets_ids, presets_refs, presets_template, presets_save, presets_rename, presets_delete, presets_validate, ' .
-        'smart_update_sprites, bugs_save',
+        'legacy_map_save_spawns, legacy_map_save_layer, legacy_map_save_hybrid, legacy_map_save_hybrid_begin, legacy_map_save_hybrid_blob, legacy_map_load_hybrid, smart_update_sprites, bugs_save',
         400
     );
     exit;
@@ -401,6 +402,90 @@ try {
                 (string) $req->get('id', ''),
                 (string) $req->get('level', 'layout')
             );
+            Response::ok($data);
+            break;
+
+        case 'legacy_map_save_spawns':
+            requireWrite($req);
+            $spawns = $req->get('spawns', null);
+            if (is_string($spawns)) {
+                $decoded = json_decode($spawns, true);
+                if (!is_array($decoded)) {
+                    throw new InvalidArgumentException('spawns must be a JSON object/array');
+                }
+                $spawns = $decoded;
+            }
+            if (!is_array($spawns)) {
+                throw new InvalidArgumentException('spawns must be a JSON object/array');
+            }
+            $data = LegacyMapEditor::saveSpawns([
+                'floor' => (string) $req->get('floor', ''),
+                'spawns' => $spawns,
+            ]);
+            Response::ok($data);
+            break;
+
+        case 'legacy_map_save_layer':
+            requireWrite($req);
+            $data = LegacyMapEditor::saveLayer([
+                'floor' => (string) $req->get('floor', ''),
+                'layer' => (string) $req->get('layer', ''),
+                'image' => (string) $req->get('image', ''),
+            ]);
+            Response::ok($data);
+            break;
+
+        case 'legacy_map_save_hybrid':
+            requireWrite($req);
+            $data = LegacyMapEditor::saveHybrid([
+                'floor' => (string) $req->get('floor', ''),
+                'meta' => $req->get('meta', null),
+                'blobsBase64' => $req->get('blobsBase64', $req->get('blobs', null)),
+            ]);
+            Response::ok($data);
+            break;
+
+        case 'legacy_map_save_hybrid_begin':
+            // Chunked hybrid save step 1: write map.json (small). Blobs follow via _blob.
+            requireWrite($req);
+            $data = LegacyMapEditor::saveHybridBegin([
+                'floor' => (string) $req->get('floor', ''),
+                'meta' => $req->get('meta', null),
+            ]);
+            Response::ok($data);
+            break;
+
+        case 'legacy_map_save_hybrid_blob':
+            // Chunked hybrid save step 2: body = on-disk gzip blob (*.u8.gz / *.u16.gz).
+            // Optional Content-Encoding: gzip is transport-only and is peeled first;
+            // the resulting bytes must still be a gzip hybrid blob (no raw grids).
+            requireWrite($req);
+            $raw = file_get_contents('php://input');
+            if (!is_string($raw) || $raw === '') {
+                throw new InvalidArgumentException(
+                    'Empty hybrid blob body. Check PHP post_max_size / Content-Length.'
+                );
+            }
+            $encoding = strtolower((string) ($_SERVER['HTTP_CONTENT_ENCODING'] ?? ''));
+            if ($encoding === 'gzip' || $encoding === 'x-gzip') {
+                $decoded = @gzdecode($raw);
+                if ($decoded === false) {
+                    throw new InvalidArgumentException('Failed to gunzip transport wrapper');
+                }
+                $raw = $decoded;
+            }
+            $data = LegacyMapEditor::saveHybridBlob([
+                'floor' => (string) $req->get('floor', ''),
+                'path' => (string) $req->get('path', $req->get('rel', '')),
+            ], $raw);
+            Response::ok($data);
+            break;
+
+        case 'legacy_map_load_hybrid':
+            $data = LegacyMapEditor::loadHybrid([
+                'floor' => (string) $req->get('floor', ''),
+                'embed' => $req->get('embed', false),
+            ]);
             Response::ok($data);
             break;
 

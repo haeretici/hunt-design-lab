@@ -68,6 +68,207 @@
     "exp": { "type": "number", "minimum": 0 },
     "lootValue": { "type": "number" },
     "aggro": { "type": "boolean" },
+    "isNpc": {
+      "type": "boolean",
+      "description": "Talkable NPC (scenario / tutorial / vendor-lite). Not a hunt target unless attackableNpc."
+    },
+    "npc": {
+      "type": "boolean",
+      "description": "Alias of isNpc."
+    },
+    "talkable": {
+      "type": "boolean",
+      "description": "Talkable regardless of kind / faction."
+    },
+    "kind": {
+      "type": "string",
+      "description": "Entity kind. kind=npc is talkable."
+    },
+    "faction": {
+      "type": "string",
+      "description": "faction=npc is talkable."
+    },
+    "attackableNpc": {
+      "type": "boolean",
+      "description": "Escape hatch: attackable and never talk (Q6.2)."
+    },
+    "dialogId": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]{0,79}$",
+      "description": "Optional extracted dialog tree id under presets/<mode>/dialogs/<id>.json."
+    },
+    "walkInterval": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "C.4 wander period in ms. 0 / omitted = no wander. Requires speed > 0 and walkRadius > 0."
+    },
+    "walkRadius": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "C.4 Chebyshev tiles from homeTile. 0 = cannot walk."
+    },
+    "voices": {
+      "type": "array",
+      "description": "C.4 idle voice lines. Alias voiceVector. Ticks only with a nearby spectator.",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "text": { "type": "string" },
+          "yell": { "type": "boolean" },
+          "yellText": {
+            "type": "boolean",
+            "description": "Alias of yell."
+          }
+        }
+      }
+    },
+    "voiceVector": {
+      "type": "array",
+      "description": "Alias of voices."
+    },
+    "voiceInterval": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "C.4 voice roll period in ms. 0 / omitted = no voices. Alias yellSpeedTicks."
+    },
+    "yellSpeedTicks": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Alias of voiceInterval."
+    },
+    "voiceChance": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "C.4 percent chance (1–100) to speak when voiceInterval elapses. Alias yellChance."
+    },
+    "yellChance": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Alias of voiceChance."
+    },
+    "shop": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Vendor-lite shop (C.3). Currency-as-item; buy/sell vs backpack. shop.when and row.when are re-checked at open and at click (not hide-only). No bank.",
+      "properties": {
+        "currency": {
+          "type": "string",
+          "format": "equipment_id",
+          "description": "Backpack item id used as money (default gold_coin). Designer: Select opens the equipment catalog."
+        },
+        "when": {
+          "description": "Gate opening the shop (and every buy/sell). Same predicate as reply when."
+        },
+        "denyText": {
+          "type": "string",
+          "description": "FCT when shop.when fails. Default: I do not trade with you."
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+              "item": {
+                "type": "string",
+                "format": "equipment_id",
+                "description": "Item id (alias of itemId). Designer: Select opens the equipment catalog."
+              },
+              "itemId": {
+                "type": "string",
+                "format": "equipment_id",
+                "description": "Item id (alias of item). Designer: Select opens the equipment catalog."
+              },
+              "buy": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Price the player pays per unit. 0 / omitted = not sold."
+              },
+              "sell": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Price the NPC pays per unit. 0 / omitted = not bought."
+              },
+              "when": {
+                "description": "Hide this row unless the predicate matches. Re-checked at buy/sell."
+              }
+            }
+          }
+        }
+      }
+    },
+    "dialog": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Inline dialog tree (Stage 6b). greeting + start + nodes with reply buttons. Prefer this or dialogId — not a free-text parser.",
+      "properties": {
+        "greeting": { "type": "string" },
+        "start": { "type": "string" },
+        "nodes": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+              "text": { "type": "string" },
+              "set": {
+                "type": "object",
+                "additionalProperties": true,
+                "description": "Storage keys written when the player lands on this node (Phase C.1)."
+              },
+              "replies": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "properties": {
+                    "label": { "type": "string" },
+                    "goto": { "type": "string" },
+                    "action": {
+                      "type": "string",
+                      "description": "goto | close | custom | give_item | take_item | open_shop | trade. open_shop / trade open the vendor-lite shop (C.3)."
+                    },
+                    "command": {
+                      "description": "Optional CUSTOM_COMMAND payload when action is custom."
+                    },
+                    "item": {
+                      "type": "string",
+                      "description": "Item id for give_item / take_item (alias of itemId)."
+                    },
+                    "itemId": {
+                      "type": "string",
+                      "description": "Item id for give_item / take_item."
+                    },
+                    "count": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "description": "Stack count for give_item / take_item (default 1)."
+                    },
+                    "give": {
+                      "description": "NPC → player item spec ({ itemId|id|item, count }) on any reply. Re-checked at takeReply."
+                    },
+                    "take": {
+                      "description": "Player → NPC item spec ({ itemId|id|item, count }) on any reply. Re-checked at takeReply. All-or-nothing."
+                    },
+                    "when": {
+                      "description": "Hide this reply unless the predicate matches. Object or AND-array of { storage|key, eq?, neq?, min?, max? } or { item|itemId, eq?, neq?, min?, max? }. Storage unset = 0. Item counts the backpack tree. Re-checked at click / takeReply."
+                    },
+                    "set": {
+                      "type": "object",
+                      "additionalProperties": true,
+                      "description": "Storage keys written when this reply is taken (after when re-check and a successful give/take)."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "canBlock": {
       "type": "boolean",
       "description": "Shield-block eligibility (from legacy flags.isBlockable)."
@@ -80,7 +281,13 @@
     "strategiesTarget": {
       "type": "object",
       "additionalProperties": { "type": "number" },
-      "description": "Weighted target pick: nearest, health, damage, random. damage uses damageTakenBy with optional half-life decay (flags.threatDecayHalflifeSec). Mid-combat re-roll when flags.retargetIntervalSec > 0."
+      "description": "Weighted target pick: nearest, health, damage, random. damage uses damageTakenBy with optional half-life decay (flags.threatDecayHalflifeSec). Mid-combat re-roll uses changeTarget only.",
+      "properties": {
+        "nearest": { "type": "number", "minimum": 0 },
+        "health": { "type": "number", "minimum": 0 },
+        "damage": { "type": "number", "minimum": 0 },
+        "random": { "type": "number", "minimum": 0 }
+      }
     },
     "bestiary": {
       "type": "object",
@@ -108,7 +315,11 @@
             "additionalProperties": true,
             "properties": {
               "name": { "type": "string" },
-              "id": { "type": "string" },
+              "id": {
+                "type": "string",
+                "format": "creature_id",
+                "description": "Combat creature template id to summon. Designer: Select opens the creature catalog."
+              },
               "chance": { "type": "number", "minimum": 0, "maximum": 100 },
               "interval": { "type": "integer", "minimum": 0 },
               "count": { "type": "integer", "minimum": 0 }
@@ -132,7 +343,9 @@
           "id": { "type": "string" },
           "kind": {
             "type": "string",
-            "enum": ["heal", "haste", "invisible"]
+            "default": "",
+            "enum": ["", "heal", "haste", "invisible"],
+            "description": "Defense spell kind. Empty = unset (omit on disk)."
           },
           "intervalMs": { "type": "integer", "minimum": 50 },
           "chance": { "type": "number", "minimum": 0, "maximum": 100 },
@@ -190,42 +403,22 @@
           "range": {
             "type": "integer",
             "minimum": 0,
-            "description": "Maximum tile range.",
-            "options": {
-              "dependencies": {
-                "kind": ["ranged", "area"]
-              }
-            }
+            "description": "Maximum tile range. Live on melee / wave / status too — do not hide by kind (Save would drop it)."
           },
           "radius": {
             "type": "integer",
             "minimum": 0,
-            "description": "Radial size for area attacks.",
-            "options": {
-              "dependencies": {
-                "kind": "area"
-              }
-            }
+            "description": "Radial size. Live on area plus some ranged / status / melee field kits — do not hide by kind."
           },
           "length": {
             "type": "integer",
             "minimum": 0,
-            "description": "Wave / beam length in tiles.",
-            "options": {
-              "dependencies": {
-                "kind": "wave"
-              }
-            }
+            "description": "Wave / beam length in tiles. Also present on some status rows."
           },
           "spread": {
             "type": "integer",
             "minimum": 0,
-            "description": "Wave cone spread width.",
-            "options": {
-              "dependencies": {
-                "kind": "wave"
-              }
-            }
+            "description": "Wave cone spread width. 0 is a live value."
           },
           "min": {
             "type": "number",
@@ -243,34 +436,11 @@
             "type": "boolean",
             "description": "True if attack only applies status condition without direct hit damage."
           },
-          "condition": {
-            "type": "object",
-            "description": "On-hit condition (DoT or slow/haste/invisible).",
-            "properties": {
-              "type": {
-                "type": "string",
-                "enum": [
-                  "poison",
-                  "fire",
-                  "ice",
-                  "energy",
-                  "bleed",
-                  "curse",
-                  "slow",
-                  "haste",
-                  "invisible"
-                ]
-              },
-              "totalDamage": { "type": "number", "minimum": 0 },
-              "intervalMs": { "type": "number", "minimum": 0 },
-              "durationSec": { "type": "number", "minimum": 0 },
-              "speedChange": { "type": "number" }
-            },
-            "additionalProperties": true
-          },
           "effect": {
             "type": "string",
+            "default": "",
             "enum": [
+              "",
               "158", "193", "216", "225", "240", "241", "243", "244", "248", "249", "252", "53",
               "ani_death", "ani_earth", "ani_energy", "ani_suddendeath",
               "me_bats", "me_big_scratch", "me_bigclouds", "me_bigplants", "me_bite",
@@ -291,11 +461,13 @@
               "me_teleport", "me_watersplash", "me_white_energy_spark", "me_yalaharighost",
               "me_yellow_energy_spark", "me_yellow_rings", "me_yellowenergy", "me_yellowsmoke"
             ],
-            "description": "Magic / impact visual effect animation."
+            "description": "Magic / impact visual effect animation. Empty = unset (omit on disk)."
           },
           "shootEffect": {
             "type": "string",
+            "default": "",
             "enum": [
+              "",
               "31", "37",
               "ani_arrow", "ani_bolt", "ani_burstarrow", "ani_cherrybomb", "ani_death",
               "ani_earth", "ani_eartharrow", "ani_enchantedspear", "ani_energy",
@@ -309,77 +481,51 @@
               "ani_spectralbolt", "ani_suddendeath", "ani_throwingknife", "ani_throwingstar",
               "ani_whirlwindaxe", "ani_whirlwindclub", "ani_whirlwindsword"
             ],
-            "description": "Distance / missile visual effect animation.",
-            "options": {
-              "dependencies": {
-                "kind": ["ranged", "area"]
-              }
-            }
+            "description": "Distance / missile visual effect animation. Live on melee too. Empty = unset (omit on disk)."
           },
           "condition": {
-            "description": "On-hit status applied via applyCondition (kernel/core/lib/combat/conditions.js). Stored form is engine-canonical only — never CONDITION_* / freezing. Legacy dumps are converted at port time (legacy_monster_port.convertCondition).",
-            "oneOf": [
-              {
-                "type": "object",
-                "required": ["type", "totalDamage", "intervalMs"],
-                "additionalProperties": false,
-                "properties": {
-                  "type": {
-                    "type": "string",
-                    "enum": ["poison", "fire", "ice", "energy", "bleed", "curse", "holy"],
-                    "description": "DoT kind. Runtime element: poison→earth, fire→fire, ice→ice, energy→energy, bleed→physical, curse→death, holy→holy."
-                  },
-                  "totalDamage": {
-                    "type": "number",
-                    "exclusiveMinimum": 0,
-                    "description": "Total DoT damage over the condition lifetime (decaying ticks)."
-                  },
-                  "intervalMs": {
-                    "type": "number",
-                    "minimum": 1,
-                    "description": "Tick interval in milliseconds."
-                  }
-                }
+            "type": "object",
+            "additionalProperties": true,
+            "description": "On-hit status applied via applyCondition (kernel/core/lib/combat/conditions.js). Stored form is engine-canonical only — never CONDITION_* / freezing. Legacy dumps are converted at port time (legacy_monster_port.convertCondition). DoT: type + totalDamage + intervalMs. Speed: type slow|haste + speedChange + durationSec. Invisible: type + durationSec.",
+            "properties": {
+              "type": {
+                "type": "string",
+                "default": "",
+                "enum": [
+                  "",
+                  "poison",
+                  "fire",
+                  "ice",
+                  "energy",
+                  "bleed",
+                  "curse",
+                  "holy",
+                  "slow",
+                  "haste",
+                  "invisible"
+                ],
+                "description": "DoT kind (poison→earth, fire, ice, energy, bleed→physical, curse→death, holy) or slow / haste / invisible. Empty = unset (omit on disk)."
               },
-              {
-                "type": "object",
-                "required": ["type", "speedChange", "durationSec"],
-                "additionalProperties": false,
-                "properties": {
-                  "type": {
-                    "type": "string",
-                    "enum": ["slow", "haste"],
-                    "description": "Speed mod. slow uses negative speedChange; haste positive."
-                  },
-                  "speedChange": {
-                    "type": "number",
-                    "description": "Absolute speed delta applied to baseSpeed (must be non-zero)."
-                  },
-                  "durationSec": {
-                    "type": "number",
-                    "minimum": 0,
-                    "description": "Duration in seconds."
-                  }
-                }
+              "totalDamage": {
+                "type": "number",
+                "minimum": 0,
+                "description": "Total DoT damage over the condition lifetime (decaying ticks)."
               },
-              {
-                "type": "object",
-                "required": ["type", "durationSec"],
-                "additionalProperties": false,
-                "properties": {
-                  "type": {
-                    "type": "string",
-                    "enum": ["invisible"],
-                    "description": "Targeting flag while active (isValidTarget rejects)."
-                  },
-                  "durationSec": {
-                    "type": "number",
-                    "minimum": 0,
-                    "description": "Duration in seconds."
-                  }
-                }
+              "intervalMs": {
+                "type": "number",
+                "minimum": 0,
+                "description": "Tick interval in milliseconds."
+              },
+              "durationSec": {
+                "type": "number",
+                "minimum": 0,
+                "description": "Duration in seconds (slow / haste / invisible)."
+              },
+              "speedChange": {
+                "type": "number",
+                "description": "Absolute speed delta applied to baseSpeed (slow negative, haste positive)."
               }
-            ]
+            }
           },
           "legacyName": {
             "type": "string",
@@ -388,10 +534,190 @@
         }
       }
     },
+    "source": {
+      "type": "string",
+      "description": "How the template was authored (pipeline = monster port). Metadata only."
+    },
+    "race": {
+      "type": "string",
+      "default": "",
+      "enum": ["", "blood", "undead", "fire", "venom", "ink", "energy"],
+      "description": "Creature race / blood type (pipeline). Used by some immunities and flavor. Empty = unset (omit on disk)."
+    },
+    "maxBlock": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Shield-block ceiling (0 = none). Copied onto the instance at spawn."
+    },
+    "loot": {
+      "type": "array",
+      "description": "Corpse drop table. chance is a 0–100000-scale weight (some pipeline rows exceed 100000). id is an equipment catalog row; name-only rows are unresolved leftovers.",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "equipment_id",
+            "description": "Equipment catalog id. Designer: Select opens the equipment catalog."
+          },
+          "name": {
+            "type": "string",
+            "description": "Display / pipeline name. Prefer id when the catalog has a matching row."
+          },
+          "chance": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Drop weight (pipeline 0–100000 scale; higher values exist)."
+          },
+          "minCount": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Minimum stack when the row drops. 0 is used on some pipeline rows."
+          },
+          "maxCount": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Maximum stack when the row drops."
+          },
+          "mincount": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Alias of minCount."
+          },
+          "maxcount": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Alias of maxCount."
+          },
+          "count": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Fixed stack when min/max are omitted."
+          },
+          "unique": {
+            "type": "boolean",
+            "description": "When true, at most one of this row drops."
+          }
+        }
+      }
+    },
+    "changeTarget": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Per-creature retarget. interval (ms) + chance (%) override AI_CREATURE_RETARGET_INTERVAL. interval 0 or chance 0 = sticky.",
+      "properties": {
+        "interval": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Retarget roll period in milliseconds. Runtime converts to seconds. 0 = never periodic retarget."
+        },
+        "chance": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Percent chance to pick a new target when the interval elapses. 0 = stay sticky. Interval always re-arms even on a failed roll."
+        }
+      }
+    },
+    "immunities": {
+      "type": ["object", "array"],
+      "additionalProperties": true,
+      "description": "Status immunities from the pipeline. Object of booleans is the authored form; empty array means none. immunities.invisible also sets canSeeInvisibility at spawn.",
+      "properties": {
+        "paralyze": { "type": "boolean" },
+        "outfit": { "type": "boolean" },
+        "invisible": { "type": "boolean" },
+        "bleed": { "type": "boolean" },
+        "drunk": { "type": "boolean" },
+        "fire": { "type": "boolean" },
+        "ice": { "type": "boolean" }
+      }
+    },
     "flags": {
       "type": "object",
       "additionalProperties": true,
-      "description": "Kit movement/aggro flags. Notable: targetDistance, runHealth, runHealthPercent, staticAttackChance, aggroRange, loseTargetDistance, idleWander, retargetIntervalSec (mid-combat strategiesTarget re-roll; 0=sticky), threatDecayHalflifeSec (damageTakenBy half-life; 0=no decay)."
+      "description": "Kit movement/aggro flags. NPC identity: isNpc / talkable (same meaning as top-level); hostile / attackableNpc never talk (Q6.2).",
+      "properties": {
+        "targetDistance": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Preferred stand-off in tiles (1 = melee). 0 / omitted = runtime melee hug. Do not hide — Save would invent 1 on every flags object."
+        },
+        "runHealth": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Flee when current HP is at or below this absolute value (0 = never)."
+        },
+        "runHealthPercent": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Flee when current HP fraction is at or below this (0–1)."
+        },
+        "staticAttackChance": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Percent chance to stand and attack instead of stepping."
+        },
+        "aggroRange": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Tiles at which the creature acquires a target."
+        },
+        "loseTargetDistance": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Tiles at which the creature drops its target."
+        },
+        "fleeTargetDistance": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Preferred distance while fleeing."
+        },
+        "idleWander": {
+          "type": "boolean",
+          "description": "Combat idle wander. Do not use for talkable NPC walk (docs/31)."
+        },
+        "threatDecayHalflifeSec": {
+          "type": "number",
+          "minimum": 0,
+          "description": "damageTakenBy half-life in seconds (0 = no decay)."
+        },
+        "summonable": { "type": "boolean" },
+        "attackable": { "type": "boolean" },
+        "hostile": {
+          "type": "boolean",
+          "description": "When true, never talk (Q6.2)."
+        },
+        "convinceable": { "type": "boolean" },
+        "pushable": { "type": "boolean" },
+        "rewardBoss": { "type": "boolean" },
+        "illusionable": { "type": "boolean" },
+        "canPushItems": { "type": "boolean" },
+        "canPushCreatures": { "type": "boolean" },
+        "healthHidden": { "type": "boolean" },
+        "canWalkOnEnergy": { "type": "boolean" },
+        "canWalkOnFire": { "type": "boolean" },
+        "canWalkOnPoison": { "type": "boolean" },
+        "isNpc": {
+          "type": "boolean",
+          "description": "Talkable NPC identity (same meaning as top-level isNpc)."
+        },
+        "npc": {
+          "type": "boolean",
+          "description": "Alias of isNpc."
+        },
+        "talkable": {
+          "type": "boolean",
+          "description": "Talkable regardless of kind / faction."
+        },
+        "attackableNpc": {
+          "type": "boolean",
+          "description": "Escape hatch: attackable and never talk (Q6.2)."
+        }
+      }
     }
   }
 }

@@ -1,51 +1,65 @@
 {
-    "id": "cave_simple",
-    "label": "Cave Simple",
-    "notes": "Stage 11.11 — deeper cave art volume (blueprint 18–70). Dirt/moss/cobble/bone floors, gravel-stone paths, cave+stone walls, cave/stone stairs, optional deep-void water. Genre: rpg_fantasy/tiles.",
-    "genre": "rpg_fantasy",
-    "kind": "tiles",
-    "roles": {
-        "floor": [
-            {
-                "id": "damp_dirt_floor",
-                "weight": 12
-            },
-            {
-                "id": "ancient_dirt_floor",
-                "weight": 8
-            }
-        ],
-        "path": [
-            {
-                "id": "polished_dirt_path",
-                "weight": 3
-            },
-            {
-                "id": "sunlit_dirt_path",
-                "weight": 2
-            }
-        ],
-        "wall": [
-            {
-                "id": "damp_cave_wall",
-                "weight": 12
-            }
-        ],
-        "stairs": [
-            {
-                "id": "broken_cave_stairs",
-                "weight": 5
-            }
-        ],
-        "void": [
-            {
-                "id": "damp_deep_water",
-                "weight": 4
-            }
-        ]
-    },
-    "rules": {
-        "blockedEdgeOnly": true,
-        "pathMix": 0.18
-    }
+  "id": "cave_simple",
+  "label": "Cave Simple",
+  "notes": "Minimal cave pack. Opaque tiles stay the procedural bind. Extra path/water overlay families + stone_wall faces are editor stamps (weight 0 so bind skips them).",
+  "genre": "rpg_fantasy",
+  "kind": "tiles",
+  "roles": {
+    "floor": [
+      { "id": "damp_dirt_floor", "weight": 12, "roleId": "floor" }
+    ],
+    "path": [
+      { "id": "polished_dirt_path", "weight": 3, "roleId": "path" },
+      {
+        "id": "dirt_wang_15",
+        "kind": "overlays",
+        "roleId": "path",
+        "wangFamily": "dirt",
+        "weight": 0
+      }
+    ],
+    "wall": [
+      { "id": "damp_cave_wall", "weight": 12, "roleId": "wall" },
+      {
+        "id": "stone_wall_pole",
+        "kind": "objects",
+        "roleId": "wall",
+        "wallFamily": "stone_wall",
+        "wallAlign": "pole",
+        "weight": 0
+      }
+    ],
+    "water": [
+      { "id": "damp_deep_water", "weight": 4, "roleId": "water" },
+      {
+        "id": "water_wang_15",
+        "kind": "overlays",
+        "roleId": "water",
+        "wangFamily": "water",
+        "weight": 0
+      }
+    ],
+    "stairs_up": [
+      {
+        "id": "broken_cave_stairs",
+        "weight": 5,
+        "roleId": "stairs_up",
+        "anchor": "bottom_center"
+      }
+    ],
+    "scenery": [
+      {
+        "id": "simple_dead_tree",
+        "weight": 2,
+        "roleId": "scenery_blocking",
+        "kind": "objects",
+        "scale": 1.4,
+        "anchor": "bottom_center"
+      }
+    ]
+  },
+  "rules": {
+    "blockedEdgeOnly": true,
+    "pathMix": 0.18
+  }
 }

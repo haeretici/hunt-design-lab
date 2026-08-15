@@ -119,16 +119,19 @@
     },
     "loot": [
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 56000,
             "maxCount": 52
         },
         {
             "name": "Hailburst Rod",
+            "id": "hailburst_rod",
             "chance": 7400
         },
         {
-            "name": "meat",
+            "name": "Meat",
+            "id": "meat",
             "chance": 52000,
             "maxCount": 4
         },
@@ -137,12 +140,14 @@
             "chance": 3700
         },
         {
-            "name": "shiver arrow",
+            "name": "Shiver Arrow",
+            "id": "shiver_arrow",
             "chance": 11000,
             "maxCount": 10
         },
         {
-            "name": "crystalline armor",
+            "name": "Crystalline Armor",
+            "id": "crystalline_armor",
             "chance": 3700
         }
     ],

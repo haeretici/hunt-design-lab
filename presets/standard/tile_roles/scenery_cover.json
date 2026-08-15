@@ -1,0 +1,20 @@
+{
+  "id": "scenery_cover",
+  "label": "Scenery (cover)",
+  "notes": "Low bush / rock — blocks walk, LoS remains clear.",
+  "kindHints": ["objects", "tiles"],
+  "catalogCategories": ["rock", "furniture"],
+  "render": {
+    "scale": 1.0,
+    "anchor": "bottom_center",
+    "variant": "retro"
+  },
+  "influence": {
+    "friction": 255,
+    "sight": 0,
+    "flags": 0,
+    "walkMode": "block",
+    "sightMode": "clear"
+  },
+  "vertical": null
+}

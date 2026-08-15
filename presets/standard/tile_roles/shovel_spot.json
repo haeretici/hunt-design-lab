@@ -1,0 +1,26 @@
+{
+  "id": "shovel_spot",
+  "label": "Shovel spot",
+  "notes": "Walkable dig tile. SHOVEL_SPOT flag; hop meta optional on placement.",
+  "kindHints": ["tiles"],
+  "catalogCategories": ["special"],
+  "render": {
+    "scale": 1.0,
+    "anchor": "middle_center",
+    "variant": "retro"
+  },
+  "influence": {
+    "friction": 100,
+    "sight": 0,
+    "flags": 32,
+    "walkMode": "open",
+    "sightMode": "clear"
+  },
+  "vertical": {
+    "type": "shovel",
+    "deltaZ": 1,
+    "defaultDir": "center",
+    "bidirectional": false,
+    "registerStairLink": false
+  }
+}

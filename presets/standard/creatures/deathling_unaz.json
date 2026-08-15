@@ -116,7 +116,8 @@
     "race": "undead",
     "loot": [
         {
-            "name": "platinum coin",
+            "name": "Platinum Coin",
+            "id": "platinum_coin",
             "chance": 10000,
             "maxCount": 5
         },
@@ -138,19 +139,23 @@
             "chance": 100
         },
         {
-            "name": "machete",
+            "name": "Machete",
+            "id": "machete",
             "chance": 400
         },
         {
-            "name": "pair of nightmare boots",
+            "name": "Pair of Dread Boots",
+            "id": "pair_of_dread_boots",
             "chance": 200
         },
         {
             "name": "Bone Skull Staff",
+            "id": "bone_skull_staff",
             "chance": 400
         },
         {
-            "name": "warrior's axe",
+            "name": "Warrior's Axe",
+            "id": "warriors_axe",
             "chance": 400
         },
         {
@@ -164,7 +169,8 @@
         {
             "chance": 150,
             "maxCount": 2,
-            "name": "red gem"
+            "name": "Red Gem",
+            "id": "red_gem"
         }
     ],
     "changeTarget": {

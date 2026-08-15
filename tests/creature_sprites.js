@@ -18,6 +18,9 @@ const {
     entitySpriteOpts,
     resolveEntitySpriteScale,
     defaultVariantForDisplay,
+    defaultTileVariantForDisplay,
+    getSpriteLoadState,
+    isSpritePending,
     prefetchHuntSprites,
     getReadySpriteImage,
     getCachedImageSize,
@@ -460,6 +463,100 @@ test('getCachedImageSize caches natural size on the drawable', () => {
     img.height = 0;
     const b = getCachedImageSize(img);
     assert.deepStrictEqual(b, { iw: 64, ih: 96 });
+});
+
+test('getReadySpriteImage falls back to icon after small 404', () => {
+    ImageDB.clear();
+    const prevHeadless = Settings.HEADLESS;
+    const prevSprites = Settings.useEntitySprites;
+    try {
+        Settings.HEADLESS = false;
+        Settings.useEntitySprites = true;
+        const smallUrl = resolveSpriteUrl({
+            id: 'stone_wall_pole',
+            kind: 'objects',
+            genre: 'rpg_fantasy',
+            variant: 'small'
+        });
+        const iconUrl = resolveSpriteUrl({
+            id: 'stone_wall_pole',
+            kind: 'objects',
+            genre: 'rpg_fantasy',
+            variant: 'icon'
+        });
+        ImageDB.failed[smallUrl] = true;
+        ImageDB.register(iconUrl, {
+            complete: true,
+            naturalWidth: 32,
+            width: 32,
+            height: 32
+        });
+        const img = getReadySpriteImage({
+            id: 'stone_wall_pole',
+            kind: 'objects',
+            genre: 'rpg_fantasy',
+            variant: 'small'
+        });
+        assert.ok(img, 'icon fallback must resolve');
+        assert.strictEqual(img.naturalWidth, 32);
+        assert.strictEqual(
+            getSpriteLoadState({
+                id: 'stone_wall_pole',
+                kind: 'objects',
+                genre: 'rpg_fantasy',
+                variant: 'small'
+            }),
+            'ready'
+        );
+        ImageDB.clear();
+        ImageDB.failed[smallUrl] = true;
+        ImageDB.failed[iconUrl] = true;
+        const origUrl = resolveSpriteUrl({
+            id: 'stone_wall_pole',
+            kind: 'objects',
+            genre: 'rpg_fantasy',
+            variant: 'original'
+        });
+        ImageDB.failed[origUrl] = true;
+        assert.strictEqual(
+            getSpriteLoadState({
+                id: 'stone_wall_pole',
+                kind: 'objects',
+                genre: 'rpg_fantasy',
+                variant: 'small'
+            }),
+            'failed'
+        );
+        assert.strictEqual(
+            isSpritePending({
+                id: 'stone_wall_pole',
+                kind: 'objects',
+                genre: 'rpg_fantasy',
+                variant: 'small'
+            }),
+            false,
+            'failed is not pending'
+        );
+    } finally {
+        Settings.HEADLESS = prevHeadless;
+        Settings.useEntitySprites = prevSprites;
+        ImageDB.clear();
+    }
+});
+
+test('defaultTileVariantForDisplay uses icon at 32px tiles', () => {
+    const prevTw = Settings.tileWidth;
+    const prevVar = Settings.tileSpriteVariant;
+    try {
+        Settings.tileSpriteVariant = null;
+        Settings.tileWidth = 32;
+        assert.strictEqual(defaultTileVariantForDisplay(), 'icon');
+        Settings.tileWidth = 48;
+        assert.strictEqual(defaultTileVariantForDisplay(), 'small');
+    } finally {
+        Settings.tileWidth = prevTw;
+        Settings.tileSpriteVariant = prevVar;
+    }
 });
 
 test('defaultVariantForDisplay uses small at 32px tiles', () => {

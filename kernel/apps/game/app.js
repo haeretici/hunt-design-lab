@@ -20,6 +20,7 @@ const {
     transferManualControlOnSlotChange,
     syncActiveControlToggle: syncActiveControlToggleUi,
     applyControlModeChange,
+    applyPersistedAutoChaseToMembers,
     bindManualCanvasClick,
     wireManualControlToggles
 } = require('./manual_control.js');
@@ -39,6 +40,7 @@ const {
     getCatalogLists,
     listModesForBrowser,
     mapUrlForFloor,
+    fetchHybridPackForFloors,
     getBrowserHuntIds,
     getActiveModeId,
     DEFAULT_MODE_ID
@@ -428,6 +430,7 @@ function readPartyForm(prevMembers) {
             classId,
             strategyId: stratEl ? stratEl.value : 'balanced',
             controlMode: controlEl ? controlEl.value : (prev && prev.controlMode ? prev.controlMode : 'ai'),
+            autoChase: prev && prev.autoChase != null ? !!prev.autoChase : undefined,
             isLeader: leaderEl ? leaderEl.checked : i === 0,
             equipment
         };
@@ -438,6 +441,10 @@ function readPartyForm(prevMembers) {
             }
             if (prev.critChance != null) bag.critChance = prev.critChance;
             if (prev.critDamage != null) bag.critDamage = prev.critDamage;
+            if (prev.lifeLeech != null) bag.lifeLeech = prev.lifeLeech;
+            if (prev.manaLeech != null) bag.manaLeech = prev.manaLeech;
+            if (prev.lifeLeechChance != null) bag.lifeLeechChance = prev.lifeLeechChance;
+            if (prev.manaLeechChance != null) bag.manaLeechChance = prev.manaLeechChance;
             if (prev.inventory != null) bag.inventory = prev.inventory;
             if (prev.backpack != null) bag.backpack = prev.backpack;
             if (prev.inventorySandbox === true) bag.inventorySandbox = true;
@@ -565,7 +572,8 @@ async function initGameApp() {
         syncActiveControlToggleUi({
             sessionLive,
             livePlayer,
-            formMember: formMembers[activeViewSlot]
+            formMember: formMembers[activeViewSlot],
+            formMembers
         });
     };
 
@@ -1300,6 +1308,7 @@ async function initGameApp() {
         }
 
         const members = readPartyForm(formMembers);
+        applyPersistedAutoChaseToMembers(members);
         formMembers = members;
 
         Settings.HEADLESS = false;
@@ -1320,6 +1329,22 @@ async function initGameApp() {
             formPartyId ||
             DEFAULT_PARTY_ID;
         formPartyId = partyId;
+        // Prefer editor hybrid packs (map fields + channels) when present
+        let hybridMapPack = null;
+        if (!hasGeneratedFloor) {
+            const floorList =
+                Array.isArray(hunt.floors) && hunt.floors.length
+                    ? hunt.floors
+                    : [floor];
+            try {
+                hybridMapPack = await fetchHybridPackForFloors(floorList);
+            } catch (err) {
+                if (typeof console !== 'undefined' && console.warn) {
+                    console.warn('hybrid map load failed', err);
+                }
+                hybridMapPack = null;
+            }
+        }
         const simOpts = buildSimulatorOpts({
             seed,
             hunt,
@@ -1327,6 +1352,7 @@ async function initGameApp() {
             partyId,
             members,
             mapPath: hasGeneratedFloor ? null : mapUrlFromFloor(floor),
+            hybridMapPack,
             injectors,
             ...(testParityTrace !== undefined
                 ? { parityTrace: testParityTrace }

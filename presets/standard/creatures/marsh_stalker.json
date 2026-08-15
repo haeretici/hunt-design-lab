@@ -85,19 +85,22 @@
     },
     "loot": [
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 64090,
             "maxCount": 23
         },
         {
-            "name": "meat",
+            "name": "Meat",
+            "id": "meat",
             "chance": 19950,
             "maxCount": 2
         },
         {
             "chance": 20320,
             "maxCount": 2,
-            "name": "fish"
+            "name": "Fish",
+            "id": "fish"
         },
         {
             "name": "worm",
@@ -109,7 +112,8 @@
             "chance": 8650
         },
         {
-            "name": "longsword",
+            "name": "Longsword",
+            "id": "longsword",
             "chance": 7560
         },
         {

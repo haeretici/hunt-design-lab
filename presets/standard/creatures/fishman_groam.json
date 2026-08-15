@@ -68,18 +68,21 @@
     "race": "blood",
     "loot": [
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 100000,
             "maxCount": 50
         },
         {
-            "name": "hunting spear",
+            "name": "Hunting Spear",
+            "id": "hunting_spear",
             "chance": 31250,
             "maxCount": 4
         },
         {
             "chance": 25000,
-            "name": "life ring"
+            "name": "Vitality Ring",
+            "id": "vitality_ring"
         },
         {
             "name": "rusted armor",

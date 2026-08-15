@@ -115,49 +115,57 @@
     "race": "venom",
     "loot": [
         {
-            "name": "platinum coin",
+            "name": "Platinum Coin",
+            "id": "platinum_coin",
             "minCount": 1,
             "maxCount": 5,
             "chance": 100000
         },
         {
-            "name": "crystal coin",
+            "name": "Crystal Coin",
+            "id": "crystal_coin",
             "minCount": 0,
             "maxCount": 2,
             "chance": 50000
         },
         {
-            "name": "supreme health potion",
+            "name": "Supreme Health Potion",
+            "id": "supreme_health_potion",
             "minCount": 0,
             "maxCount": 6,
             "chance": 35000
         },
         {
-            "name": "ultimate mana potion",
+            "name": "Ultimate Mana Potion",
+            "id": "ultimate_mana_potion",
             "minCount": 0,
             "maxCount": 20,
             "chance": 32000
         },
         {
-            "name": "ultimate dual potion",
+            "name": "Ultimate Dual Potion",
+            "id": "ultimate_dual_potion",
             "minCount": 0,
             "maxCount": 20,
             "chance": 32000
         },
         {
-            "name": "marksman potion",
+            "name": "Marksman Potion",
+            "id": "marksman_potion",
             "minCount": 0,
             "maxCount": 10,
             "chance": 12000
         },
         {
-            "name": "savant potion",
+            "name": "Savant Potion",
+            "id": "savant_potion",
             "minCount": 0,
             "maxCount": 10,
             "chance": 12000
         },
         {
-            "name": "berserk potion",
+            "name": "Berserk Potion",
+            "id": "berserk_potion",
             "minCount": 0,
             "maxCount": 10,
             "chance": 12000
@@ -169,7 +177,8 @@
             "chance": 9000
         },
         {
-            "name": "green gem",
+            "name": "Green Gem",
+            "id": "green_gem",
             "minCount": 0,
             "maxCount": 2,
             "chance": 12000
@@ -181,29 +190,35 @@
             "chance": 9500
         },
         {
-            "name": "blue gem",
+            "name": "Blue Gem",
+            "id": "blue_gem",
             "chance": 11000
         },
         {
-            "name": "crusader helmet",
+            "name": "Crusader Helmet",
+            "id": "crusader_helmet",
             "chance": 6400
         },
         {
-            "name": "gold ingot",
+            "name": "Gold Ingot",
+            "id": "gold_ingot",
             "minCount": 0,
             "maxCount": 1,
             "chance": 10000
         },
         {
             "chance": 11000,
-            "name": "red gem"
+            "name": "Red Gem",
+            "id": "red_gem"
         },
         {
             "name": "Earthbound Hood",
+            "id": "earthbound_hood",
             "chance": 7800
         },
         {
-            "name": "yellow gem",
+            "name": "Yellow Gem",
+            "id": "yellow_gem",
             "chance": 9500
         },
         {
@@ -211,7 +226,8 @@
             "chance": 5800
         },
         {
-            "name": "bear skin",
+            "name": "Bear Skin",
+            "id": "bear_skin",
             "chance": 1800
         },
         {
@@ -224,6 +240,7 @@
         },
         {
             "name": "Earthbound Helmet",
+            "id": "earthbound_helmet",
             "chance": 700
         },
         {

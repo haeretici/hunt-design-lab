@@ -124,30 +124,35 @@
     },
     "loot": [
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 100000,
             "maxCount": 389
         },
         {
-            "id": 281,
-            "chance": 7100
+            "chance": 7100,
+            "name": "Giant Shimmering Pearl",
+            "id": "giant_shimmering_pearl"
         },
         {
             "name": "tiger eye",
             "chance": 6910
         },
         {
-            "name": "strong mana potion",
+            "name": "Strong Mana Potion",
+            "id": "strong_mana_potion",
             "chance": 6360,
             "maxCount": 2
         },
         {
-            "name": "small sapphire",
+            "name": "Small Sapphire",
+            "id": "small_sapphire",
             "chance": 5810,
             "maxCount": 3
         },
         {
-            "name": "spellbook of enlightenment",
+            "name": "Spellbook of Enlightenment",
+            "id": "spellbook_of_enlightenment",
             "chance": 1920
         },
         {
@@ -159,11 +164,13 @@
             "chance": 1780
         },
         {
-            "name": "gold ingot",
+            "name": "Gold Ingot",
+            "id": "gold_ingot",
             "chance": 960
         },
         {
-            "name": "broken iks headpiece",
+            "name": "Broken Tribal Headpiece",
+            "id": "broken_tribal_headpiece",
             "chance": 70
         }
     ],

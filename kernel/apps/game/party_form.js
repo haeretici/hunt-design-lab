@@ -192,6 +192,18 @@ function normalizeMember(raw, index, opts) {
     else if (input.critChance != null) row.critChance = Number(input.critChance) || 0;
     if (src.critDamage != null) row.critDamage = Number(src.critDamage) || 0;
     else if (input.critDamage != null) row.critDamage = Number(input.critDamage) || 0;
+    if (src.lifeLeech != null) row.lifeLeech = Number(src.lifeLeech) || 0;
+    else if (input.lifeLeech != null) row.lifeLeech = Number(input.lifeLeech) || 0;
+    if (src.manaLeech != null) row.manaLeech = Number(src.manaLeech) || 0;
+    else if (input.manaLeech != null) row.manaLeech = Number(input.manaLeech) || 0;
+    if (src.lifeLeechChance != null) row.lifeLeechChance = Number(src.lifeLeechChance) || 0;
+    else if (input.lifeLeechChance != null) {
+        row.lifeLeechChance = Number(input.lifeLeechChance) || 0;
+    }
+    if (src.manaLeechChance != null) row.manaLeechChance = Number(src.manaLeechChance) || 0;
+    else if (input.manaLeechChance != null) {
+        row.manaLeechChance = Number(input.manaLeechChance) || 0;
+    }
     // Inventory seeds (Scenario Lab sandbox / authored backpack trees)
     if (src.inventorySandbox === true || input.inventorySandbox === true) {
         row.inventorySandbox = true;
@@ -444,6 +456,22 @@ function membersToPartyConfig(members) {
         }
         if (src.critDamage != null || m.critDamage != null) {
             row.critDamage = Number(src.critDamage != null ? src.critDamage : m.critDamage) || 0;
+        }
+        if (src.lifeLeech != null || m.lifeLeech != null) {
+            row.lifeLeech = Number(src.lifeLeech != null ? src.lifeLeech : m.lifeLeech) || 0;
+        }
+        if (src.manaLeech != null || m.manaLeech != null) {
+            row.manaLeech = Number(src.manaLeech != null ? src.manaLeech : m.manaLeech) || 0;
+        }
+        if (src.lifeLeechChance != null || m.lifeLeechChance != null) {
+            row.lifeLeechChance = Number(
+                src.lifeLeechChance != null ? src.lifeLeechChance : m.lifeLeechChance
+            ) || 0;
+        }
+        if (src.manaLeechChance != null || m.manaLeechChance != null) {
+            row.manaLeechChance = Number(
+                src.manaLeechChance != null ? src.manaLeechChance : m.manaLeechChance
+            ) || 0;
         }
         // Inventory seeds (Scenario Lab sandbox / authored backpack trees)
         if (m.inventorySandbox === true || src.inventorySandbox === true) {
@@ -730,6 +758,7 @@ function resolvedFromBrowserHunt(opts) {
  * @param {string|null} [opts.huntId]
  * @param {object[]} opts.members form members (enabled filtered)
  * @param {string} [opts.mapPath] browser URL for path PNG
+ * @param {object|null} [opts.hybridMapPack] editor hybrid pack (fields + channels)
  * @param {object} [opts.injectors] from buildPresetInjectors()
  * @param {boolean|object} [opts.parityTrace] opt-in parityTickLog (browser:parity)
  * @returns {object} Simulator opts
@@ -756,6 +785,11 @@ function buildSimulatorOpts(opts) {
         mapPath: o.mapPath !== undefined ? o.mapPath || null : resolved.mapPath,
         combatAi: true
     };
+    if (o.hybridMapPack !== undefined) {
+        extra.hybridMapPack = o.hybridMapPack;
+    } else if (resolved.hybridMapPack != null) {
+        extra.hybridMapPack = resolved.hybridMapPack;
+    }
     if (o.parityTrace !== undefined) {
         extra.parityTrace = o.parityTrace;
     }

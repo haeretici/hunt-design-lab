@@ -15,7 +15,7 @@ const {
 } = require('../../core/lib/ui_preferences.js');
 
 /**
- * @returns {'creatures'|'equipment'}
+ * @returns {'creatures'|'equipment'|'spells'}
  */
 function wikiKind() {
     const fromWin =
@@ -27,7 +27,9 @@ function wikiKind() {
             ? String(document.body.getAttribute('data-wiki-kind') || '')
             : '';
     const kind = fromWin || fromBody || 'creatures';
-    return kind === 'equipment' ? 'equipment' : 'creatures';
+    if (kind === 'equipment') return 'equipment';
+    if (kind === 'spells') return 'spells';
+    return 'creatures';
 }
 
 /**
@@ -55,18 +57,21 @@ function genreForMode(modeId) {
 
 /**
  * Widget path for the catalog browser (shared select/view UI).
- * @param {'creatures'|'equipment'} kind
+ * @param {'creatures'|'equipment'|'spells'} kind
  * @returns {string}
  */
 function pickerPath(kind) {
     if (kind === 'equipment') {
         return 'html/widgets/designer_pickers/equipment_picker.html';
     }
+    if (kind === 'spells') {
+        return 'html/widgets/designer_pickers/spell_picker.html';
+    }
     return 'html/widgets/designer_pickers/creature_picker.html';
 }
 
 /**
- * @param {{ mode: string, kind: 'creatures'|'equipment' }} opts
+ * @param {{ mode: string, kind: 'creatures'|'equipment'|'spells' }} opts
  * @returns {string}
  */
 function buildFrameSrc(opts) {
@@ -76,7 +81,7 @@ function buildFrameSrc(opts) {
     url.searchParams.set('genre', genreForMode(opts.mode));
     url.searchParams.set(
         'title',
-        opts.kind === 'equipment' ? 'Equipment wiki' : 'Creature wiki'
+        opts.kind === 'equipment' ? 'Equipment wiki' : (opts.kind === 'spells' ? 'Spells wiki' : 'Creature wiki')
     );
     return url.href;
 }

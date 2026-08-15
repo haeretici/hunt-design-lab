@@ -1,6 +1,6 @@
 {
     "version": 3,
-    "notes": "Standard mode equipment: combat fields from presets/legacy/equipment.json (normalized); id/label from other/content_maps/equipment_map.csv (commercial-safe). Includes consumable potions (heal/restoreMana ranges from reference fluid table; dual = HP+MP).",
+    "notes": "Standard mode equipment: combat fields from presets/legacy/equipment.json (normalized); id/label from other/content_maps/equipment_map.csv (commercial-safe). Includes consumable potions (heal/restoreMana ranges from reference fluid table; dual = HP+MP). Common currency, gems, and food are stackables for corpse-loot id resolution (coin worth = gold units).",
     "items": [
         {
             "id": "iron_longsword",
@@ -78,7 +78,8 @@
             "atk": 28,
             "weight": 3200,
             "customSprite": "hunter_bow",
-            "spriteId": "ancient_javelin"
+            "spriteId": "ancient_javelin",
+            "twoHanded": true
         },
         {
             "id": "fire_ring",
@@ -1184,7 +1185,6 @@
             "skillBonuses": {
                 "axe": 4
             },
-            "transformOnUnequip": "3092",
             "customSprite": "axe_ring",
             "spriteId": "ancient_seal_ring"
         },
@@ -1739,7 +1739,7 @@
             ],
             "weaponType": "shield",
             "defense": 18,
-            "customSprite": "ancient_wall_shield",
+            "customSprite": "black_shield",
             "spriteId": "ancient_wall_shield"
         },
         {
@@ -1751,7 +1751,7 @@
             "type": [
                 "light"
             ],
-            "customSprite": "royal_arcane_rod",
+            "customSprite": "black_skull_item",
             "spriteId": "royal_arcane_rod"
         },
         {
@@ -1886,7 +1886,7 @@
                 "rod"
             ],
             "weaponType": "magic",
-            "customSprite": "royal_arcane_rod",
+            "customSprite": "bloody_tears",
             "spriteId": "royal_arcane_rod",
             "range": 4
         },
@@ -1978,7 +1978,7 @@
             "type": [
                 "light"
             ],
-            "customSprite": "royal_arcane_rod",
+            "customSprite": "blue_pit_fiend",
             "spriteId": "royal_arcane_rod"
         },
         {
@@ -2008,7 +2008,7 @@
             ],
             "armor": 11,
             "imbuementSlots": 2,
-            "customSprite": "ancient_scale_mail",
+            "customSprite": "blue_robe",
             "spriteId": "ancient_scale_mail"
         },
         {
@@ -2020,7 +2020,7 @@
             "type": [
                 "helmet"
             ],
-            "customSprite": "holy_mask",
+            "customSprite": "blue_spectacles",
             "spriteId": "holy_mask"
         },
         {
@@ -2032,7 +2032,7 @@
             "type": [
                 "light"
             ],
-            "customSprite": "royal_arcane_rod",
+            "customSprite": "blue_sphere",
             "spriteId": "royal_arcane_rod"
         },
         {
@@ -2063,7 +2063,7 @@
             "weaponType": "melee",
             "atk": 12,
             "defense": 8,
-            "customSprite": "steel_club",
+            "customSprite": "bone_club",
             "spriteId": "steel_club"
         },
         {
@@ -2075,7 +2075,7 @@
             "type": [
                 "light"
             ],
-            "customSprite": "royal_arcane_rod",
+            "customSprite": "bone_fiddle",
             "spriteId": "royal_arcane_rod"
         },
         {
@@ -2089,7 +2089,7 @@
             ],
             "weaponType": "shield",
             "defense": 20,
-            "customSprite": "ancient_wall_shield",
+            "customSprite": "bone_shield",
             "spriteId": "ancient_wall_shield"
         },
         {
@@ -2104,7 +2104,7 @@
             "weaponType": "melee",
             "atk": 13,
             "defense": 10,
-            "customSprite": "ancient_broadsword",
+            "customSprite": "bone_sword",
             "spriteId": "ancient_broadsword"
         },
         {
@@ -2244,7 +2244,7 @@
             ],
             "speed": 20,
             "imbuementSlots": 1,
-            "customSprite": "ancient_stompers",
+            "customSprite": "boots_of_swiftness",
             "spriteId": "ancient_stompers"
         },
         {
@@ -2284,7 +2284,7 @@
             "type": [
                 "boots"
             ],
-            "customSprite": "ancient_stompers",
+            "customSprite": "boots_of_waterwalking",
             "spriteId": "ancient_stompers"
         },
         {
@@ -2296,7 +2296,7 @@
             "type": [
                 "light"
             ],
-            "customSprite": "royal_arcane_rod",
+            "customSprite": "bottled_wyrm_breath",
             "spriteId": "royal_arcane_rod"
         },
         {
@@ -2308,7 +2308,7 @@
             "type": [
                 "light"
             ],
-            "customSprite": "royal_arcane_rod",
+            "customSprite": "bounty_talisman",
             "spriteId": "royal_arcane_rod"
         },
         {
@@ -2413,7 +2413,7 @@
                 "container"
             ],
             "volume": 10,
-            "customSprite": "ancient_wall_shield",
+            "customSprite": "box_brown",
             "spriteId": "ancient_wall_shield"
         },
         {
@@ -3340,7 +3340,6 @@
                 "holy": 4,
                 "death": 4
             },
-            "transformOnUnequip": "39180",
             "customSprite": "ancient_seal_ring",
             "spriteId": "ancient_seal_ring"
         },
@@ -3369,7 +3368,6 @@
             },
             "manaLeechChance": 100,
             "manaLeechAmount": 100,
-            "transformOnUnequip": "39186",
             "customSprite": "ancient_seal_ring",
             "spriteId": "ancient_seal_ring"
         },
@@ -3398,7 +3396,6 @@
             },
             "manaLeechChance": 100,
             "manaLeechAmount": 100,
-            "transformOnUnequip": "39183",
             "customSprite": "broken_ring_of_ending",
             "spriteId": "broken_ring_of_ending"
         },
@@ -3469,7 +3466,6 @@
                 "energy": 4,
                 "ice": 4
             },
-            "transformOnUnequip": "39177",
             "customSprite": "ancient_seal_ring",
             "spriteId": "ancient_seal_ring"
         },
@@ -3673,7 +3669,6 @@
             "skillBonuses": {
                 "club": 4
             },
-            "transformOnUnequip": "3093",
             "customSprite": "club_ring",
             "spriteId": "steel_club"
         },
@@ -5448,7 +5443,6 @@
             "resists": {
                 "death": 5
             },
-            "transformOnUnequip": "6299",
             "customSprite": "death_ring",
             "spriteId": "ancient_seal_ring"
         },
@@ -6769,7 +6763,6 @@
                 "ring"
             ],
             "durationSec": 3600,
-            "transformOnUnequip": "3097",
             "customSprite": "dwarven_ring",
             "spriteId": "ancient_seal_ring"
         },
@@ -7856,7 +7849,6 @@
             "resists": {
                 "fire": 6
             },
-            "transformOnUnequip": "31557",
             "customSprite": "ancient_seal_ring",
             "spriteId": "ancient_seal_ring"
         },
@@ -7907,7 +7899,6 @@
                 "physical": 5,
                 "energy": 18
             },
-            "transformOnUnequip": "30344",
             "customSprite": "garlic_necklace",
             "spriteId": "garlic_necklace"
         },
@@ -7933,7 +7924,6 @@
                 "physical": 7,
                 "earth": 24
             },
-            "transformOnUnequip": "30342",
             "customSprite": "wicked_crystal_charm",
             "spriteId": "wicked_crystal_charm"
         },
@@ -8005,7 +7995,6 @@
                 "physical": 7,
                 "ice": 15
             },
-            "transformOnUnequip": "39233",
             "customSprite": "wicked_crystal_charm",
             "spriteId": "wicked_crystal_charm"
         },
@@ -8023,7 +8012,6 @@
             "resists": {
                 "physical": 6
             },
-            "transformOnUnequip": "22061",
             "customSprite": "enchanted_werewolf_amulet",
             "spriteId": "wicked_crystal_charm"
         },
@@ -8388,15 +8376,16 @@
                 "ring"
             ],
             "durationSec": 600,
+            "aliases": [
+                "mana_ring"
+            ],
             "vocation": [
                 "guardian",
-                "scout",
-                "mystic"
+                "scout"
             ],
             "flags": {
                 "manaShield": true
             },
-            "transformOnUnequip": "3051",
             "customSprite": "energy_ring",
             "spriteId": "ancient_seal_ring"
         },
@@ -12781,7 +12770,6 @@
             "armor": 2,
             "speed": 300,
             "durationSec": 21600,
-            "transformOnUnequip": "5460",
             "customSprite": "abyssal_helm",
             "spriteId": "ancient_mask"
         },
@@ -14685,7 +14673,6 @@
                 "mp": 8,
                 "mpTicksMs": 6000
             },
-            "transformOnUnequip": "3052",
             "customSprite": "life_ring",
             "spriteId": "ancient_seal_ring"
         },
@@ -16406,7 +16393,7 @@
                 "scout"
             ],
             "imbuementSlots": 2,
-            "customSprite": "arcane_bronze_cuirass",
+            "customSprite": "bovine_plate",
             "spriteId": "arcane_bronze_cuirass"
         },
         {
@@ -19812,7 +19799,6 @@
             "skillBonuses": {
                 "fist": 6
             },
-            "transformOnUnequip": "3050",
             "customSprite": "power_ring",
             "spriteId": "ancient_seal_ring"
         },
@@ -19970,7 +19956,6 @@
                 "physical": 10,
                 "energy": 8
             },
-            "transformOnUnequip": "16114",
             "customSprite": "iridescent_ring",
             "spriteId": "ancient_seal_ring"
         },
@@ -20882,7 +20867,6 @@
                 "distance": 3,
                 "magic": 1
             },
-            "transformOnUnequip": "23529",
             "customSprite": "ring_of_blue_plasma",
             "spriteId": "ancient_seal_ring"
         },
@@ -20923,7 +20907,6 @@
                 "mp": 4,
                 "mpTicksMs": 6000
             },
-            "transformOnUnequip": "23531",
             "customSprite": "ring_of_green_plasma",
             "spriteId": "ancient_seal_ring"
         },
@@ -20943,7 +20926,6 @@
                 "mp": 24,
                 "mpTicksMs": 6000
             },
-            "transformOnUnequip": "3098",
             "customSprite": "ring_of_healing",
             "spriteId": "ancient_seal_ring"
         },
@@ -20993,7 +20975,6 @@
             "resists": {
                 "physical": 3
             },
-            "transformOnUnequip": "23533",
             "customSprite": "ring_of_red_plasma",
             "spriteId": "ancient_seal_ring"
         },
@@ -23460,7 +23441,6 @@
             "type": [
                 "light"
             ],
-            "transformOnUnequip": "20311",
             "customSprite": "royal_arcane_rod",
             "spriteId": "royal_arcane_rod"
         },
@@ -24907,7 +24887,6 @@
                 "ring"
             ],
             "durationSec": 600,
-            "transformOnUnequip": "12669",
             "customSprite": "star_ring",
             "spriteId": "ancient_seal_ring"
         },
@@ -24936,7 +24915,6 @@
             "flags": {
                 "invisible": true
             },
-            "transformOnUnequip": "3049",
             "customSprite": "stealth_ring",
             "spriteId": "ancient_seal_ring"
         },
@@ -25651,7 +25629,6 @@
             "skillBonuses": {
                 "sword": 4
             },
-            "transformOnUnequip": "3091",
             "customSprite": "sword_ring",
             "spriteId": "ancient_broadsword"
         },
@@ -26564,7 +26541,6 @@
                 "mp": 8,
                 "mpTicksMs": 6000
             },
-            "transformOnUnequip": "23474",
             "customSprite": "wicked_helmet",
             "spriteId": "wicked_helmet"
         },
@@ -26579,7 +26555,6 @@
             ],
             "speed": 30,
             "durationSec": 600,
-            "transformOnUnequip": "3053",
             "customSprite": "time_ring",
             "spriteId": "ancient_seal_ring"
         },
@@ -28054,7 +28029,7 @@
             "weaponType": "shield",
             "defense": 34,
             "imbuementSlots": 1,
-            "customSprite": "ancient_wall_shield",
+            "customSprite": "bloodfang_shield",
             "spriteId": "ancient_wall_shield"
         },
         {
@@ -29874,6 +29849,30 @@
             "customSprite": "marksman_potion"
         },
         {
+            "id": "magic_shield_potion",
+            "label": "Magic Shield Potion",
+            "category": "potion",
+            "type": [
+                "potion",
+                "consumable"
+            ],
+            "stackable": true,
+            "consumable": true,
+            "usable": true,
+            "weight": 320,
+            "level": 14,
+            "vocation": [
+                "adept",
+                "warden"
+            ],
+            "condition": {
+                "type": "mana_shield",
+                "durationSec": 60,
+                "poolFormula": "legacy_mana_shield"
+            },
+            "notes": "Pooled mana shield, 60s, same formula as magic_shield (no Wheel)"
+        },
+        {
             "id": "barrier_wall_rune",
             "label": "Barrier Wall Rune",
             "category": "rune",
@@ -29905,6 +29904,413 @@
                 "rune"
             ],
             "customSprite": "paralyze_rune"
+        },
+        {
+            "id": "gold_coin",
+            "label": "Gold Coin",
+            "category": "currency",
+            "stackable": true,
+            "weight": 10,
+            "type": [
+                "currency",
+                "stackable"
+            ],
+            "worth": 1
+        },
+        {
+            "id": "platinum_coin",
+            "label": "Platinum Coin",
+            "category": "currency",
+            "stackable": true,
+            "weight": 10,
+            "type": [
+                "currency",
+                "stackable"
+            ],
+            "worth": 100
+        },
+        {
+            "id": "crystal_coin",
+            "label": "Crystal Coin",
+            "category": "currency",
+            "stackable": true,
+            "weight": 10,
+            "type": [
+                "currency",
+                "stackable"
+            ],
+            "worth": 10000
+        },
+        {
+            "id": "small_diamond",
+            "label": "Small Diamond",
+            "category": "gem",
+            "stackable": true,
+            "weight": 10,
+            "type": [
+                "gem",
+                "stackable"
+            ]
+        },
+        {
+            "id": "small_sapphire",
+            "label": "Small Sapphire",
+            "category": "gem",
+            "stackable": true,
+            "weight": 10,
+            "type": [
+                "gem",
+                "stackable"
+            ]
+        },
+        {
+            "id": "small_ruby",
+            "label": "Small Ruby",
+            "category": "gem",
+            "stackable": true,
+            "weight": 10,
+            "type": [
+                "gem",
+                "stackable"
+            ]
+        },
+        {
+            "id": "small_emerald",
+            "label": "Small Emerald",
+            "category": "gem",
+            "stackable": true,
+            "weight": 10,
+            "type": [
+                "gem",
+                "stackable"
+            ]
+        },
+        {
+            "id": "small_amethyst",
+            "label": "Small Amethyst",
+            "category": "gem",
+            "stackable": true,
+            "weight": 10,
+            "type": [
+                "gem",
+                "stackable"
+            ]
+        },
+        {
+            "id": "small_topaz",
+            "label": "Small Topaz",
+            "category": "gem",
+            "stackable": true,
+            "weight": 10,
+            "type": [
+                "gem",
+                "stackable"
+            ]
+        },
+        {
+            "id": "white_pearl",
+            "label": "White Pearl",
+            "category": "gem",
+            "stackable": true,
+            "weight": 20,
+            "type": [
+                "gem",
+                "stackable"
+            ]
+        },
+        {
+            "id": "black_pearl",
+            "label": "Black Pearl",
+            "category": "gem",
+            "stackable": true,
+            "weight": 20,
+            "type": [
+                "gem",
+                "stackable"
+            ]
+        },
+        {
+            "id": "giant_shimmering_pearl",
+            "label": "Giant Shimmering Pearl",
+            "category": "gem",
+            "stackable": true,
+            "weight": 80,
+            "type": [
+                "gem",
+                "stackable"
+            ]
+        },
+        {
+            "id": "red_gem",
+            "label": "Red Gem",
+            "category": "gem",
+            "stackable": true,
+            "weight": 30,
+            "type": [
+                "gem",
+                "stackable"
+            ]
+        },
+        {
+            "id": "blue_gem",
+            "label": "Blue Gem",
+            "category": "gem",
+            "stackable": true,
+            "weight": 30,
+            "type": [
+                "gem",
+                "stackable"
+            ]
+        },
+        {
+            "id": "yellow_gem",
+            "label": "Yellow Gem",
+            "category": "gem",
+            "stackable": true,
+            "weight": 30,
+            "type": [
+                "gem",
+                "stackable"
+            ]
+        },
+        {
+            "id": "green_gem",
+            "label": "Green Gem",
+            "category": "gem",
+            "stackable": true,
+            "weight": 30,
+            "type": [
+                "gem",
+                "stackable"
+            ]
+        },
+        {
+            "id": "violet_gem",
+            "label": "Violet Gem",
+            "category": "gem",
+            "stackable": true,
+            "weight": 30,
+            "type": [
+                "gem",
+                "stackable"
+            ]
+        },
+        {
+            "id": "white_gem",
+            "label": "White Gem",
+            "category": "gem",
+            "stackable": true,
+            "weight": 30,
+            "type": [
+                "gem",
+                "stackable"
+            ]
+        },
+        {
+            "id": "gold_ingot",
+            "label": "Gold Ingot",
+            "category": "gem",
+            "stackable": true,
+            "weight": 1800,
+            "type": [
+                "gem",
+                "stackable"
+            ]
+        },
+        {
+            "id": "meat",
+            "label": "Meat",
+            "category": "food",
+            "stackable": true,
+            "weight": 1300,
+            "type": [
+                "food",
+                "consumable"
+            ],
+            "consumable": true,
+            "usable": true
+        },
+        {
+            "id": "ham",
+            "label": "Ham",
+            "category": "food",
+            "stackable": true,
+            "weight": 2000,
+            "type": [
+                "food",
+                "consumable"
+            ],
+            "consumable": true,
+            "usable": true
+        },
+        {
+            "id": "dragon_ham",
+            "label": "Dragon Ham",
+            "category": "food",
+            "stackable": true,
+            "weight": 3000,
+            "type": [
+                "food",
+                "consumable"
+            ],
+            "consumable": true,
+            "usable": true
+        },
+        {
+            "id": "fish",
+            "label": "Fish",
+            "category": "food",
+            "stackable": true,
+            "weight": 520,
+            "type": [
+                "food",
+                "consumable"
+            ],
+            "consumable": true,
+            "usable": true
+        },
+        {
+            "id": "shrimp",
+            "label": "Shrimp",
+            "category": "food",
+            "stackable": true,
+            "weight": 50,
+            "type": [
+                "food",
+                "consumable"
+            ],
+            "consumable": true,
+            "usable": true
+        },
+        {
+            "id": "cheese",
+            "label": "Cheese",
+            "category": "food",
+            "stackable": true,
+            "weight": 400,
+            "type": [
+                "food",
+                "consumable"
+            ],
+            "consumable": true,
+            "usable": true
+        },
+        {
+            "id": "cookie",
+            "label": "Cookie",
+            "category": "food",
+            "stackable": true,
+            "weight": 10,
+            "type": [
+                "food",
+                "consumable"
+            ],
+            "consumable": true,
+            "usable": true
+        },
+        {
+            "id": "bread",
+            "label": "Bread",
+            "category": "food",
+            "stackable": true,
+            "weight": 500,
+            "type": [
+                "food",
+                "consumable"
+            ],
+            "consumable": true,
+            "usable": true
+        },
+        {
+            "id": "brown_bread",
+            "label": "Brown Bread",
+            "category": "food",
+            "stackable": true,
+            "weight": 400,
+            "type": [
+                "food",
+                "consumable"
+            ],
+            "consumable": true,
+            "usable": true
+        },
+        {
+            "id": "brown_mushroom",
+            "label": "Brown Mushroom",
+            "category": "food",
+            "stackable": true,
+            "weight": 20,
+            "type": [
+                "food",
+                "consumable"
+            ],
+            "consumable": true,
+            "usable": true
+        },
+        {
+            "id": "green_mushroom",
+            "label": "Green Mushroom",
+            "category": "food",
+            "stackable": true,
+            "weight": 10,
+            "type": [
+                "food",
+                "consumable"
+            ],
+            "consumable": true,
+            "usable": true
+        },
+        {
+            "id": "white_mushroom",
+            "label": "White Mushroom",
+            "category": "food",
+            "stackable": true,
+            "weight": 40,
+            "type": [
+                "food",
+                "consumable"
+            ],
+            "consumable": true,
+            "usable": true
+        },
+        {
+            "id": "dark_mushroom",
+            "label": "Dark Mushroom",
+            "category": "food",
+            "stackable": true,
+            "weight": 10,
+            "type": [
+                "food",
+                "consumable"
+            ],
+            "consumable": true,
+            "usable": true
+        },
+        {
+            "id": "grapes",
+            "label": "Grapes",
+            "category": "food",
+            "stackable": true,
+            "weight": 250,
+            "type": [
+                "food",
+                "consumable"
+            ],
+            "consumable": true,
+            "usable": true
+        },
+        {
+            "id": "carrot",
+            "label": "Carrot",
+            "category": "food",
+            "stackable": true,
+            "weight": 160,
+            "type": [
+                "food",
+                "consumable"
+            ],
+            "consumable": true,
+            "usable": true
         }
     ]
 }

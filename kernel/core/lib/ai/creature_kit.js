@@ -9,9 +9,10 @@
  *  - attacks fire through resolveAttack
  *  - strategiesTarget weighted pick (nearest | health | damage | random)
  *  - flags: targetDistance, runHealth, runHealthPercent, staticAttackChance,
- *    loseTargetDistance, aggroRange, retargetIntervalSec, threatDecayHalflifeSec
+ *    loseTargetDistance, aggroRange, threatDecayHalflifeSec
  *  - threat table damageTakenBy decays by half-life (lazy apply)
- *  - optional mid-combat strategy re-roll (flags.retargetIntervalSec)
+ *  - mid-combat strategy re-roll from changeTarget {interval ms, chance %}
+ *    (overrides AI_CREATURE_RETARGET_INTERVAL)
  *
  * Legacy field aliases accepted (interval ms, minDamage/maxDamage, name, type).
  * Affix `atkMult` scales kit min/max via applyKitDamageMult (spawn path).
@@ -36,7 +37,8 @@ const {
     queryWithinRange,
     findNearest,
     distBetween,
-    isValidTarget
+    isValidTarget,
+    isProtectedTarget
 } = require('./targeting.js');
 const { hasLineOfSight } = require('../shapes.js');
 const {
@@ -77,7 +79,6 @@ const {
  * @property {number} loseTargetDistance hard clear target beyond this
  * @property {number} aggroRange idle scan radius
  * @property {number} fleeTargetDistance stand-off while low-HP fleeing
- * @property {number} retargetIntervalSec re-roll strategiesTarget while sticky (0 = off)
  * @property {number} threatDecayHalflifeSec half-life of damageTakenBy threat (0 = no decay)
  */
 
@@ -92,6 +93,7 @@ const STRATEGY_RETARGET_AT_KEY = '_strategyRetargetNextAt';
  * @property {CreatureFlags} flags
  * @property {Record<string, number>} strategiesTarget
  * @property {NormalizedAttack[]} attacks
+ * @property {{ intervalSec: number|null, chance: number|null }} changeTarget
  */
 
 const DEFAULT_STRATEGIES = Object.freeze({ nearest: 100 });
@@ -226,6 +228,30 @@ function normalizeStrategiesTarget(raw) {
 }
 
 /**
+ * Authored changeTarget {interval ms, chance %} → seconds + 0–100 chance.
+ * interval 0 / omitted interval → no periodic retarget from this object.
+ * @param {object|null|undefined} template
+ * @returns {{ intervalSec: number|null, chance: number|null }}
+ */
+function changeTargetFromTemplate(template) {
+    const ct = template && template.changeTarget;
+    if (!ct || typeof ct !== 'object') {
+        return { intervalSec: null, chance: null };
+    }
+    let intervalSec = null;
+    if (ct.interval != null && ct.interval !== '') {
+        const ms = Number(ct.interval);
+        if (Number.isFinite(ms)) intervalSec = Math.max(0, ms / 1000);
+    }
+    let chance = null;
+    if (ct.chance != null && ct.chance !== '') {
+        const n = Number(ct.chance);
+        if (Number.isFinite(n)) chance = Math.max(0, Math.min(100, n));
+    }
+    return { intervalSec, chance };
+}
+
+/**
  * @param {object|null|undefined} flagsRaw
  * @param {object|null|undefined} template top-level fallbacks
  * @returns {CreatureFlags}
@@ -240,7 +266,7 @@ function normalizeFlags(flagsRaw, template) {
     const targetDistance =
         f.targetDistance != null ? Number(f.targetDistance) : 1;
 
-    return {
+    const out = {
         targetDistance: Math.max(1, targetDistance | 0 || 1),
         runHealth:
             f.runHealth != null
@@ -284,18 +310,6 @@ function normalizeFlags(flagsRaw, template) {
         /** When true, Idle wanders a free adjacent tile if no players in aggro. */
         idleWander: f.idleWander === true || f.idleWander === 1,
         /**
-         * Mid-combat re-roll of strategiesTarget while sticky target is valid.
-         * 0 = sticky until lose/invalid (legacy). Template flag overrides setting.
-         */
-        retargetIntervalSec: Math.max(
-            0,
-            f.retargetIntervalSec != null
-                ? Number(f.retargetIntervalSec) || 0
-                : t.retargetIntervalSec != null
-                  ? Number(t.retargetIntervalSec) || 0
-                  : Number(setting('AI_CREATURE_RETARGET_INTERVAL', 0)) || 0
-        ),
-        /**
          * Half-life (logic seconds) of damageTakenBy threat for "damage" strategy.
          * 0 = no decay. Template flag overrides setting.
          */
@@ -310,6 +324,15 @@ function normalizeFlags(flagsRaw, template) {
                     ) || 0
         )
     };
+    // Kit rebuild must not drop NPC identity (Stage 6b / Q6.2).
+    if (f.isNpc === true) out.isNpc = true;
+    if (f.npc === true) out.npc = true;
+    if (f.talkable === true) out.talkable = true;
+    if (f.hostile === true) out.hostile = true;
+    if (f.attackableNpc === true || t.attackableNpc === true) {
+        out.attackableNpc = true;
+    }
+    return out;
 }
 
 /**
@@ -389,20 +412,37 @@ function applyThreatDecay(creature, now) {
 
 /**
  * Mid-combat strategy re-roll interval (0 = sticky forever until lose).
+ * changeTarget.interval (ms) wins; else AI_CREATURE_RETARGET_INTERVAL.
  * @param {object} owner
  * @returns {number}
  */
 function retargetIntervalSec(owner) {
     const kit =
         owner && owner.kit ? owner.kit : owner ? ensureCreatureKit(owner) : null;
-    const f = kit && kit.flags;
-    if (f && f.retargetIntervalSec != null) {
-        return Math.max(0, Number(f.retargetIntervalSec) || 0);
+    const ct = kit && kit.changeTarget;
+    if (ct && ct.intervalSec != null) {
+        return Math.max(0, Number(ct.intervalSec) || 0);
     }
     return Math.max(
         0,
         Number(setting('AI_CREATURE_RETARGET_INTERVAL', 0)) || 0
     );
+}
+
+/**
+ * Percent chance to switch target when the retarget interval elapses.
+ * changeTarget.chance wins; default 100 when only an interval is authored.
+ * @param {object} owner
+ * @returns {number} 0–100; 100 = always
+ */
+function retargetChance(owner) {
+    const kit =
+        owner && owner.kit ? owner.kit : owner ? ensureCreatureKit(owner) : null;
+    const ct = kit && kit.changeTarget;
+    if (ct && ct.chance != null) {
+        return Math.max(0, Math.min(100, Number(ct.chance) || 0));
+    }
+    return 100;
 }
 
 /**
@@ -435,12 +475,15 @@ function clearStrategyRetarget(owner) {
 /**
  * Whether a mid-combat strategiesTarget re-roll may run this think.
  * Interval 0 → always false (sticky). First call after arm waits full interval.
+ * When the interval elapses the gate always re-arms; changeTarget.chance then
+ * decides whether the switch actually happens (0 = stay sticky).
  *
  * @param {object} owner
  * @param {number} [now]
+ * @param {() => number} [rng] [0,1)
  * @returns {boolean}
  */
-function strategyRetargetDue(owner, now) {
+function strategyRetargetDue(owner, now, rng) {
     if (!owner) return false;
     const interval = retargetIntervalSec(owner);
     if (!(interval > 0)) return false;
@@ -451,7 +494,11 @@ function strategyRetargetDue(owner, now) {
         return false;
     }
     owner[STRATEGY_RETARGET_AT_KEY] = t + interval;
-    return true;
+    const chance = retargetChance(owner);
+    if (!(chance > 0)) return false;
+    if (chance >= 100) return true;
+    const r = typeof rng === 'function' ? rng() : Math.random();
+    return r * 100 < chance;
 }
 
 /**
@@ -769,6 +816,7 @@ function normalizeSummonConfig(raw) {
 function normalizeCreatureKit(template) {
     const t = template || {};
     const flags = normalizeFlags(t.flags, t);
+    const changeTarget = changeTargetFromTemplate(t);
     const strategiesTarget = normalizeStrategiesTarget(
         t.strategiesTarget || t.targetStrategies
     );
@@ -792,7 +840,7 @@ function normalizeCreatureKit(template) {
         if (d) defenseSpells.push(d);
     }
     const summon = normalizeSummonConfig(t.summon);
-    return { flags, strategiesTarget, attacks, defenseSpells, summon };
+    return { flags, strategiesTarget, attacks, defenseSpells, summon, changeTarget };
 }
 
 /**
@@ -879,6 +927,7 @@ function ensureCreatureKit(creature, template) {
             defenseSpells: creature.defenseSpells,
             flags: creature.flags,
             strategiesTarget: creature.strategiesTarget,
+            changeTarget: creature.changeTarget,
             runHealthPercent: creature.runHealthPercent,
             aggroRange: creature.aggroRange,
             summon: creature.summon
@@ -1207,9 +1256,11 @@ function pickCreatureTarget(owner, players, opts) {
     // Attack selection only (legacy isTarget / canSeeCreature). Invisible players
     // stay out of combat focus but may still count as living presence for idle
     // random walk — see hasLivingPresence in creature_states.
+    const tileMap = o.tileMap || (o.sim && o.sim.tileMap) || null;
+    const targetOpts = { tileMap };
     const attackable = [];
     for (let i = 0; i < near.length; i++) {
-        if (isValidTarget(owner, near[i])) attackable.push(near[i]);
+        if (isValidTarget(owner, near[i], targetOpts)) attackable.push(near[i]);
     }
     if (!attackable.length) return null;
     const strategy = pickWeightedKey(kit.strategiesTarget, o.rng);
@@ -1335,13 +1386,15 @@ function tryShapedKitAttack(owner, primaryTarget, atk, ctx, players, rng) {
         return { fired: false };
     }
 
+    const tileMap = c.tileMap || (c.sim && c.sim.tileMap) || null;
+    const targetOpts = { tileMap };
     const dPrimary =
-        primaryTarget && isValidTarget(owner, primaryTarget)
+        primaryTarget && isValidTarget(owner, primaryTarget, targetOpts)
             ? distBetween(owner, primaryTarget)
             : Infinity;
 
     if (atk.needsTarget) {
-        if (!primaryTarget || !isValidTarget(owner, primaryTarget)) {
+        if (!primaryTarget || !isValidTarget(owner, primaryTarget, targetOpts)) {
             return { fired: true, attackId: atk.id, results: [] };
         }
         if (dPrimary > atk.range) {
@@ -1350,9 +1403,6 @@ function tryShapedKitAttack(owner, primaryTarget, atk, ctx, players, rng) {
     } else if (atk.kind === 'wave' && (!owner || !owner.tile)) {
         return { fired: true, attackId: atk.id, results: [] };
     }
-
-    const tileMap =
-        c.tileMap || (c.sim && c.sim.tileMap) || null;
     // Local candidates for multi-hit footprint (Etapa 5: avoid O(P) at 1000 players).
     const shapeReach = Math.max(
         atk.range != null ? Number(atk.range) : 0,
@@ -1721,11 +1771,15 @@ function tryCreatureAttacks(owner, primaryTarget, ctx) {
         }
 
         // melee / ranged / status single-target
+        const tileMap = c.tileMap || (c.sim && c.sim.tileMap) || null;
         const target =
-            primaryTarget && isValidTarget(owner, primaryTarget)
+            primaryTarget && isValidTarget(owner, primaryTarget, { tileMap })
                 ? primaryTarget
                 : null;
         if (!target) {
+            return { fired: true, attackId: atk.id, results: [] };
+        }
+        if (isProtectedTarget(target, tileMap)) {
             return { fired: true, attackId: atk.id, results: [] };
         }
         const reach =
@@ -1737,7 +1791,6 @@ function tryCreatureAttacks(owner, primaryTarget, ctx) {
             return { fired: true, attackId: atk.id, results: [] };
         }
         // Ranged (and any non-adjacent) kit hits need clear LoS — walls block.
-        const tileMap = c.tileMap || (c.sim && c.sim.tileMap) || null;
         if (
             tileMap &&
             owner.tile &&
@@ -1794,6 +1847,7 @@ module.exports = {
     pickExtreme,
     normalizeStrategiesTarget,
     normalizeFlags,
+    changeTargetFromTemplate,
     normalizeAttack,
     normalizeDefenseSpell,
     normalizeSummonConfig,
@@ -1812,6 +1866,7 @@ module.exports = {
     threatDecayHalflife,
     threatOf,
     retargetIntervalSec,
+    retargetChance,
     armStrategyRetarget,
     clearStrategyRetarget,
     strategyRetargetDue,

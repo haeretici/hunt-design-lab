@@ -126,43 +126,50 @@
     "race": "venom",
     "loot": [
         {
-            "name": "platinum coin",
+            "name": "Platinum Coin",
+            "id": "platinum_coin",
             "minCount": 1,
             "maxCount": 5,
             "chance": 100000
         },
         {
-            "name": "crystal coin",
+            "name": "Crystal Coin",
+            "id": "crystal_coin",
             "minCount": 0,
             "maxCount": 5,
             "chance": 50000
         },
         {
-            "name": "supreme health potion",
+            "name": "Supreme Health Potion",
+            "id": "supreme_health_potion",
             "minCount": 0,
             "maxCount": 20,
             "chance": 45000
         },
         {
-            "name": "ultimate mana potion",
+            "name": "Ultimate Mana Potion",
+            "id": "ultimate_mana_potion",
             "minCount": 0,
             "maxCount": 6,
             "chance": 42000
         },
         {
-            "name": "ultimate dual potion",
+            "name": "Ultimate Dual Potion",
+            "id": "ultimate_dual_potion",
             "minCount": 0,
             "maxCount": 14,
             "chance": 42000
         },
         {
-            "name": "marksman potion",
+            "name": "Marksman Potion",
+            "id": "marksman_potion",
             "minCount": 0,
             "maxCount": 10,
             "chance": 22000
         },
         {
-            "name": "berserk potion",
+            "name": "Berserk Potion",
+            "id": "berserk_potion",
             "minCount": 0,
             "maxCount": 10,
             "chance": 22000
@@ -180,15 +187,18 @@
             "chance": 25000
         },
         {
-            "name": "green gem",
+            "name": "Green Gem",
+            "id": "green_gem",
             "chance": 19000
         },
         {
             "chance": 18500,
-            "name": "red gem"
+            "name": "Red Gem",
+            "id": "red_gem"
         },
         {
-            "name": "yellow gem",
+            "name": "Yellow Gem",
+            "id": "yellow_gem",
             "chance": 18500
         },
         {
@@ -197,14 +207,17 @@
         },
         {
             "chance": 15200,
-            "name": "collar of green plasma"
+            "name": "Collar of Green Plasma",
+            "id": "collar_of_green_plasma"
         },
         {
             "name": "Emberbound Coat",
+            "id": "emberbound_coat",
             "chance": 15200
         },
         {
-            "name": "gold ingot",
+            "name": "Gold Ingot",
+            "id": "gold_ingot",
             "minCount": 0,
             "maxCount": 1,
             "chance": 18000
@@ -215,30 +228,36 @@
         },
         {
             "chance": 12000,
-            "name": "ring of blue plasma"
+            "name": "Ring of Blue Plasma",
+            "id": "ring_of_blue_plasma"
         },
         {
             "chance": 12000,
-            "name": "ring of red plasma"
+            "name": "Ring of Red Plasma",
+            "id": "ring_of_red_plasma"
         },
         {
             "name": "young lich worm",
             "chance": 5500
         },
         {
-            "name": "mortal mace",
+            "name": "Mortal Mace",
+            "id": "mortal_mace",
             "chance": 1300
         },
         {
-            "name": "golden hyaena pendant",
+            "name": "Golden Hyaena Pendant",
+            "id": "golden_hyaena_pendant",
             "chance": 1100
         },
         {
-            "name": "bow of cataclysm",
+            "name": "Bow of Cataclysm",
+            "id": "bow_of_cataclysm",
             "chance": 600
         },
         {
-            "name": "galea mortis",
+            "name": "Galea Mortis",
+            "id": "galea_mortis",
             "chance": 550
         },
         {
@@ -246,7 +265,8 @@
             "chance": 530
         },
         {
-            "name": "toga mortis",
+            "name": "Toga Mortis",
+            "id": "toga_mortis",
             "chance": 500
         }
     ],

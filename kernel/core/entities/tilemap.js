@@ -11,15 +11,18 @@
  * Walk vs sight are independent (docs/08):
  *   friction — walk delay / FRICTION_BLOCKED (255) non-walkable
  *   sight    — SIGHT_BLOCKED (255) cuts LoS / projectiles; 0 = clear
- *   flags    — TILE_FLAG_* (e.g. NO_CAST protection zones)
+ *   flags    — TILE_FLAG_* bits (NO_CAST, NO_CREATURE, vertical markers, …)
  *
  * Path-PNG pixel encoding (docs/08, assets/.../REFERENCE.md):
  *   #ffff00 pure yellow     → full wall (walk+sight blocked)
  *   #00ffff pure cyan       → water / solid clear-sight (walk blocked, sight open)
  *   #ff00ff pure magenta    → grate / glass (walk open, sight blocked)
- *   #00ff00 pure green      → protection zone (walk+sight open, NO_CAST)
+ *   #00ff00 pure green      → NO_CAST only (legacy single-bit; full PZ package is both bits)
  *   R === G === B, not white → walkable floor; friction = channel 0–250 (table)
  *   white / other non-gray  → full wall
+ *
+ * Full protection zone = TILE_FLAG_PZ_PACKAGE (NO_CAST | NO_CREATURE). Role bake and
+ * editor packages set both; pure-green PNG stays NO_CAST-only for backward compat.
  */
 
 const { GameObject } = require('./gameobject.js');
@@ -39,6 +42,13 @@ const { isTickDue, forceDue, isLogicIntervalDue } = require('../lib/logic_regula
 const { takePathBudget, noteFailBackoff } = require('../lib/path_budget.js');
 const { Time } = require('../lib/time.js');
 const { onEntityTileTransition, computeEntityAvoidFieldMask } = require('../lib/combat/elemental_fields.js');
+const { hopDirOffset } = require('../lib/dungeon/tile_roles.js');
+const {
+    resolveTileDrawBox,
+    resolvePlacementRender,
+    collectTallPropsFromFloor,
+    TERRAIN_SUB_LAYER_IDS
+} = require('../lib/tile_draw.js');
 
 /**
  * Whether an entity may path with fieldPenalty (cross avoided hazards).
@@ -97,12 +107,124 @@ const SIGHT_CLEAR = 0;
 
 /**
  * Tile flag bits on layer.flags (parallel Uint8Array).
- * Independent of walk/sight so protection zones and future zone types stack.
+ * Bits stay independent; "Protection Zone" is a package of NO_CAST|NO_CREATURE,
+ * not a single magic bit. STAIR/LADDER/HOLE/ROPE/SHOVEL are markers only —
+ * hops still need the stair registry (addStair). Same values as tile_roles.js
+ * / presets and the flag table in docs/08.
  */
-const TILE_FLAG_NO_CAST = 1;
+const TILE_FLAG_NO_CAST = 1 << 0; // 1 — no attack/cast affect tile; standing blocks cast
+const TILE_FLAG_STAIR = 1 << 1; // 2 — up transit marker
+const TILE_FLAG_LADDER = 1 << 2; // 4 — ladder (UI / use)
+const TILE_FLAG_HOLE = 1 << 3; // 8 — down transit (hole / trapdoor)
+const TILE_FLAG_ROPE_SPOT = 1 << 4; // 16
+const TILE_FLAG_SHOVEL_SPOT = 1 << 5; // 32
+const TILE_FLAG_NO_CREATURE = 1 << 6; // 64 — creatures may not path/step onto
+// 1 << 7 reserved spare
+/** Full PZ package (editor sugar + protection role bake). */
+const TILE_FLAG_PZ_PACKAGE = TILE_FLAG_NO_CAST | TILE_FLAG_NO_CREATURE; // 65
 
 /** Default walk friction for special walkable colors (grate, protection zone). */
 const PATH_PNG_DEFAULT_WALK_FRICTION = 100;
+
+/** Vertical type → flag bit (marker only; stair registry still required). */
+const VERTICAL_TYPE_FLAGS = {
+    stairs: TILE_FLAG_STAIR,
+    ladder: TILE_FLAG_LADDER,
+    hole: TILE_FLAG_HOLE,
+    rope: TILE_FLAG_ROPE_SPOT,
+    shovel: TILE_FLAG_SHOVEL_SPOT
+};
+
+/**
+ * Reverse hop facing for bidirectional stair links.
+ * @param {string|null|undefined} dir
+ * @returns {string|null}
+ */
+function reverseHopDir(dir) {
+    if (dir == null) return null;
+    const d = String(dir).trim().toLowerCase();
+    switch (d) {
+        case 'north':
+            return 'south';
+        case 'south':
+            return 'north';
+        case 'east':
+            return 'west';
+        case 'west':
+            return 'east';
+        case 'up':
+            return 'down';
+        case 'down':
+            return 'up';
+        case 'center':
+            return 'center';
+        default:
+            return d || null;
+    }
+}
+
+/**
+ * Normalize vertical meta from a placement / role for stair registration.
+ * @param {object|null|undefined} raw
+ * @returns {{ type: string, deltaZ: number, defaultDir: string, bidirectional: boolean, registerStairLink: boolean }|null}
+ */
+function normalizePlacementVertical(raw) {
+    if (!raw || typeof raw !== 'object') return null;
+    const typeRaw =
+        raw.type != null
+            ? String(raw.type).trim().toLowerCase()
+            : raw.kind != null
+              ? String(raw.kind).trim().toLowerCase()
+              : '';
+    if (!VERTICAL_TYPE_FLAGS[typeRaw]) return null;
+
+    let deltaZ = Number(raw.deltaZ);
+    if (!Number.isFinite(deltaZ)) {
+        if (typeRaw === 'hole' || typeRaw === 'shovel') deltaZ = 1;
+        else deltaZ = -1;
+    }
+    deltaZ = Math.trunc(deltaZ);
+    if (deltaZ === 0) {
+        deltaZ = typeRaw === 'hole' || typeRaw === 'shovel' ? 1 : -1;
+    }
+
+    const dirRaw =
+        raw.defaultDir != null
+            ? String(raw.defaultDir).trim().toLowerCase()
+            : raw.dir != null
+              ? String(raw.dir).trim().toLowerCase()
+              : 'center';
+    const dirs = { center: 1, north: 1, south: 1, east: 1, west: 1 };
+    const defaultDir = dirs[dirRaw] ? dirRaw : 'center';
+
+    const registerStairLink =
+        raw.registerStairLink !== undefined
+            ? !!raw.registerStairLink
+            : typeRaw === 'stairs' || typeRaw === 'ladder' || typeRaw === 'hole';
+
+    return {
+        type: typeRaw,
+        deltaZ,
+        defaultDir,
+        bidirectional: !!raw.bidirectional,
+        registerStairLink
+    };
+}
+
+/**
+ * Coerce floor index for deltaZ arithmetic (numeric floors + string digits).
+ * @param {string|number} z
+ * @param {number} deltaZ
+ * @returns {string|number}
+ */
+function applyFloorDelta(z, deltaZ) {
+    const n = Number(z);
+    if (Number.isFinite(n) && String(n) === String(z).trim()) {
+        return n + deltaZ;
+    }
+    // Non-numeric floor keys: cannot apply delta; return as-is (caller should set hop.to)
+    return z;
+}
 
 /** Default: full-floor cache when map has ≤ this many tiles (80×80). */
 const DEFAULT_CACHE_FULL_MAX_TILES = 6400;
@@ -427,9 +549,21 @@ class TileMap extends GameObject {
         this.layers = Object.create(null);
         /**
          * Stage 11.9 art layers keyed by floor z (same keys as friction layers).
+         * Procedural / decorative single-cell path (no multi-stack).
          * @type {Record<string, ArtFloorLayer>}
          */
         this.artLayers = Object.create(null);
+        /**
+         * Hybrid authoring floors (TileMap sub-layers + palette) for Phase 6 render:
+         * ground+path → terrain cache; scenery/furniture/vertical → tall props.
+         * @type {Record<string, object>}
+         */
+        this.authoringFloors = Object.create(null);
+        /**
+         * Optional tile-role catalog for placement scale/anchor defaults (watch).
+         * @type {Map<string, object>|Record<string, object>|null}
+         */
+        this.tileRoleCatalog = null;
         /**
          * Optional Stage 10 coarse graph for long routes.
          * @type {import('../lib/navmesh.js').Navmesh|null}
@@ -466,6 +600,7 @@ class TileMap extends GameObject {
          *   appW: number, appH: number,
          *   layerCols: number, layerRows: number,
          *   hasArt: boolean,
+         *   hasAuthoring: boolean,
          *   useSprites: boolean,
          *   pendingSprites: boolean
          * }}
@@ -485,6 +620,72 @@ class TileMap extends GameObject {
         this._renderCacheDirty = true;
         this._renderCache = null;
         return this;
+    }
+
+    /**
+     * Attach hybrid authoring floor (sub-layers + palette) for watch paint.
+     * Invalidates the terrain cache (ground+path) so tall props re-collect.
+     *
+     * @param {string|number} z
+     * @param {object|null} floor
+     * @returns {this}
+     */
+    setAuthoringFloor(z, floor) {
+        const key = String(z);
+        if (!floor || typeof floor !== 'object') {
+            delete this.authoringFloors[key];
+        } else {
+            this.authoringFloors[key] = floor;
+        }
+        this.invalidateRenderCache();
+        return this;
+    }
+
+    /**
+     * @param {string|number} z
+     * @returns {object|null}
+     */
+    getAuthoringFloor(z) {
+        return this.authoringFloors[String(z)] || null;
+    }
+
+    /**
+     * Clear all authoring floors (tests / map swap).
+     * @returns {this}
+     */
+    clearAuthoringFloors() {
+        this.authoringFloors = Object.create(null);
+        this.invalidateRenderCache();
+        return this;
+    }
+
+    /**
+     * Optional role catalog for prop/terrain scale-anchor defaults.
+     * @param {Map<string, object>|Record<string, object>|null} catalog
+     * @returns {this}
+     */
+    setTileRoleCatalog(catalog) {
+        this.tileRoleCatalog = catalog || null;
+        this.invalidateRenderCache();
+        return this;
+    }
+
+    /**
+     * Tall props (scenery / furniture / vertical) in a tile region for y-sort.
+     * @param {string|number} z
+     * @param {{
+     *   x0?: number, y0?: number, x1?: number, y1?: number
+     * }} [region] inclusive; default whole floor
+     * @returns {ReturnType<typeof collectTallPropsFromFloor>}
+     */
+    collectTallProps(z, region) {
+        const floor = this.getAuthoringFloor(z);
+        if (!floor) return [];
+        return collectTallPropsFromFloor(floor, {
+            ...(region || {}),
+            z,
+            roleCatalog: this.tileRoleCatalog
+        });
     }
 
     /**
@@ -508,9 +709,18 @@ class TileMap extends GameObject {
 
     /**
      * Register one directed stair pad: standing on `from` hops to `to`.
+     * Destination already includes hop exit offset when computed by bake helpers.
      * @param {{ x: number, y: number, z: string|number }} from
      * @param {{ x: number, y: number, z: string|number }} to
-     * @param {{ dir?: string|null, link?: string|null }} [meta]
+     * @param {{
+     *   dir?: string|null,
+     *   link?: string|null,
+     *   type?: string|null,
+     *   bidirectional?: boolean|null,
+     *   exitDx?: number,
+     *   exitDy?: number,
+     *   deltaZ?: number
+     * }} [meta]
      * @returns {this}
      */
     addStair(from, to, meta) {
@@ -520,12 +730,30 @@ class TileMap extends GameObject {
         if (a.x === b.x && a.y === b.y && String(a.z) === String(b.z)) {
             return this;
         }
+        const m = meta && typeof meta === 'object' ? meta : null;
         const row = {
             x: b.x,
             y: b.y,
             z: b.z,
-            dir: meta && meta.dir != null ? String(meta.dir) : null,
-            link: meta && meta.link != null ? String(meta.link) : null
+            dir: m && m.dir != null ? String(m.dir) : null,
+            link: m && m.link != null ? String(m.link) : null,
+            type: m && m.type != null ? String(m.type).toLowerCase() : null,
+            bidirectional:
+                m && m.bidirectional !== undefined && m.bidirectional !== null
+                    ? !!m.bidirectional
+                    : null,
+            exitDx:
+                m && m.exitDx != null && Number.isFinite(Number(m.exitDx))
+                    ? Math.trunc(Number(m.exitDx))
+                    : 0,
+            exitDy:
+                m && m.exitDy != null && Number.isFinite(Number(m.exitDy))
+                    ? Math.trunc(Number(m.exitDy))
+                    : 0,
+            deltaZ:
+                m && m.deltaZ != null && Number.isFinite(Number(m.deltaZ))
+                    ? Math.trunc(Number(m.deltaZ))
+                    : null
         };
         this.stairs[stairKey(a.x, a.y, a.z)] = row;
         return this;
@@ -544,13 +772,16 @@ class TileMap extends GameObject {
     }
 
     /**
-     * Merge undirected stair links (from ↔ to by default).
-     * @param {{ from: object, to: object, dir?: string, link?: string|null }[]|null|undefined} links
+     * Merge stair links. Default is from ↔ to (procedural hunt pairing).
+     * Per-link `bidirectional` overrides `opts.bidirectional` when set.
+     * Hybrid / editor rows default one-way so dest tiles stay hop-free
+     * unless the designer also painted a return pad.
+     * @param {{ from: object, to: object, dir?: string, link?: string|null, type?: string, bidirectional?: boolean, exitDx?: number, exitDy?: number, deltaZ?: number }[]|null|undefined} links
      * @param {{ bidirectional?: boolean }} [opts]
      * @returns {this}
      */
     addStairLinks(links, opts) {
-        const bidirectional =
+        const defaultBidirectional =
             !opts || opts.bidirectional === undefined
                 ? true
                 : !!opts.bidirectional;
@@ -558,14 +789,39 @@ class TileMap extends GameObject {
         for (let i = 0; i < list.length; i++) {
             const L = list[i];
             if (!L || !L.from || !L.to) continue;
-            this.addStair(L.from, L.to, {
+            const bidirectional =
+                L.bidirectional !== undefined && L.bidirectional !== null
+                    ? !!L.bidirectional
+                    : defaultBidirectional;
+            const meta = {
                 dir: L.dir != null ? L.dir : 'down',
-                link: L.link
-            });
+                link: L.link,
+                type: L.type,
+                bidirectional,
+                exitDx: L.exitDx,
+                exitDy: L.exitDy,
+                deltaZ: L.deltaZ
+            };
+            this.addStair(L.from, L.to, meta);
             if (bidirectional) {
+                const revDir =
+                    L.dir != null
+                        ? reverseHopDir(L.dir) ||
+                          (L.dir === 'down' ? 'up' : 'down')
+                        : 'up';
                 this.addStair(L.to, L.from, {
-                    dir: L.dir != null ? (L.dir === 'down' ? 'up' : 'down') : 'up',
-                    link: L.link
+                    dir: revDir,
+                    link: L.link,
+                    type: L.type,
+                    bidirectional: true,
+                    exitDx:
+                        L.exitDx != null ? -Math.trunc(Number(L.exitDx) || 0) : 0,
+                    exitDy:
+                        L.exitDy != null ? -Math.trunc(Number(L.exitDy) || 0) : 0,
+                    deltaZ:
+                        L.deltaZ != null && Number.isFinite(Number(L.deltaZ))
+                            ? -Math.trunc(Number(L.deltaZ))
+                            : null
                 });
             }
         }
@@ -588,7 +844,7 @@ class TileMap extends GameObject {
      * @param {number} x
      * @param {number} y
      * @param {string|number} z
-     * @returns {{ x: number, y: number, z: string|number, dir?: string|null, link?: string|null }|null}
+     * @returns {{ x: number, y: number, z: string|number, dir?: string|null, link?: string|null, type?: string|null, exitDx?: number, exitDy?: number, deltaZ?: number|null }|null}
      */
     getStair(x, y, z) {
         const row = this.stairs[stairKey(x, y, z)];
@@ -630,7 +886,12 @@ class TileMap extends GameObject {
                     y: to.y,
                     z: to.z,
                     dir: to.dir,
-                    link: to.link
+                    link: to.link,
+                    type: to.type,
+                    exitDx: to.exitDx,
+                    exitDy: to.exitDy,
+                    deltaZ: to.deltaZ,
+                    bidirectional: to.bidirectional
                 }
             });
         }
@@ -902,7 +1163,8 @@ class TileMap extends GameObject {
     }
 
     /**
-     * Protection-zone style: standing here cannot cast magic / autos.
+     * Standing here cannot cast magic / autos (NO_CAST bit).
+     * Same bit also gates attack effect on the tile via attackMayAffectTile.
      * @param {number} x
      * @param {number} y
      * @param {string|number} z
@@ -910,6 +1172,64 @@ class TileMap extends GameObject {
      */
     blocksCast(x, y, z) {
         return (this.getTileFlags(x, y, z) & TILE_FLAG_NO_CAST) !== 0;
+    }
+
+    /**
+     * Creatures may not enter this tile (NO_CREATURE bit).
+     * @param {number} x
+     * @param {number} y
+     * @param {string|number} z
+     * @returns {boolean}
+     */
+    blocksCreatures(x, y, z) {
+        return (this.getTileFlags(x, y, z) & TILE_FLAG_NO_CREATURE) !== 0;
+    }
+
+    /**
+     * Whether a creature may step / path onto the tile under flag rules.
+     * Players always pass the flag check (walk still needs isWalkable / stack).
+     * Missing / unresolved entity on a NO_CREATURE tile → false (treat as creature).
+     *
+     * @param {number} x
+     * @param {number} y
+     * @param {string|number} z
+     * @param {{ id?: number, type?: string }|number|null|undefined} [entity]
+     * @returns {boolean}
+     */
+    creatureMayEnterTile(x, y, z, entity) {
+        if (!this.blocksCreatures(x, y, z)) return true;
+        if (entity != null && typeof entity === 'object' && isPlayerEntity(entity)) {
+            return true;
+        }
+        const id = entityIdOf(entity);
+        const mover = resolveMoverEntity(this, entity, id);
+        if (mover && isPlayerEntity(mover)) return true;
+        return false;
+    }
+
+    /**
+     * Whether attack spells / harmful AOE / field deploy may affect this tile.
+     * Fails when NO_CAST is set (including full PZ package and legacy green PNG).
+     * @param {number} x
+     * @param {number} y
+     * @param {string|number} z
+     * @returns {boolean}
+     */
+    attackMayAffectTile(x, y, z) {
+        return (this.getTileFlags(x, y, z) & TILE_FLAG_NO_CAST) === 0;
+    }
+
+    /**
+     * Full protection-zone package: both NO_CAST and NO_CREATURE set.
+     * Pure-green PNG loads set only NO_CAST (single-bit still works).
+     * @param {number} x
+     * @param {number} y
+     * @param {string|number} z
+     * @returns {boolean}
+     */
+    isProtectionZonePackage(x, y, z) {
+        const f = this.getTileFlags(x, y, z);
+        return (f & TILE_FLAG_PZ_PACKAGE) === TILE_FLAG_PZ_PACKAGE;
     }
 
     /**
@@ -1067,6 +1387,9 @@ class TileMap extends GameObject {
      */
     canEnter(x, y, z, entity, opts) {
         if (!this.isWalkable(x, y, z)) return false;
+        // NO_CREATURE: players walk; creatures / bare probes blocked (PZ package).
+        if (!this.creatureMayEnterTile(x, y, z, entity)) return false;
+
         const firstId = this.getOccupant(x, y, z);
         if (firstId === 0) return true;
 
@@ -2137,9 +2460,9 @@ class TileMap extends GameObject {
         const genre = art.genre || DEFAULT_GENRE;
         const kind = art.kind || 'tiles';
         const variant =
-            typeof sprites.defaultVariantForDisplay === 'function'
-                ? sprites.defaultVariantForDisplay()
-                : 'small';
+            typeof sprites.defaultTileVariantForDisplay === 'function'
+                ? sprites.defaultTileVariantForDisplay()
+                : 'icon';
         if (typeof sprites.prefetchSprite === 'function') {
             for (let p = 1; p < art.palette.length; p++) {
                 const tid = art.palette[p];
@@ -2152,7 +2475,7 @@ class TileMap extends GameObject {
                 });
             }
         }
-        return (tileId) => {
+        const getImg = (tileId) => {
             if (!tileId) return null;
             return sprites.getReadySpriteImage({
                 genre,
@@ -2161,10 +2484,224 @@ class TileMap extends GameObject {
                 variant
             });
         };
+        getImg.isPending = (tileId) => {
+            if (!tileId || typeof sprites.isSpritePending !== 'function') {
+                return false;
+            }
+            return sprites.isSpritePending({
+                genre,
+                kind,
+                id: tileId,
+                variant
+            });
+        };
+        return getImg;
+    }
+
+    /**
+     * Catalog image lookup for hybrid placements (tiles + objects).
+     * Prefetches palette entries. Returns null when sprites unavailable.
+     *
+     * @param {object|null} authoringFloor
+     * @param {string|null|undefined} [genre]
+     * @returns {((catalogId: string, kind: string) => *)|null}
+     */
+    _authoringImageGetter(authoringFloor, genre) {
+        if (!authoringFloor || Settings.useEntitySprites === false) return null;
+        const sprites = tileSpriteApi();
+        if (!sprites || typeof sprites.getReadySpriteImage !== 'function') {
+            return null;
+        }
+        const g0 = genre || DEFAULT_GENRE;
+        const variant =
+            typeof sprites.defaultTileVariantForDisplay === 'function'
+                ? sprites.defaultTileVariantForDisplay()
+                : 'icon';
+        const palette = authoringFloor.palette || [];
+        if (typeof sprites.prefetchSprite === 'function') {
+            for (let p = 1; p < palette.length; p++) {
+                const entry = palette[p];
+                if (!entry) continue;
+                const id =
+                    entry.catalogId != null
+                        ? String(entry.catalogId)
+                        : entry.id != null
+                          ? String(entry.id)
+                          : '';
+                if (!id) continue;
+                const kind =
+                    entry.kind === 'overlays'
+                        ? 'overlays'
+                        : entry.kind === 'objects'
+                          ? 'objects'
+                          : 'tiles';
+                sprites.prefetchSprite({
+                    genre: g0,
+                    kind,
+                    id,
+                    variant
+                });
+            }
+        }
+        const kindOf = (kind) =>
+            kind === 'overlays'
+                ? 'overlays'
+                : kind === 'objects'
+                  ? 'objects'
+                  : 'tiles';
+        const getImg = (catalogId, kind) => {
+            if (!catalogId) return null;
+            return sprites.getReadySpriteImage({
+                genre: g0,
+                kind: kindOf(kind),
+                id: catalogId,
+                variant
+            });
+        };
+        getImg.isPending = (catalogId, kind) => {
+            if (!catalogId || typeof sprites.isSpritePending !== 'function') {
+                return false;
+            }
+            return sprites.isSpritePending({
+                genre: g0,
+                kind: kindOf(kind),
+                id: catalogId,
+                variant
+            });
+        };
+        return getImg;
+    }
+
+    /**
+     * Resolve role document for a placement (optional catalog).
+     * @param {object|null|undefined} placement
+     * @returns {object|null}
+     */
+    _roleForPlacement(placement) {
+        if (!placement || !placement.roleId || !this.tileRoleCatalog) return null;
+        const rid = String(placement.roleId);
+        const cat = this.tileRoleCatalog;
+        if (typeof cat.get === 'function') return cat.get(rid) || null;
+        return cat[rid] || null;
+    }
+
+    /**
+     * Paint ground+path stamps from authoring floor into local tile space.
+     * Tall props are excluded (y-sorted with entities later).
+     *
+     * @param {*} g
+     * @param {FloorLayer} layer
+     * @param {object} authoring
+     * @param {((id: string, kind: string) => *)|null} getImg
+     * @param {number} regionX
+     * @param {number} regionY
+     * @param {number} regionW
+     * @param {number} regionH
+     * @param {number} tw
+     * @param {number} th
+     * @returns {boolean} pendingSprites
+     * @private
+     */
+    _paintTerrainAuthoringRegion(
+        g,
+        layer,
+        authoring,
+        getImg,
+        regionX,
+        regionY,
+        regionW,
+        regionH,
+        tw,
+        th
+    ) {
+        let pendingSprites = false;
+        const cols = authoring.cols | 0;
+        const rows = authoring.rows | 0;
+        const palette = authoring.palette || [];
+        /** @type {Map<string, object>} */
+        const subById = new Map();
+        if (Array.isArray(authoring.subLayers)) {
+            for (let i = 0; i < authoring.subLayers.length; i++) {
+                const sl = authoring.subLayers[i];
+                if (sl && sl.id) subById.set(String(sl.id), sl);
+            }
+        }
+
+        for (let ry = 0; ry < regionH; ry++) {
+            const y = regionY + ry;
+            if (y < 0 || y >= layer.rows || y >= rows) continue;
+            for (let rx = 0; rx < regionW; rx++) {
+                const x = regionX + rx;
+                if (x < 0 || x >= layer.cols || x >= cols) continue;
+                const flat = this.index(x, y, layer.cols);
+                const f = layer.friction[flat];
+                const tilePx = rx * tw;
+                const tilePy = ry * th;
+
+                // Always seed with friction gray so empty authoring still reads.
+                g.fillStyle =
+                    FRICTION_FILL_STYLE[f] || FRICTION_FILL_STYLE[FRICTION_BLOCKED];
+                g.fillRect(tilePx, tilePy, tw, th);
+
+                if (!getImg) continue;
+
+                for (let t = 0; t < TERRAIN_SUB_LAYER_IDS.length; t++) {
+                    const sid = TERRAIN_SUB_LAYER_IDS[t];
+                    const sl = subById.get(sid);
+                    if (!sl || !sl.cells) continue;
+                    const pIdx = sl.cells[y * cols + x] | 0;
+                    if (pIdx <= 0 || pIdx >= palette.length) continue;
+                    const placement = palette[pIdx];
+                    if (!placement) continue;
+                    const meta = resolvePlacementRender(
+                        placement,
+                        this._roleForPlacement(placement)
+                    );
+                    if (!meta.catalogId) continue;
+                    const img = getImg(meta.catalogId, meta.kind);
+                    if (!img) {
+                        if (
+                            typeof getImg.isPending !== 'function' ||
+                            getImg.isPending(meta.catalogId, meta.kind)
+                        ) {
+                            pendingSprites = true;
+                        }
+                        continue;
+                    }
+                    const iw =
+                        img.naturalWidth ||
+                        img.width ||
+                        img.videoWidth ||
+                        tw;
+                    const ih =
+                        img.naturalHeight ||
+                        img.height ||
+                        img.videoHeight ||
+                        th;
+                    const box = resolveTileDrawBox(
+                        tilePx,
+                        tilePy,
+                        tw,
+                        th,
+                        iw,
+                        ih,
+                        meta.scale,
+                        meta.anchor
+                    );
+                    try {
+                        g.drawImage(img, box.dx, box.dy, box.dw, box.dh);
+                    } catch (_e) {
+                        // keep friction fill
+                    }
+                }
+            }
+        }
+        return pendingSprites;
     }
 
     /**
      * Paint a tile-space rectangle of the floor into `g` at local (0,0).
+     * Prefer hybrid authoring ground+path; else single-cell artLayers; else friction gray.
      * Returns whether any art tile still lacked a ready sprite (retry rebuild).
      *
      * @param {*} g
@@ -2177,6 +2714,10 @@ class TileMap extends GameObject {
      * @param {number} regionH
      * @param {number} tw
      * @param {number} th
+     * @param {{
+     *   authoring?: object|null,
+     *   getAuthoringImg?: ((id: string, kind: string) => *)|null
+     * }} [opts]
      * @returns {boolean} pendingSprites
      */
     _paintFloorRegion(
@@ -2189,8 +2730,25 @@ class TileMap extends GameObject {
         regionW,
         regionH,
         tw,
-        th
+        th,
+        opts
     ) {
+        const o = opts || {};
+        if (o.authoring) {
+            return this._paintTerrainAuthoringRegion(
+                g,
+                layer,
+                o.authoring,
+                o.getAuthoringImg || null,
+                regionX,
+                regionY,
+                regionW,
+                regionH,
+                tw,
+                th
+            );
+        }
+
         let pendingSprites = false;
         for (let ry = 0; ry < regionH; ry++) {
             const y = regionY + ry;
@@ -2216,7 +2774,10 @@ class TileMap extends GameObject {
                             } catch (_e) {
                                 drewSprite = false;
                             }
-                        } else {
+                        } else if (
+                            typeof getTileImg.isPending !== 'function' ||
+                            getTileImg.isPending(tileId)
+                        ) {
                             pendingSprites = true;
                         }
                     }
@@ -2261,11 +2822,17 @@ class TileMap extends GameObject {
         const layer = this.layers[zKey];
         if (!layer) return;
         const art = this.artLayers[zKey] || null;
+        const authoring = this.authoringFloors[zKey] || null;
+        const hasAuthoring = !!authoring;
         const tw = Settings.tileWidth || 1;
         const th = Settings.tileHeight || 1;
         const app = Settings.app;
         const appW = app && app.width > 0 ? app.width : 0;
         const appH = app && app.height > 0 ? app.height : 0;
+        const genre =
+            (art && art.genre) ||
+            (Settings.app && Settings.app.genre) ||
+            DEFAULT_GENRE;
 
         const view = resolveTilemapViewport(layer, {
             tileWidth: tw,
@@ -2282,9 +2849,17 @@ class TileMap extends GameObject {
         this._viewRows = viewRows;
         this._viewZ = zKey;
 
-        const getTileImg = this._artTileImageGetter(art);
-        const hasArt = !!art;
-        const useSprites = Settings.useEntitySprites !== false && !!getTileImg;
+        const getTileImg = hasAuthoring ? null : this._artTileImageGetter(art);
+        const getAuthoringImg = hasAuthoring
+            ? this._authoringImageGetter(authoring, genre)
+            : null;
+        const hasArt = hasAuthoring ? true : !!art;
+        const useSprites =
+            Settings.useEntitySprites !== false &&
+            !!(hasAuthoring ? getAuthoringImg : getTileImg);
+        const paintOpts = hasAuthoring
+            ? { authoring, getAuthoringImg }
+            : null;
         const canBlit =
             typeof g.drawImage === 'function' &&
             (g.canvas != null || typeof OffscreenCanvas !== 'undefined');
@@ -2300,7 +2875,8 @@ class TileMap extends GameObject {
                 viewCols,
                 viewRows,
                 tw,
-                th
+                th,
+                paintOpts
             );
             return;
         }
@@ -2319,6 +2895,7 @@ class TileMap extends GameObject {
                 cache.layerCols !== layer.cols ||
                 cache.layerRows !== layer.rows ||
                 cache.hasArt !== hasArt ||
+                !!cache.hasAuthoring !== hasAuthoring ||
                 cache.useSprites !== useSprites ||
                 cache.pendingSprites
             ) {
@@ -2352,7 +2929,8 @@ class TileMap extends GameObject {
                     viewCols,
                     viewRows,
                     tw,
-                    th
+                    th,
+                    paintOpts
                 );
                 return;
             }
@@ -2370,7 +2948,8 @@ class TileMap extends GameObject {
                 desired.w,
                 desired.h,
                 tw,
-                th
+                th,
+                paintOpts
             );
 
             this._renderCache = {
@@ -2389,6 +2968,7 @@ class TileMap extends GameObject {
                 layerCols: layer.cols,
                 layerRows: layer.rows,
                 hasArt,
+                hasAuthoring,
                 useSprites,
                 pendingSprites
             };
@@ -2418,7 +2998,8 @@ class TileMap extends GameObject {
                 viewCols,
                 viewRows,
                 tw,
-                th
+                th,
+                paintOpts
             );
         }
     }
@@ -2438,7 +3019,8 @@ class TileMap extends GameObject {
         viewCols,
         viewRows,
         tw,
-        th
+        th,
+        opts
     ) {
         const tileOx = Math.floor(originX);
         const tileOy = Math.floor(originY);
@@ -2463,7 +3045,8 @@ class TileMap extends GameObject {
                 paintCols,
                 paintRows,
                 tw,
-                th
+                th,
+                opts
             );
             g.restore();
             return;
@@ -2478,7 +3061,8 @@ class TileMap extends GameObject {
             viewCols,
             viewRows,
             tw,
-            th
+            th,
+            opts
         );
     }
 }
@@ -2728,17 +3312,204 @@ function decodePathPngNode(filePath) {
     });
 }
 
+/**
+ * Bake helper: register a stair/hole/ladder link from a TileMap placement.
+ * Computes destination as hop.to or same (x,y) + hopDirOffset(dir) + z+deltaZ.
+ * ORs the vertical type flag bit onto the from-cell when a flags layer exists
+ * (or creates one via setTileFlags). Does nothing when registerStairLink is false.
+ *
+ * @param {TileMap} map
+ * @param {{
+ *   vertical?: object|null,
+ *   hop?: { dir?: string, deltaZ?: number, to?: { x: number, y: number, z?: string|number } }|null,
+ *   role?: { vertical?: object|null }|null,
+ *   link?: string|null,
+ *   type?: string|null
+ * }|null|undefined} placement
+ * @param {number} x
+ * @param {number} y
+ * @param {string|number} z
+ * @param {{ setFlags?: boolean, bidirectional?: boolean }} [opts]
+ * @returns {{
+ *   registered: boolean,
+ *   from: { x: number, y: number, z: string|number },
+ *   to: { x: number, y: number, z: string|number }|null,
+ *   type: string|null,
+ *   dir: string|null,
+ *   exitDx: number,
+ *   exitDy: number,
+ *   deltaZ: number|null
+ * }}
+ */
+function registerVerticalFromPlacement(map, placement, x, y, z, opts) {
+    const ix = Math.round(Number(x) || 0);
+    const iy = Math.round(Number(y) || 0);
+    const from = { x: ix, y: iy, z };
+    const empty = {
+        registered: false,
+        from,
+        to: null,
+        type: null,
+        dir: null,
+        exitDx: 0,
+        exitDy: 0,
+        deltaZ: null
+    };
+    if (!map || typeof map.addStair !== 'function') return empty;
+    if (!placement || typeof placement !== 'object') return empty;
+
+    const verticalRaw =
+        placement.vertical != null
+            ? placement.vertical
+            : placement.role && placement.role.vertical != null
+              ? placement.role.vertical
+              : placement.type != null
+                ? {
+                      type: placement.type,
+                      deltaZ: placement.deltaZ,
+                      defaultDir: placement.dir,
+                      bidirectional: placement.bidirectional,
+                      registerStairLink: placement.registerStairLink
+                  }
+                : null;
+    const vertical = normalizePlacementVertical(verticalRaw);
+    if (!vertical) return empty;
+
+    const setFlags = !opts || opts.setFlags !== false;
+    if (setFlags) {
+        const bit = VERTICAL_TYPE_FLAGS[vertical.type] || 0;
+        if (bit && typeof map.setTileFlags === 'function') {
+            const prev =
+                typeof map.getTileFlags === 'function'
+                    ? map.getTileFlags(ix, iy, z)
+                    : 0;
+            map.setTileFlags(ix, iy, z, (prev | bit) & 0xff);
+        }
+    }
+
+    if (!vertical.registerStairLink) {
+        return {
+            registered: false,
+            from,
+            to: null,
+            type: vertical.type,
+            dir: vertical.defaultDir,
+            exitDx: 0,
+            exitDy: 0,
+            deltaZ: vertical.deltaZ
+        };
+    }
+
+    const hop =
+        placement.hop && typeof placement.hop === 'object' ? placement.hop : {};
+    const dirRaw =
+        hop.dir != null
+            ? String(hop.dir).trim().toLowerCase()
+            : vertical.defaultDir;
+    const dirs = { center: 1, north: 1, south: 1, east: 1, west: 1 };
+    const dir = dirs[dirRaw] ? dirRaw : 'center';
+    const off = hopDirOffset(dir);
+    const exitDx = off.dx;
+    const exitDy = off.dy;
+
+    let deltaZ =
+        hop.deltaZ != null && Number.isFinite(Number(hop.deltaZ))
+            ? Math.trunc(Number(hop.deltaZ))
+            : vertical.deltaZ;
+
+    let toX;
+    let toY;
+    let toZ;
+    if (hop.to && hop.to.x != null && hop.to.y != null) {
+        toX = Math.round(Number(hop.to.x));
+        toY = Math.round(Number(hop.to.y));
+        toZ =
+            hop.to.z !== undefined && hop.to.z !== null
+                ? hop.to.z
+                : applyFloorDelta(z, deltaZ);
+    } else {
+        toX = ix + exitDx;
+        toY = iy + exitDy;
+        toZ = applyFloorDelta(z, deltaZ);
+    }
+
+    if (toX === ix && toY === iy && String(toZ) === String(z)) {
+        return {
+            registered: false,
+            from,
+            to: { x: toX, y: toY, z: toZ },
+            type: vertical.type,
+            dir,
+            exitDx,
+            exitDy,
+            deltaZ
+        };
+    }
+
+    const meta = {
+        dir,
+        type: vertical.type,
+        link: placement.link != null ? placement.link : null,
+        bidirectional: vertical.bidirectional,
+        exitDx,
+        exitDy,
+        deltaZ
+    };
+    map.addStair(from, { x: toX, y: toY, z: toZ }, meta);
+
+    const bi =
+        opts && opts.bidirectional !== undefined
+            ? !!opts.bidirectional
+            : vertical.bidirectional;
+    if (bi) {
+        map.addStair(
+            { x: toX, y: toY, z: toZ },
+            from,
+            {
+                dir: reverseHopDir(dir),
+                type: vertical.type,
+                link: placement.link != null ? placement.link : null,
+                bidirectional: true,
+                exitDx: -exitDx,
+                exitDy: -exitDy,
+                deltaZ: -deltaZ
+            }
+        );
+    }
+
+    return {
+        registered: true,
+        from,
+        to: { x: toX, y: toY, z: toZ },
+        type: vertical.type,
+        dir,
+        exitDx,
+        exitDy,
+        deltaZ
+    };
+}
+
 module.exports = {
     TileMap,
     FRICTION_BLOCKED,
     SIGHT_BLOCKED,
     SIGHT_CLEAR,
     TILE_FLAG_NO_CAST,
+    TILE_FLAG_STAIR,
+    TILE_FLAG_LADDER,
+    TILE_FLAG_HOLE,
+    TILE_FLAG_ROPE_SPOT,
+    TILE_FLAG_SHOVEL_SPOT,
+    TILE_FLAG_NO_CREATURE,
+    TILE_FLAG_PZ_PACKAGE,
     PATH_PNG_DEFAULT_WALK_FRICTION,
     frictionFromPixel,
     collisionFromPixel,
     defaultSightFromFriction,
     stairKey,
+    reverseHopDir,
+    registerVerticalFromPlacement,
+    normalizePlacementVertical,
     resolveTilemapViewport,
     computeTilemapCacheRect,
     tilemapCacheNeedsRebuild,

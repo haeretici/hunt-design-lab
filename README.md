@@ -1,6 +1,6 @@
 # Hunt Design Lab
 
-**Hunt Design Lab** (**HuntDL**) is an HTML / JavaScript toolkit for **dungeon combat simulation**, **content design**, and a multi-genre **creature concept → spritesheet** pipeline.
+**Hunt Design Lab** (**HuntDL**) is a **Node.js 2D MMO engine** and an HTML / JavaScript toolkit for **dungeon combat simulation**, **content design**, and a multi-genre **creature concept → spritesheet** pipeline.
 
 <p align="center">
   <img src="assets/screenshots/hunt-simulator.png" alt="Hunt Simulator — live party vs. dungeon watch UI" width="900">
@@ -13,18 +13,35 @@
 | **Package / repo** | `hunt-design-lab` |
 | **Mark** | Red `fa-dragon` (nav) + `assets/brand/favicon.svg` |
 
-Shared game logic lives under `kernel/` (Node and browser). CLI tools live under `bin/`. A PHP shell hosts the web apps. Sprite green-screen / quantize steps use Python (`bin/process_sprites.py`).
+Shared game logic lives under `kernel/` and runs in **Node** (headless / server-shaped) and in the **browser** (watch UI). CLI tools live under `bin/`. A PHP shell hosts the web apps. Sprite green-screen / quantize steps use Python (`bin/process_sprites.py`).
 
 > **Status:** early public-ready snapshot (`0.7.0`). APIs, presets, and art pipelines may still change.
 
+## Engine and architecture
+
+One goal of this repo is a **tile-based 2D MMO engine in Node.js** — not only a combat lab. The current stack is already shaped for a **client–server** split, even while the “server” and the “client” still share a process in the designer apps:
+
+| Piece | Role today | MMO-shaped meaning |
+| :--- | :--- | :--- |
+| **`kernel/` Simulator** | Authoritative world tick (fixed **20 Hz** logic). Combat, movement, occupancy, pathfinding, stairs, fields, NPC talk, and inventory all land here. | Game server |
+| **Command queue** | The UI never mutates the world directly. Clicks, hotkeys, talk replies, and item use enqueue commands (`SET_TARGET`, `CUSTOM_COMMAND`, move, use, …) that the Simulator applies on the next logic tick. | Client → server messages |
+| **Browser Hunt / Scenario Lab** | Camera, HUD, action bars, dialog panel, mouse dispatcher. Reads session state and paints; does not own rules. | Game client |
+| **Headless runner** | Same Simulator, no DOM / images. Batch hunts, sweeps, and bug repro use the identical tick. | Dedicated / CI server |
+| **Presets** | Classes, spells, creatures, hunts, dialogs, maps — JSON packs loaded by both sides. | Shared content |
+
+Creature pathfinding, combat resolution, and NPC dialog stay on the simulation side. A future network client can send the same command types the local UI already queues. Logic `dt` is fixed; wall-clock speed only changes how often ticks are scheduled, not the rules.
+
 ## Features
 
-- **Hunt simulator** — deterministic party vs. dungeon runs with live watch UI, scrubber, and debug overlays
+- **2D MMO kernel (Node.js)** — tile maps, A\* / navmesh, multi-floor stairs, occupancy and player stacking, classes / spells / equipment, status conditions, elemental fields, inventory, and a command-driven session
+- **Hunt simulator** — deterministic party vs. dungeon runs with live watch UI, tick scrubber, manual control, action bars, and debug overlays
 - **Headless simulation** — batch hunts, balance sweeps, strategy evaluation, telemetry summaries
-- **Designer / content tools** — hunt packs, dungeon profiles, piece grids, wiki browsers, scenario lab
+- **Map editor** — paint multi-floor tilemaps (ground / path / scenery / furniture / stairs), collision, sight, flags, fields, and creature spawns; save hybrid map packs the engine can load
+- **NPCs** — talkable creatures with dialog trees, walk-then-talk, a floating reply panel, hunt-scoped storage, give/take, vendor-lite shops, and idle wander / voices
+- **Designer / content tools** — hunt packs, dungeon profiles, piece grids, wiki browsers, Scenario Lab fixtures
 - **Sprite pipeline** — commercial-safe name banks → AI image gen (Google Antigravity or Grok Build) → ImageMagick split → Pillow variants (`alpha` / `medium` / `retro` / `small` / `icon`)
 - **Free Edit (optional)** — Sprite Manager pen button opens [Sprite Editor](https://github.com/haeretici/sprite-editor) free-edit mode to paint/fix cutouts; Save replaces `original/` and reprocesses variants
-- **Content modes** — `standard` product pack and `legacy` reference pack (see [docs/17_content_modes.md](docs/17_content_modes.md))
+- **Content modes** — `standard` (shipped product pack) and `legacy` (reference pack on a separate git branch). Packs do not fall back into each other.
 - **Multi-genre catalogs** — fantasy, ecology, ultra-tech, space, steampunk, super-heroes
 
 UI captures live under [`assets/screenshots/`](assets/screenshots/) — see **Screenshots** below.
@@ -66,6 +83,8 @@ Then open:
 | Sim Batch Builder | http://127.0.0.1:8080/sim-batch-builder.php | [sim-batch-builder](assets/screenshots/sim-batch-builder.png) |
 | Wiki (creatures) | http://127.0.0.1:8080/wiki-creatures.php | [wiki-creatures](assets/screenshots/wiki-creatures.png) |
 | Wiki (equipment) | http://127.0.0.1:8080/wiki-equipment.php | [wiki-equipment](assets/screenshots/wiki-equipment.png) |
+| Wiki (spells) | http://127.0.0.1:8080/wiki-spells.php | — |
+| Map Editor (Legacy Map) | http://127.0.0.1:8080/wiki-legacy-map.php | — |
 
 ```bash
 # Tests + a headless hunt
@@ -87,7 +106,7 @@ UI captures are stored in [`assets/screenshots/`](assets/screenshots/). Below is
 
 ### Hunt Simulator
 
-Live party vs. dungeon watch mode: pick a hunt preset and party, scrub ticks, and inspect combat telemetry.
+Live party vs. dungeon watch mode: pick a hunt preset and party, scrub ticks, and inspect combat telemetry. Manual control uses the same command queue as a future network client — move, target, cast, talk, and use items from the canvas and action bars.
 
 <img src="assets/screenshots/hunt-simulator.png" alt="Hunt Simulator" width="900">
 
@@ -103,9 +122,11 @@ Live party vs. dungeon watch mode: pick a hunt preset and party, scrub ticks, an
 | :---: | :---: |
 | <img src="assets/screenshots/action-bars-hotkeys.png" alt="Action Bars Configuration" width="440"> | <img src="assets/screenshots/general-hotkeys.png" alt="General Hotkeys" width="440"> |
 
+Mouse control modes (Classic, Regular, Smart left-click) map clicks to talk / attack / use / autowalk the way a 2D MMO client would. The HUD also covers equipment, backpack, combat roster, skills, and party.
+
 ### Scenario Lab
 
-Isolated fixtures for choke points, leash tests, and golden product hunts — same watch canvas without full dungeon generation.
+Isolated fixtures for choke points, leash tests, NPC talk, and golden product hunts — same watch canvas without full dungeon generation.
 
 <img src="assets/screenshots/scenario-lab.png" alt="Scenario Lab" width="900">
 
@@ -149,11 +170,44 @@ Mode-scoped content CRUD (spells, classes, equipment, biomes, pieces, …) with 
 
 ### Wiki
 
-Read-only browsers for the creature and equipment catalogs.
+Read-only browsers for the creature, equipment, and spell catalogs.
 
 | Creatures | Equipment |
 | :---: | :---: |
 | <img src="assets/screenshots/wiki-creatures.png" alt="Wiki — creatures" width="440"> | <img src="assets/screenshots/wiki-equipment.png" alt="Wiki — equipment" width="440"> |
+
+### Map editor
+
+**Wiki → Legacy Map** (`wiki-legacy-map.php`) is a full tilemap editor, not only a viewer. Designers paint gameplay layers that the Simulator bakes into walk / sight / flag arrays at runtime.
+
+| | |
+| :--- | :--- |
+| **Floors** | Sixteen stacked floors (`00`–`15`). Stairs, ladders, and holes are one-way hops unless a return pad is stamped. |
+| **TileMap stack** | Top → bottom: **vertical** (stairs / ladder / hole / rope / shovel), **furniture**, **scenery**, **path**, **ground**. |
+| **Gameplay overlays** | **Fields** (fire / poison / energy / obstacles), **Flags** (no-cast, protection, no-creature, …), **Sight**, **Friction** (step delay vs blocked). |
+| **Spawns** | Place and filter creature / NPC spawns on the current floor. |
+| **Tools** | Select, pen, bucket, pan; square / circle / diamond / cross / dither / spray brushes; sizes 1×1–9×9; grid; undo / redo; zoom 100%–3200%. |
+| **Icons** | At high zoom the editor overpaints catalog tile / object sprites (32×32) instead of role colors. |
+| **Save** | **Save Map** writes a hybrid pack (`map.json` + gzipped layer blobs). **Export PNG** dumps the friction channel. `Ctrl+S` saves. |
+
+Hunts prefer a hybrid pack when present. Procedural dungeons emit the same baked arrays in memory, so authored rooms and generated caves share one collision model.
+
+### NPCs and dialog
+
+Talkable NPCs are ordinary creatures with NPC identity (`isNpc`, `kind: "npc"`, or `flags.talkable`) and **no** hostile / attackable-NPC flags. They do not aggro, grant exp, or drop loot. The player AI will not pick them as combat targets.
+
+| | |
+| :--- | :--- |
+| **Start talk** | Classic: unshifted right-click. Smart left-click: unshifted left-click. Out of range walks to an adjacent tile first (same floor, Chebyshev distance ≤ **3**). |
+| **Dialog UI** | Floating panel next to inventory: NPC name, node text, reply buttons, close (`Escape`, click-outside, or **Bye**). |
+| **Trees** | Inline `dialog` on the creature, or a `dialogId` file under `presets/<mode>/dialogs/`. Replies `goto` a node, `close`, `open_shop`, `give_item` / `take_item`, or enqueue another command. |
+| **Simple quests** | Reply / node `when` and `set` read and write `player.storage` (hunt-scoped key/value; unset keys are `0`). |
+| **Give / take** | Replies can grant or consume backpack items (all-or-nothing; fail prints an FCT). |
+| **Shop** | Vendor-lite buy/sell vs backpack (`shop` on the creature). Currency is an item (`gold_coin` by default). No bank or coin conversion. |
+| **Wander / voices** | Optional idle walk in a Chebyshev box around home, plus periodic voice lines, only when a spectator is nearby. Talk freezes walk. |
+| **Try it** | Scenario Lab fixture **`npc_talk_lab`**, sample NPC **`town_guide`**. |
+
+Free-text chat, quest journals, banks, and depots are **not** in this snapshot. Missing dialog prints **“Nothing to say.”** Hostile creatures never talk.
 
 ## Integrating Sprite Editor
 
@@ -175,7 +229,7 @@ Free Edit talks to Sprite Manager with `window.postMessage` and **requires the s
 2. Parent → child: `FREE_EDIT_LOAD` (`pngBase64` of the creature **alpha** PNG)
 3. Child → parent: `FREE_EDIT_SAVE` (edited PNG) or `FREE_EDIT_CANCEL`
 
-On Save, Sprite Manager runs the same path as **Replace original** (`creature_replace` → `process_sprites.py --force --only STEM`). Details: [docs/05_creature_manifest.md](docs/05_creature_manifest.md).
+On Save, Sprite Manager runs the same path as **Replace original** (`creature_replace` → `process_sprites.py --force --only STEM`).
 
 Running Sprite Editor only on its own `npm run dev` port (**8090**) while HuntDL is on **8080** is fine for standalone editing, but **Free Edit from Sprite Manager will not work** across origins.
 
@@ -281,33 +335,15 @@ If the popup shows a blank page or Save never lands, check that `/sprite-editor/
 ## Project layout (short)
 
 ```text
-kernel/               # Shared JS: combat, AI, dungeon gen, telemetry, apps
+kernel/               # Shared JS: combat, AI, dungeon gen, telemetry, map editor, NPC talk, apps
 bin/                  # Thin CLI entry points
 php/                  # JSON API + job runner
-presets/              # Content modes (standard, legacy)
+presets/              # Content modes (standard, and legacy on its branch)
 assets/sprites/       # Multi-genre art tree (often AI-generated)
-assets/screenshots/   # README / docs UI captures
+assets/screenshots/   # README UI captures
 assets/legacy/        # Public: reference data + one auto-generated map image (illustrative)
-docs/                 # Live contracts (start at AGENTS.md for routing)
 tests/                # Node test suite
 ```
-
-Full tree and design principles: [docs/01_architecture.md](docs/01_architecture.md).
-
-## Documentation
-
-Agent / contributor routing: **[AGENTS.md](AGENTS.md)** (which doc to open for which task).
-
-| Topic | Doc |
-| :--- | :--- |
-| Architecture | [docs/01_architecture.md](docs/01_architecture.md) |
-| Name generation | [docs/02_character_name_generation.md](docs/02_character_name_generation.md) |
-| Batch builder / prompts | [docs/03_batch_builder.md](docs/03_batch_builder.md) |
-| Sprite pipeline | [docs/04_sprite_pipeline.md](docs/04_sprite_pipeline.md) |
-| Hunt UI | [docs/11_hunt_ui.md](docs/11_hunt_ui.md) |
-| Simulation / telemetry | [docs/10_simulation_and_telemetry.md](docs/10_simulation_and_telemetry.md) |
-| Human workflows | [docs/20_workflow_documentation.md](docs/20_workflow_documentation.md) |
-| Priorities | [docs/22_high_value_roadmap.md](docs/22_high_value_roadmap.md) |
 
 ## License
 
@@ -324,7 +360,7 @@ MIT applies to the **software** you can reasonably treat as authored project cod
 - `kernel/`, `bin/`, `php/`, `scripts/`, `scss/`, `templates/`, `html/`, `tests/`
 - Build entry points (`app.js`, `build-*.mjs`, package scripts)
 - JSON **schemas** under `schemas/`
-- Markdown under `docs/` and this README
+- This README and other authored project Markdown
 
 ### What MIT does **not** automatically cover
 
@@ -333,7 +369,7 @@ Third-party terms, unclear copyright status of model outputs, and reference data
 | Material | Location (typical) | Notes |
 | :--- | :--- | :--- |
 | **AI-generated sprites & sheets** | `assets/sprites/**` | Produced with Google Antigravity (`agy`) and/or Grok Build (`grok` / Imagine-style tools). See **AI-generated media** below. |
-| **Legacy reference pack (public)** | `assets/legacy/**` | Distributed with **reference data only** (maps/bounds/navmesh JSON, spawn tables, docs) plus **one automatically generated** path-map image for illustration (`map/floor-07-path.png`). **Not** a commercial art pack. |
+| **Legacy reference pack (public)** | `assets/legacy/**` | Distributed with **reference data only** (maps/bounds/navmesh JSON, spawn tables, notes) plus **one automatically generated** path-map image for illustration (`map/floor-07-path.png`). **Not** a commercial art pack. |
 | **Legacy monster art** | `assets/legacy/monsters/` | **Not included** in the public repository (treat as empty / absent). Private checkouts may hold GIFs + manifest for local sprite-fallback tests only. |
 | **Derived combat / content packs** | parts of `presets/**`, `assets/data/**` | May mix original design with ports or AI-assisted labels. Review before shipping a product. |
 | **Vendor / install trees** | `node_modules/`, etc. | Their own licenses. |
@@ -354,7 +390,7 @@ Much of the art under `assets/sprites/` was created with **third-party generativ
 1. **No warranty of ownership or exclusivity.** Purely machine-generated images may have limited or no copyright protection in some jurisdictions, and providers may generate similar outputs for others. This project does **not** warrant that any sprite is uniquely yours or free of third-party claims.
 2. **Provider terms control.** Your rights to generate, keep, modify, and redistribute those images depend on the **current** Terms of Service, acceptable-use policies, and product-specific rules of Google, xAI, and any intermediate tooling—not on this repo’s MIT license. Those terms change; check them yourself.
 3. **Not legal advice.** Nothing in this README is legal advice. If you need certainty for a commercial game, app store listing, or publisher deal, consult a qualified attorney and your own counsel on AI-output and IP clearance.
-4. **Commercial shipping is your risk.** Name banks aim to avoid well-known franchise and D&D Product Identity strings, but filters are **heuristic**, not a clearance search. Review every batch before release.
+4. **Commercial shipping is your risk.** Name banks aim to avoid well-known franchise and tabletop Product Identity strings, but filters are **heuristic**, not a clearance search. Review every batch before release.
 5. **Attribution of tools is not endorsement.** Mentions of Google, Antigravity, Gemini, xAI, Grok, or Imagine are for technical provenance only. Those names and products are trademarks of their owners.
 6. **Downstream responsibility.** If you fork this repo and regenerate or commit new AI art, you are responsible for compliance with the tools you use and for what you distribute.
 
@@ -362,8 +398,8 @@ Much of the art under `assets/sprites/` was created with **third-party generativ
 
 - Prefer regenerating art under **your** accounts and documenting which provider/model produced each batch.
 - Keep a private inventory of which stems came from which tool (provider, model label, date) if you need audit trails.
-- Consider **excluding** large `assets/sprites/**` trees from a public release if you are unsure about redistribution, and point users at the pipeline docs instead.
-- Public `assets/legacy/` is already limited to **reference JSON/docs + one auto-generated illustrative map image**. Do not commit creature GIFs under `assets/legacy/monsters/` to a public tree (that path is empty / omitted in public distribution).
+- Consider **excluding** large `assets/sprites/**` trees from a public release if you are unsure about redistribution, and point users at the sprite pipeline in this README instead.
+- Public `assets/legacy/` is already limited to **reference JSON + one auto-generated illustrative map image**. Do not commit creature GIFs under `assets/legacy/monsters/` to a public tree (that path is empty / omitted in public distribution).
 - Never claim that AI sprites are “MIT licensed” or “copyright-free”; say they are **generated media subject to third-party terms and local law**.
 
 ---
@@ -374,9 +410,9 @@ Hunt Design Lab is an independent **solo project** developed and maintained by T
 
 - **Join the YouTube Channel**: Subscribe to [tcviana on YouTube](https://www.youtube.com/tcviana) to follow development coding sessions, participate in discussions, share ideas, and make suggestions for new features or balance tweaks. Joining the channel and entering discussions is one of the primary ways to contribute directly to the project!
 - **Donate to speed up dev**: Because this is a solo project, contributing via cryptocurrency donations in the **Support the Project (Crypto Donations)** section below helps offset costs and significantly speeds up ongoing development and tool pipelines.
-- **Code & documentation rules**:
-  - Follow [AGENTS.md](AGENTS.md) for doc routing; prefer live `docs/*` over anything under `other/`.
-  - Canonical pretty-JSON for git-tracked data: 4-space indent + trailing newline ([docs/01_architecture.md](docs/01_architecture.md)).
+- **Code notes**:
+  - Shared logic belongs in `kernel/`; CLIs under `bin/` stay thin entry points.
+  - Git-tracked JSON under `presets/` and `assets/data/` uses 4-space indent and a trailing newline (do not sort keys).
   - Resource-heavy image-gen and mass reprocess jobs should be intentional (cost + rate limits).
 
 ```bash

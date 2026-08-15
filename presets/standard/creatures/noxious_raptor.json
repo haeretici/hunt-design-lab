@@ -96,6 +96,7 @@
     "loot": [
         {
             "name": "Crystal Coin",
+            "id": "crystal_coin",
             "chance": 26770,
             "minCount": 1,
             "maxCount": 2
@@ -106,6 +107,7 @@
         },
         {
             "name": "Ultimate Health Potion",
+            "id": "ultimate_health_potion",
             "chance": 10570,
             "minCount": 1,
             "maxCount": 2
@@ -117,23 +119,28 @@
             "maxCount": 2
         },
         {
-            "name": "Serpent Sword",
+            "name": "Asp Blade",
+            "id": "asp_blade",
             "chance": 1440
         },
         {
             "name": "Sacred Tree Amulet",
+            "id": "sacred_tree_amulet",
             "chance": 1360
         },
         {
             "name": "Muck Rod",
+            "id": "muck_rod",
             "chance": 1290
         },
         {
             "name": "Earthbound Legs",
+            "id": "earthbound_legs",
             "chance": 750
         },
         {
             "name": "Wooden Spellbook",
+            "id": "wooden_spellbook",
             "chance": 450
         }
     ],

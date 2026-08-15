@@ -114,12 +114,14 @@
     },
     "loot": [
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 95860,
             "maxCount": 149
         },
         {
-            "name": "platinum coin",
+            "name": "Platinum Coin",
+            "id": "platinum_coin",
             "chance": 86660,
             "maxCount": 11
         },
@@ -154,7 +156,8 @@
             "chance": 1690
         },
         {
-            "name": "violet gem",
+            "name": "Violet Gem",
+            "id": "violet_gem",
             "chance": 1500
         },
         {
@@ -164,14 +167,17 @@
         },
         {
             "name": "Bloomshoot Rod",
+            "id": "bloomshoot_rod",
             "chance": 650
         },
         {
             "chance": 310,
-            "name": "club ring"
+            "name": "Club Ring",
+            "id": "club_ring"
         },
         {
-            "name": "silver amulet",
+            "name": "Silver Amulet",
+            "id": "silver_amulet",
             "chance": 120
         }
     ],

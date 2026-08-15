@@ -100,19 +100,22 @@
         {
             "chance": 70080,
             "maxCount": 8,
-            "name": "ham"
+            "name": "Ham",
+            "id": "ham"
         },
         {
             "name": "soul orb",
             "chance": 35000
         },
         {
-            "name": "great mana potion",
+            "name": "Great Mana Potion",
+            "id": "great_mana_potion",
             "chance": 33000,
             "maxCount": 3
         },
         {
-            "name": "great health potion",
+            "name": "Great Health Potion",
+            "id": "great_health_potion",
             "chance": 33000,
             "maxCount": 3
         },
@@ -122,54 +125,65 @@
             "maxCount": 4
         },
         {
-            "name": "small amethyst",
+            "name": "Small Amethyst",
+            "id": "small_amethyst",
             "chance": 24950,
             "maxCount": 3
         },
         {
-            "name": "assassin star",
+            "name": "Nightshade Star",
+            "id": "nightshade_star",
             "chance": 24670,
             "maxCount": 10
         },
         {
-            "name": "small diamond",
+            "name": "Small Diamond",
+            "id": "small_diamond",
             "chance": 15700,
             "maxCount": 3
         },
         {
-            "name": "small ruby",
+            "name": "Small Ruby",
+            "id": "small_ruby",
             "chance": 15333,
             "maxCount": 3
         },
         {
-            "name": "small emerald",
+            "name": "Small Emerald",
+            "id": "small_emerald",
             "chance": 15110,
             "maxCount": 3
         },
         {
-            "name": "onyx arrow",
+            "name": "Onyx Arrow",
+            "id": "onyx_arrow",
             "chance": 14480,
             "maxCount": 15
         },
         {
-            "name": "small topaz",
+            "name": "Small Topaz",
+            "id": "small_topaz",
             "chance": 4580,
             "maxCount": 3
         },
         {
-            "name": "titan axe",
+            "name": "Titan Axe",
+            "id": "titan_axe",
             "chance": 3000
         },
         {
-            "id": 282,
-            "chance": 3000
+            "chance": 3000,
+            "name": "Giant Shimmering Pearl",
+            "id": "giant_shimmering_pearl"
         },
         {
-            "name": "spiked squelcher",
+            "name": "Spiked Squelcher",
+            "id": "spiked_squelcher",
             "chance": 2200
         },
         {
-            "name": "knight armor",
+            "name": "Guardian Armor",
+            "id": "guardian_armor",
             "chance": 1980
         },
         {
@@ -177,11 +191,13 @@
             "chance": 1250
         },
         {
-            "name": "war axe",
+            "name": "War Axe",
+            "id": "war_axe",
             "chance": 1230
         },
         {
-            "name": "violet gem",
+            "name": "Violet Gem",
+            "id": "violet_gem",
             "chance": 1060
         },
         {
@@ -189,19 +205,23 @@
             "chance": 990
         },
         {
-            "name": "green gem",
+            "name": "Green Gem",
+            "id": "green_gem",
             "chance": 880
         },
         {
-            "name": "golden armor",
+            "name": "Gilded Plate",
+            "id": "gilded_plate",
             "chance": 840
         },
         {
-            "name": "mastermind shield",
+            "name": "Grandmaster Shield",
+            "id": "grandmaster_shield",
             "chance": 620
         },
         {
-            "name": "heavy mace",
+            "name": "Heavy Mace",
+            "id": "heavy_mace",
             "chance": 460
         },
         {
@@ -210,7 +230,8 @@
         },
         {
             "chance": 100,
-            "name": "fiendbone amulet"
+            "name": "Fiendbone Amulet",
+            "id": "fiendbone_amulet"
         }
     ],
     "changeTarget": {

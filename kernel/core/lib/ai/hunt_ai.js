@@ -43,6 +43,9 @@ const {
 } = require('./combat_actions.js');
 const { pathBudgetStats } = require('../path_budget.js');
 const { forceDue } = require('../logic_regulator.js');
+const { isAttackableCreature, isTalkableNpc } = require('../npc/flags.js');
+const { executeNpcDialog } = require('../npc/session.js');
+const { tickNpcIdle } = require('../npc/wander.js');
 
 /**
  * Empty per-frame AI performance counters.
@@ -520,10 +523,10 @@ function ensureAoiFrame(sim, observers, radius, perf) {
         return 0;
     };
 
-    // Party-owned summons are not hostiles for player AI / shapes
+    // Party-owned summons and talkable non-hostiles are not hunt prey
     const { isPartyOwnedSummon } = require('./creature_kit.js');
     const enemies = Array.from(enemyById.values())
-        .filter((c) => !isPartyOwnedSummon(c, sim))
+        .filter((c) => !isPartyOwnedSummon(c, sim) && isAttackableCreature(c))
         .sort(sortById);
     const active = Array.from(activeById.values()).sort(sortById);
     /** @type {Set<string|number>} */
@@ -570,7 +573,9 @@ function invalidateAoiFrame(sim) {
  */
 function filterEnemiesForAi(creatures, observers, radius, sim, perf) {
     if (radius <= 0) {
-        return living(creatures || (sim && sim.creatures) || []);
+        return living(creatures || (sim && sim.creatures) || []).filter(
+            (c) => isAttackableCreature(c)
+        );
     }
     if (sim) {
         const frame = ensureAoiFrame(sim, observers, radius, perf);
@@ -584,7 +589,12 @@ function filterEnemiesForAi(creatures, observers, radius, sim, perf) {
     for (let i = 0; i < livingCreatures.length; i++) {
         const c = livingCreatures[i];
         if (p) p.creaturesIterated += 1;
-        if (isCreatureNearObservers(c, observers, radius, p)) out.push(c);
+        if (
+            isAttackableCreature(c) &&
+            isCreatureNearObservers(c, observers, radius, p)
+        ) {
+            out.push(c);
+        }
     }
     return out;
 }
@@ -1002,6 +1012,8 @@ const PLAYER_SUMMON_CAP = 2;
  * Known macros:
  *   heal_friend — cast Heal Friend on selected target (or cmd.target)
  *   summon_creature <id> | summon <id> — player summon (mana + summonable flag)
+ *   npc_dialog <npcId> [nodeId] — talk session (object form: args.npcId / args.nodeId)
+ *   npc_dialog <npcId> shop|buy|sell — vendor-lite (C.3; buy/sell re-check when)
  * Unknown strings no-op (already dequeued by caller).
  *
  * @param {object} owner
@@ -1043,6 +1055,11 @@ function executeCustomCommand(owner, cmd, ctx) {
 
     // Explicit noop / reserved labels
     if (lower === 'noop' || lower === 'none' || lower === 'pass') return;
+
+    // npc_dialog — range + flags re-checked at process time (headless: no UI)
+    if (lower === 'npc_dialog' || lower.indexOf('npc_dialog ') === 0) {
+        executeNpcDialog(owner, cmd, ctx);
+    }
 }
 
 /**
@@ -1269,8 +1286,32 @@ function tryManualStairHop(owner, ctx, preferredDest) {
         hopped = tileMap.tryUseStair(owner, null);
     }
     if (!hopped) return false;
+    dropManualDestAfterFloorHop(owner, from.z);
     emitManualStep(owner, ctx, from);
     return true;
+}
+
+/**
+ * After a floor hop, drop a same-floor walk dest from the floor we left.
+ * Leftover dest would announce "There is no way." (one-way pad) or bounce
+ * back up a bidirectional stair on the next unlocked tick.
+ *
+ * @param {object} owner
+ * @param {string|number} fromZ
+ */
+function dropManualDestAfterFloorHop(owner, fromZ) {
+    if (!owner || !owner.tile) return;
+    if (String(owner.tile.z) === String(fromZ)) return;
+    owner.path = [];
+    const dest = owner._manualDest;
+    if (!dest) return;
+    if (
+        dest.z === undefined ||
+        dest.z === null ||
+        String(dest.z) === String(fromZ)
+    ) {
+        owner._manualDest = null;
+    }
 }
 
 /**
@@ -1469,6 +1510,7 @@ function tickHuntAi(sim, hooks) {
         // Defensive: sticky gather already included; near set is refined.
         // Re-check shouldTick so radius-0 / edge cases stay identical.
         if (!shouldTickCreatureAi(c, observers, radius, perf)) continue;
+        if (isTalkableNpc(c)) tickNpcIdle(c, ctx);
         perf.brainsConsidered += 1;
         if (!c.brain) initCreatureAi(c);
         if (!brainReady(c, 'creature')) {

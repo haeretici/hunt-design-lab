@@ -124,12 +124,14 @@
     "race": "blood",
     "loot": [
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 100000,
             "maxCount": 95
         },
         {
-            "name": "platinum coin",
+            "name": "Platinum Coin",
+            "id": "platinum_coin",
             "chance": 100000,
             "maxCount": 11
         },
@@ -140,40 +142,49 @@
         {
             "chance": 94465,
             "maxCount": 1,
-            "name": "red gem"
+            "name": "Red Gem",
+            "id": "red_gem"
         },
         {
-            "name": "white gem",
+            "name": "White Gem",
+            "id": "white_gem",
             "chance": 5600,
             "maxCount": 1
         },
         {
             "chance": 1000,
-            "name": "peppermint backpack"
+            "name": "Peppermint Backpack",
+            "id": "peppermint_backpack"
         },
         {
             "chance": 555,
-            "name": "biscuit barrier"
+            "name": "Biscuit Barrier",
+            "id": "biscuit_barrier"
         },
         {
             "chance": 1009,
-            "name": "candy-coated quiver"
+            "name": "Candy-Coated Quiver",
+            "id": "candy_coated_quiver"
         },
         {
             "chance": 555,
-            "name": "cocoa grimoire"
+            "name": "Cocoa Grimoire",
+            "id": "cocoa_grimoire"
         },
         {
             "chance": 555,
-            "name": "creamy grimoire"
+            "name": "Creamy Grimoire",
+            "id": "creamy_grimoire"
         },
         {
             "chance": 2300,
-            "name": "candy necklace"
+            "name": "Candy Necklace",
+            "id": "candy_necklace"
         },
         {
             "chance": 7650,
-            "name": "ring of temptation"
+            "name": "Ring of Temptation",
+            "id": "ring_of_temptation"
         },
         {
             "chance": 11655,
@@ -193,7 +204,8 @@
         {
             "chance": 14650,
             "maxCount": 1,
-            "name": "ring of temptation"
+            "name": "Ring of Temptation",
+            "id": "ring_of_temptation"
         },
         {
             "chance": 54465,

@@ -27,7 +27,8 @@ const {
     applyCondition,
     conditionDefFromSpell,
     isInvisible,
-    getAttributeMods
+    getAttributeMods,
+    absorbWithManaShield
 } = require('./conditions.js');
 
 /**
@@ -315,6 +316,104 @@ function spendMana(attacker, manaCost) {
 }
 
 /**
+ * Restore mana on an entity (player.mp or creature.mana).
+ * @param {object} entity
+ * @param {number} amount
+ * @returns {number} actual delta
+ */
+function applyManaDelta(entity, amount) {
+    const n = Math.max(0, Math.floor(Number(amount) || 0));
+    if (!entity || n <= 0) return 0;
+    if (entity.mp && entity.mp.current != null) {
+        const max =
+            entity.mp.max != null
+                ? Number(entity.mp.max)
+                : entity.mp.current + n;
+        const before = entity.mp.current;
+        entity.mp.current = Math.min(max, before + n);
+        return entity.mp.current - before;
+    }
+    if (entity.mana != null) {
+        const before = Number(entity.mana) || 0;
+        const max =
+            entity.manaMax != null
+                ? Number(entity.manaMax)
+                : entity.maxMana != null
+                  ? Number(entity.maxMana)
+                  : before + n;
+        entity.mana = Math.min(max, before + n);
+        return entity.mana - before;
+    }
+    return 0;
+}
+
+/**
+ * Whether this spell can crit or leech (legacy skips healing).
+ * @param {object|null|undefined} spell
+ * @returns {boolean}
+ */
+function spellCanCritOrLeech(spell) {
+    if (!spell) return false;
+    if (spell.kind === 'heal' || spell.kind === 'support') return false;
+    const el = spell.element || 'physical';
+    if (el === 'healing' || el === 'manadrain' || el === 'undefined') return false;
+    return true;
+}
+
+/**
+ * Roll one leech proc. Chance is 0–100 percent; amount is percent of realDamage.
+ * @param {number} chance
+ * @param {number} amountPct
+ * @param {number} realDamage
+ * @param {() => number} [rng]
+ * @returns {number}
+ */
+function rollLeechAmount(chance, amountPct, realDamage, rng) {
+    const dmg = Math.max(0, Number(realDamage) || 0);
+    const c = Math.max(0, Number(chance) || 0);
+    const a = Math.max(0, Number(amountPct) || 0);
+    if (dmg <= 0 || c <= 0 || a <= 0) return 0;
+    if (c < 100) {
+        const r = typeof rng === 'function' ? rng() : Math.random();
+        if (r * 100 >= c) return 0;
+    }
+    const raw = Math.round(dmg * (a / 100));
+    return Math.max(0, Math.min(dmg, raw));
+}
+
+/**
+ * Life / mana leech after real HP damage (legacy applyLifeLeech / applyManaLeech).
+ * Chance and amount come from effective stats (class/profile % + equipment).
+ * @param {object} attacker
+ * @param {number} realDamage
+ * @param {() => number} [rng]
+ * @returns {{ life: number, mana: number }}
+ */
+function applyAttackLeech(attacker, realDamage, rng) {
+    const dmg = Math.max(0, Number(realDamage) || 0);
+    if (!attacker || dmg <= 0) return { life: 0, mana: 0 };
+    const bag =
+        attacker.combatStats || attacker.effectiveStats || attacker;
+    const life = rollLeechAmount(
+        bag.lifeLeechChance,
+        bag.lifeLeechAmount,
+        dmg,
+        rng
+    );
+    const mana = rollLeechAmount(
+        bag.manaLeechChance,
+        bag.manaLeechAmount,
+        dmg,
+        rng
+    );
+    let lifeApplied = 0;
+    let manaApplied = 0;
+    if (life > 0) lifeApplied = applyHpDelta(attacker, life, 'healing');
+    if (mana > 0) manaApplied = applyManaDelta(attacker, mana);
+    return { life: lifeApplied, mana: manaApplied };
+}
+
+/**
  * Whether entity is a player (not a hostile creature).
  * @param {object|null|undefined} entity
  * @returns {boolean}
@@ -358,8 +457,18 @@ function applyHpDelta(defender, amount, element) {
         defender.hp.current = Math.min(max, before + amount);
         return defender.hp.current - before;
     }
+    // Healing / undefined / manadrain skip absorb. Everything else (incl. DoT
+    // and field ticks that already went through mitigation) can hit the shield.
+    let incoming = Number(amount) || 0;
+    if (
+        incoming > 0 &&
+        element !== 'undefined' &&
+        element !== 'manadrain'
+    ) {
+        incoming = absorbWithManaShield(defender, incoming).leftoverHp;
+    }
     const before = defender.hp.current;
-    defender.hp.current = Math.max(0, before - amount);
+    defender.hp.current = Math.max(0, before - incoming);
     if (defender.hp.current <= 0) {
         defender.alive = false;
     }
@@ -481,6 +590,10 @@ function resolveAttack(opts) {
               magic: attacker.magic || attacker.magicSkill || 0,
               critChance: attacker.critChance || 0,
               critDamage: attacker.critDamage || 0,
+              lifeLeechChance: attacker.lifeLeechChance || 0,
+              lifeLeechAmount: attacker.lifeLeechAmount || 0,
+              manaLeechChance: attacker.manaLeechChance || 0,
+              manaLeechAmount: attacker.manaLeechAmount || 0,
               hitChance:
                   attacker.hitChance != null ? attacker.hitChance : 100
           };
@@ -581,6 +694,16 @@ function resolveAttack(opts) {
         }
     }
 
+    const isWeaponAuto =
+        spell.kind === 'auto' ||
+        spell.id === 'melee_auto' ||
+        spell.id === 'distance_auto' ||
+        spell.id === 'wand_auto';
+    const extraAtk = isWeaponAuto ? Number(atkBag.extraAtk) || 0 : 0;
+    const extraAtkElement =
+        isWeaponAuto && extraAtk > 0 ? atkBag.extraAtkElement || null : null;
+
+    const canCritOrLeech = spellCanCritOrLeech(spell);
     const result = computeDamage({
         powerCurve: spell.powerCurve,
         basePower: spell.basePower,
@@ -590,10 +713,12 @@ function resolveAttack(opts) {
         element: spell.element || 'physical',
         isMelee,
         hitChance,
-        critChance: atkBag.critChance,
-        critDamage: atkBag.critDamage,
+        critChance: canCritOrLeech ? atkBag.critChance : 0,
+        critDamage: canCritOrLeech ? atkBag.critDamage : 0,
         min: spell.min,
         max: spell.max,
+        extraAtk,
+        extraAtkElement,
         rng: o.rng
     });
 
@@ -622,6 +747,8 @@ function resolveAttack(opts) {
 
     const applyMutations = o.apply !== false;
     let hpDelta = 0;
+    let lifeLeech = 0;
+    let manaLeech = 0;
     let conditionsRemoved = 0;
     /** @type {object|null} */
     let conditionApplied = null;
@@ -656,6 +783,12 @@ function resolveAttack(opts) {
                 result.final,
                 spell.element || 'physical'
             );
+            // Leech uses actual HP lost (after mana-shield / floor), not raw.
+            if (canCritOrLeech && hpDelta < 0) {
+                const leech = applyAttackLeech(attacker, -hpDelta, o.rng);
+                lifeLeech = leech.life;
+                manaLeech = leech.mana;
+            }
         }
         // Cure / dispel: clear listed condition kinds on the defender (self for cures).
         if (result.hit && Array.isArray(spell.dispel) && spell.dispel.length) {
@@ -764,6 +897,8 @@ function resolveAttack(opts) {
         critical: result.critical,
         final: result.final,
         hpDelta,
+        lifeLeech,
+        manaLeech,
         conditionsRemoved,
         conditionApplied,
         tauntApplied,
@@ -785,6 +920,8 @@ function fail(reason, spell) {
         critical: false,
         final: 0,
         hpDelta: 0,
+        lifeLeech: 0,
+        manaLeech: 0,
         breakdown: null,
         range: null,
         moveLock: 0
@@ -812,6 +949,9 @@ module.exports = {
     hasMana,
     spendMana,
     applyHpDelta,
+    applyManaDelta,
+    applyAttackLeech,
+    rollLeechAmount,
     applyChallengeTaunt,
     isCreatureChallenged,
     isChallengeableCreature,

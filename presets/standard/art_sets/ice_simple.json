@@ -1,47 +1,33 @@
 {
-    "id": "ice_simple",
-    "label": "Ice Simple",
-    "notes": "Stage 11.11 — frozen/ice biome art pack. Snow floors, ice walls, stone/gravel paths, ice-sheet voids. Cold macro contrast vs cave/swamp.",
-    "genre": "rpg_fantasy",
-    "kind": "tiles",
-    "roles": {
-        "floor": [
-            {
-                "id": "polished_snow_floor",
-                "weight": 10
-            },
-            {
-                "id": "broken_snow_floor",
-                "weight": 8
-            }
-        ],
-        "path": [
-            {
-                "id": "ancient_gravel_path",
-                "weight": 4
-            }
-        ],
-        "wall": [
-            {
-                "id": "ancient_ice_wall",
-                "weight": 10
-            }
-        ],
-        "stairs": [
-            {
-                "id": "sacred_stone_stairs",
-                "weight": 4
-            }
-        ],
-        "void": [
-            {
-                "id": "runic_ice_sheet",
-                "weight": 2
-            }
-        ]
-    },
-    "rules": {
-        "blockedEdgeOnly": true,
-        "pathMix": 0.16
-    }
+  "id": "ice_simple",
+  "label": "Ice Simple",
+  "notes": "Minimal ice pack for arena / rest contrast with cave_simple.",
+  "genre": "rpg_fantasy",
+  "kind": "tiles",
+  "roles": {
+    "floor": [
+      { "id": "polished_snow_floor", "weight": 10, "roleId": "floor" }
+    ],
+    "path": [
+      { "id": "ancient_gravel_path", "weight": 3, "roleId": "path" }
+    ],
+    "wall": [
+      { "id": "ancient_ice_wall", "weight": 12, "roleId": "wall" }
+    ],
+    "water": [
+      { "id": "runic_ice_sheet", "weight": 4, "roleId": "water" }
+    ],
+    "stairs_up": [
+      {
+        "id": "sacred_stone_stairs",
+        "weight": 5,
+        "roleId": "stairs_up",
+        "anchor": "bottom_center"
+      }
+    ]
+  },
+  "rules": {
+    "blockedEdgeOnly": true,
+    "pathMix": 0.14
+  }
 }

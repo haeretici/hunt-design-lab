@@ -188,7 +188,8 @@
     "race": "venom",
     "loot": [
         {
-            "name": "platinum coin",
+            "name": "Platinum Coin",
+            "id": "platinum_coin",
             "chance": 100000,
             "maxCount": 5
         },
@@ -214,17 +215,20 @@
             "chance": 100000
         },
         {
-            "name": "royal star",
+            "name": "Royal Star",
+            "id": "royal_star",
             "chance": 80000,
             "maxCount": 184
         },
         {
-            "name": "ultimate mana potion",
+            "name": "Ultimate Mana Potion",
+            "id": "ultimate_mana_potion",
             "chance": 80000,
             "maxCount": 22
         },
         {
-            "name": "supreme health potion",
+            "name": "Supreme Health Potion",
+            "id": "supreme_health_potion",
             "chance": 60000,
             "maxCount": 13
         },
@@ -235,10 +239,12 @@
         },
         {
             "chance": 60000,
-            "name": "red gem"
+            "name": "Red Gem",
+            "id": "red_gem"
         },
         {
-            "name": "savant potion",
+            "name": "Savant Potion",
+            "id": "savant_potion",
             "chance": 40000,
             "maxCount": 13
         },
@@ -247,23 +253,28 @@
             "chance": 40000
         },
         {
-            "name": "marksman potion",
+            "name": "Marksman Potion",
+            "id": "marksman_potion",
             "chance": 20000
         },
         {
-            "name": "ultimate dual potion",
+            "name": "Ultimate Dual Potion",
+            "id": "ultimate_dual_potion",
             "chance": 20000
         },
         {
-            "name": "berserk potion",
+            "name": "Berserk Potion",
+            "id": "berserk_potion",
             "chance": 20000
         },
         {
-            "name": "gold ingot",
+            "name": "Gold Ingot",
+            "id": "gold_ingot",
             "chance": 20000
         },
         {
-            "name": "violet gem",
+            "name": "Violet Gem",
+            "id": "violet_gem",
             "chance": 20000
         },
         {
@@ -271,12 +282,14 @@
             "chance": 20000
         },
         {
-            "name": "blue gem",
+            "name": "Blue Gem",
+            "id": "blue_gem",
             "chance": 20000
         },
         {
-            "id": 282,
-            "chance": 20000
+            "chance": 20000,
+            "name": "Giant Shimmering Pearl",
+            "id": "giant_shimmering_pearl"
         },
         {
             "name": "plagueroot offshoot",
@@ -284,10 +297,12 @@
         },
         {
             "name": "Bone Skull Staff",
+            "id": "bone_skull_staff",
             "chance": 20000
         },
         {
-            "name": "platinum coin",
+            "name": "Platinum Coin",
+            "id": "platinum_coin",
             "chance": 100000
         },
         {
@@ -312,26 +327,31 @@
             "chance": 61220
         },
         {
-            "name": "ultimate dual potion",
+            "name": "Ultimate Dual Potion",
+            "id": "ultimate_dual_potion",
             "chance": 59180,
             "maxCount": 20
         },
         {
-            "name": "ultimate mana potion",
+            "name": "Ultimate Mana Potion",
+            "id": "ultimate_mana_potion",
             "chance": 57140,
             "maxCount": 20
         },
         {
-            "name": "royal star",
+            "name": "Royal Star",
+            "id": "royal_star",
             "chance": 48980
         },
         {
-            "name": "supreme health potion",
+            "name": "Supreme Health Potion",
+            "id": "supreme_health_potion",
             "chance": 46940,
             "maxCount": 20
         },
         {
-            "name": "yellow gem",
+            "name": "Yellow Gem",
+            "id": "yellow_gem",
             "chance": 40820,
             "maxCount": 2
         },
@@ -340,28 +360,34 @@
             "chance": 38780
         },
         {
-            "name": "crystal coin",
+            "name": "Crystal Coin",
+            "id": "crystal_coin",
             "chance": 26530,
             "maxCount": 3
         },
         {
-            "name": "savant potion",
+            "name": "Savant Potion",
+            "id": "savant_potion",
             "chance": 22450
         },
         {
-            "name": "gold ingot",
+            "name": "Gold Ingot",
+            "id": "gold_ingot",
             "chance": 22450
         },
         {
-            "name": "marksman potion",
+            "name": "Marksman Potion",
+            "id": "marksman_potion",
             "chance": 20410
         },
         {
-            "name": "berserk potion",
+            "name": "Berserk Potion",
+            "id": "berserk_potion",
             "chance": 16329
         },
         {
             "name": "Bone Skull Staff",
+            "id": "bone_skull_staff",
             "chance": 16329
         },
         {
@@ -370,43 +396,53 @@
         },
         {
             "chance": 14290,
-            "name": "collar of blue plasma"
+            "name": "Collar of Blue Plasma",
+            "id": "collar_of_blue_plasma"
         },
         {
-            "name": "blue gem",
+            "name": "Blue Gem",
+            "id": "blue_gem",
             "chance": 12240
         },
         {
-            "name": "green gem",
+            "name": "Green Gem",
+            "id": "green_gem",
             "chance": 12240
         },
         {
             "chance": 10200,
-            "name": "ring of blue plasma"
+            "name": "Ring of Blue Plasma",
+            "id": "ring_of_blue_plasma"
         },
         {
-            "name": "violet gem",
+            "name": "Violet Gem",
+            "id": "violet_gem",
             "chance": 8160,
             "maxCount": 2
         },
         {
             "chance": 8160,
-            "name": "collar of green plasma"
+            "name": "Collar of Green Plasma",
+            "id": "collar_of_green_plasma"
         },
         {
             "chance": 8160,
-            "name": "collar of red plasma"
+            "name": "Collar of Red Plasma",
+            "id": "collar_of_red_plasma"
         },
         {
             "chance": 8160,
-            "name": "ring of green plasma"
+            "name": "Ring of Green Plasma",
+            "id": "ring_of_green_plasma"
         },
         {
             "chance": 6120,
-            "name": "ring of red plasma"
+            "name": "Ring of Red Plasma",
+            "id": "ring_of_red_plasma"
         },
         {
             "name": "Maelstrom Mace",
+            "id": "maelstrom_mace",
             "chance": 6120
         },
         {
@@ -418,7 +454,8 @@
             "chance": 6120
         },
         {
-            "name": "living vine bow",
+            "name": "Living Vine Bow",
+            "id": "living_vine_bow",
             "chance": 4080
         },
         {
@@ -430,7 +467,8 @@
             "chance": 4080
         },
         {
-            "name": "living armor",
+            "name": "Living Armor",
+            "id": "living_armor",
             "chance": 4080
         },
         {
@@ -439,15 +477,18 @@
         },
         {
             "name": "Celestial Band",
+            "id": "celestial_band",
             "chance": 2040
         },
         {
-            "name": "abyss hammer",
+            "name": "Abyss Hammer",
+            "id": "abyss_hammer",
             "chance": 2040
         },
         {
             "chance": 3130,
-            "name": "arcane staff"
+            "name": "Arcane Staff",
+            "id": "arcane_staff"
         }
     ],
     "changeTarget": {

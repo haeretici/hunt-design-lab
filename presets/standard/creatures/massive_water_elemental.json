@@ -136,37 +136,44 @@
     },
     "loot": [
         {
-            "name": "small diamond",
+            "name": "Small Diamond",
+            "id": "small_diamond",
             "chance": 1900,
             "maxCount": 2
         },
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 50000,
             "maxCount": 100
         },
         {
-            "name": "small emerald",
+            "name": "Small Emerald",
+            "id": "small_emerald",
             "chance": 1000,
             "maxCount": 2
         },
         {
-            "name": "platinum coin",
+            "name": "Platinum Coin",
+            "id": "platinum_coin",
             "chance": 20000,
             "maxCount": 2
         },
         {
             "chance": 910,
-            "name": "voltaic ring"
+            "name": "Voltaic Ring",
+            "id": "voltaic_ring"
         },
         {
             "chance": 1000,
-            "name": "life ring"
+            "name": "Vitality Ring",
+            "id": "vitality_ring"
         },
         {
             "chance": 40000,
             "maxCount": 2,
-            "name": "fish"
+            "name": "Fish",
+            "id": "fish"
         },
         {
             "name": "rainbow trout",
@@ -177,11 +184,13 @@
             "chance": 1590
         },
         {
-            "name": "great mana potion",
+            "name": "Great Mana Potion",
+            "id": "great_mana_potion",
             "chance": 10400
         },
         {
-            "name": "great health potion",
+            "name": "Great Health Potion",
+            "id": "great_health_potion",
             "chance": 10000
         }
     ],

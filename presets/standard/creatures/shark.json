@@ -72,19 +72,22 @@
     },
     "loot": [
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 50000,
             "maxCount": 100
         },
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 41000,
             "maxCount": 38
         },
         {
             "chance": 25430,
             "maxCount": 4,
-            "name": "fish"
+            "name": "Fish",
+            "id": "fish"
         },
         {
             "name": "deepling scales",
@@ -95,12 +98,14 @@
             "chance": 1200
         },
         {
-            "name": "small sapphire",
+            "name": "Small Sapphire",
+            "id": "small_sapphire",
             "chance": 1090
         },
         {
-            "id": 281,
-            "chance": 390
+            "chance": 390,
+            "name": "Giant Shimmering Pearl",
+            "id": "giant_shimmering_pearl"
         },
         {
             "name": "fish fin",

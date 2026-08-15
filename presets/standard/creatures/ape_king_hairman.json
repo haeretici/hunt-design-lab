@@ -77,13 +77,15 @@
     "race": "blood",
     "loot": [
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 100000,
             "maxCount": 60
         },
         {
             "chance": 25000,
-            "name": "club ring"
+            "name": "Club Ring",
+            "id": "club_ring"
         },
         {
             "name": "banana",

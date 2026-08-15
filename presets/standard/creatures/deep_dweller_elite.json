@@ -99,17 +99,20 @@
     },
     "loot": [
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 100000,
             "maxCount": 100
         },
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 100000,
             "maxCount": 86
         },
         {
-            "name": "great health potion",
+            "name": "Great Health Potion",
+            "id": "great_health_potion",
             "chance": 25000
         },
         {
@@ -121,7 +124,8 @@
             "chance": 25000
         },
         {
-            "name": "vortex bolt",
+            "name": "Vortex Bolt",
+            "id": "vortex_bolt",
             "chance": 24800,
             "maxCount": 5
         },
@@ -130,7 +134,8 @@
             "chance": 24400
         },
         {
-            "name": "great mana potion",
+            "name": "Great Mana Potion",
+            "id": "great_mana_potion",
             "chance": 24200
         },
         {
@@ -142,16 +147,19 @@
             "chance": 19500
         },
         {
-            "name": "small emerald",
+            "name": "Small Emerald",
+            "id": "small_emerald",
             "chance": 6890,
             "maxCount": 2
         },
         {
             "chance": 5360,
-            "name": "life ring"
+            "name": "Vitality Ring",
+            "id": "vitality_ring"
         },
         {
-            "name": "heavy trident",
+            "name": "Heavy Trident",
+            "id": "heavy_trident",
             "chance": 3680
         },
         {
@@ -159,11 +167,13 @@
             "chance": 2300
         },
         {
-            "name": "warrior's shield",
+            "name": "Warrior's Shield",
+            "id": "warriors_shield",
             "chance": 1534
         },
         {
-            "name": "warrior's axe",
+            "name": "Warrior's Axe",
+            "id": "warriors_axe",
             "chance": 820
         }
     ],

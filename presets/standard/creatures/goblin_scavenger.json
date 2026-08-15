@@ -120,12 +120,14 @@
     },
     "loot": [
         {
-            "name": "small stone",
+            "name": "Small Stone",
+            "id": "small_stone",
             "chance": 25560,
             "maxCount": 2
         },
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 50810,
             "maxCount": 9
         },
@@ -138,23 +140,28 @@
             "chance": 7000
         },
         {
-            "name": "dagger",
+            "name": "Dagger",
+            "id": "dagger",
             "chance": 18280
         },
         {
-            "name": "short sword",
+            "name": "Short Sword",
+            "id": "short_sword",
             "chance": 8900
         },
         {
-            "name": "bone club",
+            "name": "Bone Club",
+            "id": "bone_club",
             "chance": 5000
         },
         {
-            "name": "leather helmet",
+            "name": "Leather Helmet",
+            "id": "leather_helmet",
             "chance": 10180
         },
         {
-            "name": "leather armor",
+            "name": "Leather Armor",
+            "id": "leather_armor",
             "chance": 7700
         },
         {
@@ -163,7 +170,8 @@
         },
         {
             "chance": 13640,
-            "name": "fish"
+            "name": "Fish",
+            "id": "fish"
         }
     ],
     "changeTarget": {

@@ -3,8 +3,10 @@
  * Wiki batch action: set customSprite on combat entities, then queue
  * smart_update_sprites (multi 4×4 sheets).
  *
- * Short sheets are filled from library backlog (entities whose customSprite
- * is not yet equal to their id) instead of random name-gen roster filler.
+ * Short sheets are filled from library backlog (entities whose dedicated
+ * sprite field is not yet equal to their id) instead of random name-gen
+ * roster filler. Creatures/equipment use customSprite; spells use
+ * customUISprite and generate into asset kind `ui` (category `spells`).
  * Empty selection is allowed: fill one full sheet (16) from that backlog.
  */
 
@@ -114,9 +116,9 @@ final class SmartUpdateSprites
             ? $input['mode']
             : hdl_default_mode_id();
         $kind = isset($input['kind']) ? strtolower(trim((string) $input['kind'])) : '';
-        if (!in_array($kind, ['creatures', 'equipment'], true)) {
+        if (!in_array($kind, ['creatures', 'equipment', 'spells'], true)) {
             throw new \InvalidArgumentException(
-                'kind must be creatures or equipment for smart update'
+                'kind must be creatures, equipment or spells for smart update'
             );
         }
 
@@ -235,10 +237,13 @@ final class SmartUpdateSprites
 
         $jobMeta = null;
         if (!$dryRun) {
+            $jobKind = $kind === 'spells' ? 'ui' : $kind;
+            $jobCategory = $kind === 'spells' ? 'spells' : $category;
+
             $jobInput = [
                 'script' => 'smart_update_sprites',
                 'genre' => $genre,
-                'kind' => $kind,
+                'kind' => $jobKind,
                 'model' => $model,
                 'rows' => 4,
                 'cols' => 4,
@@ -247,8 +252,8 @@ final class SmartUpdateSprites
             if ($seed !== null) {
                 $jobInput['seed'] = $seed;
             }
-            if ($category !== null) {
-                $jobInput['category'] = $category;
+            if ($jobCategory !== null) {
+                $jobInput['category'] = $jobCategory;
             }
             $jobMeta = $runner->enqueue($jobInput);
         }
@@ -285,9 +290,13 @@ final class SmartUpdateSprites
         }
 
         /** @var list<array{id: string, alias: string, level: int}> $candidates */
-        $candidates = $kind === 'equipment'
-            ? self::collectEquipmentBacklog($mode, $category, $exclude)
-            : self::collectCreatureBacklog($mode, $exclude);
+        if ($kind === 'equipment') {
+            $candidates = self::collectEquipmentBacklog($mode, $category, $exclude);
+        } elseif ($kind === 'spells') {
+            $candidates = self::collectSpellsBacklog($mode, $exclude);
+        } else {
+            $candidates = self::collectCreatureBacklog($mode, $exclude);
+        }
 
         usort(
             $candidates,
@@ -362,13 +371,7 @@ final class SmartUpdateSprites
         ?string $category,
         array $exclude
     ): array {
-        $got = PresetCrud::get($mode, 'equipment', '');
-        $doc = isset($got['document']) && is_array($got['document'])
-            ? $got['document']
-            : [];
-        $rows = isset($doc['items']) && is_array($doc['items'])
-            ? $doc['items']
-            : [];
+        $rows = PresetCrud::catalogRows($mode, 'equipment');
 
         $out = [];
         foreach ($rows as $row) {
@@ -395,6 +398,44 @@ final class SmartUpdateSprites
             $level = 0;
             if (isset($row['level']) && is_numeric($row['level'])) {
                 $level = (int) $row['level'];
+            }
+            $out[] = [
+                'id' => $id,
+                'alias' => $label,
+                'level' => $level,
+            ];
+        }
+        return $out;
+    }
+
+    /**
+     * @param array<string, true> $exclude
+     * @return list<array{id: string, alias: string, level: int}>
+     */
+    private static function collectSpellsBacklog(string $mode, array $exclude): array
+    {
+        // spells.json uses arrayKey `spells`, not `items` (equipment).
+        $rows = PresetCrud::catalogRows($mode, 'spells');
+
+        $out = [];
+        foreach ($rows as $row) {
+            if (!is_array($row)) {
+                continue;
+            }
+            $id = isset($row['id']) ? strtolower(trim((string) $row['id'])) : '';
+            if ($id === '' || isset($exclude[$id])) {
+                continue;
+            }
+            $cs = $row['customUISprite'] ?? null;
+            if (!self::needsOwnSprite($id, $cs)) {
+                continue;
+            }
+            $label = isset($row['label']) && is_string($row['label']) && trim($row['label']) !== ''
+                ? trim($row['label'])
+                : $id;
+            $level = 0;
+            if (isset($row['requiredLevel']) && is_numeric($row['requiredLevel'])) {
+                $level = (int) $row['requiredLevel'];
             }
             $out[] = [
                 'id' => $id,
@@ -473,8 +514,12 @@ final class SmartUpdateSprites
         }
 
         $entity['id'] = $entityId;
-        $entity['customSprite'] = $customSprite;
-        unset($entity['customSpriteGenre'], $entity['customGenre']);
+        if ($kind === 'spells') {
+            $entity['customUISprite'] = $customSprite;
+        } else {
+            $entity['customSprite'] = $customSprite;
+            unset($entity['customSpriteGenre'], $entity['customGenre']);
+        }
 
         PresetCrud::save([
             'mode' => $mode,

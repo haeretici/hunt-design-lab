@@ -151,12 +151,14 @@
     "race": "undead",
     "loot": [
         {
-            "name": "crystal coin",
+            "name": "Crystal Coin",
+            "id": "crystal_coin",
             "chance": 8852,
             "maxCount": 125
         },
         {
-            "name": "ultimate mana potion",
+            "name": "Ultimate Mana Potion",
+            "id": "ultimate_mana_potion",
             "chance": 11337,
             "maxCount": 211
         },
@@ -166,42 +168,50 @@
             "maxCount": 1
         },
         {
-            "name": "supreme health potion",
+            "name": "Supreme Health Potion",
+            "id": "supreme_health_potion",
             "chance": 8385,
             "maxCount": 179
         },
         {
-            "name": "yellow gem",
+            "name": "Yellow Gem",
+            "id": "yellow_gem",
             "chance": 8604,
             "maxCount": 5
         },
         {
-            "name": "berserk potion",
+            "name": "Berserk Potion",
+            "id": "berserk_potion",
             "chance": 9395,
             "maxCount": 45
         },
         {
-            "name": "blue gem",
+            "name": "Blue Gem",
+            "id": "blue_gem",
             "chance": 14144,
             "maxCount": 5
         },
         {
-            "name": "green gem",
+            "name": "Green Gem",
+            "id": "green_gem",
             "chance": 6221,
             "maxCount": 4
         },
         {
-            "name": "marksman potion",
+            "name": "Marksman Potion",
+            "id": "marksman_potion",
             "chance": 6530,
             "maxCount": 26
         },
         {
-            "name": "savant potion",
+            "name": "Savant Potion",
+            "id": "savant_potion",
             "chance": 5700,
             "maxCount": 44
         },
         {
-            "name": "ultimate dual potion",
+            "name": "Ultimate Dual Potion",
+            "id": "ultimate_dual_potion",
             "chance": 9216,
             "maxCount": 25
         },
@@ -216,14 +226,16 @@
             "maxCount": 1
         },
         {
-            "name": "gold ingot",
+            "name": "Gold Ingot",
+            "id": "gold_ingot",
             "chance": 10866,
             "maxCount": 1
         },
         {
             "chance": 8945,
             "maxCount": 1,
-            "name": "red gem"
+            "name": "Red Gem",
+            "id": "red_gem"
         },
         {
             "name": "dragon figurine",
@@ -241,7 +253,8 @@
             "maxCount": 1
         },
         {
-            "name": "violet gem",
+            "name": "Violet Gem",
+            "id": "violet_gem",
             "chance": 7210,
             "maxCount": 1
         }

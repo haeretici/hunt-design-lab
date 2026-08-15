@@ -91,6 +91,7 @@ const ROOT =
  *   },
  *   useEntitySprites: boolean,
  *   entitySpriteVariant: string|null,
+ *   tileSpriteVariant: string|null,
  *   entitySpriteScale: number,
  *   entitySpriteScaleMax: number,
  *   entitySpriteScaleByAffix: Record<string, number>,
@@ -302,8 +303,9 @@ const Settings = {
      *   damageTakenBy threat used by strategiesTarget "damage". 0 = no decay (legacy
      *   forever-accumulate). Overridable per template via flags.threatDecayHalflifeSec.
      * AI_CREATURE_RETARGET_INTERVAL — min logic seconds between mid-combat re-rolls of
-     *   strategiesTarget while sticky target is still valid. 0 = sticky until lose
-     *   (legacy ChangeTarget). Overridable via flags.retargetIntervalSec.
+     *   strategiesTarget while sticky target is still valid. 0 = sticky until lose.
+     *   Per-creature changeTarget.interval (ms) + changeTarget.chance (%) override
+     *   this. No flags.retarget* path.
      */
     AI_CREATURE_LOSE_TARGET_DIST: 10,
     AI_CREATURE_FLEE_STAND_DIST: 10,
@@ -356,7 +358,9 @@ const Settings = {
      *   (Etapa 5 / policy A). 0 = unlimited (golden/CI/normal hunts). Stress /
      *   server-shaped presets pin 48. Critical never consumes budget.
      * AI_CREATURE_PATH_MAX_DISTANCE — Chebyshev A* cap for creature/summon
-     *   stepToward / followPath (default 12). Players keep PATH_MAX_DISTANCE.
+     *   chase stepToward / followPath (default 12). Leash / return-home uses
+     *   PATH_MAX_DISTANCE so a just-leashed mob (home > 12) can walk back.
+     *   Players keep PATH_MAX_DISTANCE.
      * AI_CREATURE_THINK_INTERVAL_SEC — min logic seconds between creature/summon
      *   full brain ticks when free of moveDelay (default 1.0). Attack kit still
      *   runs when brain is gated (see hunt_ai tryEngagedAttacks).
@@ -432,7 +436,13 @@ const Settings = {
      * At browser default 32px tiles, auto picks **small** (64×64 source).
      * @type {string|null}
      */
-    entitySpriteVariant: null,
+    entitySpriteVariant: "retro",
+    /**
+     * Force sprite variant folder for tiles.
+     * null → auto from tileWidth (≤32 icon, else small/medium).
+     * @type {string|null}
+     */
+    tileSpriteVariant: null,
     /**
      * Role mult for normal entities (no rarity / affix). Combined with
      * template `displayScale` at draw time: final = displayScale × role.
@@ -537,7 +547,7 @@ const Settings = {
 
 /**
  * Top-level asset families under each genre.
- * @typedef {'creatures'|'equipment'|'tiles'|'objects'} AssetKindId
+ * @typedef {'creatures'|'equipment'|'tiles'|'overlays'|'objects'|'ui'} AssetKindId
  */
 
 /**
@@ -563,9 +573,9 @@ const Settings = {
  * @property {string} sheetNoun prompt noun (character spritesheet / item sheet / …)
  * @property {string} rosterLabel prompt roster header
  * @property {string} subjectFallback when genre has no subjects[kind]
- * @property {'character'|'item'|'tile'|'prop'} compose composition family for prompts
+ * @property {'character'|'item'|'tile'|'overlay'|'prop'} compose composition family for prompts
  * @property {boolean} usesGreenKey whether process_sprites green-screen path is expected
- * @property {string[]} [categories] optional subcategory ids (equipment, tiles, objects)
+ * @property {string[]} [categories] optional subcategory ids (equipment, tiles, overlays, objects)
  */
 
 /**
@@ -642,6 +652,20 @@ const ASSET_KINDS = {
         usesGreenKey: false,
         categories: ['floor', 'wall', 'water', 'path', 'special']
     },
+    overlays: {
+        id: 'overlays',
+        label: 'Overlays',
+        folder: 'overlays',
+        doneFileName: 'overlays_list_done.txt',
+        manifestFileName: 'overlays.json',
+        catalogArrayKey: 'items',
+        sheetNoun: 'terrain overlay Wang-16 sheet',
+        rosterLabel: 'Overlays',
+        subjectFallback: 'Alpha terrain overlays: dirt, water, and cobble fringes.',
+        compose: 'overlay',
+        usesGreenKey: false,
+        categories: ['dirt', 'water', 'cobble']
+    },
     objects: {
         id: 'objects',
         label: 'Scenario Objects',
@@ -664,6 +688,20 @@ const ASSET_KINDS = {
             'container',
             'deco'
         ]
+    },
+    ui: {
+        id: 'ui',
+        label: 'UI Elements',
+        folder: 'ui',
+        doneFileName: 'ui_list_done.txt',
+        manifestFileName: 'ui.json',
+        catalogArrayKey: 'items',
+        sheetNoun: 'user interface spritesheet',
+        rosterLabel: 'UI Elements',
+        subjectFallback: 'UI icons and interface elements.',
+        compose: 'prop',
+        usesGreenKey: true,
+        categories: ['spells']
     }
 };
 
@@ -685,7 +723,9 @@ const GENRES = {
             creatures: 'Fantasy RPG Creatures.',
             equipment: 'Fantasy RPG Weapons, Armor, Shields, and Magical Equipment.',
             tiles: 'Fantasy RPG Terrain: floors, walls, paths, and water tiles.',
-            objects: 'Fantasy RPG Scenario Objects: houses, trees, walls, furniture, and props.'
+            overlays: 'Fantasy RPG alpha overlays: dirt, water, and cobble Wang-16 fringes over grass.',
+            objects: 'Fantasy RPG Scenario Objects: houses, trees, walls, furniture, and props.',
+            ui: 'Fantasy RPG spell icons and interface glyphs.'
         }
     },
     fantastic_ecology: {
@@ -702,7 +742,9 @@ const GENRES = {
             creatures: 'Fantastic Ecology and Elemental Monsters.',
             equipment: 'Nature-forged and elemental weapons, armor, and amulets.',
             tiles: 'Living terrain tiles: moss, crystal ground, coral, root floors, elemental floors.',
-            objects: 'Living props: giant fungi, crystal pillars, root arches, elemental shrines.'
+            overlays: 'Living alpha overlays: moss soil, tide pools, and root-cobble Wang-16 fringes.',
+            objects: 'Living props: giant fungi, crystal pillars, root arches, elemental shrines.',
+            ui: 'Elemental spell icons and nature-spirit interface glyphs.'
         }
     },
     ultra_tech: {
@@ -719,7 +761,9 @@ const GENRES = {
             creatures: 'Ultra Tech Robots and Mecha.',
             equipment: 'Sci-fi weapons, energy shields, powered armor, and tech gadgets.',
             tiles: 'Sci-fi facility tiles: metal floors, energy grids, hull plating, hazard floors.',
-            objects: 'Sci-fi props: terminals, crates, turrets, power cores, blast doors.'
+            overlays: 'Sci-fi alpha overlays: scorch dirt, coolant pools, and grated Wang-16 fringes.',
+            objects: 'Sci-fi props: terminals, crates, turrets, power cores, blast doors.',
+            ui: 'Sci-fi ability icons and HUD glyphs.'
         }
     },
     space_creatures: {
@@ -736,7 +780,9 @@ const GENRES = {
             creatures: 'Space Creatures and Aliens.',
             equipment: 'Alien and spacefarer weapons, armor, and relics.',
             tiles: 'Alien world and starship tiles: rock crust, bio-floors, hull decks, crystal ground.',
-            objects: 'Space props: alien flora, rock spires, habitats, cargo pods, beacons.'
+            overlays: 'Alien alpha overlays: dust, ichor pools, and crystal-cobble Wang-16 fringes.',
+            objects: 'Space props: alien flora, rock spires, habitats, cargo pods, beacons.',
+            ui: 'Alien ability icons and starship interface glyphs.'
         }
     },
     steampunk: {
@@ -753,7 +799,9 @@ const GENRES = {
             creatures: 'Steampunk Creatures and Automatons.',
             equipment: 'Steampunk weapons, brass armor, goggles, and clockwork gadgets.',
             tiles: 'Steampunk city and factory tiles: cobble, riveted steel, wooden docks, brick.',
-            objects: 'Steampunk props: gear towers, pipes, airship parts, lamp posts, workshops.'
+            overlays: 'Steampunk alpha overlays: soot dirt, oil water, and brass-cobble Wang-16 fringes.',
+            objects: 'Steampunk props: gear towers, pipes, airship parts, lamp posts, workshops.',
+            ui: 'Steampunk spell icons and clockwork interface glyphs.'
         }
     },
     super_heroes: {
@@ -770,7 +818,9 @@ const GENRES = {
             creatures: 'Original Super Heroes and Super Villains.',
             equipment: 'Original superhero gear: shields, gauntlets, helmets, power items (no brands).',
             tiles: 'City and base tiles: rooftops, streets, concrete, lab floors, night alleys.',
-            objects: 'City props: rooftop vents, billboards (no text/logos), cars as props, hydrants, crates.'
+            overlays: 'City alpha overlays: dirt patches, puddles, and street-cobble Wang-16 fringes.',
+            objects: 'City props: rooftop vents, billboards (no text/logos), cars as props, hydrants, crates.',
+            ui: 'Original super-power icons and comic HUD glyphs (no brands).'
         }
     }
 };
@@ -824,6 +874,26 @@ const CATEGORY_META = {
             promptFocus:
                 'light source / held torch-like item only (torch, lamp, candle, glowing orb). ' +
                 'No weapons or full armor'
+        }
+    },
+    overlays: {
+        dirt: {
+            label: 'dirt',
+            promptFocus:
+                'packed earth / soil overlay family only (alpha fringe over a grass ground; ' +
+                'not a full-bleed ground fill)'
+        },
+        water: {
+            label: 'water',
+            promptFocus:
+                'shallow water / shore overlay family only (alpha liquid fringe over ground; ' +
+                'not an opaque lake fill tile)'
+        },
+        cobble: {
+            label: 'cobble',
+            promptFocus:
+                'cobblestone / packed-stone path overlay family only (alpha fringe over ground; ' +
+                'not a seamless full-cell street tile)'
         }
     }
 };
@@ -1030,6 +1100,19 @@ function listKindIds() {
     return /** @type {AssetKindId[]} */ (Object.keys(ASSET_KINDS));
 }
 
+/**
+ * Palette / authoring stamp kind. Unknown values collapse to tiles.
+ * @param {string|null|undefined} kind
+ * @returns {'tiles'|'objects'|'overlays'}
+ */
+function normalizeStampKind(kind) {
+    const k = String(kind || 'tiles')
+        .trim()
+        .toLowerCase();
+    if (k === 'objects' || k === 'overlays') return k;
+    return 'tiles';
+}
+
 module.exports = {
     ROOT,
     PATHS,
@@ -1047,6 +1130,7 @@ module.exports = {
     categoryPromptFocus,
     genrePaths,
     listKindIds,
+    normalizeStampKind,
     mapPathPng,
     navmeshPath,
     Settings

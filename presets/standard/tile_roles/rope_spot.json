@@ -1,0 +1,26 @@
+{
+  "id": "rope_spot",
+  "label": "Rope spot",
+  "notes": "Walkable tile marked for rope use. ROPE_SPOT flag; hop meta optional on placement.",
+  "kindHints": ["tiles"],
+  "catalogCategories": ["special"],
+  "render": {
+    "scale": 1.0,
+    "anchor": "middle_center",
+    "variant": "retro"
+  },
+  "influence": {
+    "friction": 100,
+    "sight": 0,
+    "flags": 16,
+    "walkMode": "open",
+    "sightMode": "clear"
+  },
+  "vertical": {
+    "type": "rope",
+    "deltaZ": -1,
+    "defaultDir": "center",
+    "bidirectional": false,
+    "registerStairLink": false
+  }
+}

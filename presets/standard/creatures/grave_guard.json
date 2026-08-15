@@ -88,12 +88,14 @@
     },
     "loot": [
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 50000,
             "maxCount": 100
         },
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 50000,
             "maxCount": 30
         },
@@ -102,7 +104,8 @@
             "chance": 4166
         },
         {
-            "name": "daramian waraxe",
+            "name": "Desert Waraxe",
+            "id": "desert_waraxe",
             "chance": 1170
         },
         {
@@ -111,14 +114,17 @@
         },
         {
             "chance": 1754,
-            "name": "death ring"
+            "name": "Death Ring",
+            "id": "death_ring"
         },
         {
-            "name": "health potion",
+            "name": "Health Potion",
+            "id": "health_potion",
             "chance": 20000
         },
         {
-            "name": "mana potion",
+            "name": "Mana Potion",
+            "id": "mana_potion",
             "chance": 20000
         }
     ],

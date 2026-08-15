@@ -23,7 +23,7 @@ const {
     normalizeChainSpec,
     pickChainTargets
 } = require('../combat/chain.js');
-const { isValidTarget } = require('./targeting.js');
+const { isValidTarget, isProtectedTarget } = require('./targeting.js');
 const { isTileFieldHazardForEntity } = require('../combat/elemental_fields.js');
 const { entitiesOnTiles, hasLineOfSight } = require('../shapes.js');
 const Cooldowns = require('../combat/cooldowns.js');
@@ -822,8 +822,8 @@ function livingHostilePool(attacker, primary, candidates) {
  * @param {object} cand
  * @returns {boolean}
  */
-function chainCanPick(spell, caster, cand) {
-    if (!isValidTarget(caster, cand)) return false;
+function chainCanPick(spell, caster, cand, tileMap) {
+    if (!isValidTarget(caster, cand, { tileMap })) return false;
     if (!spell || !spell.chainOnlyRanged) return true;
     if (!isChallengeableCreature(cand)) return false;
     if (
@@ -1043,6 +1043,24 @@ function tryAttack(opts) {
     if (!isSpellInRange(attacker, defender || null, def, ctx)) return null;
     if (!canCast(attacker, def, ctx)) return null;
 
+    // Harmful single-target / chain / shape: skip defenders on NO_CAST / PZ.
+    // Heals and support may still land on a protected tile.
+    {
+        const tileMap =
+            ctx.tileMap || (ctx.sim && ctx.sim.tileMap) || null;
+        const healOrSupport =
+            def.element === 'healing' ||
+            def.kind === 'heal' ||
+            def.kind === 'support';
+        if (
+            !healOrSupport &&
+            defender &&
+            isProtectedTarget(defender, tileMap)
+        ) {
+            return null;
+        }
+    }
+
     // Chain multi-hop (chain_rebuke, chivalrous_challenge, divine_dazzle, …).
     // Prefer chain over shape if both are set (catalog should not combine).
     if (spellHasChain(def)) {
@@ -1066,7 +1084,8 @@ function tryAttack(opts) {
             tileMap,
             spellBook: spellBookFromCtx(ctx),
             rng: ctx.rng || Math.random,
-            canPick: (caster, cand) => chainCanPick(def, caster, cand)
+            canPick: (caster, cand) =>
+                chainCanPick(def, caster, cand, tileMap)
         });
         if (!result.ok) return null;
         spendRune(attacker, def, ctx);

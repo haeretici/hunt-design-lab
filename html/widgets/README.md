@@ -11,11 +11,12 @@ widgets/designer_pickers/
   shape_picker.html/js  # Spell shape list + matrix preview
   equipment_picker.*    # Combat equipment catalog — dual uiMode (select | view)
   creature_picker.*     # Combat creature templates — dual uiMode (select | view)
+  spell_picker.*        # Combat spells catalog — dual uiMode (select | view)
 ```
 
 | Action | Result |
 | :--- | :--- |
-| Form **Select** on art-set tile id | Opens catalog picker (`kind=tiles`); postMessage `select` with `{ id }` |
+| Form **Select** on art-set role id | Opens catalog picker: terrain roles → `kind=tiles` (+ category); `scenery`/`furniture` → `kind=objects`. postMessage `select` with `{ id, assetKind }` |
 | Form **Select** on creature Custom Sprite (`creature_sprite_id`) | Opens art catalog (`kind=creatures` sprites); not combat templates |
 | Form **Select** on combat creature id (`creature_id`) | Opens **creature_picker** (`uiMode=select`) — Hunts spawns/waves, Populations `creatureIds` |
 | Form **Select** on equipment id (`equipment_id`) | Opens **equipment_picker** (`uiMode=select`) |
@@ -44,18 +45,27 @@ widgets/designer_pickers/
 | Thumbs | Same override chain as creatures: `customSprite` / `customSpriteGenre` (schema on equipment items) → `spriteId` → item `id` under `assets/sprites/<genre>/equipment/alpha/`. |
 | Batch (view only) | Same Actions / Smart Update Sprites path as creatures (`kind=equipment`, optional category) |
 
+**Spells browser extras:**
+
+| Feature | Behavior |
+| :--- | :--- |
+| Filters | Text (name/id), spell kind, element, vocation, level min / max — client-side on `presets_get` spells catalog |
+| Layouts | **Card grid** or **table** (same DataTables shell as equipment) |
+| Thumbs | `customUISprite` → `customSprite` → `spriteId` → entity `id` under `assets/sprites/<genre>/ui/alpha/` |
+| Batch (view only) | Same Actions / Smart Update Sprites path (`kind=spells` → pipeline kind `ui`, category `spells`) |
+
 **Smart Update Sprites (view mode):**
 
 1. Optionally check items on cards or the first table column (empty selection is allowed).
-2. **Actions → Smart Update Sprites** opens a batch-builder-style modal (genre + asset kind fixed; rows/cols = 4; iters = 1; seed + image model editable; equipment category optional).
-3. **Save and Run batch** sets `customSprite` to the entity id, removes `customSpriteGenre` / `customGenre`, fills remaining sheet slots from library entities with `customSprite !== id` (level low→high; equipment honors category when set), then queues `bin/smart_update_sprites.js` (chunks of 16; multi-sheet when N &gt; 16). Empty selection → up to 16 backlog entities.
+2. **Actions → Smart Update Sprites** opens a batch-builder-style modal (genre + asset kind fixed; rows/cols = 4; iters = 1; seed + image model editable; equipment category optional). Spells show pipeline kind **ui**.
+3. **Save and Run batch** sets the dedicated sprite field to the entity id (`customSprite` for creatures/equipment, `customUISprite` for spells), removes `customSpriteGenre` / `customGenre` on creatures/equipment, fills remaining sheet slots from library entities that still need a dedicated sprite (level / `requiredLevel` low→high; equipment honors category when set), then queues `bin/smart_update_sprites.js` (chunks of 16; multi-sheet when N &gt; 16). Empty selection → up to 16 backlog entities. Spell backlog reads `spells.json` `spells[]` (not `items[]`).
 
 **Dual mode (`uiMode` query / init):**
 
 | Mode | Used by | Chrome |
 | :--- | :--- | :--- |
 | `select` (default) | Designer / Hunt Editor field **Select** buttons | Cancel + Select footer; postMessage on confirm |
-| `view` | Wiki shell pages (`wiki-creatures.php`, `wiki-equipment.php`) | Browse + detail sidebar only |
+| `view` | Wiki shell pages (`wiki-creatures.php`, `wiki-equipment.php`, `wiki-spells.php`) | Browse + detail sidebar only |
 
 Channel: `hunt-design-lab-designer-picker`. Parent helpers: `kernel/apps/designer-ui/relation_pickers.js` (`openEquipmentPicker`, `openCreaturePicker`, …). Wiki host: `kernel/apps/wiki/app.js`.
 

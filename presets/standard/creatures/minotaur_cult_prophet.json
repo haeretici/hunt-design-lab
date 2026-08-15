@@ -101,7 +101,8 @@
     },
     "loot": [
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 100000,
             "maxCount": 150
         },
@@ -111,6 +112,7 @@
         },
         {
             "name": "Lunar Rod",
+            "id": "lunar_rod",
             "chance": 8480
         },
         {
@@ -118,45 +120,55 @@
             "chance": 15450
         },
         {
-            "name": "great health potion",
+            "name": "Great Health Potion",
+            "id": "great_health_potion",
             "chance": 7070
         },
         {
-            "name": "great mana potion",
+            "name": "Great Mana Potion",
+            "id": "great_mana_potion",
             "chance": 16810
         },
         {
-            "name": "gold ingot",
+            "name": "Gold Ingot",
+            "id": "gold_ingot",
             "chance": 1120
         },
         {
-            "name": "small ruby",
+            "name": "Small Ruby",
+            "id": "small_ruby",
             "chance": 7160
         },
         {
-            "name": "small topaz",
+            "name": "Small Topaz",
+            "id": "small_topaz",
             "chance": 7650
         },
         {
-            "name": "yellow gem",
+            "name": "Yellow Gem",
+            "id": "yellow_gem",
             "chance": 490
         },
         {
-            "name": "platinum coin",
+            "name": "Platinum Coin",
+            "id": "platinum_coin",
             "chance": 67040,
             "maxCount": 3
         },
         {
-            "name": "small emerald",
+            "name": "Small Emerald",
+            "id": "small_emerald",
             "chance": 11160
         },
         {
-            "name": "small diamond",
+            "name": "Small Diamond",
+            "id": "small_diamond",
             "chance": 2900,
             "maxCount": 2
         },
         {
-            "name": "small amethyst",
+            "name": "Small Amethyst",
+            "id": "small_amethyst",
             "chance": 6680,
             "maxCount": 2
         },
@@ -166,18 +178,22 @@
         },
         {
             "chance": 6730,
-            "name": "ring of healing"
+            "name": "Ring of Mending",
+            "id": "ring_of_mending"
         },
         {
             "chance": 390,
-            "name": "red gem"
+            "name": "Red Gem",
+            "id": "red_gem"
         },
         {
-            "name": "meat",
+            "name": "Meat",
+            "id": "meat",
             "chance": 8040
         },
         {
-            "name": "ham",
+            "name": "Ham",
+            "id": "ham",
             "chance": 60140
         },
         {

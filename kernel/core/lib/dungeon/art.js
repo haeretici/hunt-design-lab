@@ -1,15 +1,18 @@
 /**
  * Stage 11.9 — Art tile binding.
- * Stage 11.11 — Deeper art volume helpers (unique tile counts per art set).
+ * Stage 11.11 — Art volume helpers (historically large packs; slim policy now).
+ * TileMap plan Phase 3 — role-aware entries (roleId / scale / anchor / kind),
+ * slim packs (1–4 tiles per role), bindArtFromRoles terrain-only.
  *
  * Map an artSet id (biome / hunt pointer) onto friction cells using a
- * mode-local art set pack that lists genre tiles catalog ids by role
- * (floor / wall / path / stairs). Output is a compact palette + Uint16
- * index layer parallel to floorFriction / floorLayers — headless stays
+ * mode-local art set pack that lists genre catalog ids by role
+ * (floor / wall / path / stairs / void|water). Output is a compact palette +
+ * Uint16 index layer parallel to floorFriction / floorLayers — headless stays
  * pure; watch mode draws catalog PNGs when ImageDB is ready.
  *
  * Logic pieces stay collision-only; decorative binding is a separate layer.
- * Blueprint tile volume: 18–70 unique decorative looks per biome.
+ * Scenery / furniture role lists are for editor palette only — procedural
+ * bind never auto-stamps object stacks.
  */
 
 'use strict';
@@ -17,6 +20,10 @@
 const { createSeededRandom } = require('../utils.js');
 const { FRICTION_BLOCKED } = require('../../entities/tilemap.js');
 const { normalizeArtSet } = require('./biome.js');
+const {
+    defaultCatalogKindForRole,
+    normalizeCatalogKind
+} = require('./art_set_context.js');
 
 /** Salt so art RNG is independent of layout / population streams. */
 const ART_SEED_SALT = 0x41525454; // "ARTT"
@@ -25,18 +32,67 @@ const ART_SEED_SALT = 0x41525454; // "ARTT"
 const DEFAULT_WALK_FRICTION = 100;
 
 /**
- * Blueprint Phase 2 floor: minimum distinct catalog tile ids per art set.
- * Packs below this still bind, but CI flags volume as short.
+ * Minimum distinct catalog ids per art set (not empty).
+ * Slim policy: 1 is enough when roles resolve; large min volume was retired.
  */
-const MIN_ART_SET_VOLUME = 18;
+const MIN_ART_SET_VOLUME = 1;
 
 /**
- * Comfortable mid-range toward the 70-tile ceiling (Stage 11.11 target).
+ * Preferred max unique ids for a whole slim pack (soft / meetsTarget).
+ * Historical TARGET aimed high (40+); now we prefer quiet packs.
  */
-const TARGET_ART_SET_VOLUME = 40;
+const TARGET_ART_SET_VOLUME = 16;
 
-/** Soft upper note for designers (not enforced). */
-const MAX_ART_SET_VOLUME_NOTE = 70;
+/** Soft upper note for designers (not a hard fail). */
+const MAX_ART_SET_VOLUME_NOTE = 24;
+
+/**
+ * Hard CI preference: max weighted entries per role list.
+ * Prefer 1–2; 4 is the soft ceiling.
+ */
+const MAX_ART_SET_PER_ROLE = 4;
+
+/**
+ * Role keys used by procedural friction bind (terrain only).
+ * Editor-only keys (scenery, furniture, …) are stored but never stamped here.
+ */
+const TERRAIN_BIND_ROLES = ['floor', 'wall', 'path', 'stairs', 'void'];
+
+/**
+ * Extra role keys accepted on pack files (palette / bake later).
+ * water → void for bind; stairs_up / stairs_down → stairs for bind.
+ */
+const EXTRA_ROLE_KEYS = [
+    'water',
+    'stairs_up',
+    'stairs_down',
+    'scenery',
+    'furniture',
+    'protection',
+    'hole',
+    'grate',
+    'rope_spot',
+    'shovel_spot'
+];
+
+/** Default roleId when pack role key matches a tile role id. */
+const DEFAULT_ROLE_ID_BY_KEY = {
+    floor: 'floor',
+    path: 'path',
+    wall: 'wall',
+    stairs: 'stairs_up',
+    stairs_up: 'stairs_up',
+    stairs_down: 'stairs_down',
+    void: 'void',
+    water: 'water',
+    scenery: 'scenery_blocking',
+    furniture: 'furniture_blocking',
+    protection: 'protection',
+    hole: 'hole',
+    grate: 'grate',
+    rope_spot: 'rope_spot',
+    shovel_spot: 'shovel_spot'
+};
 
 /**
  * @param {number} seed
@@ -74,16 +130,42 @@ function pickWeightedId(rng, items) {
 }
 
 /**
- * Normalize one role entry: string id or { id, weight }.
+ * Normalize one role entry: string id or { id, weight, roleId?, kind?, scale?, anchor? }.
  * @param {*} raw
- * @returns {{ id: string, weight: number }|null}
+ * @param {string} [roleKey] pack roles key (floor, wall, …) for default roleId
+ * @param {string} [defaultKind] pack-level kind default
+ * @returns {{
+ *   id: string,
+ *   weight: number,
+ *   roleId: string|null,
+ *   kind: string,
+ *   scale: number|null,
+ *   anchor: string|null
+ * }|null}
  */
-function normalizeRoleEntry(raw) {
+function normalizeRoleEntry(raw, roleKey, defaultKind) {
     if (raw == null) return null;
+    const defRole =
+        roleKey && DEFAULT_ROLE_ID_BY_KEY[roleKey]
+            ? DEFAULT_ROLE_ID_BY_KEY[roleKey]
+            : null;
+    const packKind =
+        defaultKind != null && String(defaultKind).trim()
+            ? String(defaultKind).trim()
+            : 'tiles';
+    const roleKind = defaultCatalogKindForRole(roleKey, defRole) || packKind;
+
     if (typeof raw === 'string') {
         const id = String(raw).trim();
         if (!id) return null;
-        return { id, weight: 1 };
+        return {
+            id,
+            weight: 1,
+            roleId: defRole,
+            kind: roleKind,
+            scale: null,
+            anchor: null
+        };
     }
     if (typeof raw !== 'object') return null;
     const id =
@@ -93,30 +175,89 @@ function normalizeRoleEntry(raw) {
               ? String(raw.tileId).trim()
               : raw.tile != null
                 ? String(raw.tile).trim()
-                : '';
+                : raw.catalogId != null
+                  ? String(raw.catalogId).trim()
+                  : '';
     if (!id) return null;
     let weight = Number(raw.weight);
     if (!Number.isFinite(weight) || weight < 0) weight = 1;
-    return { id, weight };
+
+    let roleId = null;
+    if (raw.roleId != null && String(raw.roleId).trim()) {
+        roleId = String(raw.roleId)
+            .trim()
+            .toLowerCase()
+            .replace(/[^a-z0-9_]/g, '_')
+            .replace(/_+/g, '_')
+            .replace(/^_|_$/g, '');
+        if (!roleId) roleId = null;
+    } else {
+        roleId = defRole;
+    }
+
+    let kind = defaultCatalogKindForRole(roleKey, roleId) || packKind;
+    if (raw.kind != null && String(raw.kind).trim()) {
+        const k = normalizeCatalogKind(raw.kind);
+        kind = k || String(raw.kind).trim().toLowerCase();
+    }
+
+    let scale = null;
+    if (raw.scale != null && Number.isFinite(Number(raw.scale))) {
+        scale = Number(raw.scale);
+        if (scale < 0.05) scale = 0.05;
+        if (scale > 8) scale = 8;
+    }
+
+    let anchor = null;
+    if (raw.anchor != null && String(raw.anchor).trim()) {
+        anchor = String(raw.anchor).trim();
+    }
+
+    return { id, weight, roleId, kind, scale, anchor };
 }
 
 /**
  * @param {*} raw array of role entries
- * @returns {Array<{ id: string, weight: number }>}
+ * @param {string} [roleKey]
+ * @param {string} [defaultKind]
+ * @returns {Array<object>}
  */
-function normalizeRoleList(raw) {
+function normalizeRoleList(raw, roleKey, defaultKind) {
     if (!Array.isArray(raw)) return [];
-    /** @type {Array<{ id: string, weight: number }>} */
+    /** @type {Array<object>} */
     const out = [];
     for (let i = 0; i < raw.length; i++) {
-        const e = normalizeRoleEntry(raw[i]);
+        const e = normalizeRoleEntry(raw[i], roleKey, defaultKind);
         if (e) out.push(e);
     }
     return out;
 }
 
 /**
+ * Merge role lists, de-dupe by catalog id (first wins).
+ * @param {...Array<object>} lists
+ * @returns {Array<object>}
+ */
+function mergeRoleLists() {
+    const seen = Object.create(null);
+    /** @type {Array<object>} */
+    const out = [];
+    for (let a = 0; a < arguments.length; a++) {
+        const list = arguments[a];
+        if (!list || !list.length) continue;
+        for (let i = 0; i < list.length; i++) {
+            const e = list[i];
+            if (!e || !e.id || seen[e.id]) continue;
+            seen[e.id] = true;
+            out.push(e);
+        }
+    }
+    return out;
+}
+
+/**
  * Normalize art set pack (file or inline).
+ * Accepts legacy keys (stairs, void) and slim keys (stairs_up, water, scenery).
  * @param {object|null|undefined} raw
  * @returns {object|null}
  */
@@ -125,30 +266,94 @@ function normalizeArtSetPack(raw) {
     const id = normalizeArtSet(raw.id != null ? raw.id : raw.artSet);
     if (!id) return null;
 
+    const packKind = raw.kind != null ? String(raw.kind) : 'tiles';
     const rolesRaw =
         raw.roles && typeof raw.roles === 'object' ? raw.roles : raw;
+
     const floor = normalizeRoleList(
-        rolesRaw.floor || rolesRaw.floors || raw.floor
+        rolesRaw.floor || rolesRaw.floors || raw.floor,
+        'floor',
+        packKind
     );
     const wall = normalizeRoleList(
-        rolesRaw.wall || rolesRaw.walls || raw.wall
+        rolesRaw.wall || rolesRaw.walls || raw.wall,
+        'wall',
+        packKind
     );
     const path = normalizeRoleList(
-        rolesRaw.path || rolesRaw.paths || raw.path
+        rolesRaw.path || rolesRaw.paths || raw.path,
+        'path',
+        packKind
     );
-    const stairs = normalizeRoleList(
+    const stairsLegacy = normalizeRoleList(
         rolesRaw.stairs ||
             rolesRaw.stair ||
             rolesRaw.special ||
             raw.stairs ||
-            raw.special
+            raw.special,
+        'stairs',
+        packKind
     );
-    const voidRole = normalizeRoleList(
-        rolesRaw.void || rolesRaw.voids || raw.void
+    const stairsUp = normalizeRoleList(
+        rolesRaw.stairs_up || raw.stairs_up,
+        'stairs_up',
+        packKind
     );
+    const stairsDown = normalizeRoleList(
+        rolesRaw.stairs_down || raw.stairs_down,
+        'stairs_down',
+        packKind
+    );
+    const voidLegacy = normalizeRoleList(
+        rolesRaw.void || rolesRaw.voids || raw.void,
+        'void',
+        packKind
+    );
+    const water = normalizeRoleList(
+        rolesRaw.water || raw.water,
+        'water',
+        packKind
+    );
+    const scenery = normalizeRoleList(
+        rolesRaw.scenery || raw.scenery,
+        'scenery',
+        packKind
+    );
+    const furniture = normalizeRoleList(
+        rolesRaw.furniture || raw.furniture,
+        'furniture',
+        packKind
+    );
+
+    // Procedural terrain lists (bind never uses scenery/furniture).
+    const stairs = mergeRoleLists(stairsLegacy, stairsUp, stairsDown);
+    const voidRole = mergeRoleLists(voidLegacy, water);
 
     if (!floor.length && !wall.length && !path.length && !stairs.length) {
         return null;
+    }
+
+    // Preserve any other role keys for editor palette (unknown → pass through).
+    /** @type {Record<string, Array<object>>} */
+    const roles = {
+        floor,
+        wall,
+        path,
+        stairs,
+        void: voidRole
+    };
+    if (water.length) roles.water = water;
+    if (stairsUp.length) roles.stairs_up = stairsUp;
+    if (stairsDown.length) roles.stairs_down = stairsDown;
+    if (scenery.length) roles.scenery = scenery;
+    if (furniture.length) roles.furniture = furniture;
+
+    for (let i = 0; i < EXTRA_ROLE_KEYS.length; i++) {
+        const key = EXTRA_ROLE_KEYS[i];
+        if (roles[key]) continue;
+        if (!rolesRaw[key]) continue;
+        const list = normalizeRoleList(rolesRaw[key], key, packKind);
+        if (list.length) roles[key] = list;
     }
 
     const rulesRaw =
@@ -177,14 +382,8 @@ function normalizeArtSetPack(raw) {
         label: raw.label != null ? String(raw.label) : id,
         notes: raw.notes != null ? String(raw.notes) : null,
         genre: raw.genre != null ? String(raw.genre) : null,
-        kind: raw.kind != null ? String(raw.kind) : 'tiles',
-        roles: {
-            floor,
-            wall,
-            path,
-            stairs,
-            void: voidRole
-        },
+        kind: packKind,
+        roles,
         rules: {
             blockedEdgeOnly,
             pathMix,
@@ -197,18 +396,22 @@ function normalizeArtSetPack(raw) {
 }
 
 /**
- * Collect unique tile catalog ids referenced by a pack.
+ * Collect unique catalog ids referenced by a pack (all role lists).
  * @param {object|null} pack normalizeArtSetPack result
+ * @param {{ terrainOnly?: boolean }} [opts]
  * @returns {string[]}
  */
-function listArtSetTileIds(pack) {
+function listArtSetTileIds(pack, opts) {
     if (!pack || !pack.roles) return [];
+    const terrainOnly = !!(opts && opts.terrainOnly);
     const seen = Object.create(null);
     /** @type {string[]} */
     const out = [];
-    const roles = ['floor', 'wall', 'path', 'stairs', 'void'];
-    for (let r = 0; r < roles.length; r++) {
-        const list = pack.roles[roles[r]] || [];
+    const keys = Object.keys(pack.roles);
+    for (let r = 0; r < keys.length; r++) {
+        const roleKey = keys[r];
+        if (terrainOnly && TERRAIN_BIND_ROLES.indexOf(roleKey) < 0) continue;
+        const list = pack.roles[roleKey] || [];
         for (let i = 0; i < list.length; i++) {
             const id = list[i] && list[i].id;
             if (!id || seen[id]) continue;
@@ -220,7 +423,7 @@ function listArtSetTileIds(pack) {
 }
 
 /**
- * Count unique tile catalog ids referenced by a pack (art volume).
+ * Count unique catalog ids referenced by a pack (art volume).
  * @param {object|null} pack normalizeArtSetPack result
  * @returns {number}
  */
@@ -230,35 +433,49 @@ function artSetVolume(pack) {
 
 /**
  * Per-role entry counts (weights ignored; list length only).
+ * Includes terrain bind keys always; extra keys when present.
  * @param {object|null} pack
- * @returns {{ floor: number, wall: number, path: number, stairs: number, void: number }}
+ * @returns {Record<string, number>}
  */
 function artSetRoleCounts(pack) {
-    const empty = { floor: 0, wall: 0, path: 0, stairs: 0, void: 0 };
-    if (!pack || !pack.roles) return empty;
-    return {
-        floor: (pack.roles.floor || []).length,
-        wall: (pack.roles.wall || []).length,
-        path: (pack.roles.path || []).length,
-        stairs: (pack.roles.stairs || []).length,
-        void: (pack.roles.void || []).length
+    /** @type {Record<string, number>} */
+    const counts = {
+        floor: 0,
+        wall: 0,
+        path: 0,
+        stairs: 0,
+        void: 0
     };
+    if (!pack || !pack.roles) return counts;
+    const keys = Object.keys(pack.roles);
+    for (let i = 0; i < keys.length; i++) {
+        const k = keys[i];
+        counts[k] = (pack.roles[k] || []).length;
+    }
+    return counts;
 }
 
 /**
- * Score art-set decorative volume vs blueprint 18–70 band.
+ * Score art-set decorative volume under the slim-pack policy.
+ *
+ * ok / meetsMin: pack exists and unique ≥ min (default 1).
+ * meetsTarget: unique ≤ target soft max AND every role list ≤ maxPerRole.
+ * withinRoleMax: no role exceeds maxPerRole (default 4).
  *
  * @param {object|null} pack normalizeArtSetPack result
- * @param {{ min?: number, target?: number }} [opts]
+ * @param {{ min?: number, target?: number, maxPerRole?: number }} [opts]
  * @returns {{
  *   ok: boolean,
  *   unique: number,
  *   min: number,
  *   target: number,
  *   maxNote: number,
+ *   maxPerRole: number,
  *   meetsMin: boolean,
  *   meetsTarget: boolean,
- *   roleCounts: { floor: number, wall: number, path: number, stairs: number, void: number },
+ *   withinRoleMax: boolean,
+ *   hasTerrain: boolean,
+ *   roleCounts: Record<string, number>,
  *   tileIds: string[],
  *   message: string|null
  * }}
@@ -273,27 +490,56 @@ function evaluateArtSetVolume(pack, opts) {
         Number.isFinite(Number(o.target)) && Number(o.target) > 0
             ? Number(o.target) | 0
             : TARGET_ART_SET_VOLUME;
+    const maxPerRole =
+        Number.isFinite(Number(o.maxPerRole)) && Number(o.maxPerRole) > 0
+            ? Number(o.maxPerRole) | 0
+            : MAX_ART_SET_PER_ROLE;
     const tileIds = listArtSetTileIds(pack);
     const unique = tileIds.length;
     const roleCounts = artSetRoleCounts(pack);
     const meetsMin = unique >= min;
-    const meetsTarget = unique >= target;
+
+    let withinRoleMax = true;
+    const keys = Object.keys(roleCounts);
+    for (let i = 0; i < keys.length; i++) {
+        if ((roleCounts[keys[i]] | 0) > maxPerRole) {
+            withinRoleMax = false;
+            break;
+        }
+    }
+
+    const hasTerrain =
+        !!pack &&
+        ((roleCounts.floor | 0) > 0 || (roleCounts.path | 0) > 0) &&
+        ((roleCounts.wall | 0) > 0 || (roleCounts.void | 0) > 0);
+
+    // Slim target: not oversized; role lists stay small.
+    const meetsTarget = meetsMin && withinRoleMax && unique <= target;
+
     let message = null;
     if (!pack) {
         message = 'missing_art_set_pack';
     } else if (!meetsMin) {
         message = `art_volume_below_min unique=${unique} min=${min}`;
-    } else if (!meetsTarget) {
-        message = `art_volume_below_target unique=${unique} target=${target}`;
+    } else if (!withinRoleMax) {
+        message = `art_role_over_max maxPerRole=${maxPerRole}`;
+    } else if (unique > target) {
+        message = `art_volume_above_soft_target unique=${unique} target=${target}`;
+    } else if (!hasTerrain) {
+        message = 'art_missing_terrain_roles';
     }
+
     return {
-        ok: !!pack && meetsMin,
+        ok: !!pack && meetsMin && hasTerrain,
         unique,
         min,
         target,
         maxNote: MAX_ART_SET_VOLUME_NOTE,
+        maxPerRole,
         meetsMin,
         meetsTarget,
+        withinRoleMax,
+        hasTerrain,
         roleCounts,
         tileIds,
         message
@@ -370,7 +616,12 @@ function adjacentWalkable(friction, cols, rows, x, y) {
 }
 
 /**
- * Bind one friction grid to decorative tile ids.
+ * Bind one friction grid to decorative tile ids from terrain roles only.
+ *
+ * Uses floor / path / wall / stairs / void (water merges into void at normalize).
+ * Does **not** stamp scenery or furniture — those stay editor palette lists.
+ *
+ * Preferred name: `bindArtFromRoles`. `bindArtToFriction` is an alias.
  *
  * @param {{
  *   friction: Uint8Array|ArrayLike<number>,
@@ -396,7 +647,7 @@ function adjacentWalkable(friction, cols, rows, x, y) {
  *   stats: { painted: number, floor: number, wall: number, path: number, stairs: number, void: number }
  * }|null}
  */
-function bindArtToFriction(opts) {
+function bindArtFromRoles(opts) {
     const o = opts || {};
     const pack =
         o.artSet && o.artSet.roles
@@ -418,6 +669,13 @@ function bindArtToFriction(opts) {
         buildStairPadSet(o.stairs, o.stairLinks, z);
     const edgeOnly = pack.rules.blockedEdgeOnly !== false;
     const pathMix = pack.rules.pathMix || 0;
+
+    // Terrain-only lists (never scenery / furniture).
+    const floorList = pack.roles.floor || [];
+    const pathList = pack.roles.path || [];
+    const wallList = pack.roles.wall || [];
+    const stairsList = pack.roles.stairs || [];
+    const voidList = pack.roles.void || [];
 
     /** @type {Record<string, number>} */
     const paletteIndex = Object.create(null);
@@ -457,34 +715,34 @@ function bindArtToFriction(opts) {
 
             if (f !== FRICTION_BLOCKED) {
                 const isStair = !!stairPads[`${x},${y}`];
-                if (isStair && pack.roles.stairs.length) {
-                    tileId = pickWeightedId(rng, pack.roles.stairs);
+                if (isStair && stairsList.length) {
+                    tileId = pickWeightedId(rng, stairsList);
                     role = 'stairs';
                 } else if (
                     pathMix > 0 &&
-                    pack.roles.path.length &&
+                    pathList.length &&
                     rng() < pathMix
                 ) {
-                    tileId = pickWeightedId(rng, pack.roles.path);
+                    tileId = pickWeightedId(rng, pathList);
                     role = 'path';
-                } else if (pack.roles.floor.length) {
-                    tileId = pickWeightedId(rng, pack.roles.floor);
+                } else if (floorList.length) {
+                    tileId = pickWeightedId(rng, floorList);
                     role = 'floor';
-                } else if (pack.roles.path.length) {
-                    tileId = pickWeightedId(rng, pack.roles.path);
+                } else if (pathList.length) {
+                    tileId = pickWeightedId(rng, pathList);
                     role = 'path';
                 }
             } else {
-                // Blocked
+                // Blocked — wall on edges (or all blocked if !edgeOnly); else void art
                 let paintWall = true;
                 if (edgeOnly) {
                     paintWall = adjacentWalkable(friction, cols, rows, x, y);
                 }
-                if (paintWall && pack.roles.wall.length) {
-                    tileId = pickWeightedId(rng, pack.roles.wall);
+                if (paintWall && wallList.length) {
+                    tileId = pickWeightedId(rng, wallList);
                     role = 'wall';
-                } else if (pack.roles.void.length) {
-                    tileId = pickWeightedId(rng, pack.roles.void);
+                } else if (voidList.length) {
+                    tileId = pickWeightedId(rng, voidList);
                     role = 'void';
                 } else {
                     tileId = null;
@@ -520,6 +778,9 @@ function bindArtToFriction(opts) {
         stats
     };
 }
+
+/** @deprecated Prefer bindArtFromRoles — same terrain-only bind. */
+const bindArtToFriction = bindArtFromRoles;
 
 /**
  * Resolve artSet id from hunt / layout / biome pointers.
@@ -880,17 +1141,22 @@ module.exports = {
     MIN_ART_SET_VOLUME,
     TARGET_ART_SET_VOLUME,
     MAX_ART_SET_VOLUME_NOTE,
+    MAX_ART_SET_PER_ROLE,
+    TERRAIN_BIND_ROLES,
     artSeed,
+    normalizeRoleEntry,
     normalizeArtSetPack,
     listArtSetTileIds,
     artSetVolume,
     artSetRoleCounts,
     evaluateArtSetVolume,
+    bindArtFromRoles,
     bindArtToFriction,
     bindHuntArt,
     resolveArtSetId,
     buildStairPadSet,
     tileIdAt,
     tileIdAtXY,
-    pickWeightedId
+    pickWeightedId,
+    defaultCatalogKindForRole
 };

@@ -40,7 +40,16 @@
       "properties": {
         "x": { "type": "integer", "minimum": 0 },
         "y": { "type": "integer", "minimum": 0 },
-        "dir": { "type": "string", "enum": ["up", "down"] },
+        "dir": {
+          "type": "string",
+          "default": "",
+          "enum": ["", "up", "down"],
+          "description": "Stair hop direction. Empty = unset (omit on disk). The piece grid only writes up/down."
+        },
+        "link": {
+          "type": "string",
+          "description": "Stair pair key (e.g. main, portal). Same link on up/down pieces hop together."
+        },
         "id": { "type": "string" }
       }
     },

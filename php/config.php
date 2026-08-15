@@ -29,7 +29,9 @@ const HDL_ASSET_KINDS = [
     'creatures',
     'equipment',
     'tiles',
+    'overlays',
     'objects',
+    'ui',
 ];
 
 /**
@@ -45,8 +47,12 @@ const HDL_ASSET_CATEGORIES = [
     'ring', 'amulet', 'ammo', 'quiver', 'spellbook', 'light', 'container',
     // tiles
     'floor', 'wall', 'water', 'path', 'special',
+    // overlays (wangFamily)
+    'dirt', 'cobble',
     // objects
     'tree', 'rock', 'house', 'door', 'furniture', 'deco',
+    // ui
+    'spells',
 ];
 
 /**

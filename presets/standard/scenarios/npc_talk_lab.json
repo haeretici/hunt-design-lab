@@ -1,0 +1,31 @@
+{
+    "id": "npc_talk_lab",
+    "label": "NPC talk lab",
+    "notes": "Talk lab: town Guide on the outskirts camp corridor. Solo manual guardian, pacifist. Not a golden hunt. Mission reply is gated on player.storage.",
+    "baseHuntId": "outskirts_camp_fixed",
+    "seed": 6,
+    "frames": 4000,
+    "maxTicks": 4000,
+    "waypoints": [
+        { "x": 0, "y": 3, "z": 0 },
+        { "x": 4, "y": 3, "z": 0 }
+    ],
+    "spawns": [
+        {
+            "creatureId": "town_guide",
+            "x": 6,
+            "y": 3,
+            "z": 0,
+            "respawn": 0
+        }
+    ],
+    "members": [
+        {
+            "profileId": "guardian_starter",
+            "name": "Talk Tester",
+            "isLeader": true,
+            "controlMode": "manual",
+            "strategyId": "pacifist"
+        }
+    ]
+}

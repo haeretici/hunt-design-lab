@@ -148,24 +148,27 @@
     },
     "loot": [
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 91920,
             "maxCount": 95
         },
         {
-            "id": 3139,
-            "chance": 29190
+            "chance": 29190,
+            "name": "wooden trash"
         },
         {
             "name": "red mushroom",
             "chance": 7700
         },
         {
-            "name": "health potion",
+            "name": "Health Potion",
+            "id": "health_potion",
             "chance": 5130
         },
         {
-            "name": "white mushroom",
+            "name": "White Mushroom",
+            "id": "white_mushroom",
             "chance": 5030,
             "maxCount": 2
         },
@@ -178,19 +181,23 @@
             "chance": 1800
         },
         {
-            "name": "strong health potion",
+            "name": "Strong Health Potion",
+            "id": "strong_health_potion",
             "chance": 1040
         },
         {
             "chance": 660,
-            "name": "dwarven ring"
+            "name": "Dwarven Ring",
+            "id": "dwarven_ring"
         },
         {
-            "name": "small emerald",
+            "name": "Small Emerald",
+            "id": "small_emerald",
             "chance": 620
         },
         {
-            "name": "marksman potion",
+            "name": "Marksman Potion",
+            "id": "marksman_potion",
             "chance": 100
         }
     ],

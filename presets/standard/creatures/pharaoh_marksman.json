@@ -153,30 +153,36 @@
     "race": "undead",
     "loot": [
         {
-            "name": "small diamond",
+            "name": "Small Diamond",
+            "id": "small_diamond",
             "chance": 7000,
             "maxCount": 3
         },
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 50000,
             "maxCount": 90
         },
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 50000,
             "maxCount": 70
         },
         {
-            "name": "yellow gem",
+            "name": "Yellow Gem",
+            "id": "yellow_gem",
             "chance": 5000
         },
         {
             "chance": 5000,
-            "name": "stealth ring"
+            "name": "Stealth Ring",
+            "id": "stealth_ring"
         },
         {
-            "name": "boots of haste",
+            "name": "Boots of Swiftness",
+            "id": "boots_of_swiftness",
             "chance": 1500
         },
         {
@@ -184,32 +190,38 @@
             "chance": 100000
         },
         {
-            "name": "arrow",
+            "name": "Arrow",
+            "id": "arrow",
             "chance": 10000,
             "maxCount": 21
         },
         {
-            "name": "poison arrow",
+            "name": "Poison Arrow",
+            "id": "poison_arrow",
             "chance": 10000,
             "maxCount": 20
         },
         {
             "chance": 10000,
             "maxCount": 15,
-            "name": "burst arrow"
+            "name": "Burst Arrow",
+            "id": "burst_arrow"
         },
         {
-            "name": "power bolt",
+            "name": "Power Bolt",
+            "id": "power_bolt",
             "chance": 10000,
             "maxCount": 3
         },
         {
-            "name": "onyx arrow",
+            "name": "Onyx Arrow",
+            "id": "onyx_arrow",
             "chance": 10000,
             "maxCount": 2
         },
         {
-            "name": "great health potion",
+            "name": "Great Health Potion",
+            "id": "great_health_potion",
             "chance": 7000
         }
     ],

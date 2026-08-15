@@ -92,7 +92,8 @@
     "race": "blood",
     "loot": [
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 100000,
             "maxCount": 60
         },
@@ -101,23 +102,27 @@
             "chance": 100000
         },
         {
-            "name": "cape",
+            "name": "Cape",
+            "id": "cape",
             "chance": 64500
         },
         {
             "chance": 41670,
-            "name": "wolf tooth chain"
+            "name": "Wolf Tooth Chain",
+            "id": "wolf_tooth_chain"
         },
         {
             "name": "broom",
             "chance": 37500
         },
         {
-            "name": "coat",
+            "name": "Coat",
+            "id": "coat",
             "chance": 37500
         },
         {
-            "name": "cookie",
+            "name": "Cookie",
+            "id": "cookie",
             "chance": 25000,
             "maxCount": 10
         },
@@ -131,6 +136,7 @@
         },
         {
             "name": "Withering Rod",
+            "id": "withering_rod",
             "chance": 2940
         }
     ],

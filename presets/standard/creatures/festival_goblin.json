@@ -86,8 +86,8 @@
     },
     "loot": [
         {
-            "id": 2639,
-            "chance": 4000
+            "chance": 4000,
+            "name": "picture"
         },
         {
             "chance": 5000,
@@ -100,14 +100,16 @@
         {
             "chance": 7000,
             "maxCount": 5,
-            "name": "snowball"
+            "name": "Snowball",
+            "id": "snowball"
         },
         {
             "name": "piggy bank",
             "chance": 1000
         },
         {
-            "name": "gold coin",
+            "name": "Gold Coin",
+            "id": "gold_coin",
             "chance": 22500,
             "maxCount": 22
         },
@@ -118,7 +120,8 @@
         },
         {
             "chance": 4000,
-            "name": "magic light wand"
+            "name": "Magic Light Wand",
+            "id": "magic_light_wand"
         },
         {
             "name": "blank rune",
@@ -133,7 +136,8 @@
             "name": "mirror"
         },
         {
-            "name": "scarf",
+            "name": "Scarf",
+            "id": "scarf",
             "chance": 4000
         },
         {
@@ -152,7 +156,8 @@
             "maxCount": 4
         },
         {
-            "name": "cookie",
+            "name": "Cookie",
+            "id": "cookie",
             "chance": 7000,
             "maxCount": 5
         },
@@ -176,8 +181,8 @@
             "maxCount": 2
         },
         {
-            "id": 5792,
-            "chance": 1000
+            "chance": 1000,
+            "name": "die"
         },
         {
             "name": "chicken feather",
