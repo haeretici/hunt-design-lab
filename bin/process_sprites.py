@@ -22,8 +22,9 @@ Pipeline per original PNG:
 
   With --opaque-alpha: skip chroma keying; alpha/ is an opaque RGBA copy of the
   original (full A=255). Used for terrain tiles and other full-bleed assets.
-  Overlay originals (…/overlays/original) refuse --opaque-alpha so icon/small/medium
-  keep PNG alpha.
+  Overlay originals (…/overlays/original) never chroma-key and never flatten:
+  alpha/ is a source RGBA copy so icon/small/medium keep PNG holes. --opaque-alpha
+  on an overlay folder is ignored (no flatten, no key fallback).
 """
 
 import sys
@@ -542,6 +543,11 @@ def opaque_alpha_copy(img: Image.Image) -> tuple[Image.Image, str]:
     return img, "opaque-copy"
 
 
+def preserve_source_alpha(img: Image.Image) -> tuple[Image.Image, str]:
+    """Full-size RGBA copy; keep source alpha. No chroma, no flatten."""
+    return img.convert("RGBA"), "source-alpha"
+
+
 def process_images(
     directory_path: str | Path,
     tolerance: float = 40.0,
@@ -554,14 +560,15 @@ def process_images(
 
     only_stems: if set, only process basenames (no .png) in this set (case-sensitive stem).
     opaque_alpha: if True, alpha is an opaque RGBA copy (no chroma key).
-    Overlay folders ignore opaque_alpha (keep existing alpha / chroma).
+    Overlay folders ignore opaque_alpha and skip chroma (keep source alpha).
     Returns (ok, skipped, errors).
     """
     base_path = Path(directory_path)
-    if opaque_alpha and is_overlays_original(base_path):
+    overlay_src = is_overlays_original(base_path)
+    if opaque_alpha and overlay_src:
         print(
             "[WARN] overlays refuse --opaque-alpha; "
-            "keeping existing-alpha / chroma so icon/small/medium stay transparent."
+            "keeping source alpha (no chroma, no flatten) so icon/small/medium stay transparent."
         )
         opaque_alpha = False
     ok = skipped = errors = 0
@@ -608,8 +615,10 @@ def process_images(
                     "expected 256x256 (or 1024x1024). Processing at current size."
                 )
 
-            # alpha: either opaque copy or background removal (keep native size).
-            if opaque_alpha:
+            # alpha: overlay source copy, opaque copy, or background removal.
+            if overlay_src:
+                alpha_img, key_label = preserve_source_alpha(img)
+            elif opaque_alpha:
                 alpha_img, key_label = opaque_alpha_copy(img)
             else:
                 alpha_img, key_label = remove_background(
@@ -702,6 +711,7 @@ def _print_usage() -> None:
         "  --force         Overwrite existing alpha/medium/retro/small/icon outputs\n"
         "  --only STEM     Process only this file stem (repeatable; not with --all)\n"
         "  --opaque-alpha  alpha/ is opaque RGBA copy (no chroma key) for this run\n"
+        "                  (ignored on overlays/original: source alpha is kept)\n"
         "  --fix-green-file  In-place: G-dominant spill (G>=50) → R=B=G (no reprocess)\n"
         "\n"
         "Outputs (siblings of original/):\n"

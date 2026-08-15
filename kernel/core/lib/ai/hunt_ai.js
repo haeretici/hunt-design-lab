@@ -883,6 +883,78 @@ function emitManualUseFail(owner, ctx, text) {
     });
 }
 
+/**
+ * Use a registered pad (ladder, or any stair/hole already underfoot).
+ * Standing on the pad hops now. Otherwise walk-then-use on the dest tile.
+ * @param {object} owner
+ * @param {object} cmd
+ * @param {object} ctx
+ */
+function executeManualUseStair(owner, cmd, ctx) {
+    if (!owner || !owner.tile || !ctx || !ctx.tileMap) {
+        emitManualUseFail(owner, ctx, 'You cannot use this.');
+        return;
+    }
+    const tileMap = ctx.tileMap;
+    const dest =
+        cmd && cmd.dest && cmd.dest.x != null && cmd.dest.y != null
+            ? {
+                  x: Math.round(Number(cmd.dest.x)),
+                  y: Math.round(Number(cmd.dest.y)),
+                  z: cmd.dest.z !== undefined ? cmd.dest.z : owner.tile.z
+              }
+            : {
+                  x: owner.tile.x,
+                  y: owner.tile.y,
+                  z: owner.tile.z
+              };
+
+    const onDest =
+        owner.tile.x === dest.x &&
+        owner.tile.y === dest.y &&
+        String(owner.tile.z) === String(dest.z);
+    if (onDest) {
+        if (!tryIntentionalStairHop(owner, ctx)) {
+            emitManualUseFail(owner, ctx, 'You cannot use this.');
+        }
+        return;
+    }
+
+    if (String(dest.z) !== String(owner.tile.z)) {
+        emitManualUseFail(owner, ctx, 'You cannot use this.');
+        return;
+    }
+    if (
+        typeof tileMap.isStair === 'function' &&
+        !tileMap.isStair(dest.x, dest.y, dest.z)
+    ) {
+        emitManualUseFail(owner, ctx, 'You cannot use this.');
+        return;
+    }
+
+    owner._manualDest = dest;
+    owner._pendingUseStair = true;
+    owner.path = [];
+    const stepOk = manualStepToward(owner, dest, ctx, { allowLongPath: true });
+    if (
+        owner.tile &&
+        owner.tile.x === dest.x &&
+        owner.tile.y === dest.y &&
+        String(owner.tile.z) === String(dest.z)
+    ) {
+        tryIntentionalStairHop(owner, ctx);
+        owner._pendingUseStair = false;
+        owner._manualDest = null;
+        owner.path = [];
+        return;
+    }
+    if (!stepOk && (!owner.path || owner.path.length === 0)) {
+        owner._pendingUseStair = false;
+        owner._manualDest = null;
+        emitManualUseFail(owner, ctx, 'There is no way.');
+    }
+}
+
 function executeManualUseItem(owner, cmd, ctx) {
     const targetEntity = resolveManualCommandTarget(owner, cmd, ctx);
     if (!targetEntity) {
@@ -1266,8 +1338,10 @@ function tryManualStairHop(owner, ctx, preferredDest) {
     const tileMap = ctx.tileMap;
     if (typeof tileMap.tryUseStair !== 'function') return false;
     if (
-        typeof tileMap.isStair === 'function' &&
-        !tileMap.isStair(owner.tile.x, owner.tile.y, owner.tile.z)
+        typeof tileMap.hopsOnStepAt === 'function'
+            ? !tileMap.hopsOnStepAt(owner.tile.x, owner.tile.y, owner.tile.z)
+            : typeof tileMap.isStair === 'function' &&
+              !tileMap.isStair(owner.tile.x, owner.tile.y, owner.tile.z)
     ) {
         return false;
     }
@@ -1281,10 +1355,38 @@ function tryManualStairHop(owner, ctx, preferredDest) {
             ? preferredDest
             : null;
     let hopped = tileMap.tryUseStair(owner, preferred);
-    // Preferred floor mismatch: still hop any pad underfoot (one-way portals)
+    // Preferred floor mismatch: still hop any step-pad underfoot (one-way portals)
     if (!hopped && preferred) {
         hopped = tileMap.tryUseStair(owner, null);
     }
+    if (!hopped) return false;
+    dropManualDestAfterFloorHop(owner, from.z);
+    emitManualStep(owner, ctx, from);
+    return true;
+}
+
+/**
+ * Intentional hop (Use / USE_STAIR): any registered pad, including ladders.
+ * @param {object} owner
+ * @param {object} ctx
+ * @returns {boolean}
+ */
+function tryIntentionalStairHop(owner, ctx) {
+    if (!owner || !owner.tile || !ctx || !ctx.tileMap) return false;
+    const tileMap = ctx.tileMap;
+    if (typeof tileMap.tryUseStair !== 'function') return false;
+    if (
+        typeof tileMap.isStair === 'function' &&
+        !tileMap.isStair(owner.tile.x, owner.tile.y, owner.tile.z)
+    ) {
+        return false;
+    }
+    const from = {
+        x: owner.tile.x,
+        y: owner.tile.y,
+        z: owner.tile.z
+    };
+    const hopped = tileMap.tryUseStair(owner, null);
     if (!hopped) return false;
     dropManualDestAfterFloorHop(owner, from.z);
     emitManualStep(owner, ctx, from);
@@ -1303,6 +1405,7 @@ function dropManualDestAfterFloorHop(owner, fromZ) {
     if (!owner || !owner.tile) return;
     if (String(owner.tile.z) === String(fromZ)) return;
     owner.path = [];
+    owner._pendingUseStair = false;
     const dest = owner._manualDest;
     if (!dest) return;
     if (
@@ -1338,27 +1441,31 @@ function manualStepToward(owner, dest, ctx, opts) {
     if (String(from.z) === String(dz)) {
         const moved = stepToward(owner, dest, tileMap, opts);
         if (moved) emitManualStep(owner, ctx, from);
-        // Landing on a death/rest portal pad: hop even without multi-z dest
         if (
             owner.tile &&
-            String(owner.tile.z) === String(from.z) &&
-            tryManualStairHop(owner, ctx, null)
+            String(owner.tile.z) !== String(from.z)
         ) {
+            dropManualDestAfterFloorHop(owner, from.z);
+            return true;
+        }
+        // Landing on a death/rest portal pad: hop even without multi-z dest
+        if (tryManualStairHop(owner, ctx, null)) {
             return true;
         }
         return moved;
     }
 
-    // Cross-floor: hop if already on the right pad
+    // Cross-floor: hop if already on a step-pad toward dest
     if (tryManualStairHop(owner, ctx, dest)) return true;
 
-    // Walk toward nearest pad on this floor that leads to dest floor
+    // Walk toward nearest step-pad on this floor (skip ladders)
     if (typeof tileMap.findStairToward === 'function') {
         const pad = tileMap.findStairToward(
             from.z,
             dz,
             from.x,
-            from.y
+            from.y,
+            { hopsOnStepOnly: true }
         );
         if (pad) {
             if (from.x === pad.x && from.y === pad.y) {
@@ -1417,6 +1524,7 @@ function consumeMemberCommand(owner, ctx) {
 function reenterPlayerBrain(player) {
     if (!player) return;
     player._manualDest = null;
+    player._pendingUseStair = false;
     player.path = [];
     if (!player.brain) {
         initPlayerAi(player);
@@ -1607,6 +1715,7 @@ function executeManualControl(owner, ctx) {
         } else if (cmd.type === 'STOP_AUTOWALK') {
             consumeCmd();
             owner._manualDest = null;
+            owner._pendingUseStair = false;
             owner.path = [];
         } else if (cmd.type === 'SET_TARGET') {
             consumeCmd();
@@ -1632,6 +1741,11 @@ function executeManualControl(owner, ctx) {
         } else if (cmd.type === 'CUSTOM_COMMAND') {
             consumeCmd();
             executeCustomCommand(owner, cmd, ctx);
+        } else if (cmd.type === 'USE_STAIR') {
+            if (isMoveUnlocked(owner)) {
+                consumeCmd();
+                executeManualUseStair(owner, cmd, ctx);
+            }
         } else if (cmd.type === 'MOVE_STEP' || cmd.type === 'START_AUTOWALK') {
             if (isMoveUnlocked(owner)) {
                 if (cmd.type === 'MOVE_STEP') {
@@ -1650,7 +1764,7 @@ function executeManualControl(owner, ctx) {
                             y: owner.tile.y,
                             z: owner.tile.z
                         };
-                        // Same-tile MOVE_STEP while on a portal pad: use stairs
+                        // Same-tile MOVE_STEP while on a step-pad: hop
                         if (
                             tx === from.x &&
                             ty === from.y &&
@@ -1668,14 +1782,22 @@ function executeManualControl(owner, ctx) {
                                 ctx.tileMap
                             );
                             if (moved) emitManualStep(owner, ctx, from);
-                            // Walk onto death/rest portal → hop (AI used Party stairs)
-                            tryManualStairHop(owner, ctx, null);
+                            if (
+                                owner.tile &&
+                                String(owner.tile.z) !== String(from.z)
+                            ) {
+                                dropManualDestAfterFloorHop(owner, from.z);
+                            } else {
+                                // Walk onto death/rest portal → hop
+                                tryManualStairHop(owner, ctx, null);
+                            }
                         }
                     }
                 } else {
                     consumeCmd();
                     if (cmd.dest && ctx && ctx.tileMap) {
                         owner._manualDest = cmd.dest;
+                        owner._pendingUseStair = false;
                         owner.path = [];
                         const stepOk = manualStepToward(
                             owner,
@@ -1712,6 +1834,10 @@ function executeManualControl(owner, ctx) {
             owner.tile.y === owner._manualDest.y &&
             String(owner.tile.z) === String(owner._manualDest.z)
         ) {
+            if (owner._pendingUseStair) {
+                tryIntentionalStairHop(owner, ctx);
+                owner._pendingUseStair = false;
+            }
             owner._manualDest = null;
             owner.path = [];
         } else {

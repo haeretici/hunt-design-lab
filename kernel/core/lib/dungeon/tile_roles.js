@@ -547,6 +547,7 @@ function hopDirOffset(dir) {
             return { dx: -1, dy: 0 };
         case 'east':
             return { dx: 1, dy: 0 };
+        case 'custom':
         default:
             return { dx: 0, dy: 0 };
     }

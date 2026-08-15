@@ -407,6 +407,10 @@ $cssUrl = $asset('build/app.css');
                         <input class="form-check-input" type="checkbox" id="filterOnlyModified">
                         <label class="form-check-label small text-secondary" for="filterOnlyModified" title="Show only pins added or edited since load/save">Modified</label>
                     </div>
+                    <div class="form-check mb-0">
+                        <input class="form-check-input" type="checkbox" id="showMapCenter">
+                        <label class="form-check-label small text-secondary" for="showMapCenter" title="Mark the center of the current viewport with a cross">Show Center</label>
+                    </div>
                     <input type="text" class="form-control form-control-sm bg-black border-secondary text-white ms-auto" placeholder="Filter id…" id="monster-name" style="width: 140px;" title="Filter overlay by creature id / label">
                 </div>
             </div>
@@ -520,7 +524,7 @@ $cssUrl = $asset('build/app.css');
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="<?= htmlspecialchars($asset('build/map-editor.bundle.js'), ENT_QUOTES, 'UTF-8') ?>?v=1.0.5"></script>
+<script src="<?= htmlspecialchars($asset('build/map-editor.bundle.js'), ENT_QUOTES, 'UTF-8') ?>?v=1.0.6"></script>
 <script>
 /**
  * Legacy Map wiki viewer.
@@ -977,6 +981,9 @@ document.addEventListener("DOMContentLoaded", () => {
     let selectedPaletteItem = null;
     let selectedMapSpawn = null;
     let selectedMapSpawns = [];
+    let selectedStairPad = null;
+    let pickStairDest = false;
+    let pendingStairDests = [];
     let selectionRect = null;
     let isSelecting = false;
     let wasDragging = false;
@@ -987,6 +994,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let hasUnsavedChanges = false;
     let viewOnlyNpcs = false;
     let viewOnlyModified = false;
+    let showMapCenter = false;
     let spawnClipboard = null;
     let lastMapTile = { x: 1129, y: 767 };
     let gotoSearchKey = '';
@@ -1243,7 +1251,10 @@ document.addEventListener("DOMContentLoaded", () => {
             console.warn('HdlTileMapEditor bundle missing');
             return null;
         }
-        if (tilemapSession && tilemapSession.cols > 0) return tilemapSession;
+        if (tilemapSession && tilemapSession.cols > 0) {
+            applyPendingStairDests();
+            return tilemapSession;
+        }
 
         const gen = mapLoadGen;
         if (sessionLoadPromise && sessionLoadGen === gen) {
@@ -1323,7 +1334,9 @@ document.addEventListener("DOMContentLoaded", () => {
         })();
 
         try {
-            return await sessionLoadPromise;
+            const sess = await sessionLoadPromise;
+            applyPendingStairDests();
+            return sess;
         } finally {
             if (sessionLoadGen === gen) sessionLoadPromise = null;
         }
@@ -1965,6 +1978,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 selectionRect = null;
                 selectedMapSpawns = [];
                 selectedMapSpawn = null;
+                if (pickStairDest) {
+                    pickStairDest = false;
+                    imageContainer.style.cursor = 'default';
+                } else {
+                    selectedStairPad = null;
+                }
                 renderSpawns();
                 renderSpawnProperties();
             }
@@ -2156,13 +2175,19 @@ document.addEventListener("DOMContentLoaded", () => {
                     selectedMapSpawns = [clickedSpawn];
                     selectedMapSpawn = clickedSpawn;
                     selectedPaletteItem = null;
+                    selectedStairPad = null;
+                    pickStairDest = false;
                     renderPaletteUI();
                     renderSpawnProperties();
                 } else {
                     selectedMapSpawns = [];
                     selectedMapSpawn = null;
+                    trySelectStairPadAt(Math.floor(clickX), Math.floor(clickY));
                     renderSpawnProperties();
                 }
+            } else {
+                trySelectStairPadAt(Math.floor(clickX), Math.floor(clickY));
+                renderSpawnProperties();
             }
         }
 
@@ -2177,6 +2202,24 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     imageContainer.addEventListener('mousedown', (e) => {
         if (!isMapEditReady()) return;
+        if (e.button === 0 && !isSpaceDown && pickStairDest && selectedStairPad) {
+            const rect = imageContainer.getBoundingClientRect();
+            const localX = Math.floor((e.clientX - rect.left + imageContainer.scrollLeft) / zoomValue);
+            const localY = Math.floor((e.clientY - rect.top + imageContainer.scrollTop) / zoomValue);
+            lastMapTile = { x: localX, y: localY };
+            const zEl = document.getElementById('pad-dest-z');
+            const destZ = zEl && zEl.value !== ''
+                ? Number(zEl.value)
+                : (selectedStairPad.to && selectedStairPad.to.z != null
+                    ? selectedStairPad.to.z
+                    : selectedStairPad.z);
+            applySelectedPadDest({ x: localX, y: localY, z: destZ });
+            pickStairDest = false;
+            imageContainer.style.cursor = 'default';
+            wasDragging = true;
+            e.preventDefault();
+            return;
+        }
         if (e.button === 0 && !isSpaceDown && (currentTool === 'eyedropper' || e.altKey)) {
             const rect = imageContainer.getBoundingClientRect();
             const localX = Math.floor((e.clientX - rect.left + imageContainer.scrollLeft) / zoomValue);
@@ -3001,6 +3044,13 @@ document.addEventListener("DOMContentLoaded", () => {
             scheduleMinimap();
         });
     }
+    const showMapCenterEl = document.getElementById('showMapCenter');
+    if (showMapCenterEl) {
+        showMapCenterEl.addEventListener('change', () => {
+            showMapCenter = !!showMapCenterEl.checked;
+            markDirty();
+        });
+    }
 
     function updateFloorCounts() {
         const filterText = monsterNameInput.value.toLowerCase().trim();
@@ -3453,6 +3503,44 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     /**
+     * HUD cross at the current viewport center (display space).
+     * @param {CanvasRenderingContext2D} overlayCtx
+     * @param {number} viewW
+     * @param {number} viewH
+     */
+    function drawMapCenterMark(overlayCtx, viewW, viewH) {
+        const screenX = viewW * 0.5;
+        const screenY = viewH * 0.5;
+        const arm = 18;
+        overlayCtx.save();
+        overlayCtx.lineCap = 'square';
+        overlayCtx.strokeStyle = '#1a0a12';
+        overlayCtx.lineWidth = 4;
+        overlayCtx.beginPath();
+        overlayCtx.moveTo(screenX - arm, screenY);
+        overlayCtx.lineTo(screenX + arm, screenY);
+        overlayCtx.moveTo(screenX, screenY - arm);
+        overlayCtx.lineTo(screenX, screenY + arm);
+        overlayCtx.stroke();
+        overlayCtx.strokeStyle = '#ff40a0';
+        overlayCtx.lineWidth = 2;
+        overlayCtx.beginPath();
+        overlayCtx.moveTo(screenX - arm, screenY);
+        overlayCtx.lineTo(screenX + arm, screenY);
+        overlayCtx.moveTo(screenX, screenY - arm);
+        overlayCtx.lineTo(screenX, screenY + arm);
+        overlayCtx.stroke();
+        overlayCtx.fillStyle = '#ff40a0';
+        overlayCtx.strokeStyle = '#1a0a12';
+        overlayCtx.lineWidth = 1;
+        overlayCtx.beginPath();
+        overlayCtx.arc(screenX, screenY, 2.5, 0, Math.PI * 2);
+        overlayCtx.fill();
+        overlayCtx.stroke();
+        overlayCtx.restore();
+    }
+
+    /**
      * Screen-space tools + spawns on the viewport display (after world blit).
      * @param {CanvasRenderingContext2D} dctx
      * @param {{ zoom: number, scrollLeft: number, scrollTop: number, viewWidth?: number, viewHeight?: number }} info
@@ -3491,6 +3579,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 overlayCtx.lineTo(viewW, screenY);
             }
             overlayCtx.stroke();
+        }
+
+        if (showMapCenter) {
+            drawMapCenterMark(overlayCtx, viewW, viewH);
         }
 
         if (selectionRect) {
@@ -3647,8 +3739,221 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    function cloneStairPadRow(row, z) {
+        if (!row) return null;
+        const to = row.to && row.to.x != null
+            ? { x: row.to.x | 0, y: row.to.y | 0, z: row.to.z }
+            : null;
+        return {
+            x: row.x | 0,
+            y: row.y | 0,
+            z: z != null ? z : row.z,
+            dir: row.dir || 'center',
+            type: row.type || 'stairs',
+            deltaZ: row.deltaZ != null ? row.deltaZ : 0,
+            to
+        };
+    }
+
+    function refreshSelectedStairPad() {
+        if (!selectedStairPad || !tilemapSession || typeof tilemapSession.findStairAt !== 'function') {
+            return;
+        }
+        if (String(tilemapSession.z) !== String(selectedStairPad.z)) return;
+        const row = tilemapSession.findStairAt(selectedStairPad.x, selectedStairPad.y);
+        selectedStairPad = row ? cloneStairPadRow(row, tilemapSession.z) : null;
+    }
+
+    function applyPendingStairDests() {
+        if (!tilemapSession || typeof tilemapSession.setStairDest !== 'function') return;
+        if (!pendingStairDests.length) return;
+        const z = tilemapSession.z;
+        const keep = [];
+        for (let i = 0; i < pendingStairDests.length; i++) {
+            const p = pendingStairDests[i];
+            if (String(p.padZ) !== String(z)) {
+                keep.push(p);
+                continue;
+            }
+            tilemapSession.setStairDest(p.padX, p.padY, p.to, { undo: false });
+        }
+        pendingStairDests = keep;
+        refreshSelectedStairPad();
+    }
+
+    function trySelectStairPadAt(x, y) {
+        pickStairDest = false;
+        if (!tilemapSession || typeof tilemapSession.findStairAt !== 'function') {
+            selectedStairPad = null;
+            return false;
+        }
+        const row = tilemapSession.findStairAt(x, y);
+        if (!row) {
+            selectedStairPad = null;
+            return false;
+        }
+        selectedStairPad = cloneStairPadRow(row, tilemapSession.z);
+        selectedMapSpawn = null;
+        selectedMapSpawns = [];
+        return true;
+    }
+
+    function applySelectedPadDest(to) {
+        const statusBar = document.getElementById('statusBar');
+        if (!selectedStairPad || !to) return { ok: false, reason: 'no_pad' };
+        const dest = {
+            x: Math.round(Number(to.x) || 0),
+            y: Math.round(Number(to.y) || 0),
+            z: to.z !== undefined && to.z !== null ? to.z : selectedStairPad.z
+        };
+        if (
+            dest.x === (selectedStairPad.x | 0) &&
+            dest.y === (selectedStairPad.y | 0) &&
+            String(dest.z) === String(selectedStairPad.z)
+        ) {
+            if (statusBar) statusBar.textContent = 'Hop dest cannot be the pad tile';
+            return { ok: false, reason: 'same_tile' };
+        }
+        if (
+            tilemapSession &&
+            typeof tilemapSession.setStairDest === 'function' &&
+            String(tilemapSession.z) === String(selectedStairPad.z)
+        ) {
+            const r = tilemapSession.setStairDest(selectedStairPad.x, selectedStairPad.y, dest);
+            if (!r.ok) {
+                if (statusBar) statusBar.textContent = 'Could not set hop dest (' + (r.reason || 'error') + ')';
+                return r;
+            }
+            selectedStairPad = cloneStairPadRow(r.row, tilemapSession.z);
+            if (statusBar) {
+                statusBar.textContent =
+                    'Hop dest ' + dest.x + ',' + dest.y + ',' + dest.z;
+            }
+            renderSpawnProperties();
+            return r;
+        }
+        pendingStairDests = pendingStairDests.filter((p) =>
+            !(p.padX === selectedStairPad.x && p.padY === selectedStairPad.y &&
+                String(p.padZ) === String(selectedStairPad.z))
+        );
+        pendingStairDests.push({
+            padX: selectedStairPad.x,
+            padY: selectedStairPad.y,
+            padZ: selectedStairPad.z,
+            to: dest
+        });
+        selectedStairPad.dir = 'custom';
+        selectedStairPad.to = dest;
+        if (statusBar) {
+            statusBar.textContent =
+                'Hop dest queued — return to floor ' + selectedStairPad.z + ' and Save';
+        }
+        renderSpawnProperties();
+        return { ok: true, pending: true };
+    }
+
+    function renderStairPadProperties() {
+        const propsContent = document.getElementById('propsContent');
+        if (!propsContent || !selectedStairPad) return;
+        const pad = selectedStairPad;
+        const to = pad.to || {};
+        const destX = to.x != null ? to.x : pad.x;
+        const destY = to.y != null ? to.y : pad.y;
+        const destZ = to.z != null ? to.z : pad.z;
+        const dz = pad.deltaZ != null ? pad.deltaZ : 0;
+        const dzLabel = dz < 0 ? 'z' + dz : dz > 0 ? 'z+' + dz : 'z+0';
+        const preview = (pad.dir || 'center') +
+            (pad.dir === 'custom' ? '' : ' · ' + dzLabel) +
+            ' → ' + destX + ', ' + destY + ', ' + destZ;
+        propsContent.innerHTML = `
+            <div class="mb-2">
+                <p class="fw-bold mb-1 text-white">Hop pad</p>
+                <div class="small text-secondary mb-2">${pad.x}, ${pad.y}, ${pad.z} · ${pad.type || 'stairs'}</div>
+                <div class="small font-monospace text-info mb-2">${preview}</div>
+                <label class="form-label small text-muted">Dest</label>
+                <div class="d-flex gap-1 mb-2">
+                    <input type="number" id="pad-dest-x" class="form-control form-control-sm bg-black border-secondary text-white" value="${destX}" title="Dest X">
+                    <input type="number" id="pad-dest-y" class="form-control form-control-sm bg-black border-secondary text-white" value="${destY}" title="Dest Y">
+                    <input type="number" id="pad-dest-z" class="form-control form-control-sm bg-black border-secondary text-white" value="${destZ}" title="Dest Z">
+                </div>
+                <div class="d-flex flex-wrap gap-1">
+                    <button type="button" class="btn btn-sm btn-primary" id="pad-dest-apply">Apply</button>
+                    <button type="button" class="btn btn-sm ${pickStairDest ? 'btn-warning' : 'btn-outline-secondary'}" id="pad-dest-pick">Pick dest</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" id="pad-dest-reset">Reset to dir</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" id="pad-dest-goto">Goto dest</button>
+                </div>
+            </div>`;
+        const applyBtn = document.getElementById('pad-dest-apply');
+        if (applyBtn) {
+            applyBtn.addEventListener('click', () => {
+                const xEl = document.getElementById('pad-dest-x');
+                const yEl = document.getElementById('pad-dest-y');
+                const zEl = document.getElementById('pad-dest-z');
+                applySelectedPadDest({
+                    x: xEl ? Number(xEl.value) : destX,
+                    y: yEl ? Number(yEl.value) : destY,
+                    z: zEl && zEl.value !== '' ? Number(zEl.value) : destZ
+                });
+            });
+        }
+        const pickBtn = document.getElementById('pad-dest-pick');
+        if (pickBtn) {
+            pickBtn.addEventListener('click', () => {
+                pickStairDest = !pickStairDest;
+                imageContainer.style.cursor = pickStairDest ? 'crosshair' : 'default';
+                const sb = document.getElementById('statusBar');
+                if (sb) {
+                    sb.textContent = pickStairDest
+                        ? 'Click a tile for hop dest (z from Dest field)'
+                        : 'Ready';
+                }
+                renderStairPadProperties();
+            });
+        }
+        const resetBtn = document.getElementById('pad-dest-reset');
+        if (resetBtn) {
+            resetBtn.addEventListener('click', () => {
+                pickStairDest = false;
+                if (
+                    tilemapSession &&
+                    typeof tilemapSession.resetStairDest === 'function' &&
+                    String(tilemapSession.z) === String(pad.z)
+                ) {
+                    const r = tilemapSession.resetStairDest(pad.x, pad.y);
+                    if (r.ok) {
+                        selectedStairPad = r.row
+                            ? cloneStairPadRow(r.row, tilemapSession.z)
+                            : null;
+                    }
+                } else {
+                    selectedStairPad.dir = 'center';
+                    selectedStairPad.to = null;
+                }
+                renderSpawnProperties();
+            });
+        }
+        const gotoBtn = document.getElementById('pad-dest-goto');
+        if (gotoBtn) {
+            gotoBtn.addEventListener('click', () => {
+                const xEl = document.getElementById('pad-dest-x');
+                const yEl = document.getElementById('pad-dest-y');
+                const zEl = document.getElementById('pad-dest-z');
+                const gx = xEl ? Number(xEl.value) : destX;
+                const gy = yEl ? Number(yEl.value) : destY;
+                const gz = zEl && zEl.value !== '' ? Number(zEl.value) : destZ;
+                if (typeof runGotoQuery === 'function') {
+                    runGotoQuery(gx + ',' + gy + ',' + gz);
+                }
+            });
+        }
+    }
+
     function renderSpawnProperties() {
         const propsContent = document.getElementById('propsContent');
+        if (selectedStairPad) {
+            renderStairPadProperties();
+            return;
+        }
 
         if (selectedMapSpawns.length === 0 && !selectedMapSpawn) {
             propsContent.innerHTML = `<div class="small text-muted">Select an object to view properties.</div>`;

@@ -353,6 +353,42 @@ print(is_overlays_original('/tmp/assets/sprites/rpg_fantasy/tiles/original'))
     assert.strictEqual(out[1], 'False');
 });
 
+test('process_sprites keeps overlay source alpha (no chroma, no flatten)', () => {
+    const py = `
+import sys, tempfile
+from pathlib import Path
+from PIL import Image
+sys.path.insert(0, ${JSON.stringify(path.join(ROOT, 'bin'))})
+from process_sprites import process_images, preserve_source_alpha
+
+td = Path(tempfile.mkdtemp())
+orig = td / 'overlays' / 'original'
+orig.mkdir(parents=True)
+hole = Image.new('RGBA', (256, 256), (0, 0, 0, 0))
+for y in range(100, 156):
+    for x in range(100, 156):
+        hole.putpixel((x, y), (196, 120, 58, 255))
+hole.save(orig / 'Hole.png')
+fill = Image.new('RGBA', (256, 256), (196, 120, 58, 255))
+fill.save(orig / 'Fill.png')
+ok, skipped, errors = process_images(str(orig), force=True, opaque_alpha=True)
+assert errors == 0 and ok == 2, (ok, skipped, errors)
+alpha_dir = td / 'overlays' / 'alpha'
+h = Image.open(alpha_dir / 'Hole.png').convert('RGBA')
+f = Image.open(alpha_dir / 'Fill.png').convert('RGBA')
+assert h.getpixel((0, 0))[3] == 0
+assert h.getpixel((128, 128)) == (196, 120, 58, 255)
+assert f.getpixel((0, 0)) == (196, 120, 58, 255)
+assert f.getpixel((128, 128)) == (196, 120, 58, 255)
+copied, label = preserve_source_alpha(hole)
+assert label == 'source-alpha' and copied.getpixel((0, 0))[3] == 0
+print('ok')
+`;
+    const out = execFileSync('python3', ['-c', py], { encoding: 'utf8' });
+    assert.ok(out.includes('overlays refuse --opaque-alpha'));
+    assert.ok(out.trim().endsWith('ok'));
+});
+
 if (failed) {
     console.error(`overlay_kind: ${failed} failed, ${passed} passed`);
     process.exit(1);

@@ -3463,6 +3463,23 @@ function bindInventoryPanel(opts) {
                 continue;
             }
 
+            if (id === 'use_stair') {
+                addItem(entry.label || 'Use', () => {
+                    if (!Array.isArray(player.commandQueue)) {
+                        player.commandQueue = [];
+                    }
+                    player.commandQueue.push({
+                        type: 'USE_STAIR',
+                        dest:
+                            entry.dest ||
+                            menuIntent.tile ||
+                            tile ||
+                            null
+                    });
+                });
+                continue;
+            }
+
             if (id === 'use') {
                 addItem(entry.label || 'Use', () => {
                     if (!Array.isArray(player.commandQueue)) {

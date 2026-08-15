@@ -1027,6 +1027,112 @@ function testWallWangHopSkipAndEyedropper() {
     log('wall wang hop skip + eyedropper ok');
 }
 
+function testExplicitStairDest() {
+    const roles = roleCatalog();
+    const session = createEditorSession({ cols: 12, rows: 12, z: 7, roleCatalog: roles });
+    const stairs = {
+        catalogId: 'test_stairs',
+        roleId: 'stairs_up',
+        kind: 'tiles',
+        subLayer: 'vertical',
+        hop: { dir: 'north', deltaZ: -1 }
+    };
+    session.selectStamp(stairs);
+    session.setActiveSubLayer('vertical');
+    session.beginStroke();
+    session.paintAt(5, 5, { stamp: stairs, subLayer: 'vertical' });
+    session.endStroke();
+
+    const derived = session.findStairAt(5, 5);
+    assert.ok(derived);
+    assert.strictEqual(derived.dir, 'north');
+    assert.strictEqual(derived.to.x, 5);
+    assert.strictEqual(derived.to.y, 4);
+    assert.strictEqual(String(derived.to.z), '6');
+    assert.ok(!stairs.hop.to, 'stamp hop does not store dest');
+
+    const locked = session.setStairDest(5, 5, { x: 1, y: 2, z: 11 });
+    assert.ok(locked.ok);
+    assert.strictEqual(locked.row.dir, 'custom');
+    assert.strictEqual(locked.row.to.x, 1);
+    assert.strictEqual(locked.row.to.y, 2);
+    assert.strictEqual(String(locked.row.to.z), '11');
+    assert.strictEqual(locked.row.deltaZ, 4);
+
+    const same = session.setStairDest(5, 5, { x: 5, y: 5, z: 7 });
+    assert.ok(!same.ok);
+    assert.strictEqual(same.reason, 'same_tile');
+
+    const missing = session.setStairDest(0, 0, { x: 1, y: 1, z: 8 });
+    assert.ok(!missing.ok);
+    assert.strictEqual(missing.reason, 'no_pad');
+
+    // Rebake the pad cell (repaint same stamp) — explicit dest stays.
+    session.beginStroke();
+    session.paintAt(5, 5, { stamp: stairs, subLayer: 'vertical' });
+    session.endStroke();
+    const afterPaint = session.findStairAt(5, 5);
+    assert.ok(afterPaint);
+    assert.strictEqual(afterPaint.dir, 'custom');
+    assert.strictEqual(afterPaint.to.x, 1);
+    assert.strictEqual(afterPaint.to.y, 2);
+    assert.strictEqual(String(afterPaint.to.z), '11');
+
+    session.bakeAll();
+    const afterAll = session.findStairAt(5, 5);
+    assert.strictEqual(afterAll.dir, 'custom');
+    assert.strictEqual(String(afterAll.to.z), '11');
+
+    const reset = session.resetStairDest(5, 5);
+    assert.ok(reset.ok);
+    const derivedAgain = session.findStairAt(5, 5);
+    assert.ok(derivedAgain);
+    assert.notStrictEqual(derivedAgain.dir, 'custom');
+    assert.strictEqual(derivedAgain.to.x, 5);
+    assert.strictEqual(derivedAgain.to.y, 4);
+    assert.strictEqual(String(derivedAgain.to.z), '6');
+
+    session.undo();
+    const undone = session.findStairAt(5, 5);
+    assert.strictEqual(undone.dir, 'custom');
+    assert.strictEqual(String(undone.to.z), '11');
+
+    const sameZ = session.setStairDest(5, 5, { x: 8, y: 8, z: 7 });
+    assert.ok(sameZ.ok);
+    assert.strictEqual(sameZ.row.to.x, 8);
+    assert.strictEqual(sameZ.row.to.y, 8);
+    assert.strictEqual(String(sameZ.row.to.z), '7');
+
+    // Hybrid-only pad (no vertical stamp): reset must not drop the row.
+    const hybrid = createEditorSession({
+        cols: 6,
+        rows: 6,
+        z: 7,
+        roleCatalog: roles
+    });
+    hybrid.floor.stairs = [
+        {
+            x: 2,
+            y: 2,
+            z: 7,
+            dir: 'custom',
+            type: 'stairs',
+            deltaZ: 4,
+            to: { x: 0, y: 0, z: 11 }
+        }
+    ];
+    const hyReset = hybrid.resetStairDest(2, 2);
+    assert.ok(hyReset.ok);
+    const hyRow = hybrid.findStairAt(2, 2);
+    assert.ok(hyRow, 'hybrid pad survives reset');
+    assert.notStrictEqual(hyRow.dir, 'custom');
+    assert.strictEqual(hyRow.to.x, 2);
+    assert.strictEqual(hyRow.to.y, 2);
+    assert.strictEqual(String(hyRow.to.z), '11');
+
+    log('explicit stair dest + rebake preserve ok');
+}
+
 function main() {
     testUiOrderAndFlags();
     testArtSetStamps();
@@ -1045,6 +1151,7 @@ function main() {
     testWangBucketRawAndPaste();
     testWallWangResolve();
     testWallWangHopSkipAndEyedropper();
+    testExplicitStairDest();
     console.log('tilemap_editor: ok');
 }
 

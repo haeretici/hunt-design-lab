@@ -1372,6 +1372,68 @@ function applyHybridFloorDelta(z, deltaZ) {
  *   deltaZ: number
  * }|null}
  */
+/** Cardinal hop dirs used as paint-default offsets. `custom` = explicit `to`. */
+const EDITOR_HOP_DIRS = { center: 1, north: 1, south: 1, east: 1, west: 1 };
+
+/**
+ * Normalize an authored dest tile. Missing x/y → null.
+ * @param {*} to
+ * @param {string|number|null|undefined} [fallbackZ]
+ * @returns {{ x: number, y: number, z: string|number }|null}
+ */
+function normalizeEditorStairDest(to, fallbackZ) {
+    if (!to || typeof to !== 'object') return null;
+    if (to.x == null || to.y == null) return null;
+    const z =
+        to.z !== undefined && to.z !== null
+            ? to.z
+            : fallbackZ !== undefined
+              ? fallbackZ
+              : 0;
+    return {
+        x: Math.round(Number(to.x) || 0),
+        y: Math.round(Number(to.y) || 0),
+        z
+    };
+}
+
+/**
+ * Whether this hybrid row's dest is instance-locked (`dir: custom` or a
+ * `to` that is not the dir+deltaZ offset). Derived pads stay unlocked so a
+ * stamp dir change still updates dest on rebake.
+ * @param {*} row
+ * @returns {boolean}
+ */
+function isExplicitEditorStairDest(row) {
+    if (!row || typeof row !== 'object') return false;
+    const dirRaw =
+        row.dir != null ? String(row.dir).trim().toLowerCase() : '';
+    if (dirRaw === 'custom') return true;
+    if (!row.to || row.to.x == null || row.to.y == null) return false;
+    const derived = resolveEditorStairLink({
+        x: row.x,
+        y: row.y,
+        z: row.z,
+        dir: dirRaw && dirRaw !== 'custom' ? dirRaw : 'center',
+        type: row.type,
+        deltaZ: row.deltaZ,
+        to: null
+    });
+    const to = normalizeEditorStairDest(
+        row.to,
+        row.z != null && row.deltaZ != null
+            ? applyHybridFloorDelta(row.z, Number(row.deltaZ) || 0)
+            : row.z
+    );
+    if (!to) return false;
+    if (!derived) return true;
+    return (
+        derived.to.x !== to.x ||
+        derived.to.y !== to.y ||
+        String(derived.to.z) !== String(to.z)
+    );
+}
+
 function resolveEditorStairLink(row) {
     if (!row || typeof row !== 'object') return null;
 
@@ -1387,8 +1449,12 @@ function resolveEditorStairLink(row) {
         row.dir != null
             ? String(row.dir).trim().toLowerCase()
             : 'center';
-    const dirs = { center: 1, north: 1, south: 1, east: 1, west: 1 };
-    const dir = dirs[dirRaw] ? dirRaw : 'center';
+    const isCustom = dirRaw === 'custom';
+    const dir = isCustom
+        ? 'custom'
+        : EDITOR_HOP_DIRS[dirRaw]
+          ? dirRaw
+          : 'center';
     const off = hopDirOffset(dir);
     const deltaZ =
         row.deltaZ != null && Number.isFinite(Number(row.deltaZ))
@@ -1406,6 +1472,9 @@ function resolveEditorStairLink(row) {
                     ? toRaw.z
                     : applyHybridFloorDelta(from.z, deltaZ)
         };
+    } else if (isCustom) {
+        // custom without to is not a hop
+        return null;
     } else {
         to = {
             x: from.x + off.dx,
@@ -1855,6 +1924,8 @@ module.exports = {
     bakeHybridPack,
     loadHybridOntoTileMap,
     resolveEditorStairLink,
+    isExplicitEditorStairDest,
+    normalizeEditorStairDest,
     collectHybridStairDestFloors,
     collectFloorVerticals,
     bootstrapFloorFromPathPng,

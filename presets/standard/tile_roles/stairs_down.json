@@ -1,7 +1,7 @@
 {
   "id": "stairs_down",
   "label": "Stairs (down)",
-  "notes": "Walkable stairs down. Floor down is z+1. STAIR flag + vertical link.",
+  "notes": "Walkable stairs down. Floor down is z+1. STAIR flag + vertical link. STAIR | NO_CREATURE (2 | 64) = 66.",
   "kindHints": ["tiles"],
   "catalogCategories": ["special"],
   "render": {
@@ -12,7 +12,7 @@
   "influence": {
     "friction": 100,
     "sight": 0,
-    "flags": 2,
+    "flags": 66,
     "walkMode": "open",
     "sightMode": "clear"
   },

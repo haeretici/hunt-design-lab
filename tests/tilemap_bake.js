@@ -50,6 +50,7 @@ const {
     bakeHybridPack,
     loadHybridOntoTileMap,
     resolveEditorStairLink,
+    isExplicitEditorStairDest,
     collectHybridStairDestFloors,
     bootstrapFloorFromPathPng,
     resolveMapLoad,
@@ -816,6 +817,144 @@ function testEditorStairExplicitBidirectional() {
     log('editor stair explicit bidirectional ok');
 }
 
+function testEditorStairCustomDest() {
+    const center = resolveEditorStairLink({
+        x: 4,
+        y: 4,
+        z: 7,
+        dir: 'center',
+        type: 'stairs',
+        deltaZ: -1,
+        to: null
+    });
+    assert.ok(center);
+    assert.strictEqual(center.to.x, 4);
+    assert.strictEqual(center.to.y, 4);
+    assert.strictEqual(center.to.z, 6);
+
+    const custom = resolveEditorStairLink({
+        x: 4,
+        y: 4,
+        z: 7,
+        dir: 'custom',
+        type: 'stairs',
+        deltaZ: 0,
+        to: { x: 20, y: 8, z: 11 }
+    });
+    assert.ok(custom);
+    assert.strictEqual(custom.dir, 'custom');
+    assert.strictEqual(custom.to.x, 20);
+    assert.strictEqual(custom.to.y, 8);
+    assert.strictEqual(custom.to.z, 11);
+    assert.strictEqual(custom.exitDx, 0);
+    assert.strictEqual(custom.exitDy, 0);
+    assert.strictEqual(custom.bidirectional, false);
+
+    const missing = resolveEditorStairLink({
+        x: 4,
+        y: 4,
+        z: 7,
+        dir: 'custom',
+        type: 'stairs',
+        to: null
+    });
+    assert.strictEqual(missing, null, 'custom without to is not a hop');
+
+    const sameTile = resolveEditorStairLink({
+        x: 4,
+        y: 4,
+        z: 7,
+        dir: 'custom',
+        to: { x: 4, y: 4, z: 7 }
+    });
+    assert.strictEqual(sameTile, null);
+
+    const sameFloor = resolveEditorStairLink({
+        x: 4,
+        y: 4,
+        z: 7,
+        dir: 'custom',
+        to: { x: 1, y: 1, z: 7 }
+    });
+    assert.ok(sameFloor);
+    assert.strictEqual(sameFloor.to.x, 1);
+    assert.strictEqual(sameFloor.to.z, 7);
+
+    assert.strictEqual(
+        isExplicitEditorStairDest({
+            x: 4,
+            y: 4,
+            z: 7,
+            dir: 'north',
+            deltaZ: -1,
+            to: { x: 4, y: 3, z: 6 }
+        }),
+        false,
+        'derived north dest is not locked'
+    );
+    assert.ok(
+        isExplicitEditorStairDest({
+            x: 4,
+            y: 4,
+            z: 7,
+            dir: 'center',
+            deltaZ: -1,
+            to: { x: 20, y: 8, z: 11 }
+        }),
+        'non-offset to is treated as explicit'
+    );
+    assert.ok(
+        isExplicitEditorStairDest({
+            x: 4,
+            y: 4,
+            z: 7,
+            dir: 'custom',
+            to: { x: 20, y: 8, z: 11 }
+        })
+    );
+
+    const roles = roleCatalog();
+    const cols = 6;
+    const rows = 6;
+    const n = cols * rows;
+    const floor = createEmptyTileMapFloor(cols, rows, { z: 7 });
+    floor.friction = new Uint8Array(n).fill(DEFAULT_OPEN_FRICTION);
+    floor.sight = new Uint8Array(n);
+    floor.flags = new Uint8Array(n);
+    floor.flags[4 * cols + 3] = TILE_FLAG_STAIR;
+    floor.stairs = [
+        {
+            x: 3,
+            y: 4,
+            z: 7,
+            dir: 'custom',
+            type: 'stairs',
+            deltaZ: 4,
+            to: { x: 1, y: 2, z: 11 }
+        }
+    ];
+    const pack = normalizeHybridPack({
+        id: 'editor_custom',
+        floors: [floor]
+    });
+    assert.deepStrictEqual(collectHybridStairDestFloors(pack), [11]);
+    const map = new TileMap();
+    map.loadFloorFromFriction(
+        11,
+        cols,
+        rows,
+        new Uint8Array(n).fill(DEFAULT_OPEN_FRICTION)
+    );
+    loadHybridOntoTileMap(map, pack, { roleCatalog: roles });
+    const st = map.getStair(3, 4, 7);
+    assert.ok(st);
+    assert.strictEqual(st.x, 1);
+    assert.strictEqual(st.y, 2);
+    assert.strictEqual(String(st.z), '11');
+    assert.ok(!map.isStair(1, 2, 11), 'custom dest is one-way');
+    log('editor stair custom dest ok');
+}
+
 function testMergedPackKeepsSpawns() {
     const cols = 4;
     const rows = 4;
@@ -870,6 +1009,7 @@ async function main() {
     testOverrideMaskOnBake();
     testEditorStairsLoadWithoutRebake();
     testEditorStairExplicitBidirectional();
+    testEditorStairCustomDest();
     await testPngBootstrapAndExport();
     await testSimulatorHybridLoad();
     await testSimulatorLoadsStairDestFloor();

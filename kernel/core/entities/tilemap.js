@@ -109,7 +109,8 @@ const SIGHT_CLEAR = 0;
  * Tile flag bits on layer.flags (parallel Uint8Array).
  * Bits stay independent; "Protection Zone" is a package of NO_CAST|NO_CREATURE,
  * not a single magic bit. STAIR/LADDER/HOLE/ROPE/SHOVEL are markers only —
- * hops still need the stair registry (addStair). Same values as tile_roles.js
+ * hops still need the stair registry (addStair). Hop-on-step vs Use is
+ * hopsOnStep(pad.type), not the flag bit. Same values as tile_roles.js
  * / presets and the flag table in docs/08.
  */
 const TILE_FLAG_NO_CAST = 1 << 0; // 1 — no attack/cast affect tile; standing blocks cast
@@ -134,6 +135,20 @@ const VERTICAL_TYPE_FLAGS = {
     rope: TILE_FLAG_ROPE_SPOT,
     shovel: TILE_FLAG_SHOVEL_SPOT
 };
+
+/**
+ * Whether a registered pad of this type hops when a player lands on it.
+ * `stairs` / `hole` (and untyped legacy / portal pads) hop on step.
+ * `ladder` / `rope` / `shovel` stay until Use (`USE_STAIR`) or an
+ * intentional `tryUseStair` (followLongPath / party hop).
+ * @param {string|null|undefined} type
+ * @returns {boolean}
+ */
+function hopsOnStep(type) {
+    if (type == null || type === '') return true;
+    const t = String(type).trim().toLowerCase();
+    return t === 'stairs' || t === 'hole';
+}
 
 /**
  * Reverse hop facing for bidirectional stair links.
@@ -863,6 +878,20 @@ class TileMap extends GameObject {
     }
 
     /**
+     * Whether a player landing on (x,y,z) should hop immediately.
+     * Requires a registered pad whose type is hopsOnStep.
+     * @param {number} x
+     * @param {number} y
+     * @param {string|number} z
+     * @returns {boolean}
+     */
+    hopsOnStepAt(x, y, z) {
+        const row = this.getStair(x, y, z);
+        if (!row) return false;
+        return hopsOnStep(row.type);
+    }
+
+    /**
      * List directed stair pads as { from, to } rows.
      * @returns {{ from: {x:number,y:number,z:string|number}, to: {x:number,y:number,z:string|number, dir?: string|null, link?: string|null} }[]}
      */
@@ -923,6 +952,22 @@ class TileMap extends GameObject {
     }
 
     /**
+     * Player hop-on-step: if standing on a stairs/hole pad, tryUseStair.
+     * Ladders and rope/shovel pads are skipped. Clears leftover same-floor path.
+     * @param {{ id?: number, tile?: { x: number, y: number, z: string|number }, path?: object[], type?: string }} entity
+     * @returns {boolean}
+     */
+    tryAutoStairHop(entity) {
+        if (!entity || !entity.tile || !isPlayerEntity(entity)) return false;
+        if (!this.hopsOnStepAt(entity.tile.x, entity.tile.y, entity.tile.z)) {
+            return false;
+        }
+        const hopped = this.tryUseStair(entity, null);
+        if (hopped && Array.isArray(entity.path)) entity.path = [];
+        return hopped;
+    }
+
+    /**
      * Nearest free walkable tile around (x,y,z) that `entity` can enter.
      * Spiral by Chebyshev ring (r=0 exact first). Generic helper — **not**
      * used by stairs (exact dest only).
@@ -965,9 +1010,11 @@ class TileMap extends GameObject {
      * @param {string|number} toZ
      * @param {number} [nearX=0]
      * @param {number} [nearY=0]
+     * @param {{ hopsOnStepOnly?: boolean }} [opts]
      * @returns {{ x: number, y: number, z: string|number, dest: object }|null}
      */
-    findStairToward(fromZ, toZ, nearX, nearY) {
+    findStairToward(fromZ, toZ, nearX, nearY, opts) {
+        const hopsOnStepOnly = !!(opts && opts.hopsOnStepOnly);
         const nx = nearX != null ? Math.round(nearX) : 0;
         const ny = nearY != null ? Math.round(nearY) : 0;
         let best = null;
@@ -983,6 +1030,7 @@ class TileMap extends GameObject {
             if (String(fz) !== String(fromZ)) continue;
             const dest = this.stairs[k];
             if (!dest || String(dest.z) !== String(toZ)) continue;
+            if (hopsOnStepOnly && !hopsOnStep(dest.type)) continue;
             const d = Math.abs(fx - nx) + Math.abs(fy - ny);
             if (d < bestD) {
                 bestD = d;
@@ -1703,6 +1751,10 @@ class TileMap extends GameObject {
 
         entity.tile = { x: ix, y: iy, z };
         this._finalizeTileMove(entity, prev);
+        const reason = opts && opts.reason;
+        if (reason !== 'stair') {
+            this.tryAutoStairHop(entity);
+        }
         return true;
     }
 
@@ -3508,6 +3560,7 @@ module.exports = {
     defaultSightFromFriction,
     stairKey,
     reverseHopDir,
+    hopsOnStep,
     registerVerticalFromPlacement,
     normalizePlacementVertical,
     resolveTilemapViewport,

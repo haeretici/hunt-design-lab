@@ -841,6 +841,77 @@ test('applyCommandIntents queues SET_TARGET and leaves menu', () => {
     assert.strictEqual(remaining[0].type, 'OPEN_CONTEXT_MENU');
 });
 
+test('applyCommandIntents USE_STAIR queues command', () => {
+    const player = makePlayer();
+    const remaining = applyCommandIntents(
+        player,
+        [{ type: 'USE_STAIR', dest: { x: 2, y: 3, z: 0 } }],
+        {}
+    );
+    assert.strictEqual(remaining.length, 0);
+    assert.strictEqual(player.commandQueue[0].type, 'USE_STAIR');
+    assert.deepStrictEqual(player.commandQueue[0].dest, { x: 2, y: 3, z: 0 });
+});
+
+test('ladder pad hit is Use (not hop-on-step); stair pad is not', () => {
+    const player = makePlayer({ tile: { x: 2, y: 2, z: 0 } });
+    const map = new TileMap('mouse_ladders');
+    const open = new Uint8Array(25);
+    open.fill(100);
+    map.loadFloorFromFriction(0, 5, 5, open);
+    map.addStair(
+        { x: 1, y: 1, z: 0 },
+        { x: 1, y: 1, z: 1 },
+        { type: 'ladder' }
+    );
+    map.addStair(
+        { x: 3, y: 1, z: 0 },
+        { x: 3, y: 1, z: 1 },
+        { type: 'stairs' }
+    );
+    const sim = makeSim({ tileMap: map });
+
+    const ladderHit = resolveCanvasHit({
+        sim,
+        player,
+        tile: { x: 1, y: 1, z: 0 },
+        itemDb
+    });
+    assert.strictEqual(ladderHit.useStair, true);
+    const ladderEntries = buildCanvasContextMenuEntries(ladderHit);
+    assert.ok(ladderEntries.some((e) => e.id === 'use_stair'));
+
+    const classicRmb = processMouseAction(
+        baseInput(ladderHit, { button: 'right', mode: 1 })
+    );
+    assert.strictEqual(classicRmb[0].type, 'USE_STAIR');
+
+    const smartLmb = processMouseAction(
+        baseInput(ladderHit, { button: 'left', mode: 2 })
+    );
+    assert.strictEqual(smartLmb[0].type, 'USE_STAIR');
+
+    const regularCtrl = processMouseAction(
+        baseInput(ladderHit, {
+            button: 'left',
+            mode: 0,
+            modifiers: { ctrl: true }
+        })
+    );
+    assert.strictEqual(regularCtrl[0].type, 'USE_STAIR');
+
+    const stairHit = resolveCanvasHit({
+        sim,
+        player,
+        tile: { x: 3, y: 1, z: 0 },
+        itemDb
+    });
+    assert.strictEqual(stairHit.useStair, false);
+    assert.ok(
+        !buildCanvasContextMenuEntries(stairHit).some((e) => e.id === 'use_stair')
+    );
+});
+
 test('applyCommandIntents USE_ITEM queues command', () => {
     const player = makePlayer();
     const remaining = applyCommandIntents(

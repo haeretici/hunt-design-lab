@@ -1,7 +1,7 @@
 {
   "id": "stairs_up",
   "label": "Stairs (up)",
-  "notes": "Walkable stair/ladder pad. Floor up is z-1. Registers stair link on bake (Phase 2+).",
+  "notes": "Walkable stair/ladder pad. Floor up is z-1. Registers stair link on bake (Phase 2+). STAIR | NO_CREATURE (2 | 64) = 66.",
   "kindHints": ["tiles"],
   "catalogCategories": ["special"],
   "render": {
@@ -12,7 +12,7 @@
   "influence": {
     "friction": 100,
     "sight": 0,
-    "flags": 2,
+    "flags": 66,
     "walkMode": "open",
     "sightMode": "clear"
   },

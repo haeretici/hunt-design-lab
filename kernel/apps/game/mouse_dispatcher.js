@@ -28,6 +28,7 @@ const {
     isTalkableNpc,
     isAttackableCreature
 } = require('../../core/lib/npc/flags.js');
+const { hopsOnStep } = require('../../core/entities/tilemap.js');
 
 /** Browse Field virtual capacity (legacy create size 30). */
 const BROWSE_FIELD_CAPACITY = 30;
@@ -221,10 +222,15 @@ function resolveCanvasHit(opts) {
         ? listBrowsableStackUids(ground, x, y, z, itemDb)
         : [];
 
+    const stair = resolveHitStair(sim, x, y, z);
+    const useStair = !!(stair && !hopsOnStep(stair.type));
+
     return {
         x,
         y,
         z,
+        stair,
+        useStair,
         creature,
         creatureId: creature ? creature.id : null,
         /** Stage 6a: true when creature is talkable NPC (content flags). */
@@ -242,6 +248,35 @@ function resolveCanvasHit(opts) {
         rawTopImmovable,
         isPlayerTile
     };
+}
+
+/**
+ * Registered pad under the hit tile, or null.
+ * @param {object|null|undefined} sim
+ * @param {number} x
+ * @param {number} y
+ * @param {string|number} z
+ * @returns {object|null}
+ */
+function resolveHitStair(sim, x, y, z) {
+    const map = sim && sim.tileMap;
+    if (!map || typeof map.getStair !== 'function') return null;
+    return map.getStair(x, y, z) || null;
+}
+
+/**
+ * Use-on-tile for ladders (and other non-step pads).
+ * @param {object|null|undefined} hit
+ * @returns {object[]|null}
+ */
+function useStairIntents(hit) {
+    if (!hit || !hit.useStair) return null;
+    return [
+        {
+            type: 'USE_STAIR',
+            dest: { x: hit.x, y: hit.y, z: hit.z }
+        }
+    ];
 }
 
 /**
@@ -722,6 +757,15 @@ function buildCanvasContextMenuEntries(hit, opts) {
         });
     }
 
+    if (hit.useStair) {
+        entries.push({
+            id: 'use_stair',
+            label: 'Use',
+            dest: { x: hit.x, y: hit.y, z: hit.z },
+            stair: hit.stair
+        });
+    }
+
     if (hit.pickableUid) {
         const label = thingLabel(hit.pickableInst, hit.pickableItem, 'Item');
         entries.push({
@@ -1005,6 +1049,8 @@ function smartUnshiftedLeft(hit, flags, playerTile) {
     // 3. useThing: container / multi-use / usable (same order as classic RMB)
     const useThing = classicGroundUseThingIntents(hit);
     if (useThing) return useThing;
+    const usePad = useStairIntents(hit);
+    if (usePad) return usePad;
 
     // 4. Quickloot world corpse-containers — stub until Stage 5b (no false success)
     if (isCorpseLike(hit)) {
@@ -1169,6 +1215,8 @@ function classicUnshiftedRight(hit, flags, playerTile, lootMode) {
     // useThing: open container / multi-use / use before plain pickup (legacy)
     const useThing = classicGroundUseThingIntents(hit);
     if (useThing) return useThing;
+    const usePad = useStairIntents(hit);
+    if (usePad) return usePad;
 
     if (hit.pickableUid && flags.hasInventory && flags.hasGroundItems) {
         return [
@@ -1205,6 +1253,8 @@ function regularCtrlUse(hit) {
     // Legacy non-smart Ctrl: container → multi-use → use (same helper as classic/smart)
     const useThing = classicGroundUseThingIntents(hit);
     if (useThing) return useThing;
+    const usePad = useStairIntents(hit);
+    if (usePad) return usePad;
     // No usable thing → context menu
     return [openContextMenuIntent(hit)];
 }
@@ -1502,6 +1552,13 @@ function applyCommandIntents(player, intents, opts) {
                 });
                 break;
             }
+            case 'USE_STAIR': {
+                player.commandQueue.push({
+                    type: 'USE_STAIR',
+                    dest: intent.dest
+                });
+                break;
+            }
             default:
                 remaining.push(intent);
                 break;
@@ -1528,6 +1585,8 @@ module.exports = {
     openCorpseStubIntent,
     normalizeLootMode,
     allowGroundLmbDrag,
+    resolveHitStair,
+    useStairIntents,
     resolveCanvasHit,
     normalizeModifiers,
     buildLookIntent,

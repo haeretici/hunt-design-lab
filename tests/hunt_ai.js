@@ -4352,6 +4352,47 @@ function testManualControlAndCommandQueue() {
         map.tryOccupy(3, 2, 0, player);
     }
 
+    // Ladder: step stays; USE_STAIR hops
+    {
+        const open = new Uint8Array(25);
+        open.fill(100);
+        const ladders = new TileMap('manual_ladders');
+        ladders.loadFloorFromFriction(0, 5, 5, open);
+        ladders.loadFloorFromFriction(1, 5, 5, open);
+        ladders.addStair(
+            { x: 2, y: 2, z: 0 },
+            { x: 2, y: 2, z: 1 },
+            { type: 'ladder', dir: 'up', bidirectional: false }
+        );
+        sim.setTileMap(ladders);
+        map.release(3, 2, 0, player);
+        player.tile = { x: 1, y: 2, z: 0 };
+        player.path = [];
+        player.moveDelay = 0;
+        player._manualDest = null;
+        player._pendingUseStair = false;
+        player.syncPositionFromTile && player.syncPositionFromTile();
+        assert.ok(ladders.tryOccupy(1, 2, 0, player), 'place next to ladder');
+        player.commandQueue.push({ type: 'MOVE_STEP', dx: 1, dy: 0 });
+        tickHuntAi(sim);
+        assert.strictEqual(String(player.tile.z), '0', 'ladder does not hop on step');
+        assert.strictEqual(player.tile.x, 2, 'stands on ladder pad');
+        player.moveDelay = 0;
+        player.commandQueue.push({ type: 'USE_STAIR' });
+        tickHuntAi(sim);
+        assert.strictEqual(String(player.tile.z), '1', 'USE_STAIR hops ladder');
+        assert.strictEqual(player.tile.x, 2);
+        assert.strictEqual(player.tile.y, 2);
+        sim.setTileMap(map);
+        ladders.release(player.tile.x, player.tile.y, player.tile.z, player);
+        player.tile = { x: 3, y: 2, z: 0 };
+        player.path = [];
+        player.moveDelay = 0;
+        player._pendingUseStair = false;
+        player.syncPositionFromTile && player.syncPositionFromTile();
+        map.tryOccupy(3, 2, 0, player);
+    }
+
     // Living creature for SET_TARGET resolution
     const rat = new Creature({
         id: sim.allocEntityId(),

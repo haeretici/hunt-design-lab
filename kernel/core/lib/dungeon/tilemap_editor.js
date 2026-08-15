@@ -29,7 +29,9 @@ const {
     normalizeHybridPack,
     serializeHybridPack,
     deserializeHybridPack,
-    resolveEditorStairLink
+    resolveEditorStairLink,
+    isExplicitEditorStairDest,
+    normalizeEditorStairDest
 } = require('./tilemap_bake.js');
 
 const {
@@ -106,6 +108,8 @@ const ROLE_DEFAULT_SUBLAYER = Object.freeze({
     furniture_blocking: 'furniture',
     stairs_up: 'vertical',
     stairs_down: 'vertical',
+    ladder_up: 'vertical',
+    ladder_down: 'vertical',
     hole: 'vertical',
     rope_spot: 'vertical',
     shovel_spot: 'vertical'
@@ -125,6 +129,8 @@ const ROLE_PREVIEW_COLORS = Object.freeze({
     furniture_blocking: '#8b4513',
     stairs_up: '#c9a227',
     stairs_down: '#a07020',
+    ladder_up: '#c44b3c',
+    ladder_down: '#8a3028',
     hole: '#402020',
     rope_spot: '#2060a0',
     shovel_spot: '#a06020'
@@ -242,6 +248,9 @@ function preferredSubLayer(artRoleKey, roleId, kind, stampOrId) {
         k === 'stairs' ||
         k === 'stairs_up' ||
         k === 'stairs_down' ||
+        k === 'ladder' ||
+        k === 'ladder_up' ||
+        k === 'ladder_down' ||
         k === 'vertical' ||
         k === 'hole'
     ) {
@@ -696,15 +705,61 @@ function ensureChannels(floor) {
 }
 
 /**
+ * @param {object[]|null|undefined} stairs
+ * @returns {Map<string, object>}
+ */
+function indexStairsByCell(stairs) {
+    const m = new Map();
+    const list = Array.isArray(stairs) ? stairs : [];
+    for (let i = 0; i < list.length; i++) {
+        const s = list[i];
+        if (!s || s.x == null || s.y == null) continue;
+        m.set((s.x | 0) + ',' + (s.y | 0), s);
+    }
+    return m;
+}
+
+/**
  * Authoring stair row from a baked vertical. Persists computed `to` so hunt
- * load does not depend on hop.to being set in the stamp.
+ * load does not depend on hop.to being set in the stamp. Explicit dest
+ * (`dir: custom` or a `to` that is not the dir offset) survives rebake.
  * @param {{ x: number, y: number, placement?: object }} v
  * @param {string|number} floorZ
+ * @param {object|null} [prevRow]
  * @returns {{ x: number, y: number, z: string|number, dir: string, type: string, deltaZ: number, to: object|null }}
  */
-function stairRowFromVertical(v, floorZ) {
+function stairRowFromVertical(v, floorZ, prevRow) {
     const hop = (v && v.placement && v.placement.hop) || {};
     const vert = (v && v.placement && v.placement.vertical) || {};
+    const type = vert.type || 'stairs';
+    if (prevRow && isExplicitEditorStairDest(prevRow)) {
+        const locked = normalizeEditorStairDest(prevRow.to, prevRow.to && prevRow.to.z);
+        if (
+            locked &&
+            !(
+                locked.x === (v.x | 0) &&
+                locked.y === (v.y | 0) &&
+                String(locked.z) === String(floorZ)
+            )
+        ) {
+            let deltaZ = prevRow.deltaZ != null ? prevRow.deltaZ | 0 : -1;
+            const fromZ = Number(floorZ);
+            const toZ = Number(locked.z);
+            if (Number.isFinite(fromZ) && Number.isFinite(toZ)) {
+                deltaZ = Math.trunc(toZ - fromZ);
+            }
+            return {
+                x: v.x,
+                y: v.y,
+                z: floorZ,
+                dir: 'custom',
+                type,
+                deltaZ,
+                bidirectional: !!prevRow.bidirectional,
+                to: { x: locked.x, y: locked.y, z: locked.z }
+            };
+        }
+    }
     const deltaZ =
         hop.deltaZ != null
             ? hop.deltaZ | 0
@@ -712,7 +767,6 @@ function stairRowFromVertical(v, floorZ) {
               ? vert.deltaZ | 0
               : -1;
     const dir = hop.dir || vert.defaultDir || 'center';
-    const type = vert.type || 'stairs';
     const row = {
         x: v.x,
         y: v.y,
@@ -1068,10 +1122,13 @@ function createEditorSession(opts) {
         floor.friction = result.friction;
         floor.sight = result.sight;
         floor.flags = result.flags;
-        // Stairs from vertical placements
+        // Stairs from vertical placements. Keep explicit dests across full rebake.
+        const prevByCell = indexStairsByCell(floor.stairs);
         const stairs = [];
         for (let i = 0; i < result.verticals.length; i++) {
-            stairs.push(stairRowFromVertical(result.verticals[i], floor.z));
+            const v = result.verticals[i];
+            const prev = prevByCell.get((v.x | 0) + ',' + (v.y | 0)) || null;
+            stairs.push(stairRowFromVertical(v, floor.z, prev));
         }
         floor.stairs = stairs;
         return result;
@@ -1109,13 +1166,17 @@ function createEditorSession(opts) {
         });
 
         // Drop stair links only at dirty cells, then re-register from bake.
+        // Explicit dest on a dirty pad survives (dir custom / non-offset to).
+        const prevByCell = indexStairsByCell(floor.stairs);
         floor.stairs = (floor.stairs || []).filter((s) => {
             if (!s) return false;
             const i = idx(s.x | 0, s.y | 0);
             return !dirtySet.has(i);
         });
         for (let i = 0; i < verticals.length; i++) {
-            floor.stairs.push(stairRowFromVertical(verticals[i], floor.z));
+            const v = verticals[i];
+            const prev = prevByCell.get((v.x | 0) + ',' + (v.y | 0)) || null;
+            floor.stairs.push(stairRowFromVertical(v, floor.z, prev));
         }
         return rect;
     }
@@ -1897,6 +1958,135 @@ function createEditorSession(opts) {
         return { rect: boundsFromIndices(strokeDirty) };
     }
 
+    /**
+     * Stair pad at (x,y) on this floor, or null.
+     * @param {number} x
+     * @param {number} y
+     * @returns {object|null}
+     */
+    function findStairAt(x, y) {
+        const ix = x | 0;
+        const iy = y | 0;
+        const list = floor.stairs || [];
+        for (let i = 0; i < list.length; i++) {
+            const s = list[i];
+            if (s && (s.x | 0) === ix && (s.y | 0) === iy) return s;
+        }
+        return null;
+    }
+
+    /**
+     * @param {number[]} indices
+     * @param {() => void} mutate
+     */
+    function commitSparseUndo(indices, mutate) {
+        const before = snapshotFloorSparse(floor, indices);
+        mutate();
+        const after = snapshotFloorSparse(floor, indices);
+        undoStack.push({ before, after });
+        if (undoStack.length > MAX_UNDO) undoStack.shift();
+        redoStack.length = 0;
+        markDirty();
+    }
+
+    /**
+     * Lock pad dest to an explicit tile (`dir: custom`). One-way only.
+     * @param {number} x
+     * @param {number} y
+     * @param {{ x: number, y: number, z?: string|number }} to
+     * @param {{ undo?: boolean }} [opts]
+     * @returns {{ ok: boolean, reason?: string, row?: object }}
+     */
+    function setStairDest(x, y, to, opts) {
+        const row = findStairAt(x, y);
+        if (!row) return { ok: false, reason: 'no_pad' };
+        const dest = normalizeEditorStairDest(
+            to,
+            to && to.z !== undefined && to.z !== null ? to.z : row.z
+        );
+        if (!dest) return { ok: false, reason: 'invalid_to' };
+        if (
+            dest.x === (row.x | 0) &&
+            dest.y === (row.y | 0) &&
+            String(dest.z) === String(row.z)
+        ) {
+            return { ok: false, reason: 'same_tile' };
+        }
+        const apply = () => {
+            row.dir = 'custom';
+            row.to = { x: dest.x, y: dest.y, z: dest.z };
+            const fromZ = Number(row.z);
+            const toZ = Number(dest.z);
+            if (Number.isFinite(fromZ) && Number.isFinite(toZ)) {
+                row.deltaZ = Math.trunc(toZ - fromZ);
+            }
+        };
+        if (opts && opts.undo === false) {
+            apply();
+            markDirty();
+        } else {
+            commitSparseUndo([idx(row.x | 0, row.y | 0)], apply);
+        }
+        return { ok: true, row };
+    }
+
+    /**
+     * Drop explicit dest and rebuild from the stamp dir/deltaZ.
+     * @param {number} x
+     * @param {number} y
+     * @returns {{ ok: boolean, reason?: string, row?: object }}
+     */
+    function resetStairDest(x, y) {
+        const row = findStairAt(x, y);
+        if (!row) return { ok: false, reason: 'no_pad' };
+        const i = idx(row.x | 0, row.y | 0);
+        commitSparseUndo([i], () => {
+            const dirtySet = new Set([i]);
+            const { verticals } = bakeCellIndices(floor, dirtySet, {
+                roleCatalog,
+                friction: floor.friction,
+                sight: floor.sight,
+                flags: floor.flags,
+                previous: {
+                    friction: floor.friction,
+                    sight: floor.sight,
+                    flags: floor.flags
+                }
+            });
+            floor.stairs = (floor.stairs || []).filter((s) => {
+                if (!s) return false;
+                return idx(s.x | 0, s.y | 0) !== i;
+            });
+            if (verticals.length) {
+                for (let v = 0; v < verticals.length; v++) {
+                    floor.stairs.push(
+                        stairRowFromVertical(verticals[v], floor.z, null)
+                    );
+                }
+            } else {
+                const fallback = {
+                    x: row.x,
+                    y: row.y,
+                    z: row.z,
+                    dir: 'center',
+                    type: row.type || 'stairs',
+                    deltaZ: row.deltaZ != null ? row.deltaZ : 0,
+                    to: null
+                };
+                const resolved = resolveEditorStairLink(fallback);
+                fallback.to = resolved
+                    ? {
+                          x: resolved.to.x,
+                          y: resolved.to.y,
+                          z: resolved.to.z
+                      }
+                    : null;
+                if (fallback.to) floor.stairs.push(fallback);
+            }
+        });
+        return { ok: true, row: findStairAt(x, y) };
+    }
+
     return {
         get floor() {
             return floor;
@@ -1959,6 +2149,9 @@ function createEditorSession(opts) {
         sampleCellAt,
         copyTiles,
         pasteTiles,
+        findStairAt,
+        setStairDest,
+        resetStairDest,
         ensureStampPaletteIndex: (stamp) => ensureStampPaletteIndex(floor, stamp),
         markClean() {
             dirty = false;
@@ -2061,6 +2254,8 @@ module.exports = {
     ensureChannels,
     frictionWalkClass,
     createEditorSession,
+    stairRowFromVertical,
+    isExplicitEditorStairDest,
     flagPaletteEntries,
     frictionPreviewColor,
     flagsPreviewColor,

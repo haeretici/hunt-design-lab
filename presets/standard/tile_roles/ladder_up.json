@@ -1,24 +1,24 @@
 {
-  "id": "hole",
-  "label": "Hole",
-  "notes": "Hole / trapdoor down. Floor down is z+1. Stepping hops. HOLE | NO_CREATURE (8 | 64) = 72.",
+  "id": "ladder_up",
+  "label": "Ladder (up)",
+  "notes": "Walkable ladder pad. Use (USE_STAIR) hops; stepping does not. Floor up is z-1. LADDER | NO_CREATURE (4 | 64) = 68.",
   "kindHints": ["tiles"],
   "catalogCategories": ["special"],
   "render": {
     "scale": 1.0,
-    "anchor": "middle_center",
+    "anchor": "bottom_center",
     "variant": "retro"
   },
   "influence": {
     "friction": 100,
     "sight": 0,
-    "flags": 72,
+    "flags": 68,
     "walkMode": "open",
     "sightMode": "clear"
   },
   "vertical": {
-    "type": "hole",
-    "deltaZ": 1,
+    "type": "ladder",
+    "deltaZ": -1,
     "defaultDir": "center",
     "bidirectional": false,
     "registerStairLink": true

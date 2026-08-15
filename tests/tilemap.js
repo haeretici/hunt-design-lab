@@ -35,7 +35,8 @@ const {
     frictionFromPixel,
     collisionFromPixel,
     registerVerticalFromPlacement,
-    reverseHopDir
+    reverseHopDir,
+    hopsOnStep
 } = require('../kernel/core/entities/tilemap.js');
 
 const VERBOSE = !!process.env.VERBOSE;
@@ -1325,6 +1326,113 @@ function testPhase2FlagsStairsAndPz() {
     log('phase2 flags/stairs/PZ ok');
 }
 
+function testHopOnStepPolicy() {
+    assert.strictEqual(hopsOnStep(null), true);
+    assert.strictEqual(hopsOnStep(''), true);
+    assert.strictEqual(hopsOnStep('stairs'), true);
+    assert.strictEqual(hopsOnStep('hole'), true);
+    assert.strictEqual(hopsOnStep('ladder'), false);
+    assert.strictEqual(hopsOnStep('rope'), false);
+    assert.strictEqual(hopsOnStep('shovel'), false);
+
+    const open = new Uint8Array(25);
+    open.fill(100);
+    const map = new TileMap('hop_policy');
+    map.loadFloorFromFriction(0, 5, 5, open);
+    map.loadFloorFromFriction(1, 5, 5, open);
+    map.addStair(
+        { x: 1, y: 1, z: 0 },
+        { x: 1, y: 1, z: 1 },
+        { type: 'stairs', bidirectional: false }
+    );
+    map.addStair(
+        { x: 3, y: 1, z: 0 },
+        { x: 3, y: 1, z: 1 },
+        { type: 'ladder', bidirectional: false }
+    );
+    map.addStair(
+        { x: 2, y: 3, z: 0 },
+        { x: 2, y: 3, z: 1 },
+        { type: 'hole', bidirectional: false }
+    );
+    assert.strictEqual(map.hopsOnStepAt(1, 1, 0), true);
+    assert.strictEqual(map.hopsOnStepAt(3, 1, 0), false);
+    assert.strictEqual(map.hopsOnStepAt(2, 3, 0), true);
+    assert.strictEqual(map.hopsOnStepAt(0, 0, 0), false);
+
+    const ents = new Map();
+    map.resolveEntity = (id) => ents.get(id) || null;
+    const player = {
+        id: 21,
+        type: 'player',
+        tile: { x: 0, y: 1, z: 0 },
+        path: [{ x: 2, y: 2 }],
+        alive: true
+    };
+    ents.set(21, player);
+    assert.ok(map.tryOccupy(0, 1, 0, player));
+    assert.ok(map.moveEntityToTile(player, 1, 1, 0), 'step onto stair');
+    assert.strictEqual(String(player.tile.z), '1', 'stair hop-on-step');
+    assert.strictEqual(player.tile.x, 1);
+    assert.strictEqual(player.tile.y, 1);
+    assert.deepStrictEqual(player.path, [], 'path cleared after hop');
+
+    const climber = {
+        id: 22,
+        type: 'player',
+        tile: { x: 2, y: 1, z: 0 },
+        path: [],
+        alive: true
+    };
+    ents.set(22, climber);
+    assert.ok(map.tryOccupy(2, 1, 0, climber));
+    assert.ok(map.moveEntityToTile(climber, 3, 1, 0), 'step onto ladder');
+    assert.strictEqual(String(climber.tile.z), '0', 'ladder stays on step');
+    assert.strictEqual(climber.tile.x, 3);
+    assert.ok(map.tryUseStair(climber, null), 'ladder Use hops');
+    assert.strictEqual(String(climber.tile.z), '1');
+
+    const longClimber = {
+        id: 24,
+        type: 'player',
+        tile: { x: 3, y: 2, z: 0 },
+        path: [],
+        alive: true
+    };
+    ents.set(24, longClimber);
+    assert.ok(map.tryOccupy(3, 2, 0, longClimber));
+    assert.ok(map.moveEntityToTile(longClimber, 3, 1, 0), 'step onto ladder again');
+    assert.strictEqual(String(longClimber.tile.z), '0');
+    longClimber.path = [{ x: 3, y: 1, z: 1 }];
+    assert.ok(
+        map.followLongPath(longClimber, 3, 1, 1),
+        'followLongPath hops ladder (intentional use)'
+    );
+    assert.strictEqual(String(longClimber.tile.z), '1');
+
+    const holeWalker = {
+        id: 23,
+        type: 'player',
+        tile: { x: 2, y: 2, z: 0 },
+        path: [],
+        alive: true
+    };
+    ents.set(23, holeWalker);
+    assert.ok(map.tryOccupy(2, 2, 0, holeWalker));
+    assert.ok(map.moveEntityToTile(holeWalker, 2, 3, 0), 'step onto hole');
+    assert.strictEqual(String(holeWalker.tile.z), '1', 'hole hop-on-step');
+
+    const towardStep = map.findStairToward(0, 1, 0, 0, { hopsOnStepOnly: true });
+    assert.ok(towardStep);
+    assert.notStrictEqual(towardStep.x, 3, 'manual find skips ladder');
+
+    const towardAny = map.findStairToward(0, 1, 3, 1);
+    assert.ok(towardAny);
+    assert.strictEqual(towardAny.x, 3, 'party find may pick ladder');
+
+    log('hop-on-step policy ok');
+}
+
 async function main() {
     testFrictionFromPixel();
     testSyntheticGridEncoding();
@@ -1335,6 +1443,7 @@ async function main() {
     testPlayerTileStack();
     testCreaturePush();
     testPhase2FlagsStairsAndPz();
+    testHopOnStepPolicy();
     testCameraTileZSelectsFloor();
     testRenderCacheMath();
     testRenderCacheBlitAndRebuild();

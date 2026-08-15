@@ -22,6 +22,7 @@ const {
     DEFAULT_OPEN_FRICTION,
     TILE_FLAG_NO_CAST,
     TILE_FLAG_STAIR,
+    TILE_FLAG_LADDER,
     TILE_FLAG_HOLE,
     TILE_FLAG_ROPE_SPOT,
     TILE_FLAG_SHOVEL_SPOT,
@@ -54,6 +55,8 @@ const STARTER_IDS = [
     'furniture_blocking',
     'stairs_up',
     'stairs_down',
+    'ladder_up',
+    'ladder_down',
     'hole',
     'rope_spot',
     'shovel_spot'
@@ -247,6 +250,7 @@ function testCompositionCases() {
     assert.strictEqual(up.friction, DEFAULT_OPEN_FRICTION);
     assert.strictEqual(up.sight, 0);
     assert.ok((up.flags & TILE_FLAG_STAIR) !== 0);
+    assert.ok((up.flags & TILE_FLAG_NO_CREATURE) !== 0);
     assert.ok(up.vertical);
     assert.strictEqual(up.vertical.deltaZ, -1);
     assert.strictEqual(up.vertical.type, 'stairs');
@@ -254,8 +258,16 @@ function testCompositionCases() {
     // Hole down
     const hole = bake('floor', 'hole');
     assert.ok((hole.flags & TILE_FLAG_HOLE) !== 0);
+    assert.ok((hole.flags & TILE_FLAG_NO_CREATURE) !== 0);
     assert.strictEqual(hole.vertical.deltaZ, 1);
     assert.strictEqual(hole.vertical.type, 'hole');
+
+    // Ladder up: Use-only pad
+    const ladder = bake('floor', 'ladder_up');
+    assert.ok((ladder.flags & TILE_FLAG_LADDER) !== 0);
+    assert.ok((ladder.flags & TILE_FLAG_NO_CREATURE) !== 0);
+    assert.strictEqual(ladder.vertical.type, 'ladder');
+    assert.strictEqual(ladder.vertical.deltaZ, -1);
 
     // Topmost vertical wins
     const vertWin = bake('floor', 'stairs_up', 'hole');
@@ -282,6 +294,7 @@ function testCompositionCases() {
     assert.strictEqual(withHop.hop.dir, 'north');
     assert.deepStrictEqual(hopDirOffset('north'), { dx: 0, dy: -1 });
     assert.deepStrictEqual(hopDirOffset('center'), { dx: 0, dy: 0 });
+    assert.deepStrictEqual(hopDirOffset('custom'), { dx: 0, dy: 0 });
 
     log('composition cases ok');
 }
@@ -310,9 +323,15 @@ function testPresetsLoader() {
 
     const up = normalizeTileRole(loadTileRole('stairs_up'));
     assert.strictEqual(up.vertical.deltaZ, -1);
+    assert.strictEqual(up.influence.flags, TILE_FLAG_STAIR | TILE_FLAG_NO_CREATURE);
 
     const down = normalizeTileRole(loadTileRole('stairs_down'));
     assert.strictEqual(down.vertical.deltaZ, 1);
+    assert.strictEqual(down.influence.flags, TILE_FLAG_STAIR | TILE_FLAG_NO_CREATURE);
+
+    const lad = normalizeTileRole(loadTileRole('ladder_up'));
+    assert.strictEqual(lad.vertical.type, 'ladder');
+    assert.strictEqual(lad.influence.flags, TILE_FLAG_LADDER | TILE_FLAG_NO_CREATURE);
 
     // applyRole path
     const acc = createBakeAccumulator();

@@ -26,6 +26,8 @@ const TILE_CATEGORY_BY_ROLE = Object.freeze({
     stairs: 'special',
     stairs_up: 'special',
     stairs_down: 'special',
+    ladder_up: 'special',
+    ladder_down: 'special',
     hole: 'special',
     rope_spot: 'special',
     shovel_spot: 'special'
