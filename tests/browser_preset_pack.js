@@ -120,6 +120,22 @@ function main() {
             pack.deps.dungeons.indexOf('arena_combat_shell') >= 0,
             'deps.dungeons lists arena_combat_shell'
         );
+        assert.ok(
+            pack.files['dialogs/town_guide.json'],
+            'standard pack includes dialogs/town_guide.json'
+        );
+        assert.ok(
+            pack.deps.dialogs && pack.deps.dialogs.indexOf('town_guide') >= 0,
+            'deps.dialogs lists town_guide'
+        );
+        assert.ok(
+            pack.files['waypoints/wp_test_1.json'],
+            'standard pack includes waypoints/wp_test_1.json'
+        );
+        assert.ok(
+            pack.deps.waypoints && pack.deps.waypoints.indexOf('wp_test_1') >= 0,
+            'deps.waypoints lists wp_test_1'
+        );
     });
 
     test('injected pack lists parties from cache (browser fs shim path)', () => {
@@ -194,6 +210,17 @@ function main() {
         );
         assert.ok(!fixed.layoutSkipped, fixed.layoutSkipped || 'ok');
         assert.ok(fixed.layoutMeta && fixed.layoutMeta.reason === 'ok');
+
+        assert.ok(cacheHas('dialogs/town_guide.json'));
+        assert.ok(cacheHas('waypoints/wp_test_1.json'));
+        const { resolveDialog } = require('../kernel/core/lib/npc/dialog.js');
+        const talk = resolveDialog({ dialogId: 'town_guide' });
+        assert.strictEqual(talk.ok, true);
+        assert.strictEqual(talk.source, 'dialogId');
+        const { resolveHuntWaypoints } = require('../kernel/core/lib/content/waypoints.js');
+        const wpHunt = resolveHuntWaypoints(pack.files['hunts/wp_test_1.json']);
+        assert.strictEqual(wpHunt._waypointPresetId, 'wp_test_1');
+        assert.ok(Array.isArray(wpHunt.waypoints) && wpHunt.waypoints.length === 2);
     });
 
     console.log(

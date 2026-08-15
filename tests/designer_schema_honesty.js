@@ -348,6 +348,10 @@ function testArtSetAcceptsOverlayAndWallFamily() {
     assert.ok(wt.wallFamily);
     assert.ok(wt.wallAlign);
     assert.ok(wt.wangFamily.enum.indexOf('dirt') >= 0);
+    assert.ok(
+        /tile_roles/.test(String(wt.roleId.description || '')),
+        'roleId should be a tile_roles presets_ids relation'
+    );
     const validate = compileAjv(schema);
     if (!validate) return;
     assertValid(
@@ -394,6 +398,115 @@ function testArtSetAcceptsOverlayAndWallFamily() {
     );
 }
 
+function testTileRoleKindHintsIncludeOverlays() {
+    const schema = loadJson('schemas/tile_roles.schema.json');
+    const hints = schema.properties.kindHints.items.enum;
+    assert.ok(hints.indexOf('overlays') >= 0);
+    assert.ok(hints.indexOf('tiles') >= 0);
+    assert.ok(hints.indexOf('objects') >= 0);
+
+    const pathRole = loadJson('presets/standard/tile_roles/path.json');
+    assert.ok(pathRole.kindHints.indexOf('overlays') >= 0);
+    assert.ok(pathRole.catalogCategories.indexOf('dirt') >= 0);
+    assert.ok(pathRole.catalogCategories.indexOf('cobble') >= 0);
+    assert.strictEqual(pathRole.vertical, null);
+
+    const waterRole = loadJson('presets/standard/tile_roles/water.json');
+    assert.ok(waterRole.kindHints.indexOf('overlays') >= 0);
+    assert.ok(waterRole.catalogCategories.indexOf('water') >= 0);
+
+    const wallRole = loadJson('presets/standard/tile_roles/wall.json');
+    assert.strictEqual(wallRole.vertical, null);
+    assert.ok(wallRole.kindHints.indexOf('objects') >= 0);
+
+    const validate = compileAjv(schema);
+    if (!validate) return;
+    assertValid(validate, pathRole, 'path role');
+    assertValid(validate, waterRole, 'water role');
+    assertValid(validate, wallRole, 'wall role');
+}
+
+function testDialogsAndWaypointsSchemas() {
+    const dialogSchema = loadJson('schemas/dialogs.schema.json');
+    requiredProps(dialogSchema, ['id', 'greeting', 'start', 'nodes'], 'dialogs');
+    assert.ok(dialogSchema.definitions.reply);
+    assert.ok(dialogSchema.definitions.node);
+    const town = loadJson('presets/standard/dialogs/town_guide.json');
+    assert.strictEqual(town.id, 'town_guide');
+    const dialogValidate = compileAjv(dialogSchema);
+    if (dialogValidate) {
+        assertValid(dialogValidate, town, 'town_guide dialog');
+    }
+
+    const creatures = loadJson('schemas/creatures.schema.json');
+    assert.ok(
+        /kind=dialogs/.test(String(creatures.properties.dialogId.description || '')),
+        'dialogId should be a dialogs presets_ids relation'
+    );
+    assert.ok(
+        /Deprecated/.test(String(creatures.properties.dialog.description || '')),
+        'inline creature.dialog should be marked deprecated'
+    );
+    const townCreature = loadJson('presets/standard/creatures/town_guide.json');
+    assert.strictEqual(townCreature.dialogId, 'town_guide');
+    assert.ok(!townCreature.dialog, 'sample NPC must not duplicate the dialogs file');
+
+    const wpSchema = loadJson('schemas/waypoints.schema.json');
+    requiredProps(wpSchema, ['id', 'waypoints', 'floor', 'mapPath'], 'waypoints');
+    const wpValidate = compileAjv(wpSchema);
+    if (wpValidate) {
+        assertValid(
+            wpValidate,
+            {
+                id: 'unit_route',
+                label: 'Unit',
+                floor: 7,
+                waypoints: [
+                    { x: 1, y: 2, z: 7 },
+                    { x: 3, y: 4 }
+                ]
+            },
+            'waypoint pack'
+        );
+    }
+
+    const hunts = loadJson('schemas/hunts.schema.json');
+    assert.ok(
+        /kind=waypoints/.test(String(hunts.properties.waypointPreset.description || '')),
+        'waypointPreset should be a waypoints presets_ids relation'
+    );
+
+    const wpPack = loadJson('presets/standard/waypoints/wp_test_1.json');
+    assert.strictEqual(wpPack.id, 'wp_test_1');
+    assert.ok(Array.isArray(wpPack.waypoints) && wpPack.waypoints.length >= 2);
+    if (wpValidate) {
+        assertValid(wpValidate, wpPack, 'wp_test_1 pack');
+    }
+    const wpHunt = loadJson('presets/standard/hunts/wp_test_1.json');
+    assert.strictEqual(wpHunt.waypointPreset, 'wp_test_1');
+    assert.ok(
+        !Array.isArray(wpHunt.waypoints) || wpHunt.waypoints.length === 0,
+        'sample hunt must not duplicate the waypoints pack'
+    );
+}
+
+function testHuntEditorWaypointPresetEnum() {
+    const { enrichHuntSchema } = require('../kernel/apps/hunt-editor/app.js');
+    const hunts = loadJson('schemas/hunts.schema.json');
+    const empty = enrichHuntSchema(hunts, { waypoints: [] });
+    assert.deepStrictEqual(empty.properties.waypointPreset.enum, ['']);
+    assert.deepStrictEqual(empty.properties.waypointsId.enum, ['']);
+    const filled = enrichHuntSchema(hunts, { waypoints: ['cave_loop'] });
+    assert.deepStrictEqual(filled.properties.waypointPreset.enum, [
+        '',
+        'cave_loop'
+    ]);
+    assert.deepStrictEqual(filled.properties.waypointsId.enum, [
+        '',
+        'cave_loop'
+    ]);
+}
+
 function testEmptyRelationEnumSurvives() {
     const {
         injectRelationEnums
@@ -433,6 +546,37 @@ function testEmptyRelationEnumSurvives() {
         'fire_amulet'
     ]);
     assert.strictEqual(out.properties.equipment.properties.amulet.default, '');
+
+    const defOut = injectRelationEnums(
+        {
+            type: 'object',
+            definitions: {
+                weightedTile: {
+                    type: 'object',
+                    properties: {
+                        roleId: { type: 'string' }
+                    }
+                }
+            },
+            properties: { roles: { type: 'object' } }
+        },
+        [{ path: 'roleId', idsKind: 'tile_roles', definition: 'weightedTile' }],
+        { tile_roles: ['floor', 'path', 'wall'] }
+    );
+    assert.deepStrictEqual(
+        defOut.definitions.weightedTile.properties.roleId.enum,
+        ['', 'floor', 'path', 'wall']
+    );
+
+    const dialogOut = injectRelationEnums(
+        loadJson('schemas/creatures.schema.json'),
+        [{ path: 'dialogId', idsKind: 'dialogs' }],
+        { dialogs: ['town_guide'] }
+    );
+    assert.deepStrictEqual(dialogOut.properties.dialogId.enum, [
+        '',
+        'town_guide'
+    ]);
 }
 
 function main() {
@@ -440,6 +584,9 @@ function main() {
     testDeclaredKeys();
     testLiveFilesValidate();
     testArtSetAcceptsOverlayAndWallFamily();
+    testTileRoleKindHintsIncludeOverlays();
+    testDialogsAndWaypointsSchemas();
+    testHuntEditorWaypointPresetEnum();
     testEmptyRelationEnumSurvives();
     console.log('designer schema honesty ok');
 }

@@ -43,7 +43,7 @@
         "weight": { "type": "number", "minimum": 0 },
         "roleId": {
           "$ref": "#/definitions/entityId",
-          "description": "Tile role id under presets/<mode>/tile_roles/ (bake + editor defaults)."
+          "description": "Relation: kind=tile_roles (presets_ids). Soft ref to presets/<mode>/tile_roles/ for bake + editor defaults."
         },
         "kind": {
           "type": "string",

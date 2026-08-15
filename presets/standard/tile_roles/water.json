@@ -1,8 +1,8 @@
 {
   "id": "water",
   "label": "Water",
-  "notes": "Unwalkable moat / water / lava surface. Projectiles and LoS pass (sight clear).",
-  "kindHints": ["tiles"],
+  "notes": "Unwalkable moat / water / lava surface. Projectiles and LoS pass (sight clear). Palette: opaque tiles or overlay family water.",
+  "kindHints": ["tiles", "overlays"],
   "catalogCategories": ["water"],
   "render": {
     "scale": 1.0,

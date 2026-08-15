@@ -299,8 +299,7 @@ function testBuildItemDb() {
 }
 
 function testWaypointPresets() {
-    // Standard pack no longer ships hand corridor waypoint presets (generator owns routes).
-    // API still expands waypointPreset via injected loader (fixtures / unit tests).
+    // Standard ships wp_test_1 (Designer pack). Corridor fixtures stay injected.
     const unitPreset = {
         id: 'unit_corridor',
         floor: 0,
@@ -330,7 +329,16 @@ function testWaypointPresets() {
 
     const norm = normalizeWaypoints([{ x: 1.6, y: 2.4 }], 9);
     assert.deepStrictEqual(norm[0], { x: 2, y: 2, z: 9 });
-    log('waypoints', { count: unitPreset.waypoints.length });
+
+    const fromDisk = resolveHuntWaypoints({
+        id: 'wp_test_1',
+        floor: 6,
+        waypointPreset: 'wp_test_1'
+    });
+    assert.strictEqual(fromDisk._waypointPresetId, 'wp_test_1');
+    assert.strictEqual(fromDisk.waypoints.length, 2);
+    assert.deepStrictEqual(fromDisk.waypoints[0], { x: 296, y: 910, z: 6 });
+    log('waypoints', { count: unitPreset.waypoints.length, disk: fromDisk.waypoints.length });
 }
 
 function testHuntFromDataFiles() {

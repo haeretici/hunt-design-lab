@@ -818,6 +818,10 @@ async function loadBrowserPresets(modeId) {
         const packProfiles = Array.isArray(deps.player_profiles)
             ? deps.player_profiles.slice()
             : [];
+        const packDialogs = Array.isArray(deps.dialogs) ? deps.dialogs.slice() : [];
+        const packWaypoints = Array.isArray(deps.waypoints)
+            ? deps.waypoints.slice()
+            : [];
         lastBrowserCatalog = Object.assign({}, catalog, {
             parties:
                 Array.isArray(catalog.parties) && catalog.parties.length
@@ -831,7 +835,15 @@ async function loadBrowserPresets(modeId) {
                     ? catalog.playerProfiles.slice()
                     : packProfiles.length
                       ? packProfiles
-                      : []
+                      : [],
+            dialogs:
+                Array.isArray(catalog.dialogs) && catalog.dialogs.length
+                    ? catalog.dialogs.slice()
+                    : packDialogs,
+            waypoints:
+                Array.isArray(catalog.waypoints) && catalog.waypoints.length
+                    ? catalog.waypoints.slice()
+                    : packWaypoints
         });
         const huntIds = catalog.hunts.slice();
         const creatureIds = catalog.creatures.slice();
@@ -893,7 +905,12 @@ async function loadBrowserPresets(modeId) {
         ? catalog.populations.slice()
         : [];
     const creatureIds = catalog.creatures.slice();
-    const waypointIds = catalog.waypoints.slice();
+    const waypointIds = Array.isArray(catalog.waypoints)
+        ? catalog.waypoints.slice()
+        : [];
+    const dialogIds = Array.isArray(catalog.dialogs)
+        ? catalog.dialogs.slice()
+        : [];
     const scenarioIds = catalog.scenarios.slice();
     // Static fallback: discover party/profile ids from mode catalog when present;
     // otherwise try known defaults (pack path is preferred).
@@ -935,6 +952,7 @@ async function loadBrowserPresets(modeId) {
             fetchPresetJson('strategies.json'),
             ...creatureIds.map((id) => fetchPresetJson(`creatures/${id}.json`)),
             ...waypointIds.map((id) => fetchPresetJson(`waypoints/${id}.json`)),
+            ...dialogIds.map((id) => fetchPresetJson(`dialogs/${id}.json`)),
             ...populationIds.map((id) =>
                 fetchPresetJson(`populations/${id}.json`)
             ),
@@ -966,6 +984,12 @@ async function loadBrowserPresets(modeId) {
         setPresetCache(`waypoints/${id}.json`, rest[offset + i]);
     }
     offset += waypointIds.length;
+
+    for (let i = 0; i < dialogIds.length; i++) {
+        const id = dialogIds[i];
+        setPresetCache(`dialogs/${id}.json`, rest[offset + i]);
+    }
+    offset += dialogIds.length;
 
     for (let i = 0; i < populationIds.length; i++) {
         const id = populationIds[i];

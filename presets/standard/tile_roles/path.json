@@ -1,9 +1,9 @@
 {
   "id": "path",
   "label": "Path",
-  "notes": "Walkable path / road over ground. Topmost open friction wins when stacked on floor.",
-  "kindHints": ["tiles"],
-  "catalogCategories": ["path"],
+  "notes": "Walkable path / road over ground. Topmost open friction wins when stacked on floor. Palette: opaque tiles (path) or overlay families (dirt / cobble).",
+  "kindHints": ["tiles", "overlays"],
+  "catalogCategories": ["path", "dirt", "cobble"],
   "render": {
     "scale": 1.0,
     "anchor": "middle_center",

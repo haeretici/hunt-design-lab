@@ -9,6 +9,7 @@
 const assert = require('assert');
 const {
     normalizeTileRole,
+    validateTileRole,
     applyInfluence,
     applyRole,
     bakeCellChannels,
@@ -124,7 +125,44 @@ function testNormalizeRole() {
     assert.strictEqual(stairs.vertical.defaultDir, 'north');
     assert.strictEqual(stairs.vertical.registerStairLink, true);
 
+    const overlayPath = normalizeTileRole({
+        id: 'path_overlay',
+        kindHints: ['tiles', 'overlays'],
+        catalogCategories: ['path', 'dirt', 'cobble'],
+        influence: { friction: 100, walkMode: 'open', sightMode: 'clear' }
+    });
+    assert.ok(overlayPath.kindHints.indexOf('overlays') >= 0);
+    assert.strictEqual(overlayPath.render.anchor, 'middle_center');
+    assert.strictEqual(overlayPath.vertical, null);
+
     log('normalize role ok');
+}
+
+function testValidateWallHopConflict() {
+    setActiveMode('standard');
+    clearPresetCache();
+
+    const wallOk = validateTileRole(loadTileRole('wall'));
+    assert.strictEqual(wallOk.ok, true, JSON.stringify(wallOk.errors));
+    assert.strictEqual(wallOk.detail.vertical, null);
+
+    const stairsOk = validateTileRole(loadTileRole('stairs_up'));
+    assert.strictEqual(stairsOk.ok, true, JSON.stringify(stairsOk.errors));
+
+    const bad = validateTileRole({
+        id: 'face_wall',
+        kindHints: ['objects'],
+        catalogCategories: ['wall'],
+        influence: {
+            friction: 255,
+            sight: 255,
+            walkMode: 'block',
+            sightMode: 'block'
+        },
+        vertical: { type: 'stairs', deltaZ: -1 }
+    });
+    assert.strictEqual(bad.ok, false);
+    assert.ok(bad.errors.indexOf('vertical_hop_on_wall_face') >= 0);
 }
 
 function testApplyInfluence() {
@@ -346,6 +384,7 @@ function testPresetsLoader() {
 
 function main() {
     testNormalizeRole();
+    testValidateWallHopConflict();
     testApplyInfluence();
     testCompositionCases();
     testPresetsLoader();

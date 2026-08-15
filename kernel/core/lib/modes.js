@@ -143,6 +143,7 @@ function normalizeMode(raw, fallbackId) {
             hunts: list(browser.hunts),
             populations: list(browser.populations),
             creatures: list(browser.creatures),
+            dialogs: list(browser.dialogs),
             waypoints: list(browser.waypoints),
             catalogCreatures: list(browser.catalogCreatures),
             scenarios: list(browser.scenarios),

@@ -2,17 +2,22 @@
 /**
  * Keep mode.json browser lists in sync with folder entity ids on disk.
  *
- * Full-mirror lists (every stem under presets/<mode>/<dir>/ must appear in
- * mode.json → browser.<key>). Browser packs cannot directory-list over HTTP.
+ * Browser packs cannot directory-list over HTTP, so mode.json → browser.*
+ * is the catalog index. `npm run build` / `npm run sync:mode-browser` rewrite
+ * those lists when disk and the index disagree.
  *
- * Currently: browser.creatures ↔ creatures/*.json
+ * Policies:
+ *   mirror — every stem under presets/<mode>/<dir>/ must appear (sorted unique).
+ *            creatures, dialogs, waypoints, populations.
+ *   prune  — drop listed ids whose files are gone; do not add unlisted files.
+ *            hunts / scenarios stay opt-in (Hunt Editor / Scenario Lab).
  *
  * Usage:
  *   node bin/sync_mode_browser.js --check [--mode standard|all|<id>]
  *   node bin/sync_mode_browser.js --write [--mode standard|all|<id>]
  *
- * --check (default): exit 1 if any list is out of sync.
- * --write: rewrite browser lists from disk (sorted unique).
+ * --check (default as CLI): exit 1 if any list is out of sync.
+ * --write: rewrite lists from disk. Used by `npm run build`.
  */
 'use strict';
 
@@ -23,12 +28,24 @@ const ROOT = path.resolve(__dirname, '..');
 const { formatJson } = require('../kernel/core/lib/json_format.js');
 
 /**
- * Designer / mode browser full mirrors.
- * @type {{ kind: string, dir: string, browserKey: string }[]}
+ * @typedef {{ kind: string, dir: string, browserKey: string, policy: 'mirror'|'prune' }} BrowserIndex
  */
-const FULL_MIRRORS = [
-    { kind: 'creatures', dir: 'creatures', browserKey: 'creatures' },
+
+/**
+ * Designer / mode browser indexes.
+ * @type {BrowserIndex[]}
+ */
+const BROWSER_INDEXES = [
+    { kind: 'creatures', dir: 'creatures', browserKey: 'creatures', policy: 'mirror' },
+    { kind: 'dialogs', dir: 'dialogs', browserKey: 'dialogs', policy: 'mirror' },
+    { kind: 'waypoints', dir: 'waypoints', browserKey: 'waypoints', policy: 'mirror' },
+    { kind: 'populations', dir: 'populations', browserKey: 'populations', policy: 'mirror' },
+    { kind: 'hunts', dir: 'hunts', browserKey: 'hunts', policy: 'prune' },
+    { kind: 'scenarios', dir: 'scenarios', browserKey: 'scenarios', policy: 'prune' }
 ];
+
+/** @deprecated use BROWSER_INDEXES — kept for callers that filtered full-mirrors */
+const FULL_MIRRORS = BROWSER_INDEXES.filter((e) => e.policy === 'mirror');
 
 /**
  * @param {string[]} argv
@@ -47,7 +64,8 @@ function parseArgs(argv) {
   node bin/sync_mode_browser.js --check [--mode standard|all|<id>]
   node bin/sync_mode_browser.js --write [--mode standard|all|<id>]
 
-Default action is --check when neither flag is set.`);
+Default action is --check when neither flag is set.
+--write is what \`npm run build\` / \`npm run sync:mode-browser\` run.`);
             process.exit(0);
         }
     }
@@ -60,14 +78,18 @@ Default action is --check when neither flag is set.`);
 }
 
 /**
+ * @param {string} [root]
  * @returns {string[]}
  */
-function listModes() {
-    const presetsDir = path.join(ROOT, 'presets');
+function listModes(root) {
+    const presetsDir = path.join(root || ROOT, 'presets');
+    if (!fs.existsSync(presetsDir)) return [];
     return fs
         .readdirSync(presetsDir, { withFileTypes: true })
         .filter((d) => d.isDirectory() && !d.name.startsWith('.'))
-        .filter((d) => fs.existsSync(path.join(presetsDir, d.name, 'mode.json')))
+        .filter((d) =>
+            fs.existsSync(path.join(presetsDir, d.name, 'mode.json'))
+        )
         .map((d) => d.name)
         .sort();
 }
@@ -75,10 +97,11 @@ function listModes() {
 /**
  * @param {string} modeId
  * @param {string} dirRel
+ * @param {string} [root]
  * @returns {string[]}
  */
-function listFolderStems(modeId, dirRel) {
-    const dir = path.join(ROOT, 'presets', modeId, dirRel);
+function listFolderStems(modeId, dirRel, root) {
+    const dir = path.join(root || ROOT, 'presets', modeId, dirRel);
     if (!fs.existsSync(dir)) return [];
     return fs
         .readdirSync(dir)
@@ -103,17 +126,27 @@ function normalizeIdList(raw) {
         seen.add(id);
         out.push(id);
     }
-    out.sort();
     return out;
+}
+
+/**
+ * Sorted unique copy (mirror lists).
+ * @param {string[]} ids
+ * @returns {string[]}
+ */
+function sortedUnique(ids) {
+    return normalizeIdList(ids).slice().sort();
 }
 
 /**
  * @param {string} modeId
  * @param {{ write: boolean }} opts
+ * @param {string} [root]
  * @returns {{ mode: string, ok: boolean, changes: string[] }}
  */
-function processMode(modeId, opts) {
-    const modePath = path.join(ROOT, 'presets', modeId, 'mode.json');
+function processMode(modeId, opts, root) {
+    const base = root || ROOT;
+    const modePath = path.join(base, 'presets', modeId, 'mode.json');
     if (!fs.existsSync(modePath)) {
         return { mode: modeId, ok: false, changes: [`missing mode.json`] };
     }
@@ -129,23 +162,43 @@ function processMode(modeId, opts) {
     const changes = [];
     let dirty = false;
 
-    for (const mirror of FULL_MIRRORS) {
-        const disk = listFolderStems(modeId, mirror.dir);
-        const listed = normalizeIdList(data.browser[mirror.browserKey]);
+    for (const index of BROWSER_INDEXES) {
+        const disk = listFolderStems(modeId, index.dir, base);
+        const listed = normalizeIdList(data.browser[index.browserKey]);
         const diskSet = new Set(disk);
         const listSet = new Set(listed);
         const onlyDisk = disk.filter((id) => !listSet.has(id));
         const onlyList = listed.filter((id) => !diskSet.has(id));
+
+        if (index.policy === 'prune') {
+            if (!onlyList.length) continue;
+            const bits = [
+                `-${onlyList.length} in browser.${index.browserKey} missing on disk` +
+                    (onlyList.length <= 8
+                        ? ` (${onlyList.join(', ')})`
+                        : ` (e.g. ${onlyList.slice(0, 5).join(', ')}…)`)
+            ];
+            changes.push(`${index.kind}: ${bits.join('; ')}`);
+            if (opts.write) {
+                data.browser[index.browserKey] = listed.filter((id) =>
+                    diskSet.has(id)
+                );
+                dirty = true;
+            }
+            continue;
+        }
+
+        const sortedListed = listed.slice().sort();
         const orderMismatch =
             onlyDisk.length === 0 &&
             onlyList.length === 0 &&
-            JSON.stringify(listed) !== JSON.stringify(disk);
+            JSON.stringify(sortedListed) !== JSON.stringify(disk);
 
         if (onlyDisk.length || onlyList.length || orderMismatch) {
             const bits = [];
             if (onlyDisk.length) {
                 bits.push(
-                    `+${onlyDisk.length} on disk missing from browser.${mirror.browserKey}` +
+                    `+${onlyDisk.length} on disk missing from browser.${index.browserKey}` +
                         (onlyDisk.length <= 8
                             ? ` (${onlyDisk.join(', ')})`
                             : ` (e.g. ${onlyDisk.slice(0, 5).join(', ')}…)`)
@@ -153,18 +206,18 @@ function processMode(modeId, opts) {
             }
             if (onlyList.length) {
                 bits.push(
-                    `-${onlyList.length} in browser.${mirror.browserKey} missing on disk` +
+                    `-${onlyList.length} in browser.${index.browserKey} missing on disk` +
                         (onlyList.length <= 8
                             ? ` (${onlyList.join(', ')})`
                             : ` (e.g. ${onlyList.slice(0, 5).join(', ')}…)`)
                 );
             }
             if (orderMismatch && !onlyDisk.length && !onlyList.length) {
-                bits.push(`browser.${mirror.browserKey} needs sort/dedupe`);
+                bits.push(`browser.${index.browserKey} needs sort/dedupe`);
             }
-            changes.push(`${mirror.kind}: ${bits.join('; ')}`);
+            changes.push(`${index.kind}: ${bits.join('; ')}`);
             if (opts.write) {
-                data.browser[mirror.browserKey] = disk;
+                data.browser[index.browserKey] = disk;
                 dirty = true;
             }
         }
@@ -182,7 +235,7 @@ function processMode(modeId, opts) {
     return {
         mode: modeId,
         ok: changes.length === 0,
-        changes,
+        changes
     };
 }
 
@@ -195,7 +248,7 @@ function main() {
     for (const modeId of modes) {
         const result = processMode(modeId, { write });
         if (result.ok) {
-            console.log(`OK    ${modeId} browser full-mirror lists match disk`);
+            console.log(`OK    ${modeId} browser indexes match disk`);
             continue;
         }
         if (write) {
@@ -222,8 +275,20 @@ function main() {
         );
         process.exit(1);
     }
-    console.log(`\nChecked ${modes.length} mode(s); all browser full-mirrors OK.`);
+    console.log(`\nChecked ${modes.length} mode(s); all browser indexes OK.`);
     process.exit(0);
 }
 
-main();
+if (require.main === module) {
+    main();
+}
+
+module.exports = {
+    BROWSER_INDEXES,
+    FULL_MIRRORS,
+    listModes,
+    listFolderStems,
+    normalizeIdList,
+    sortedUnique,
+    processMode
+};

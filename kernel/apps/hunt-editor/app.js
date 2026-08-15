@@ -169,7 +169,15 @@ async function loadHuntSchemaDoc() {
 
 async function fetchRelationIds(modeId) {
     // creatures: format creature_id + Select picker (not enum dropdown)
-    const kinds = ['art_sets', 'dungeons', 'populations', 'classes', 'strategies'];
+    // waypoints: empty list is a valid select (Designer kind; disk may be empty)
+    const kinds = [
+        'art_sets',
+        'dungeons',
+        'populations',
+        'classes',
+        'strategies',
+        'waypoints'
+    ];
     const idsByKind = {};
     for (const kind of kinds) {
         try {
@@ -226,6 +234,21 @@ function enrichHuntSchema(schemaDoc, idsByKind) {
     if (idsByKind.strategies && idsByKind.strategies.length > 0) {
         if (out.definitions && out.definitions.partyMember && out.definitions.partyMember.properties && out.definitions.partyMember.properties.strategyId) {
             out.definitions.partyMember.properties.strategyId.enum = idsByKind.strategies;
+        }
+    }
+    if (Array.isArray(idsByKind.waypoints)) {
+        const wpEnum = [''].concat(idsByKind.waypoints.map(String));
+        if (out.properties && out.properties.waypointPreset) {
+            out.properties.waypointPreset.enum = wpEnum;
+            if (out.properties.waypointPreset.default === undefined) {
+                out.properties.waypointPreset.default = '';
+            }
+        }
+        if (out.properties && out.properties.waypointsId) {
+            out.properties.waypointsId.enum = wpEnum;
+            if (out.properties.waypointsId.default === undefined) {
+                out.properties.waypointsId.default = '';
+            }
         }
     }
 
@@ -1104,5 +1127,6 @@ async function initHuntEditorApp() {
 }
 
 module.exports = {
-    initHuntEditorApp
+    initHuntEditorApp,
+    enrichHuntSchema
 };

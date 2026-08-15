@@ -1,7 +1,7 @@
 {
     "id": "wp_test_1",
     "label": "Legacy Hunt wp_test_1",
-    "notes": "Hunt converted from waypoint file.",
+    "notes": "Hunt converted from waypoint file. Route lives in waypoints/wp_test_1.",
     "floor": 6,
     "floors": [6, 7],
     "spawnMode": "on_demand",
@@ -9,16 +9,5 @@
         "type": "legacy_floor",
         "floors": [6, 7]
     },
-    "waypoints": [
-        {
-            "x": 296,
-            "y": 910,
-            "z": 6
-        },
-        {
-            "x": 299,
-            "y": 949,
-            "z": 6
-        }
-    ]
+    "waypointPreset": "wp_test_1"
 }

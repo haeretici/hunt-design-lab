@@ -25,12 +25,15 @@ final class PresetCrud
     /**
      * Folder kinds whose mode.json browser.<key> list tracks every entity id
      * (full mirror of the folder stems — browser pack cannot list directories).
-     * Curated lists (e.g. browser.populations) are intentionally excluded.
+     * Curated lists (browser.hunts / browser.scenarios) stay opt-in.
      *
      * @var array<string, string> designer kind → browser list key
      */
     private const BROWSER_FULL_LIST_BY_KIND = [
         'creatures' => 'creatures',
+        'dialogs' => 'dialogs',
+        'waypoints' => 'waypoints',
+        'populations' => 'populations',
     ];
 
     /**
@@ -85,6 +88,12 @@ final class PresetCrud
             'group' => 'combat',
             'paginate' => true,
         ],
+        'dialogs' => [
+            'shape' => 'folder',
+            'dir' => 'dialogs',
+            'label' => 'Dialogs',
+            'group' => 'combat',
+        ],
         'player_profiles' => [
             'shape' => 'folder',
             'dir' => 'player_profiles',
@@ -110,6 +119,12 @@ final class PresetCrud
             'label' => 'Markers',
             'group' => 'dungeon',
         ],
+        'waypoints' => [
+            'shape' => 'folder',
+            'dir' => 'waypoints',
+            'label' => 'Waypoints',
+            'group' => 'dungeon',
+        ],
         'biomes' => [
             'shape' => 'folder',
             'dir' => 'biomes',
@@ -120,6 +135,12 @@ final class PresetCrud
             'shape' => 'folder',
             'dir' => 'art_sets',
             'label' => 'Art sets',
+            'group' => 'dungeon',
+        ],
+        'tile_roles' => [
+            'shape' => 'folder',
+            'dir' => 'tile_roles',
+            'label' => 'Tile roles',
             'group' => 'dungeon',
         ],
         'dungeons' => [
@@ -558,6 +579,21 @@ final class PresetCrud
                     ],
                 ],
             ],
+            'dialogs' => [
+                'id' => $id,
+                'label' => $id,
+                'notes' => '',
+                'greeting' => '',
+                'start' => 'start',
+                'nodes' => [
+                    'start' => [
+                        'text' => '',
+                        'replies' => [
+                            ['label' => 'Bye', 'action' => 'close'],
+                        ],
+                    ],
+                ],
+            ],
 
             'player_profiles' => [
                 'id' => $id,
@@ -633,6 +669,15 @@ final class PresetCrud
                     ],
                 ],
             ],
+            'waypoints' => [
+                'id' => $id,
+                'label' => $id,
+                'notes' => '',
+                'floor' => 0,
+                'waypoints' => [
+                    ['x' => 0, 'y' => 0, 'z' => 0],
+                ],
+            ],
             'biomes' => [
                 'id' => $id,
                 'label' => $id,
@@ -656,6 +701,26 @@ final class PresetCrud
                     'floor' => [],
                     'wall' => [],
                 ],
+            ],
+            'tile_roles' => [
+                'id' => $id,
+                'label' => $id,
+                'notes' => '',
+                'kindHints' => ['tiles'],
+                'catalogCategories' => [],
+                'render' => [
+                    'scale' => 1.0,
+                    'anchor' => 'middle_center',
+                    'variant' => 'retro',
+                ],
+                'influence' => [
+                    'friction' => 100,
+                    'sight' => 0,
+                    'flags' => 0,
+                    'walkMode' => 'open',
+                    'sightMode' => 'clear',
+                ],
+                'vertical' => null,
             ],
             'dungeons' => [
                 'id' => $id,
@@ -744,7 +809,8 @@ final class PresetCrud
 
     /**
      * Optional engine validate via kernel (Node).
-     * pieces/biomes: structural checks. dungeons: few-seed layout or bounded stress.
+     * pieces/biomes: structural checks. tile_roles: influence / vertical.
+     * dungeons: few-seed layout or bounded stress.
      * Does not run full 10k dungeon_test CI stress.
      *
      * @param string $level layout|stress
@@ -1372,7 +1438,7 @@ final class PresetCrud
             $created = $created; // already set
         }
 
-        // Keep mode.json browser lists in sync for full-mirror kinds (creatures).
+        // Keep mode.json browser lists in sync for full-mirror kinds.
         if (isset(self::BROWSER_FULL_LIST_BY_KIND[$kind])) {
             self::updateBrowserIdList(
                 $modeId,
@@ -1550,6 +1616,10 @@ final class PresetCrud
             $refs = array_merge($refs, self::scanFolderField($modeId, 'biomes', 'artSet', $entityId, 200));
         }
 
+        if ($kind === 'tile_roles') {
+            $refs = array_merge($refs, self::scanArtSetRoleIds($modeId, $entityId));
+        }
+
         if ($kind === 'dungeons') {
             // biomes.profiles.procedural / fixed arrays
             $refs = array_merge($refs, self::scanBiomeProfileRefs($modeId, $entityId));
@@ -1557,6 +1627,11 @@ final class PresetCrud
 
         if ($kind === 'creatures') {
             $refs = array_merge($refs, self::scanPopulationCreatureRefs($modeId, $entityId));
+        }
+
+        if ($kind === 'dialogs') {
+            // Creatures folder is large (~1.5k); zz_ test ids sort last — do not use the 200 cap.
+            $refs = array_merge($refs, self::scanFolderField($modeId, 'creatures', 'dialogId', $entityId, 3000));
         }
 
         if ($kind === 'player_profiles') {
@@ -1638,7 +1713,8 @@ final class PresetCrud
             || $targetKind === 'populations' || $targetKind === 'biomes'
             || $targetKind === 'art_sets' || $targetKind === 'pieces'
             || $targetKind === 'classes' || $targetKind === 'strategies'
-            || $targetKind === 'equipment' || $targetKind === 'creatures')) {
+            || $targetKind === 'equipment' || $targetKind === 'creatures'
+            || $targetKind === 'waypoints')) {
             $files = scandir($scenDir) ?: [];
             $n = 0;
             foreach ($files as $file) {
@@ -1709,6 +1785,12 @@ final class PresetCrud
         }
         if ($targetKind === 'markers' && $eq($data['markersId'] ?? null)) {
             $hits[] = 'markersId';
+        }
+        if ($targetKind === 'waypoints' && $eq($data['waypointPreset'] ?? null)) {
+            $hits[] = 'waypointPreset';
+        }
+        if ($targetKind === 'waypoints' && $eq($data['waypointsId'] ?? null)) {
+            $hits[] = 'waypointsId';
         }
 
         $layout = $data['layout'] ?? null;
@@ -1877,6 +1959,53 @@ final class PresetCrud
             $val = $data[$field] ?? null;
             if (is_string($val) && strtolower(trim($val)) === $needle) {
                 $out[] = ['kind' => $kind, 'id' => $id, 'field' => $field];
+            }
+        }
+        return $out;
+    }
+
+    /**
+     * Art-set weighted rows store tile role ids on roleId (not the pack key).
+     *
+     * @return list<array{kind: string, id: string, field: string}>
+     */
+    private static function scanArtSetRoleIds(string $modeId, string $roleId): array
+    {
+        if (!isset(self::KINDS['art_sets'])) {
+            return [];
+        }
+        $cfg = self::KINDS['art_sets'];
+        $out = [];
+        foreach (self::listFolderStems($modeId, $cfg) as $artId) {
+            $path = self::folderPath($modeId, $cfg, $artId);
+            if (!is_file($path)) {
+                continue;
+            }
+            try {
+                $data = self::readJsonFile($path);
+            } catch (\Throwable $e) {
+                continue;
+            }
+            $roles = $data['roles'] ?? null;
+            if (!is_array($roles)) {
+                continue;
+            }
+            $fields = [];
+            foreach ($roles as $roleKey => $entries) {
+                if (!is_array($entries)) {
+                    continue;
+                }
+                foreach ($entries as $i => $entry) {
+                    if (!is_array($entry)) {
+                        continue;
+                    }
+                    if (self::idEquals($entry['roleId'] ?? null, $roleId)) {
+                        $fields[] = 'roles.' . $roleKey . '[' . $i . '].roleId';
+                    }
+                }
+            }
+            foreach ($fields as $field) {
+                $out[] = ['kind' => 'art_sets', 'id' => $artId, 'field' => $field];
             }
         }
         return $out;
@@ -2147,6 +2276,13 @@ final class PresetCrud
             );
         }
 
+        if ($kind === 'tile_roles') {
+            $updated = array_merge(
+                $updated,
+                self::rewriteArtSetRoleIds($modeId, $fromId, $toId)
+            );
+        }
+
         if ($kind === 'dungeons') {
             $updated = array_merge(
                 $updated,
@@ -2158,6 +2294,13 @@ final class PresetCrud
             $updated = array_merge(
                 $updated,
                 self::rewritePopulationCreatureRefs($modeId, $fromId, $toId)
+            );
+        }
+
+        if ($kind === 'dialogs') {
+            $updated = array_merge(
+                $updated,
+                self::rewriteFolderField($modeId, 'creatures', 'dialogId', $fromId, $toId, 3000)
             );
         }
 
@@ -2311,6 +2454,66 @@ final class PresetCrud
             $data[$field] = $toId;
             self::writeJsonFile($path, $data);
             $out[] = ['kind' => $kind, 'id' => $id, 'field' => $field];
+        }
+        return $out;
+    }
+
+    /**
+     * @return list<array{kind: string, id: string, field: string}>
+     */
+    private static function rewriteArtSetRoleIds(
+        string $modeId,
+        string $fromId,
+        string $toId
+    ): array {
+        if (!isset(self::KINDS['art_sets'])) {
+            return [];
+        }
+        $cfg = self::KINDS['art_sets'];
+        $out = [];
+        foreach (self::listFolderStems($modeId, $cfg) as $artId) {
+            $path = self::folderPath($modeId, $cfg, $artId);
+            if (!is_file($path)) {
+                continue;
+            }
+            try {
+                $data = self::readJsonFile($path);
+            } catch (\Throwable $e) {
+                continue;
+            }
+            $roles = $data['roles'] ?? null;
+            if (!is_array($roles)) {
+                continue;
+            }
+            $dirty = false;
+            $fields = [];
+            foreach ($roles as $roleKey => $entries) {
+                if (!is_array($entries)) {
+                    continue;
+                }
+                foreach ($entries as $i => $entry) {
+                    if (!is_array($entry)) {
+                        continue;
+                    }
+                    if (!self::idEquals($entry['roleId'] ?? null, $fromId)) {
+                        continue;
+                    }
+                    $entry['roleId'] = $toId;
+                    $entries[$i] = $entry;
+                    $dirty = true;
+                    $fields[] = 'roles.' . $roleKey . '[' . $i . '].roleId';
+                }
+                if ($dirty) {
+                    $roles[$roleKey] = $entries;
+                }
+            }
+            if ($dirty) {
+                $data['roles'] = $roles;
+                self::writeJsonFile($path, $data);
+                foreach ($fields as $field) {
+                    $out[] = ['kind' => 'art_sets', 'id' => $artId, 'field' => $field];
+                }
+            }
         }
         return $out;
     }
@@ -2622,6 +2825,7 @@ final class PresetCrud
             || $targetKind === 'art_sets' || $targetKind === 'pieces'
             || $targetKind === 'classes' || $targetKind === 'strategies'
             || $targetKind === 'equipment' || $targetKind === 'creatures'
+            || $targetKind === 'waypoints'
         )) {
             $files = scandir($scenDir) ?: [];
             $n = 0;
@@ -2700,6 +2904,14 @@ final class PresetCrud
         if ($targetKind === 'markers' && self::idEquals($data['markersId'] ?? null, $fromId)) {
             $data['markersId'] = $toId;
             $hits[] = 'markersId';
+        }
+        if ($targetKind === 'waypoints' && self::idEquals($data['waypointPreset'] ?? null, $fromId)) {
+            $data['waypointPreset'] = $toId;
+            $hits[] = 'waypointPreset';
+        }
+        if ($targetKind === 'waypoints' && self::idEquals($data['waypointsId'] ?? null, $fromId)) {
+            $data['waypointsId'] = $toId;
+            $hits[] = 'waypointsId';
         }
 
         $layout = $data['layout'] ?? null;

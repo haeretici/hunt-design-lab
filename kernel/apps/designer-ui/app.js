@@ -92,6 +92,15 @@ const KIND_META = {
         icon: 'fa-dragon',
         paginate: true
     },
+    dialogs: {
+        label: 'Dialogs',
+        shape: 'folder',
+        group: 'combat',
+        schemaFile: 'dialogs.schema.json',
+        defKey: null,
+        dir: 'dialogs',
+        icon: 'fa-comments'
+    },
     player_profiles: {
         label: 'Base Profiles',
         shape: 'folder',
@@ -129,6 +138,16 @@ const KIND_META = {
         dir: 'art_sets',
         icon: 'fa-palette'
     },
+    tile_roles: {
+        label: 'Tile roles',
+        shape: 'folder',
+        group: 'dungeon',
+        schemaFile: 'tile_roles.schema.json',
+        defKey: null,
+        dir: 'tile_roles',
+        icon: 'fa-layer-group',
+        canValidate: true
+    },
     dungeons: {
         label: 'Dungeons',
         shape: 'folder',
@@ -157,6 +176,15 @@ const KIND_META = {
         dir: 'markers',
         icon: 'fa-map-pin'
     },
+    waypoints: {
+        label: 'Waypoints',
+        shape: 'folder',
+        group: 'dungeon',
+        schemaFile: 'waypoints.schema.json',
+        defKey: null,
+        dir: 'waypoints',
+        icon: 'fa-route'
+    },
     pieces: {
         label: 'Piece packs',
         shape: 'nested_pack',
@@ -179,7 +207,7 @@ const KIND_GROUPS = [
  * Nested paths use dots (e.g. profiles.procedural).
  * Optional filterField + filterValue narrow the presets_ids query for catalog
  * kinds (e.g. equipment filtered by slot).
- * @type {Record<string, Array<{ path: string, idsKind: string, arrayItems?: boolean, filterField?: string, filterValue?: string }>>}
+ * @type {Record<string, Array<{ path: string, idsKind: string, arrayItems?: boolean, filterField?: string, filterValue?: string, definition?: string }>>}
  */
 const RELATION_FIELDS = {
     spells: [
@@ -195,7 +223,9 @@ const RELATION_FIELDS = {
     ],
     // Creatures: offense is attacks[]; stand-off is flags.targetDistance.
     // No autoAttack / atk / skill relation fields on monster templates.
-    creatures: [],
+    creatures: [
+        { path: 'dialogId', idsKind: 'dialogs' }
+    ],
     player_profiles: [
         { path: 'vocation', idsKind: 'classes' },
         { path: 'strategyId', idsKind: 'strategies' },
@@ -226,6 +256,9 @@ const RELATION_FIELDS = {
         { path: 'piecePack', idsKind: 'pieces' },
         { path: 'populationId', idsKind: 'populations' },
         { path: 'markersId', idsKind: 'markers' }
+    ],
+    art_sets: [
+        { path: 'roleId', idsKind: 'tile_roles', definition: 'weightedTile' }
     ]
 };
 
@@ -443,7 +476,7 @@ function entitySchemaFromDoc(schemaDoc, defKey) {
 /**
  * Inject enum lists for relation fields on a cloned entity schema.
  * @param {Record<string, unknown>} schema
- * @param {Array<{ path: string, idsKind: string, arrayItems?: boolean }>} fields
+ * @param {Array<{ path: string, idsKind: string, arrayItems?: boolean, definition?: string }>} fields
  * @param {Record<string, string[]>} idsByKind
  * @returns {Record<string, unknown>}
  */
@@ -456,15 +489,29 @@ function injectRelationEnums(schema, fields, idsByKind) {
         const ids = idsByKind[field.idsKind];
         if (!ids || ids.length === 0) continue;
 
-        const resolved = resolvePath(
-            /** @type {Record<string, unknown>} */ ({ properties: props }),
-            'properties.' + field.path
-        );
-        if (!resolved) continue;
-
-        // Work on schema properties tree: path is relative to entity properties.
         const parts = field.path.split('.');
-        let parent = props;
+        /** @type {Record<string, unknown>} */
+        let parent;
+        if (field.definition) {
+            const defs = /** @type {Record<string, unknown>} */ (
+                out.definitions || {}
+            );
+            out.definitions = defs;
+            let defNode = defs[field.definition];
+            if (!defNode || typeof defNode !== 'object') continue;
+            const def = /** @type {Record<string, unknown>} */ (defNode);
+            if (!def.properties || typeof def.properties !== 'object') {
+                def.properties = {};
+            }
+            parent = /** @type {Record<string, unknown>} */ (def.properties);
+        } else {
+            const resolved = resolvePath(
+                /** @type {Record<string, unknown>} */ ({ properties: props }),
+                'properties.' + field.path
+            );
+            if (!resolved) continue;
+            parent = props;
+        }
         for (let i = 0; i < parts.length - 1; i++) {
             const p = parts[i];
             let node = parent[p];

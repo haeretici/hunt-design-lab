@@ -202,11 +202,11 @@ test('sample JSON loads through presets.loadCreatureTemplate', () => {
     assert.strictEqual(tpl.aggro, false);
     assert.ok(Array.isArray(tpl.attacks) && tpl.attacks.length === 0);
     assert.strictEqual(tpl.dialogId, 'town_guide');
-    assert.ok(tpl.dialog && tpl.dialog.nodes && tpl.dialog.nodes.start);
+    assert.ok(!tpl.dialog, 'sample creature stores dialogId only');
 
     const resolved = resolveDialog(tpl);
     assert.strictEqual(resolved.ok, true);
-    assert.strictEqual(resolved.source, 'inline');
+    assert.strictEqual(resolved.source, 'dialogId');
     const start = resolveNode(resolved.dialog, 'start');
     assert.ok(start.ok);
     assert.strictEqual(
@@ -228,7 +228,8 @@ test('sample JSON loads through presets.loadCreatureTemplate', () => {
     c.applyTemplate(tpl);
     assert.strictEqual(c.isNpc, true);
     assert.strictEqual(c.name, 'Guide');
-    assert.ok(c.dialog && c.dialog.nodes.start);
+    assert.strictEqual(c.dialogId, 'town_guide');
+    assert.ok(!c.dialog, 'spawned NPC has no inline tree');
     assert.ok(c.shop && c.shop.items && c.shop.items.length >= 2, 'shop copied');
     assert.ok(isTalkableNpc(c));
     assert.ok(!isAttackableCreature(c));

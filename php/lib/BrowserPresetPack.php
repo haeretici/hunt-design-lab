@@ -5,8 +5,9 @@
  * Hunt Simulator / Scenario Lab have no real filesystem. Instead of N static
  * fetches + client-side dep walking, PHP resolves:
  *   mode.json browser catalog
- *   → hunts / creatures / waypoints / populations / scenarios
+ *   → hunts / creatures / dialogs / waypoints / populations / scenarios
  *   → Stage 11 layout deps (dungeons → pieces / populations / markers / biomes / art_sets)
+ *   → hunt/scenario waypointPreset + folder-scan dialogs/waypoints (small kinds)
  *
  * Kernel JS still owns layout *expand* (procedural RNG). This pack only ships
  * the raw JSON files so setPresetCache + expandHuntDefinition work offline.
@@ -73,6 +74,7 @@ final class BrowserPresetPack
             'biomes' => [],
             'art_sets' => [],
             'creatures' => [],
+            'dialogs' => [],
             'waypoints' => [],
             'scenarios' => [],
             'parties' => [],
@@ -101,7 +103,22 @@ final class BrowserPresetPack
             $wanted['creatures/' . $id . '.json'] = true;
             $deps['creatures'][] = $id;
         }
-        foreach ($list($browser['waypoints'] ?? []) as $id) {
+
+        // Small folders: catalog ∪ disk. Empty browser.waypoints used to ship nothing.
+        $dialogIds = $list($browser['dialogs'] ?? []);
+        foreach (self::listFolderIds($modeDir . '/dialogs') as $id) {
+            $dialogIds[] = $id;
+        }
+        foreach (array_values(array_unique($dialogIds)) as $id) {
+            $wanted['dialogs/' . $id . '.json'] = true;
+            $deps['dialogs'][] = $id;
+        }
+
+        $waypointIds = $list($browser['waypoints'] ?? []);
+        foreach (self::listFolderIds($modeDir . '/waypoints') as $id) {
+            $waypointIds[] = $id;
+        }
+        foreach (array_values(array_unique($waypointIds)) as $id) {
             $wanted['waypoints/' . $id . '.json'] = true;
             $deps['waypoints'][] = $id;
         }
@@ -139,13 +156,14 @@ final class BrowserPresetPack
             $deps['hunts'][] = $id;
         }
 
-        // Pass 1: load hunts and collect layout refs.
+        // Pass 1: load hunts and collect layout refs + waypoint packs.
         $pendingProfiles = [];
         $pendingPieces = [];
         $pendingPops = [];
         $pendingMarkers = [];
         $pendingBiomes = [];
         $pendingArtSets = [];
+        $pendingWaypoints = [];
 
         foreach ($huntIds as $id) {
             $hunt = self::readJsonFile($modeDir . '/hunts/' . $id . '.json');
@@ -153,6 +171,22 @@ final class BrowserPresetPack
                 continue;
             }
             self::collectRefs($hunt, $pendingProfiles, $pendingPieces, $pendingPops, $pendingMarkers, $pendingBiomes, $pendingArtSets);
+            self::addId($pendingWaypoints, $hunt['waypointPreset'] ?? null);
+            self::addId($pendingWaypoints, $hunt['waypointsId'] ?? null);
+        }
+
+        foreach ($list($browser['scenarios'] ?? []) as $sid) {
+            $scenario = self::readJsonFile($modeDir . '/scenarios/' . $sid . '.json');
+            if ($scenario === null) {
+                continue;
+            }
+            self::addId($pendingWaypoints, $scenario['waypointPreset'] ?? null);
+            self::addId($pendingWaypoints, $scenario['waypointsId'] ?? null);
+        }
+
+        foreach (array_keys($pendingWaypoints) as $wid) {
+            $wanted['waypoints/' . $wid . '.json'] = true;
+            $deps['waypoints'][] = $wid;
         }
 
         // Pass 2: dungeon profiles (and their refs).
@@ -560,7 +594,7 @@ final class BrowserPresetPack
             return true;
         }
         if (!preg_match(
-            '#^(hunts|creatures|waypoints|populations|scenarios|dungeons|pieces|markers|biomes|art_sets|parties|player_profiles)/[a-z][a-z0-9_-]{0,79}\.json$#',
+            '#^(hunts|creatures|dialogs|waypoints|populations|scenarios|dungeons|pieces|markers|biomes|art_sets|parties|player_profiles)/[a-z][a-z0-9_-]{0,79}\.json$#',
             $rel
         )) {
             return false;

@@ -1,0 +1,49 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://hunt-design-lab.local/schemas/waypoints.schema.json",
+  "title": "Waypoint pack",
+  "description": "Shape of presets/<mode>/waypoints/<id>.json. Loaded by presets.loadWaypointPreset. Hunt waypointPreset / waypointsId select this pack when the hunt has no inline waypoints. Sample: wp_test_1.",
+  "type": "object",
+  "required": ["id", "waypoints"],
+  "additionalProperties": true,
+  "definitions": {
+    "entityId": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]{0,79}$",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "point": {
+      "type": "object",
+      "required": ["x", "y"],
+      "additionalProperties": true,
+      "properties": {
+        "x": { "type": "integer" },
+        "y": { "type": "integer" },
+        "z": {
+          "type": "integer",
+          "default": 0,
+          "description": "Floor index. Omitted → hunt floor, else pack floor, else 0."
+        }
+      }
+    }
+  },
+  "properties": {
+    "id": { "$ref": "#/definitions/entityId" },
+    "label": { "type": "string", "minLength": 1, "maxLength": 120 },
+    "notes": { "type": "string", "maxLength": 4000 },
+    "floor": {
+      "type": "integer",
+      "description": "Default floor copied onto the hunt when hunt.floor is omitted."
+    },
+    "mapPath": {
+      "type": "string",
+      "description": "Optional map path copied onto the hunt when hunt.mapPath is omitted."
+    },
+    "waypoints": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/point" },
+      "description": "Ordered route tiles. Inline hunt waypoints always win over this pack."
+    }
+  }
+}

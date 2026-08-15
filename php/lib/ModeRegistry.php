@@ -72,6 +72,7 @@ function hdl_load_mode(string $modeId): array
             'hunts' => $list($browser['hunts'] ?? []),
             'populations' => $list($browser['populations'] ?? []),
             'creatures' => $list($browser['creatures'] ?? []),
+            'dialogs' => $list($browser['dialogs'] ?? []),
             'waypoints' => $list($browser['waypoints'] ?? []),
             'catalogCreatures' => $list($browser['catalogCreatures'] ?? []),
             'scenarios' => $list($browser['scenarios'] ?? []),

@@ -23,6 +23,14 @@ const TEST_CREATURE_RENAME_TO = 'zz_designer_poc_creature_renamed';
 const TEST_PIECE_PACK_ID = 'zz_designer_poc_pieces';
 const TEST_PROFILE_ID = 'zz_designer_poc_profile';
 const TEST_PARTY_ID = 'zz_designer_poc_party';
+const TEST_TILE_ROLE_ID = 'zz_designer_poc_role';
+const TEST_TILE_ROLE_RENAME_TO = 'zz_designer_poc_role_renamed';
+const TEST_ART_SET_ID = 'zz_designer_poc_art';
+const TEST_DIALOG_ID = 'zz_designer_poc_dialog';
+const TEST_DIALOG_RENAME_TO = 'zz_designer_poc_dialog_renamed';
+const TEST_WAYPOINT_ID = 'zz_designer_poc_waypoints';
+const TEST_WAYPOINT_RENAME_TO = 'zz_designer_poc_waypoints_renamed';
+const TEST_HUNT_WP_ID = 'zz_designer_poc_hunt_wp';
 
 /**
  * @param {string} phpBody
@@ -74,11 +82,28 @@ foreach ([
   ['pieces', ${JSON.stringify(TEST_PIECE_PACK_ID)}],
   ['player_profiles', ${JSON.stringify(TEST_PROFILE_ID)}],
   ['parties', ${JSON.stringify(TEST_PARTY_ID)}],
+  ['tile_roles', ${JSON.stringify(TEST_TILE_ROLE_ID)}],
+  ['tile_roles', ${JSON.stringify(TEST_TILE_ROLE_RENAME_TO)}],
+  ['art_sets', ${JSON.stringify(TEST_ART_SET_ID)}],
+  ['dialogs', ${JSON.stringify(TEST_DIALOG_ID)}],
+  ['dialogs', ${JSON.stringify(TEST_DIALOG_RENAME_TO)}],
+  ['waypoints', ${JSON.stringify(TEST_WAYPOINT_ID)}],
+  ['waypoints', ${JSON.stringify(TEST_WAYPOINT_RENAME_TO)}],
 ] as $pair) {
   try { \\De\\PresetCrud::delete('standard', $pair[0], $pair[1]); } catch (Throwable $e) {}
 }
 echo json_encode(['ok' => true]);
 `);
+    } catch (_) {
+        /* ignore */
+    }
+    const huntPath = path.join(
+        ROOT,
+        'presets/standard/hunts',
+        TEST_HUNT_WP_ID + '.json'
+    );
+    try {
+        if (fs.existsSync(huntPath)) fs.unlinkSync(huntPath);
     } catch (_) {
         /* ignore */
     }
@@ -103,8 +128,11 @@ function main() {
             'markers',
             'biomes',
             'art_sets',
+            'tile_roles',
             'dungeons',
-            'pieces'
+            'pieces',
+            'dialogs',
+            'waypoints'
         ]) {
             assert.ok(ids.includes(k), 'missing kind ' + k);
         }
@@ -121,6 +149,15 @@ function main() {
         const pieces = data.find((k) => k.id === 'pieces');
         assert.strictEqual(pieces.shape, 'nested_pack');
         assert.strictEqual(pieces.group, 'dungeon');
+        const roles = data.find((k) => k.id === 'tile_roles');
+        assert.strictEqual(roles.shape, 'folder');
+        assert.strictEqual(roles.group, 'dungeon');
+        const dialogs = data.find((k) => k.id === 'dialogs');
+        assert.strictEqual(dialogs.shape, 'folder');
+        assert.strictEqual(dialogs.group, 'combat');
+        const waypoints = data.find((k) => k.id === 'waypoints');
+        assert.strictEqual(waypoints.shape, 'folder');
+        assert.strictEqual(waypoints.group, 'dungeon');
     });
 
     test('list standard spells has rows', () => {
@@ -185,6 +222,22 @@ function main() {
             `echo json_encode(\\De\\PresetCrud::ids('standard', 'populations'));`
         );
         assert.ok(pops.ids.includes('cave_rats'));
+        const roles = phpEval(
+            `echo json_encode(\\De\\PresetCrud::ids('standard', 'tile_roles'));`
+        );
+        assert.ok(roles.ids.includes('path'));
+        assert.ok(roles.ids.includes('water'));
+        assert.ok(roles.ids.includes('wall'));
+        assert.ok(roles.ids.includes('stairs_up'));
+        const dialogs = phpEval(
+            `echo json_encode(\\De\\PresetCrud::ids('standard', 'dialogs'));`
+        );
+        assert.ok(dialogs.ids.includes('town_guide'));
+        const waypoints = phpEval(
+            `echo json_encode(\\De\\PresetCrud::ids('standard', 'waypoints'));`
+        );
+        assert.ok(Array.isArray(waypoints.ids));
+        assert.ok(waypoints.ids.includes('wp_test_1'));
     });
 
     test('reject invalid entity id', () => {
@@ -358,6 +411,13 @@ echo json_encode(\\De\\PresetCrud::save([
         assert.strictEqual(pop.created, true);
         assert.strictEqual(pop.shape, 'folder');
         assert.ok(fs.existsSync(popPath));
+        const modeAfterCreate = JSON.parse(
+            fs.readFileSync(path.join(ROOT, 'presets/standard/mode.json'), 'utf8')
+        );
+        assert.ok(
+            modeAfterCreate.browser.populations.includes(TEST_POP_ID),
+            'create should add browser.populations entry'
+        );
 
         const cr = phpEval(`
 echo json_encode(\\De\\PresetCrud::save([
@@ -391,6 +451,13 @@ echo json_encode(\\De\\PresetCrud::save([
         );
         assert.ok(!fs.existsSync(popPath));
         assert.ok(!fs.existsSync(crPath));
+        const modeAfterDelete = JSON.parse(
+            fs.readFileSync(path.join(ROOT, 'presets/standard/mode.json'), 'utf8')
+        );
+        assert.ok(
+            !modeAfterDelete.browser.populations.includes(TEST_POP_ID),
+            'delete should remove browser.populations entry'
+        );
     });
 
     test('player_profiles folder entity round-trip', () => {
@@ -683,6 +750,331 @@ echo json_encode(\\De\\PresetCrud::rename([
         );
     });
 
+    test('tile_roles list get save rename rewrites art-set roleId', () => {
+        const listed = phpEval(
+            `echo json_encode(\\De\\PresetCrud::list('standard', 'tile_roles'));`
+        );
+        assert.strictEqual(listed.shape, 'folder');
+        assert.ok(listed.items.some((r) => r.id === 'path'));
+        assert.ok(listed.items.some((r) => r.id === 'wall'));
+
+        const pathRole = phpEval(
+            `echo json_encode(\\De\\PresetCrud::get('standard', 'tile_roles', 'path'));`
+        );
+        assert.strictEqual(pathRole.entity.id, 'path');
+        assert.ok(pathRole.entity.kindHints.includes('overlays'));
+        assert.strictEqual(pathRole.entity.vertical, null);
+
+        const wallRole = phpEval(
+            `echo json_encode(\\De\\PresetCrud::get('standard', 'tile_roles', 'wall'));`
+        );
+        assert.strictEqual(wallRole.entity.vertical, null);
+        assert.ok(wallRole.entity.kindHints.includes('objects'));
+
+        const rolePath = path.join(
+            ROOT,
+            'presets/standard/tile_roles',
+            TEST_TILE_ROLE_ID + '.json'
+        );
+        const roleToPath = path.join(
+            ROOT,
+            'presets/standard/tile_roles',
+            TEST_TILE_ROLE_RENAME_TO + '.json'
+        );
+        const artPath = path.join(
+            ROOT,
+            'presets/standard/art_sets',
+            TEST_ART_SET_ID + '.json'
+        );
+        for (const p of [rolePath, roleToPath, artPath]) {
+            if (fs.existsSync(p)) fs.unlinkSync(p);
+        }
+
+        phpEval(`
+echo json_encode(\\De\\PresetCrud::save([
+  'mode' => 'standard',
+  'kind' => 'tile_roles',
+  'id' => ${JSON.stringify(TEST_TILE_ROLE_ID)},
+  'entity' => [
+    'id' => ${JSON.stringify(TEST_TILE_ROLE_ID)},
+    'label' => 'PoC Role',
+    'kindHints' => ['tiles'],
+    'catalogCategories' => [],
+    'influence' => [
+      'friction' => 100,
+      'sight' => 0,
+      'flags' => 0,
+      'walkMode' => 'open',
+      'sightMode' => 'clear',
+    ],
+    'vertical' => null,
+  ],
+]));
+`);
+        phpEval(`
+echo json_encode(\\De\\PresetCrud::save([
+  'mode' => 'standard',
+  'kind' => 'art_sets',
+  'id' => ${JSON.stringify(TEST_ART_SET_ID)},
+  'entity' => [
+    'id' => ${JSON.stringify(TEST_ART_SET_ID)},
+    'label' => 'PoC Art',
+    'roles' => [
+      'floor' => [
+        [
+          'id' => 'damp_dirt_floor',
+          'roleId' => ${JSON.stringify(TEST_TILE_ROLE_ID)},
+          'weight' => 1,
+        ],
+      ],
+    ],
+  ],
+]));
+`);
+
+        const refsBefore = phpEval(
+            `echo json_encode(\\De\\PresetCrud::refs('standard', 'tile_roles', ${JSON.stringify(TEST_TILE_ROLE_ID)}));`
+        );
+        assert.ok(
+            refsBefore.refs.some(
+                (r) => r.kind === 'art_sets' && r.id === TEST_ART_SET_ID
+            ),
+            'art set should reference tile role before rename'
+        );
+
+        const renamed = phpEval(`
+echo json_encode(\\De\\PresetCrud::rename([
+  'mode' => 'standard',
+  'kind' => 'tile_roles',
+  'from' => ${JSON.stringify(TEST_TILE_ROLE_ID)},
+  'to' => ${JSON.stringify(TEST_TILE_ROLE_RENAME_TO)},
+  'updateRefs' => true,
+]));
+`);
+        assert.strictEqual(renamed.id, TEST_TILE_ROLE_RENAME_TO);
+        assert.ok(renamed.refsUpdatedCount >= 1);
+        assert.ok(
+            renamed.refsUpdated.some(
+                (r) => r.kind === 'art_sets' && r.id === TEST_ART_SET_ID
+            )
+        );
+
+        const art = JSON.parse(fs.readFileSync(artPath, 'utf8'));
+        assert.strictEqual(art.roles.floor[0].roleId, TEST_TILE_ROLE_RENAME_TO);
+        assert.ok(!fs.existsSync(rolePath));
+        assert.ok(fs.existsSync(roleToPath));
+
+        phpEval(
+            `echo json_encode(\\De\\PresetCrud::delete('standard', 'art_sets', ${JSON.stringify(TEST_ART_SET_ID)}));`
+        );
+        phpEval(
+            `echo json_encode(\\De\\PresetCrud::delete('standard', 'tile_roles', ${JSON.stringify(TEST_TILE_ROLE_RENAME_TO)}));`
+        );
+    });
+
+    test('dialogs list get save rename rewrites creature dialogId', () => {
+        const listed = phpEval(
+            `echo json_encode(\\De\\PresetCrud::list('standard', 'dialogs'));`
+        );
+        assert.strictEqual(listed.shape, 'folder');
+        assert.ok(listed.items.some((r) => r.id === 'town_guide'));
+
+        const town = phpEval(
+            `echo json_encode(\\De\\PresetCrud::get('standard', 'dialogs', 'town_guide'));`
+        );
+        assert.strictEqual(town.entity.id, 'town_guide');
+        assert.ok(town.entity.nodes && town.entity.nodes.start);
+        assert.ok(Array.isArray(town.entity.nodes.start.replies));
+
+        const dialogPath = path.join(
+            ROOT,
+            'presets/standard/dialogs',
+            TEST_DIALOG_ID + '.json'
+        );
+        const dialogToPath = path.join(
+            ROOT,
+            'presets/standard/dialogs',
+            TEST_DIALOG_RENAME_TO + '.json'
+        );
+        const creaturePath = path.join(
+            ROOT,
+            'presets/standard/creatures',
+            TEST_CREATURE_ID + '.json'
+        );
+        for (const p of [dialogPath, dialogToPath, creaturePath]) {
+            if (fs.existsSync(p)) fs.unlinkSync(p);
+        }
+
+        phpEval(`
+echo json_encode(\\De\\PresetCrud::save([
+  'mode' => 'standard',
+  'kind' => 'dialogs',
+  'id' => ${JSON.stringify(TEST_DIALOG_ID)},
+  'entity' => [
+    'id' => ${JSON.stringify(TEST_DIALOG_ID)},
+    'label' => 'PoC Dialog',
+    'greeting' => 'Hello.',
+    'start' => 'start',
+    'nodes' => [
+      'start' => [
+        'text' => 'Hello.',
+        'replies' => [
+          ['label' => 'Bye', 'action' => 'close'],
+        ],
+      ],
+    ],
+  ],
+]));
+`);
+        phpEval(`
+echo json_encode(\\De\\PresetCrud::save([
+  'mode' => 'standard',
+  'kind' => 'creatures',
+  'id' => ${JSON.stringify(TEST_CREATURE_ID)},
+  'entity' => [
+    'id' => ${JSON.stringify(TEST_CREATURE_ID)},
+    'label' => 'PoC Dialog NPC',
+    'dialogId' => ${JSON.stringify(TEST_DIALOG_ID)},
+    'hp' => 50,
+    'hpMax' => 50,
+  ],
+]));
+`);
+
+        const refsBefore = phpEval(
+            `echo json_encode(\\De\\PresetCrud::refs('standard', 'dialogs', ${JSON.stringify(TEST_DIALOG_ID)}));`
+        );
+        assert.ok(
+            refsBefore.refs.some(
+                (r) => r.kind === 'creatures' && r.id === TEST_CREATURE_ID
+            ),
+            'creature should reference dialog before rename'
+        );
+
+        const renamed = phpEval(`
+echo json_encode(\\De\\PresetCrud::rename([
+  'mode' => 'standard',
+  'kind' => 'dialogs',
+  'from' => ${JSON.stringify(TEST_DIALOG_ID)},
+  'to' => ${JSON.stringify(TEST_DIALOG_RENAME_TO)},
+  'updateRefs' => true,
+]));
+`);
+        assert.strictEqual(renamed.id, TEST_DIALOG_RENAME_TO);
+        assert.ok(renamed.refsUpdatedCount >= 1);
+        assert.ok(
+            renamed.refsUpdated.some(
+                (r) => r.kind === 'creatures' && r.id === TEST_CREATURE_ID
+            )
+        );
+
+        const creature = JSON.parse(fs.readFileSync(creaturePath, 'utf8'));
+        assert.strictEqual(creature.dialogId, TEST_DIALOG_RENAME_TO);
+        assert.ok(!fs.existsSync(dialogPath));
+        assert.ok(fs.existsSync(dialogToPath));
+
+        phpEval(
+            `echo json_encode(\\De\\PresetCrud::delete('standard', 'creatures', ${JSON.stringify(TEST_CREATURE_ID)}));`
+        );
+        phpEval(
+            `echo json_encode(\\De\\PresetCrud::delete('standard', 'dialogs', ${JSON.stringify(TEST_DIALOG_RENAME_TO)}));`
+        );
+    });
+
+    test('waypoints list get save rename rewrites hunt waypointPreset', () => {
+        const listed = phpEval(
+            `echo json_encode(\\De\\PresetCrud::list('standard', 'waypoints'));`
+        );
+        assert.strictEqual(listed.shape, 'folder');
+        assert.ok(listed.items.some((r) => r.id === 'wp_test_1'));
+
+        const wpPath = path.join(
+            ROOT,
+            'presets/standard/waypoints',
+            TEST_WAYPOINT_ID + '.json'
+        );
+        const wpToPath = path.join(
+            ROOT,
+            'presets/standard/waypoints',
+            TEST_WAYPOINT_RENAME_TO + '.json'
+        );
+        const huntPath = path.join(
+            ROOT,
+            'presets/standard/hunts',
+            TEST_HUNT_WP_ID + '.json'
+        );
+        for (const p of [wpPath, wpToPath, huntPath]) {
+            if (fs.existsSync(p)) fs.unlinkSync(p);
+        }
+
+        phpEval(`
+echo json_encode(\\De\\PresetCrud::save([
+  'mode' => 'standard',
+  'kind' => 'waypoints',
+  'id' => ${JSON.stringify(TEST_WAYPOINT_ID)},
+  'entity' => [
+    'id' => ${JSON.stringify(TEST_WAYPOINT_ID)},
+    'label' => 'PoC Route',
+    'floor' => 7,
+    'waypoints' => [
+      ['x' => 1, 'y' => 2, 'z' => 7],
+      ['x' => 3, 'y' => 4, 'z' => 7],
+    ],
+  ],
+]));
+`);
+
+        fs.writeFileSync(
+            huntPath,
+            JSON.stringify(
+                {
+                    id: TEST_HUNT_WP_ID,
+                    label: 'PoC Hunt WP',
+                    waypointPreset: TEST_WAYPOINT_ID
+                },
+                null,
+                2
+            ) + '\n'
+        );
+
+        const refsBefore = phpEval(
+            `echo json_encode(\\De\\PresetCrud::refs('standard', 'waypoints', ${JSON.stringify(TEST_WAYPOINT_ID)}));`
+        );
+        assert.ok(
+            refsBefore.refs.some(
+                (r) => r.kind === 'hunts' && r.id === TEST_HUNT_WP_ID
+            ),
+            'hunt should reference waypoint pack before rename'
+        );
+
+        const renamed = phpEval(`
+echo json_encode(\\De\\PresetCrud::rename([
+  'mode' => 'standard',
+  'kind' => 'waypoints',
+  'from' => ${JSON.stringify(TEST_WAYPOINT_ID)},
+  'to' => ${JSON.stringify(TEST_WAYPOINT_RENAME_TO)},
+  'updateRefs' => true,
+]));
+`);
+        assert.strictEqual(renamed.id, TEST_WAYPOINT_RENAME_TO);
+        assert.ok(renamed.refsUpdatedCount >= 1);
+        assert.ok(
+            renamed.refsUpdated.some(
+                (r) => r.kind === 'hunts' && r.id === TEST_HUNT_WP_ID
+            )
+        );
+
+        const hunt = JSON.parse(fs.readFileSync(huntPath, 'utf8'));
+        assert.strictEqual(hunt.waypointPreset, TEST_WAYPOINT_RENAME_TO);
+        assert.ok(!fs.existsSync(wpPath));
+        assert.ok(fs.existsSync(wpToPath));
+
+        fs.unlinkSync(huntPath);
+        phpEval(
+            `echo json_encode(\\De\\PresetCrud::delete('standard', 'waypoints', ${JSON.stringify(TEST_WAYPOINT_RENAME_TO)}));`
+        );
+    });
+
     test('blank templates for new kinds', () => {
         const eq = phpEval(
             `echo json_encode(\\De\\PresetCrud::blankTemplate('equipment', 'foo_eq'));`
@@ -705,6 +1097,25 @@ echo json_encode(\\De\\PresetCrud::rename([
         assert.ok(Array.isArray(pack.pieces));
         assert.ok(pack.pieces.length >= 1);
         assert.ok(Array.isArray(pack.pieces[0].friction));
+        const role = phpEval(
+            `echo json_encode(\\De\\PresetCrud::blankTemplate('tile_roles', 'foo_role'));`
+        );
+        assert.strictEqual(role.id, 'foo_role');
+        assert.strictEqual(role.vertical, null);
+        assert.ok(role.influence);
+        assert.deepStrictEqual(role.kindHints, ['tiles']);
+        const dialog = phpEval(
+            `echo json_encode(\\De\\PresetCrud::blankTemplate('dialogs', 'foo_dialog'));`
+        );
+        assert.strictEqual(dialog.id, 'foo_dialog');
+        assert.strictEqual(dialog.start, 'start');
+        assert.ok(dialog.nodes && dialog.nodes.start);
+        const wp = phpEval(
+            `echo json_encode(\\De\\PresetCrud::blankTemplate('waypoints', 'foo_route'));`
+        );
+        assert.strictEqual(wp.id, 'foo_route');
+        assert.ok(Array.isArray(wp.waypoints));
+        assert.ok(wp.waypoints.length >= 1);
     });
 
     test('piece pack nested_pack list get round-trip', () => {
@@ -831,6 +1242,63 @@ echo json_encode(\\De\\PresetCrud::save([
             'expected at least one passed seed'
         );
         assert.strictEqual(report.detail.failed, 0);
+    });
+
+    test('presets_validate tile_roles path water wall stairs_up', () => {
+        for (const id of ['path', 'water', 'wall', 'stairs_up']) {
+            const report = phpEval(
+                `echo json_encode(\\De\\PresetCrud::validate('standard', 'tile_roles', ${JSON.stringify(id)}));`
+            );
+            assert.strictEqual(report.kind, 'tile_roles');
+            assert.strictEqual(report.id, id);
+            assert.strictEqual(
+                report.ok,
+                true,
+                id + ' should validate: ' + JSON.stringify(report.errors)
+            );
+        }
+
+        const badPath = path.join(
+            ROOT,
+            'presets/standard/tile_roles',
+            TEST_TILE_ROLE_ID + '.json'
+        );
+        if (fs.existsSync(badPath)) fs.unlinkSync(badPath);
+        phpEval(`
+echo json_encode(\\De\\PresetCrud::save([
+  'mode' => 'standard',
+  'kind' => 'tile_roles',
+  'id' => ${JSON.stringify(TEST_TILE_ROLE_ID)},
+  'entity' => [
+    'id' => ${JSON.stringify(TEST_TILE_ROLE_ID)},
+    'label' => 'Bad Wall Hop',
+    'kindHints' => ['objects'],
+    'catalogCategories' => ['wall'],
+    'influence' => [
+      'friction' => 255,
+      'sight' => 255,
+      'flags' => 0,
+      'walkMode' => 'block',
+      'sightMode' => 'block',
+    ],
+    'vertical' => [
+      'type' => 'stairs',
+      'deltaZ' => -1,
+    ],
+  ],
+]));
+`);
+        const bad = phpEval(
+            `echo json_encode(\\De\\PresetCrud::validate('standard', 'tile_roles', ${JSON.stringify(TEST_TILE_ROLE_ID)}));`
+        );
+        assert.strictEqual(bad.ok, false);
+        assert.ok(
+            bad.errors.some((e) => /vertical_hop_on_wall_face/.test(String(e))),
+            'expected wall+hop error: ' + JSON.stringify(bad.errors)
+        );
+        phpEval(
+            `echo json_encode(\\De\\PresetCrud::delete('standard', 'tile_roles', ${JSON.stringify(TEST_TILE_ROLE_ID)}));`
+        );
     });
 
     test('dungeon soft refs include hunts; equipment soft refs include profiles', () => {

@@ -99,8 +99,8 @@
     "notes": { "type": "string", "maxLength": 4000 },
     "kindHints": {
       "type": "array",
-      "items": { "type": "string", "enum": ["tiles", "objects"] },
-      "description": "Preferred catalog kinds for palette filtering."
+      "items": { "type": "string", "enum": ["tiles", "objects", "overlays"] },
+      "description": "Preferred catalog kinds for palette filtering. overlays = Wang path/water families; objects + category wall = P4 faces."
     },
     "catalogCategories": {
       "type": "array",
@@ -110,7 +110,7 @@
     "render": { "$ref": "#/definitions/render" },
     "influence": { "$ref": "#/definitions/influence" },
     "vertical": {
-      "description": "Null or omitted for non-transit roles.",
+      "description": "Hop only (stairs/ladder/hole/rope/shovel). Null or omitted for non-transit roles. P4 wall faces MUST be null — do not combine hop fields with kindHints objects + category wall.",
       "oneOf": [
         { "type": "null" },
         { "$ref": "#/definitions/vertical" }

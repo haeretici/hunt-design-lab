@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /**
- * Designer Phase 3–4: engine validate for piece packs, biomes, and dungeon layouts.
+ * Designer Phase 3–4: engine validate for piece packs, biomes, dungeon layouts,
+ * and tile roles (influence / vertical).
  * Called by PHP PresetCrud::validate — prints one JSON object to stdout.
  *
  * Usage:
@@ -8,6 +9,7 @@
  *   node bin/presets_validate.js --mode standard --kind biomes --id cave
  *   node bin/presets_validate.js --mode standard --kind dungeons --id small_crawl
  *   node bin/presets_validate.js --mode standard --kind dungeons --id small_crawl --level stress
+ *   node bin/presets_validate.js --mode standard --kind tile_roles --id wall
  *
  * Levels:
  *   layout (default) — structural / few-seed layout check (fast)
@@ -41,7 +43,7 @@ function parseArgs(argv) {
             out.level = lv === 'stress' ? 'stress' : 'layout';
         } else if (a === '--help' || a === '-h') {
             console.log(
-                'Usage: node bin/presets_validate.js --mode <id> --kind pieces|biomes|dungeons --id <entityId> [--level layout|stress]'
+                'Usage: node bin/presets_validate.js --mode <id> --kind pieces|biomes|dungeons|tile_roles --id <entityId> [--level layout|stress]'
             );
             process.exit(0);
         }
@@ -389,11 +391,18 @@ function main() {
             result = validateBiome(args.mode, args.id);
         } else if (args.kind === 'dungeons') {
             result = validateDungeon(args.mode, args.id, args.level);
+        } else if (args.kind === 'tile_roles') {
+            const { validateTileRole } = require(path.join(
+                ROOT,
+                'kernel/core/lib/dungeon/tile_roles.js'
+            ));
+            const raw = readJson(`presets/${args.mode}/tile_roles/${args.id}.json`);
+            result = validateTileRole(raw);
         } else {
             result = {
                 ok: false,
                 errors: [
-                    `validate_not_supported_for_kind:${args.kind} (supported: pieces, biomes, dungeons)`
+                    `validate_not_supported_for_kind:${args.kind} (supported: pieces, biomes, dungeons, tile_roles)`
                 ],
                 warnings: [],
                 detail: null

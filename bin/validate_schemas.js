@@ -50,6 +50,18 @@ const FOLDER_ENTITIES = [
     dirRel: 'tile_roles',
     storage: 'folder',
   },
+  {
+    kind: 'dialogs',
+    schemaFile: 'schemas/dialogs.schema.json',
+    dirRel: 'dialogs',
+    storage: 'folder',
+  },
+  {
+    kind: 'waypoints',
+    schemaFile: 'schemas/waypoints.schema.json',
+    dirRel: 'waypoints',
+    storage: 'folder',
+  },
 ];
 
 function loadJson(absPath) {

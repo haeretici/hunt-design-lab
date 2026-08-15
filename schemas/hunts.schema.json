@@ -318,15 +318,15 @@
     "waypoints": {
       "type": "array",
       "items": { "$ref": "#/definitions/point" },
-      "description": "Explicit waypoints route."
+      "description": "Optional one-off route. Prefer waypointPreset when the route is edited in Designer. Inline waypoints always win over the pack."
     },
     "waypointPreset": {
       "type": "string",
-      "description": "Id for an external waypoint preset."
+      "description": "Relation: kind=waypoints (presets_ids). Pack id under presets/<mode>/waypoints/. Used when hunt.waypoints is empty. Inline waypoints always win."
     },
     "waypointsId": {
       "type": "string",
-      "description": "Alias for external waypoint preset."
+      "description": "Alias of waypointPreset. Relation: kind=waypoints (presets_ids)."
     },
     "loopWaypoints": {
       "type": "boolean",

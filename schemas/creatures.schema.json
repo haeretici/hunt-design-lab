@@ -95,7 +95,7 @@
     "dialogId": {
       "type": "string",
       "pattern": "^[a-z][a-z0-9_]{0,79}$",
-      "description": "Optional extracted dialog tree id under presets/<mode>/dialogs/<id>.json."
+      "description": "Relation: kind=dialogs (presets_ids). Soft ref to presets/<mode>/dialogs/<id>.json. Author the tree on the dialogs kind; this is the live pointer."
     },
     "walkInterval": {
       "type": "integer",
@@ -203,7 +203,8 @@
     "dialog": {
       "type": "object",
       "additionalProperties": true,
-      "description": "Inline dialog tree (Stage 6b). greeting + start + nodes with reply buttons. Prefer this or dialogId — not a free-text parser.",
+      "description": "Deprecated. Use dialogId + presets/<mode>/dialogs/<id>.json. Resolver still accepts an inline tree (tests / one-offs); if both are set, inline wins and the dialogs file is ignored.",
+      "options": { "hidden": true },
       "properties": {
         "greeting": { "type": "string" },
         "start": { "type": "string" },

@@ -244,7 +244,10 @@ function normalizeTileRole(raw) {
             const k = String(khRaw[i] || '')
                 .trim()
                 .toLowerCase();
-            if ((k === 'tiles' || k === 'objects') && kindHints.indexOf(k) < 0) {
+            if (
+                (k === 'tiles' || k === 'objects' || k === 'overlays') &&
+                kindHints.indexOf(k) < 0
+            ) {
                 kindHints.push(k);
             }
         }
@@ -342,6 +345,97 @@ function normalizeTileRole(raw) {
             sightMode
         },
         vertical
+    };
+}
+
+/**
+ * True when authored vertical has hop fields (not null / empty).
+ * @param {*} raw
+ * @returns {boolean}
+ */
+function authoredHopFields(raw) {
+    if (raw == null || raw === false) return false;
+    if (typeof raw !== 'object') return false;
+    return (
+        raw.type != null ||
+        raw.kind != null ||
+        raw.deltaZ != null ||
+        raw.defaultDir != null ||
+        raw.dir != null ||
+        raw.bidirectional != null ||
+        raw.registerStairLink != null
+    );
+}
+
+/**
+ * Structural check for Designer validate (influence ranges + wall vs hop).
+ * @param {*} raw
+ * @returns {{ ok: boolean, errors: string[], warnings: string[], detail: object|null }}
+ */
+function validateTileRole(raw) {
+    /** @type {string[]} */
+    const errors = [];
+    /** @type {string[]} */
+    const warnings = [];
+    const role = normalizeTileRole(raw);
+    if (!role) {
+        return {
+            ok: false,
+            errors: ['tile_role_invalid_or_missing_id'],
+            warnings,
+            detail: null
+        };
+    }
+
+    const infRaw =
+        raw && raw.influence && typeof raw.influence === 'object'
+            ? raw.influence
+            : raw && typeof raw === 'object'
+              ? raw
+              : {};
+    const checkByte = (key) => {
+        if (infRaw[key] == null) return;
+        const n = Number(infRaw[key]);
+        if (!Number.isFinite(n) || n < 0 || n > 255) {
+            errors.push('influence.' + key + '_out_of_range');
+        }
+    };
+    checkByte('friction');
+    checkByte('sight');
+    checkByte('flags');
+
+    if (infRaw.walkMode != null) {
+        const m = String(infRaw.walkMode).trim().toLowerCase();
+        if (!WALK_MODES[m]) errors.push('influence.walkMode_invalid');
+    }
+    if (infRaw.sightMode != null) {
+        const m = String(infRaw.sightMode).trim().toLowerCase();
+        if (!SIGHT_MODES[m]) errors.push('influence.sightMode_invalid');
+    }
+
+    const hints = role.kindHints;
+    const cats = role.catalogCategories;
+    const claimsWallFace =
+        hints.indexOf('objects') >= 0 && cats.indexOf('wall') >= 0;
+    const isWallRole = role.id === 'wall' || claimsWallFace;
+    const hop = authoredHopFields(raw && raw.vertical);
+    if (isWallRole && hop) {
+        errors.push('vertical_hop_on_wall_face');
+    }
+    if (hop && !normalizeVertical(raw.vertical)) {
+        errors.push('vertical_invalid');
+    }
+
+    return {
+        ok: errors.length === 0,
+        errors,
+        warnings,
+        detail: {
+            id: role.id,
+            influence: role.influence,
+            vertical: role.vertical,
+            kindHints: role.kindHints
+        }
     };
 }
 
@@ -606,6 +700,7 @@ module.exports = {
     normalizeEntityId,
     normalizeTileRole,
     normalizeVertical,
+    validateTileRole,
     createBakeAccumulator,
     applyInfluence,
     applyRole,

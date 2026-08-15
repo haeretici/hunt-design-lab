@@ -1,0 +1,91 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://hunt-design-lab.local/schemas/dialogs.schema.json",
+  "title": "Dialog tree",
+  "description": "Shape of presets/<mode>/dialogs/<id>.json. Loaded by npc/dialog.loadDialogById. Extracted creature dialog tree (greeting + start + nodes). Creature dialogId points here.",
+  "type": "object",
+  "required": ["id", "nodes"],
+  "additionalProperties": true,
+  "definitions": {
+    "entityId": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]{0,79}$",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "when": {
+      "description": "Hide this reply unless the predicate matches. Object or AND-array of { storage|key, eq?, neq?, min?, max? } or { item|itemId, eq?, neq?, min?, max? }. Storage unset = 0. Item counts the backpack tree. Re-checked at click / takeReply."
+    },
+    "itemSpec": {
+      "description": "Give/take spec ({ itemId|id|item, count }). Re-checked at takeReply. All-or-nothing."
+    },
+    "reply": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "label": { "type": "string" },
+        "goto": { "type": "string" },
+        "action": {
+          "type": "string",
+          "description": "goto | close | custom | give_item | take_item | open_shop | trade. open_shop / trade open the vendor-lite shop (C.3)."
+        },
+        "command": {
+          "description": "Optional CUSTOM_COMMAND payload when action is custom."
+        },
+        "item": {
+          "type": "string",
+          "description": "Item id for give_item / take_item (alias of itemId)."
+        },
+        "itemId": {
+          "type": "string",
+          "description": "Item id for give_item / take_item."
+        },
+        "count": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Stack count for give_item / take_item (default 1)."
+        },
+        "give": { "$ref": "#/definitions/itemSpec" },
+        "take": { "$ref": "#/definitions/itemSpec" },
+        "when": { "$ref": "#/definitions/when" },
+        "set": {
+          "type": "object",
+          "additionalProperties": true,
+          "description": "Storage keys written when this reply is taken (after when re-check and a successful give/take)."
+        }
+      }
+    },
+    "node": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "text": { "type": "string" },
+        "set": {
+          "type": "object",
+          "additionalProperties": true,
+          "description": "Storage keys written when the player lands on this node (Phase C.1)."
+        },
+        "replies": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/reply" }
+        }
+      }
+    }
+  },
+  "properties": {
+    "id": { "$ref": "#/definitions/entityId" },
+    "label": { "type": "string", "minLength": 1, "maxLength": 120 },
+    "notes": { "type": "string", "maxLength": 4000 },
+    "greeting": { "type": "string" },
+    "start": {
+      "type": "string",
+      "description": "Node id to open on talk. Defaults to nodes.start, else the first key."
+    },
+    "nodes": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": { "$ref": "#/definitions/node" },
+      "description": "Map of node id → { text, set?, replies[] }. Same shape as creature inline dialog.nodes."
+    }
+  }
+}

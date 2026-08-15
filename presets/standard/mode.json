@@ -44,11 +44,15 @@
             "wp_test_1"
         ],
         "populations": [
+            "catalog_dwarves",
             "cave_mid_mixed",
+            "cave_rats",
             "cave_trash_low",
             "crypt_pressure_high",
-            "cave_rats",
-            "catalog_dwarves"
+            "crypt_spitters",
+            "ice_rats",
+            "ruins_scouts",
+            "swamp_spitters"
         ],
         "creatures": [
             "abyss_crawler",
@@ -1637,7 +1641,12 @@
             "zarcorix_of_yalahar",
             "zombie"
         ],
-        "waypoints": [],
+        "dialogs": [
+            "town_guide"
+        ],
+        "waypoints": [
+            "wp_test_1"
+        ],
         "catalogCreatures": [
             "ashen_dwarf_priest",
             "ashen_desert_dwarf_cultist",
