@@ -45,7 +45,9 @@ const {
     TILE_FLAG_LADDER,
     TILE_FLAG_HOLE,
     TILE_FLAG_ROPE_SPOT,
-    TILE_FLAG_SHOVEL_SPOT
+    TILE_FLAG_SHOVEL_SPOT,
+    normalizePartialInfluence,
+    influenceKey
 } = require('./tile_roles.js');
 
 const {
@@ -389,17 +391,20 @@ function resolveWangOnFloor(floor, seedIndices, intern) {
         ) {
             continue;
         }
-        const next = intern({
-            catalogId: resolved.catalogId,
-            kind: 'overlays',
-            roleId: entry.roleId,
-            wangFamily: family,
-            wangMask: resolved.wangMask,
-            wangInner: resolved.wangInner || undefined,
-            wangLocked: false,
-            scale: entry.scale,
-            anchor: entry.anchor
-        });
+        const next = intern(
+            applyEntryOverrides(
+                {
+                    catalogId: resolved.catalogId,
+                    kind: 'overlays',
+                    roleId: entry.roleId,
+                    wangFamily: family,
+                    wangMask: resolved.wangMask,
+                    wangInner: resolved.wangInner || undefined,
+                    wangLocked: false
+                },
+                entry
+            )
+        );
         if ((next & 0xffff) !== pi) {
             sl.cells[i] = next & 0xffff;
             changed.push(i);
@@ -438,16 +443,19 @@ function sameWallFamilyAt(floor, sl, x, y, family, roleCatalog) {
 function internWallFamilyAligns(intern, family, entry) {
     for (let i = 0; i < WALL_ALIGN_ALL.length; i++) {
         const align = WALL_ALIGN_ALL[i];
-        intern({
-            catalogId: wallCatalogId(family, align),
-            kind: 'objects',
-            roleId: entry.roleId || 'wall',
-            wallFamily: family,
-            wallAlign: align,
-            wangLocked: false,
-            scale: entry.scale,
-            anchor: entry.anchor
-        });
+        intern(
+            applyEntryOverrides(
+                {
+                    catalogId: wallCatalogId(family, align),
+                    kind: 'objects',
+                    roleId: entry.roleId || 'wall',
+                    wallFamily: family,
+                    wallAlign: align,
+                    wangLocked: false
+                },
+                entry
+            )
+        );
     }
 }
 
@@ -497,22 +505,76 @@ function resolveWallsOnFloor(floor, seedIndices, intern, roleCatalog) {
         if (entry.catalogId === catalogId && (entry.wallAlign == null || entry.wallAlign === align)) {
             continue;
         }
-        const next = intern({
-            catalogId,
-            kind: 'objects',
-            roleId: entry.roleId || 'wall',
-            wallFamily: family,
-            wallAlign: align,
-            wangLocked: false,
-            scale: entry.scale,
-            anchor: entry.anchor
-        });
+        const next = intern(
+            applyEntryOverrides(
+                {
+                    catalogId,
+                    kind: 'objects',
+                    roleId: entry.roleId || 'wall',
+                    wallFamily: family,
+                    wallAlign: align,
+                    wangLocked: false
+                },
+                entry
+            )
+        );
         if ((next & 0xffff) !== pi) {
             sl.cells[i] = next & 0xffff;
             changed.push(i);
         }
     }
     return changed;
+}
+
+/**
+ * Copy optional render / influence onto a stamp / intern payload.
+ * Art-set disk (`opts.fromArtSet`): `render` only — top-level scale/anchor/variant
+ * are ignored. Hybrid placements keep flat scale/anchor/variant.
+ *
+ * @param {object} dest
+ * @param {object|null|undefined} src
+ * @param {{ fromArtSet?: boolean }} [opts]
+ * @returns {object} dest
+ */
+function applyEntryOverrides(dest, src, opts) {
+    if (!dest || !src) return dest;
+    const fromArtSet = !!(opts && opts.fromArtSet);
+    const render = src.render && typeof src.render === 'object' ? src.render : null;
+    const scaleSrc = fromArtSet
+        ? render
+            ? render.scale
+            : null
+        : render && render.scale != null
+          ? render.scale
+          : src.scale;
+    const anchorSrc = fromArtSet
+        ? render
+            ? render.anchor
+            : null
+        : render && render.anchor != null
+          ? render.anchor
+          : src.anchor;
+    const variantSrc = fromArtSet
+        ? render
+            ? render.variant
+            : null
+        : render && render.variant != null
+          ? render.variant
+          : src.variant;
+    if (scaleSrc != null && Number.isFinite(Number(scaleSrc))) {
+        dest.scale = Number(scaleSrc);
+    }
+    if (anchorSrc != null && String(anchorSrc).trim()) {
+        dest.anchor = String(anchorSrc).trim().toLowerCase();
+    }
+    if (variantSrc != null && String(variantSrc).trim()) {
+        dest.variant = String(variantSrc).trim().toLowerCase().slice(0, 40);
+    }
+    const inf = src.influence
+        ? normalizePartialInfluence(src.influence)
+        : null;
+    if (inf) dest.influence = inf;
+    return dest;
 }
 
 /**
@@ -617,10 +679,7 @@ function buildStampsFromArtSet(artSet, roleCatalog) {
                 stamp.wangResolve = true;
                 stamp.wangLocked = false;
             }
-            if (raw.scale != null && Number.isFinite(Number(raw.scale))) {
-                stamp.scale = Number(raw.scale);
-            }
-            if (raw.anchor != null) stamp.anchor = String(raw.anchor).trim().toLowerCase();
+            applyEntryOverrides(stamp, raw, { fromArtSet: true });
             // Default hop for vertical roles — not wall faces
             if (subLayer === 'vertical' && !wallFamily) {
                 let deltaZ = -1;
@@ -923,7 +982,9 @@ function ensureStampPaletteIndex(floor, stamp) {
             !!e.wangLocked === locked &&
             JSON.stringify(e.hop || null) === JSON.stringify(stamp.hop || null) &&
             (e.scale == null ? null : e.scale) === (stamp.scale == null ? null : stamp.scale) &&
-            (e.anchor || null) === (stamp.anchor || null)
+            (e.anchor || null) === (stamp.anchor || null) &&
+            (e.variant || null) === (stamp.variant || null) &&
+            influenceKey(e.influence) === influenceKey(stamp.influence)
         ) {
             return i;
         }
@@ -934,6 +995,8 @@ function ensureStampPaletteIndex(floor, stamp) {
         roleId,
         scale: stamp.scale,
         anchor: stamp.anchor,
+        variant: stamp.variant,
+        influence: stamp.influence,
         hop: wallFamily ? undefined : stamp.hop || undefined,
         wangFamily: family || undefined,
         wangMask,
@@ -1750,19 +1813,20 @@ function createEditorSession(opts) {
                 if (!st || st.kind !== 'overlays') continue;
                 if (st.wangFamily === family && st.wangResolve !== false) return st;
             }
-            return {
-                catalogId: wangCatalogId(family, 15),
-                kind: 'overlays',
-                roleId: entry.roleId || 'path',
-                subLayer: 'path',
-                wangFamily: family,
-                wangResolve: true,
-                wangLocked: false,
-                label: family,
-                previewColor: ROLE_PREVIEW_COLORS[entry.roleId] || ROLE_PREVIEW_COLORS.path || '#666666',
-                scale: entry.scale,
-                anchor: entry.anchor
-            };
+            return applyEntryOverrides(
+                {
+                    catalogId: wangCatalogId(family, 15),
+                    kind: 'overlays',
+                    roleId: entry.roleId || 'path',
+                    subLayer: 'path',
+                    wangFamily: family,
+                    wangResolve: true,
+                    wangLocked: false,
+                    label: family,
+                    previewColor: ROLE_PREVIEW_COLORS[entry.roleId] || ROLE_PREVIEW_COLORS.path || '#666666'
+                },
+                entry
+            );
         }
         const wallFamily = wallFamilyOf(entry);
         if (wallFamily && !entry.wangLocked) {
@@ -1771,20 +1835,21 @@ function createEditorSession(opts) {
                 if (!st || st.kind !== 'objects') continue;
                 if (st.wallFamily === wallFamily && st.wangResolve !== false) return st;
             }
-            return {
-                catalogId: wallCatalogId(wallFamily, 'pole'),
-                kind: 'objects',
-                roleId: entry.roleId || 'wall',
-                subLayer: 'vertical',
-                wallFamily,
-                wallAlign: 'pole',
-                wangResolve: true,
-                wangLocked: false,
-                label: wallFamily,
-                previewColor: ROLE_PREVIEW_COLORS[entry.roleId] || ROLE_PREVIEW_COLORS.wall || '#555555',
-                scale: entry.scale,
-                anchor: entry.anchor
-            };
+            return applyEntryOverrides(
+                {
+                    catalogId: wallCatalogId(wallFamily, 'pole'),
+                    kind: 'objects',
+                    roleId: entry.roleId || 'wall',
+                    subLayer: 'vertical',
+                    wallFamily,
+                    wallAlign: 'pole',
+                    wangResolve: true,
+                    wangLocked: false,
+                    label: wallFamily,
+                    previewColor: ROLE_PREVIEW_COLORS[entry.roleId] || ROLE_PREVIEW_COLORS.wall || '#555555'
+                },
+                entry
+            );
         }
         for (let i = 0; i < stamps.length; i++) {
             const st = stamps[i];
@@ -1796,23 +1861,24 @@ function createEditorSession(opts) {
             return st;
         }
         const kind = entry.kind || 'tiles';
-        return {
-            catalogId: entry.catalogId,
-            kind,
-            roleId: entry.roleId || null,
-            subLayer: subLayer || preferredSubLayer(null, entry.roleId, kind, entry),
-            label: entry.catalogId,
-            previewColor: ROLE_PREVIEW_COLORS[entry.roleId] || '#666666',
-            scale: entry.scale,
-            anchor: entry.anchor,
-            hop: wallFamily || family ? undefined : entry.hop || undefined,
-            wangFamily: family || undefined,
-            wangMask: entry.wangMask,
-            wallFamily: wallFamily || undefined,
-            wallAlign: entry.wallAlign || wallAlignOf(entry) || undefined,
-            wangLocked: !!entry.wangLocked,
-            wangResolve: entry.wangLocked ? false : undefined
-        };
+        return applyEntryOverrides(
+            {
+                catalogId: entry.catalogId,
+                kind,
+                roleId: entry.roleId || null,
+                subLayer: subLayer || preferredSubLayer(null, entry.roleId, kind, entry),
+                label: entry.catalogId,
+                previewColor: ROLE_PREVIEW_COLORS[entry.roleId] || '#666666',
+                hop: wallFamily || family ? undefined : entry.hop || undefined,
+                wangFamily: family || undefined,
+                wangMask: entry.wangMask,
+                wallFamily: wallFamily || undefined,
+                wallAlign: entry.wallAlign || wallAlignOf(entry) || undefined,
+                wangLocked: !!entry.wangLocked,
+                wangResolve: entry.wangLocked ? false : undefined
+            },
+            entry
+        );
     }
 
     /**

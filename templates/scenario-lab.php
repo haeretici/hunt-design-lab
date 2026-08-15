@@ -458,6 +458,6 @@ $modesList = function_exists('hdl_list_modes') ? hdl_list_modes() : [
     </div>
 </div>
 
-<script src="<?= htmlspecialchars($bundleUrl, ENT_QUOTES, 'UTF-8') ?>?v=1.5.0"></script>
+<script src="<?= htmlspecialchars($bundleUrl, ENT_QUOTES, 'UTF-8') ?>?v=1.5.1"></script>
 </body>
 </html>

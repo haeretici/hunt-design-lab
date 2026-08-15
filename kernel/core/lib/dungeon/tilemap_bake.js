@@ -29,7 +29,9 @@ const {
     createBakeAccumulator,
     resolveTileRole,
     indexTileRoles,
-    hopDirOffset
+    hopDirOffset,
+    normalizePartialInfluence,
+    mergeInfluence
 } = require('./tile_roles.js');
 
 const { frictionToRgba } = require('./stitch.js');
@@ -192,6 +194,21 @@ function normalizePaletteEntry(raw) {
     if (raw.anchor != null && String(raw.anchor).trim()) {
         out.anchor = String(raw.anchor).trim().toLowerCase();
     }
+    if (raw.variant != null && String(raw.variant).trim()) {
+        out.variant = String(raw.variant).trim().toLowerCase().slice(0, 40);
+    }
+    if (raw.render && typeof raw.render === 'object') {
+        if (out.scale == null && raw.render.scale != null) {
+            const s = Number(raw.render.scale);
+            if (Number.isFinite(s) && s >= 0.05 && s <= 8) out.scale = s;
+        }
+        if (!out.anchor && raw.render.anchor) {
+            out.anchor = String(raw.render.anchor).trim().toLowerCase();
+        }
+        if (!out.variant && raw.render.variant) {
+            out.variant = String(raw.render.variant).trim().toLowerCase().slice(0, 40);
+        }
+    }
 
     if (raw.hop && typeof raw.hop === 'object') {
         /** @type {{ dir?: string, deltaZ?: number, to?: object }} */
@@ -222,9 +239,11 @@ function normalizePaletteEntry(raw) {
             if (!out.roleId && role.id) out.roleId = role.id;
         }
     }
-    if (raw.influence && typeof raw.influence === 'object' && !out.role) {
+    const partial = normalizePartialInfluence(raw.influence);
+    if (partial) out.influence = partial;
+    if (raw.influence && typeof raw.influence === 'object' && !out.role && !out.roleId) {
         const role = normalizeTileRole({
-            id: out.roleId || 'inline',
+            id: 'inline',
             influence: raw.influence,
             vertical: raw.vertical
         });
@@ -457,9 +476,20 @@ function placementToStackEntry(entry, roleCatalog) {
     /** @type {object} */
     const stackEntry = { role };
     if (entry.hop) stackEntry.hop = entry.hop;
+    // Placement / art-set item influence beats the linked role (authored keys only).
+    if (entry.influence) {
+        const merged = mergeInfluence(role.influence, entry.influence);
+        if (merged) {
+            stackEntry.role = Object.assign({}, stackEntry.role, {
+                influence: merged
+            });
+        }
+    }
     // Placement vertical override (rare)
-    if (entry.vertical && !role.vertical) {
-        stackEntry.role = Object.assign({}, role, { vertical: entry.vertical });
+    if (entry.vertical && !stackEntry.role.vertical) {
+        stackEntry.role = Object.assign({}, stackEntry.role, {
+            vertical: entry.vertical
+        });
     }
     return stackEntry;
 }
@@ -1040,6 +1070,8 @@ function serializeHybridPack(pack) {
             };
             if (e.scale != null) pe.scale = e.scale;
             if (e.anchor != null) pe.anchor = e.anchor;
+            if (e.variant != null) pe.variant = e.variant;
+            if (e.influence) pe.influence = e.influence;
             if (e.hop) pe.hop = e.hop;
             if (e.wangFamily) pe.wangFamily = e.wangFamily;
             if (e.wangMask != null) pe.wangMask = e.wangMask;

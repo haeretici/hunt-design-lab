@@ -620,7 +620,7 @@ function normalizeSpriteZoomMin(raw, fallback) {
  *   zoom: number,
  *   viewWidth: number,
  *   viewHeight: number,
- *   getImage: ((catalogId: string, kind: string) => *)|null,
+ *   getImage: ((catalogId: string, kind: string, variant?: string|null) => *)|null,
  *   subLayerVisible?: (id: string) => boolean,
  *   roleForPlacement?: ((placement: object) => object|null)|null,
  *   props?: Array<object>|null,
@@ -690,7 +690,7 @@ function drawAuthoringSpritesDisplay(ctx, opts) {
                     const role = roleFor ? roleFor(placement) : null;
                     const meta = resolvePlacementRender(placement, role);
                     if (!meta.catalogId) continue;
-                    const img = getImage(meta.catalogId, meta.kind);
+                    const img = getImage(meta.catalogId, meta.kind, meta.variant);
                     if (!img) {
                         out.pending++;
                         continue;
@@ -729,7 +729,7 @@ function drawAuthoringSpritesDisplay(ctx, opts) {
             const ty = prop.tileY | 0;
             if (tx < vis.x0 || tx > vis.x1 || ty < vis.y0 || ty > vis.y1) continue;
             if (!prop.catalogId) continue;
-            const img = getImage(prop.catalogId, prop.kind);
+            const img = getImage(prop.catalogId, prop.kind, prop.variant);
             if (!img) {
                 out.pending++;
                 continue;
@@ -771,7 +771,7 @@ function drawAuthoringSpritesDisplay(ctx, opts) {
  * }} ctx
  * @param {Array<object>} props from collectTallPropsFromFloor
  * @param {{
- *   getImage?: ((catalogId: string, kind: string) => *)|null,
+ *   getImage?: ((catalogId: string, kind: string, variant?: string|null) => *)|null,
  *   roleColor?: ((prop: object) => string|null)|null,
  *   subLayerVisible?: (id: string) => boolean,
  *   tileSize?: number
@@ -792,7 +792,9 @@ function drawTallPropsMapSpace(ctx, props, opts) {
         if (subVis && prop.subLayerId && !subVis(prop.subLayerId)) continue;
         const tilePx = prop.tileX * ts;
         const tilePy = prop.tileY * ts;
-        const img = getImage ? getImage(prop.catalogId, prop.kind) : null;
+        const img = getImage
+            ? getImage(prop.catalogId, prop.kind, prop.variant)
+            : null;
         if (img && typeof ctx.drawImage === 'function') {
             const iw = img.naturalWidth || img.width || ts;
             const ih = img.naturalHeight || img.height || ts;

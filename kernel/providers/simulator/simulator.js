@@ -165,6 +165,7 @@ function cloneFloorLayers(layers) {
  *   cols?: number,
  *   rows?: number,
  *   palette?: string[],
+ *   roleIds?: string[],
  *   cells?: ArrayLike<number>|object,
  *   artSet?: string|null,
  *   genre?: string|null,
@@ -174,6 +175,7 @@ function cloneFloorLayers(layers) {
  *   cols: number,
  *   rows: number,
  *   palette: string[],
+ *   roleIds?: string[],
  *   cells: Uint16Array,
  *   artSet: string|null,
  *   genre: string|null,
@@ -186,6 +188,7 @@ function cloneArtLayers(layers) {
      *   cols: number,
      *   rows: number,
      *   palette: string[],
+     *   roleIds?: string[],
      *   cells: Uint16Array,
      *   artSet: string|null,
      *   genre: string|null,
@@ -224,7 +227,17 @@ function cloneArtLayers(layers) {
         if (n > 0 && cells.length > n) {
             cells = cells.subarray(0, n);
         }
-        out[z] = {
+        /** @type {{
+         *   cols: number,
+         *   rows: number,
+         *   palette: string[],
+         *   roleIds?: string[],
+         *   cells: Uint16Array,
+         *   artSet: string|null,
+         *   genre: string|null,
+         *   kind: string
+         * }} */
+        const row = {
             cols,
             rows,
             palette: L.palette.slice(),
@@ -233,6 +246,10 @@ function cloneArtLayers(layers) {
             genre: L.genre != null ? String(L.genre) : null,
             kind: L.kind != null ? String(L.kind) : 'tiles'
         };
+        if (Array.isArray(L.roleIds)) row.roleIds = L.roleIds.slice();
+        if (Array.isArray(L.renders)) row.renders = L.renders.slice();
+        if (Array.isArray(L.influences)) row.influences = L.influences.slice();
+        out[z] = row;
     }
     return Object.keys(out).length ? out : null;
 }
@@ -2310,6 +2327,10 @@ class Simulator extends GameObject {
                     const artWithGenre = Object.assign({}, art, {
                         genre: art.genre || this.genre || null
                     });
+                    const roles = this._ensureTileRoleCatalog();
+                    if (roles && typeof this.tileMap.setTileRoleCatalog === 'function') {
+                        this.tileMap.setTileRoleCatalog(roles);
+                    }
                     this.tileMap.setArtLayer(z, artWithGenre);
                 }
             }
@@ -2329,6 +2350,36 @@ class Simulator extends GameObject {
     }
 
     /**
+     * Load tile_roles into a catalog (Node fs or browser setPresetCache).
+     * Watch paint uses this for live role.render.scale / variant.
+     * @returns {Map<string, object>|object|null}
+     * @private
+     */
+    _ensureTileRoleCatalog() {
+        if (this.tileRoleCatalog) return this.tileRoleCatalog;
+        try {
+            const presets = require('../../core/lib/presets.js');
+            const { indexTileRoles } = require('../../core/lib/dungeon/tile_roles.js');
+            if (typeof presets.listTileRoleIds !== 'function') return null;
+            const ids = presets.listTileRoleIds();
+            if (!ids || !ids.length) return null;
+            const list = [];
+            for (let i = 0; i < ids.length; i++) {
+                try {
+                    list.push(presets.loadTileRole(ids[i]));
+                } catch (_e) {
+                    /* skip one missing role; do not drop the catalog */
+                }
+            }
+            if (!list.length) return null;
+            this.tileRoleCatalog = indexTileRoles(list);
+            return this.tileRoleCatalog;
+        } catch (_e) {
+            return null;
+        }
+    }
+
+    /**
      * Apply hybrid map pack once (all floors) onto tileMap.
      * @returns {Promise<void>}
      * @private
@@ -2341,24 +2392,8 @@ class Simulator extends GameObject {
             this.insertChild(this.tileMap);
             this._wireTileMapSpatialHooks(this.tileMap);
         }
-        const {
-            loadHybridOntoTileMap,
-            indexTileRoles
-        } = require('../../core/lib/dungeon/tilemap_bake.js');
-        let roleCatalog = this.tileRoleCatalog;
-        if (!roleCatalog) {
-            try {
-                const presets = require('../../core/lib/presets.js');
-                if (typeof presets.listTileRoleIds === 'function') {
-                    const ids = presets.listTileRoleIds();
-                    const list = ids.map((id) => presets.loadTileRole(id));
-                    roleCatalog = indexTileRoles(list);
-                    this.tileRoleCatalog = roleCatalog;
-                }
-            } catch (_e) {
-                roleCatalog = null;
-            }
-        }
+        const { loadHybridOntoTileMap } = require('../../core/lib/dungeon/tilemap_bake.js');
+        const roleCatalog = this._ensureTileRoleCatalog();
         // Do not forceBake: path-PNG bootstrap packs store friction/sight/flags
         // channels with empty sub-layers. forceBake re-bakes empty stacks → all
         // blocked (255) and spawnParty fails. bakeHybridPack still bakes when

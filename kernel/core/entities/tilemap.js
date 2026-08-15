@@ -548,6 +548,9 @@ function defaultSightFromFriction(friction) {
  * @property {number} cols
  * @property {number} rows
  * @property {string[]} palette  index 0 = empty
+ * @property {string[]} [roleIds] parallel to palette (live role render lookup)
+ * @property {Array<object|null>} [renders] parallel — art-set scale/anchor/variant
+ * @property {Array<object|null>} [influences] parallel — art-set influence overlay
  * @property {Uint16Array|ArrayLike<number>} cells palette indices
  * @property {string} [artSet]
  * @property {string|null} [genre]
@@ -2363,6 +2366,9 @@ class TileMap extends GameObject {
      *   cols: number,
      *   rows: number,
      *   palette: string[],
+     *   roleIds?: string[],
+     *   renders?: Array<object|null>,
+     *   influences?: Array<object|null>,
      *   cells: Uint16Array|ArrayLike<number>,
      *   artSet?: string,
      *   genre?: string|null,
@@ -2408,6 +2414,15 @@ class TileMap extends GameObject {
             genre: art.genre != null ? String(art.genre) : null,
             kind: art.kind != null ? String(art.kind) : 'tiles'
         };
+        if (Array.isArray(art.roleIds)) {
+            layer.roleIds = art.roleIds.slice();
+        }
+        if (Array.isArray(art.renders)) {
+            layer.renders = art.renders.slice();
+        }
+        if (Array.isArray(art.influences)) {
+            layer.influences = art.influences.slice();
+        }
         this.artLayers[String(z)] = layer;
         this.invalidateRenderCache();
         return layer;
@@ -2501,9 +2516,26 @@ class TileMap extends GameObject {
     }
 
     /**
+     * Resolve sprite folder: Engine Tweakings override, else placement/role, else size default.
+     * @param {string|null|undefined} explicit
+     * @returns {string}
+     * @private
+     */
+    _tileDrawVariant(explicit) {
+        const sprites = tileSpriteApi();
+        if (sprites && typeof sprites.resolveTileVariantForDisplay === 'function') {
+            return sprites.resolveTileVariantForDisplay(explicit);
+        }
+        if (sprites && typeof sprites.defaultTileVariantForDisplay === 'function') {
+            return sprites.defaultTileVariantForDisplay();
+        }
+        return explicit && String(explicit).trim() ? String(explicit).trim() : 'icon';
+    }
+
+    /**
      * Catalog tile sprite lookup + palette prefetch (browser watch).
      * @param {ArtFloorLayer|null} art
-     * @returns {((tileId: string) => *)|null}
+     * @returns {((tileId: string, variant?: string|null) => *)|null}
      */
     _artTileImageGetter(art) {
         if (!art || Settings.useEntitySprites === false) return null;
@@ -2511,32 +2543,34 @@ class TileMap extends GameObject {
         if (!sprites) return null;
         const genre = art.genre || DEFAULT_GENRE;
         const kind = art.kind || 'tiles';
-        const variant =
-            typeof sprites.defaultTileVariantForDisplay === 'function'
-                ? sprites.defaultTileVariantForDisplay()
-                : 'icon';
+        const roleIds = Array.isArray(art.roleIds) ? art.roleIds : null;
         if (typeof sprites.prefetchSprite === 'function') {
             for (let p = 1; p < art.palette.length; p++) {
                 const tid = art.palette[p];
                 if (!tid) continue;
+                const placement = this._artPalettePlacement(art, p);
+                const role = roleIds
+                    ? this._roleForPlacement(placement)
+                    : null;
+                const meta = resolvePlacementRender(placement, role);
                 sprites.prefetchSprite({
                     genre,
                     kind,
                     id: tid,
-                    variant
+                    variant: this._tileDrawVariant(meta.variant)
                 });
             }
         }
-        const getImg = (tileId) => {
+        const getImg = (tileId, variant) => {
             if (!tileId) return null;
             return sprites.getReadySpriteImage({
                 genre,
                 kind,
                 id: tileId,
-                variant
+                variant: this._tileDrawVariant(variant)
             });
         };
-        getImg.isPending = (tileId) => {
+        getImg.isPending = (tileId, variant) => {
             if (!tileId || typeof sprites.isSpritePending !== 'function') {
                 return false;
             }
@@ -2544,7 +2578,7 @@ class TileMap extends GameObject {
                 genre,
                 kind,
                 id: tileId,
-                variant
+                variant: this._tileDrawVariant(variant)
             });
         };
         return getImg;
@@ -2556,7 +2590,7 @@ class TileMap extends GameObject {
      *
      * @param {object|null} authoringFloor
      * @param {string|null|undefined} [genre]
-     * @returns {((catalogId: string, kind: string) => *)|null}
+     * @returns {((catalogId: string, kind: string, variant?: string|null) => *)|null}
      */
     _authoringImageGetter(authoringFloor, genre) {
         if (!authoringFloor || Settings.useEntitySprites === false) return null;
@@ -2565,11 +2599,13 @@ class TileMap extends GameObject {
             return null;
         }
         const g0 = genre || DEFAULT_GENRE;
-        const variant =
-            typeof sprites.defaultTileVariantForDisplay === 'function'
-                ? sprites.defaultTileVariantForDisplay()
-                : 'icon';
         const palette = authoringFloor.palette || [];
+        const kindOf = (kind) =>
+            kind === 'overlays'
+                ? 'overlays'
+                : kind === 'objects'
+                  ? 'objects'
+                  : 'tiles';
         if (typeof sprites.prefetchSprite === 'function') {
             for (let p = 1; p < palette.length; p++) {
                 const entry = palette[p];
@@ -2581,36 +2617,29 @@ class TileMap extends GameObject {
                           ? String(entry.id)
                           : '';
                 if (!id) continue;
-                const kind =
-                    entry.kind === 'overlays'
-                        ? 'overlays'
-                        : entry.kind === 'objects'
-                          ? 'objects'
-                          : 'tiles';
+                const kind = kindOf(entry.kind);
+                const meta = resolvePlacementRender(
+                    entry,
+                    this._roleForPlacement(entry)
+                );
                 sprites.prefetchSprite({
                     genre: g0,
                     kind,
                     id,
-                    variant
+                    variant: this._tileDrawVariant(meta.variant)
                 });
             }
         }
-        const kindOf = (kind) =>
-            kind === 'overlays'
-                ? 'overlays'
-                : kind === 'objects'
-                  ? 'objects'
-                  : 'tiles';
-        const getImg = (catalogId, kind) => {
+        const getImg = (catalogId, kind, variant) => {
             if (!catalogId) return null;
             return sprites.getReadySpriteImage({
                 genre: g0,
                 kind: kindOf(kind),
                 id: catalogId,
-                variant
+                variant: this._tileDrawVariant(variant)
             });
         };
-        getImg.isPending = (catalogId, kind) => {
+        getImg.isPending = (catalogId, kind, variant) => {
             if (!catalogId || typeof sprites.isSpritePending !== 'function') {
                 return false;
             }
@@ -2618,7 +2647,7 @@ class TileMap extends GameObject {
                 genre: g0,
                 kind: kindOf(kind),
                 id: catalogId,
-                variant
+                variant: this._tileDrawVariant(variant)
             });
         };
         return getImg;
@@ -2635,6 +2664,40 @@ class TileMap extends GameObject {
         const cat = this.tileRoleCatalog;
         if (typeof cat.get === 'function') return cat.get(rid) || null;
         return cat[rid] || null;
+    }
+
+    /**
+     * Rebuild a placement-shaped object from an artLayers palette slot
+     * (catalog id + role + optional art-set render override).
+     * @param {ArtFloorLayer} art
+     * @param {number} pIdx
+     * @returns {object}
+     * @private
+     */
+    _artPalettePlacement(art, pIdx) {
+        const render =
+            art && Array.isArray(art.renders) && art.renders[pIdx]
+                ? art.renders[pIdx]
+                : null;
+        const roleId =
+            art && art.roleIds && art.roleIds[pIdx]
+                ? String(art.roleIds[pIdx])
+                : '';
+        /** @type {object} */
+        const placement = {
+            catalogId:
+                art && art.palette && pIdx > 0 && pIdx < art.palette.length
+                    ? art.palette[pIdx]
+                    : '',
+            kind: (art && art.kind) || 'tiles',
+            roleId
+        };
+        if (render) {
+            if (render.scale != null) placement.scale = render.scale;
+            if (render.anchor) placement.anchor = render.anchor;
+            if (render.variant) placement.variant = render.variant;
+        }
+        return placement;
     }
 
     /**
@@ -2710,11 +2773,11 @@ class TileMap extends GameObject {
                         this._roleForPlacement(placement)
                     );
                     if (!meta.catalogId) continue;
-                    const img = getImg(meta.catalogId, meta.kind);
+                    const img = getImg(meta.catalogId, meta.kind, meta.variant);
                     if (!img) {
                         if (
                             typeof getImg.isPending !== 'function' ||
-                            getImg.isPending(meta.catalogId, meta.kind)
+                            getImg.isPending(meta.catalogId, meta.kind, meta.variant)
                         ) {
                             pendingSprites = true;
                         }
@@ -2818,17 +2881,42 @@ class TileMap extends GameObject {
                             ? art.palette[pIdx]
                             : null;
                     if (tileId) {
-                        const img = getTileImg(tileId);
+                        const placement = this._artPalettePlacement(art, pIdx);
+                        const meta = resolvePlacementRender(
+                            placement,
+                            this._roleForPlacement(placement)
+                        );
+                        const img = getTileImg(tileId, meta.variant);
                         if (img) {
+                            const iw =
+                                img.naturalWidth ||
+                                img.width ||
+                                img.videoWidth ||
+                                tw;
+                            const ih =
+                                img.naturalHeight ||
+                                img.height ||
+                                img.videoHeight ||
+                                th;
+                            const box = resolveTileDrawBox(
+                                rx * tw,
+                                ry * th,
+                                tw,
+                                th,
+                                iw,
+                                ih,
+                                meta.scale,
+                                meta.anchor
+                            );
                             try {
-                                g.drawImage(img, rx * tw, ry * th, tw, th);
+                                g.drawImage(img, box.dx, box.dy, box.dw, box.dh);
                                 drewSprite = true;
                             } catch (_e) {
                                 drewSprite = false;
                             }
                         } else if (
                             typeof getTileImg.isPending !== 'function' ||
-                            getTileImg.isPending(tileId)
+                            getTileImg.isPending(tileId, meta.variant)
                         ) {
                             pendingSprites = true;
                         }

@@ -625,21 +625,10 @@ function loadTileRole(roleId) {
  * @returns {string[]}
  */
 function listTileRoleIds() {
-    if (!fs) {
-        const ids = [];
-        for (const k of Object.keys(cache)) {
-            const m = /^tile_roles[/\\](.+)\.json$/.exec(k);
-            if (m) ids.push(m[1]);
-        }
-        return ids.sort();
-    }
-    const dir = path.join(getPresetsDirResolved(), 'tile_roles');
-    if (!fs.existsSync(dir)) return [];
-    return fs
-        .readdirSync(dir)
-        .filter((f) => f.endsWith('.json'))
-        .map((f) => f.replace(/\.json$/, ''))
-        .sort();
+    // Must use listPresetFolderIds: browser esbuild aliases `fs` to a stub
+    // with existsSync()=false. The old `if (!fs)` branch never ran, so Hunt
+    // watch listed zero roles and painted artLayers at scale 1.0.
+    return listPresetFolderIds('tile_roles');
 }
 
 /**

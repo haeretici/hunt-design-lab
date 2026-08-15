@@ -44,7 +44,7 @@
         "id": "broken_cave_stairs",
         "weight": 5,
         "roleId": "stairs_up",
-        "anchor": "bottom_center"
+        "render": { "anchor": "bottom_center" }
       }
     ],
     "scenery": [
@@ -53,8 +53,7 @@
         "weight": 2,
         "roleId": "scenery_blocking",
         "kind": "objects",
-        "scale": 1.4,
-        "anchor": "bottom_center"
+        "render": { "scale": 1.4, "anchor": "bottom_center" }
       }
     ]
   },

@@ -145,6 +145,101 @@ function resolveSightMode(sight, sightMode) {
 }
 
 /**
+ * Parse only authored influence keys (no role defaults). Empty / invalid → null.
+ * Used by art-set items and hybrid placements so one icy floor can override
+ * friction without replacing the whole role.
+ *
+ * @param {*} raw
+ * @returns {{
+ *   friction?: number,
+ *   sight?: number,
+ *   flags?: number,
+ *   walkMode?: 'open'|'block',
+ *   sightMode?: 'clear'|'block'
+ * }|null}
+ */
+function normalizePartialInfluence(raw) {
+    if (!raw || typeof raw !== 'object') return null;
+    /** @type {{
+     *   friction?: number,
+     *   sight?: number,
+     *   flags?: number,
+     *   walkMode?: 'open'|'block',
+     *   sightMode?: 'clear'|'block'
+     * }} */
+    const out = {};
+    let any = false;
+    if (raw.friction != null && Number.isFinite(Number(raw.friction))) {
+        out.friction = clampInt(raw.friction, 0, 255, DEFAULT_OPEN_FRICTION);
+        any = true;
+    }
+    if (raw.sight != null && Number.isFinite(Number(raw.sight))) {
+        out.sight = clampInt(raw.sight, 0, 255, 0);
+        any = true;
+    }
+    if (raw.flags != null && Number.isFinite(Number(raw.flags))) {
+        out.flags = clampInt(raw.flags, 0, 255, 0);
+        any = true;
+    }
+    if (raw.walkMode != null) {
+        const m = String(raw.walkMode).trim().toLowerCase();
+        if (WALK_MODES[m]) {
+            out.walkMode = /** @type {'open'|'block'} */ (m);
+            any = true;
+        }
+    }
+    if (raw.sightMode != null) {
+        const m = String(raw.sightMode).trim().toLowerCase();
+        if (SIGHT_MODES[m]) {
+            out.sightMode = /** @type {'clear'|'block'} */ (m);
+            any = true;
+        }
+    }
+    return any ? out : null;
+}
+
+/**
+ * Overlay authored keys onto a base influence. Override wins per key.
+ * `flags` is replaced (not OR'd) at this layer; bake still ORs the stack.
+ *
+ * @param {object|null|undefined} base
+ * @param {object|null|undefined} override
+ * @returns {object|null}
+ */
+function mergeInfluence(base, override) {
+    const o = normalizePartialInfluence(override);
+    if (!o) {
+        return base && typeof base === 'object' ? base : null;
+    }
+    /** @type {object} */
+    const out = base && typeof base === 'object' ? Object.assign({}, base) : {};
+    if (o.friction != null) out.friction = o.friction;
+    if (o.sight != null) out.sight = o.sight;
+    if (o.flags != null) out.flags = o.flags;
+    if (o.walkMode != null) out.walkMode = o.walkMode;
+    if (o.sightMode != null) out.sightMode = o.sightMode;
+    return out;
+}
+
+/**
+ * Stable identity for palette intern (same catalog id + different friction
+ * must not collapse to one slot).
+ *
+ * @param {object|null|undefined} inf
+ * @returns {string}
+ */
+function influenceKey(inf) {
+    if (!inf || typeof inf !== 'object') return '';
+    return [
+        inf.friction != null ? inf.friction : '',
+        inf.sight != null ? inf.sight : '',
+        inf.flags != null ? inf.flags : '',
+        inf.walkMode || '',
+        inf.sightMode || ''
+    ].join(',');
+}
+
+/**
  * @param {*} raw
  * @returns {{ type: string, deltaZ: number, defaultDir: string, bidirectional: boolean, registerStairLink: boolean }|null}
  */
@@ -708,5 +803,8 @@ module.exports = {
     bakeCellChannels,
     hopDirOffset,
     indexTileRoles,
-    resolveTileRole
+    resolveTileRole,
+    normalizePartialInfluence,
+    mergeInfluence,
+    influenceKey
 };

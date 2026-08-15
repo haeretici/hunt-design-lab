@@ -19,6 +19,7 @@ const {
     prefetchSprite,
     defaultVariantForDisplay,
     defaultTileVariantForDisplay,
+    resolveTileVariantForDisplay,
     idToFileStem
 } = require('../lib/creature_sprites.js');
 const {
@@ -596,9 +597,11 @@ function drawTallProp(g, prop, view) {
 
     if (useSprites && prop.catalogId) {
         const variant =
-            typeof defaultTileVariantForDisplay === 'function'
-                ? defaultTileVariantForDisplay()
-                : 'icon';
+            typeof resolveTileVariantForDisplay === 'function'
+                ? resolveTileVariantForDisplay(prop.variant)
+                : typeof defaultTileVariantForDisplay === 'function'
+                  ? defaultTileVariantForDisplay()
+                  : 'icon';
         // Prefetch once; getReady returns null until loaded
         if (typeof prefetchSprite === 'function') {
             prefetchSprite({

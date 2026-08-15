@@ -732,14 +732,17 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     /**
-     * Lazy catalog image for terrain/prop blits (icon variant; matches watch paths).
+     * Lazy catalog image for terrain/prop blits.
+     * Variant comes from placement → role.render.variant → icon (32px default).
      * @param {string} catalogId
      * @param {string} kind
+     * @param {string} [variant]
      */
-    function getAuthoringImage(catalogId, kind) {
+    function getAuthoringImage(catalogId, kind, variant) {
         if (!catalogId) return null;
         const k = kind === 'objects' || kind === 'overlays' ? kind : 'tiles';
-        const key = tilemapArtGenre + '|' + k + '|' + catalogId;
+        const v = variant && String(variant).trim() ? String(variant).trim() : 'icon';
+        const key = tilemapArtGenre + '|' + k + '|' + v + '|' + catalogId;
         let entry = tileImageCache.get(key);
         if (!entry) {
             let rel = null;
@@ -748,7 +751,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     genre: tilemapArtGenre,
                     kind: k,
                     id: catalogId,
-                    variant: 'icon'
+                    variant: v
                 });
             }
             if (!rel) {
@@ -756,7 +759,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     HdlTM && typeof HdlTM.idToFileStem === 'function'
                         ? HdlTM.idToFileStem(catalogId)
                         : String(catalogId);
-                rel = 'assets/sprites/' + tilemapArtGenre + '/' + k + '/icon/' + stem + '.png';
+                rel = 'assets/sprites/' + tilemapArtGenre + '/' + k + '/' + v + '/' + stem + '.png';
             }
             const url = ASSET_ROOT + rel;
             entry = { image: new Image(), loaded: false, error: false };
@@ -1354,7 +1357,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const roles = [];
             await Promise.all(roleIds.map(async (id) => {
                 try {
-                    const r = await fetch(ASSET_ROOT + 'presets/standard/tile_roles/' + id + '.json');
+                    const r = await fetch(ASSET_ROOT + 'presets/standard/tile_roles/' + id + '.json', { cache: 'no-store' });
                     if (r.ok) roles.push(await r.json());
                 } catch (_e) { /* skip */ }
             }));

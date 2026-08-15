@@ -100,7 +100,55 @@ function testArtSetStamps() {
     assert.strictEqual(wallFace.catalogId, 'stone_wall_pole');
     assert.ok(tree && tree.subLayer === 'scenery');
     assert.ok(stairs && stairs.subLayer === 'vertical' && stairs.hop);
+    assert.strictEqual(stairs.anchor, 'bottom_center');
+    assert.ok(tree && tree.scale > 1);
     log('art set stamps', stamps.length);
+}
+
+function testArtSetStampOverrides() {
+    const roles = roleCatalog();
+    const art = {
+        id: 'unit_ovr',
+        roles: {
+            floor: [
+                {
+                    id: 'ice_slick',
+                    roleId: 'floor',
+                    render: { scale: 1.5, variant: 'small' },
+                    influence: { friction: 20 }
+                }
+            ]
+        }
+    };
+    const stamps = buildStampsFromArtSet(art, roles);
+    assert.strictEqual(stamps.length, 1);
+    assert.strictEqual(stamps[0].scale, 1.5);
+    assert.strictEqual(stamps[0].variant, 'small');
+    assert.ok(stamps[0].influence);
+    assert.strictEqual(stamps[0].influence.friction, 20);
+
+    const leftover = buildStampsFromArtSet(
+        {
+            id: 'unit_flat',
+            roles: {
+                floor: [
+                    {
+                        id: 'old_flat',
+                        roleId: 'floor',
+                        scale: 3,
+                        anchor: 'top_left',
+                        variant: 'small'
+                    }
+                ]
+            }
+        },
+        roles
+    );
+    assert.strictEqual(leftover.length, 1);
+    assert.strictEqual(leftover[0].scale, undefined);
+    assert.strictEqual(leftover[0].anchor, undefined);
+    assert.strictEqual(leftover[0].variant, undefined);
+    log('art set stamp overrides');
 }
 
 function testPaintBakeRoom() {
@@ -1136,6 +1184,7 @@ function testExplicitStairDest() {
 function main() {
     testUiOrderAndFlags();
     testArtSetStamps();
+    testArtSetStampOverrides();
     testPaintBakeRoom();
     testDiagonalBakeDoesNotFillAabb();
     testDiagonalPaintDoesNotVoidBootstrapChannels();

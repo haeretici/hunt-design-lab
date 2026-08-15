@@ -117,12 +117,24 @@ function resolveTileDrawBox(
 }
 
 /**
- * Resolve scale/anchor for a hybrid palette placement.
+ * Sprite-folder name from role / placement (`icon` `small` `retro` …).
+ * Empty when unset so callers can fall back to display default.
+ *
+ * @param {*} v
+ * @returns {string}
+ */
+function normalizeRenderVariant(v) {
+    const s = v != null ? String(v).trim().toLowerCase() : '';
+    return s ? s.slice(0, 40) : '';
+}
+
+/**
+ * Resolve scale/anchor/variant for a hybrid palette placement.
  * Placement overrides beat role defaults; kind-based fallback last.
  *
  * @param {object|null|undefined} placement
- * @param {{ render?: { scale?: number, anchor?: string } }|null|undefined} [role]
- * @returns {{ scale: number, anchor: string, kind: string, catalogId: string }}
+ * @param {{ render?: { scale?: number, anchor?: string, variant?: string } }|null|undefined} [role]
+ * @returns {{ scale: number, anchor: string, kind: string, catalogId: string, variant: string|null }}
  */
 function resolvePlacementRender(placement, role) {
     if (!placement || typeof placement !== 'object') {
@@ -130,7 +142,8 @@ function resolvePlacementRender(placement, role) {
             scale: 1,
             anchor: 'middle_center',
             kind: 'tiles',
-            catalogId: ''
+            catalogId: '',
+            variant: null
         };
     }
     const kind =
@@ -148,6 +161,7 @@ function resolvePlacementRender(placement, role) {
 
     let scale = 1;
     let anchor = kind === 'objects' ? 'bottom_center' : 'middle_center';
+    let variant = '';
 
     if (role && role.render) {
         if (role.render.scale != null && Number.isFinite(Number(role.render.scale))) {
@@ -156,6 +170,9 @@ function resolvePlacementRender(placement, role) {
         if (role.render.anchor) {
             anchor = normalizeAnchor(role.render.anchor, anchor);
         }
+        if (role.render.variant) {
+            variant = normalizeRenderVariant(role.render.variant);
+        }
     }
     if (placement.scale != null && Number.isFinite(Number(placement.scale))) {
         scale = clampScale(placement.scale, 0.05, 8, scale);
@@ -163,8 +180,12 @@ function resolvePlacementRender(placement, role) {
     if (placement.anchor != null) {
         anchor = normalizeAnchor(placement.anchor, anchor);
     }
+    if (placement.variant != null) {
+        const pv = normalizeRenderVariant(placement.variant);
+        if (pv) variant = pv;
+    }
 
-    return { scale, anchor, kind, catalogId };
+    return { scale, anchor, kind, catalogId, variant: variant || null };
 }
 
 /**
@@ -219,7 +240,7 @@ function sortDrawables(list) {
  *   tileX: number, tileY: number, tileZ: string|number,
  *   sortY: number, subOrder: number, stableKey: string,
  *   catalogId: string, kind: string, scale: number, anchor: string,
- *   subLayerId: string, paletteIndex: number
+ *   variant: string|null, subLayerId: string, paletteIndex: number
  * }>}
  */
 function collectTallPropsFromFloor(floor, opts) {
@@ -281,6 +302,7 @@ function collectTallPropsFromFloor(floor, opts) {
                     kind: meta.kind,
                     scale: meta.scale,
                     anchor: meta.anchor,
+                    variant: meta.variant,
                     subLayerId: sid,
                     paletteIndex: pIdx
                 });
@@ -313,6 +335,7 @@ module.exports = {
     TERRAIN_SUB_LAYER_IDS,
     TALL_PROP_SUB_LAYER_IDS,
     normalizeAnchor,
+    normalizeRenderVariant,
     clampScale,
     resolveTileDrawBox,
     resolvePlacementRender,

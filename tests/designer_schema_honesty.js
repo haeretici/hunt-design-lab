@@ -347,6 +347,9 @@ function testArtSetAcceptsOverlayAndWallFamily() {
     assert.ok(wt.wangFamily);
     assert.ok(wt.wallFamily);
     assert.ok(wt.wallAlign);
+    assert.ok(wt.render, 'art-set row may override render');
+    assert.ok(wt.influence, 'art-set row may override influence');
+    assert.ok(!wt.scale && !wt.anchor && !wt.variant, 'no flat draw aliases');
     assert.ok(wt.wangFamily.enum.indexOf('dirt') >= 0);
     assert.ok(
         /tile_roles/.test(String(wt.roleId.description || '')),

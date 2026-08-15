@@ -21,7 +21,9 @@ const {
     expandHuntDefinition,
     cacheHas,
     listPartyIds,
-    loadParty
+    listTileRoleIds,
+    loadParty,
+    loadTileRole
 } = require('../kernel/core/lib/presets.js');
 
 const ROOT = path.resolve(__dirname, '..');
@@ -81,6 +83,14 @@ function main() {
         assert.ok(
             pack.deps.art_sets && pack.deps.art_sets.indexOf('cave') >= 0,
             'deps.art_sets lists cave'
+        );
+        assert.ok(
+            pack.files['tile_roles/wall.json'],
+            'standard pack includes tile_roles/wall.json'
+        );
+        assert.ok(
+            pack.deps.tile_roles && pack.deps.tile_roles.indexOf('wall') >= 0,
+            'deps.tile_roles lists wall'
         );
         assert.strictEqual((pack.missing || []).length, 0);
         assert.ok(
@@ -164,6 +174,20 @@ function main() {
         assert.ok(
             ids.indexOf('balance_quartet_veteran') >= 0,
             'deps include I4 veteran tier party'
+        );
+
+        const roleIds = listTileRoleIds();
+        assert.ok(
+            roleIds.indexOf('wall') >= 0,
+            'listTileRoleIds sees wall after pack inject (browser cache path)'
+        );
+        assert.ok(cacheHas('tile_roles/wall.json'));
+        const wall = loadTileRole('wall');
+        assert.ok(wall && wall.render, 'loadTileRole(wall) has render');
+        assert.strictEqual(
+            Number(wall.render.scale),
+            Number(pack.files['tile_roles/wall.json'].render.scale),
+            'cached wall render matches pack (live scale/variant)'
         );
 
         const duo = loadParty('starter_duo');

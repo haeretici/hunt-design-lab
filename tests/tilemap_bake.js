@@ -999,10 +999,33 @@ function testSubLayerOrder() {
     log('sub-layer order ok');
 }
 
+function testPlacementInfluenceBeatsRole() {
+    const roles = roleCatalog();
+    const floor = createEmptyTileMapFloor(4, 4, { z: 0 });
+    const iSlick = addPaletteEntry(floor, {
+        catalogId: 'ice_slick',
+        roleId: 'floor',
+        influence: { friction: 20 },
+        scale: 1.25,
+        variant: 'small'
+    });
+    setSubLayerCell(floor, 'ground', 1, 1, iSlick);
+    const baked = bakeTileMapFloor(floor, { roleCatalog: roles });
+    const i = 1 * 4 + 1;
+    assert.strictEqual(baked.friction[i], 20, 'placement friction beats floor role');
+    const pe = floor.palette[iSlick];
+    assert.strictEqual(pe.scale, 1.25);
+    assert.strictEqual(pe.variant, 'small');
+    assert.ok(pe.influence);
+    assert.strictEqual(pe.influence.friction, 20);
+    log('placement influence beats role');
+}
+
 async function main() {
     testSubLayerOrder();
     testMergedPackKeepsSpawns();
     testGoldenStacks();
+    testPlacementInfluenceBeatsRole();
     testDiffOverrides();
     testApplyToTileMapAndStairs();
     testHybridRoundTrip();

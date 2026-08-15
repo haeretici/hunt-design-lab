@@ -65,7 +65,7 @@ function testResolveTileDrawBox() {
 }
 
 function testResolvePlacementRender() {
-    const role = { render: { scale: 1.2, anchor: 'bottom_center' } };
+    const role = { render: { scale: 1.2, anchor: 'bottom_center', variant: 'small' } };
     const fromRole = resolvePlacementRender(
         { catalogId: 'oak', kind: 'objects', roleId: 'scenery_blocking' },
         role
@@ -74,18 +74,21 @@ function testResolvePlacementRender() {
     assert.strictEqual(fromRole.kind, 'objects');
     assert.ok(Math.abs(fromRole.scale - 1.2) < 1e-9);
     assert.strictEqual(fromRole.anchor, 'bottom_center');
+    assert.strictEqual(fromRole.variant, 'small');
 
     const override = resolvePlacementRender(
         {
             catalogId: 'oak',
             kind: 'objects',
             scale: 1.4,
-            anchor: 'middle_center'
+            anchor: 'middle_center',
+            variant: 'icon'
         },
         role
     );
     assert.ok(Math.abs(override.scale - 1.4) < 1e-9);
     assert.strictEqual(override.anchor, 'middle_center');
+    assert.strictEqual(override.variant, 'icon');
     log('resolvePlacementRender override beats role');
 }
 

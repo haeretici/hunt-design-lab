@@ -19,6 +19,7 @@ const {
     resolveEntitySpriteScale,
     defaultVariantForDisplay,
     defaultTileVariantForDisplay,
+    resolveTileVariantForDisplay,
     getSpriteLoadState,
     isSpritePending,
     prefetchHuntSprites,
@@ -541,6 +542,22 @@ test('getReadySpriteImage falls back to icon after small 404', () => {
         Settings.HEADLESS = prevHeadless;
         Settings.useEntitySprites = prevSprites;
         ImageDB.clear();
+    }
+});
+
+test('resolveTileVariantForDisplay prefers role then size default', () => {
+    const prevTw = Settings.tileWidth;
+    const prevVar = Settings.tileSpriteVariant;
+    try {
+        Settings.tileSpriteVariant = null;
+        Settings.tileWidth = 32;
+        assert.strictEqual(resolveTileVariantForDisplay(null), 'icon');
+        assert.strictEqual(resolveTileVariantForDisplay('small'), 'small');
+        Settings.tileSpriteVariant = 'retro';
+        assert.strictEqual(resolveTileVariantForDisplay('small'), 'retro');
+    } finally {
+        Settings.tileWidth = prevTw;
+        Settings.tileSpriteVariant = prevVar;
     }
 });
 

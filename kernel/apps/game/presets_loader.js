@@ -81,7 +81,10 @@ async function fetchPresetJson(rel) {
     const url = appUrl(
         `presets/${modeId}/${rel.replace(/^\//, '')}`
     );
-    const res = await fetch(url, { credentials: 'same-origin' });
+    const res = await fetch(url, {
+        credentials: 'same-origin',
+        cache: 'no-store'
+    });
     if (!res.ok) {
         throw new Error(`Failed to load preset ${rel}: HTTP ${res.status}`);
     }
@@ -298,6 +301,25 @@ async function ensureLayoutDepsForBrowser(rawHunts) {
     }
 
     const artSetIds = Array.isArray(deps.artSetIds) ? deps.artSetIds.slice() : [];
+    const tileRoleIds = [
+        'floor',
+        'path',
+        'wall',
+        'void',
+        'water',
+        'grate',
+        'protection',
+        'scenery_blocking',
+        'scenery_cover',
+        'furniture_blocking',
+        'stairs_up',
+        'stairs_down',
+        'ladder_up',
+        'ladder_down',
+        'hole',
+        'rope_spot',
+        'shovel_spot'
+    ];
 
     await Promise.all([
         ...uniqueIds(pieceIds).map((id) =>
@@ -314,6 +336,9 @@ async function ensureLayoutDepsForBrowser(rawHunts) {
         ),
         ...uniqueIds(artSetIds).map((id) =>
             ensurePresetCached(`art_sets/${id}.json`)
+        ),
+        ...tileRoleIds.map((id) =>
+            ensurePresetCached(`tile_roles/${id}.json`)
         )
     ]);
 }
@@ -341,7 +366,10 @@ async function fetchBrowserPresetPack(modeId) {
     url.searchParams.set('action', 'presets_browser_pack');
     url.searchParams.set('mode', id);
     try {
-        const res = await fetch(url.toString(), { credentials: 'same-origin' });
+        const res = await fetch(url.toString(), {
+            credentials: 'same-origin',
+            cache: 'no-store'
+        });
         if (!res.ok) return null;
         const body = await res.json();
         if (!body || body.ok === false || !body.mode || !body.files) {

@@ -24,6 +24,10 @@ const {
     defaultCatalogKindForRole,
     normalizeCatalogKind
 } = require('./art_set_context.js');
+const {
+    normalizePartialInfluence,
+    influenceKey
+} = require('./tile_roles.js');
 
 /** Salt so art RNG is independent of layout / population streams. */
 const ART_SEED_SALT = 0x41525454; // "ARTT"
@@ -109,9 +113,9 @@ function artSeed(seed) {
 /**
  * @param {() => number} rng
  * @param {Array<{ id: string, weight: number }>} items
- * @returns {string|null}
+ * @returns {object|null}
  */
-function pickWeightedId(rng, items) {
+function pickWeightedEntry(rng, items) {
     if (!items || !items.length) return null;
     let total = 0;
     for (let i = 0; i < items.length; i++) {
@@ -119,22 +123,32 @@ function pickWeightedId(rng, items) {
         if (w > 0) total += w;
     }
     if (total <= 0) {
-        const it = items[Math.floor(rng() * items.length)];
-        return it && it.id ? it.id : null;
+        return items[Math.floor(rng() * items.length)] || null;
     }
     let r = rng() * total;
     for (let i = 0; i < items.length; i++) {
         const w = Number(items[i].weight) || 0;
         if (w <= 0) continue;
         r -= w;
-        if (r < 0) return items[i].id || null;
+        if (r < 0) return items[i];
     }
-    const last = items[items.length - 1];
-    return last && last.id ? last.id : null;
+    return items[items.length - 1] || null;
 }
 
 /**
- * Normalize one role entry: string id or { id, weight, roleId?, kind?, scale?, anchor? }.
+ * @param {() => number} rng
+ * @param {Array<{ id: string, weight: number }>} items
+ * @returns {string|null}
+ */
+function pickWeightedId(rng, items) {
+    const it = pickWeightedEntry(rng, items);
+    return it && it.id ? it.id : null;
+}
+
+/**
+ * Normalize one role entry: string id or { id, weight, roleId?, kind?,
+ * render?, influence? }. Draw overrides come only from `render`
+ * (top-level scale/anchor/variant are ignored).
  * @param {*} raw
  * @param {string} [roleKey] pack roles key (floor, wall, …) for default roleId
  * @param {string} [defaultKind] pack-level kind default
@@ -144,7 +158,9 @@ function pickWeightedId(rng, items) {
  *   roleId: string|null,
  *   kind: string,
  *   scale: number|null,
- *   anchor: string|null
+ *   anchor: string|null,
+ *   variant: string|null,
+ *   influence: object|null
  * }|null}
  */
 function normalizeRoleEntry(raw, roleKey, defaultKind) {
@@ -168,7 +184,9 @@ function normalizeRoleEntry(raw, roleKey, defaultKind) {
             roleId: defRole,
             kind: roleKind,
             scale: null,
-            anchor: null
+            anchor: null,
+            variant: null,
+            influence: null
         };
     }
     if (typeof raw !== 'object') return null;
@@ -205,19 +223,83 @@ function normalizeRoleEntry(raw, roleKey, defaultKind) {
         kind = k || String(raw.kind).trim().toLowerCase();
     }
 
+    const renderRaw =
+        raw.render && typeof raw.render === 'object' ? raw.render : null;
+    const scaleSrc = renderRaw ? renderRaw.scale : null;
+    const anchorSrc = renderRaw ? renderRaw.anchor : null;
+    const variantSrc = renderRaw ? renderRaw.variant : null;
+
     let scale = null;
-    if (raw.scale != null && Number.isFinite(Number(raw.scale))) {
-        scale = Number(raw.scale);
+    if (scaleSrc != null && Number.isFinite(Number(scaleSrc))) {
+        scale = Number(scaleSrc);
         if (scale < 0.05) scale = 0.05;
         if (scale > 8) scale = 8;
     }
 
     let anchor = null;
-    if (raw.anchor != null && String(raw.anchor).trim()) {
-        anchor = String(raw.anchor).trim();
+    if (anchorSrc != null && String(anchorSrc).trim()) {
+        anchor = String(anchorSrc).trim();
     }
 
-    return { id, weight, roleId, kind, scale, anchor };
+    let variant = null;
+    if (variantSrc != null && String(variantSrc).trim()) {
+        variant = String(variantSrc).trim().toLowerCase().slice(0, 40);
+    }
+
+    const influence = normalizePartialInfluence(raw.influence);
+
+    return { id, weight, roleId, kind, scale, anchor, variant, influence };
+}
+
+/**
+ * Compact identity so two rows that share a catalog id but differ in
+ * role / draw / influence intern as separate palette slots.
+ *
+ * @param {{
+ *   id?: string,
+ *   roleId?: string|null,
+ *   scale?: number|null,
+ *   anchor?: string|null,
+ *   variant?: string|null,
+ *   influence?: object|null
+ * }} entry
+ * @returns {string}
+ */
+function artEntryPaletteKey(entry) {
+    if (!entry || !entry.id) return '';
+    return [
+        entry.id,
+        entry.roleId || '',
+        entry.scale != null ? entry.scale : '',
+        entry.anchor || '',
+        entry.variant || '',
+        influenceKey(entry.influence)
+    ].join('\x1f');
+}
+
+/**
+ * Compact render payload for artLayers (null = inherit role).
+ * @param {{ scale?: number|null, anchor?: string|null, variant?: string|null }} entry
+ * @returns {{ scale?: number, anchor?: string, variant?: string }|null}
+ */
+function artEntryRender(entry) {
+    if (!entry) return null;
+    /** @type {{ scale?: number, anchor?: string, variant?: string }} */
+    const out = {};
+    let any = false;
+    if (entry.scale != null && Number.isFinite(Number(entry.scale))) {
+        out.scale = Number(entry.scale);
+        any = true;
+    }
+    if (entry.anchor) {
+        out.anchor = String(entry.anchor);
+        any = true;
+    }
+    if (entry.variant) {
+        out.variant = String(entry.variant);
+        any = true;
+    }
+    return any ? out : null;
 }
 
 /**
@@ -647,6 +729,9 @@ function adjacentWalkable(friction, cols, rows, x, y) {
  *   genre: string|null,
  *   kind: string,
  *   palette: string[],
+ *   roleIds: string[],
+ *   renders: Array<object|null>,
+ *   influences: Array<object|null>,
  *   cells: Uint16Array,
  *   stats: { painted: number, floor: number, wall: number, path: number, stairs: number, void: number }
  * }|null}
@@ -685,18 +770,38 @@ function bindArtFromRoles(opts) {
     const paletteIndex = Object.create(null);
     /** @type {string[]} index 0 reserved = empty / void */
     const palette = [''];
+    /** @type {string[]} parallel to palette — tile-role id for live render lookup */
+    const roleIds = [''];
+    /** @type {Array<object|null>} parallel — art-set render override (null = role) */
+    const renders = [null];
+    /** @type {Array<object|null>} parallel — art-set influence overlay */
+    const influences = [null];
 
     /**
-     * @param {string|null} tileId
+     * @param {object|null} entry normalized role entry
+     * @param {string|null} [fallbackRoleId]
      * @returns {number}
      */
-    const toIndex = (tileId) => {
-        if (!tileId) return 0;
-        if (paletteIndex[tileId] != null) return paletteIndex[tileId];
+    const toIndex = (entry, fallbackRoleId) => {
+        if (!entry || !entry.id) return 0;
+        const roleId = entry.roleId || fallbackRoleId || '';
+        const keyed = {
+            id: entry.id,
+            roleId,
+            scale: entry.scale,
+            anchor: entry.anchor,
+            variant: entry.variant,
+            influence: entry.influence
+        };
+        const key = artEntryPaletteKey(keyed);
+        if (paletteIndex[key] != null) return paletteIndex[key];
         const idx = palette.length;
         if (idx > 0xffff) return 0;
-        palette.push(tileId);
-        paletteIndex[tileId] = idx;
+        palette.push(entry.id);
+        roleIds.push(roleId ? String(roleId) : '');
+        renders.push(artEntryRender(entry));
+        influences.push(entry.influence || null);
+        paletteIndex[key] = idx;
         return idx;
     };
 
@@ -714,27 +819,34 @@ function bindArtFromRoles(opts) {
         for (let x = 0; x < cols; x++) {
             const i = y * cols + x;
             const f = friction[i] & 0xff;
-            let tileId = null;
+            /** @type {object|null} */
+            let entry = null;
             let role = 'void';
+            /** @type {string|null} */
+            let roleId = null;
 
             if (f !== FRICTION_BLOCKED) {
                 const isStair = !!stairPads[`${x},${y}`];
                 if (isStair && stairsList.length) {
-                    tileId = pickWeightedId(rng, stairsList);
+                    entry = pickWeightedEntry(rng, stairsList);
                     role = 'stairs';
+                    roleId = (entry && entry.roleId) || DEFAULT_ROLE_ID_BY_KEY.stairs;
                 } else if (
                     pathMix > 0 &&
                     pathList.length &&
                     rng() < pathMix
                 ) {
-                    tileId = pickWeightedId(rng, pathList);
+                    entry = pickWeightedEntry(rng, pathList);
                     role = 'path';
+                    roleId = (entry && entry.roleId) || DEFAULT_ROLE_ID_BY_KEY.path;
                 } else if (floorList.length) {
-                    tileId = pickWeightedId(rng, floorList);
+                    entry = pickWeightedEntry(rng, floorList);
                     role = 'floor';
+                    roleId = (entry && entry.roleId) || DEFAULT_ROLE_ID_BY_KEY.floor;
                 } else if (pathList.length) {
-                    tileId = pickWeightedId(rng, pathList);
+                    entry = pickWeightedEntry(rng, pathList);
                     role = 'path';
+                    roleId = (entry && entry.roleId) || DEFAULT_ROLE_ID_BY_KEY.path;
                 }
             } else {
                 // Blocked — wall on edges (or all blocked if !edgeOnly); else void art
@@ -743,18 +855,20 @@ function bindArtFromRoles(opts) {
                     paintWall = adjacentWalkable(friction, cols, rows, x, y);
                 }
                 if (paintWall && wallList.length) {
-                    tileId = pickWeightedId(rng, wallList);
+                    entry = pickWeightedEntry(rng, wallList);
                     role = 'wall';
+                    roleId = (entry && entry.roleId) || DEFAULT_ROLE_ID_BY_KEY.wall;
                 } else if (voidList.length) {
-                    tileId = pickWeightedId(rng, voidList);
+                    entry = pickWeightedEntry(rng, voidList);
                     role = 'void';
+                    roleId = (entry && entry.roleId) || DEFAULT_ROLE_ID_BY_KEY.void;
                 } else {
-                    tileId = null;
+                    entry = null;
                     role = 'void';
                 }
             }
 
-            const idx = toIndex(tileId);
+            const idx = toIndex(entry, roleId);
             cells[i] = idx;
             if (idx > 0) {
                 stats.painted += 1;
@@ -778,9 +892,120 @@ function bindArtFromRoles(opts) {
         genre: pack.genre,
         kind: pack.kind || 'tiles',
         palette,
+        roleIds,
+        renders,
+        influences,
         cells,
         stats
     };
+}
+
+/**
+ * Overlay art-set item influence onto generator channels (bind time only).
+ * Only authored keys write; omitted keys keep the generator value.
+ * `flags` ORs so STAIR / hop bits already on the cell survive.
+ *
+ * @param {{
+ *   friction?: Uint8Array|ArrayLike<number>|null,
+ *   sight?: Uint8Array|ArrayLike<number>|null,
+ *   flags?: Uint8Array|ArrayLike<number>|null,
+ *   cols?: number,
+ *   rows?: number
+ * }|null|undefined} channels
+ * @param {{
+ *   cells?: Uint16Array|ArrayLike<number>,
+ *   influences?: Array<object|null>
+ * }|null|undefined} bound
+ * @returns {typeof channels}
+ */
+function applyArtLayerInfluence(channels, bound) {
+    if (!channels || !bound || !bound.cells || !Array.isArray(bound.influences)) {
+        return channels;
+    }
+    const influences = bound.influences;
+    let any = false;
+    for (let p = 1; p < influences.length; p++) {
+        if (influences[p]) {
+            any = true;
+            break;
+        }
+    }
+    if (!any) return channels;
+
+    const cells = bound.cells;
+    const n = cells.length;
+    if (n < 1) return channels;
+
+    const ensureU8 = (src) => {
+        if (src instanceof Uint8Array && src.length >= n) return src;
+        const out = new Uint8Array(n);
+        if (src && src.length) {
+            const lim = Math.min(n, src.length);
+            for (let i = 0; i < lim; i++) out[i] = src[i] & 0xff;
+        }
+        return out;
+    };
+
+    let friction = channels.friction ? ensureU8(channels.friction) : null;
+    let sight = channels.sight ? ensureU8(channels.sight) : null;
+    let flags = channels.flags ? ensureU8(channels.flags) : null;
+
+    for (let i = 0; i < n; i++) {
+        const p = cells[i] | 0;
+        const inf = p > 0 && p < influences.length ? influences[p] : null;
+        if (!inf) continue;
+
+        if (inf.friction != null || inf.walkMode) {
+            if (!friction) friction = ensureU8(channels.friction);
+            let f =
+                inf.friction != null
+                    ? inf.friction & 0xff
+                    : friction[i];
+            if (inf.walkMode === 'block') f = FRICTION_BLOCKED;
+            else if (inf.walkMode === 'open' && f >= FRICTION_BLOCKED) {
+                f = inf.friction != null ? inf.friction & 0xff : 100;
+            }
+            friction[i] = f;
+        }
+        if (inf.sight != null || inf.sightMode) {
+            if (!sight) sight = ensureU8(channels.sight);
+            let s = inf.sight != null ? inf.sight & 0xff : sight[i];
+            if (inf.sightMode === 'block') s = 255;
+            else if (inf.sightMode === 'clear') s = 0;
+            sight[i] = s;
+        }
+        if (inf.flags != null) {
+            if (!flags) flags = ensureU8(channels.flags);
+            flags[i] = (flags[i] | (inf.flags & 0xff)) & 0xff;
+        }
+    }
+
+    if (friction) channels.friction = friction;
+    if (sight) channels.sight = sight;
+    if (flags) channels.flags = flags;
+    return channels;
+}
+
+/**
+ * Copy bind extras onto a serializable art layer row.
+ * @param {object} bound
+ * @returns {object}
+ */
+function artLayerFromBound(bound) {
+    /** @type {object} */
+    const row = {
+        cols: bound.cols,
+        rows: bound.rows,
+        palette: bound.palette,
+        roleIds: bound.roleIds,
+        cells: bound.cells,
+        artSet: bound.artSet,
+        genre: bound.genre,
+        kind: bound.kind
+    };
+    if (Array.isArray(bound.renders)) row.renders = bound.renders;
+    if (Array.isArray(bound.influences)) row.influences = bound.influences;
+    return row;
 }
 
 /** @deprecated Prefer bindArtFromRoles — same terrain-only bind. */
@@ -1008,15 +1233,8 @@ function bindHuntArt(hunt, opts) {
                 stairLinks: hunt.stairLinks
             });
             if (bound) {
-                artLayers[zKey] = {
-                    cols: bound.cols,
-                    rows: bound.rows,
-                    palette: bound.palette,
-                    cells: bound.cells,
-                    artSet: bound.artSet,
-                    genre: bound.genre,
-                    kind: bound.kind
-                };
+                applyArtLayerInfluence(layer, bound);
+                artLayers[zKey] = artLayerFromBound(bound);
                 floorResults.push(bound);
             }
         }
@@ -1048,26 +1266,11 @@ function bindHuntArt(hunt, opts) {
             stairLinks: hunt.stairLinks
         });
         if (bound) {
-            out.floorArt = {
-                z: bound.z,
-                cols: bound.cols,
-                rows: bound.rows,
-                palette: bound.palette,
-                cells: bound.cells,
-                artSet: bound.artSet,
-                genre: bound.genre,
-                kind: bound.kind
-            };
+            applyArtLayerInfluence(ff, bound);
+            const layer = artLayerFromBound(bound);
+            out.floorArt = Object.assign({ z: bound.z }, layer);
             out.artLayers = Object.create(null);
-            out.artLayers[String(bound.z)] = {
-                cols: bound.cols,
-                rows: bound.rows,
-                palette: bound.palette,
-                cells: bound.cells,
-                artSet: bound.artSet,
-                genre: bound.genre,
-                kind: bound.kind
-            };
+            out.artLayers[String(bound.z)] = layer;
             floorResults.push(bound);
         }
     } else {
@@ -1157,10 +1360,12 @@ module.exports = {
     bindArtFromRoles,
     bindArtToFriction,
     bindHuntArt,
+    applyArtLayerInfluence,
     resolveArtSetId,
     buildStairPadSet,
     tileIdAt,
     tileIdAtXY,
     pickWeightedId,
-    defaultCatalogKindForRole
+    defaultCatalogKindForRole,
+    artEntryPaletteKey
 };

@@ -18,6 +18,8 @@ const {
     indexTileRoles,
     resolveTileRole,
     hopDirOffset,
+    normalizePartialInfluence,
+    mergeInfluence,
     FRICTION_BLOCKED,
     SIGHT_BLOCKED,
     DEFAULT_OPEN_FRICTION,
@@ -33,9 +35,11 @@ const {
 const {
     loadTileRole,
     listTileRoleIds,
-    clearPresetCache
+    clearPresetCache,
+    setPresetCache
 } = require('../kernel/core/lib/presets.js');
 const { setActiveMode } = require('../kernel/core/lib/modes.js');
+const { resolvePlacementRender } = require('../kernel/core/lib/tile_draw.js');
 
 const VERBOSE = !!process.env.VERBOSE;
 
@@ -95,6 +99,7 @@ function testNormalizeRole() {
     assert.strictEqual(r.influence.sight, 0);
     assert.strictEqual(r.render.scale, 1);
     assert.strictEqual(r.render.anchor, 'middle_center');
+    assert.strictEqual(r.render.variant, 'retro');
     assert.strictEqual(r.vertical, null);
 
     // Infer modes from channel values when omitted
@@ -382,12 +387,83 @@ function testPresetsLoader() {
     log('presets loader ok');
 }
 
+function testWallRoleRenderIsLive() {
+    setActiveMode('standard');
+    clearPresetCache();
+    const raw = loadTileRole('wall');
+    const catalog = indexTileRoles([raw]);
+    const role = catalog.get('wall');
+    assert.ok(role && role.render, 'wall role in catalog');
+    const meta = resolvePlacementRender(
+        { catalogId: 'damp_cave_wall', kind: 'tiles', roleId: 'wall' },
+        role
+    );
+    assert.ok(Math.abs(meta.scale - Number(raw.render.scale)) < 1e-9);
+    assert.strictEqual(meta.variant, String(raw.render.variant).trim().toLowerCase());
+    log('wall role render live');
+}
+
+function testInjectedWallRenderBeatsDisk() {
+    setActiveMode('standard');
+    clearPresetCache();
+    const disk = loadTileRole('wall');
+    const injectedScale = Number(disk.render.scale) === 7 ? 6.5 : 7;
+    setPresetCache(
+        'tile_roles/wall.json',
+        Object.assign({}, disk, {
+            render: Object.assign({}, disk.render, {
+                scale: injectedScale,
+                variant: 'small'
+            })
+        })
+    );
+    const cached = loadTileRole('wall');
+    assert.strictEqual(Number(cached.render.scale), injectedScale);
+    const catalog = indexTileRoles([cached]);
+    const meta = resolvePlacementRender(
+        { catalogId: 'damp_cave_wall', kind: 'tiles', roleId: 'wall' },
+        catalog.get('wall')
+    );
+    assert.strictEqual(meta.scale, injectedScale);
+    assert.strictEqual(meta.variant, 'small');
+    clearPresetCache();
+    log('injected wall render beats disk');
+}
+
+function testPartialInfluenceMerge() {
+    const partial = normalizePartialInfluence({ friction: 40 });
+    assert.ok(partial);
+    assert.strictEqual(partial.friction, 40);
+    assert.strictEqual(partial.sight, undefined);
+    assert.strictEqual(normalizePartialInfluence({}), null);
+    assert.strictEqual(normalizePartialInfluence(null), null);
+
+    const role = normalizeTileRole({
+        id: 'floor',
+        influence: { friction: 100, walkMode: 'open' }
+    });
+    const merged = mergeInfluence(role.influence, { friction: 40 });
+    assert.strictEqual(merged.friction, 40);
+    assert.strictEqual(merged.walkMode, 'open');
+
+    const baked = bakeCellChannels([
+        { role, influence: { friction: 40 } }
+    ]);
+    // bakeCellChannels with { role } uses applyRole only — merge is bake placement path.
+    assert.strictEqual(baked.friction, 100);
+
+    log('partial influence merge ok');
+}
+
 function main() {
     testNormalizeRole();
     testValidateWallHopConflict();
     testApplyInfluence();
     testCompositionCases();
     testPresetsLoader();
+    testWallRoleRenderIsLive();
+    testInjectedWallRenderBeatsDisk();
+    testPartialInfluenceMerge();
     console.log('tile_roles: ok');
 }
 

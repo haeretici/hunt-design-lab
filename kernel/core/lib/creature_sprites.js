@@ -249,6 +249,23 @@ function defaultTileVariantForDisplay() {
 }
 
 /**
+ * Placement / role variant, then Engine Tweakings / tile-size default.
+ * Settings.tileSpriteVariant still wins (global display override).
+ *
+ * @param {string|null|undefined} explicit
+ * @returns {string}
+ */
+function resolveTileVariantForDisplay(explicit) {
+    if (Settings.tileSpriteVariant) {
+        return normalizeVariant(Settings.tileSpriteVariant);
+    }
+    if (explicit != null && String(explicit).trim()) {
+        return normalizeVariant(explicit);
+    }
+    return defaultTileVariantForDisplay();
+}
+
+/**
  * Sprite height mult relative to tile height for an entity.
  *
  * ```
@@ -842,6 +859,7 @@ module.exports = {
     isSpritePending,
     defaultVariantForDisplay,
     defaultTileVariantForDisplay,
+    resolveTileVariantForDisplay,
     entitySpriteOpts,
     resolveEntitySpriteScale,
     prefetchSprite,

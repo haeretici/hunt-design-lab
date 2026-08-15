@@ -22,6 +22,8 @@ const {
     bindArtFromRoles,
     bindArtToFriction,
     bindHuntArt,
+    applyArtLayerInfluence,
+    artEntryPaletteKey,
     resolveArtSetId,
     artSeed,
     tileIdAtXY
@@ -85,7 +87,7 @@ function testNormalizeRoleAwareness() {
                     id: 'damp_dirt_floor',
                     weight: 12,
                     roleId: 'floor',
-                    scale: 1
+                    render: { scale: 1 }
                 }
             ],
             path: [{ id: 'polished_dirt_path', weight: 3, roleId: 'path' }],
@@ -96,7 +98,7 @@ function testNormalizeRoleAwareness() {
                     id: 'broken_cave_stairs',
                     weight: 5,
                     roleId: 'stairs_up',
-                    anchor: 'bottom_center'
+                    render: { anchor: 'bottom_center' }
                 }
             ],
             scenery: [
@@ -105,8 +107,7 @@ function testNormalizeRoleAwareness() {
                     weight: 2,
                     roleId: 'scenery_blocking',
                     kind: 'objects',
-                    scale: 1.4,
-                    anchor: 'bottom_center'
+                    render: { scale: 1.4, anchor: 'bottom_center' }
                 }
             ]
         },
@@ -219,6 +220,13 @@ function testBindFrictionDeterministic() {
     assert.strictEqual(tileIdAtXY(a, 2, 2), 'stair_a');
     assert.strictEqual(tileIdAtXY(a, 2, 1), 'floor_a');
     assert.strictEqual(tileIdAtXY(a, 0, 1), 'wall_a'); // edge wall
+    assert.ok(Array.isArray(a.roleIds), 'bind stores roleIds parallel to palette');
+    const wallIdx = a.palette.indexOf('wall_a');
+    assert.ok(wallIdx > 0);
+    assert.strictEqual(a.roleIds[wallIdx], 'wall');
+    const floorIdx = a.palette.indexOf('floor_a');
+    assert.ok(floorIdx > 0);
+    assert.strictEqual(a.roleIds[floorIdx], 'floor');
     // Scenery never appears in palette from procedural bind
     assert.ok(a.palette.indexOf('should_not_paint') < 0);
     assert.ok(a.stats.floor >= 1);
@@ -438,6 +446,116 @@ function testTileMapArtLayer() {
     log('tilemap art layer ok');
 }
 
+function testArtSetItemOverrides() {
+    const nested = normalizeRoleEntry(
+        {
+            id: 'ice_slick',
+            roleId: 'floor',
+            render: { scale: 1.5, variant: 'small', anchor: 'middle_center' },
+            influence: { friction: 20 }
+        },
+        'floor',
+        'tiles'
+    );
+    assert.ok(nested);
+    assert.strictEqual(nested.scale, 1.5);
+    assert.strictEqual(nested.variant, 'small');
+    assert.strictEqual(nested.anchor, 'middle_center');
+    assert.ok(nested.influence);
+    assert.strictEqual(nested.influence.friction, 20);
+
+    const flatIgnored = normalizeRoleEntry(
+        { id: 'w', scale: 2, variant: 'icon' },
+        'wall',
+        'tiles'
+    );
+    assert.strictEqual(flatIgnored.scale, null);
+    assert.strictEqual(flatIgnored.variant, null);
+
+    const cols = 3;
+    const rows = 3;
+    const friction = new Uint8Array(9);
+    friction.fill(100);
+    friction[0] = FRICTION_BLOCKED;
+    const pack = normalizeArtSetPack({
+        id: 'ovr',
+        roles: {
+            floor: [
+                {
+                    id: 'ice_slick',
+                    weight: 1,
+                    roleId: 'floor',
+                    render: { scale: 1.5, variant: 'small' },
+                    influence: { friction: 20 }
+                }
+            ],
+            wall: [
+                {
+                    id: 'tall_wall',
+                    weight: 1,
+                    roleId: 'wall',
+                    render: { scale: 2, anchor: 'bottom_center' }
+                }
+            ]
+        },
+        rules: { blockedEdgeOnly: false, pathMix: 0 }
+    });
+    const bound = bindArtFromRoles({
+        friction,
+        cols,
+        rows,
+        artSet: pack,
+        seed: 1,
+        z: 0
+    });
+    assert.ok(bound && bound.ok);
+    const floorIdx = bound.palette.indexOf('ice_slick');
+    const wallIdx = bound.palette.indexOf('tall_wall');
+    assert.ok(floorIdx > 0);
+    assert.ok(wallIdx > 0);
+    assert.ok(bound.renders[floorIdx]);
+    assert.strictEqual(bound.renders[floorIdx].scale, 1.5);
+    assert.strictEqual(bound.renders[floorIdx].variant, 'small');
+    assert.strictEqual(bound.influences[floorIdx].friction, 20);
+    assert.strictEqual(bound.renders[wallIdx].scale, 2);
+    assert.strictEqual(bound.renders[wallIdx].anchor, 'bottom_center');
+
+    applyArtLayerInfluence({ friction }, bound);
+    assert.strictEqual(friction[4], 20, 'open floor friction overlaid');
+    assert.strictEqual(friction[0], FRICTION_BLOCKED, 'blocked cell stays blocked');
+
+    // Same catalog id, two frictions → two palette slots
+    const packDup = normalizeArtSetPack({
+        id: 'dup',
+        roles: {
+            floor: [
+                { id: 'same_art', weight: 1, influence: { friction: 10 } },
+                { id: 'same_art', weight: 1, influence: { friction: 80 } }
+            ],
+            wall: [{ id: 'w', weight: 1 }]
+        },
+        rules: { blockedEdgeOnly: false, pathMix: 0 }
+    });
+    const boundDup = bindArtFromRoles({
+        friction: new Uint8Array([100, 100, 100, 100]),
+        cols: 2,
+        rows: 2,
+        artSet: packDup,
+        seed: 1
+    });
+    assert.ok(boundDup && boundDup.ok);
+    const k1 = artEntryPaletteKey({
+        id: 'same_art',
+        influence: { friction: 10 }
+    });
+    const k2 = artEntryPaletteKey({
+        id: 'same_art',
+        influence: { friction: 80 }
+    });
+    assert.notStrictEqual(k1, k2);
+    log('art-set item overrides ok');
+}
+
 function testResolveHuntConfigArt() {
     setActiveMode('standard');
     clearPresetCache();
@@ -477,6 +595,7 @@ function main() {
         testVolumeMacroHunt(mode);
     }
     testTileMapArtLayer();
+    testArtSetItemOverrides();
     testResolveHuntConfigArt();
     // bindHuntArt still exported
     assert.strictEqual(typeof bindHuntArt, 'function');

@@ -73,6 +73,7 @@ final class BrowserPresetPack
             'markers' => [],
             'biomes' => [],
             'art_sets' => [],
+            'tile_roles' => [],
             'creatures' => [],
             'dialogs' => [],
             'waypoints' => [],
@@ -275,6 +276,12 @@ final class BrowserPresetPack
         foreach (array_keys($pendingArtSets) as $id) {
             $wanted['art_sets/' . $id . '.json'] = true;
             $deps['art_sets'][] = $id;
+        }
+
+        // Tile roles: live render.scale / variant + bake influence (small folder).
+        foreach (self::listFolderIds($modeDir . '/tile_roles') as $id) {
+            $wanted['tile_roles/' . $id . '.json'] = true;
+            $deps['tile_roles'][] = $id;
         }
 
         // Unique dep lists.
@@ -594,7 +601,7 @@ final class BrowserPresetPack
             return true;
         }
         if (!preg_match(
-            '#^(hunts|creatures|dialogs|waypoints|populations|scenarios|dungeons|pieces|markers|biomes|art_sets|parties|player_profiles)/[a-z][a-z0-9_-]{0,79}\.json$#',
+            '#^(hunts|creatures|dialogs|waypoints|populations|scenarios|dungeons|pieces|markers|biomes|art_sets|tile_roles|parties|player_profiles)/[a-z][a-z0-9_-]{0,79}\.json$#',
             $rel
         )) {
             return false;

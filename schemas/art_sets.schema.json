@@ -65,14 +65,39 @@
           "enum": ["", "pole", "horizontal", "vertical", "corner"],
           "description": "Representative wall face. Select writes pole; the brush resolves the other faces. Empty = unset (omit on disk)."
         },
-        "scale": {
-          "type": "number",
-          "minimum": 0.05,
-          "maximum": 8,
-          "description": "Optional draw scale (1 = tile box). Tall props often >1."
+        "render": {
+          "type": "object",
+          "additionalProperties": true,
+          "description": "Optional draw override for this row. Beats the linked role.render. MUST use this object — top-level scale/anchor/variant are not read.",
+          "properties": {
+            "scale": { "type": "number", "minimum": 0.05, "maximum": 8 },
+            "anchor": { "$ref": "#/definitions/anchor" },
+            "variant": { "type": "string", "minLength": 1, "maxLength": 40 }
+          }
         },
-        "anchor": {
-          "$ref": "#/definitions/anchor"
+        "influence": {
+          "type": "object",
+          "additionalProperties": true,
+          "description": "Optional partial gameplay override for this row. Authored keys beat the linked role.influence. Omitted keys inherit the role (hybrid bake) or the generator channel (procedural bind).",
+          "properties": {
+            "friction": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 255
+            },
+            "sight": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 255
+            },
+            "flags": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 255
+            },
+            "walkMode": { "type": "string", "enum": ["open", "block"] },
+            "sightMode": { "type": "string", "enum": ["clear", "block"] }
+          }
         }
       }
     }
