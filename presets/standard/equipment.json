@@ -294,7 +294,7 @@
                 "energy": 4,
                 "ice": 4
             },
-            "customSprite": "ancient_seal_ring",
+            "customSprite": "unicorn_ring",
             "spriteId": "ancient_seal_ring"
         },
         {
@@ -883,7 +883,7 @@
                 "energy": 4,
                 "ice": 4
             },
-            "customSprite": "ancient_seal_ring",
+            "customSprite": "verdant_ring",
             "spriteId": "ancient_seal_ring"
         },
         {
@@ -1030,7 +1030,7 @@
                 "energy": 4,
                 "ice": 4
             },
-            "customSprite": "brandons_wedding_ring",
+            "customSprite": "spellbinder_sigil",
             "spriteId": "brandons_wedding_ring"
         },
         {
@@ -3045,7 +3045,7 @@
             "type": [
                 "light"
             ],
-            "customSprite": "royal_arcane_rod",
+            "customSprite": "candelabrum",
             "spriteId": "royal_arcane_rod"
         },
         {
@@ -3057,7 +3057,7 @@
             "type": [
                 "light"
             ],
-            "customSprite": "royal_arcane_rod",
+            "customSprite": "candlestick",
             "spriteId": "royal_arcane_rod"
         },
         {
@@ -3122,7 +3122,7 @@
                 "armor"
             ],
             "armor": 1,
-            "customSprite": "gilded_shadow_breastplate",
+            "customSprite": "cape",
             "spriteId": "gilded_shadow_breastplate"
         },
         {
@@ -3137,7 +3137,7 @@
             "weaponType": "shield",
             "defense": 36,
             "imbuementSlots": 1,
-            "customSprite": "ancient_wall_shield",
+            "customSprite": "carapace_shield",
             "spriteId": "ancient_wall_shield"
         },
         {
@@ -3340,7 +3340,7 @@
                 "holy": 4,
                 "death": 4
             },
-            "customSprite": "ancient_seal_ring",
+            "customSprite": "charged_unicorn_ring",
             "spriteId": "ancient_seal_ring"
         },
         {
@@ -3368,7 +3368,7 @@
             },
             "manaLeechChance": 100,
             "manaLeechAmount": 100,
-            "customSprite": "ancient_seal_ring",
+            "customSprite": "charged_verdant_ring",
             "spriteId": "ancient_seal_ring"
         },
         {
@@ -3396,7 +3396,7 @@
             },
             "manaLeechChance": 100,
             "manaLeechAmount": 100,
-            "customSprite": "broken_ring_of_ending",
+            "customSprite": "charged_spellbinder_sigil",
             "spriteId": "broken_ring_of_ending"
         },
         {
@@ -3424,7 +3424,7 @@
                 "energy": 4,
                 "ice": 4
             },
-            "customSprite": "ancient_seal_ring",
+            "customSprite": "charged_ethereal_ring",
             "spriteId": "ancient_seal_ring"
         },
         {
@@ -3466,7 +3466,7 @@
                 "energy": 4,
                 "ice": 4
             },
-            "customSprite": "ancient_seal_ring",
+            "customSprite": "charged_briarheart_ring",
             "spriteId": "ancient_seal_ring"
         },
         {
@@ -7849,7 +7849,7 @@
             "resists": {
                 "fire": 6
             },
-            "customSprite": "ancient_seal_ring",
+            "customSprite": "enchanted_blister_ring",
             "spriteId": "ancient_seal_ring"
         },
         {
@@ -8570,7 +8570,7 @@
                 "energy": 4,
                 "ice": 4
             },
-            "customSprite": "ancient_seal_ring",
+            "customSprite": "ethereal_ring",
             "spriteId": "ancient_seal_ring"
         },
         {
@@ -24594,7 +24594,7 @@
                 "energy": 4,
                 "ice": 4
             },
-            "customSprite": "ancient_seal_ring",
+            "customSprite": "briarheart_ring",
             "spriteId": "ancient_seal_ring"
         },
         {
@@ -30318,7 +30318,8 @@
                 "consumable"
             ],
             "consumable": true,
-            "usable": true
+            "usable": true,
+            "customSprite": "carrot"
         }
     ]
 }

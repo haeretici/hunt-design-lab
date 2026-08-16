@@ -2,7 +2,7 @@
     "version": 1,
     "genre": "rpg_fantasy",
     "kind": "equipment",
-    "updatedAt": "2026-08-16T21:05:31.318Z",
+    "updatedAt": "2026-08-16T21:11:35.980Z",
     "items": [
         {
             "id": "abyssal_arbalest",
@@ -2706,6 +2706,23 @@
             "createdAt": "2026-08-16"
         },
         {
+            "id": "briarheart_ring",
+            "technical": "Briarheart Ring",
+            "alias": "Briarheart Ring",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": null,
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Briarheart_Ring.png",
+                "transformed": null
+            },
+            "tags": [],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
+        },
+        {
             "id": "bridal_wreath",
             "technical": "Bridal Wreath",
             "alias": "Bridal Wreath",
@@ -3471,6 +3488,40 @@
             "createdAt": "2026-08-02"
         },
         {
+            "id": "candelabrum",
+            "technical": "Candelabrum",
+            "alias": "Candelabrum",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": null,
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Candelabrum.png",
+                "transformed": null
+            },
+            "tags": [],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
+        },
+        {
+            "id": "candlestick",
+            "technical": "Candlestick",
+            "alias": "Candlestick",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": null,
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Candlestick.png",
+                "transformed": null
+            },
+            "tags": [],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
+        },
+        {
             "id": "candy_chest",
             "technical": "Candy Chest",
             "alias": "Candy Chest",
@@ -3505,6 +3556,57 @@
             "tags": [],
             "source": "pipeline",
             "createdAt": "2026-08-02"
+        },
+        {
+            "id": "cape",
+            "technical": "Cape",
+            "alias": "Cape",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": null,
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Cape.png",
+                "transformed": null
+            },
+            "tags": [],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
+        },
+        {
+            "id": "carapace_shield",
+            "technical": "Carapace Shield",
+            "alias": "Carapace Shield",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": null,
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Carapace_Shield.png",
+                "transformed": null
+            },
+            "tags": [],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
+        },
+        {
+            "id": "carrot",
+            "technical": "Carrot",
+            "alias": "Carrot",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": null,
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Carrot.png",
+                "transformed": null
+            },
+            "tags": [],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
         },
         {
             "id": "cave_chest",
@@ -3598,6 +3700,91 @@
             "tags": [
                 "container"
             ],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
+        },
+        {
+            "id": "charged_briarheart_ring",
+            "technical": "Charged Briarheart Ring",
+            "alias": "Charged Briarheart Ring",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": null,
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Charged_Briarheart_Ring.png",
+                "transformed": null
+            },
+            "tags": [],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
+        },
+        {
+            "id": "charged_ethereal_ring",
+            "technical": "Charged Ethereal Ring",
+            "alias": "Charged Ethereal Ring",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": null,
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Charged_Ethereal_Ring.png",
+                "transformed": null
+            },
+            "tags": [],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
+        },
+        {
+            "id": "charged_spellbinder_sigil",
+            "technical": "Charged Spellbinder Sigil",
+            "alias": "Charged Spellbinder Sigil",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": null,
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Charged_Spellbinder_Sigil.png",
+                "transformed": null
+            },
+            "tags": [],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
+        },
+        {
+            "id": "charged_unicorn_ring",
+            "technical": "Charged Unicorn Ring",
+            "alias": "Charged Unicorn Ring",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": null,
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Charged_Unicorn_Ring.png",
+                "transformed": null
+            },
+            "tags": [],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
+        },
+        {
+            "id": "charged_verdant_ring",
+            "technical": "Charged Verdant Ring",
+            "alias": "Charged Verdant Ring",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": null,
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Charged_Verdant_Ring.png",
+                "transformed": null
+            },
+            "tags": [],
             "source": "pipeline",
             "createdAt": "2026-08-16"
         },
@@ -4786,6 +4973,23 @@
             "createdAt": "2026-08-01"
         },
         {
+            "id": "enchanted_blister_ring",
+            "technical": "Enchanted Blister Ring",
+            "alias": "Enchanted Blister Ring",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": null,
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Enchanted_Blister_Ring.png",
+                "transformed": null
+            },
+            "tags": [],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
+        },
+        {
             "id": "enchanted_frost_longsword",
             "technical": "Enchanted Frost Longsword",
             "alias": "Longsword",
@@ -4916,6 +5120,23 @@
             "source": "pipeline",
             "createdAt": "2026-08-01",
             "ammoType": "arrow"
+        },
+        {
+            "id": "ethereal_ring",
+            "technical": "Ethereal Ring",
+            "alias": "Ethereal Ring",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": null,
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Ethereal_Ring.png",
+                "transformed": null
+            },
+            "tags": [],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
         },
         {
             "id": "exaltation_chest",
@@ -10784,6 +11005,23 @@
             "createdAt": "2026-08-16"
         },
         {
+            "id": "spellbinder_sigil",
+            "technical": "Spellbinder Sigil",
+            "alias": "Spellbinder Sigil",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": null,
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Spellbinder_Sigil.png",
+                "transformed": null
+            },
+            "tags": [],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
+        },
+        {
             "id": "spellbook",
             "technical": "Spellbook",
             "alias": "Spellbook",
@@ -11655,6 +11893,23 @@
             "createdAt": "2026-08-02"
         },
         {
+            "id": "unicorn_ring",
+            "technical": "Unicorn Ring",
+            "alias": "Unicorn Ring",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": null,
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Unicorn_Ring.png",
+                "transformed": null
+            },
+            "tags": [],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
+        },
+        {
             "id": "unstable_ring_of_ending",
             "technical": "Unstable Ring Of Ending",
             "alias": "Unstable Ring of Ending",
@@ -11856,6 +12111,23 @@
             "tags": [],
             "source": "pipeline",
             "createdAt": "2026-08-04"
+        },
+        {
+            "id": "verdant_ring",
+            "technical": "Verdant Ring",
+            "alias": "Verdant Ring",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": null,
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Verdant_Ring.png",
+                "transformed": null
+            },
+            "tags": [],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
         },
         {
             "id": "verdant_tome",
