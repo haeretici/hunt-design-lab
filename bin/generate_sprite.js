@@ -11,7 +11,7 @@
  *   node bin/generate_sprite.js -g rpg_fantasy --kind equipment --category sword
  *   node bin/generate_sprite.js -g rpg_fantasy --kind tiles --seed 7 --dry-run
  *   node bin/generate_sprite.js -g steampunk --seed 42 --iterations 3
- *   node bin/generate_sprite.js --model 'Grok 4.5 (High)'
+ *   node bin/generate_sprite.js --model 'Grok 4.6 (High)'
  *   node bin/generate_sprite.js --config batch.json
  *   node bin/generate_sprite.js -g rpg_fantasy --resplit-last
  */
@@ -61,7 +61,7 @@ Options:
   --wang-family <id>     Alias of --wall-family (objects only)
   --seed <n>             Reproducible name batch
   --model <name>         Image model label (default: ${DEFAULT_MODEL})
-                         Gemini * → agy; Grok 4.5 (Low|Medium|High) → grok
+                         Gemini * → agy; Grok 4.6 (Low|Medium|High) → grok
   --done-file <path>     Override done list path
   --rows <n>             Grid rows (default: 4)
   --cols <n>             Grid cols (default: 4)
@@ -90,7 +90,7 @@ Options:
 One-shot (copy from Batch Builder CLI box):
   node bin/generate_sprite.js -g steampunk --seed 42 --iterations 2 --model 'Gemini 3.6 Flash (High)'
   node bin/generate_sprite.js -g rpg_fantasy --kind equipment --category sword --seed 1
-  node bin/generate_sprite.js -g rpg_fantasy --kind objects --seed 3 --model 'Grok 4.5 (High)'
+  node bin/generate_sprite.js -g rpg_fantasy --kind objects --seed 3 --model 'Grok 4.6 (High)'
   node bin/generate_sprite.js -g rpg_fantasy --kind overlays --category dirt --dry-run
   node bin/generate_sprite.js -g rpg_fantasy --kind objects --category wall --wall-family stone_wall --rows 2 --cols 2 --dry-run
 

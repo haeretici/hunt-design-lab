@@ -43,13 +43,13 @@ const AGY_MODELS = [
 ];
 
 /**
- * Grok Build headless models (`grok -m grok-4.5 --reasoning-effort …`).
+ * Grok Build headless models (`grok -m grok-4.6 --reasoning-effort …`).
  * Labels match Batch Builder select; effort is low | medium | high.
  */
 const GROK_MODELS = [
-    'Grok 4.5 (Low)',
-    'Grok 4.5 (Medium)',
-    'Grok 4.5 (High)'
+    'Grok 4.6 (Low)',
+    'Grok 4.6 (Medium)',
+    'Grok 4.6 (High)'
 ];
 
 /** Full model list for Batch Builder select (agy + grok). */
@@ -58,7 +58,7 @@ const IMAGE_MODELS = [...AGY_MODELS, ...GROK_MODELS];
 const DEFAULT_MODEL = 'Gemini 3.6 Flash (High)';
 
 /** CLI model id for Grok Build image generation. */
-const GROK_CLI_MODEL = 'grok-4.5';
+const GROK_CLI_MODEL = 'grok-4.6';
 
 const BASE_STYLE_PIXEL =
     'TRUE 16-bit SNES bitmap pixel art: visible square pixels, limited palette per sprite, ' +
@@ -309,7 +309,7 @@ const COMPOSE_RECAP = {
  * @property {number|null} [seed]
  * @property {string} [doneFile] override path
  * @property {boolean} [appendDone] default true when materializing
- * @property {string} [model] image model label (agy Gemini * or Grok 4.5 *)
+ * @property {string} [model] image model label (agy Gemini * or Grok 4.6 *)
  * @property {string[]} [exclude] extra technical names to skip
  * @property {boolean} [opaqueAlpha] when true, process_sprites writes opaque alpha copies (no chroma)
  * @property {Array<{technical:string,alias:string,category?:string}>} [creatures] inject fixed list (legacy name)

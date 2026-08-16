@@ -101,7 +101,7 @@ $activeNav = 'sprites';
                                     <input type="number" class="form-control form-control-retro" id="iterations" min="1" max="64" value="1">
                                 </div>
                                 <div class="col-12">
-                                    <label class="label-retro" for="model" title="Gemini → agy; Grok 4.5 → grok headless">image model</label>
+                                    <label class="label-retro" for="model" title="Gemini → agy; Grok 4.6 → grok headless">image model</label>
                                     <select class="form-select form-select-retro" id="model"></select>
                                 </div>
                                 <div class="col-12">

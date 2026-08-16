@@ -27,9 +27,9 @@
         'Gemini 3.6 Flash (High)',
         'Gemini 3.1 Pro (Low)',
         'Gemini 3.1 Pro (High)',
-        'Grok 4.5 (Low)',
-        'Grok 4.5 (Medium)',
-        'Grok 4.5 (High)'
+        'Grok 4.6 (Low)',
+        'Grok 4.6 (Medium)',
+        'Grok 4.6 (High)'
     ];
 
     /**

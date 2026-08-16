@@ -414,7 +414,7 @@ async function initBatchBuilderApp() {
         refreshCategoryOptions(kindSelect.value || DEFAULT_KIND);
     }
 
-    // Populate image models (agy Gemini + Grok 4.5)
+    // Populate image models (agy Gemini + Grok 4.6)
     modelSelect.innerHTML = '';
     for (const name of IMAGE_MODELS) {
         const opt = document.createElement('option');

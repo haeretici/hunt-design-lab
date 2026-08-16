@@ -142,6 +142,9 @@ function relVariant(genreFolder, kindFolder, variant, stem, absPath) {
  * List catalog assets enriched with file mtimes and variant presence.
  * Sorted newest-first by file mtime (falls back to createdAt).
  *
+ * Equipment: catalog sprite rows only. Combat presets are not injected;
+ * they bind art via spriteId / customSprite and stay in presets/equipment.json.
+ *
  * @param {string} genreId
  * @param {{ limit?: number, query?: string, kind?: string }} [options]
  */
@@ -154,21 +157,6 @@ function listCreaturesEnriched(genreId, options = {}) {
     const kindFolder = kind.folder;
     const dirs = variantDirs(paths);
     const q = options.query ? String(options.query).trim().toLowerCase() : '';
-
-    let presetEquipmentMap = null;
-    if (kindId === 'equipment') {
-        try {
-            const { loadEquipmentPreset } = require('./presets.js');
-            const eqData = loadEquipmentPreset();
-            const rawItems = (eqData && eqData.items) || [];
-            presetEquipmentMap = Object.create(null);
-            for (const item of rawItems) {
-                if (item && item.id) presetEquipmentMap[item.id] = item;
-            }
-        } catch (_) {
-            /* ignore */
-        }
-    }
 
     /** @type {object[]} */
     const items = [];
@@ -189,9 +177,12 @@ function listCreaturesEnriched(genreId, options = {}) {
 
             for (const p of rawPresetItems) {
                 if (!p || !p.id) continue;
-                seenIds.add(p.id);
 
                 const c = catalogMap[p.id] || null;
+                // Combat items that reuse another catalog sprite (or have no art)
+                // must not appear as empty Sprite Manager cards.
+                if (!c) continue;
+                seenIds.add(p.id);
                 const combat = catalogItemToCombatItem(p);
                 const alias = p.label || p.alias || (c && c.alias) || p.id;
                 const technical = p.technical || p.label || (c && c.technical) || p.id;
