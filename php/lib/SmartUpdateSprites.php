@@ -141,7 +141,7 @@ final class SmartUpdateSprites
 
         $model = isset($input['model']) && is_string($input['model']) && $input['model'] !== ''
             ? $input['model']
-            : 'Gemini 3.6 Flash (High)';
+            : 'Gemini 3.7 Flash (High)';
         if (!in_array($model, HDL_IMAGE_MODELS, true)) {
             throw new \InvalidArgumentException('Invalid model');
         }

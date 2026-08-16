@@ -22,9 +22,9 @@
     'use strict';
 
     const IMAGE_MODELS = [
-        'Gemini 3.6 Flash (Low)',
-        'Gemini 3.6 Flash (Medium)',
-        'Gemini 3.6 Flash (High)',
+        'Gemini 3.7 Flash (Low)',
+        'Gemini 3.7 Flash (Medium)',
+        'Gemini 3.7 Flash (High)',
         'Gemini 3.1 Pro (Low)',
         'Gemini 3.1 Pro (High)',
         'Grok 4.6 (Low)',
@@ -245,7 +245,7 @@
                 modelSel.innerHTML = IMAGE_MODELS.map(
                     (m) =>
                         `<option value="${escapeHtml(m)}"${
-                            m === 'Gemini 3.6 Flash (High)' ? ' selected' : ''
+                            m === 'Gemini 3.7 Flash (High)' ? ' selected' : ''
                         }>${escapeHtml(m)}</option>`
                 ).join('');
             }

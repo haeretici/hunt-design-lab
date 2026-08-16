@@ -61,9 +61,9 @@ const HDL_ASSET_CATEGORIES = [
  * @var list<string>
  */
 const HDL_IMAGE_MODELS = [
-    'Gemini 3.6 Flash (Low)',
-    'Gemini 3.6 Flash (Medium)',
-    'Gemini 3.6 Flash (High)',
+    'Gemini 3.7 Flash (Low)',
+    'Gemini 3.7 Flash (Medium)',
+    'Gemini 3.7 Flash (High)',
     'Gemini 3.1 Pro (Low)',
     'Gemini 3.1 Pro (High)',
     'Grok 4.6 (Low)',
@@ -294,7 +294,7 @@ const HDL_SCRIPTS = [
                 'type' => 'enum',
                 'values' => HDL_IMAGE_MODELS,
                 'required' => false,
-                'default' => 'Gemini 3.6 Flash (High)',
+                'default' => 'Gemini 3.7 Flash (High)',
                 'json_key' => 'model',
             ],
             'rows' => [

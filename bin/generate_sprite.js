@@ -88,7 +88,7 @@ Options:
   -h, --help             Show help
 
 One-shot (copy from Batch Builder CLI box):
-  node bin/generate_sprite.js -g steampunk --seed 42 --iterations 2 --model 'Gemini 3.6 Flash (High)'
+  node bin/generate_sprite.js -g steampunk --seed 42 --iterations 2 --model 'Gemini 3.7 Flash (High)'
   node bin/generate_sprite.js -g rpg_fantasy --kind equipment --category sword --seed 1
   node bin/generate_sprite.js -g rpg_fantasy --kind objects --seed 3 --model 'Grok 4.6 (High)'
   node bin/generate_sprite.js -g rpg_fantasy --kind overlays --category dirt --dry-run

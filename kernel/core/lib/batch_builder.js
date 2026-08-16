@@ -35,9 +35,9 @@ const DEFAULT_GRID = { rows: 4, cols: 4 };
 
 /** Allowed Google Antigravity (`agy --model`) values. */
 const AGY_MODELS = [
-    'Gemini 3.6 Flash (Low)',
-    'Gemini 3.6 Flash (Medium)',
-    'Gemini 3.6 Flash (High)',
+    'Gemini 3.7 Flash (Low)',
+    'Gemini 3.7 Flash (Medium)',
+    'Gemini 3.7 Flash (High)',
     'Gemini 3.1 Pro (Low)',
     'Gemini 3.1 Pro (High)'
 ];
@@ -55,7 +55,7 @@ const GROK_MODELS = [
 /** Full model list for Batch Builder select (agy + grok). */
 const IMAGE_MODELS = [...AGY_MODELS, ...GROK_MODELS];
 
-const DEFAULT_MODEL = 'Gemini 3.6 Flash (High)';
+const DEFAULT_MODEL = 'Gemini 3.7 Flash (High)';
 
 /** CLI model id for Grok Build image generation. */
 const GROK_CLI_MODEL = 'grok-4.6';
