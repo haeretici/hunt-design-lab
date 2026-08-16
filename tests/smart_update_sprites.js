@@ -50,6 +50,51 @@ function test(name, fn) {
     }
 }
 
+test('job validator accepts apostrophes and parentheses in roster technical', () => {
+    const data = phpEval(`
+try {
+  $out = \\De\\Validator::validateRun([
+    'script' => 'smart_update_sprites',
+    'genre' => 'rpg_fantasy',
+    'kind' => 'equipment',
+    'items' => [
+      ['technical' => "Koshei's Ancient Amulet", 'alias' => "Koshei's Ancient Amulet"],
+      ['technical' => 'Jade Amulet (Replica)', 'alias' => 'Jade Amulet (Replica)'],
+      ['technical' => "Jerom's Family Necklace", 'alias' => "Jerom's Family Necklace"],
+    ],
+  ]);
+  echo json_encode([
+    'ok' => true,
+    'count' => count($out['params']['items']),
+    'first' => $out['params']['items'][0]['technical'],
+  ]);
+} catch (\\InvalidArgumentException $e) {
+  echo json_encode(['ok' => false, 'message' => $e->getMessage()]);
+}
+`);
+    assert.strictEqual(data.ok, true, data.message || 'expected roster to validate');
+    assert.strictEqual(data.count, 3);
+    assert.strictEqual(data.first, "Koshei's Ancient Amulet");
+});
+
+test('job validator still rejects shell-hostile technical names', () => {
+    const data = phpEval(`
+try {
+  \\De\\Validator::validateRun([
+    'script' => 'smart_update_sprites',
+    'genre' => 'rpg_fantasy',
+    'kind' => 'equipment',
+    'items' => [['technical' => 'Amulet; rm -rf', 'alias' => 'Amulet']],
+  ]);
+  echo json_encode(['threw' => false]);
+} catch (\\InvalidArgumentException $e) {
+  echo json_encode(['threw' => true, 'message' => $e->getMessage()]);
+}
+`);
+    assert.strictEqual(data.threw, true);
+    assert.match(String(data.message || ''), /technical characters/);
+});
+
 test('entityIdToTechnical title-cases snake_case ids', () => {
     const data = phpEval(`
 echo json_encode([

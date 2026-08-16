@@ -54,8 +54,8 @@ final class SmartUpdateSprites
             $a = substr($a, 0, 128);
             $a = rtrim($a);
         }
-        // Same character class as Validator::coerceRosterItems alias rule.
-        if (preg_match('/^[\w \'.\-()[\]:,&+\/!]{1,128}$/u', $a) === 1) {
+        // Same character class as Validator::ROSTER_LABEL_RE.
+        if (preg_match(Validator::ROSTER_LABEL_RE, $a) === 1) {
             return $a;
         }
         $cleaned = preg_replace('/[^\w \'.\-()[\]:,&+\/!]/u', '', $a);

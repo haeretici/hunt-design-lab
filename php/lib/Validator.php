@@ -11,6 +11,12 @@ namespace De;
 final class Validator
 {
     /**
+     * Wiki / catalog roster labels. No path or shell metacharacters.
+     * Apostrophes and parentheses are common ("Koshei's…", "Jade Amulet (Replica)").
+     */
+    public const ROSTER_LABEL_RE = '/^[\w \'.\-()[\]:,&+\/!]{1,128}$/u';
+
+    /**
      * @param array<string, mixed> $input
      * @return array{script: string, params: array<string, mixed>, argv: list<string>, display: string}
      */
@@ -184,8 +190,11 @@ final class Validator
             if ($technical === '' || strlen($technical) > 128) {
                 throw new \InvalidArgumentException("Invalid {$name}[{$i}].technical");
             }
-            // Title Case phrase ("My Orc") or snake_case id — letters, digits, space, _ . -
-            if (!preg_match('/^[A-Za-z0-9][A-Za-z0-9 _.\-]{0,127}$/', $technical)) {
+            // Title Case / catalog label / snake_case id. File stems strip punctuation later.
+            if (
+                preg_match(self::ROSTER_LABEL_RE, $technical) !== 1
+                || preg_match('/^[A-Za-z0-9]/u', $technical) !== 1
+            ) {
                 throw new \InvalidArgumentException("Invalid {$name}[{$i}].technical characters");
             }
             $key = strtolower($technical);
@@ -198,9 +207,8 @@ final class Validator
             if ($alias === '' || strlen($alias) > 128) {
                 $alias = $technical;
             }
-            // Display labels often use parentheses / punctuation (e.g. "Horn (Ring)",
-            // "Barrel (Brown)"). Keep path/shell-hostile chars out; allow common wiki text.
-            if (!preg_match('/^[\w \'.\-()[\]:,&+\/!]{1,128}$/u', $alias)) {
+            // Same charset as technical (wiki labels: "Horn (Ring)", "Koshei's…").
+            if (preg_match(self::ROSTER_LABEL_RE, $alias) !== 1) {
                 throw new \InvalidArgumentException("Invalid {$name}[{$i}].alias");
             }
 
