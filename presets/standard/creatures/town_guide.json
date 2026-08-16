@@ -12,8 +12,12 @@
     "walkInterval": 2000,
     "walkRadius": 2,
     "voices": [
-        { "text": "Need directions?" },
-        { "text": "The arena is north of the fountain." }
+        {
+            "text": "Need directions?"
+        },
+        {
+            "text": "The arena is north of the fountain."
+        }
     ],
     "voiceInterval": 15000,
     "voiceChance": 25,
@@ -24,17 +28,28 @@
     "mitigation": 0,
     "displayScale": 1,
     "canBlock": false,
-    "customSprite": "adventurer",
+    "customSprite": "town_guide",
     "dialogId": "town_guide",
     "shop": {
         "currency": "gold_coin",
         "items": [
-            { "item": "bread", "buy": 4, "sell": 1 },
-            { "item": "cookie", "buy": 2, "sell": 1 },
+            {
+                "item": "bread",
+                "buy": 4,
+                "sell": 1
+            },
+            {
+                "item": "cookie",
+                "buy": 2,
+                "sell": 1
+            },
             {
                 "item": "torch",
                 "buy": 8,
-                "when": { "storage": "town_guide.mission", "min": 1 }
+                "when": {
+                    "storage": "town_guide.mission",
+                    "min": 1
+                }
             }
         ]
     },
