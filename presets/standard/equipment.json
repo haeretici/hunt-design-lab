@@ -3207,7 +3207,7 @@
                 "helmet"
             ],
             "armor": 9,
-            "customSprite": "ancient_mask",
+            "customSprite": "ceremonial_mask",
             "spriteId": "ancient_mask"
         },
         {
@@ -3221,7 +3221,7 @@
             ],
             "armor": 6,
             "imbuementSlots": 2,
-            "customSprite": "ancient_scale_mail",
+            "customSprite": "chain_armor",
             "spriteId": "ancient_scale_mail"
         },
         {
@@ -3255,7 +3255,7 @@
                 "helmet"
             ],
             "armor": 2,
-            "customSprite": "ancient_mask",
+            "customSprite": "chain_helmet",
             "spriteId": "ancient_mask"
         },
         {
@@ -3294,7 +3294,7 @@
             "type": [
                 "armor"
             ],
-            "customSprite": "iron_scale_mail",
+            "customSprite": "chaos_critical_dice_replica",
             "spriteId": "iron_scale_mail"
         },
         {
@@ -29870,7 +29870,8 @@
                 "durationSec": 60,
                 "poolFormula": "legacy_mana_shield"
             },
-            "notes": "Pooled mana shield, 60s, same formula as magic_shield (no Wheel)"
+            "notes": "Pooled mana shield, 60s, same formula as magic_shield (no Wheel)",
+            "customSprite": "magic_shield_potion"
         },
         {
             "id": "barrier_wall_rune",
@@ -30147,7 +30148,8 @@
                 "consumable"
             ],
             "consumable": true,
-            "usable": true
+            "usable": true,
+            "customSprite": "meat"
         },
         {
             "id": "ham",
@@ -30160,7 +30162,8 @@
                 "consumable"
             ],
             "consumable": true,
-            "usable": true
+            "usable": true,
+            "customSprite": "ham"
         },
         {
             "id": "dragon_ham",
@@ -30173,7 +30176,8 @@
                 "consumable"
             ],
             "consumable": true,
-            "usable": true
+            "usable": true,
+            "customSprite": "dragon_ham"
         },
         {
             "id": "fish",
@@ -30186,7 +30190,8 @@
                 "consumable"
             ],
             "consumable": true,
-            "usable": true
+            "usable": true,
+            "customSprite": "fish"
         },
         {
             "id": "shrimp",
@@ -30199,7 +30204,8 @@
                 "consumable"
             ],
             "consumable": true,
-            "usable": true
+            "usable": true,
+            "customSprite": "shrimp"
         },
         {
             "id": "cheese",
@@ -30212,7 +30218,8 @@
                 "consumable"
             ],
             "consumable": true,
-            "usable": true
+            "usable": true,
+            "customSprite": "cheese"
         },
         {
             "id": "cookie",
@@ -30225,7 +30232,8 @@
                 "consumable"
             ],
             "consumable": true,
-            "usable": true
+            "usable": true,
+            "customSprite": "cookie"
         },
         {
             "id": "bread",
@@ -30280,7 +30288,8 @@
                 "consumable"
             ],
             "consumable": true,
-            "usable": true
+            "usable": true,
+            "customSprite": "green_mushroom"
         },
         {
             "id": "white_mushroom",
@@ -30293,7 +30302,8 @@
                 "consumable"
             ],
             "consumable": true,
-            "usable": true
+            "usable": true,
+            "customSprite": "white_mushroom"
         },
         {
             "id": "dark_mushroom",
@@ -30306,7 +30316,8 @@
                 "consumable"
             ],
             "consumable": true,
-            "usable": true
+            "usable": true,
+            "customSprite": "dark_mushroom"
         },
         {
             "id": "grapes",
@@ -30319,7 +30330,8 @@
                 "consumable"
             ],
             "consumable": true,
-            "usable": true
+            "usable": true,
+            "customSprite": "grapes"
         },
         {
             "id": "carrot",
