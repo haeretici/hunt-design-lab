@@ -2,7 +2,7 @@
     "version": 1,
     "genre": "rpg_fantasy",
     "kind": "equipment",
-    "updatedAt": "2026-08-16T20:59:08.081Z",
+    "updatedAt": "2026-08-16T21:05:31.318Z",
     "items": [
         {
             "id": "abyssal_arbalest",
@@ -143,6 +143,23 @@
             "tags": [],
             "source": "pipeline",
             "createdAt": "2026-08-02"
+        },
+        {
+            "id": "alchemists_notepad",
+            "technical": "Alchemists Notepad",
+            "alias": "Alchemist's Notepad",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": null,
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Alchemists_Notepad.png",
+                "transformed": null
+            },
+            "tags": [],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
         },
         {
             "id": "amethyst_necklace",
@@ -2280,6 +2297,25 @@
             "createdAt": "2026-08-02"
         },
         {
+            "id": "book_of_lies",
+            "technical": "Book Of Lies",
+            "alias": "Book of Lies",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": "spellbook",
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Book_Of_Lies.png",
+                "transformed": null
+            },
+            "tags": [
+                "spellbook"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
+        },
+        {
             "id": "boots_of_swiftness",
             "technical": "Boots Of Swiftness",
             "alias": "Boots of Swiftness",
@@ -2471,6 +2507,25 @@
             "tags": [],
             "source": "pipeline",
             "createdAt": "2026-08-10"
+        },
+        {
+            "id": "brain_in_a_jar",
+            "technical": "Brain In A Jar",
+            "alias": "Brain in a Jar",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": "spellbook",
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Brain_In_A_Jar.png",
+                "transformed": null
+            },
+            "tags": [
+                "spellbook"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
         },
         {
             "id": "brandons_wedding_ring",
@@ -3161,6 +3216,40 @@
             "createdAt": "2026-08-16"
         },
         {
+            "id": "brown_pit_fiend",
+            "technical": "Brown Pit Fiend",
+            "alias": "Brown Pit Fiend",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": null,
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Brown_Pit_Fiend.png",
+                "transformed": null
+            },
+            "tags": [],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
+        },
+        {
+            "id": "buckle",
+            "technical": "Buckle",
+            "alias": "Buckle",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": null,
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Buckle.png",
+                "transformed": null
+            },
+            "tags": [],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
+        },
+        {
             "id": "buggy_backpack",
             "technical": "Buggy Backpack",
             "alias": "Buggy Backpack",
@@ -3195,6 +3284,74 @@
             "tags": [
                 "boots"
             ],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
+        },
+        {
+            "id": "burial_shroud",
+            "technical": "Burial Shroud",
+            "alias": "Burial Shroud",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": null,
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Burial_Shroud.png",
+                "transformed": null
+            },
+            "tags": [],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
+        },
+        {
+            "id": "burnt_down_rainbow_torch",
+            "technical": "Burnt Down Rainbow Torch",
+            "alias": "Burnt Down Rainbow Torch",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": null,
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Burnt_Down_Rainbow_Torch.png",
+                "transformed": null
+            },
+            "tags": [],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
+        },
+        {
+            "id": "burnt_down_torch",
+            "technical": "Burnt Down Torch",
+            "alias": "Burnt Down Torch",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": null,
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Burnt_Down_Torch.png",
+                "transformed": null
+            },
+            "tags": [],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
+        },
+        {
+            "id": "burnt_out_devourer_core",
+            "technical": "Burnt Out Devourer Core",
+            "alias": "Burnt Out Devourer Core",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": null,
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Burnt_Out_Devourer_Core.png",
+                "transformed": null
+            },
+            "tags": [],
             "source": "pipeline",
             "createdAt": "2026-08-16"
         },
@@ -3718,6 +3875,23 @@
             "createdAt": "2026-08-01"
         },
         {
+            "id": "cocoa_grimoire",
+            "technical": "Cocoa Grimoire",
+            "alias": "Cocoa Grimoire",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": null,
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Cocoa_Grimoire.png",
+                "transformed": null
+            },
+            "tags": [],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
+        },
+        {
             "id": "coconut_shoes",
             "technical": "Coconut Shoes",
             "alias": "Coconut Shoes",
@@ -3805,6 +3979,23 @@
             "tags": [
                 "container"
             ],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
+        },
+        {
+            "id": "creamy_grimoire",
+            "technical": "Creamy Grimoire",
+            "alias": "Creamy Grimoire",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": null,
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Creamy_Grimoire.png",
+                "transformed": null
+            },
+            "tags": [],
             "source": "pipeline",
             "createdAt": "2026-08-16"
         },
@@ -3970,6 +4161,25 @@
             "tags": [],
             "source": "pipeline",
             "createdAt": "2026-08-04"
+        },
+        {
+            "id": "crude_gloomforged_spellbook",
+            "technical": "Crude Gloomforged Spellbook",
+            "alias": "Crude Gloomforged Spellbook",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": "spellbook",
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Crude_Gloomforged_Spellbook.png",
+                "transformed": null
+            },
+            "tags": [
+                "spellbook"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
         },
         {
             "id": "crystal_backpack",
@@ -5386,6 +5596,42 @@
                 "transformed": null
             },
             "tags": [],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
+        },
+        {
+            "id": "gloomforged_master_spellbook",
+            "technical": "Gloomforged Master Spellbook",
+            "alias": "Gloomforged Master Spellbook",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": null,
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Gloomforged_Master_Spellbook.png",
+                "transformed": null
+            },
+            "tags": [],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
+        },
+        {
+            "id": "gloomforged_spellbook",
+            "technical": "Gloomforged Spellbook",
+            "alias": "Gloomforged Spellbook",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": "spellbook",
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Gloomforged_Spellbook.png",
+                "transformed": null
+            },
+            "tags": [
+                "spellbook"
+            ],
             "source": "pipeline",
             "createdAt": "2026-08-16"
         },
@@ -7272,6 +7518,23 @@
             "createdAt": "2026-08-01"
         },
         {
+            "id": "mane_spellbook",
+            "technical": "Mane Spellbook",
+            "alias": "Mane Spellbook",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": null,
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Mane_Spellbook.png",
+                "transformed": null
+            },
+            "tags": [],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
+        },
+        {
             "id": "marksman_potion",
             "technical": "Marksman Potion",
             "alias": "Marksman Potion",
@@ -7456,6 +7719,25 @@
             "createdAt": "2026-08-16"
         },
         {
+            "id": "novice_spellbook",
+            "technical": "Novice Spellbook",
+            "alias": "Novice Spellbook",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": "spellbook",
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Novice_Spellbook.png",
+                "transformed": null
+            },
+            "tags": [
+                "spellbook"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
+        },
+        {
             "id": "noxious_spawn_claw",
             "technical": "Noxious Spawn Claw",
             "alias": "Noxious Spawn Claw",
@@ -7548,6 +7830,23 @@
             "createdAt": "2026-08-16"
         },
         {
+            "id": "occult_folio",
+            "technical": "Occult Folio",
+            "alias": "Occult Folio",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": null,
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Occult_Folio.png",
+                "transformed": null
+            },
+            "tags": [],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
+        },
+        {
             "id": "occult_quiver",
             "technical": "Occult Quiver",
             "alias": "Occult Quiver",
@@ -7563,6 +7862,23 @@
             "tags": [],
             "source": "pipeline",
             "createdAt": "2026-08-02"
+        },
+        {
+            "id": "occult_tome",
+            "technical": "Occult Tome",
+            "alias": "Occult Tome",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": null,
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Occult_Tome.png",
+                "transformed": null
+            },
+            "tags": [],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
         },
         {
             "id": "old_and_used_backpack",
@@ -10141,6 +10457,25 @@
             "createdAt": "2026-08-02"
         },
         {
+            "id": "shoulder_plate",
+            "technical": "Shoulder Plate",
+            "alias": "Shoulder Plate",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": "spellbook",
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Shoulder_Plate.png",
+                "transformed": null
+            },
+            "tags": [
+                "spellbook"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
+        },
+        {
             "id": "siege_arbalest",
             "technical": "Siege Arbalest",
             "alias": "Siege Arbalest",
@@ -10265,6 +10600,25 @@
                 "transformed": null
             },
             "tags": [],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
+        },
+        {
+            "id": "snake_gods_wristguard",
+            "technical": "Snake Gods Wristguard",
+            "alias": "Snake God's Wristguard",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": "spellbook",
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Snake_Gods_Wristguard.png",
+                "transformed": null
+            },
+            "tags": [
+                "spellbook"
+            ],
             "source": "pipeline",
             "createdAt": "2026-08-16"
         },
@@ -10411,6 +10765,211 @@
             "source": "pipeline",
             "createdAt": "2026-08-01",
             "ammoType": "bolt"
+        },
+        {
+            "id": "spellbinder_folio",
+            "technical": "Spellbinder Folio",
+            "alias": "Spellbinder Folio",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": null,
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Spellbinder_Folio.png",
+                "transformed": null
+            },
+            "tags": [],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
+        },
+        {
+            "id": "spellbook",
+            "technical": "Spellbook",
+            "alias": "Spellbook",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": "spellbook",
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Spellbook.png",
+                "transformed": null
+            },
+            "tags": [
+                "spellbook"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
+        },
+        {
+            "id": "spellbook_of_ancient_arcana",
+            "technical": "Spellbook Of Ancient Arcana",
+            "alias": "Spellbook of Ancient Arcana",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": "spellbook",
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Spellbook_Of_Ancient_Arcana.png",
+                "transformed": null
+            },
+            "tags": [
+                "spellbook"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
+        },
+        {
+            "id": "spellbook_of_dark_mysteries",
+            "technical": "Spellbook Of Dark Mysteries",
+            "alias": "Spellbook of Dark Mysteries",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": "spellbook",
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Spellbook_Of_Dark_Mysteries.png",
+                "transformed": null
+            },
+            "tags": [
+                "spellbook"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
+        },
+        {
+            "id": "spellbook_of_enlightenment",
+            "technical": "Spellbook Of Enlightenment",
+            "alias": "Spellbook of Enlightenment",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": "spellbook",
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Spellbook_Of_Enlightenment.png",
+                "transformed": null
+            },
+            "tags": [
+                "spellbook"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
+        },
+        {
+            "id": "spellbook_of_lost_souls",
+            "technical": "Spellbook Of Lost Souls",
+            "alias": "Spellbook of Lost Souls",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": "spellbook",
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Spellbook_Of_Lost_Souls.png",
+                "transformed": null
+            },
+            "tags": [
+                "spellbook"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
+        },
+        {
+            "id": "spellbook_of_mind_control",
+            "technical": "Spellbook Of Mind Control",
+            "alias": "Spellbook of Mind Control",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": "spellbook",
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Spellbook_Of_Mind_Control.png",
+                "transformed": null
+            },
+            "tags": [
+                "spellbook"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
+        },
+        {
+            "id": "spellbook_of_vigilance",
+            "technical": "Spellbook Of Vigilance",
+            "alias": "Spellbook of Vigilance",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": "spellbook",
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Spellbook_Of_Vigilance.png",
+                "transformed": null
+            },
+            "tags": [
+                "spellbook"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
+        },
+        {
+            "id": "spellbook_of_warding",
+            "technical": "Spellbook Of Warding",
+            "alias": "Spellbook of Warding",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": "spellbook",
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Spellbook_Of_Warding.png",
+                "transformed": null
+            },
+            "tags": [
+                "spellbook"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
+        },
+        {
+            "id": "spellscroll_of_prophecies",
+            "technical": "Spellscroll Of Prophecies",
+            "alias": "Spellscroll of Prophecies",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": "spellbook",
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Spellscroll_Of_Prophecies.png",
+                "transformed": null
+            },
+            "tags": [
+                "spellbook"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
+        },
+        {
+            "id": "spirit_guide",
+            "technical": "Spirit Guide",
+            "alias": "Spirit Guide",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": null,
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Spirit_Guide.png",
+                "transformed": null
+            },
+            "tags": [],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
         },
         {
             "id": "spooky_chest",
@@ -11297,6 +11856,23 @@
             "tags": [],
             "source": "pipeline",
             "createdAt": "2026-08-04"
+        },
+        {
+            "id": "verdant_tome",
+            "technical": "Verdant Tome",
+            "alias": "Verdant Tome",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": null,
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Verdant_Tome.png",
+                "transformed": null
+            },
+            "tags": [],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
         },
         {
             "id": "vine_barrier_rune",
