@@ -7941,7 +7941,7 @@
             "range": 4,
             "level": 42,
             "maxHitChance": 80,
-            "customSprite": "ancient_javelin",
+            "customSprite": "enchanted_spear",
             "spriteId": "ancient_javelin",
             "stackable": true,
             "breakChance": 1.1
@@ -11043,7 +11043,7 @@
             "atk": 55,
             "range": 3,
             "level": 60,
-            "customSprite": "ancient_javelin",
+            "customSprite": "steamwork_spear",
             "spriteId": "ancient_javelin",
             "stackable": true,
             "breakChance": 33
@@ -12935,7 +12935,7 @@
             "range": 3,
             "level": 20,
             "maxHitChance": 80,
-            "customSprite": "ancient_javelin",
+            "customSprite": "hunting_spear",
             "spriteId": "ancient_javelin",
             "stackable": true,
             "breakChance": 5.4
@@ -14451,7 +14451,7 @@
             "level": 60,
             "hitChance": 90,
             "maxHitChance": 86,
-            "customSprite": "wicked_spear",
+            "customSprite": "leaf_star",
             "spriteId": "wicked_spear",
             "stackable": true,
             "breakChance": 41.52
@@ -15998,7 +15998,7 @@
             "atk": 15,
             "range": 3,
             "maxHitChance": 76,
-            "customSprite": "ancient_javelin",
+            "customSprite": "mean_paladin_spear",
             "spriteId": "ancient_javelin",
             "stackable": true,
             "breakChance": 3
@@ -21357,7 +21357,7 @@
             "range": 3,
             "level": 25,
             "maxHitChance": 80,
-            "customSprite": "ancient_javelin",
+            "customSprite": "royal_spear",
             "spriteId": "ancient_javelin",
             "stackable": true,
             "breakChance": 3.7
@@ -21378,7 +21378,7 @@
             "range": 5,
             "level": 120,
             "maxHitChance": 100,
-            "customSprite": "sacred_javelin",
+            "customSprite": "royal_star",
             "spriteId": "sacred_javelin",
             "stackable": true,
             "breakChance": 30
@@ -23351,7 +23351,7 @@
             "atk": 5,
             "range": 4,
             "maxHitChance": 76,
-            "customSprite": "shadowed_partisan",
+            "customSprite": "small_stone",
             "spriteId": "shadowed_partisan",
             "stackable": true,
             "breakChance": 3
@@ -23455,7 +23455,7 @@
             ],
             "weaponType": "distance",
             "range": 6,
-            "customSprite": "infernal_rune_spear",
+            "customSprite": "snowball",
             "spriteId": "infernal_rune_spear",
             "stackable": true,
             "breakChance": 100
@@ -24094,7 +24094,7 @@
             "atk": 25,
             "range": 3,
             "maxHitChance": 76,
-            "customSprite": "ancient_javelin",
+            "customSprite": "spear",
             "spriteId": "ancient_javelin",
             "stackable": true,
             "breakChance": 3.075
@@ -26318,7 +26318,7 @@
                 "throwing"
             ],
             "weaponType": "distance",
-            "customSprite": "radiant_bone_halberd",
+            "customSprite": "throwing_cake",
             "spriteId": "radiant_bone_halberd",
             "stackable": true,
             "breakChance": 100
@@ -26336,7 +26336,7 @@
             "atk": 25,
             "range": 4,
             "maxHitChance": 76,
-            "customSprite": "bone_poleaxe",
+            "customSprite": "throwing_knife",
             "spriteId": "bone_poleaxe",
             "stackable": true,
             "breakChance": 7
@@ -26354,7 +26354,7 @@
             "atk": 30,
             "range": 4,
             "maxHitChance": 76,
-            "customSprite": "bloodied_iron_billhook",
+            "customSprite": "throwing_star",
             "spriteId": "bloodied_iron_billhook",
             "stackable": true,
             "breakChance": 10
@@ -28137,7 +28137,7 @@
             "range": 4,
             "hitChance": 80,
             "maxHitChance": 76,
-            "customSprite": "ancient_javelin",
+            "customSprite": "viper_star",
             "spriteId": "ancient_javelin",
             "stackable": true,
             "breakChance": 9
@@ -30238,7 +30238,8 @@
                 "consumable"
             ],
             "consumable": true,
-            "usable": true
+            "usable": true,
+            "customSprite": "brown_bread"
         },
         {
             "id": "brown_mushroom",
@@ -30251,7 +30252,8 @@
                 "consumable"
             ],
             "consumable": true,
-            "usable": true
+            "usable": true,
+            "customSprite": "brown_mushroom"
         },
         {
             "id": "green_mushroom",

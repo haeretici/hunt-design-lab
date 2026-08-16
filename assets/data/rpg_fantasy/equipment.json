@@ -2,7 +2,7 @@
     "version": 1,
     "genre": "rpg_fantasy",
     "kind": "equipment",
-    "updatedAt": "2026-08-16T20:51:29.884Z",
+    "updatedAt": "2026-08-16T20:59:08.081Z",
     "items": [
         {
             "id": "abyssal_arbalest",
@@ -3127,6 +3127,40 @@
             "createdAt": "2026-07-24"
         },
         {
+            "id": "brown_bread",
+            "technical": "Brown Bread",
+            "alias": "Brown Bread",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": null,
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Brown_Bread.png",
+                "transformed": null
+            },
+            "tags": [],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
+        },
+        {
+            "id": "brown_mushroom",
+            "technical": "Brown Mushroom",
+            "alias": "Brown Mushroom",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": null,
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Brown_Mushroom.png",
+                "transformed": null
+            },
+            "tags": [],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
+        },
+        {
             "id": "buggy_backpack",
             "technical": "Buggy Backpack",
             "alias": "Buggy Backpack",
@@ -4561,6 +4595,23 @@
             "createdAt": "2026-07-27"
         },
         {
+            "id": "enchanted_spear",
+            "technical": "Enchanted Spear",
+            "alias": "Enchanted Spear",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": null,
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Enchanted_Spear.png",
+                "transformed": null
+            },
+            "tags": [],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
+        },
+        {
             "id": "enchanted_werewolf_amulet",
             "technical": "Enchanted Werewolf Amulet",
             "alias": "Enchanted Werewolf Amulet",
@@ -5462,7 +5513,9 @@
                 "original": "assets/sprites/rpg_fantasy/equipment/original/Golden_Amulet.png",
                 "transformed": null
             },
-            "tags": [],
+            "tags": [
+                "amulet"
+            ],
             "source": "pipeline",
             "createdAt": "2026-08-16"
         },
@@ -5536,7 +5589,9 @@
                 "original": "assets/sprites/rpg_fantasy/equipment/original/Golden_Hyaena_Pendant.png",
                 "transformed": null
             },
-            "tags": [],
+            "tags": [
+                "amulet"
+            ],
             "source": "pipeline",
             "createdAt": "2026-08-16"
         },
@@ -5572,7 +5627,9 @@
                 "original": "assets/sprites/rpg_fantasy/equipment/original/Golden_Scorpion_Pendant.png",
                 "transformed": null
             },
-            "tags": [],
+            "tags": [
+                "amulet"
+            ],
             "source": "pipeline",
             "createdAt": "2026-08-16"
         },
@@ -5782,7 +5839,9 @@
                 "original": "assets/sprites/rpg_fantasy/equipment/original/Greater_Garlic_Necklace.png",
                 "transformed": null
             },
-            "tags": [],
+            "tags": [
+                "amulet"
+            ],
             "source": "pipeline",
             "createdAt": "2026-08-16"
         },
@@ -6180,6 +6239,23 @@
             "tags": [],
             "source": "pipeline",
             "createdAt": "2026-08-02"
+        },
+        {
+            "id": "hunting_spear",
+            "technical": "Hunting Spear",
+            "alias": "Hunting Spear",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": null,
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Hunting_Spear.png",
+                "transformed": null
+            },
+            "tags": [],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
         },
         {
             "id": "icicle_bow",
@@ -6703,7 +6779,9 @@
                 "original": "assets/sprites/rpg_fantasy/equipment/original/Jade_Amulet.png",
                 "transformed": null
             },
-            "tags": [],
+            "tags": [
+                "amulet"
+            ],
             "source": "pipeline",
             "createdAt": "2026-08-16"
         },
@@ -6720,7 +6798,9 @@
                 "original": "assets/sprites/rpg_fantasy/equipment/original/Jade_Amulet_Replica.png",
                 "transformed": null
             },
-            "tags": [],
+            "tags": [
+                "amulet"
+            ],
             "source": "pipeline",
             "createdAt": "2026-08-16"
         },
@@ -6737,7 +6817,9 @@
                 "original": "assets/sprites/rpg_fantasy/equipment/original/Jeroms_Family_Necklace.png",
                 "transformed": null
             },
-            "tags": [],
+            "tags": [
+                "amulet"
+            ],
             "source": "pipeline",
             "createdAt": "2026-08-16"
         },
@@ -6866,7 +6948,9 @@
                 "original": "assets/sprites/rpg_fantasy/equipment/original/Kosheis_Ancient_Amulet.png",
                 "transformed": null
             },
-            "tags": [],
+            "tags": [
+                "amulet"
+            ],
             "source": "pipeline",
             "createdAt": "2026-08-16"
         },
@@ -6886,6 +6970,23 @@
             "tags": [
                 "container"
             ],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
+        },
+        {
+            "id": "leaf_star",
+            "technical": "Leaf Star",
+            "alias": "Leaf Star",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": null,
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Leaf_Star.png",
+                "transformed": null
+            },
+            "tags": [],
             "source": "pipeline",
             "createdAt": "2026-08-16"
         },
@@ -7090,7 +7191,9 @@
                 "original": "assets/sprites/rpg_fantasy/equipment/original/Lucky_Clover_Amulet.png",
                 "transformed": null
             },
-            "tags": [],
+            "tags": [
+                "amulet"
+            ],
             "source": "pipeline",
             "createdAt": "2026-08-16"
         },
@@ -7184,6 +7287,23 @@
             "tags": [],
             "source": "pipeline",
             "createdAt": "2026-08-06"
+        },
+        {
+            "id": "mean_paladin_spear",
+            "technical": "Mean Paladin Spear",
+            "alias": "Mean Paladin Spear",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": null,
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Mean_Paladin_Spear.png",
+                "transformed": null
+            },
+            "tags": [],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
         },
         {
             "id": "might_ring",
@@ -7329,7 +7449,9 @@
                 "original": "assets/sprites/rpg_fantasy/equipment/original/Note_About_Two_Souls.png",
                 "transformed": null
             },
-            "tags": [],
+            "tags": [
+                "amulet"
+            ],
             "source": "pipeline",
             "createdAt": "2026-08-16"
         },
@@ -7589,7 +7711,9 @@
                 "original": "assets/sprites/rpg_fantasy/equipment/original/Ornamented_Brooch.png",
                 "transformed": null
             },
-            "tags": [],
+            "tags": [
+                "amulet"
+            ],
             "source": "pipeline",
             "createdAt": "2026-08-16"
         },
@@ -7887,7 +8011,9 @@
                 "original": "assets/sprites/rpg_fantasy/equipment/original/Paw_Amulet.png",
                 "transformed": null
             },
-            "tags": [],
+            "tags": [
+                "amulet"
+            ],
             "source": "pipeline",
             "createdAt": "2026-08-16"
         },
@@ -8209,7 +8335,9 @@
                 "original": "assets/sprites/rpg_fantasy/equipment/original/Platinum_Amulet.png",
                 "transformed": null
             },
-            "tags": [],
+            "tags": [
+                "amulet"
+            ],
             "source": "pipeline",
             "createdAt": "2026-08-16"
         },
@@ -8338,7 +8466,9 @@
                 "original": "assets/sprites/rpg_fantasy/equipment/original/Protection_Amulet.png",
                 "transformed": null
             },
-            "tags": [],
+            "tags": [
+                "amulet"
+            ],
             "source": "pipeline",
             "createdAt": "2026-08-16"
         },
@@ -8764,7 +8894,9 @@
                 "original": "assets/sprites/rpg_fantasy/equipment/original/Rhodolith_Necklace.png",
                 "transformed": null
             },
-            "tags": [],
+            "tags": [
+                "amulet"
+            ],
             "source": "pipeline",
             "createdAt": "2026-08-16"
         },
@@ -9295,6 +9427,40 @@
             "createdAt": "2026-07-24"
         },
         {
+            "id": "royal_spear",
+            "technical": "Royal Spear",
+            "alias": "Royal Spear",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": null,
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Royal_Spear.png",
+                "transformed": null
+            },
+            "tags": [],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
+        },
+        {
+            "id": "royal_star",
+            "technical": "Royal Star",
+            "alias": "Royal Star",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": null,
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Royal_Star.png",
+                "transformed": null
+            },
+            "tags": [],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
+        },
+        {
             "id": "rubbish_amulet",
             "technical": "Rubbish Amulet",
             "alias": "Rubbish Amulet",
@@ -9307,7 +9473,9 @@
                 "original": "assets/sprites/rpg_fantasy/equipment/original/Rubbish_Amulet.png",
                 "transformed": null
             },
-            "tags": [],
+            "tags": [
+                "amulet"
+            ],
             "source": "pipeline",
             "createdAt": "2026-08-16"
         },
@@ -10084,6 +10252,23 @@
             "createdAt": "2026-08-06"
         },
         {
+            "id": "small_stone",
+            "technical": "Small Stone",
+            "alias": "Small Stone",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": null,
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Small_Stone.png",
+                "transformed": null
+            },
+            "tags": [],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
+        },
+        {
             "id": "sniper_arrow",
             "technical": "Sniper Arrow",
             "alias": "Sniper Arrow",
@@ -10102,6 +10287,23 @@
             "source": "pipeline",
             "createdAt": "2026-08-01",
             "ammoType": "arrow"
+        },
+        {
+            "id": "snowball",
+            "technical": "Snowball",
+            "alias": "Snowball",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": null,
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Snowball.png",
+                "transformed": null
+            },
+            "tags": [],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
         },
         {
             "id": "soft_sandals",
@@ -10172,6 +10374,23 @@
             "tags": [],
             "source": "pipeline",
             "createdAt": "2026-08-04"
+        },
+        {
+            "id": "spear",
+            "technical": "Spear",
+            "alias": "Spear",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": null,
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Spear.png",
+                "transformed": null
+            },
+            "tags": [],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
         },
         {
             "id": "spectral_bolt",
@@ -10293,6 +10512,23 @@
             "status": "original_only",
             "sprites": {
                 "original": "assets/sprites/rpg_fantasy/equipment/original/Steamwork_Backpack.png",
+                "transformed": null
+            },
+            "tags": [],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
+        },
+        {
+            "id": "steamwork_spear",
+            "technical": "Steamwork Spear",
+            "alias": "Steamwork Spear",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": null,
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Steamwork_Spear.png",
                 "transformed": null
             },
             "tags": [],
@@ -10650,6 +10886,57 @@
             "tags": [
                 "crossbow"
             ],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
+        },
+        {
+            "id": "throwing_cake",
+            "technical": "Throwing Cake",
+            "alias": "Throwing Cake",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": null,
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Throwing_Cake.png",
+                "transformed": null
+            },
+            "tags": [],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
+        },
+        {
+            "id": "throwing_knife",
+            "technical": "Throwing Knife",
+            "alias": "Throwing Knife",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": null,
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Throwing_Knife.png",
+                "transformed": null
+            },
+            "tags": [],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
+        },
+        {
+            "id": "throwing_star",
+            "technical": "Throwing Star",
+            "alias": "Throwing Star",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": null,
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Throwing_Star.png",
+                "transformed": null
+            },
+            "tags": [],
             "source": "pipeline",
             "createdAt": "2026-08-16"
         },
@@ -11022,6 +11309,23 @@
             "status": "original_only",
             "sprites": {
                 "original": "assets/sprites/rpg_fantasy/equipment/original/Vine_Barrier_Rune.png",
+                "transformed": null
+            },
+            "tags": [],
+            "source": "pipeline",
+            "createdAt": "2026-08-16"
+        },
+        {
+            "id": "viper_star",
+            "technical": "Viper Star",
+            "alias": "Viper Star",
+            "genre": "rpg_fantasy",
+            "kind": "equipment",
+            "category": null,
+            "opaqueAlpha": false,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/equipment/original/Viper_Star.png",
                 "transformed": null
             },
             "tags": [],
