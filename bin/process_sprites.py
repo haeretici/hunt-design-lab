@@ -27,6 +27,7 @@ Pipeline per original PNG:
   on an overlay folder is ignored (no flatten, no key fallback).
 """
 
+import shutil
 import sys
 import subprocess
 from collections import Counter
@@ -70,6 +71,26 @@ OUTPUT_VARIANTS = ("alpha", "medium", "retro", "small", "icon")
 # Fixed-size smooth downscales from alpha/ (RGBA, LANCZOS).
 SMALL_SIZE = (64, 64)
 ICON_SIZE = (32, 32)
+
+
+def find_imagemagick() -> str | None:
+    """Resolve ImageMagick binary (v7 magick or v6 convert)."""
+    for name in ("magick", "convert"):
+        found = shutil.which(name)
+        if not found:
+            continue
+        try:
+            result = subprocess.run(
+                [found, "-version"],
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+        except OSError:
+            continue
+        if result.returncode == 0:
+            return found
+    return None
 
 
 def sample_key_color(img: Image.Image) -> tuple[int, int, int]:
@@ -592,6 +613,7 @@ def process_images(
         return (0, 0, 0)
 
     print(f"Found {len(png_files)} .png files. Starting processing...")
+    magick_bin = find_imagemagick()
 
     for file_path in png_files:
         paths = {name: out_dirs[name] / file_path.name for name in OUTPUT_VARIANTS}
@@ -641,8 +663,15 @@ def process_images(
             retro_img = quantize_with_transparency(small_img, colors=16)
             retro_img.save(paths["retro"], transparency=0)
             
-            # apply imagemagick trim
-            subprocess.run(["magick", str(paths["retro"]), "-trim", "+repage", str(paths["retro"])], check=True)
+            # apply imagemagick trim (v7 magick or v6 convert)
+            if not magick_bin:
+                raise FileNotFoundError(
+                    "ImageMagick not found (install magick or convert)"
+                )
+            subprocess.run(
+                [magick_bin, str(paths["retro"]), "-trim", "+repage", str(paths["retro"])],
+                check=True,
+            )
 
             aw, ah = alpha_img.size
             mw, mh = medium_img.size
