@@ -2,13 +2,20 @@
     "id": "town_guide",
     "label": "Guide",
     "notes": "Scenario / tutorial talkable NPC. Mission reply is gated on player.storage town_guide.mission. Vendor-lite shop on Trade. C.4 wander radius 2 + idle voices. Not a hunt target.",
-    "isNpc": true,
-    "kind": "npc",
-    "aggro": false,
-    "attacks": [],
+    "customSprite": "town_guide",
+    "displayScale": 1,
+    "hp": 80,
+    "hpMax": 80,
+    "speed": 80,
+    "level": 1,
+    "armor": 0,
+    "mitigation": 100,
     "exp": 0,
     "lootValue": 0,
-    "speed": 80,
+    "aggro": false,
+    "isNpc": true,
+    "kind": "npc",
+    "dialogId": "town_guide",
     "walkInterval": 2000,
     "walkRadius": 2,
     "voices": [
@@ -21,15 +28,6 @@
     ],
     "voiceInterval": 15000,
     "voiceChance": 25,
-    "hp": 80,
-    "hpMax": 80,
-    "level": 1,
-    "armor": 0,
-    "mitigation": 0,
-    "displayScale": 1,
-    "canBlock": false,
-    "customSprite": "town_guide",
-    "dialogId": "town_guide",
     "shop": {
         "currency": "gold_coin",
         "items": [
@@ -53,9 +51,11 @@
             }
         ]
     },
+    "canBlock": false,
+    "attacks": [],
     "flags": {
-        "isNpc": true,
+        "attackable": false,
         "hostile": false,
-        "attackable": false
+        "isNpc": true
     }
 }

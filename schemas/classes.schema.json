@@ -142,6 +142,18 @@
           "enum": ["melee", "distance", "magic"],
           "description": "Default weapon family for auto attack curves."
         },
+        "critChance": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Vocation base crit chance percent. Profile extras and equipment (pipeline/100) stack on top."
+        },
+        "critDamage": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Vocation base extra crit damage percent. Profile extras and equipment critExtraDamage (pipeline/100) stack on top."
+        },
         "skills": {
           "$ref": "#/definitions/skills"
         },

@@ -12,7 +12,10 @@ Pipeline per original PNG:
          (pure #00FF00 from AGY, or darker noisy greens from Grok / compression).
   2. Global key for bg (including enclosed pockets) → transparent
      (skipped when mode is existing-alpha)
-  3. Grow into anti-aliased fringe; green path also despills residual edge tint
+  3. Green path: drop thin wrapping leftover plate (Grok vignette / #00FF00×black
+     mix, G often 40–79) via connected components; keep deep or localized
+     character greens; despill remaining mixed edges on non-green interiors.
+     Solid path: grow a few pixels into near-key fringe.
   4. Write sibling folders (same stem as the original):
        alpha/   — full-size RGBA, background removed only (no resize, no quantize)
        medium/  — 50% of alpha size (e.g. 256→128), still full-color RGBA (NEAREST)
@@ -30,7 +33,7 @@ Pipeline per original PNG:
 import shutil
 import sys
 import subprocess
-from collections import Counter
+from collections import Counter, deque
 from pathlib import Path
 
 from PIL import Image
@@ -56,6 +59,30 @@ MIN_FIX_GREEN = 50
 FIX_GREEN_MIN_EXCESS = 25
 # Include semi-transparent AA edge spill; below this alpha is left untouched.
 FIX_GREEN_ALPHA_CUTOFF = 32
+
+# Dark leftover plate that fails MIN_SCREEN_GREEN (Grok vignette, #00FF00×black).
+# Almost no R/B; not olive (olive keeps some red).
+DARK_PLATE_MIN_G = 18
+DARK_PLATE_MAX_RB = 48
+DARK_PLATE_MIN_EXCESS = 12
+
+# #00FF00 g_band miss: mid G, almost no R/B (not a leaf with red in it).
+MID_PURE_MAX_G = 130
+MID_PURE_MAX_RB = 28
+MID_PURE_MIN_EXCESS = 20
+
+# Connected leftover plate: keep if it has an interior core (character green).
+# Thin wrapping rings / shallow fragments are halo, not a frog / leaf blob.
+PLATE_DEEP_D4 = 8
+PLATE_DEEP_MAXD = 6
+PLATE_LOCAL_MIN_MAXD = 3
+PLATE_LOCAL_MIN_SIZE = 24
+PLATE_INTERIOR_GREEN_EXCESS = 18
+
+SOLID_FRINGE_GROW_ITERS = 3
+
+_N4 = ((1, 0), (-1, 0), (0, 1), (0, -1))
+_N8 = _N4 + ((1, 1), (1, -1), (-1, 1), (-1, -1))
 
 # Alpha cut-off: below this → transparent (existing cutout or keyed plate).
 ALPHA_CUTOFF = 128
@@ -233,6 +260,188 @@ def is_screen_green(
     return True
 
 
+def is_dark_plate_leftover(r: int, g: int, b: int) -> bool:
+    """Dark leftover of a green screen (fails MIN_SCREEN_GREEN; G often 40–79)."""
+    max_rb = max(r, b)
+    if not (DARK_PLATE_MIN_G <= g < MIN_SCREEN_GREEN):
+        return False
+    if r >= g or b >= g:
+        return False
+    if g - max_rb < DARK_PLATE_MIN_EXCESS:
+        return False
+    if max_rb > DARK_PLATE_MAX_RB:
+        return False
+    return True
+
+
+def is_mid_pure_screen(r: int, g: int, b: int) -> bool:
+    """#00FF00 g_band miss: mid G, almost no R/B (not olive / red-tinged leaf)."""
+    max_rb = max(r, b)
+    if not (MIN_SCREEN_GREEN <= g <= MID_PURE_MAX_G):
+        return False
+    if r >= g or b >= g:
+        return False
+    if g - max_rb < MID_PURE_MIN_EXCESS:
+        return False
+    if max_rb > MID_PURE_MAX_RB:
+        return False
+    return True
+
+
+def is_plate_fringe_candidate(r: int, g: int, b: int) -> bool:
+    return is_dark_plate_leftover(r, g, b) or is_mid_pure_screen(r, g, b)
+
+
+def _adjacent_to_bg(x: int, y: int, is_bg: list[list[bool]], w: int, h: int) -> bool:
+    for dx, dy in _N8:
+        nx, ny = x + dx, y + dy
+        if nx < 0 or ny < 0 or nx >= w or ny >= h or is_bg[ny][nx]:
+            return True
+    return False
+
+
+def _median_interior_excess(
+    x: int, y: int, pixels, is_bg: list[list[bool]], w: int, h: int
+) -> int | None:
+    """Median G−max(R,B) of non-bg 8-neighbors, or None if the pixel is isolated."""
+    xs: list[int] = []
+    for dx, dy in _N8:
+        nx, ny = x + dx, y + dy
+        if nx < 0 or ny < 0 or nx >= w or ny >= h or is_bg[ny][nx]:
+            continue
+        r, g, b, _a = pixels[nx, ny]
+        xs.append(g - max(r, b))
+    if not xs:
+        return None
+    xs.sort()
+    return xs[len(xs) // 2]
+
+
+def _keep_plate_component(
+    cells: list[tuple[int, int, int]], cx: float, cy: float, w: int, h: int
+) -> bool:
+    """True for deep / localized character-green blobs; False for wrapping halo.
+
+    Dist-to-bg ≥4 on the image border is a Grok vignette (away from the plate),
+    not a character core — only interior depth counts as deep.
+    """
+    quads: set[int] = set()
+    for x, y, _d in cells:
+        quads.add((0 if x < cx else 1) + (0 if y < cy else 2))
+    wrapping = len(quads) >= 3
+    interior_d4 = sum(
+        1
+        for x, y, d in cells
+        if d >= 4 and 2 <= x < w - 2 and 2 <= y < h - 2
+    )
+    maxd = max(d for _x, _y, d in cells)
+    if interior_d4 >= PLATE_DEEP_D4:
+        return True
+    if maxd >= PLATE_DEEP_MAXD and not wrapping:
+        return True
+    if wrapping:
+        return False
+    return maxd >= PLATE_LOCAL_MIN_MAXD and len(cells) >= PLATE_LOCAL_MIN_SIZE
+
+
+def remove_green_plate_leftover(
+    pixels, is_bg: list[list[bool]], w: int, h: int
+) -> None:
+    """Key thin wrapping leftover plate; keep deep or localized character greens.
+
+    Pass-1 chroma leaves Grok vignettes and #00FF00×black mix (G often 40–79).
+    Those leftovers form thin rings around non-green sprites. The same color also
+    appears as dark green clothing / thin leaves — those have interior depth or
+    sit in one or two quadrants around the character core, so they stay.
+    """
+    cand = [[False] * w for _ in range(h)]
+    for y in range(h):
+        for x in range(w):
+            if is_bg[y][x]:
+                continue
+            r, g, b, _a = pixels[x, y]
+            if is_plate_fringe_candidate(r, g, b):
+                cand[y][x] = True
+
+    dist: list[list[int | None]] = [[None] * w for _ in range(h)]
+    q: deque[tuple[int, int]] = deque()
+    for y in range(h):
+        for x in range(w):
+            if is_bg[y][x]:
+                dist[y][x] = 0
+                q.append((x, y))
+    while q:
+        x, y = q.popleft()
+        d0 = dist[y][x] or 0
+        for dx, dy in _N4:
+            nx, ny = x + dx, y + dy
+            if 0 <= nx < w and 0 <= ny < h and dist[ny][nx] is None:
+                dist[ny][nx] = d0 + 1
+                q.append((nx, ny))
+
+    sx = sy = ncore = 0
+    for y in range(h):
+        for x in range(w):
+            if not is_bg[y][x] and not cand[y][x]:
+                sx += x
+                sy += y
+                ncore += 1
+    cx, cy = (sx / ncore, sy / ncore) if ncore else (w / 2.0, h / 2.0)
+
+    seen = [[False] * w for _ in range(h)]
+    for y in range(h):
+        for x in range(w):
+            if not cand[y][x] or seen[y][x]:
+                continue
+            cells: list[tuple[int, int, int]] = []
+            dq: deque[tuple[int, int]] = deque([(x, y)])
+            seen[y][x] = True
+            while dq:
+                px, py = dq.popleft()
+                cells.append((px, py, dist[py][px] if dist[py][px] is not None else 99))
+                for dx, dy in _N8:
+                    nx, ny = px + dx, py + dy
+                    if 0 <= nx < w and 0 <= ny < h and cand[ny][nx] and not seen[ny][nx]:
+                        seen[ny][nx] = True
+                        dq.append((nx, ny))
+            if _keep_plate_component(cells, cx, cy, w, h):
+                continue
+            for px, py, _d in cells:
+                is_bg[py][px] = True
+                pixels[px, py] = (0, 0, 0, 0)
+                cand[py][px] = False
+
+    # Mixed AA fringe on non-green interiors (not a kept green feature).
+    for y in range(h):
+        for x in range(w):
+            if is_bg[y][x] or cand[y][x]:
+                continue
+            if not _adjacent_to_bg(x, y, is_bg, w, h):
+                continue
+            r, g, b, a = pixels[x, y]
+            max_rb = max(r, b)
+            excess = g - max_rb
+            if excess <= 12 or g <= 25:
+                continue
+            med = _median_interior_excess(x, y, pixels, is_bg, w, h)
+            if med is None:
+                pixels[x, y] = (0, 0, 0, 0)
+                is_bg[y][x] = True
+                continue
+            if med >= PLATE_INTERIOR_GREEN_EXCESS:
+                continue
+            if max_rb < 48:
+                pixels[x, y] = (0, 0, 0, 0)
+                is_bg[y][x] = True
+            else:
+                ng = max_rb
+                if max(r, ng, b) < 35:
+                    pixels[x, y] = (0, 0, 0, 0)
+                    is_bg[y][x] = True
+                else:
+                    pixels[x, y] = (r, ng, b, a)
+
+
 def resolve_background_key(
     img: Image.Image,
     tolerance: float = 40.0,
@@ -324,23 +533,24 @@ def remove_background(
                     is_bg[y][x] = True
                     pixels[x, y] = (0, 0, 0, 0)
 
-        # Pass 2: grow one pixel into soft fringe near the key, adjacent to bg.
+        # Pass 2: grow into soft fringe near the key, adjacent to bg.
         fringe_tol = tolerance * 1.75
-        grow = []
-        for y in range(h):
-            for x in range(w):
-                if is_bg[y][x]:
-                    continue
-                r, g, b, a = pixels[x, y]
-                if not is_near_key(r, g, b, key, fringe_tol):
-                    continue
-                for nx, ny in ((x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)):
-                    if 0 <= nx < w and 0 <= ny < h and is_bg[ny][nx]:
+        for _ in range(SOLID_FRINGE_GROW_ITERS):
+            grow = []
+            for y in range(h):
+                for x in range(w):
+                    if is_bg[y][x]:
+                        continue
+                    r, g, b, a = pixels[x, y]
+                    if not is_near_key(r, g, b, key, fringe_tol):
+                        continue
+                    if _adjacent_to_bg(x, y, is_bg, w, h):
                         grow.append((x, y))
-                        break
-        for x, y in grow:
-            is_bg[y][x] = True
-            pixels[x, y] = (0, 0, 0, 0)
+            if not grow:
+                break
+            for x, y in grow:
+                is_bg[y][x] = True
+                pixels[x, y] = (0, 0, 0, 0)
 
         label = (
             f"solid key {_rgb_hex(key)} "
@@ -359,45 +569,9 @@ def remove_background(
                 is_bg[y][x] = True
                 pixels[x, y] = (0, 0, 0, 0)
 
-    # Pass 2: grow into hard fringe still mostly screen-green (anti-aliased mix).
-    grow = []
-    for y in range(h):
-        for x in range(w):
-            if is_bg[y][x]:
-                continue
-            r, g, b, a = pixels[x, y]
-            max_rb = max(r, b)
-            if not (g > max_rb + 10 and g > 100):
-                continue
-            for nx, ny in ((x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)):
-                if 0 <= nx < w and 0 <= ny < h and is_bg[ny][nx]:
-                    grow.append((x, y))
-                    break
-    for x, y in grow:
-        is_bg[y][x] = True
-        pixels[x, y] = (0, 0, 0, 0)
-
-    # Pass 3: despill silhouette edges so quantizer does not keep green fringe.
-    for y in range(h):
-        for x in range(w):
-            if is_bg[y][x]:
-                continue
-            edge = False
-            for nx, ny in ((x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)):
-                if nx < 0 or ny < 0 or nx >= w or ny >= h or is_bg[ny][nx]:
-                    edge = True
-                    break
-            if not edge:
-                continue
-
-            r, g, b, a = pixels[x, y]
-            max_rb = max(r, b)
-            if g > max_rb + 15 and g > 60:
-                if max_rb < 40 and g > 150:
-                    pixels[x, y] = (0, 0, 0, 0)
-                    is_bg[y][x] = True
-                else:
-                    pixels[x, y] = (r, max_rb, b, a)
+    # Pass 2–3: leftover dark plate halo + mixed-edge despill.
+    # 1px g>100 grow used to nibble green character silhouettes; CC replace it.
+    remove_green_plate_leftover(pixels, is_bg, w, h)
 
     label = f"green-screen chroma {_rgb_hex(key)}"
     return img, label

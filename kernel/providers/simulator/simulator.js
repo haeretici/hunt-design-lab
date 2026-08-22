@@ -3557,14 +3557,18 @@ class Simulator extends GameObject {
                     z: fctZ,
                     text: isHeal
                         ? `+${Math.abs(Math.round(dealt))}`
-                        : `-${Math.round(dealt)}`,
+                        : result.fatal
+                          ? `-${Math.round(dealt)} fatal hit`
+                          : `-${Math.round(dealt)}`,
                     color: isHeal
                         ? '#34d399'
-                        : result.critical || result.crit
-                          ? '#fbbf24'
-                          : attacker && attacker.type === 'player'
-                            ? '#f87171'
-                            : '#fb923c'
+                        : result.fatal
+                          ? '#f472b6'
+                          : result.critical || result.crit
+                            ? '#fbbf24'
+                            : attacker && attacker.type === 'player'
+                              ? '#f87171'
+                              : '#fb923c'
                 });
                 // Cheap hit flash + recoil on the defender sprite (damage only)
                 if (!isHeal) {

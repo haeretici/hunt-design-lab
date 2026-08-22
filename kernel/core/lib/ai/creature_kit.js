@@ -1550,7 +1550,9 @@ function resolveKitHit(owner, defender, atk, ctx) {
         spellBook: spellBookFromCtx(ctx),
         rng: ctx && ctx.rng ? ctx.rng : Math.random,
         // Kit timers own recast; never use player auto/power-curve buckets.
-        skipCooldown: true
+        skipCooldown: true,
+        // Kit is multiply-only (no ST auto 65% band).
+        critBand: 'multiply'
     });
     if (
         result &&

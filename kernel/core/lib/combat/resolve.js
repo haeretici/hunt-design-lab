@@ -8,7 +8,10 @@ const { Settings } = require('../../../settings.js');
 const { Time } = require('../time.js');
 const {
     computeDamage,
-    computeDamageRange
+    computeDamageRange,
+    fatalChanceFromTier,
+    CRIT_BAND_AUTO_ST,
+    CRIT_BAND_MULTIPLY
 } = require('./damage.js');
 const Cooldowns = require('./cooldowns.js');
 const {
@@ -352,12 +355,109 @@ function applyManaDelta(entity, amount) {
  * @param {object|null|undefined} spell
  * @returns {boolean}
  */
+/**
+ * Distance auto prefers equipment hit% (ammo maxHit + bow mod).
+ * @param {object|null|undefined} spell
+ * @param {object|null|undefined} atkBag
+ * @returns {number}
+ */
+function resolveSpellHitChance(spell, atkBag) {
+    const isDistanceAuto =
+        !!spell &&
+        (spell.id === 'distance_auto' || spell.powerCurve === 'distance_auto');
+    if (isDistanceAuto && atkBag && atkBag.hitChance != null) {
+        return Number(atkBag.hitChance);
+    }
+    if (spell && spell.hitChance != null) return Number(spell.hitChance);
+    if (atkBag && atkBag.hitChance != null && spell && spell.kind === 'auto') {
+        return Number(atkBag.hitChance);
+    }
+    return 100;
+}
+
+/**
+ * Crit chance 0–100 from combat bag, else entity field (kit has no combatStats).
+ * @param {object|null|undefined} attacker
+ * @returns {number}
+ */
+function critChanceForAttacker(attacker) {
+    if (!attacker) return 0;
+    const stats = attacker.combatStats || attacker.effectiveStats || null;
+    if (stats && stats.critChance != null) return Number(stats.critChance) || 0;
+    if (attacker.critChance != null) return Number(attacker.critChance) || 0;
+    return 0;
+}
+
+/**
+ * Player-only fatal chance from weapon `tier` (creatures never fatal).
+ * @param {object|null|undefined} attacker
+ * @returns {number}
+ */
+function fatalChanceForAttacker(attacker) {
+    if (!attacker || attacker.type === 'creature') return 0;
+    const stats = attacker.combatStats || attacker.effectiveStats || null;
+    if (stats) {
+        if (stats.fatalChance != null) return Math.max(0, Number(stats.fatalChance) || 0);
+        if (stats.weaponTier != null) return fatalChanceFromTier(stats.weaponTier);
+    }
+    if (attacker.fatalChance != null) {
+        return Math.max(0, Number(attacker.fatalChance) || 0);
+    }
+    if (attacker.weaponTier != null) return fatalChanceFromTier(attacker.weaponTier);
+    return 0;
+}
+
 function spellCanCritOrLeech(spell) {
     if (!spell) return false;
     if (spell.kind === 'heal' || spell.kind === 'support') return false;
     const el = spell.element || 'physical';
     if (el === 'healing' || el === 'manadrain' || el === 'undefined') return false;
     return true;
+}
+
+/**
+ * Area / wave / beam / chain / followup — never the ST auto 65% band.
+ * @param {object|null|undefined} spell
+ * @returns {boolean}
+ */
+function spellIsMultiTarget(spell) {
+    if (!spell) return false;
+    if (spell.shape && typeof spell.shape === 'object') {
+        const t = String(spell.shape.type || '');
+        if (t === 'area' || t === 'wave' || t === 'beam') return true;
+    }
+    if (spell.chain != null && Number(spell.chain) > 1) return true;
+    if (Array.isArray(spell.followupShapes) && spell.followupShapes.length > 0) {
+        return true;
+    }
+    return false;
+}
+
+/**
+ * ST melee/distance auto → `auto_st`. Wand, kit, strikes, shaped, chain → multiply.
+ * Kit melee uses `kind: 'auto'` with no power curve / auto id — must not match.
+ * @param {object|null|undefined} spell
+ * @returns {'auto_st'|'multiply'}
+ */
+function critBandForSpell(spell) {
+    if (!spell) return CRIT_BAND_MULTIPLY;
+    const id = String(spell.id || '');
+    if (id === 'wand_auto') return CRIT_BAND_MULTIPLY;
+    const curve = spell.powerCurve;
+    if (curve === 'magic_strike') return CRIT_BAND_MULTIPLY;
+    const isWeaponAuto =
+        spell.kind === 'auto' ||
+        id === 'melee_auto' ||
+        id === 'distance_auto';
+    if (!isWeaponAuto) return CRIT_BAND_MULTIPLY;
+    const isMeleeOrDistance =
+        curve === 'melee_auto' ||
+        curve === 'distance_auto' ||
+        id === 'melee_auto' ||
+        id === 'distance_auto';
+    if (!isMeleeOrDistance) return CRIT_BAND_MULTIPLY;
+    if (spellIsMultiTarget(spell)) return CRIT_BAND_MULTIPLY;
+    return CRIT_BAND_AUTO_ST;
 }
 
 /**
@@ -521,6 +621,9 @@ function defaultMeleeAutoSpell() {
  * @param {number} [opts.damageScale] multiply post-mitigation damage (followup shapes)
  * @param {object} [opts.sessionConfig] frozen progression session (Phase C/D)
  * @param {boolean} [opts.skillProgression]
+ * @param {string} [opts.critBand] force `auto_st` / `multiply` (area/chain pass multiply)
+ * @param {boolean} [opts.hit] skip the hit roll (`true` = already hit, `false` = miss)
+ * @param {boolean} [opts.critical] skip the crit roll (area: one flag / swing)
  * @param {() => number} [opts.rng]
  * @returns {{
  *   ok: boolean,
@@ -595,7 +698,11 @@ function resolveAttack(opts) {
               manaLeechChance: attacker.manaLeechChance || 0,
               manaLeechAmount: attacker.manaLeechAmount || 0,
               hitChance:
-                  attacker.hitChance != null ? attacker.hitChance : 100
+                  attacker.hitChance != null ? attacker.hitChance : 100,
+              weaponTier: Math.max(
+                  0,
+                  Math.floor(Number(attacker.weaponTier) || 0)
+              )
           };
 
     const atkMods = getAttributeMods(attacker);
@@ -648,14 +755,7 @@ function resolveAttack(opts) {
     // Explicit spell.hitChance wins only when stats do not supply one (or for non-auto).
     const isDistanceAuto =
         spell.id === 'distance_auto' || spell.powerCurve === 'distance_auto';
-    let hitChance = 100;
-    if (isDistanceAuto && atkBag.hitChance != null) {
-        hitChance = Number(atkBag.hitChance);
-    } else if (spell.hitChance != null) {
-        hitChance = Number(spell.hitChance);
-    } else if (atkBag.hitChance != null && spell.kind === 'auto') {
-        hitChance = Number(atkBag.hitChance);
-    }
+    const hitChance = resolveSpellHitChance(spell, atkBag);
 
     // Phase M: stance skill% — melee/fist for melee family, distance for bows, magic for ML.
     if (atkMods.skillMult) {
@@ -704,6 +804,15 @@ function resolveAttack(opts) {
         isWeaponAuto && extraAtk > 0 ? atkBag.extraAtkElement || null : null;
 
     const canCritOrLeech = spellCanCritOrLeech(spell);
+    const critBand = o.critBand || critBandForSpell(spell);
+    const canFatal = canCritOrLeech && attacker.type !== 'creature';
+    const fatalChance = canFatal
+        ? o.fatalChance != null
+            ? Number(o.fatalChance) || 0
+            : atkBag.fatalChance != null
+              ? Number(atkBag.fatalChance) || 0
+              : fatalChanceFromTier(atkBag.weaponTier)
+        : 0;
     const result = computeDamage({
         powerCurve: spell.powerCurve,
         basePower: spell.basePower,
@@ -713,8 +822,13 @@ function resolveAttack(opts) {
         element: spell.element || 'physical',
         isMelee,
         hitChance,
+        hit: o.hit,
         critChance: canCritOrLeech ? atkBag.critChance : 0,
         critDamage: canCritOrLeech ? atkBag.critDamage : 0,
+        critBand,
+        critical: o.critical,
+        fatalChance,
+        fatal: o.fatal,
         min: spell.min,
         max: spell.max,
         extraAtk,
@@ -895,6 +1009,7 @@ function resolveAttack(opts) {
         spell,
         hit: result.hit,
         critical: result.critical,
+        fatal: !!result.fatal,
         final: result.final,
         hpDelta,
         lifeLeech,
@@ -918,6 +1033,7 @@ function fail(reason, spell) {
         spell: spell || null,
         hit: false,
         critical: false,
+        fatal: false,
         final: 0,
         hpDelta: 0,
         lifeLeech: 0,
@@ -962,6 +1078,12 @@ module.exports = {
     resolveMoveLock,
     applyMoveLock,
     defaultMeleeAutoSpell,
+    spellIsMultiTarget,
+    critBandForSpell,
+    spellCanCritOrLeech,
+    resolveSpellHitChance,
+    critChanceForAttacker,
+    fatalChanceForAttacker,
     resolveAttack,
     previewDamageRange
 };

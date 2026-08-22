@@ -51,7 +51,8 @@ const {
     buildPreviewProfile,
     getActivePlayerFromSim,
     listActiveStatusIcons,
-    statusIconsSignature
+    statusIconsSignature,
+    buildEquipmentItemDetailHtml
 } = require('../kernel/apps/game/equipment_panel.js');
 const {
     huntToSimulatorOpts,
@@ -2754,6 +2755,29 @@ test('sidebar_panels default order puts skills below combat', () => {
         if (origLS === undefined) delete global.localStorage;
         else global.localStorage = origLS;
     }
+});
+
+test('item details show catalog crit/leech as percent not pipeline units', () => {
+    const html = buildEquipmentItemDetailHtml({
+        id: 'crimson_coil',
+        label: 'Crimson Coil',
+        slot: 'rightHand',
+        category: 'wand',
+        lifeLeechChance: 100,
+        lifeLeechAmount: 200,
+        manaLeechChance: 100,
+        manaLeechAmount: 100,
+        critChance: 1000,
+        critExtraDamage: 1200,
+        skillBonuses: { magic: 5 }
+    });
+    assert.ok(html.includes('Life Leech: 100% / 2%'), 'life leech amount ÷ 100');
+    assert.ok(html.includes('Mana Leech: 100% / 1%'), 'mana leech amount ÷ 100');
+    assert.ok(html.includes('Crit Chance: 10%'), 'crit chance ÷ 100');
+    assert.ok(html.includes('Crit Extra Dmg: 12%'), 'crit extra ÷ 100');
+    assert.ok(!html.includes('Crit Chance: 1000%'), 'must not show pipeline crit');
+    assert.ok(!html.includes('Life Leech: 100% / 200%'), 'must not show pipeline leech amount');
+    assert.ok(html.includes('Magic: +5') || html.includes('magic: +5'), 'skill bonus still shown');
 });
 
 test('skills_panel readSkill resolves magic aliases', () => {

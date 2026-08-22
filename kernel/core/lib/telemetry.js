@@ -67,6 +67,7 @@ function createEmptyHuntTelemetry() {
         attacks: 0,
         hits: 0,
         crits: 0,
+        fatals: 0,
         misses: 0,
         /** Party weapon auto swings (melee/distance/wand auto only). */
         autoAttacks: 0,
@@ -279,6 +280,7 @@ function sampleAttack(t, attacker, defender, result) {
     if (result.hit) {
         t.hits += 1;
         if (result.critical) t.crits += 1;
+        if (result.fatal) t.fatals += 1;
     } else {
         t.misses += 1;
     }
@@ -788,6 +790,7 @@ function buildHuntSummary(opts) {
         attacks: attacks,
         hits: hits,
         crits: t.crits || 0,
+        fatals: t.fatals || 0,
         misses: t.misses || 0,
         /** Party weapon auto swings this session. */
         autoAttacks: t.autoAttacks || 0,
@@ -916,6 +919,7 @@ function summaryCore(summary) {
         attacks: s.attacks,
         hits: s.hits,
         crits: s.crits,
+        fatals: s.fatals || 0,
         misses: s.misses,
         autoAttacks: s.autoAttacks || 0,
         spellsCast: s.spellsCast || 0,

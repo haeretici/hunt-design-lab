@@ -89,6 +89,48 @@ function pipelineToPercent(n) {
     return (Number(n) || 0) / COMBAT_PIPELINE_PER_PERCENT;
 }
 
+/**
+ * Compact percent number for UI (no % suffix). 1000 → "10", 50 → "0.5".
+ * @param {unknown} n
+ * @returns {string}
+ */
+function formatPipelinePercent(n) {
+    const v = pipelineToPercent(n);
+    if (!Number.isFinite(v)) return '0';
+    return String(Math.round(v * 1000) / 1000);
+}
+
+/**
+ * Player-facing crit / leech lines for a catalog equipment or spell row.
+ * Converts pipeline units; leech chance and already-percent aliases stay as stored.
+ * @param {object|null|undefined} item
+ * @returns {string[]}
+ */
+function catalogSpecialBonusLines(item) {
+    const row = item && typeof item === 'object' ? item : {};
+    const lines = [];
+    if (row.lifeLeech) lines.push(`Life Leech: ${row.lifeLeech}%`);
+    if (row.lifeLeechChance != null && row.lifeLeechAmount != null) {
+        lines.push(
+            `Life Leech: ${row.lifeLeechChance}% / ${formatPipelinePercent(row.lifeLeechAmount)}%`
+        );
+    }
+    if (row.manaLeech) lines.push(`Mana Leech: ${row.manaLeech}%`);
+    if (row.manaLeechChance != null && row.manaLeechAmount != null) {
+        lines.push(
+            `Mana Leech: ${row.manaLeechChance}% / ${formatPipelinePercent(row.manaLeechAmount)}%`
+        );
+    }
+    if (row.critChance) {
+        lines.push(`Crit Chance: ${formatPipelinePercent(row.critChance)}%`);
+    }
+    if (row.critDamage) lines.push(`Crit Damage: ${row.critDamage}%`);
+    if (row.critExtraDamage != null) {
+        lines.push(`Crit Extra Dmg: ${formatPipelinePercent(row.critExtraDamage)}%`);
+    }
+    return lines;
+}
+
 /** Profile / legacy skill keys that collapse into engine `melee`. */
 const MELEE_SKILL_ALIASES = ['sword', 'axe', 'club', 'fist'];
 
@@ -437,6 +479,10 @@ function emptyEquipmentRollup() {
          * Used by wand_auto; null when weapon has no range field.
          */
         weaponRange: null,
+        /**
+         * Weapon classification rank (0 = none / omit). Fatal chance uses this.
+         */
+        weaponTier: 0,
         /** Weapon category when known (bow/crossbow/spear/…). */
         weaponCategory: null,
         speed: 0,
@@ -724,6 +770,10 @@ function addItemToRollup(rollup, item, slot) {
         if (item.range != null && item.range !== '') {
             const wr = Number(item.range);
             if (Number.isFinite(wr) && wr >= 0) rollup.weaponRange = wr;
+        }
+        if (item.tier != null && item.tier !== '') {
+            const t = Math.floor(Number(item.tier));
+            if (Number.isFinite(t) && t > 0) rollup.weaponTier = t;
         }
     }
     // Non-weapon non-ammo atk (e.g. rings) still stacks as extra
@@ -1133,8 +1183,8 @@ function resolvePrimarySkillValue(skillKey, skills) {
  * @param {object} [opts.skills] alias of baseSkills
  * @param {object} [opts.skillOverrides] absolute final skill values (after gear)
  * @param {object} [opts.resistOverrides]
- * @param {number} [opts.critChance] class/profile percent; equipment adds pipeline/100
- * @param {number} [opts.critDamage] class/profile percent; equipment adds pipeline/100
+ * @param {number} [opts.critChance] profile extra percent; stacks on classDef.critChance; equipment adds pipeline/100
+ * @param {number} [opts.critDamage] profile extra percent; stacks on classDef.critDamage; equipment adds pipeline/100
  * @param {number} [opts.lifeLeechChance] percent 0–100; equipment adds as-is
  * @param {number} [opts.lifeLeechAmount] percent; equipment adds pipeline/100
  * @param {number} [opts.lifeLeech] alias of lifeLeechAmount (profile.stats.lifeLeech)
@@ -1265,16 +1315,16 @@ function buildEffectiveStats(classDef, equipmentRollup, opts) {
     const skillKey = resolveSkillKeyFromGear(unarmed, gear, gearFamily, cls);
     const primarySkill = resolvePrimarySkillValue(skillKey, skills);
 
-    // Class/profile values are already percent. Equipment is catalog pipeline
-    // (1000 = +10%) except leech chance, which is already 0–100.
+    // Class + profile extras are already percent (stack). Equipment is
+    // catalog pipeline (1000 = +10%) except leech chance, which is already 0–100.
     const critChance =
-        (options.critChance != null
-            ? Number(options.critChance) || 0
-            : Number(cls.critChance) || 0) + pipelineToPercent(gear.critChance);
+        (Number(cls.critChance) || 0) +
+        (Number(options.critChance) || 0) +
+        pipelineToPercent(gear.critChance);
     const critDamage =
-        (options.critDamage != null
-            ? Number(options.critDamage) || 0
-            : Number(cls.critDamage) || 0) + pipelineToPercent(gear.critExtraDamage);
+        (Number(cls.critDamage) || 0) +
+        (Number(options.critDamage) || 0) +
+        pipelineToPercent(gear.critExtraDamage);
     const lifeLeechChance =
         (options.lifeLeechChance != null
             ? Number(options.lifeLeechChance) || 0
@@ -1404,6 +1454,8 @@ function buildEffectiveStats(classDef, equipmentRollup, opts) {
             : gear.weaponRange != null
               ? gear.weaponRange
               : null,
+        /** Weapon classification rank; 0 unarmed or omit. Fatal uses this. */
+        weaponTier: unarmed ? 0 : Math.max(0, Math.floor(Number(gear.weaponTier) || 0)),
         /** True when right hand is empty (legacy fist defaults applied). */
         unarmed: !!unarmed,
         /** Distance auto hit chance 0–100 (ammo + mods). Melee defaults 100. */
@@ -1482,7 +1534,8 @@ function attackerBagFromStats(effective) {
         manaLeechAmount: effective.manaLeechAmount || 0,
         hitChance: effective.hitChance != null ? effective.hitChance : 100,
         extraAtk: Number(effective.extraAtk) || 0,
-        extraAtkElement: effective.extraAtkElement || null
+        extraAtkElement: effective.extraAtkElement || null,
+        weaponTier: Math.max(0, Math.floor(Number(effective.weaponTier) || 0))
     };
 }
 
@@ -1502,6 +1555,8 @@ module.exports = {
     UNARMED_WEAPON_TYPE,
     COMBAT_PIPELINE_PER_PERCENT,
     pipelineToPercent,
+    formatPipelinePercent,
+    catalogSpecialBonusLines,
     emptyEquipmentRollup,
     findItem,
     canonicalEquipmentSlot,

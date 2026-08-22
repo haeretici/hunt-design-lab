@@ -54,6 +54,50 @@
             .replace(/"/g, '&quot;');
     }
 
+    /** Matches kernel/core/lib/character/stats.js pipelineToPercent. */
+    const COMBAT_PIPELINE_PER_PERCENT = 100;
+
+    /**
+     * Compact percent number for UI (no % suffix). 1000 → "10".
+     * @param {unknown} n
+     * @returns {string}
+     */
+    function formatPipelinePercent(n) {
+        const v = (Number(n) || 0) / COMBAT_PIPELINE_PER_PERCENT;
+        if (!Number.isFinite(v)) return '0';
+        return String(Math.round(v * 1000) / 1000);
+    }
+
+    /**
+     * Player-facing crit / leech lines. Pipeline units ÷ 100; chance stays 0–100.
+     * @param {Record<string, unknown>|null|undefined} item
+     * @returns {string[]}
+     */
+    function catalogSpecialBonusLines(item) {
+        const row = item && typeof item === 'object' ? item : {};
+        const lines = [];
+        if (row.lifeLeech) lines.push(`Life Leech: ${row.lifeLeech}%`);
+        if (row.lifeLeechChance != null && row.lifeLeechAmount != null) {
+            lines.push(
+                `Life Leech: ${row.lifeLeechChance}% / ${formatPipelinePercent(row.lifeLeechAmount)}%`
+            );
+        }
+        if (row.manaLeech) lines.push(`Mana Leech: ${row.manaLeech}%`);
+        if (row.manaLeechChance != null && row.manaLeechAmount != null) {
+            lines.push(
+                `Mana Leech: ${row.manaLeechChance}% / ${formatPipelinePercent(row.manaLeechAmount)}%`
+            );
+        }
+        if (row.critChance) {
+            lines.push(`Crit Chance: ${formatPipelinePercent(row.critChance)}%`);
+        }
+        if (row.critDamage) lines.push(`Crit Damage: ${row.critDamage}%`);
+        if (row.critExtraDamage != null) {
+            lines.push(`Crit Extra Dmg: ${formatPipelinePercent(row.critExtraDamage)}%`);
+        }
+        return lines;
+    }
+
     /**
      * Slug/ID → Title_Case stem for sprite lookup
      * e.g. "steel_plate" → "Steel_Plate"
@@ -951,24 +995,7 @@
             `;
         }
 
-        const bonuses = [];
-        if (selected.lifeLeech) bonuses.push(`Life Leech: ${selected.lifeLeech}%`);
-        if (selected.lifeLeechChance != null && selected.lifeLeechAmount != null) {
-            bonuses.push(
-                `Life Leech: ${selected.lifeLeechChance}% / ${selected.lifeLeechAmount}%`
-            );
-        }
-        if (selected.manaLeech) bonuses.push(`Mana Leech: ${selected.manaLeech}%`);
-        if (selected.manaLeechChance != null && selected.manaLeechAmount != null) {
-            bonuses.push(
-                `Mana Leech: ${selected.manaLeechChance}% / ${selected.manaLeechAmount}%`
-            );
-        }
-        if (selected.critChance) bonuses.push(`Crit Chance: ${selected.critChance}%`);
-        if (selected.critDamage) bonuses.push(`Crit Damage: ${selected.critDamage}%`);
-        if (selected.critExtraDamage != null) {
-            bonuses.push(`Crit Extra Dmg: ${selected.critExtraDamage}%`);
-        }
+        const bonuses = catalogSpecialBonusLines(selected);
         if (Array.isArray(selected.imbuements)) {
             selected.imbuements.forEach((b) => bonuses.push(`Imbuement: ${b}`));
         }

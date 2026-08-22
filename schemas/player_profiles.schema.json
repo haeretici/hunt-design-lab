@@ -95,13 +95,13 @@
           "type": "number",
           "minimum": 0,
           "default": 5,
-          "description": "Crit chance percent. Additive with equipment critChance (pipeline/100)."
+          "description": "Profile extra crit chance percent. Stacks on class critChance (5) and equipment critChance (pipeline/100)."
         },
         "critDamage": {
           "type": "number",
           "minimum": 0,
           "default": 10,
-          "description": "Extra crit damage percent. Additive with equipment critExtraDamage (pipeline/100)."
+          "description": "Profile extra crit damage percent. Stacks on class critDamage (10) and equipment critExtraDamage (pipeline/100)."
         }
       }
     },

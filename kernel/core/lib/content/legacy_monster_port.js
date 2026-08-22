@@ -3,7 +3,7 @@
  *
  * Legacy shape (OTBM/wiki dump):
  *   health, experience, speed, defenses.{armor,mitigation}, elements (100 = normal),
- *   flags.{targetDistance,runHealth,staticAttackChance}, strategiesTarget,
+ *   flags.{targetDistance,runHealth,staticAttackChance,critChance}, strategiesTarget,
  *   attacks[] with name/type/minDamage/maxDamage (damage often negative).
  *
  * Engine shape: presets/creatures/<id>.json (see creature_kit + docs/09).
@@ -774,8 +774,25 @@ function convertSummon(raw, nameMap) {
 }
 
 /**
+ * Dump `flags.critChance` is a percent (10 → 10%), not a bool flag.
+ * Product extra: when chance is present, author `critDamage: 10` (not in the dump).
+ * @param {object} flagsRaw
+ * @returns {{ critChance: number, critDamage: number }|null}
+ */
+function convertMonsterCrit(flagsRaw) {
+    const raw = flagsRaw && typeof flagsRaw === 'object' ? flagsRaw : {};
+    const n = Number(raw.critChance);
+    if (!Number.isFinite(n) || n <= 0) return null;
+    return {
+        critChance: Math.max(0, Math.min(100, n)),
+        critDamage: 10
+    };
+}
+
+/**
  * Copy legacy boolean flags + combat stand-off fields into engine flags shape.
  * Preserves aggroRange / loseTargetDistance defaults used by the engine.
+ * `critChance` is a percent — copied top-level by convertMonsterCrit, not here.
  * @param {object} flagsRaw
  * @returns {object}
  */
@@ -938,6 +955,7 @@ function convertMonsterToTemplate(mon, opts) {
             : mon.canBlock != null
               ? !!mon.canBlock
               : false;
+    const crit = convertMonsterCrit(flagsRaw);
 
     const bestiary = convertBestiary(mon.Bestiary || mon.bestiary);
     const summon = convertSummon(mon.summon, options.nameMap);
@@ -973,6 +991,8 @@ function convertMonsterToTemplate(mon, opts) {
         aggro: flagsRaw.hostile !== false && flagsRaw.attackable !== false,
         resists: convertElementsToResists(mon.elements),
         canBlock,
+        critChance: crit ? crit.critChance : undefined,
+        critDamage: crit ? crit.critDamage : undefined,
         strategiesTarget,
         flags: convertMonsterFlags(flagsRaw),
         attacks,
@@ -2502,6 +2522,7 @@ module.exports = {
     convertBestiary,
     convertSummon,
     convertMonsterFlags,
+    convertMonsterCrit,
     resolveCreatureIdentity,
     applyLegacyMonsterMetadata,
     convertMonsterToTemplate,

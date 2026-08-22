@@ -199,6 +199,50 @@
         return { maxHp, maxMp };
     }
 
+    /** Matches kernel/core/lib/character/stats.js pipelineToPercent. */
+    const COMBAT_PIPELINE_PER_PERCENT = 100;
+
+    /**
+     * Compact percent number for UI (no % suffix). 1000 → "10".
+     * @param {unknown} n
+     * @returns {string}
+     */
+    function formatPipelinePercent(n) {
+        const v = (Number(n) || 0) / COMBAT_PIPELINE_PER_PERCENT;
+        if (!Number.isFinite(v)) return '0';
+        return String(Math.round(v * 1000) / 1000);
+    }
+
+    /**
+     * Player-facing crit / leech lines. Pipeline units ÷ 100; chance stays 0–100.
+     * @param {Record<string, unknown>|null|undefined} item
+     * @returns {string[]}
+     */
+    function catalogSpecialBonusLines(item) {
+        const row = item && typeof item === 'object' ? item : {};
+        const lines = [];
+        if (row.lifeLeech) lines.push(`Life Leech: ${row.lifeLeech}%`);
+        if (row.lifeLeechChance != null && row.lifeLeechAmount != null) {
+            lines.push(
+                `Life Leech: ${row.lifeLeechChance}% / ${formatPipelinePercent(row.lifeLeechAmount)}%`
+            );
+        }
+        if (row.manaLeech) lines.push(`Mana Leech: ${row.manaLeech}%`);
+        if (row.manaLeechChance != null && row.manaLeechAmount != null) {
+            lines.push(
+                `Mana Leech: ${row.manaLeechChance}% / ${formatPipelinePercent(row.manaLeechAmount)}%`
+            );
+        }
+        if (row.critChance) {
+            lines.push(`Crit Chance: ${formatPipelinePercent(row.critChance)}%`);
+        }
+        if (row.critDamage) lines.push(`Crit Damage: ${row.critDamage}%`);
+        if (row.critExtraDamage != null) {
+            lines.push(`Crit Extra Dmg: ${formatPipelinePercent(row.critExtraDamage)}%`);
+        }
+        return lines;
+    }
+
     /**
      * Display equipment stats in a modal (similar to tile picker right sidebar).
      */
@@ -297,6 +341,13 @@
             addRow('fa-solid fa-weight-hanging', 'Weight', `${weightOz} oz (${item.weight} g)`, 'text-muted');
         }
 
+        // Special Bonuses (catalog pipeline ÷ 100; chance stays 0–100)
+        let specialPillsHtml = '';
+        const specialLines = catalogSpecialBonusLines(item);
+        for (let i = 0; i < specialLines.length; i++) {
+            specialPillsHtml += `<span class="eq-pill eq-pill-bonus">${specialLines[i]}</span>`;
+        }
+
         // Skill & Stat Bonuses Section
         let bonusPillsHtml = '';
         const bonusesObj = item.skillBonuses || item.skills || item.bonuses;
@@ -331,6 +382,13 @@
             <table class="eq-stat-table">
                 <tbody>${statRows}</tbody>
             </table>
+
+            ${specialPillsHtml ? `
+                <div class="mb-3">
+                    <h6 class="small text-muted text-uppercase font-monospace mb-1"><i class="fa-solid fa-wand-magic-sparkles text-cyan"></i> Special Bonuses</h6>
+                    <div>${specialPillsHtml}</div>
+                </div>
+            ` : ''}
 
             ${bonusPillsHtml ? `
                 <div class="mb-3">

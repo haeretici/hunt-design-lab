@@ -116,6 +116,12 @@ class Creature extends GameObject {
         this.aggro = opts.aggro !== undefined ? !!opts.aggro : true;
         this.resists = Object.assign({}, DEFAULT_RESISTS, opts.resists || {});
         this.canBlock = opts.canBlock !== undefined ? !!opts.canBlock : false;
+        /** Kit crit chance percent (0 = never). Creatures have no combatStats bag. */
+        this.critChance =
+            opts.critChance != null ? Math.max(0, Number(opts.critChance) || 0) : 0;
+        /** Kit crit extra percent (multiply after the kit roll). */
+        this.critDamage =
+            opts.critDamage != null ? Math.max(0, Number(opts.critDamage) || 0) : 0;
         /** Successful block attempts in the current shielding window (cap 2). */
         this.shieldingHits = 0;
         /** Seconds remaining in the shielding window before hits reset. */
@@ -345,6 +351,12 @@ class Creature extends GameObject {
             this.resists = Object.assign({}, DEFAULT_RESISTS, template.resists);
         }
         if (template.canBlock !== undefined) this.canBlock = !!template.canBlock;
+        if (template.critChance != null) {
+            this.critChance = Math.max(0, Number(template.critChance) || 0);
+        }
+        if (template.critDamage != null) {
+            this.critDamage = Math.max(0, Number(template.critDamage) || 0);
+        }
         // immunities.invisible → canSeeInvisibility (legacy monster isImmune CONDITION_INVISIBLE)
         if (template.immunities && typeof template.immunities === 'object') {
             this.immunities = Object.assign({}, template.immunities);

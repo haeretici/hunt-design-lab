@@ -68,6 +68,7 @@ function testEmptyAndSample() {
     assert.strictEqual(t.attacks, 1);
     assert.strictEqual(t.hits, 1);
     assert.strictEqual(t.crits, 1);
+    assert.strictEqual(t.fatals, 0);
     assert.strictEqual(t.damageDealt, 12);
     assert.strictEqual(t.damageDealtByElement.fire, 12);
     assert.strictEqual(t.manaSpent, 5);
@@ -88,11 +89,13 @@ function testEmptyAndSample() {
             ok: true,
             hit: true,
             critical: false,
+            fatal: true,
             final: 8,
             hpDelta: -8,
             spell: { id: 'melee_auto', kind: 'auto', element: 'physical', mana: 0 }
         }
     );
+    assert.strictEqual(t.fatals, 1);
     assert.strictEqual(t.autoAttacks, 1, 'player melee_auto counts');
     assert.strictEqual(t.spellsCast, 1, 'auto does not bump spellsCast');
     assert.strictEqual(t.spellsCastById.melee_auto, 1);

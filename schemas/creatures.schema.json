@@ -65,6 +65,18 @@
     },
     "armor": { "type": "number" },
     "mitigation": { "type": "number" },
+    "critChance": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Kit crit chance percent (dump flags.critChance). Omit = 0. Not pipeline units."
+    },
+    "critDamage": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Kit crit extra percent (multiply after the kit roll). Six mapped dump rows author 10. Omit = 0."
+    },
     "exp": { "type": "number", "minimum": 0 },
     "lootValue": { "type": "number" },
     "aggro": { "type": "boolean" },

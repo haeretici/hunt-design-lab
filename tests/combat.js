@@ -13,6 +13,12 @@ const {
     rollHit,
     rollCritical,
     rollRawDamage,
+    normalRandom,
+    autoStCritRollMin,
+    fatalChanceFromTier,
+    rollFatal,
+    applyFatalBonus,
+    FATAL_DAMAGE_BONUS,
     rollArmorReduction,
     applyMitigation,
     computeDamage,
@@ -34,7 +40,8 @@ const Cooldowns = require('../kernel/core/lib/combat/cooldowns.js');
 const {
     resolveAttack,
     previewDamageRange,
-    indexSpells
+    indexSpells,
+    critBandForSpell
 } = require('../kernel/core/lib/combat/resolve.js');
 const {
     rollupEquipment,
@@ -64,6 +71,8 @@ const {
     spendRune,
     resolveRuneItemId,
     tryAttack,
+    tryAutoAttack,
+    resolveDistanceAutoShape,
     isSpellInRange
 } = require('../kernel/core/lib/ai/combat_actions.js');
 const {
@@ -73,7 +82,8 @@ const {
 } = require('../kernel/core/lib/combat/cast_range.js');
 const {
     countItemIdInInventoryTree,
-    buildInventoryFromSeed
+    buildInventoryFromSeed,
+    countEquippedQuiverAmmo
 } = require('../kernel/core/lib/character/inventory.js');
 const {
     initEquipmentRuntime,
@@ -123,9 +133,9 @@ function testRollRawAndArmor() {
     assert.strictEqual(mid.critical, false);
 
     const crit = rollRawDamage(10, 20, true, 50, () => 0);
-    // crit floor ~0.65*20=13; rng 0 → 13; +50% → 19
+    // default multiply: rng 0 → min 10; +50% → 15 (no 65% floor)
     assert.strictEqual(crit.critical, true);
-    assert.ok(crit.raw >= 13, `crit floor: ${crit.raw}`);
+    assert.strictEqual(crit.raw, 15);
 
     assert.strictEqual(rollArmorReduction(0, () => 0), 0);
     // Legacy: [ceil(a/2), ceil(a/2)*2-1] → armor 10 → [5, 9]
@@ -135,6 +145,347 @@ function testRollRawAndArmor() {
     assert.strictEqual(rollArmorReduction(9, () => 0.999), 9);
     assert.strictEqual(rollArmorReduction(1, () => 0), 1);
     log('rollRaw / armor ok');
+}
+
+function testGaussianAutoRaw() {
+    assert.strictEqual(normalRandom(7, 7, () => 0.99), 7);
+
+    const min = 10;
+    const max = 30;
+    const mid = (min + max) / 2;
+    const n = 10000;
+    const rng = rngFromSeed(4242);
+    const counts = Object.create(null);
+    let sum = 0;
+    for (let i = 0; i < n; i++) {
+        const raw = normalRandom(min, max, rng);
+        assert.ok(
+            raw >= min && raw <= max,
+            `gaussian raw ${raw} in [${min},${max}]`
+        );
+        assert.strictEqual(raw, Math.floor(raw), `integer raw ${raw}`);
+        counts[raw] = (counts[raw] || 0) + 1;
+        sum += raw;
+    }
+    const mean = sum / n;
+    assert.ok(
+        Math.abs(mean - mid) < 0.8,
+        `seeded mean ${mean} near mid-band ${mid}`
+    );
+    const midCount = counts[Math.round(mid)] || 0;
+    const loTail = counts[min] || 0;
+    const hiTail = counts[max] || 0;
+    assert.ok(
+        midCount > loTail && midCount > hiTail,
+        `mid-bin ${midCount} > tails ${loTail}/${hiTail}`
+    );
+
+    // Crit without critBand is multiply: same gaussian, then extra (no 65% floor).
+    const autoNon = rollRawDamage(10, 20, false, 0, rngFromSeed(11), {
+        powerCurve: 'melee_auto'
+    });
+    const autoCrit = rollRawDamage(10, 20, true, 50, rngFromSeed(11), {
+        powerCurve: 'melee_auto'
+    });
+    assert.strictEqual(autoCrit.critical, true);
+    assert.strictEqual(autoCrit.raw, Math.floor(autoNon.raw * 1.5));
+
+    // computeDamage: melee_auto / distance_auto non-crit stay in range.
+    const auto = computeDamage({
+        powerCurve: 'melee_auto',
+        attacker: { level: 100, atk: 40, skill: 80 },
+        defender: { armor: 0, mitigation: 0 },
+        critChance: 0,
+        rng: rngFromSeed(99)
+    });
+    assert.strictEqual(auto.hit, true);
+    assert.ok(auto.breakdown.raw >= auto.range.min);
+    assert.ok(auto.breakdown.raw <= auto.range.max);
+
+    const dist = computeDamage({
+        powerCurve: 'distance_auto',
+        attacker: { level: 100, atk: 32, skill: 80 },
+        defender: { armor: 0, mitigation: 0 },
+        critChance: 0,
+        rng: rngFromSeed(99)
+    });
+    assert.strictEqual(dist.hit, true);
+    assert.ok(dist.breakdown.raw >= dist.range.min);
+    assert.ok(dist.breakdown.raw <= dist.range.max);
+
+    // Other curves stay uniform (rng 0 → min of the band).
+    const strike = computeDamage({
+        powerCurve: 'magic_strike',
+        attacker: { level: 100, magic: 50 },
+        basePower: 45,
+        damageAmplitude: 0.15,
+        defender: { armor: 0, mitigation: 0 },
+        critChance: 0,
+        rng: () => 0
+    });
+    assert.strictEqual(strike.breakdown.raw, strike.range.min);
+
+    const kit = computeDamage({
+        min: 10,
+        max: 20,
+        defender: { armor: 0, mitigation: 0 },
+        critChance: 0,
+        rng: () => 0
+    });
+    assert.strictEqual(kit.breakdown.raw, 10);
+
+    log('gaussian auto raw ok', { mean, midCount, loTail, hiTail });
+}
+
+function testCritBandSplit() {
+    assert.strictEqual(autoStCritRollMin(10, 20), 13);
+    // Q3: 0.65×max below min → keep min
+    assert.strictEqual(autoStCritRollMin(18, 20), 18);
+    assert.strictEqual(autoStCritRollMin(20, 20), 20);
+    assert.strictEqual(autoStCritRollMin(7, 10), 7);
+
+    const st = rollRawDamage(10, 20, true, 50, () => 0, { critBand: 'auto_st' });
+    assert.strictEqual(st.critical, true);
+    assert.strictEqual(st.raw, 19, 'auto_st floor 13 × 1.5');
+
+    const narrow = rollRawDamage(18, 20, true, 0, () => 0, {
+        critBand: 'auto_st'
+    });
+    assert.strictEqual(narrow.raw, 18, 'Q3 never below authored min');
+
+    const rngSt = rngFromSeed(2026);
+    for (let i = 0; i < 200; i++) {
+        const r = rollRawDamage(10, 20, true, 0, rngSt, { critBand: 'auto_st' });
+        assert.ok(r.raw >= 13 && r.raw <= 20, `auto_st raw ${r.raw}`);
+    }
+
+    const spellNon = rollRawDamage(10, 30, false, 0, () => 0);
+    const spellCrit = rollRawDamage(10, 30, true, 50, () => 0);
+    assert.strictEqual(spellNon.raw, 10);
+    assert.strictEqual(spellCrit.raw, 15, 'multiply = same roll × 1.5');
+    assert.ok(spellCrit.raw < autoStCritRollMin(10, 30));
+
+    const gNon = rollRawDamage(10, 20, false, 0, rngFromSeed(7), {
+        powerCurve: 'melee_auto'
+    });
+    const gCrit = rollRawDamage(10, 20, true, 50, rngFromSeed(7), {
+        powerCurve: 'melee_auto',
+        critBand: 'multiply'
+    });
+    assert.strictEqual(gCrit.raw, Math.floor(gNon.raw * 1.5));
+
+    const viaCompute = computeDamage({
+        min: 10,
+        max: 20,
+        defender: { armor: 0, mitigation: 0 },
+        critChance: 100,
+        critDamage: 50,
+        critBand: 'auto_st',
+        rng: () => 0
+    });
+    assert.strictEqual(viaCompute.critical, true);
+    assert.strictEqual(viaCompute.breakdown.raw, 19);
+
+    const defaultCompute = computeDamage({
+        powerCurve: 'melee_auto',
+        min: 10,
+        max: 20,
+        defender: { armor: 0, mitigation: 0 },
+        critChance: 100,
+        critDamage: 50,
+        rng: () => 0
+    });
+    assert.strictEqual(
+        defaultCompute.breakdown.raw,
+        22,
+        'computeDamage default multiply (gaussian mid 15 × 1.5)'
+    );
+
+    assert.strictEqual(
+        critBandForSpell({
+            id: 'melee_auto',
+            kind: 'auto',
+            powerCurve: 'melee_auto'
+        }),
+        'auto_st'
+    );
+    assert.strictEqual(
+        critBandForSpell({
+            id: 'distance_auto',
+            kind: 'auto',
+            powerCurve: 'melee_auto'
+        }),
+        'auto_st'
+    );
+    assert.strictEqual(
+        critBandForSpell({
+            id: 'wand_auto',
+            kind: 'auto',
+            powerCurve: 'magic_strike'
+        }),
+        'multiply'
+    );
+    assert.strictEqual(
+        critBandForSpell({ id: 'melee', kind: 'auto', min: 10, max: 20 }),
+        'multiply',
+        'kit melee kind=auto without auto id/curve'
+    );
+    assert.strictEqual(
+        critBandForSpell({
+            id: 'melee_auto',
+            kind: 'auto',
+            powerCurve: 'melee_auto',
+            shape: { type: 'area', code: 3 }
+        }),
+        'multiply'
+    );
+    assert.strictEqual(
+        critBandForSpell({
+            id: 'distance_auto',
+            kind: 'auto',
+            powerCurve: 'distance_auto',
+            chain: 4
+        }),
+        'multiply'
+    );
+    assert.strictEqual(
+        critBandForSpell({
+            id: 'melee_auto',
+            kind: 'auto',
+            powerCurve: 'melee_auto',
+            followupShapes: [{ shape: { type: 'area', code: 1 } }]
+        }),
+        'multiply'
+    );
+    assert.strictEqual(
+        critBandForSpell({
+            id: 'flame_strike',
+            kind: 'spell',
+            powerCurve: 'magic_strike'
+        }),
+        'multiply'
+    );
+
+    const dummy = {
+        hp: { current: 500, max: 500 },
+        combatStats: { armor: 0, mitigation: 0, resists: {}, maxBlock: 0 }
+    };
+    const stAtk = {
+        level: 1,
+        combatStats: {
+            critChance: 100,
+            critDamage: 0,
+            armor: 0,
+            mitigation: 0
+        }
+    };
+    const stHit = resolveAttack({
+        attacker: stAtk,
+        defender: Object.assign({}, dummy, { hp: { current: 500, max: 500 } }),
+        spell: {
+            id: 'melee_auto',
+            kind: 'auto',
+            powerCurve: 'melee_auto',
+            element: 'physical',
+            min: 10,
+            max: 20,
+            mana: 0,
+            cooldowns: {}
+        },
+        skipCooldown: true,
+        rng: () => 0
+    });
+    assert.ok(stHit.hit && stHit.critical);
+    assert.strictEqual(stHit.breakdown.raw, 13);
+
+    const distHit = resolveAttack({
+        attacker: stAtk,
+        defender: Object.assign({}, dummy, { hp: { current: 500, max: 500 } }),
+        spell: {
+            id: 'distance_auto',
+            kind: 'auto',
+            powerCurve: 'melee_auto',
+            element: 'physical',
+            min: 10,
+            max: 20,
+            mana: 0,
+            hitChance: 100,
+            cooldowns: {}
+        },
+        skipCooldown: true,
+        rng: () => 0
+    });
+    assert.ok(distHit.hit && distHit.critical);
+    assert.strictEqual(distHit.breakdown.raw, 13);
+
+    const kitHit = resolveAttack({
+        attacker: {
+            level: 1,
+            combatStats: { critChance: 100, critDamage: 50 }
+        },
+        defender: Object.assign({}, dummy, { hp: { current: 500, max: 500 } }),
+        spell: {
+            id: 'melee',
+            kind: 'auto',
+            element: 'physical',
+            min: 10,
+            max: 30,
+            mana: 0,
+            cooldowns: {}
+        },
+        skipCooldown: true,
+        rng: () => 0
+    });
+    assert.ok(kitHit.hit && kitHit.critical);
+    assert.strictEqual(kitHit.breakdown.raw, 15, 'kit multiply 10 × 1.5');
+    assert.ok(kitHit.breakdown.raw < autoStCritRollMin(10, 30));
+
+    const wandHit = resolveAttack({
+        attacker: {
+            level: 1,
+            combatStats: { critChance: 100, critDamage: 50 }
+        },
+        defender: Object.assign({}, dummy, { hp: { current: 500, max: 500 } }),
+        spell: {
+            id: 'wand_auto',
+            kind: 'auto',
+            powerCurve: 'magic_strike',
+            element: 'energy',
+            min: 10,
+            max: 30,
+            mana: 0,
+            cooldowns: {}
+        },
+        skipCooldown: true,
+        rng: () => 0
+    });
+    assert.ok(wandHit.hit && wandHit.critical);
+    assert.strictEqual(wandHit.breakdown.raw, 15);
+
+    const shapedHit = resolveAttack({
+        attacker: stAtk,
+        defender: Object.assign({}, dummy, { hp: { current: 500, max: 500 } }),
+        spell: {
+            id: 'melee_auto',
+            kind: 'auto',
+            powerCurve: 'melee_auto',
+            element: 'physical',
+            min: 10,
+            max: 40,
+            mana: 0,
+            cooldowns: {},
+            shape: { type: 'area', code: 3 }
+        },
+        skipCooldown: true,
+        critBand: 'multiply',
+        rng: () => 0
+    });
+    assert.ok(shapedHit.hit && shapedHit.critical);
+    // gaussian mid of [10,40] with constant rng; below auto_st floor 26
+    assert.strictEqual(shapedHit.breakdown.raw, 25);
+    assert.ok(shapedHit.breakdown.raw < autoStCritRollMin(10, 40));
+
+    log('crit band split ok');
 }
 
 function testMitigationPipelineOrder() {
@@ -971,7 +1322,8 @@ function testProfileSkillOverrides() {
         });
         assert.strictEqual(liveStats.skills.melee, 60, 'live profile sword=60');
         assert.strictEqual(liveStats.skills.shielding, 50);
-        assert.strictEqual(liveStats.critChance, 5);
+        assert.strictEqual(liveStats.critChance, 10, 'class 5 + starter profile 5');
+        assert.strictEqual(liveStats.critDamage, 20, 'class 10 + starter profile 10');
         log('live guardian_starter skills ok', liveStats.skills);
     } catch (e) {
         log('live profile skills skip', e.message);
@@ -1632,10 +1984,33 @@ function testEquipmentCritAndLeech() {
         rollLeechAmount,
         applyAttackLeech
     } = require('../kernel/core/lib/combat/resolve.js');
-    const { pipelineToPercent } = require('../kernel/core/lib/character/stats.js');
+    const {
+        pipelineToPercent,
+        formatPipelinePercent,
+        catalogSpecialBonusLines
+    } = require('../kernel/core/lib/character/stats.js');
 
     assert.strictEqual(pipelineToPercent(1000), 10);
     assert.strictEqual(pipelineToPercent(1800), 18);
+    assert.strictEqual(formatPipelinePercent(1000), '10');
+    assert.strictEqual(formatPipelinePercent(200), '2');
+    assert.strictEqual(formatPipelinePercent(50), '0.5');
+    assert.deepStrictEqual(
+        catalogSpecialBonusLines({
+            lifeLeechChance: 100,
+            lifeLeechAmount: 200,
+            manaLeechChance: 100,
+            manaLeechAmount: 100,
+            critChance: 1000,
+            critExtraDamage: 1200
+        }),
+        [
+            'Life Leech: 100% / 2%',
+            'Mana Leech: 100% / 1%',
+            'Crit Chance: 10%',
+            'Crit Extra Dmg: 12%'
+        ]
+    );
     assert.strictEqual(rollLeechAmount(100, 18, 100, () => 0), 18);
     assert.strictEqual(rollLeechAmount(0, 18, 100, () => 0), 0);
     assert.strictEqual(rollLeechAmount(50, 18, 100, () => 0.6), 0);
@@ -1846,6 +2221,769 @@ function testEquipmentCritAndLeech() {
         critDamage: wandPlusProfile.critDamage,
         lifeLeech: r.lifeLeech,
         manaLeech: r.manaLeech
+    });
+}
+
+/**
+ * Stage 3: vocation 5/10 stacks with profile extras and gear pipeline.
+ * Q2=A — do not replace class with profile.
+ */
+function testClassCritStack() {
+    const CLASS_IDS = [
+        'guardian',
+        'scout',
+        'mystic',
+        'adept',
+        'warden',
+        'adventurer'
+    ];
+    for (let i = 0; i < CLASS_IDS.length; i++) {
+        const id = CLASS_IDS[i];
+        const cls = presets.getClass(id);
+        assert.ok(cls, id);
+        assert.strictEqual(cls.critChance, 5, `${id} class critChance`);
+        assert.strictEqual(cls.critDamage, 10, `${id} class critDamage`);
+        const bare = buildEffectiveStats(cls, null, { level: 8 });
+        assert.strictEqual(bare.critChance, 5, `${id} bare chance`);
+        assert.strictEqual(bare.critDamage, 10, `${id} bare extra`);
+    }
+
+    const guardian = presets.getClass('guardian');
+    const gearItems = [
+        {
+            id: 'crit_ring',
+            slot: 'ring',
+            category: 'ring',
+            critChance: 1000
+        }
+    ];
+    const gear = rollupEquipment({ ring: 'crit_ring' }, gearItems);
+    assert.strictEqual(gear.critChance, 1000);
+    const classPlusGear = buildEffectiveStats(guardian, gear, { level: 50 });
+    assert.strictEqual(classPlusGear.critChance, 15, 'class 5 + gear 10');
+    assert.strictEqual(classPlusGear.critDamage, 10, 'class extra only');
+
+    const starter = presets.loadPlayerProfile('guardian_starter');
+    const veteran = presets.loadPlayerProfile('guardian_veteran');
+    const items = presets.loadEquipment().items;
+
+    const starterMember = memberFromPlayerProfile(starter, { isLeader: true });
+    const starterStats = buildEffectiveStats(
+        guardian,
+        rollupEquipment(starterMember.equipment, items),
+        {
+            level: starterMember.level,
+            baseSkills: starterMember.skills,
+            critChance: starterMember.critChance,
+            critDamage: starterMember.critDamage
+        }
+    );
+    assert.strictEqual(starterMember.critChance, 5, 'profile extra stays 5');
+    assert.strictEqual(starterStats.critChance, 10, 'starter class+profile');
+    assert.strictEqual(starterStats.critDamage, 20, 'starter class+profile extra');
+
+    const veteranMember = memberFromPlayerProfile(veteran, { isLeader: true });
+    const veteranStats = buildEffectiveStats(
+        guardian,
+        rollupEquipment(veteranMember.equipment, items),
+        {
+            level: veteranMember.level,
+            baseSkills: veteranMember.skills,
+            critChance: veteranMember.critChance,
+            critDamage: veteranMember.critDamage
+        }
+    );
+    assert.strictEqual(veteranMember.critChance, 8, 'profile extra stays 8');
+    assert.strictEqual(veteranStats.critChance, 13, 'veteran class+profile');
+    assert.strictEqual(veteranStats.critDamage, 25, 'veteran class+profile extra');
+
+    const starterPlusGear = buildEffectiveStats(guardian, gear, {
+        level: starterMember.level,
+        critChance: starterMember.critChance,
+        critDamage: starterMember.critDamage
+    });
+    assert.strictEqual(starterPlusGear.critChance, 20, 'starter 10 + gear 10');
+    assert.strictEqual(starterPlusGear.critDamage, 20, 'starter extra, no gear extra');
+
+    log('class crit stack ok', {
+        bare: 5,
+        starter: starterStats.critChance,
+        veteran: veteranStats.critChance,
+        starterPlusGear: starterPlusGear.critChance
+    });
+}
+
+/**
+ * Stage 4: mapped dump creatures crit via template bag (multiply only).
+ * Q5=B — six rows author critDamage: 10.
+ */
+function testCreatureCrit() {
+    const EXPECTED = {
+        alchemist_container: 10,
+        antenna: 10,
+        bone_surgeon_marrow: 10,
+        fleshcraft_abomination: 10,
+        mitmah_scout: 3,
+        voidkin_seer: 3
+    };
+    const mapped = Object.keys(EXPECTED);
+    for (let i = 0; i < mapped.length; i++) {
+        const id = mapped[i];
+        const tmpl = presets.loadCreatureTemplateRaw(id);
+        assert.ok(tmpl, id);
+        assert.strictEqual(tmpl.critChance, EXPECTED[id], `${id} chance`);
+        assert.strictEqual(tmpl.critDamage, 10, `${id} extra`);
+        const spawned = new Creature({ name: id, id: i + 1, creatureType: id });
+        spawned.applyTemplate(tmpl);
+        assert.strictEqual(spawned.critChance, EXPECTED[id], `${id} spawn chance`);
+        assert.strictEqual(spawned.critDamage, 10, `${id} spawn extra`);
+        assert.ok(!spawned.combatStats, `${id} has no combatStats`);
+    }
+
+    const ids = presets.listCreatureTemplateIds({ includeCatalog: false });
+    let extra = 0;
+    for (let i = 0; i < ids.length; i++) {
+        const id = ids[i];
+        if (EXPECTED[id] != null) continue;
+        const tmpl = presets.loadCreatureTemplateRaw(id);
+        if (tmpl && tmpl.critChance != null) extra += 1;
+    }
+    assert.strictEqual(extra, 0, 'no unlisted species gained critChance');
+
+    const scout = presets.loadCreatureTemplateRaw('mitmah_scout');
+    assert.strictEqual(scout.critChance, 3);
+    assert.strictEqual(scout.critDamage, 10);
+
+    const dummy = new Creature({
+        name: 'Dummy',
+        id: 99,
+        hp: 500,
+        hpMax: 500
+    });
+    const critter = new Creature({ name: 'Critter', id: 1, hp: 200 });
+    critter.applyTemplate({
+        id: 'kit_crit_probe',
+        hp: 200,
+        hpMax: 200,
+        critChance: 100,
+        critDamage: 10,
+        attacks: [
+            {
+                id: 'melee_0',
+                kind: 'melee',
+                min: 10,
+                max: 100,
+                intervalMs: 2000,
+                chance: 100
+            }
+        ]
+    });
+    const hit = resolveAttack({
+        attacker: critter,
+        defender: dummy,
+        spell: {
+            id: 'melee_0',
+            kind: 'auto',
+            element: 'physical',
+            min: 10,
+            max: 100,
+            mana: 0,
+            cooldowns: {}
+        },
+        skipCooldown: true,
+        rng: () => 0
+    });
+    assert.ok(hit.ok && hit.hit && hit.critical);
+    assert.strictEqual(hit.breakdown.raw, 11, 'kit min 10 × 1.10');
+    assert.strictEqual(critBandForSpell(hit.spell), 'multiply');
+    assert.ok(
+        hit.breakdown.raw < autoStCritRollMin(10, 100),
+        'kit must not use the 65% floor'
+    );
+
+    const never = new Creature({ name: 'Never', id: 2, hp: 200 });
+    never.applyTemplate({
+        id: 'kit_no_crit',
+        hp: 200,
+        hpMax: 200,
+        critChance: 0,
+        critDamage: 10
+    });
+    const dummy2 = new Creature({ name: 'Dummy2', id: 98, hp: 500, hpMax: 500 });
+    const noCrit = resolveAttack({
+        attacker: never,
+        defender: dummy2,
+        spell: {
+            id: 'melee_0',
+            kind: 'auto',
+            element: 'physical',
+            min: 100,
+            max: 100,
+            mana: 0,
+            cooldowns: {}
+        },
+        skipCooldown: true,
+        rng: () => 0
+    });
+    assert.ok(noCrit.ok && noCrit.hit && !noCrit.critical);
+    assert.strictEqual(noCrit.breakdown.raw, 100, 'chance 0 never crits');
+
+    log('creature crit ok', {
+        six: mapped.length,
+        mitmah_scout: scout.critChance,
+        forcedRaw: hit.breakdown.raw
+    });
+}
+
+/**
+ * Stage 5: burst / diamond are area autos (multiply only, one crit / swing).
+ */
+function testShapedDistanceAutos() {
+    const { resolveShapedAttack } = require('../kernel/core/lib/combat/area.js');
+    const items = presets.loadEquipment().items;
+    const burst = items.find((i) => i.id === 'burst_arrow');
+    const diamond = items.find((i) => i.id === 'diamond_arrow');
+    const sniper = items.find((i) => i.id === 'sniper_arrow');
+    assert.ok(burst && diamond && sniper);
+    assert.deepStrictEqual(burst.autoShape, { type: 'area', code: 3 });
+    assert.deepStrictEqual(diamond.autoShape, { type: 'area', code: 4 });
+    assert.ok(sniper.autoShape == null, 'ST arrow has no autoShape');
+
+    const dummyBag = { armor: 0, mitigation: 0, resists: {}, maxBlock: 0 };
+    function dummyAt(id, x, y) {
+        return {
+            id,
+            alive: true,
+            tile: { x, y, z: 0 },
+            hp: { current: 500, max: 500 },
+            combatStats: dummyBag
+        };
+    }
+
+    const shapedSpell = {
+        id: 'distance_auto',
+        kind: 'auto',
+        element: 'physical',
+        powerCurve: 'melee_auto',
+        isMelee: false,
+        range: 6,
+        mana: 0,
+        hitChance: 100,
+        min: 10,
+        max: 100,
+        cooldowns: { auto: { attack: 2 } },
+        shape: { type: 'area', code: 3 }
+    };
+
+    const atk = {
+        alive: true,
+        moveDelay: 0,
+        tile: { x: 0, y: 0, z: 0 },
+        combatStats: {
+            critChance: 100,
+            critDamage: 10,
+            hitChance: 100,
+            level: 50,
+            atk: 40,
+            skill: 80
+        }
+    };
+    const a = dummyAt(1, 5, 5);
+    const b = dummyAt(2, 6, 5);
+    const c = dummyAt(3, 4, 5);
+    const burstHit = resolveShapedAttack({
+        attacker: atk,
+        primary: a,
+        spell: shapedSpell,
+        candidates: [a, b, c],
+        centerMode: 'primary',
+        skipCooldown: true,
+        rng: () => 0
+    });
+    assert.ok(burstHit.ok && burstHit.multi);
+    assert.strictEqual(burstHit.affectedTiles.length, 9, 'burst 3×3');
+    assert.strictEqual(burstHit.hits.length, 3);
+    assert.strictEqual(burstHit.results.length, 3);
+    assert.ok(burstHit.results.every((r) => r.ok && r.hit && r.critical));
+    // gaussian mid of [10,100] with constant rng is 55; × 1.10 = 60
+    // (below auto_st floor 65).
+    for (let i = 0; i < burstHit.results.length; i++) {
+        const raw = burstHit.results[i].breakdown.raw;
+        assert.strictEqual(raw, 60, `burst multiply mid 55 × 1.10 (got ${raw})`);
+        assert.ok(raw < autoStCritRollMin(10, 100), 'shaped auto no 65% floor');
+    }
+
+    atk.combatStats.critChance = 0;
+    const a2 = dummyAt(4, 5, 5);
+    const b2 = dummyAt(5, 6, 5);
+    const c2 = dummyAt(6, 4, 5);
+    const noCrit = resolveShapedAttack({
+        attacker: atk,
+        primary: a2,
+        spell: shapedSpell,
+        candidates: [a2, b2, c2],
+        centerMode: 'primary',
+        skipCooldown: true,
+        rng: () => 0
+    });
+    assert.ok(noCrit.results.every((r) => r.hit && !r.critical));
+
+    const diamondSpell = Object.assign({}, shapedSpell, {
+        shape: { type: 'area', code: 4 }
+    });
+    const center = dummyAt(10, 8, 8);
+    const mid = dummyAt(11, 6, 8);
+    const corner = dummyAt(12, 6, 6);
+    const diamondHit = resolveShapedAttack({
+        attacker: atk,
+        primary: center,
+        spell: diamondSpell,
+        candidates: [center, mid, corner],
+        centerMode: 'primary',
+        skipCooldown: true,
+        rng: () => 0
+    });
+    assert.strictEqual(diamondHit.affectedTiles.length, 21, '5×5 circle minus corners');
+    const keys = new Set(diamondHit.affectedTiles.map((t) => `${t.x},${t.y}`));
+    assert.ok(!keys.has('6,6'), 'diamond corner empty');
+    assert.ok(keys.has('6,8'), 'diamond mid-edge present');
+    assert.ok(diamondHit.hits.some((h) => h.id === 10));
+    assert.ok(diamondHit.hits.some((h) => h.id === 11));
+    assert.ok(!diamondHit.hits.some((h) => h.id === 12), 'corner not hit');
+
+    const itemDb = [
+        {
+            id: 'backpack',
+            category: 'container',
+            slot: 'backpack',
+            volume: 20,
+            weight: 100
+        },
+        {
+            id: 'unicorn_quiver',
+            category: 'quiver',
+            slot: 'leftHand',
+            volume: 12,
+            weight: 200
+        },
+        {
+            id: 'burst_arrow',
+            category: 'ammo',
+            ammoType: 'arrow',
+            stackable: true,
+            atk: 27,
+            maxHitChance: 100,
+            autoShape: { type: 'area', code: 3 },
+            weight: 90
+        },
+        {
+            id: 'sniper_arrow',
+            category: 'ammo',
+            ammoType: 'arrow',
+            stackable: true,
+            atk: 28,
+            maxHitChance: 100,
+            weight: 70
+        }
+    ];
+    const spells = indexSpells(presets.loadSpells().spells);
+
+    function makeArcher(ammoId, count, extras) {
+        const inv = buildInventoryFromSeed(
+            {
+                equipment: {
+                    shield: 'unicorn_quiver',
+                    backpack: 'backpack'
+                },
+                inventory: {
+                    shield: [{ itemId: ammoId, count }]
+                }
+            },
+            itemDb
+        );
+        const archer = {
+            alive: true,
+            moveDelay: 0,
+            tile: { x: 0, y: 0, z: 0 },
+            combatStats: Object.assign(
+                {
+                    weaponType: 'distance',
+                    level: 50,
+                    atk: 40,
+                    skill: 80,
+                    magic: 0,
+                    hitChance: 100,
+                    critChance: 0,
+                    critDamage: 0
+                },
+                extras || {}
+            ),
+            mp: { current: 100, max: 100 },
+            inventory: inv,
+            _loadoutItemDb: itemDb,
+            cooldowns: null
+        };
+        Cooldowns.ensureCooldowns(archer);
+        archer.cooldowns.auto.attack = 0;
+        return archer;
+    }
+
+    const prey = dummyAt(20, 5, 5);
+    const adj = dummyAt(21, 6, 5);
+    const far = dummyAt(22, 20, 20);
+    const burstArcher = makeArcher('burst_arrow', 3);
+    assert.deepStrictEqual(
+        resolveDistanceAutoShape(burstArcher, spells.distance_auto, {
+            itemDb
+        }),
+        { type: 'area', code: 3 }
+    );
+    assert.strictEqual(countEquippedQuiverAmmo(burstArcher.inventory, itemDb), 3);
+    const shot = tryAutoAttack({
+        attacker: burstArcher,
+        defender: prey,
+        ctx: {
+            spellBook: spells,
+            rng: () => 0,
+            ammoConsumption: true,
+            enemies: [prey, adj, far],
+            itemDb
+        }
+    });
+    assert.ok(shot && shot.ok && shot.multi, 'burst auto is shaped');
+    assert.strictEqual(shot.affectedTiles.length, 9);
+    assert.ok(shot.hits.some((h) => h.id === 20));
+    assert.ok(shot.hits.some((h) => h.id === 21));
+    assert.ok(!shot.hits.some((h) => h.id === 22));
+    assert.strictEqual(
+        countEquippedQuiverAmmo(burstArcher.inventory, itemDb),
+        2,
+        'ammo once per swing'
+    );
+
+    burstArcher.moveDelay = 0;
+    burstArcher.cooldowns.auto.attack = 0;
+    burstArcher.combatStats.hitChance = 0;
+    const hpPrey = prey.hp.current;
+    const hpAdj = adj.hp.current;
+    const miss = tryAutoAttack({
+        attacker: burstArcher,
+        defender: prey,
+        ctx: {
+            spellBook: spells,
+            rng: () => 0,
+            ammoConsumption: true,
+            enemies: [prey, adj],
+            itemDb
+        }
+    });
+    assert.ok(miss && miss.ok && !miss.hit, 'miss still resolves');
+    assert.strictEqual(miss.affectedTiles.length, 0, 'miss has no footprint');
+    assert.strictEqual(prey.hp.current, hpPrey);
+    assert.strictEqual(adj.hp.current, hpAdj);
+    assert.strictEqual(
+        countEquippedQuiverAmmo(burstArcher.inventory, itemDb),
+        1,
+        'miss spends ammo'
+    );
+
+    const sniperArcher = makeArcher('sniper_arrow', 2);
+    assert.strictEqual(
+        resolveDistanceAutoShape(sniperArcher, spells.distance_auto, {
+            itemDb
+        }),
+        null
+    );
+    const st = tryAutoAttack({
+        attacker: sniperArcher,
+        defender: dummyAt(30, 5, 5),
+        ctx: {
+            spellBook: spells,
+            rng: () => 0,
+            ammoConsumption: true,
+            enemies: [dummyAt(30, 5, 5), dummyAt(31, 6, 5)],
+            itemDb
+        }
+    });
+    assert.ok(st && st.ok && st.hit);
+    assert.ok(!st.multi, 'ST sniper is not shaped');
+    assert.strictEqual(critBandForSpell(st.spell), 'auto_st');
+    assert.strictEqual(
+        countEquippedQuiverAmmo(sniperArcher.inventory, itemDb),
+        1
+    );
+
+    log('shaped distance autos ok', {
+        burstTiles: burstHit.affectedTiles.length,
+        diamondTiles: diamondHit.affectedTiles.length
+    });
+}
+
+/**
+ * Stage 6: fatal after crit; player weapon `tier` only.
+ */
+function testFatalHits() {
+    assert.strictEqual(fatalChanceFromTier(0), 0);
+    assert.strictEqual(fatalChanceFromTier(null), 0);
+    assert.strictEqual(fatalChanceFromTier(1), 0.5);
+    assert.strictEqual(fatalChanceFromTier(2), 1.05);
+    assert.strictEqual(FATAL_DAMAGE_BONUS, 0.6);
+    assert.strictEqual(applyFatalBonus(100), 160);
+    assert.strictEqual(applyFatalBonus(110), 176);
+
+    assert.strictEqual(rollFatal(0, () => 0), false);
+    assert.strictEqual(rollFatal(0.5, () => 0), true);
+    assert.strictEqual(rollFatal(0.5, () => 0.005), false);
+
+    const dummyBag = { armor: 0, mitigation: 0, resists: {}, maxBlock: 0 };
+
+    const never = computeDamage({
+        min: 100,
+        max: 100,
+        defender: dummyBag,
+        fatalChance: 0,
+        critical: false,
+        rng: () => 0
+    });
+    assert.ok(never.hit && !never.fatal);
+    assert.strictEqual(never.breakdown.raw, 100);
+
+    const fatalOnly = computeDamage({
+        min: 100,
+        max: 100,
+        defender: dummyBag,
+        fatal: true,
+        critical: false,
+        rng: () => 0
+    });
+    assert.ok(fatalOnly.fatal && !fatalOnly.critical);
+    assert.strictEqual(fatalOnly.breakdown.raw, 160, 'fatal without crit = +60% of raw');
+
+    const both = computeDamage({
+        min: 100,
+        max: 100,
+        defender: dummyBag,
+        fatal: true,
+        critical: true,
+        critDamage: 10,
+        rng: () => 0
+    });
+    assert.ok(both.fatal && both.critical);
+    assert.strictEqual(both.breakdown.raw, 176, 'fatal + crit = +60% of post-crit raw');
+
+    const heal = computeDamage({
+        min: 100,
+        max: 100,
+        defender: dummyBag,
+        element: 'healing',
+        fatal: true,
+        critical: false,
+        rng: () => 0
+    });
+    assert.ok(!heal.fatal);
+    assert.strictEqual(heal.breakdown.raw, 100);
+
+    const missed = computeDamage({
+        min: 100,
+        max: 100,
+        defender: dummyBag,
+        hit: false,
+        fatal: true,
+        rng: () => 0
+    });
+    assert.ok(!missed.hit && !missed.fatal);
+
+    const dual = computeDamage({
+        min: 100,
+        max: 100,
+        defender: dummyBag,
+        attacker: { atk: 35, extraAtk: 11, extraAtkElement: 'fire' },
+        extraAtk: 11,
+        extraAtkElement: 'fire',
+        fatal: true,
+        critical: false,
+        rng: () => 0
+    });
+    assert.ok(dual.fatal);
+    assert.strictEqual(dual.breakdown.raw, 160);
+    assert.strictEqual(dual.breakdown.primary.raw, 110);
+    assert.strictEqual(dual.breakdown.secondary.raw, 50);
+
+    const stCritFatal = computeDamage({
+        min: 10,
+        max: 100,
+        defender: dummyBag,
+        critBand: 'auto_st',
+        critical: true,
+        critDamage: 0,
+        fatal: true,
+        rng: () => 0
+    });
+    assert.strictEqual(stCritFatal.breakdown.raw, applyFatalBonus(65));
+
+    const items = [
+        {
+            id: 't1_sword',
+            slot: 'rightHand',
+            category: 'sword',
+            weaponType: 'melee',
+            atk: 20,
+            tier: 1
+        },
+        {
+            id: 'plain_sword',
+            slot: 'rightHand',
+            category: 'sword',
+            weaponType: 'melee',
+            atk: 20
+        }
+    ];
+    const t1 = rollupEquipment({ rightHand: 't1_sword' }, items);
+    assert.strictEqual(t1.weaponTier, 1);
+    const cls = {
+        id: 'guardian',
+        skills: { melee: 10, distance: 10, shielding: 10, magic: 0, fist: 10 },
+        skillKey: 'melee',
+        weaponType: 'melee'
+    };
+    const eff = buildEffectiveStats(cls, t1, { level: 50 });
+    assert.strictEqual(eff.weaponTier, 1);
+    const plain = rollupEquipment({ rightHand: 'plain_sword' }, items);
+    assert.strictEqual(plain.weaponTier, 0);
+    const unarmed = buildEffectiveStats(cls, rollupEquipment({}, items), {
+        level: 50
+    });
+    assert.strictEqual(unarmed.weaponTier, 0);
+
+    const std = presets.loadEquipment().items;
+    let authoredTier = 0;
+    for (let i = 0; i < std.length; i++) {
+        if (std[i].tier) authoredTier += 1;
+    }
+    assert.strictEqual(authoredTier, 0, 'no standard row ships tier');
+
+    function dummyEnt() {
+        return {
+            hp: { current: 500, max: 500 },
+            combatStats: dummyBag
+        };
+    }
+    const autoSpell = {
+        id: 'melee_auto',
+        kind: 'auto',
+        powerCurve: 'melee_auto',
+        element: 'physical',
+        min: 100,
+        max: 100,
+        mana: 0,
+        cooldowns: {}
+    };
+
+    const fatHit = resolveAttack({
+        attacker: {
+            type: 'player',
+            combatStats: { weaponTier: 1, critChance: 0, critDamage: 0 }
+        },
+        defender: dummyEnt(),
+        spell: autoSpell,
+        skipCooldown: true,
+        rng: () => 0
+    });
+    assert.ok(fatHit.ok && fatHit.hit && fatHit.fatal && !fatHit.critical);
+    assert.strictEqual(fatHit.breakdown.raw, 160);
+
+    const tier0 = resolveAttack({
+        attacker: {
+            type: 'player',
+            combatStats: { weaponTier: 0, critChance: 0 }
+        },
+        defender: dummyEnt(),
+        spell: autoSpell,
+        skipCooldown: true,
+        rng: () => 0
+    });
+    assert.ok(tier0.hit && !tier0.fatal);
+    assert.strictEqual(tier0.breakdown.raw, 100);
+
+    const creature = resolveAttack({
+        attacker: {
+            type: 'creature',
+            combatStats: { weaponTier: 10, critChance: 0 }
+        },
+        defender: dummyEnt(),
+        spell: {
+            id: 'melee_0',
+            kind: 'auto',
+            element: 'physical',
+            min: 100,
+            max: 100,
+            mana: 0,
+            cooldowns: {}
+        },
+        skipCooldown: true,
+        rng: () => 0
+    });
+    assert.ok(creature.hit && !creature.fatal);
+    assert.strictEqual(creature.breakdown.raw, 100);
+
+    const { resolveShapedAttack } = require('../kernel/core/lib/combat/area.js');
+    const a = {
+        id: 1,
+        alive: true,
+        tile: { x: 5, y: 5, z: 0 },
+        hp: { current: 500, max: 500 },
+        combatStats: dummyBag
+    };
+    const b = {
+        id: 2,
+        alive: true,
+        tile: { x: 6, y: 5, z: 0 },
+        hp: { current: 500, max: 500 },
+        combatStats: dummyBag
+    };
+    const caster = {
+        type: 'player',
+        alive: true,
+        tile: { x: 4, y: 5, z: 0 },
+        mp: { current: 100, max: 100 },
+        combatStats: {
+            weaponTier: 1,
+            critChance: 0,
+            critDamage: 0,
+            hitChance: 100
+        }
+    };
+    const shaped = resolveShapedAttack({
+        attacker: caster,
+        primary: a,
+        spell: {
+            id: 'distance_auto',
+            kind: 'auto',
+            powerCurve: 'distance_auto',
+            element: 'physical',
+            min: 100,
+            max: 100,
+            mana: 0,
+            range: 6,
+            hitChance: 100,
+            isMelee: false,
+            shape: { type: 'area', code: 3 },
+            cooldowns: {}
+        },
+        candidates: [a, b],
+        rng: () => 0,
+        skipCooldown: true,
+        skipMana: true,
+        centerMode: 'primary'
+    });
+    assert.ok(shaped.ok && shaped.hit && shaped.fatal);
+    assert.ok(shaped.results.length >= 2);
+    assert.ok(shaped.results.every((r) => r.ok && r.hit && r.fatal && !r.critical));
+    assert.strictEqual(shaped.results[0].breakdown.raw, 160);
+
+    log('fatal hits ok', {
+        tier1: fatalChanceFromTier(1),
+        postCrit: both.breakdown.raw
     });
 }
 
@@ -6310,6 +7448,8 @@ function testManaShieldGearAndPotion() {
 function main() {
     testRollHitAndCrit();
     testRollRawAndArmor();
+    testGaussianAutoRaw();
+    testCritBandSplit();
     testMitigationPipelineOrder();
     testComputeDamageMiss();
     testCooldowns();
@@ -6325,6 +7465,10 @@ function main() {
     testWeaponAutoFormulasAndDistanceAmmo();
     testWeaponExtraElementAndHitChance();
     testEquipmentCritAndLeech();
+    testClassCritStack();
+    testCreatureCrit();
+    testShapedDistanceAutos();
+    testFatalHits();
     testStrikeMeanAmplitude();
     testGuardianAutoVsDummy();
     testAutoAndFrontSweepIndependent();

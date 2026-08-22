@@ -22,8 +22,14 @@ const {
     hasMana,
     spendMana,
     resolveMoveLock,
-    applyMoveLock
+    applyMoveLock,
+    spellCanCritOrLeech,
+    resolveSpellHitChance,
+    critChanceForAttacker,
+    fatalChanceForAttacker
 } = require('./resolve.js');
+const { rollHit, rollCritical, rollFatal } = require('./damage.js');
+const { attackerBagFromStats } = require('../character/stats.js');
 const { isWithinSpellCastRange } = require('./cast_range.js');
 const Cooldowns = require('./cooldowns.js');
 const {
@@ -50,6 +56,21 @@ function spellHasShape(spell) {
     if (!spell || !spell.shape || typeof spell.shape !== 'object') return false;
     const t = String(spell.shape.type || '');
     return t === 'area' || t === 'wave' || t === 'beam';
+}
+
+/**
+ * Weapon auto that already carries a shape (burst / diamond ammo).
+ * @param {object|null|undefined} spell
+ * @returns {boolean}
+ */
+function isShapedWeaponAuto(spell) {
+    if (!spellHasShape(spell)) return false;
+    const id = String(spell.id || '');
+    return (
+        spell.kind === 'auto' ||
+        id === 'melee_auto' ||
+        id === 'distance_auto'
+    );
 }
 
 /**
@@ -654,6 +675,7 @@ function resolveShapedAttack(opts) {
             spell,
             hit: false,
             critical: false,
+            fatal: false,
             final: 0,
             hpDelta: 0,
             breakdown: null,
@@ -731,6 +753,98 @@ function resolveShapedAttack(opts) {
     const moveLock = resolveMoveLock(spell);
     /** @type {object|null} */
     let shapedManaProgress = null;
+    const rng = o.rng || Math.random;
+    const shapedAuto = isShapedWeaponAuto(spell);
+
+    // Shaped distance auto: one hit roll for the swing. Miss spends CD / ammo
+    // (caller) but does not explode the footprint.
+    if (shapedAuto) {
+        const aStats =
+            attacker.combatStats || attacker.effectiveStats || null;
+        const atkBag = aStats
+            ? attackerBagFromStats(aStats)
+            : {
+                  hitChance:
+                      attacker.hitChance != null ? attacker.hitChance : 100
+              };
+        if (!rollHit(resolveSpellHitChance(spell, atkBag), rng)) {
+            const missDef = o.primary || hits[0] || null;
+            if (missDef) {
+                const miss = resolveAttack({
+                    attacker,
+                    defender: missDef,
+                    spell,
+                    spellBook: o.spellBook,
+                    rng,
+                    skipCooldown: o.skipCooldown,
+                    skipMana: o.skipMana,
+                    apply: applyMutations,
+                    critBand: 'multiply',
+                    hit: false,
+                    critical: false,
+                    fatal: false,
+                    sessionConfig: o.sessionConfig,
+                    skillProgression: o.skillProgression,
+                    grantWeaponSkillTry: true
+                });
+                return {
+                    ok: true,
+                    spell,
+                    hit: false,
+                    critical: false,
+                    fatal: false,
+                    final: 0,
+                    hpDelta: 0,
+                    breakdown: miss.breakdown,
+                    range: miss.range,
+                    moveLock: miss.moveLock,
+                    multi: true,
+                    affectedTiles: [],
+                    center: foot.center,
+                    direction: foot.direction,
+                    results: [miss],
+                    hits: [],
+                    skillProgress: miss.skillProgress,
+                    manaProgress: miss.manaProgress
+                };
+            }
+            if (applyMutations) {
+                if (!o.skipCooldown) {
+                    Cooldowns.apply(attacker, spell.cooldowns);
+                }
+                if (!o.skipMana) spendMana(attacker, manaCost);
+                applyMoveLock(attacker, moveLock);
+            }
+            return {
+                ok: true,
+                spell,
+                hit: false,
+                critical: false,
+                fatal: false,
+                final: 0,
+                hpDelta: 0,
+                breakdown: null,
+                range: null,
+                moveLock,
+                multi: true,
+                affectedTiles: [],
+                center: foot.center,
+                direction: foot.direction,
+                results: [],
+                hits: [],
+                skillProgress: null,
+                manaProgress: null
+            };
+        }
+    }
+
+    // Q6: one crit flag for the whole swing (every tile / followup).
+    const swingCritical = spellCanCritOrLeech(spell)
+        ? rollCritical(critChanceForAttacker(attacker), rng)
+        : false;
+    const swingFatal = spellCanCritOrLeech(spell)
+        ? rollFatal(fatalChanceForAttacker(attacker), rng)
+        : false;
 
     if (applyMutations) {
         if (!o.skipCooldown) {
@@ -919,6 +1033,7 @@ function resolveShapedAttack(opts) {
     const results = [];
     let anyHit = false;
     let anyCrit = false;
+    let anyFatal = false;
     let totalFinal = 0;
     let totalHpDelta = 0;
     let primaryResult = null;
@@ -951,12 +1066,18 @@ function resolveShapedAttack(opts) {
                 // Phase D: weapon skill tries on primary target only
                 grantWeaponSkillTry: defender === o.primary,
                 sessionConfig: o.sessionConfig,
-                skillProgression: o.skillProgression
+                skillProgression: o.skillProgression,
+                // Shaped / followup never use the ST auto 65% crit band.
+                critBand: 'multiply',
+                critical: swingCritical,
+                fatal: swingFatal,
+                hit: shapedAuto ? true : undefined
             });
             results.push(r);
             if (r.ok && r.hit) {
                 anyHit = true;
                 if (r.critical) anyCrit = true;
+                if (r.fatal) anyFatal = true;
                 totalFinal += r.final || 0;
                 totalHpDelta += r.hpDelta || 0;
             }
@@ -1025,6 +1146,7 @@ function resolveShapedAttack(opts) {
         spell,
         hit: anyHit,
         critical: anyCrit,
+        fatal: anyFatal,
         final: summary ? summary.final : totalFinal,
         hpDelta: summary ? summary.hpDelta : totalHpDelta,
         breakdown: summary ? summary.breakdown : null,
@@ -1052,6 +1174,7 @@ function failShape(reason, spell) {
         spell: spell || null,
         hit: false,
         critical: false,
+        fatal: false,
         final: 0,
         hpDelta: 0,
         breakdown: null,
@@ -1068,6 +1191,7 @@ function failShape(reason, spell) {
 
 module.exports = {
     spellHasShape,
+    isShapedWeaponAuto,
     isSelfCenteredAreaSpell,
     canCastPlayerAreaOnTile,
     expandShapedHitsWithStacks,

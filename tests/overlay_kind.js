@@ -389,6 +389,87 @@ print('ok')
     assert.ok(out.trim().endsWith('ok'));
 });
 
+test('process_sprites keys dark green leftover ring, keeps subject', () => {
+    const py = `
+import sys
+from PIL import Image
+sys.path.insert(0, ${JSON.stringify(path.join(ROOT, 'bin'))})
+from process_sprites import remove_background
+
+img = Image.new('RGBA', (64, 64), (0, 255, 0, 255))
+# Brown square with a 2px (0,60,0) halo — Grok leftover, not character green.
+for y in range(18, 46):
+    for x in range(18, 46):
+        img.putpixel((x, y), (0, 60, 0, 255))
+for y in range(20, 44):
+    for x in range(20, 44):
+        img.putpixel((x, y), (140, 70, 40, 255))
+out, label = remove_background(img)
+assert 'green-screen' in label, label
+assert out.getpixel((2, 2))[3] == 0
+assert out.getpixel((19, 30))[3] == 0, out.getpixel((19, 30))
+assert out.getpixel((32, 32))[:3] == (140, 70, 40)
+assert out.getpixel((32, 32))[3] == 255
+print('ok')
+`;
+    const out = execFileSync('python3', ['-c', py], { encoding: 'utf8' });
+    assert.ok(out.trim().endsWith('ok'));
+});
+
+test('process_sprites keeps filled character-green blob on green screen', () => {
+    const py = `
+import sys
+from PIL import Image
+sys.path.insert(0, ${JSON.stringify(path.join(ROOT, 'bin'))})
+from process_sprites import remove_background
+
+img = Image.new('RGBA', (64, 64), (0, 255, 0, 255))
+# Dark-mid green that survives pass-1 chroma (g_band / ratio) but looks
+# like leftover plate locally — a filled blob must still be kept.
+for y in range(18, 46):
+    for x in range(18, 46):
+        img.putpixel((x, y), (20, 90, 20, 255))
+out, label = remove_background(img)
+assert 'green-screen' in label, label
+assert out.getpixel((2, 2))[3] == 0
+# Interior of the blob must survive (not eaten as leftover plate).
+r, g, b, a = out.getpixel((32, 32))
+assert a == 255 and g > r and g > b, (r, g, b, a)
+print('ok')
+`;
+    const out = execFileSync('python3', ['-c', py], { encoding: 'utf8' });
+    assert.ok(out.trim().endsWith('ok'));
+});
+
+test('process_sprites keys Grok-style dark plate vignette', () => {
+    const py = `
+import sys
+from PIL import Image
+sys.path.insert(0, ${JSON.stringify(path.join(ROOT, 'bin'))})
+from process_sprites import remove_background
+
+plate = (10, 143, 52, 255)
+img = Image.new('RGBA', (64, 64), plate)
+# Darker vignette on the outer 4px (fails MIN_SCREEN_GREEN=80).
+for y in range(64):
+    for x in range(64):
+        if x < 4 or y < 4 or x >= 60 or y >= 60:
+            img.putpixel((x, y), (0, 50, 10, 255))
+for y in range(16, 48):
+    for x in range(16, 48):
+        img.putpixel((x, y), (30, 25, 40, 255))
+out, label = remove_background(img)
+assert 'green-screen' in label, label
+assert out.getpixel((0, 0))[3] == 0, out.getpixel((0, 0))
+assert out.getpixel((2, 32))[3] == 0, out.getpixel((2, 32))
+assert out.getpixel((32, 32))[:3] == (30, 25, 40)
+assert out.getpixel((32, 32))[3] == 255
+print('ok')
+`;
+    const out = execFileSync('python3', ['-c', py], { encoding: 'utf8' });
+    assert.ok(out.trim().endsWith('ok'));
+});
+
 if (failed) {
     console.error(`overlay_kind: ${failed} failed, ${passed} passed`);
     process.exit(1);

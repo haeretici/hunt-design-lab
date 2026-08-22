@@ -743,6 +743,26 @@ function countEquippedQuiverAmmo(inv, itemDb, kind) {
  * @param {'arrow'|'bolt'|null} [kind]
  * @returns {{ ok: boolean, spent: number, changed: boolean, ammoItemId: string|null, error?: string }}
  */
+/**
+ * Template for the first matching ammo stack in the equipped quiver
+ * (same stack consumeEquippedQuiverAmmo spends first).
+ * @param {Inventory|null|undefined} inv
+ * @param {object[]|Record<string, object>|null} [itemDb]
+ * @param {'arrow'|'bolt'|null} [kind]
+ * @returns {object|null}
+ */
+function peekEquippedQuiverAmmoItem(inv, itemDb, kind) {
+    if (!inv || !inv.equipment) return null;
+    const qUid = inv.equipment.leftHand;
+    if (!qUid || !inv.containers[qUid]) return null;
+    const k = kind !== undefined ? kind : equippedWeaponAmmoKind(inv, itemDb);
+    const uid = findFirstAmmoUid(inv, qUid, itemDb, k);
+    if (!uid) return null;
+    const inst = inv.items[uid];
+    if (!inst) return null;
+    return findItem(itemDb, inst.itemId);
+}
+
 function consumeEquippedQuiverAmmo(inv, amount, itemDb, kind) {
     if (!inv || !inv.equipment) {
         return {
@@ -2603,6 +2623,7 @@ module.exports = {
     consumeItemIdFromInventory,
     equippedWeaponAmmoKind,
     countEquippedQuiverAmmo,
+    peekEquippedQuiverAmmoItem,
     consumeEquippedQuiverAmmo,
     equippedRightHandItem,
     equippedRightHandCount,

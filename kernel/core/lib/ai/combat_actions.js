@@ -517,6 +517,49 @@ function hasAmmo(attacker, spell, ctx) {
  * @param {object} spell
  * @param {object} [ctx]
  */
+/**
+ * Ammo `autoShape` bag. Only `area` + numeric code (burst 3 / diamond 4).
+ * @param {object|null|undefined} shape
+ * @returns {{ type: string, code: number }|null}
+ */
+function normalizeAutoShape(shape) {
+    if (!shape || typeof shape !== 'object') return null;
+    if (String(shape.type || '') !== 'area') return null;
+    const code = Number(shape.code);
+    if (!Number.isFinite(code)) return null;
+    return { type: 'area', code };
+}
+
+/**
+ * When `distance_auto` spends quiver ammo that authors `autoShape`, return it.
+ * Throwing weapons stay ST. Missing inventory / ammo → null (ST auto).
+ * @param {object} attacker
+ * @param {object} spell
+ * @param {object} [ctx]
+ * @returns {{ type: string, code: number }|null}
+ */
+function resolveDistanceAutoShape(attacker, spell, ctx) {
+    if (!attacker || !spell) return null;
+    const id = String(spell.id || '');
+    if (id !== 'distance_auto' && spell.powerCurve !== 'distance_auto') {
+        return null;
+    }
+    if (isThrowingWeaponAttacker(attacker, ctx)) return null;
+    if (!attacker.inventory) return null;
+    try {
+        const {
+            peekEquippedQuiverAmmoItem
+        } = require('../character/inventory.js');
+        const item = peekEquippedQuiverAmmoItem(
+            attacker.inventory,
+            ammoItemDb(attacker, ctx)
+        );
+        return normalizeAutoShape(item && item.autoShape);
+    } catch (_) {
+        return null;
+    }
+}
+
 function spendAmmo(attacker, spell, ctx) {
     if (!attacker || !spell || !spell.requiresAmmo) return;
 
@@ -1031,7 +1074,11 @@ function tryAttack(opts) {
 
     const spell = getSpell(spellId, ctx);
     if (!spell && !isAutoAttackId(spellId)) return null;
-    const def = spell || defaultAutoSpell(spellId) || defaultMeleeAutoSpell();
+    let def = spell || defaultAutoSpell(spellId) || defaultMeleeAutoSpell();
+    const autoShape = resolveDistanceAutoShape(attacker, def, ctx);
+    if (autoShape) {
+        def = Object.assign({}, def, { shape: autoShape });
+    }
     // Self-origin chain / self-buff may omit a sticky primary.
     const selfOrigin = isSelfOriginChainSpell(def);
     if (
@@ -1112,8 +1159,9 @@ function tryAttack(opts) {
             null;
         // Default: maximize multi-hit (AI + Smart Cast). Manual Active Target
         // / castWith tile pass centerMode 'primary'; aim-only always primary.
-        let centerMode = o.centerMode;
-        if (centerMode !== 'primary' && centerMode !== 'maximize') {
+        // Shaped autos (burst / diamond) stay on the sticky target.
+        let centerMode = autoShape ? 'primary' : o.centerMode;
+        if (!autoShape && centerMode !== 'primary' && centerMode !== 'maximize') {
             centerMode =
                 defender && defender._aimOnly ? 'primary' : 'maximize';
         }
@@ -1732,6 +1780,8 @@ module.exports = {
     isModeMonsterSummonsEnabled,
     isMoveUnlocked,
     hasAmmo,
+    normalizeAutoShape,
+    resolveDistanceAutoShape,
     spendAmmo,
     isRuneSpell,
     resolveRuneItemId,

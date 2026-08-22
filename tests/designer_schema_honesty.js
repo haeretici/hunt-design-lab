@@ -125,7 +125,9 @@ function testDeclaredKeys() {
             'race',
             'maxBlock',
             'source',
-            'flags'
+            'flags',
+            'critChance',
+            'critDamage'
         ],
         'creatures'
     );
@@ -203,6 +205,8 @@ function testDeclaredKeys() {
             'extraAtk',
             'extraAtkElement',
             'maxHitChance',
+            'autoShape',
+            'tier',
             'critChance',
             'critExtraDamage',
             'lifeLeechChance',

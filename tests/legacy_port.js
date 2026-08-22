@@ -21,6 +21,7 @@ const {
     convertBestiary,
     convertSummon,
     convertMonsterFlags,
+    convertMonsterCrit,
     applyLegacyMonsterMetadata,
     convertSpawn,
     analyzeNavmesh,
@@ -260,6 +261,29 @@ function testConverters() {
     assert.strictEqual(flags.summonable, false);
     assert.strictEqual(flags.targetDistance, 4);
     assert.strictEqual(flags.aggroRange, 7);
+    assert.strictEqual(flags.critChance, undefined);
+
+    const critBag = convertMonsterCrit({ critChance: 10, hostile: true });
+    assert.deepStrictEqual(critBag, { critChance: 10, critDamage: 10 });
+    assert.strictEqual(convertMonsterCrit({ hostile: true }), null);
+    assert.strictEqual(convertMonsterCrit({ critChance: 0 }), null);
+
+    const critTpl = convertMonsterToTemplate({
+        name: 'Antenna',
+        health: 10,
+        flags: { hostile: true, attackable: true, critChance: 10 }
+    });
+    assert.strictEqual(critTpl.critChance, 10);
+    assert.strictEqual(critTpl.critDamage, 10);
+    assert.strictEqual(critTpl.flags.critChance, undefined);
+
+    const noCritTpl = convertMonsterToTemplate({
+        name: 'Cave Rat',
+        health: 10,
+        flags: { hostile: true }
+    });
+    assert.strictEqual(noCritTpl.critChance, undefined);
+    assert.strictEqual(noCritTpl.critDamage, undefined);
 
     // Without nameMap: slug fallback kept (legacy pack path)
     const unmappedNoMap = convertSummon({

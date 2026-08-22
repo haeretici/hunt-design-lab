@@ -21,6 +21,9 @@
  *
  * Status-only rows (min=max=0, no totalDamage) contribute 0.
  * Area/wave counted as single-target (one body on dummy).
+ * Template `critChance` / `critDamage` are live-only (multiply after the kit
+ * roll). This measure uses (min+max)/2 and does **not** include crit EV
+ * (~+1% at 10/10, ~+0.3% at 3/10). Cache does not need --apply for that bump.
  *
  * Usage:
  *   node bin/measure_creature_threat.js

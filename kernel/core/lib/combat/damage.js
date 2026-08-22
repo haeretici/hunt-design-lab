@@ -2,7 +2,11 @@
  * Pure combat damage pipeline (Stage 4).
  *
  * Pipeline order (fixed, document once — see docs/09_combat_and_classes.md):
- *   1. Roll raw from min/max (optional crit widens floor toward max)
+ *   1. Roll raw from min/max (melee/distance auto non-crit = gaussian;
+ *      other curves uniform). Crit: ST melee/distance auto raises the floor
+ *      (`auto_st`); everything else multiplies after the same non-crit roll.
+ *   1c. Fatal (player weapon `tier` > 0): independent roll after crit;
+ *      `raw + round(raw × 0.6)`. Heal / miss skip.
  *   2. Mitigation (% of raw)
  *   3. Element resist (% of remaining after mitigation)
  *   4. Shield block (optional; physical + melee only; ≤2 per 2s window)
@@ -15,6 +19,19 @@
  */
 
 const { Settings } = require('../../../settings.js');
+
+/** ST melee/distance auto: raise floor then uniform in the band. */
+const CRIT_BAND_AUTO_ST = 'auto_st';
+/** Default: same non-crit generator, then × (1 + critDamage/100). */
+const CRIT_BAND_MULTIPLY = 'multiply';
+/** Floor fraction of max for `auto_st` (Q3: then max with min). */
+const AUTO_ST_CRIT_FLOOR = 0.65;
+/** Fatal chance `A t² + B t + C` percent (weapon `tier` t > 0). */
+const FATAL_CHANCE_A = 0.05;
+const FATAL_CHANCE_B = 0.4;
+const FATAL_CHANCE_C = 0.05;
+/** Extra fraction of post-crit raw on a fatal proc. */
+const FATAL_DAMAGE_BONUS = 0.6;
 
 /** @typedef {'physical'|'fire'|'ice'|'energy'|'earth'|'holy'|'death'|'healing'} DamageElement */
 
@@ -392,26 +409,161 @@ function rollCritical(critChance, rng) {
 }
 
 /**
- * Roll raw damage in [min, max]. On crit, floor is raised toward max.
+ * Fatal chance in percent from weapon classification `tier`.
+ * `t <= 0` or missing → 0. `t == 1` → 0.5.
+ * @param {number|null|undefined} tier
+ * @returns {number}
+ */
+function fatalChanceFromTier(tier) {
+    const t = Math.floor(Number(tier) || 0);
+    if (t <= 0) return 0;
+    return FATAL_CHANCE_A * t * t + FATAL_CHANCE_B * t + FATAL_CHANCE_C;
+}
+
+/**
+ * Independent fatal proc. `uniform[0, 10000] / 100 < fatalChance`.
+ * Chance 0 skips rng.
+ * @param {number} fatalChance percent
+ * @param {() => number} [rng]
+ * @returns {boolean}
+ */
+function rollFatal(fatalChance, rng) {
+    const c = Number(fatalChance) || 0;
+    if (!(c > 0)) return false;
+    const r = typeof rng === 'function' ? rng() : Math.random();
+    const sample = Math.floor(r * 10001);
+    return sample / 100 < c;
+}
+
+/**
+ * +60% of already-crit (or non-crit) raw.
+ * @param {number} raw
+ * @returns {number}
+ */
+function applyFatalBonus(raw) {
+    const n = Math.max(0, Number(raw) || 0);
+    return n + Math.round(n * FATAL_DAMAGE_BONUS);
+}
+
+function elementAllowsFatal(element) {
+    const el = element || 'physical';
+    return el !== 'healing' && el !== 'manadrain' && el !== 'undefined';
+}
+
+/**
+ * N(0,1) via Marsaglia polar method. `rng` must return [0,1).
+ * Guard breaks a degenerate constant-rng loop (tests / stuck LCG).
+ * @param {() => number} rng
+ * @returns {number}
+ */
+function sampleStandardNormal(rng) {
+    let u;
+    let v;
+    let s;
+    let guard = 0;
+    do {
+        u = 2 * rng() - 1;
+        v = 2 * rng() - 1;
+        s = u * u + v * v;
+        if (++guard > 32) return 0;
+    } while (s === 0 || s >= 1);
+    return u * Math.sqrt((-2 * Math.log(s)) / s);
+}
+
+/**
+ * Reference-server auto raw: sample N(μ=0.5, σ=0.25), reject outside [0,1],
+ * map onto [min, max] inclusive.
+ *
+ * @param {number} min
+ * @param {number} max
+ * @param {() => number} [rng]
+ * @returns {number}
+ */
+function normalRandom(min, max, rng) {
+    const a = Math.min(Number(min) || 0, Number(max) || 0);
+    const b = Math.max(Number(min) || 0, Number(max) || 0);
+    if (a === b) return a;
+    const rand = typeof rng === 'function' ? rng : Math.random;
+    let unit;
+    let guard = 0;
+    do {
+        unit = 0.5 + 0.25 * sampleStandardNormal(rand);
+        if (++guard > 64) {
+            unit = 0.5;
+            break;
+        }
+    } while (unit < 0 || unit > 1);
+    return a + Math.round(unit * (b - a));
+}
+
+function usesGaussianAutoRaw(powerCurve) {
+    return powerCurve === 'melee_auto' || powerCurve === 'distance_auto';
+}
+
+/**
+ * @param {{ critBand?: string }|null|undefined} opts
+ * @returns {'auto_st'|'multiply'}
+ */
+function resolveCritBand(opts) {
+    return opts && opts.critBand === CRIT_BAND_AUTO_ST
+        ? CRIT_BAND_AUTO_ST
+        : CRIT_BAND_MULTIPLY;
+}
+
+/**
+ * Q3: `rollMin = max(min, floor(0.65 × max))`.
+ * @param {number} min
+ * @param {number} max
+ * @returns {number}
+ */
+function autoStCritRollMin(min, max) {
+    const lo = Math.min(Number(min) || 0, Number(max) || 0);
+    const hi = Math.max(Number(min) || 0, Number(max) || 0);
+    const raised = Math.floor(AUTO_ST_CRIT_FLOOR * hi);
+    const rollMin = Math.max(lo, raised);
+    return rollMin > hi ? hi : rollMin;
+}
+
+/**
+ * Roll raw in [min, max].
+ *
+ * `critBand: 'auto_st'` (ST melee/distance auto only): uniform in
+ * `[autoStCritRollMin, max]`, then optional extra.
+ * Default / `multiply`: same generator as a non-crit of that curve
+ * (gaussian for melee/distance auto, else uniform), then optional extra.
+ *
  * @param {number} min
  * @param {number} max
  * @param {boolean} [isCritical]
  * @param {number} [critDamageBonus=0] percent extra after roll
  * @param {() => number} [rng]
+ * @param {{ powerCurve?: string, distribution?: string, critBand?: string }} [opts]
  * @returns {{ raw: number, critical: boolean }}
  */
-function rollRawDamage(min, max, isCritical, critDamageBonus, rng) {
+function rollRawDamage(min, max, isCritical, critDamageBonus, rng, opts) {
     const lo = Math.min(Number(min) || 0, Number(max) || 0);
     const hi = Math.max(Number(min) || 0, Number(max) || 0);
-    let rollMin = lo;
-    if (isCritical) {
-        // Crit: roll in the upper portion of the band
-        rollMin = Math.floor(0.65 * hi);
-        if (rollMin > hi) rollMin = hi;
+    const useAutoStBand = !!isCritical && resolveCritBand(opts) === CRIT_BAND_AUTO_ST;
+    const useGaussian =
+        !useAutoStBand &&
+        !!(
+            opts &&
+            (opts.distribution === 'gaussian' ||
+                usesGaussianAutoRaw(opts.powerCurve))
+        );
+    let raw;
+    if (useAutoStBand) {
+        const rollMin = autoStCritRollMin(lo, hi);
+        const rand = typeof rng === 'function' ? rng() : Math.random();
+        raw = Math.floor(rollMin + rand * (hi - rollMin + 1));
+        if (raw > hi) raw = hi;
+    } else if (useGaussian) {
+        raw = normalRandom(lo, hi, rng);
+    } else {
+        const rand = typeof rng === 'function' ? rng() : Math.random();
+        raw = Math.floor(lo + rand * (hi - lo + 1));
+        if (raw > hi) raw = hi;
     }
-    const rand = typeof rng === 'function' ? rng() : Math.random();
-    let raw = Math.floor(rollMin + rand * (hi - rollMin + 1));
-    if (raw > hi) raw = hi;
     if (isCritical && critDamageBonus) {
         raw = Math.floor(raw * (1 + (Number(critDamageBonus) || 0) / 100));
     }
@@ -552,22 +704,42 @@ function applyMitigation(raw, element, defender, opts) {
  * @param {DamageElement|string} [params.element='physical']
  * @param {boolean} [params.isMelee]
  * @param {number} [params.hitChance]
+ * @param {boolean} [params.hit] skip the hit roll when boolean
  * @param {number} [params.critChance]
  * @param {number} [params.critDamage]
+ * @param {string} [params.critBand] `auto_st` or `multiply` (default)
+ * @param {boolean} [params.critical] skip the crit roll when boolean
+ * @param {number} [params.fatalChance] percent; 0 skips
+ * @param {boolean} [params.fatal] skip the fatal roll when boolean
  * @param {number} [params.min] fixed range override
  * @param {number} [params.max] fixed range override
  * @param {() => number} [params.rng]
- * @returns {{ hit: boolean, critical: boolean, range: {min:number,max:number}, breakdown: object|null, final: number }}
+ * @returns {{ hit: boolean, critical: boolean, fatal: boolean, range: {min:number,max:number}, breakdown: object|null, final: number }}
  */
 function computeDamage(params) {
     const p = params || {};
     const rng = p.rng;
     const element = p.element || 'physical';
 
-    if (!rollHit(p.hitChance != null ? p.hitChance : 100, rng)) {
+    const forcedHit = p.hit;
+    if (forcedHit === false) {
         return {
             hit: false,
             critical: false,
+            fatal: false,
+            range: { min: 0, max: 0 },
+            breakdown: null,
+            final: 0
+        };
+    }
+    if (
+        forcedHit !== true &&
+        !rollHit(p.hitChance != null ? p.hitChance : 100, rng)
+    ) {
+        return {
+            hit: false,
+            critical: false,
+            fatal: false,
             range: { min: 0, max: 0 },
             breakdown: null,
             final: 0
@@ -593,14 +765,31 @@ function computeDamage(params) {
         );
     }
 
-    const isCritical = rollCritical(p.critChance || 0, rng);
+    const isCritical =
+        p.critical === true || p.critical === false
+            ? !!p.critical
+            : rollCritical(p.critChance || 0, rng);
     const rolled = rollRawDamage(
         range.min,
         range.max,
         isCritical,
         p.critDamage || 0,
-        rng
+        rng,
+        {
+            powerCurve: p.powerCurve || 'fixed',
+            critBand: p.critBand || CRIT_BAND_MULTIPLY
+        }
     );
+
+    let raw = rolled.raw;
+    let isFatal = false;
+    if (elementAllowsFatal(element)) {
+        isFatal =
+            p.fatal === true || p.fatal === false
+                ? !!p.fatal
+                : rollFatal(p.fatalChance || 0, rng);
+        if (isFatal) raw = applyFatalBonus(raw);
+    }
 
     const extraAtk =
         Number(
@@ -615,8 +804,8 @@ function computeDamage(params) {
     const combinedAtk = Number(p.attacker && p.attacker.atk) || 0;
     if (extraAtk > 0 && extraEl && combinedAtk > 0) {
         const elemShare = Math.min(1, extraAtk / combinedAtk);
-        const elemRaw = Math.round(rolled.raw * elemShare);
-        const physRaw = Math.max(0, rolled.raw - elemRaw);
+        const elemRaw = Math.round(raw * elemShare);
+        const physRaw = Math.max(0, raw - elemRaw);
         const phys = applyMitigation(physRaw, element, p.defender || {}, {
             isMelee: !!p.isMelee,
             rng
@@ -629,9 +818,10 @@ function computeDamage(params) {
         return {
             hit: true,
             critical: rolled.critical,
+            fatal: isFatal,
             range,
             breakdown: {
-                raw: rolled.raw,
+                raw,
                 mitigation: phys.mitigation + elemMit.mitigation,
                 elementReduction: phys.elementReduction + elemMit.elementReduction,
                 shieldBlock: phys.shieldBlock,
@@ -646,7 +836,7 @@ function computeDamage(params) {
         };
     }
 
-    const breakdown = applyMitigation(rolled.raw, element, p.defender || {}, {
+    const breakdown = applyMitigation(raw, element, p.defender || {}, {
         isMelee: !!p.isMelee,
         rng
     });
@@ -654,6 +844,7 @@ function computeDamage(params) {
     return {
         hit: true,
         critical: rolled.critical,
+        fatal: isFatal,
         range,
         breakdown,
         final: breakdown.final
@@ -661,6 +852,13 @@ function computeDamage(params) {
 }
 
 module.exports = {
+    CRIT_BAND_AUTO_ST,
+    CRIT_BAND_MULTIPLY,
+    AUTO_ST_CRIT_FLOOR,
+    FATAL_CHANCE_A,
+    FATAL_CHANCE_B,
+    FATAL_CHANCE_C,
+    FATAL_DAMAGE_BONUS,
     weaponAutoFactor,
     levelBonus,
     round4,
@@ -681,6 +879,13 @@ module.exports = {
     computeDamageRange,
     rollHit,
     rollCritical,
+    fatalChanceFromTier,
+    rollFatal,
+    applyFatalBonus,
+    normalRandom,
+    usesGaussianAutoRaw,
+    resolveCritBand,
+    autoStCritRollMin,
     rollRawDamage,
     rollArmorReduction,
     rollShieldBlock,

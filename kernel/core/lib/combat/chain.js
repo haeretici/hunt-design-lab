@@ -401,7 +401,8 @@ function resolveChainAttack(opts) {
             apply: applyMutations,
             grantWeaponSkillTry: defender === o.primary,
             sessionConfig: o.sessionConfig,
-            skillProgression: o.skillProgression
+            skillProgression: o.skillProgression,
+            critBand: 'multiply'
         });
         results.push(r);
         if (r && r.ok) {

@@ -247,6 +247,20 @@
           "enum": ["", "arrow", "bolt"],
           "description": "Required for category ammo: which distance weapon may fire this stack. Bows consume arrow; crossbows consume bolt. Empty = unset (omit on disk)."
         },
+        "autoShape": {
+          "type": "object",
+          "description": "When distance_auto spends this ammo, resolve as a shaped auto centered on the sticky target. Crit is multiply-only; one crit roll per swing. Omit on ST ammo.",
+          "properties": {
+            "type": { "type": "string", "enum": ["area"] },
+            "code": { "type": "number" }
+          }
+        },
+        "tier": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10,
+          "description": "Weapon classification rank. Fatal chance = 0.05 t² + 0.4 t + 0.05 percent when t > 0. Omit or 0 = never. No standard rows ship a tier."
+        },
         "range": { "type": "number", "minimum": 0 },
         "durationSec": {
           "type": "integer",

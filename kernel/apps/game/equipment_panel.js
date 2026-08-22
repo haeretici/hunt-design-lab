@@ -10,7 +10,8 @@
 
 const {
     normalizeEquipmentMap,
-    findItem
+    findItem,
+    catalogSpecialBonusLines
 } = require('../../core/lib/character/stats.js');
 const {
     totalCarriedWeight,
@@ -959,6 +960,12 @@ function buildEquipmentItemDetailHtml(item, opts) {
         );
     }
 
+    let specialPillsHtml = '';
+    const specialLines = catalogSpecialBonusLines(item);
+    for (let i = 0; i < specialLines.length; i++) {
+        specialPillsHtml += `<span class="eq-pill eq-pill-bonus">${escapeHtml(specialLines[i])}</span>`;
+    }
+
     let bonusPillsHtml = '';
     const bonusesObj = item.skillBonuses || item.skills || item.bonuses;
     if (bonusesObj && typeof bonusesObj === 'object') {
@@ -1002,6 +1009,14 @@ function buildEquipmentItemDetailHtml(item, opts) {
         <div class="eq-modal-id">${idStr}</div>
         ${pillsHtml ? `<div class="text-center mb-3">${pillsHtml}</div>` : ''}
         <table class="eq-stat-table"><tbody>${statRows}</tbody></table>
+        ${
+            specialPillsHtml
+                ? `<div class="mb-3">
+                    <h6 class="small text-muted text-uppercase font-monospace mb-1"><i class="fa-solid fa-wand-magic-sparkles"></i> Special Bonuses</h6>
+                    <div>${specialPillsHtml}</div>
+                </div>`
+                : ''
+        }
         ${
             bonusPillsHtml
                 ? `<div class="mb-3">
