@@ -491,12 +491,10 @@
             background: var(--panel);
             border-top: 1px solid var(--border);
         }
-        body.ui-mode-view .cr-footer-actions { display: none; }
+        /* view mode (Wiki): picker confirm bar is select-only; fill host frame */
+        body.ui-mode-view .cr-footer { display: none; }
         body.ui-mode-view .cr-body {
             height: calc(100vh - 70px);
-        }
-        body.ui-mode-view .cr-footer {
-            justify-content: flex-start;
         }
         body.layout-table.ui-mode-view .cr-body,
         body.layout-table.ui-mode-select .cr-body {

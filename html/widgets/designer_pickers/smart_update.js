@@ -12,7 +12,7 @@
  *     getItemMeta: (id) => ({ alias: label }),
  *     onPatched: (updated) => { ... },
  *     apiRoot: () => appRoot(),
- *     statusEl: () => document.getElementById('crSelection'),
+ *     statusEl: () => document.getElementById('crMeta'), // header; picker footer is select-only
  *   });
  *   batch.bind();
  *   // in card/table HTML: batch.checkboxHtml(id)

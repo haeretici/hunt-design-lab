@@ -425,6 +425,80 @@ function pushToTileStack(ground, uid, x, y, z) {
  * @param {string} uid
  * @returns {boolean}
  */
+/**
+ * Restore walk when a blocking World pin leaves a tile (pickup / move).
+ * Sight is never patched by Hunt seed; occupancy stays creature-only.
+ * @param {GroundStore} ground
+ * @param {object|null|undefined} inst
+ * @param {number} x
+ * @param {number} y
+ * @param {string|number} z
+ */
+function restoreWorldPinWalkIfNeeded(ground, inst, x, y, z) {
+    if (!inst || !inst.worldPinFrictionPatched) return;
+    const tileMap = ground && ground.tileMap;
+    if (!tileMap || typeof tileMap.getLayer !== 'function') {
+        inst.worldPinFrictionPatched = false;
+        return;
+    }
+    const layer = tileMap.getLayer(z);
+    if (!layer || !layer.friction) {
+        inst.worldPinFrictionPatched = false;
+        return;
+    }
+    const ix = Math.round(x);
+    const iy = Math.round(y);
+    if (ix < 0 || iy < 0 || ix >= layer.cols || iy >= layer.rows) {
+        inst.worldPinFrictionPatched = false;
+        return;
+    }
+    const idx =
+        typeof tileMap.index === 'function'
+            ? tileMap.index(ix, iy, layer.cols)
+            : iy * layer.cols + ix;
+    if (
+        layer.friction[idx] === 255 &&
+        inst.savedFriction != null &&
+        Number.isFinite(Number(inst.savedFriction))
+    ) {
+        layer.friction[idx] = Number(inst.savedFriction);
+        if (typeof tileMap.invalidateRenderCache === 'function') {
+            tileMap.invalidateRenderCache();
+        }
+    }
+    inst.worldPinFrictionPatched = false;
+}
+
+/**
+ * Re-apply walk-block after a blocking World pin lands on a new tile.
+ * @param {GroundStore} ground
+ * @param {object|null|undefined} inst
+ * @param {number} x
+ * @param {number} y
+ * @param {string|number} z
+ */
+function applyWorldPinWalkIfNeeded(ground, inst, x, y, z) {
+    if (!inst || !inst.worldPinBlocking) return;
+    const tileMap = ground && ground.tileMap;
+    if (!tileMap || typeof tileMap.getLayer !== 'function') return;
+    const layer = tileMap.getLayer(z);
+    if (!layer || !layer.friction) return;
+    const ix = Math.round(x);
+    const iy = Math.round(y);
+    if (ix < 0 || iy < 0 || ix >= layer.cols || iy >= layer.rows) return;
+    const idx =
+        typeof tileMap.index === 'function'
+            ? tileMap.index(ix, iy, layer.cols)
+            : iy * layer.cols + ix;
+    if (layer.friction[idx] === 255) return;
+    inst.savedFriction = layer.friction[idx];
+    layer.friction[idx] = 255;
+    inst.worldPinFrictionPatched = true;
+    if (typeof tileMap.invalidateRenderCache === 'function') {
+        tileMap.invalidateRenderCache();
+    }
+}
+
 function detachFromParentContainer(inv, uid) {
     const inst = getItem(inv, uid);
     if (!inst || !inst.location || inst.location.kind !== 'container') {
@@ -646,6 +720,7 @@ function pickupItemFromGround(opts) {
      */
     function commitSuccess(playerUid, equipped) {
         if (onTileStack) {
+            restoreWorldPinWalkIfNeeded(ground, gInst, x, y, z);
             removeFromTileStack(ground, uid, x, y, z);
         }
         destroyItem(ground.inventory, uid);
@@ -924,6 +999,13 @@ function moveGroundItemIntoContainer(opts) {
 
     const onTile = gInst.location.kind === 'ground';
     if (onTile) {
+        restoreWorldPinWalkIfNeeded(
+            ground,
+            gInst,
+            gInst.location.x,
+            gInst.location.y,
+            gInst.location.z
+        );
         removeFromTileStack(
             ground,
             uid,
@@ -1031,10 +1113,19 @@ function moveGroundItemToTile(opts) {
             if (!newUid) return { ok: false, error: 'transfer_failed' };
             setStackCount(gInst, total - moveCount);
             pushToTileStack(ground, newUid, tx, ty, tz);
+            applyWorldPinWalkIfNeeded(
+                ground,
+                getItem(ground.inventory, newUid),
+                tx,
+                ty,
+                tz
+            );
             return { ok: true, movedUid: newUid };
         }
+        restoreWorldPinWalkIfNeeded(ground, gInst, ox, oy, oz);
         removeFromTileStack(ground, uid, ox, oy, oz);
         pushToTileStack(ground, uid, tx, ty, tz);
+        applyWorldPinWalkIfNeeded(ground, gInst, tx, ty, tz);
         return { ok: true, movedUid: uid };
     }
 

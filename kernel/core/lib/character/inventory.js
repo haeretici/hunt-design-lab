@@ -2072,7 +2072,8 @@ function totalCarriedWeight(inv, itemDb) {
 
 /**
  * Cap curve (oz):
- *   Level 1 = 600, +10/level through level 8 → 670 for every vocation.
+ *   Level 1 = 600, +10/level through level 8 → 670 for every vocation
+ *   (same per-level gain as legacy None; engine L1 floor is 600 not 400).
  *   After level 8, gain depends on class (mapped from classic vocations):
  *     guardian / mystic (knight / monk): +25
  *     scout (paladin):                     +20

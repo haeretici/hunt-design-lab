@@ -72,7 +72,7 @@ function test(name, fn) {
     }
 }
 
-test('rpg_fantasy ships debug dirt + water overlays', () => {
+test('rpg_fantasy ships playable dirt + water overlays', () => {
     const catalog = loadCatalog('rpg_fantasy', { kind: 'overlays' });
     const dirt = catalog.creatures.filter((c) => c.wangFamily === 'dirt');
     const water = catalog.creatures.filter((c) => c.wangFamily === 'water');

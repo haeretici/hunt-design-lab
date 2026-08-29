@@ -59,7 +59,6 @@ module.exports = {
     resolveSpawnSource: legacyAssets.resolveSpawnSource,
     resolveHuntSpawnDefs: legacyAssets.resolveHuntSpawnDefs,
     floorsFromSpawnSource: legacyAssets.floorsFromSpawnSource,
-    loadLegacyMonsterManifest: legacyAssets.loadLegacyMonsterManifest,
     loadSpawnIndex: legacyAssets.loadSpawnIndex,
     loadNavmeshAnalysis: legacyAssets.loadNavmeshAnalysis,
     legacyPath: legacyAssets.legacyPath

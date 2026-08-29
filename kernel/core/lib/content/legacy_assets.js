@@ -1,5 +1,5 @@
 /**
- * Load helpers for assets/legacy (ported legacy map, spawns, monster manifest).
+ * Load helpers for assets/legacy (ported legacy map, spawns).
  * Node-only (fs). Browser: inject data or fetch JSON under /assets/legacy/.
  */
 
@@ -48,16 +48,6 @@ function readJson(file) {
  */
 function loadLegacyBounds() {
     const p = legacyPath('map', 'bounds.json');
-    if (!fs || !fs.existsSync(p)) return null;
-    return readJson(p);
-}
-
-/**
- * Monster manifest (id, hp, image…).
- * @returns {object|null}
- */
-function loadLegacyMonsterManifest() {
-    const p = legacyPath('monsters', 'manifest.json');
     if (!fs || !fs.existsSync(p)) return null;
     return readJson(p);
 }
@@ -485,7 +475,6 @@ module.exports = {
     legacyPath,
     padFloorId,
     loadLegacyBounds,
-    loadLegacyMonsterManifest,
     loadFloorSpawns,
     parseSpawnRows,
     loadFloorSpawnsFromDocs,

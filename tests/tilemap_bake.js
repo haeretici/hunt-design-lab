@@ -980,6 +980,7 @@ function testMergedPackKeepsSpawns() {
         assert.ok(Array.isArray(merged.spawns));
         assert.strictEqual(merged.spawns.length, 1);
         assert.strictEqual(merged.spawns[0].creatureId, 'frost_imp');
+        assert.strictEqual(merged.world, null);
         log('merged hybrid pack keeps spawns');
     } finally {
         fs.rmSync(mapsRoot, { recursive: true, force: true });

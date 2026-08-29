@@ -29,6 +29,7 @@ const {
     isAttackableCreature
 } = require('../../core/lib/npc/flags.js');
 const { hopsOnStep } = require('../../core/entities/tilemap.js');
+const { worldPinUseReady } = require('../../core/lib/dungeon/world_pins.js');
 
 /** Browse Field virtual capacity (legacy create size 30). */
 const BROWSE_FIELD_CAPACITY = 30;
@@ -766,6 +767,43 @@ function buildCanvasContextMenuEntries(hit, opts) {
         });
     }
 
+    if (hitHasWorldPinTop(hit)) {
+        const kind = hit.rawTopInst.worldPinKind;
+        if (kind === 'container') {
+            if (
+                !(
+                    hit.pickableUid &&
+                    hit.pickableUid === hit.rawTopUid &&
+                    hit.pickableItem &&
+                    itemIsContainer(hit.pickableItem)
+                )
+            ) {
+                entries.push({
+                    id: 'open',
+                    label: 'Open',
+                    sourceUid: hit.rawTopUid,
+                    itemId:
+                        (hit.rawTopItem && hit.rawTopItem.id) ||
+                        (hit.rawTopInst && hit.rawTopInst.itemId),
+                    ground: true,
+                    tile: { x: hit.x, y: hit.y, z: hit.z }
+                });
+            }
+        } else if (kind !== 'trap') {
+            entries.push({
+                id: 'use',
+                label: 'Use',
+                stub: !worldPinUseReady(kind),
+                sourceUid: hit.rawTopUid,
+                itemId:
+                    (hit.rawTopItem && hit.rawTopItem.id) ||
+                    (hit.rawTopInst && hit.rawTopInst.itemId),
+                worldPinKind: kind,
+                tile: { x: hit.x, y: hit.y, z: hit.z }
+            });
+        }
+    }
+
     if (hit.pickableUid) {
         const label = thingLabel(hit.pickableInst, hit.pickableItem, 'Item');
         entries.push({
@@ -793,13 +831,16 @@ function buildCanvasContextMenuEntries(hit, opts) {
             });
         }
         if (hit.pickableItem && itemIsContainer(hit.pickableItem)) {
-            entries.push({
-                id: 'open',
-                label: 'Open',
-                sourceUid: hit.pickableUid,
-                itemId: hit.pickableItem.id || hit.pickableInst && hit.pickableInst.itemId,
-                ground: true
-            });
+            const pinKind = hit.pickableInst && hit.pickableInst.worldPinKind;
+            if (!pinKind || pinKind === 'container') {
+                entries.push({
+                    id: 'open',
+                    label: 'Open',
+                    sourceUid: hit.pickableUid,
+                    itemId: hit.pickableItem.id || hit.pickableInst && hit.pickableInst.itemId,
+                    ground: true
+                });
+            }
         }
     }
 
@@ -1080,19 +1121,14 @@ function smartUnshiftedLeft(hit, flags, playerTile) {
  * @returns {object[]}
  */
 function smartCtrl(hit) {
+    const pin = worldPinUseThingIntents(hit);
+    if (pin) return pin;
     if (
         hit.pickableUid &&
         hit.pickableItem &&
         itemIsContainer(hit.pickableItem)
     ) {
-        return [
-            {
-                type: 'OPEN_CONTAINER',
-                sourceUid: hit.pickableUid,
-                ground: true,
-                tile: { x: hit.x, y: hit.y, z: hit.z }
-            }
-        ];
+        return [groundOpenContainerIntent(hit, hit.pickableUid)];
     }
     // Legacy: world container/corpse without parent → open (not menu)
     if (isCorpseLike(hit)) {
@@ -1132,28 +1168,76 @@ function allowGroundLmbDrag(opts) {
 }
 
 /**
+ * Seeded World pin on the raw stack top (immovable crates / chests / levers).
+ * @param {object|null|undefined} hit
+ * @returns {boolean}
+ */
+function hitHasWorldPinTop(hit) {
+    return !!(hit && hit.rawTopInst && hit.rawTopInst.worldPinKind);
+}
+
+/**
+ * Open-container intent for a ground uid.
+ * @param {object} hit
+ * @param {string} uid
+ * @returns {object}
+ */
+function groundOpenContainerIntent(hit, uid) {
+    return {
+        type: 'OPEN_CONTAINER',
+        sourceUid: uid,
+        ground: true,
+        tile: { x: hit.x, y: hit.y, z: hit.z }
+    };
+}
+
+/**
+ * Hunt-seed World pin on the tile top: container opens; chest/lever/door/teleport/harvest USE;
+ * trap is step-on (no USE); else stub.
+ * Rope/shovel Use-with is not a pin USE — flagged tiles hop via USE_ITEM_WITH.
+ * @param {object} hit
+ * @returns {object[]|null}
+ */
+function worldPinUseThingIntents(hit) {
+    if (!hitHasWorldPinTop(hit)) return null;
+    const inst = hit.rawTopInst;
+    const kind = inst.worldPinKind;
+    // Pin kind wins catalog `category: container` (chest art is often a bag).
+    if (kind === 'container') {
+        return [groundOpenContainerIntent(hit, hit.rawTopUid)];
+    }
+    if (kind === 'trap') return null;
+    return [
+        {
+            type: 'USE',
+            stub: !worldPinUseReady(kind),
+            sourceUid: hit.rawTopUid,
+            worldPinKind: kind,
+            tile: { x: hit.x, y: hit.y, z: hit.z }
+        }
+    ];
+}
+
+/**
  * Classic RMB useThing chain (legacy processMouseAction loot modes 0–2).
- * Container/open before multi-use before use; plain pickupables fall through.
+ * World pin top wins (open crate / chest·lever·door·teleport Use / stub Use). Then container/open before
+ * multi-use before use; plain pickupables fall through.
  * Corpses are handled separately via classicCorpseLootIntents (loot modes).
  *
  * @param {object} hit
  * @returns {object[]|null}
  */
 function classicGroundUseThingIntents(hit) {
-    if (!hit || !hit.pickableUid || !hit.pickableItem) return null;
+    if (!hit) return null;
+    const pin = worldPinUseThingIntents(hit);
+    if (pin) return pin;
+    if (!hit.pickableUid || !hit.pickableItem) return null;
     const item = hit.pickableItem;
     const itemId = item.id || (hit.pickableInst && hit.pickableInst.itemId);
 
     // Pickupable bags / backpacks always open (not pick up) — legacy isPickupable branch
     if (itemIsContainer(item)) {
-        return [
-            {
-                type: 'OPEN_CONTAINER',
-                sourceUid: hit.pickableUid,
-                ground: true,
-                tile: { x: hit.x, y: hit.y, z: hit.z }
-            }
-        ];
+        return [groundOpenContainerIntent(hit, hit.pickableUid)];
     }
     if (itemIsMultiUse(item)) {
         return [
@@ -1585,6 +1669,8 @@ module.exports = {
     openCorpseStubIntent,
     normalizeLootMode,
     allowGroundLmbDrag,
+    classicGroundUseThingIntents,
+    worldPinUseThingIntents,
     resolveHitStair,
     useStairIntents,
     resolveCanvasHit,

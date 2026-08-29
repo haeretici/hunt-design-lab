@@ -89,7 +89,7 @@ if ($action === '') {
         'catalog_genres, catalog_list, creature_remove, creature_rename, creature_flip, creature_replace, creature_opaque_alpha, creature_reprocess, creature_fix_green, ' .
         'modes_list, hunts_list, hunts_get, hunts_template, hunts_save, hunts_delete, presets_browser_pack, ' .
         'presets_kinds, presets_list, presets_get, presets_ids, presets_refs, presets_template, presets_save, presets_rename, presets_delete, presets_validate, ' .
-        'legacy_map_save_spawns, legacy_map_save_layer, legacy_map_save_hybrid, legacy_map_save_hybrid_begin, legacy_map_save_hybrid_blob, legacy_map_load_hybrid, smart_update_sprites, bugs_save',
+        'legacy_map_save_spawns, legacy_map_save_world, legacy_map_save_layer, legacy_map_save_hybrid, legacy_map_save_hybrid_begin, legacy_map_save_hybrid_blob, legacy_map_load_hybrid, smart_update_sprites, bugs_save',
         400
     );
     exit;
@@ -421,6 +421,26 @@ try {
             $data = LegacyMapEditor::saveSpawns([
                 'floor' => (string) $req->get('floor', ''),
                 'spawns' => $spawns,
+            ]);
+            Response::ok($data);
+            break;
+
+        case 'legacy_map_save_world':
+            requireWrite($req);
+            $world = $req->get('world', null);
+            if (is_string($world)) {
+                $decoded = json_decode($world, true);
+                if (!is_array($decoded)) {
+                    throw new InvalidArgumentException('world must be a JSON object/array');
+                }
+                $world = $decoded;
+            }
+            if (!is_array($world)) {
+                throw new InvalidArgumentException('world must be a JSON object/array');
+            }
+            $data = LegacyMapEditor::saveWorld([
+                'floor' => (string) $req->get('floor', ''),
+                'world' => $world,
             ]);
             Response::ok($data);
             break;

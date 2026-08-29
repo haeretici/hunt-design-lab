@@ -24,6 +24,9 @@ const {
     copySpawnPins,
     pasteSpawnPins,
     spawnAtTile,
+    copyWorldPins,
+    pasteWorldPins,
+    worldPinAtTile,
     mapToMinimap,
     minimapToMap,
     fillMinimapRgba,
@@ -144,6 +147,13 @@ function testModifiedAndClipboard() {
     assert.deepStrictEqual(pasteSpawnPins(null, { x: 0, y: 0 }), []);
     assert.strictEqual(spawnAtTile([a, b], 12, 21), b);
     assert.strictEqual(spawnAtTile([a, b], 0, 0), null);
+    const crate = { catalogId: 'crate', kind: 'container', x: 3, y: 4, z: 7 };
+    const clipW = copyWorldPins([crate]);
+    assert.ok(clipW);
+    const pastedW = pasteWorldPins(clipW, { x: 10, y: 11, z: 7 });
+    assert.strictEqual(pastedW.length, 1);
+    assert.strictEqual(pastedW[0].x, 10);
+    assert.strictEqual(worldPinAtTile(pastedW, 10, 11).catalogId, 'crate');
     assert.ok(spawnPinSignature(a));
     log('modified + clipboard ok');
 }

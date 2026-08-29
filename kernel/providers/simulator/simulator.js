@@ -77,6 +77,8 @@ const {
 } = require('../../core/scripts/combat_effects.js');
 const { drawAiDebugOverlays } = require('../../core/lib/ai_debug_draw.js');
 const { SpawnManager } = require('../../core/lib/spawn_manager.js');
+const { tickWorldPinHarvest } = require('../../core/lib/dungeon/world_pin_harvest.js');
+const { tickWorldPinTrap } = require('../../core/lib/dungeon/world_pin_trap.js');
 const {
     normalizeWavesConfig,
     WaveController
@@ -438,6 +440,10 @@ class Simulator extends GameObject {
             opts.autoHybridMap !== undefined ? !!opts.autoHybridMap : true;
         /** @type {boolean} map-seeded ground fields applied for current tilemap */
         this._mapFieldsSeeded = false;
+        /** @type {boolean} hybrid world pins applied for current ground store */
+        this._worldPinsSeeded = false;
+        /** @type {object[]|null} concatenated hybrid `world` rows */
+        this._worldPinRows = null;
         /** @type {object|null} role catalog Map/object for TileMap bake */
         this.tileRoleCatalog =
             opts.tileRoleCatalog && typeof opts.tileRoleCatalog === 'object'
@@ -947,7 +953,9 @@ class Simulator extends GameObject {
             }
             // Re-seed long-lived map fields after ground wipe (layer.fields kept)
             this._mapFieldsSeeded = false;
+            this._worldPinsSeeded = false;
             this._seedMapFieldsFromLayers();
+            this._seedWorldPinsFromHybrid();
         }
         this.entityById.clear();
         this.nextEntityId = 1;
@@ -990,8 +998,8 @@ class Simulator extends GameObject {
 
     /**
      * Build SpawnManager for current spawnMode / Settings knobs.
-     * Eager hunts disable home-distance / idle-AOI despawn so corridor packs stay put.
-     * on_demand enables idle AOI despawn + optional soft living cap (Etapa 2).
+     * Eager hunts disable home-distance / idle-AOI unload so corridor packs stay put.
+     * on_demand enables idle AOI park + optional soft living cap (Etapa 2).
      * @returns {SpawnManager}
      * @private
      */
@@ -2398,10 +2406,16 @@ class Simulator extends GameObject {
         // channels with empty sub-layers. forceBake re-bakes empty stacks → all
         // blocked (255) and spawnParty fails. bakeHybridPack still bakes when
         // channels are missing or short.
-        loadHybridOntoTileMap(this.tileMap, this.hybridMapPack, {
+        const loaded = loadHybridOntoTileMap(this.tileMap, this.hybridMapPack, {
             roleCatalog
         });
         this._hybridLoaded = true;
+        const pack = loaded && loaded.pack ? loaded.pack : null;
+        if (pack && Array.isArray(pack.world) && pack.world.length) {
+            this._worldPinRows = pack.world.slice();
+        } else if (!Array.isArray(this._worldPinRows)) {
+            this._worldPinRows = [];
+        }
         // Sync floors list from pack when not set
         if (!this.floors || !this.floors.length) {
             const layers = this.tileMap.layers || {};
@@ -2461,6 +2475,40 @@ class Simulator extends GameObject {
     }
 
     /**
+     * Materialize hybrid World pins as ground items (openable containers, fixtures).
+     * Decay ticks later in updateAll (`tickWorldPinDecay`).
+     * @returns {number}
+     * @private
+     */
+    _seedWorldPinsFromHybrid() {
+        if (this._worldPinsSeeded) return 0;
+        // start() wipes ground before loadMaps. Do not mark seeded until
+        // hybrid `world` has been copied onto `_worldPinRows` (null = not ready).
+        if (!this.groundItems) return 0;
+        if (!Array.isArray(this._worldPinRows)) return 0;
+        let n = 0;
+        try {
+            const {
+                seedWorldPinsOntoGround
+            } = require('../../core/lib/dungeon/world_pin_seed.js');
+            n = seedWorldPinsOntoGround(this.groundItems, this._worldPinRows, {
+                itemDb: this._itemDb || null,
+                tileMap: this.tileMap || null
+            });
+            this._worldPinsSeeded = true;
+        } catch (e) {
+            n = 0;
+            if (typeof console !== 'undefined' && typeof console.warn === 'function') {
+                console.warn(
+                    'seedWorldPinsFromHybrid failed',
+                    e && e.message ? e.message : e
+                );
+            }
+        }
+        return n;
+    }
+
+    /**
      * Load all configured floors (Stage 9 multi-floor).
      * Uses `floors` array when set; else hybrid pack / floor / mapPath / floorLayers.
      * Stage 12H: installs first-class stair tiles + optional navmesh after floors load.
@@ -2489,6 +2537,7 @@ class Simulator extends GameObject {
             this._installStairsAndNavmesh();
             await this._ensureStairDestinationFloors();
             this._seedMapFieldsFromLayers();
+            this._seedWorldPinsFromHybrid();
             return this.tileMap;
         }
 
@@ -2521,6 +2570,7 @@ class Simulator extends GameObject {
         this._installStairsAndNavmesh();
         await this._ensureStairDestinationFloors();
         this._seedMapFieldsFromLayers();
+        this._seedWorldPinsFromHybrid();
         return this.tileMap;
     }
 
@@ -2591,6 +2641,12 @@ class Simulator extends GameObject {
             loadHybridOntoTileMap(this.tileMap, pack, {
                 roleCatalog: this.tileRoleCatalog || null
             });
+            if (Array.isArray(pack.world) && pack.world.length) {
+                if (!Array.isArray(this._worldPinRows)) this._worldPinRows = [];
+                for (let w = 0; w < pack.world.length; w++) {
+                    this._worldPinRows.push(pack.world[w]);
+                }
+            }
             return !!(this.tileMap.getLayer
                 ? this.tileMap.getLayer(z)
                 : this.tileMap.layers && this.tileMap.layers[String(z)]);
@@ -3470,12 +3526,12 @@ class Simulator extends GameObject {
     }
 
     /**
-     * Remove creature from AI/occupancy (despawn leash / spawn manager).
+     * Pull a creature off occupancy / AI lists / scene graph without killing it.
      * @param {Creature} creature
+     * @private
      */
-    despawnCreature(creature) {
+    _detachCreatureFromWorld(creature) {
         if (!creature) return;
-        // Master despawn: dismiss summons first
         if (
             !isSummon(creature) &&
             Array.isArray(creature.summonIds) &&
@@ -3493,26 +3549,101 @@ class Simulator extends GameObject {
                 creature
             );
         }
-        creature.alive = false;
-        creature.hp.current = 0;
         const idx = this.creatures.indexOf(creature);
         if (idx >= 0) this.creatures.splice(idx, 1);
-        this.entityById.delete(creature.id);
+        if (creature.id != null) this.entityById.delete(creature.id);
         if (this.creatureSpatialIndex && this.creatureSpatialIndex !== false) {
             this.creatureSpatialIndex.remove(creature.id);
         } else {
             this._creatureSpatialDirty = true;
         }
+        if (creature.parent === this) {
+            const i = this.children.indexOf(creature);
+            if (i >= 0) this.children.splice(i, 1);
+            creature.parent = null;
+        }
+    }
+
+    /**
+     * Idle-AOI / budget park: drop from the live set, keep HP / conditions / tile.
+     * @param {Creature} creature
+     */
+    parkCreature(creature) {
+        if (!creature) return;
+        this._detachCreatureFromWorld(creature);
+        creature.simSleeping = true;
+        creature.target = null;
+        creature.targetId = null;
+        creature.inBattle = false;
+        if (creature.aiState && creature.aiState !== 'idle') {
+            creature.aiState = 'idle';
+        }
+    }
+
+    /**
+     * Re-insert a parked spawn-slot body. Does not count as a new spawn.
+     * @param {object} state SpawnManager slot
+     * @returns {Creature|null}
+     */
+    unparkCreature(state) {
+        if (!state || !state.parkedEntity) return null;
+        const creature = state.parkedEntity;
+        if (!creature || creature.id == null) return null;
+        if (this.entityById.has(creature.id)) return creature;
+
+        const z =
+            creature.tile && creature.tile.z !== undefined
+                ? creature.tile.z
+                : state.z;
+        const x =
+            creature.tile && creature.tile.x != null ? creature.tile.x : state.x;
+        const y =
+            creature.tile && creature.tile.y != null ? creature.tile.y : state.y;
+        const tile = this.tileMap
+            ? findSpawnTile(this.tileMap, x, y, z, 0, { template: creature })
+            : { x, y };
+        if (!tile) return null;
+
+        creature.tile = { x: tile.x, y: tile.y, z };
+        creature.alive = true;
+        if (creature.hp && creature.hp.current <= 0) return null;
+        if (this.tileMap && !this.tileMap.tryOccupy(tile.x, tile.y, z, creature)) {
+            return null;
+        }
+        if (typeof creature.syncPositionFromTile === 'function') {
+            creature.syncPositionFromTile();
+        }
+        creature.moveDelay = 0;
+        creature.simSleeping = true;
+        this.creatures.push(creature);
+        this.entityById.set(creature.id, creature);
+        if (creature.parent !== this) {
+            this.insertChild(creature);
+        }
+        if (this.creatureSpatialIndex && this.creatureSpatialIndex !== false) {
+            this.creatureSpatialIndex.insert(creature);
+        } else {
+            this._creatureSpatialDirty = true;
+        }
+        return creature;
+    }
+
+    /**
+     * Remove creature from AI/occupancy (despawn leash / spawn manager).
+     * @param {Creature} creature
+     */
+    despawnCreature(creature) {
+        if (!creature) return;
+        this._detachCreatureFromWorld(creature);
+        creature.alive = false;
+        creature.hp.current = 0;
         if (this.spawnManager && creature.id != null) {
             this.spawnManager.notifyEntityGone(
                 creature.id,
                 Time.timeSinceLevelLoad
             );
         }
-        if (creature.parent === this) {
-            // GameObject has no removeChild always — destroy child
-            if (typeof creature.destroy === 'function') creature.destroy();
-        }
+        if (typeof creature.destroy === 'function') creature.destroy();
     }
 
     /**
@@ -3892,6 +4023,27 @@ class Simulator extends GameObject {
                         return out;
                     }
                 );
+                try {
+                    const {
+                        tickWorldPinDecay
+                    } = require('../../core/lib/dungeon/world_pin_seed.js');
+                    tickWorldPinDecay(
+                        this.groundItems,
+                        Time.timeSinceLevelLoad,
+                        {
+                            tileMap: this.tileMap || null,
+                            itemDb: this._itemDb || null
+                        }
+                    );
+                    tickWorldPinHarvest(this.groundItems, Time.timeSinceLevelLoad, {
+                        itemDb: this._itemDb || null
+                    });
+                    tickWorldPinTrap(this.groundItems, Time.timeSinceLevelLoad, {
+                        itemDb: this._itemDb || null
+                    });
+                } catch (_e) {
+                    /* world pin decay / harvest / trap optional */
+                }
             }
 
             if (this.sessionState === 'running') {
@@ -4415,7 +4567,9 @@ class Simulator extends GameObject {
             observers: this._spawnObservers(),
             getEntity: (id) => this.getEntityById(id),
             spawn: (state) => this._spawnFromManagerState(state),
-            despawn: (entity) => this.despawnCreature(entity)
+            despawn: (entity) => this.despawnCreature(entity),
+            park: (entity) => this.parkCreature(entity),
+            unpark: (state) => this.unparkCreature(state)
         });
         this._recordSpawnPerf(result);
         return result;

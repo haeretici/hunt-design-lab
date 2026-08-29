@@ -202,6 +202,8 @@ function normalizeWavesConfig(raw) {
     let wavesPerArena = null;
     /** When true, pause auto-advance after every wavesPerArena clears. */
     let pauseOnArenaBoundary = false;
+    /** Hold wave 0 until a World pin lever `wave` / `unlock` effect. */
+    let holdUntilUnlock = false;
     /** @type {{ id: string, x: number, y: number, w: number, h: number, z: number }[]} */
     let regions = [];
     /** @type {object[]} */
@@ -238,6 +240,7 @@ function normalizeWavesConfig(raw) {
             if (n >= 1) wavesPerArena = n;
         }
         if (raw.pauseOnArenaBoundary === true) pauseOnArenaBoundary = true;
+        if (raw.holdUntilUnlock === true) holdUntilUnlock = true;
         regions = normalizeRegionsList(raw.regions, raw.region);
         if (Array.isArray(raw.list)) list = raw.list;
         else if (Array.isArray(raw.waves)) list = raw.waves;
@@ -262,6 +265,7 @@ function normalizeWavesConfig(raw) {
         holdRoute,
         wavesPerArena,
         pauseOnArenaBoundary,
+        holdUntilUnlock,
         anchorRadius,
         packClustering,
         regions,
@@ -1040,6 +1044,7 @@ class WaveController {
             holdRoute: this.holdRoute,
             wavesPerArena: this.config.wavesPerArena,
             pauseOnArenaBoundary: !!this.config.pauseOnArenaBoundary,
+            holdUntilUnlock: !!this.config.holdUntilUnlock,
             arenasCleared: this.arenasCleared(),
             currentArenaIndex: this.currentArenaIndex()
         };
@@ -1058,10 +1063,54 @@ class WaveController {
         this.phase = 'waiting';
         this.waveIndex = -1;
         this.wavesCompleted = 0;
-        this.readyAt = Math.max(0, Number(timeSec) || 0) + this.config.startDelaySec;
+        const t = Math.max(0, Number(timeSec) || 0);
+        this.readyAt = this.config.holdUntilUnlock
+            ? Infinity
+            : t + this.config.startDelaySec;
         this.lastSpawned = [];
         this.currentWaveId = null;
         return { kind: 'waves_begin', readyAt: this.readyAt };
+    }
+
+    /**
+     * World pin start-lever: release waiting / intermission now.
+     * Optional `waveId` jumps to that list index (not while active).
+     * @param {number} timeSec
+     * @param {string|null|undefined} [waveId]
+     * @returns {boolean}
+     */
+    unlock(timeSec, waveId) {
+        if (!this.config) return false;
+        const time = Math.max(0, Number(timeSec) || 0);
+        if (this.phase === 'idle') this.begin(time);
+        if (
+            this.phase === 'active' ||
+            this.phase === 'awaiting_portal' ||
+            this.phase === 'complete'
+        ) {
+            return false;
+        }
+        const want = waveId != null ? String(waveId).trim() : '';
+        if (want) {
+            let idx = -1;
+            const list = this.config.list || [];
+            for (let i = 0; i < list.length; i++) {
+                if (list[i] && list[i].id === want) {
+                    idx = i;
+                    break;
+                }
+            }
+            if (idx < 0) return false;
+            this.waveIndex = idx - 1;
+            this.phase = 'waiting';
+            this.readyAt = time;
+            return true;
+        }
+        if (this.phase === 'waiting' || this.phase === 'intermission') {
+            this.readyAt = time;
+            return true;
+        }
+        return false;
     }
 
     /**

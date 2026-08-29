@@ -33,6 +33,7 @@ const {
     TALK_NPC_RANGE
 } = require('../kernel/apps/game/mouse_dispatcher.js');
 const { createGroundStore } = require('../kernel/core/lib/character/ground_items.js');
+const { itemIsContainer } = require('../kernel/core/lib/character/inventory.js');
 const {
     createEmptyInventory,
     createItemInstance,
@@ -87,7 +88,15 @@ const itemDb = [
     { id: 'blank_rune', label: 'Blank Rune', category: 'rune', multiUse: true },
     { id: 'bag', label: 'Bag', category: 'container', slot: 'backpack' },
     // Stage 5a test corpse template (content flag — no real corpse pipeline)
-    { id: 'test_corpse', label: 'Test Corpse', isCorpse: true, weight: 50 }
+    { id: 'test_corpse', label: 'Test Corpse', isCorpse: true, weight: 50 },
+    { id: 'crate', label: 'Wooden Crate', category: 'container' },
+    { id: 'wooden_chest', label: 'Wooden Chest' },
+    {
+        id: 'treasure_chest_ornamented',
+        label: 'Treasure Chest (Ornamented)',
+        category: 'container',
+        slot: 'backpack'
+    }
 ];
 
 function placeGround(store, x, y, z, itemId, extra) {
@@ -1067,6 +1076,208 @@ test('Smart LMB container → OPEN_CONTAINER ground', () => {
     assert.strictEqual(intents[0].type, 'OPEN_CONTAINER');
     assert.strictEqual(intents[0].ground, true);
     assert.strictEqual(intents[0].sourceUid, bag.uid);
+});
+
+test('Classic RMB immovable World crate → OPEN_CONTAINER (not pickup)', () => {
+    const player = makePlayer();
+    const sim = makeSim();
+    const crate = placeGround(sim.groundItems, 4, 4, 0, 'crate', {
+        immovable: true,
+        worldPinKind: 'container',
+        worldPinId: 'crate_4_4'
+    });
+    const hit = resolveCanvasHit({
+        sim,
+        player,
+        tile: { x: 4, y: 4, z: 0 },
+        itemDb
+    });
+    assert.strictEqual(hit.pickableUid, null);
+    assert.strictEqual(hit.rawTopUid, crate.uid);
+    const intents = processMouseAction(
+        baseInput(hit, { button: 'right', mode: 1 })
+    );
+    assert.strictEqual(intents[0].type, 'OPEN_CONTAINER');
+    assert.strictEqual(intents[0].sourceUid, crate.uid);
+    assert.strictEqual(intents[0].ground, true);
+    const look = buildLookIntent(hit);
+    assert.strictEqual(look.text, 'Wooden Crate');
+    assert.ok(hitHasBrowsableItems(hit, itemDb));
+});
+
+test('Classic RMB World chest → USE (not stub)', () => {
+    const player = makePlayer();
+    const sim = makeSim();
+    const chest = placeGround(sim.groundItems, 5, 5, 0, 'wooden_chest', {
+        immovable: true,
+        worldPinKind: 'chest',
+        worldPinId: 'chest_5_5'
+    });
+    const hit = resolveCanvasHit({
+        sim,
+        player,
+        tile: { x: 5, y: 5, z: 0 },
+        itemDb
+    });
+    const intents = processMouseAction(
+        baseInput(hit, { button: 'right', mode: 1 })
+    );
+    assert.strictEqual(intents[0].type, 'USE');
+    assert.strictEqual(intents[0].stub, false);
+    assert.strictEqual(intents[0].worldPinKind, 'chest');
+    assert.strictEqual(intents[0].sourceUid, chest.uid);
+    const menu = buildCanvasContextMenuEntries(hit);
+    const use = menu.find((e) => e.id === 'use');
+    assert.ok(use);
+    assert.strictEqual(use.stub, false);
+    assert.ok(!menu.find((e) => e.id === 'pickup'));
+});
+
+test('Classic RMB World chest with container catalog art → USE (not Open)', () => {
+    const player = makePlayer();
+    const sim = makeSim();
+    const chest = placeGround(sim.groundItems, 5, 6, 0, 'treasure_chest_ornamented', {
+        immovable: true,
+        worldPinKind: 'chest',
+        worldPinId: 'chest_6_294_909'
+    });
+    const hit = resolveCanvasHit({
+        sim,
+        player,
+        tile: { x: 5, y: 6, z: 0 },
+        itemDb
+    });
+    assert.ok(itemIsContainer(hit.rawTopItem));
+    const intents = processMouseAction(
+        baseInput(hit, { button: 'right', mode: 1 })
+    );
+    assert.strictEqual(intents[0].type, 'USE');
+    assert.strictEqual(intents[0].stub, false);
+    assert.strictEqual(intents[0].worldPinKind, 'chest');
+    assert.strictEqual(intents[0].sourceUid, chest.uid);
+    const menu = buildCanvasContextMenuEntries(hit);
+    assert.ok(menu.find((e) => e.id === 'use'));
+    assert.ok(!menu.find((e) => e.id === 'open'));
+});
+
+test('Classic RMB World lever → USE (not stub)', () => {
+    const player = makePlayer();
+    const sim = makeSim();
+    const lever = placeGround(sim.groundItems, 6, 5, 0, 'wooden_chest', {
+        immovable: true,
+        worldPinKind: 'lever',
+        worldPinId: 'lever_6_5'
+    });
+    const hit = resolveCanvasHit({
+        sim,
+        player,
+        tile: { x: 6, y: 5, z: 0 },
+        itemDb
+    });
+    const intents = processMouseAction(
+        baseInput(hit, { button: 'right', mode: 1 })
+    );
+    assert.strictEqual(intents[0].type, 'USE');
+    assert.strictEqual(intents[0].stub, false);
+    assert.strictEqual(intents[0].worldPinKind, 'lever');
+    assert.strictEqual(intents[0].sourceUid, lever.uid);
+    const menu = buildCanvasContextMenuEntries(hit);
+    const use = menu.find((e) => e.id === 'use');
+    assert.ok(use);
+    assert.strictEqual(use.stub, false);
+});
+
+test('Classic RMB World door → USE (not stub)', () => {
+    const player = makePlayer();
+    const sim = makeSim();
+    const door = placeGround(sim.groundItems, 7, 5, 0, 'wooden_chest', {
+        immovable: true,
+        worldPinKind: 'door',
+        worldPinId: 'door_7_5'
+    });
+    const hit = resolveCanvasHit({
+        sim,
+        player,
+        tile: { x: 7, y: 5, z: 0 },
+        itemDb
+    });
+    const intents = processMouseAction(
+        baseInput(hit, { button: 'right', mode: 1 })
+    );
+    assert.strictEqual(intents[0].type, 'USE');
+    assert.strictEqual(intents[0].stub, false);
+    assert.strictEqual(intents[0].worldPinKind, 'door');
+    assert.strictEqual(intents[0].sourceUid, door.uid);
+});
+
+test('Classic RMB World teleport → USE (not stub)', () => {
+    const player = makePlayer();
+    const sim = makeSim();
+    const pad = placeGround(sim.groundItems, 8, 5, 0, 'wooden_chest', {
+        immovable: true,
+        worldPinKind: 'teleport',
+        worldPinId: 'pad_8_5'
+    });
+    const hit = resolveCanvasHit({
+        sim,
+        player,
+        tile: { x: 8, y: 5, z: 0 },
+        itemDb
+    });
+    const intents = processMouseAction(
+        baseInput(hit, { button: 'right', mode: 1 })
+    );
+    assert.strictEqual(intents[0].type, 'USE');
+    assert.strictEqual(intents[0].stub, false);
+    assert.strictEqual(intents[0].worldPinKind, 'teleport');
+    assert.strictEqual(intents[0].sourceUid, pad.uid);
+});
+
+test('Classic RMB World harvest → USE (not stub)', () => {
+    const player = makePlayer();
+    const sim = makeSim();
+    const bush = placeGround(sim.groundItems, 9, 5, 0, 'wooden_chest', {
+        immovable: true,
+        worldPinKind: 'harvest',
+        worldPinId: 'bush_9_5'
+    });
+    const hit = resolveCanvasHit({
+        sim,
+        player,
+        tile: { x: 9, y: 5, z: 0 },
+        itemDb
+    });
+    const intents = processMouseAction(
+        baseInput(hit, { button: 'right', mode: 1 })
+    );
+    assert.strictEqual(intents[0].type, 'USE');
+    assert.strictEqual(intents[0].stub, false);
+    assert.strictEqual(intents[0].worldPinKind, 'harvest');
+    assert.strictEqual(intents[0].sourceUid, bush.uid);
+});
+
+test('Classic RMB World trap → no USE (step-on)', () => {
+    const player = makePlayer();
+    const sim = makeSim();
+    placeGround(sim.groundItems, 10, 5, 0, 'wooden_chest', {
+        immovable: true,
+        worldPinKind: 'trap',
+        worldPinId: 'spike_10_5'
+    });
+    const hit = resolveCanvasHit({
+        sim,
+        player,
+        tile: { x: 10, y: 5, z: 0 },
+        itemDb
+    });
+    const intents = processMouseAction(
+        baseInput(hit, { button: 'right', mode: 1 })
+    );
+    if (intents && intents.length) {
+        assert.ok(intents[0].worldPinKind !== 'trap' || intents[0].type !== 'USE');
+    }
+    const menu = buildCanvasContextMenuEntries(hit);
+    assert.ok(!menu.find((e) => e.id === 'use'));
 });
 
 test('Smart LMB pickable gold → PICKUP', () => {

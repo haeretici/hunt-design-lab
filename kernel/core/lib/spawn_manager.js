@@ -7,12 +7,16 @@
  *   - on_demand: activate within Chebyshev SPAWN_ACTIVATE_RADIUS of observers
  *   - eager: activate every cooldown-ready slot
  *   - death or home-distance > SPAWN_DESPAWN_HOME_DIST frees the slot + cooldown
- *   - on_demand idle AOI despawn (SPAWN_DESPAWN_IDLE_SEC): free idle far entities
- *     after hysteresis; never mid-combat / sticky / non-idle
- *   - SPAWN_MAX_LIVING soft cap with priority eviction of farthest idle
+ *   - on_demand idle AOI unload (SPAWN_DESPAWN_IDLE_SEC): park idle far entities
+ *     after hysteresis (other-floor observers count as far); never mid-combat /
+ *     sticky / non-idle. Soft unload — same body (HP / conditions / tile) comes
+ *     back next tick without the death respawn cooldown (floor hop must not
+ *     blank nearby dens or heal them)
+ *   - SPAWN_MAX_LIVING budget eviction is the same park (no death cooldown)
  *   - spawned flag prevents double-spawn while an entity is live
  *
  * Host injects spawn / despawn / getEntity so unit tests stay free of Simulator.
+ * Optional park / unpark keep the parked body; missing park falls back to despawn.
  */
 
 'use strict';
@@ -367,6 +371,8 @@ class SpawnManager {
             exhausted: false,
             lastSpawnTime: INITIAL_LAST_SPAWN,
             entityId: null,
+            /** Parked living body from idle_aoi / budget; restored on re-activate. */
+            parkedEntity: null,
             /**
              * Sim time when the entity first became idle+far from all observers.
              * null while near / protected / not spawned.
@@ -479,34 +485,40 @@ class SpawnManager {
                     sameFloor(pos, home) &&
                     tileDistance(pos, home) > this.despawnHomeDist
                 ) {
-                    // Free before host despawn so notifyEntityGone is a no-op
-                    // (must not apply death/exhaust rules to soft unloads).
-                    this._freeSlot(state, time, 'home_distance');
-                    if (typeof ctx.despawn === 'function') {
-                        ctx.despawn(entity, state, 'home_distance');
-                    }
-                    out.despawned.push(state);
+                    this._releaseLiving(
+                        state,
+                        entity,
+                        ctx,
+                        time,
+                        'home_distance',
+                        out
+                    );
                     continue;
                 } else if (pos && !sameFloor(pos, home)) {
                     // Different floor: treat as beyond home (legacy z-local).
-                    this._freeSlot(state, time, 'home_floor');
-                    if (typeof ctx.despawn === 'function') {
-                        ctx.despawn(entity, state, 'home_floor');
-                    }
-                    out.despawned.push(state);
+                    this._releaseLiving(
+                        state,
+                        entity,
+                        ctx,
+                        time,
+                        'home_floor',
+                        out
+                    );
                     continue;
                 }
             }
 
-            // Idle AOI despawn (on_demand only): hysteresis while far + idle
+            // Idle AOI unload (on_demand only): hysteresis while far + idle
             if (this.isIdleAoiDespawnEnabled()) {
                 if (this._tickIdleAoi(state, entity, observers, time, isProt)) {
-                    this._freeSlot(state, time, 'idle_aoi');
-                    if (typeof ctx.despawn === 'function') {
-                        ctx.despawn(entity, state, 'idle_aoi');
-                    }
-                    out.despawned.push(state);
-                    out.idleDespawned.push(state);
+                    this._releaseLiving(
+                        state,
+                        entity,
+                        ctx,
+                        time,
+                        'idle_aoi',
+                        out
+                    );
                     continue;
                 }
             } else {
@@ -523,12 +535,7 @@ class SpawnManager {
                     victim.entityId != null
                         ? ctx.getEntity(victim.entityId)
                         : null;
-                this._freeSlot(victim, time, 'budget');
-                if (entity && typeof ctx.despawn === 'function') {
-                    ctx.despawn(entity, victim, 'budget');
-                }
-                out.despawned.push(victim);
-                out.budgetEvicted.push(victim);
+                this._releaseLiving(victim, entity, ctx, time, 'budget', out);
             }
         }
 
@@ -579,15 +586,10 @@ class SpawnManager {
                     victim.entityId != null
                         ? ctx.getEntity(victim.entityId)
                         : null;
-                this._freeSlot(victim, time, 'budget');
-                if (vent && typeof ctx.despawn === 'function') {
-                    ctx.despawn(vent, victim, 'budget');
-                }
-                out.despawned.push(victim);
-                out.budgetEvicted.push(victim);
+                this._releaseLiving(victim, vent, ctx, time, 'budget', out);
             }
 
-            const entity = ctx.spawn(state);
+            const entity = this._materialize(ctx, state);
             if (!entity || entity.id == null) {
                 // Host refused (blocked tile, missing template) — retry later.
                 continue;
@@ -598,6 +600,7 @@ class SpawnManager {
 
             state.spawned = true;
             state.entityId = entity.id;
+            state.parkedEntity = null;
             state.lastSpawnTime = time;
             state.idleAwaySince = null;
             this._livingCount += 1;
@@ -629,8 +632,9 @@ class SpawnManager {
     // --- internals -------------------------------------------------------
 
     /**
-     * Soft free (idle_aoi / budget / home_*): slot can re-activate without
-     * respawn cooldown. Death free: apply cooldown / exhaust one-shots.
+     * Soft free (idle_aoi / budget): park the body and re-activate next tick
+     * without death cooldown. Home free: destroy + wait `respawn`. Death:
+     * cooldown / exhaust one-shots.
      *
      * @param {object} state
      * @param {number} time
@@ -644,16 +648,23 @@ class SpawnManager {
         state.spawned = false;
         state.entityId = null;
         state.idleAwaySince = null;
+        const skipDeathCooldown = reason === 'idle_aoi' || reason === 'budget';
+        if (!skipDeathCooldown) {
+            state.parkedEntity = null;
+        }
         const soft =
             reason === 'idle_aoi' ||
             reason === 'budget' ||
             reason === 'home_distance' ||
             reason === 'home_floor';
-        // Soft unload: body removed without a kill. Keep slot reusable (no exhaust).
-        // lastSpawnTime = time so same-tick activate cannot re-fire (strict > cooldown).
-        // Next tick (time advances) with observers in range re-materializes immediately
-        // when respawn is 0; positive respawn still waits the full cooldown after home free.
-        state.lastSpawnTime = time;
+        if (skipDeathCooldown) {
+            const need = (state.respawn || 0) * this.spawnTimeMultiplier;
+            // Same-tick activate cannot re-fire: time > (time - need) + need is false.
+            // Next tick (time advances) with observers in range is immediately ready.
+            state.lastSpawnTime = time - need;
+        } else {
+            state.lastSpawnTime = time;
+        }
         if (soft) {
             state.exhausted = false;
             return;
@@ -662,6 +673,58 @@ class SpawnManager {
         if ((state.respawn || 0) <= 0) {
             state.exhausted = true;
         }
+    }
+
+    /**
+     * Idle/budget: park when the host supports it (keep HP). Otherwise despawn.
+     * Home / death: always destroy.
+     *
+     * @param {object} state
+     * @param {object|null} entity
+     * @param {object} ctx
+     * @param {number} time
+     * @param {string} reason
+     * @param {object} out
+     * @private
+     */
+    _releaseLiving(state, entity, ctx, time, reason, out) {
+        const park =
+            (reason === 'idle_aoi' || reason === 'budget') &&
+            entity &&
+            typeof ctx.park === 'function';
+        if (park) {
+            state.parkedEntity = entity;
+        } else {
+            state.parkedEntity = null;
+        }
+        this._freeSlot(state, time, reason);
+        if (park) {
+            ctx.park(entity, state, reason);
+        } else if (entity && typeof ctx.despawn === 'function') {
+            ctx.despawn(entity, state, reason);
+        }
+        if (out) {
+            out.despawned.push(state);
+            if (reason === 'idle_aoi') out.idleDespawned.push(state);
+            if (reason === 'budget') out.budgetEvicted.push(state);
+        }
+    }
+
+    /**
+     * Restore a parked body, or spawn a fresh one.
+     * @param {object} ctx
+     * @param {object} state
+     * @returns {object|null}
+     * @private
+     */
+    _materialize(ctx, state) {
+        if (state.parkedEntity) {
+            if (typeof ctx.unpark === 'function') {
+                return ctx.unpark(state);
+            }
+            state.parkedEntity = null;
+        }
+        return ctx.spawn(state);
     }
 
     /**

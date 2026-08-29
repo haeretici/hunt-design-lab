@@ -8,7 +8,7 @@
  *
  * Equipment + combat creature browsers support dual uiMode:
  *   select — popup picker (Cancel / Select footer, postMessage on confirm)
- *   view   — wiki / browse (no confirm; same grid + detail sidebar)
+ *   view   — wiki / browse (no picker footer; same grid + detail sidebar)
  */
 
 'use strict';

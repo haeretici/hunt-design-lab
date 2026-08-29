@@ -164,8 +164,8 @@ function resolveFileStem(opts) {
 /**
  * Repo-relative sprite path (no leading slash), or null if unresolvable.
  *
- * Catalog variants under assets/sprites/… take priority. Ported legacies expose
- * `sprite.legacy` / `sprites.legacy` (GIF under assets/legacy/monsters/images/).
+ * Catalog variants under assets/sprites/… take priority. Ported templates may
+ * still expose `sprite.legacy` / `sprites.legacy` as a last-resort path.
  *
  * @param {{
  *   genre?: string,

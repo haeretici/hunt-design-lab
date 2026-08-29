@@ -35,6 +35,16 @@ const art = require('./art.js');
 const tileRoles = require('./tile_roles.js');
 const tilemapBake = require('./tilemap_bake.js');
 const tilemapEditor = require('./tilemap_editor.js');
+const worldPins = require('./world_pins.js');
+const worldPinSeed = require('./world_pin_seed.js');
+const worldPinChest = require('./world_pin_chest.js');
+const cellPatch = require('./cell_patch.js');
+const worldPinDoor = require('./world_pin_door.js');
+const worldPinLever = require('./world_pin_lever.js');
+const worldPinTeleport = require('./world_pin_teleport.js');
+const worldPinTool = require('./world_pin_tool.js');
+const worldPinHarvest = require('./world_pin_harvest.js');
+const worldPinTrap = require('./world_pin_trap.js');
 const navbake = require('./navbake.js');
 
 module.exports = {
@@ -198,6 +208,40 @@ module.exports = {
     deserializeHybridPack: tilemapBake.deserializeHybridPack,
     exportChannelsToPngBuffer: tilemapBake.exportChannelsToPngBuffer,
     exportChannelsToPngFile: tilemapBake.exportChannelsToPngFile,
+
+    worldPins,
+    WORLD_KINDS: worldPins.WORLD_KINDS,
+    normalizeWorldPin: worldPins.normalizeWorldPin,
+    normalizeWorldList: worldPins.normalizeWorldList,
+    makeEditorWorldPin: worldPins.makeEditorWorldPin,
+    worldPinSeed,
+    seedWorldPinsOntoGround: worldPinSeed.seedWorldPinsOntoGround,
+    worldPinChest,
+    useWorldChest: worldPinChest.useWorldChest,
+    useWorldChestAt: worldPinChest.useWorldChestAt,
+    cellPatch,
+    applyCellPatch: cellPatch.applyCellPatch,
+    worldPinDoor,
+    useWorldDoor: worldPinDoor.useWorldDoor,
+    useWorldDoorAt: worldPinDoor.useWorldDoorAt,
+    setDoorOpen: worldPinDoor.setDoorOpen,
+    worldPinLever,
+    useWorldLever: worldPinLever.useWorldLever,
+    useWorldLeverAt: worldPinLever.useWorldLeverAt,
+    worldPinTeleport,
+    useWorldTeleport: worldPinTeleport.useWorldTeleport,
+    useWorldTeleportAt: worldPinTeleport.useWorldTeleportAt,
+    worldPinTool,
+    useWorldToolWith: worldPinTool.useWorldToolWith,
+    isWorldToolItem: worldPinTool.isWorldToolItem,
+    worldPinHarvest,
+    useWorldHarvest: worldPinHarvest.useWorldHarvest,
+    useWorldHarvestAt: worldPinHarvest.useWorldHarvestAt,
+    tickWorldPinHarvest: worldPinHarvest.tickWorldPinHarvest,
+    worldPinTrap,
+    onWorldPinStep: worldPinTrap.onWorldPinStep,
+    tickWorldPinTrap: worldPinTrap.tickWorldPinTrap,
+    tickWorldPinDecay: worldPinSeed.tickWorldPinDecay,
 
     tilemapEditor,
     createEditorSession: tilemapEditor.createEditorSession,

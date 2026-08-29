@@ -30,11 +30,6 @@ See [docs/16_legacy_port.md](../../docs/16_legacy_port.md).
 | `port_manifest.json` | Port metadata for converters / tests |
 | `README.md` | This file |
 
-## Not in the public repository
-
-| Path | Notes |
-| :--- | :--- |
-| `monsters/` | **Omitted** from public distribution. Treat as empty / absent. Private checkouts may hold GIFs under `monsters/images/` and `monsters/manifest.json` for local sprite-fallback tests only. Do not commit creature art here for a public release. |
-
 Converters for optional private monster fixtures live in
-`kernel/core/lib/content/legacy_monster_port.js`.
+`kernel/core/lib/content/legacy_monster_port.js`. Do not add creature GIFs under
+`monsters/images/` or a `monsters/manifest.json`.

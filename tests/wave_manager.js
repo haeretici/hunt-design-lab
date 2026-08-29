@@ -119,6 +119,7 @@ function testNormalizeObjectShape() {
     // Classic hunts: multi-arena flags default off / null
     assert.strictEqual(cfg.wavesPerArena, null);
     assert.strictEqual(cfg.pauseOnArenaBoundary, false);
+    assert.strictEqual(cfg.holdUntilUnlock, false);
     assert.ok(Array.isArray(cfg.regions) && cfg.regions.length === 1);
 
     const multiArena = normalizeWavesConfig({

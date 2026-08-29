@@ -12,6 +12,7 @@ const {
 } = require('../content/spawn_rows.js');
 const { hasNpcIdentity } = require('../npc/flags.js');
 const { FRICTION_BLOCKED } = require('./tile_roles.js');
+const worldPins = require('./world_pins.js');
 
 const MINIMAP_DEFAULT_W = 248;
 const MINIMAP_DEFAULT_H = 198;
@@ -433,6 +434,7 @@ function strokeRect(rgba, destW, destH, x0, y0, x1, y1, r, g, b) {
  *   destW?: number,
  *   destH?: number,
  *   spawns?: object[],
+ *   world?: object[],
  *   presets?: Record<string, object>,
  *   viewRect?: { x: number, y: number, w: number, h: number }|null,
  *   blocked?: number
@@ -488,6 +490,16 @@ function fillMinimapRgba(rgba, opts) {
         if (npc) writeRgba(rgba, idx, 68, 221, 238, 255);
         else writeRgba(rgba, idx, 220, 96, 48, 255);
     }
+    const world = Array.isArray(o.world) ? o.world : [];
+    for (let w = 0; w < world.length; w++) {
+        const pin = world[w];
+        if (!pin) continue;
+        const x = finiteInt(pin.x);
+        const y = finiteInt(pin.y);
+        if (x == null || y == null) continue;
+        const p = mapToMinimap(x, y, cols, rows, destW, destH);
+        writeRgba(rgba, p.y * destW + p.x, 80, 220, 110, 255);
+    }
     return rgba;
 }
 
@@ -514,5 +526,27 @@ module.exports = {
     spawnAtTile,
     mapToMinimap,
     minimapToMap,
-    fillMinimapRgba
+    fillMinimapRgba,
+    worldPins,
+    WORLD_KINDS: worldPins.WORLD_KINDS,
+    DEFAULT_CONTAINER_CAPACITY: worldPins.DEFAULT_CONTAINER_CAPACITY,
+    slugifyWorldId: worldPins.slugifyWorldId,
+    parseWorldRows: worldPins.parseWorldRows,
+    loadFloorWorldFromDocs: worldPins.loadFloorWorldFromDocs,
+    normalizeWorldPin: worldPins.normalizeWorldPin,
+    normalizeWorldList: worldPins.normalizeWorldList,
+    makeEditorWorldPin: worldPins.makeEditorWorldPin,
+    stripWorldListForSave: worldPins.stripWorldListForSave,
+    worldPinSignature: worldPins.worldPinSignature,
+    markWorldBaseline: worldPins.markWorldBaseline,
+    isModifiedWorld: worldPins.isModifiedWorld,
+    worldPinAtTile: worldPins.worldPinAtTile,
+    worldMatchesQuery: worldPins.worldMatchesQuery,
+    classifyWorldPin: worldPins.classifyWorldPin,
+    filterEditorWorld: worldPins.filterEditorWorld,
+    findWorldHits: worldPins.findWorldHits,
+    copyWorldPins: worldPins.copyWorldPins,
+    pasteWorldPins: worldPins.pasteWorldPins,
+    planWorldFloorMove: worldPins.planWorldFloorMove,
+    applyWorldFloorMove: worldPins.applyWorldFloorMove
 };

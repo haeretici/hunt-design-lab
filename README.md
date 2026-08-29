@@ -370,7 +370,7 @@ Third-party terms, unclear copyright status of model outputs, and reference data
 | :--- | :--- | :--- |
 | **AI-generated sprites & sheets** | `assets/sprites/**` | Produced with Google Antigravity (`agy`) and/or Grok Build (`grok` / Imagine-style tools). See **AI-generated media** below. |
 | **Legacy reference pack (public)** | `assets/legacy/**` | Distributed with **reference data only** (maps/bounds/navmesh JSON, spawn tables, notes) plus **one automatically generated** path-map image for illustration (`map/floor-07-path.png`). **Not** a commercial art pack. |
-| **Legacy monster art** | `assets/legacy/monsters/` | **Not included** in the public repository (treat as empty / absent). Private checkouts may hold GIFs + manifest for local sprite-fallback tests only. |
+| **Legacy monster art** | `assets/legacy/monsters/` | Removed. Do not re-add GIFs or `manifest.json` here. |
 | **Derived combat / content packs** | parts of `presets/**`, `assets/data/**` | May mix original design with ports or AI-assisted labels. Review before shipping a product. |
 | **Vendor / install trees** | `node_modules/`, etc. | Their own licenses. |
 
@@ -399,7 +399,7 @@ Much of the art under `assets/sprites/` was created with **third-party generativ
 - Prefer regenerating art under **your** accounts and documenting which provider/model produced each batch.
 - Keep a private inventory of which stems came from which tool (provider, model label, date) if you need audit trails.
 - Consider **excluding** large `assets/sprites/**` trees from a public release if you are unsure about redistribution, and point users at the sprite pipeline in this README instead.
-- Public `assets/legacy/` is already limited to **reference JSON + one auto-generated illustrative map image**. Do not commit creature GIFs under `assets/legacy/monsters/` to a public tree (that path is empty / omitted in public distribution).
+- Public `assets/legacy/` is already limited to **reference JSON + one auto-generated illustrative map image**. Do not commit creature GIFs under `assets/legacy/monsters/`.
 - Never claim that AI sprites are “MIT licensed” or “copyright-free”; say they are **generated media subject to third-party terms and local law**.
 
 ---

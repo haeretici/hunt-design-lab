@@ -1650,7 +1650,7 @@ function createEditorSession(opts) {
      * already bake dirty cells in endStroke/bucketFill; channels stay the
      * source of truth for hybrid serialize and path-PNG export.
      *
-     * @param {{ id?: string, label?: string, spawns?: * }} [meta]
+     * @param {{ id?: string, label?: string, spawns?: *, world?: * }} [meta]
      */
     function toHybridPack(meta) {
         ensureChannels(floor);
@@ -1659,7 +1659,8 @@ function createEditorSession(opts) {
             id: m.id || o.id || `floor_${floor.z}`,
             label: m.label || null,
             floors: [floor],
-            spawns: m.spawns != null ? m.spawns : null
+            spawns: m.spawns != null ? m.spawns : null,
+            world: m.world != null ? m.world : null
         });
     }
 
@@ -1683,7 +1684,7 @@ function createEditorSession(opts) {
     /**
      * Serialize hybrid for transport (meta + binary blobs as Uint8Array).
      * Prefer this for browser → PHP chunked raw uploads (full floors are ~tens of MB).
-     * @param {{ id?: string, label?: string, spawns?: * }} [meta]
+     * @param {{ id?: string, label?: string, spawns?: *, world?: * }} [meta]
      * @returns {{ meta: object, blobs: Record<string, Uint8Array> }}
      */
     function toHybridBinaryTransport(meta) {
@@ -1701,7 +1702,7 @@ function createEditorSession(opts) {
     /**
      * Serialize hybrid for transport (meta JSON + base64 blobs).
      * Fine for small fixtures/tests; full legacy floors are too large for one FormData body.
-     * @param {{ id?: string, label?: string, spawns?: * }} [meta]
+     * @param {{ id?: string, label?: string, spawns?: *, world?: * }} [meta]
      * @returns {{ meta: object, blobsBase64: Record<string, string> }}
      */
     function toHybridTransport(meta) {

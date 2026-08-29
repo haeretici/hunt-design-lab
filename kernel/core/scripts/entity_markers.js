@@ -807,20 +807,29 @@ function drawGroundItems(g, sim, view) {
                 drawn = true;
             }
             if (!drawn && useSprites && artId) {
-                const spriteOpts = {
-                    genre: artGenre,
-                    kind: 'equipment',
-                    id: artId,
-                    variant: floorVariant
-                };
-                // Kick lazy load if not ready
-                prefetchSprite(spriteOpts);
-                const img = getReadySpriteImage(spriteOpts);
-                if (img) {
-                    // Fit inside ~70% of tile so stacks read clearly
-                    const scale = 0.7;
-                    drawEntitySprite(g, img, px, py, tw, th, scale, false);
-                    drawn = true;
+                const preferred =
+                    inst.worldPinCatalogKind === 'objects' ||
+                    inst.worldPinCatalogKind === 'equipment'
+                        ? inst.worldPinCatalogKind
+                        : 'equipment';
+                const kinds =
+                    preferred === 'objects'
+                        ? ['objects', 'equipment']
+                        : ['equipment', 'objects'];
+                for (let ki = 0; ki < kinds.length && !drawn; ki++) {
+                    const spriteOpts = {
+                        genre: artGenre,
+                        kind: kinds[ki],
+                        id: artId,
+                        variant: floorVariant
+                    };
+                    prefetchSprite(spriteOpts);
+                    const img = getReadySpriteImage(spriteOpts);
+                    if (img) {
+                        const scale = 0.7;
+                        drawEntitySprite(g, img, px, py, tw, th, scale, false);
+                        drawn = true;
+                    }
                 }
             }
             if (!drawn) {

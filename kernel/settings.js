@@ -272,8 +272,10 @@ const Settings = {
      * SPAWN_DESPAWN_IDLE_RADIUS — Chebyshev: idle living creatures beyond this of
      *   every observer (same floor) start an idle-despawn timer. null = use
      *   SPAWN_ACTIVATE_RADIUS. Only applied in on_demand when SPAWN_DESPAWN_IDLE_SEC > 0.
-     * SPAWN_DESPAWN_IDLE_SEC — seconds idle+far before free slot (hysteresis; avoids
-     *   border thrash). 0 = off. Combat / sticky / non-idle never idle-despawn.
+     * SPAWN_DESPAWN_IDLE_SEC — seconds idle+far before park (hysteresis; avoids
+     *   border thrash). 0 = off. Other-floor observers count as far. Soft unload
+     *   parks the same body (HP / conditions / tile); next tick may re-activate
+     *   without death respawn cooldown. Combat / sticky / non-idle never park.
      * SPAWN_MAX_LIVING — soft cap on simultaneous living slot entities (0 = unlimited).
      *   When at cap, new activations try to evict farthest idle first; mid-combat
      *   and sticky targets are never budget-evicted. Eager hunts typically leave 0.

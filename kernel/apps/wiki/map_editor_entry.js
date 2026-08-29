@@ -37,7 +37,10 @@ function resolveSpriteRelPath(opts) {
     const o = opts || {};
     const genre = o.genre || 'rpg_fantasy';
     const kind =
-        o.kind === 'objects' || o.kind === 'overlays' || o.kind === 'creatures'
+        o.kind === 'objects' ||
+        o.kind === 'overlays' ||
+        o.kind === 'creatures' ||
+        o.kind === 'equipment'
             ? o.kind
             : 'tiles';
     const variant = o.variant || 'icon';
@@ -133,6 +136,27 @@ window.HdlTileMapEditor = {
     FIND_ISSUE_UNKNOWN: mapEditorWorkflow.FIND_ISSUE_UNKNOWN,
     FIND_ISSUE_BLOCKED: mapEditorWorkflow.FIND_ISSUE_BLOCKED,
     FIND_ISSUE_EMPTY: mapEditorWorkflow.FIND_ISSUE_EMPTY,
+    WORLD_KINDS: mapEditorWorkflow.WORLD_KINDS,
+    DEFAULT_CONTAINER_CAPACITY: mapEditorWorkflow.DEFAULT_CONTAINER_CAPACITY,
+    slugifyWorldId: mapEditorWorkflow.slugifyWorldId,
+    parseWorldRows: mapEditorWorkflow.parseWorldRows,
+    loadFloorWorldFromDocs: mapEditorWorkflow.loadFloorWorldFromDocs,
+    normalizeWorldPin: mapEditorWorkflow.normalizeWorldPin,
+    normalizeWorldList: mapEditorWorkflow.normalizeWorldList,
+    makeEditorWorldPin: mapEditorWorkflow.makeEditorWorldPin,
+    stripWorldListForSave: mapEditorWorkflow.stripWorldListForSave,
+    worldPinSignature: mapEditorWorkflow.worldPinSignature,
+    markWorldBaseline: mapEditorWorkflow.markWorldBaseline,
+    isModifiedWorld: mapEditorWorkflow.isModifiedWorld,
+    worldPinAtTile: mapEditorWorkflow.worldPinAtTile,
+    worldMatchesQuery: mapEditorWorkflow.worldMatchesQuery,
+    classifyWorldPin: mapEditorWorkflow.classifyWorldPin,
+    filterEditorWorld: mapEditorWorkflow.filterEditorWorld,
+    findWorldHits: mapEditorWorkflow.findWorldHits,
+    copyWorldPins: mapEditorWorkflow.copyWorldPins,
+    pasteWorldPins: mapEditorWorkflow.pasteWorldPins,
+    planWorldFloorMove: mapEditorWorkflow.planWorldFloorMove,
+    applyWorldFloorMove: mapEditorWorkflow.applyWorldFloorMove,
     parseWangId: overlayWang.parseWangId,
     wangFamilyOf: overlayWang.wangFamilyOf,
     wangCatalogId: overlayWang.wangCatalogId,

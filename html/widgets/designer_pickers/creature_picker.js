@@ -4,7 +4,7 @@
  *
  * uiMode:
  *   select — popup picker (Cancel / Select, postMessage on confirm) [default]
- *   view   — Wiki / browse (same grid/table + detail sidebar; no confirm chrome)
+ *   view   — Wiki / browse (same grid/table + detail sidebar; no picker footer)
  *
  * Layout: grid | table (DataTables). Preference: localStorage `hdl_creature_browser_layout`.
  * Filters: text (name/id), race, bestiary class, level min/max — client-side on loaded summaries.
@@ -191,7 +191,7 @@
                     : { alias: id };
             },
             apiRoot: () => appRoot(),
-            statusEl: () => byId('crSelection'),
+            statusEl: () => byId('crMeta'),
             onPatched: (updated) => {
                 const map = new Map(
                     (updated || []).map((u) => [String(u.id), u])

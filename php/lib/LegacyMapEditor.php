@@ -85,6 +85,52 @@ class LegacyMapEditor
     }
 
     /**
+     * Patch hybrid map.json `world` pins. Hybrid pack required (no by_floor analog).
+     *
+     * @param array<string, mixed> $input
+     * @return array<string, mixed>
+     */
+    public static function saveWorld(array $input): array
+    {
+        $floor = self::normalizeFloor((string) ($input['floor'] ?? ''));
+
+        $world = $input['world'] ?? null;
+        if (!is_array($world)) {
+            throw new InvalidArgumentException('world must be an array');
+        }
+        if (isset($world['world']) && is_array($world['world'])) {
+            $list = $world['world'];
+        } elseif (array_is_list($world)) {
+            $list = $world;
+        } else {
+            throw new InvalidArgumentException('world must be a list of pin rows');
+        }
+
+        $list = array_values($list);
+
+        $hybridDir = self::getHybridDir($floor);
+        $hybridMeta = $hybridDir . '/map.json';
+        if (!is_file($hybridMeta)) {
+            throw new RuntimeException(
+                'Hybrid pack required for World pins — save TileMap first'
+            );
+        }
+        $raw = file_get_contents($hybridMeta);
+        $meta = is_string($raw) ? json_decode($raw, true) : null;
+        if (!is_array($meta)) {
+            throw new RuntimeException('Failed to read hybrid map.json');
+        }
+        $meta['world'] = $list;
+        self::writeMetaFile($hybridDir, $meta);
+        return [
+            'success' => true,
+            'floor' => $floor,
+            'source' => 'hybrid',
+            'file' => 'assets/legacy/map/hybrid/floor-' . $floor . '/map.json',
+        ];
+    }
+
+    /**
      * @param array<string, mixed> $input
      * @return array<string, mixed>
      */

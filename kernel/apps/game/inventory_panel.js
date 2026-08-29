@@ -76,6 +76,13 @@ const {
     getContainer,
     ensureItemContainer
 } = require('../../core/lib/character/inventory.js');
+const { useWorldChest } = require('../../core/lib/dungeon/world_pin_chest.js');
+const { useWorldLever } = require('../../core/lib/dungeon/world_pin_lever.js');
+const { useWorldDoor } = require('../../core/lib/dungeon/world_pin_door.js');
+const { useWorldTeleport } = require('../../core/lib/dungeon/world_pin_teleport.js');
+const { useWorldHarvest } = require('../../core/lib/dungeon/world_pin_harvest.js');
+const { worldPinUseReady } = require('../../core/lib/dungeon/world_pins.js');
+const { Time } = require('../../core/lib/time.js');
 const {
     resolveItemBudgetDisplay
 } = require('../../core/lib/character/equipment_runtime.js');
@@ -227,6 +234,11 @@ function bindInventoryPanel(opts) {
      * @type {{ uid: string, x: number, y: number, z: string|number }|null}
      */
     let pendingOpenGround = null;
+    /**
+     * Walk-then-use World pin (chest / lever / door; Chebyshev ≤ 1, same z).
+     * @type {{ uid: string, x: number, y: number, z: string|number, kind: string }|null}
+     */
+    let pendingUseWorldPin = null;
     /**
      * Walk-then-talk deferred open (same family as pendingBrowse).
      * @type {{ npcId: *, x: number, y: number, z: string|number }|null}
@@ -833,6 +845,7 @@ function bindInventoryPanel(opts) {
         // Stage 8: walk-then-browse arrival + live browse panel refresh
         tickPendingBrowse();
         tickPendingOpenGround();
+        tickPendingUseWorldPin();
         tickTalkSession();
         refreshBrowsePanels(itemDb, genre);
         refreshGroundContainerPanels(itemDb, genre);
@@ -1301,6 +1314,7 @@ function bindInventoryPanel(opts) {
         closeFloatingItemPanels();
         pendingBrowse = null;
         pendingOpenGround = null;
+        pendingUseWorldPin = null;
         pendingTalk = null;
         if (npcDialog) npcDialog.hide();
     }
@@ -1430,6 +1444,84 @@ function bindInventoryPanel(opts) {
         if (!isQueuedOrWalkingToward(player)) {
             pendingOpenGround = null;
         }
+    }
+
+    /**
+     * After walk-then-use World pin: commit when adjacent.
+     */
+    function tickPendingUseWorldPin() {
+        if (!pendingUseWorldPin) return;
+        const player = activePlayer();
+        const sim = simOf();
+        if (!player || !player.tile || !sim || !sim.groundItems) {
+            pendingUseWorldPin = null;
+            return;
+        }
+        const dest = pendingUseWorldPin;
+        const inst = getItem(sim.groundItems.inventory, dest.uid);
+        if (!inst || !worldPinUseReady(inst.worldPinKind)) {
+            pendingUseWorldPin = null;
+            return;
+        }
+        if (
+            String(player.tile.z != null ? player.tile.z : 0) !==
+            String(dest.z != null ? dest.z : 0)
+        ) {
+            pendingUseWorldPin = null;
+            return;
+        }
+        if (isInBrowseOpenRange(player.tile, dest)) {
+            pendingUseWorldPin = null;
+            commitWorldPinUse(player, sim, dest.uid);
+            return;
+        }
+        if (!isQueuedOrWalkingToward(player)) {
+            pendingUseWorldPin = null;
+        }
+    }
+
+    /**
+     * @param {object} player
+     * @param {object} sim
+     * @param {string} uid
+     */
+    function commitWorldPinUse(player, sim, uid) {
+        const inst = getItem(sim.groundItems.inventory, uid);
+        if (!inst) return;
+        const kind = inst.worldPinKind;
+        const itemDb = itemDbOf();
+        let result = null;
+        if (kind === 'chest') {
+            result = useWorldChest(player, inst, { itemDb });
+        } else if (kind === 'lever' || kind === 'switch') {
+            result = useWorldLever(player, inst, {
+                ground: sim.groundItems,
+                tileMap: sim.tileMap || null,
+                itemDb,
+                spawnManager: sim.spawnManager || null,
+                tickSpawn:
+                    typeof sim._tickSpawnManager === 'function'
+                        ? () => sim._tickSpawnManager()
+                        : null,
+                waveController: sim.waveController || null,
+                time: Time.timeSinceLevelLoad
+            });
+        } else if (kind === 'door') {
+            result = useWorldDoor(player, inst, {
+                tileMap: sim.tileMap || null,
+                itemDb
+            });
+        } else if (kind === 'teleport') {
+            result = useWorldTeleport(player, inst, {
+                tileMap: sim.tileMap || null
+            });
+        } else if (kind === 'harvest') {
+            result = useWorldHarvest(player, inst, {
+                itemDb,
+                time: Time.timeSinceLevelLoad
+            });
+        }
+        if (result && result.text) emitSystemFloat(player, result.text);
     }
 
     /**
@@ -1595,12 +1687,18 @@ function bindInventoryPanel(opts) {
             return;
         }
         const item = findItem(itemDbOf(), gInst.itemId);
-        if (!itemIsContainer(item)) {
+        const openable =
+            itemIsContainer(item) ||
+            gInst.worldPinKind === 'container' ||
+            !!sim.groundItems.inventory.containers[uid];
+        if (!openable) {
             emitSystemFloat(player, 'Cannot open that here');
             return;
         }
-        // Ensure slots exist
-        ensureItemContainer(sim.groundItems.inventory, uid, itemDbOf());
+        // Ensure slots exist (catalog bags; World pin crates already have slots)
+        if (!sim.groundItems.inventory.containers[uid]) {
+            ensureItemContainer(sim.groundItems.inventory, uid, itemDbOf());
+        }
 
         const root = groundRootLocation(sim.groundItems, uid);
         if (!root) {
@@ -1636,6 +1734,65 @@ function bindInventoryPanel(opts) {
         }
         if (approach.status === 'walk' && approach.dest) {
             pendingOpenGround = { uid, x: tile.x, y: tile.y, z: tile.z };
+            if (!Array.isArray(player.commandQueue)) player.commandQueue = [];
+            player.commandQueue.push({
+                type: 'START_AUTOWALK',
+                dest: approach.dest
+            });
+        }
+    }
+
+    /**
+     * USE World pin (chest / lever / door / teleport / harvest; range ≤ 1) with walk-then.
+     * @param {object} intent
+     * @param {object} player
+     * @param {object} sim
+     */
+    function handleUseWorldPinIntent(intent, player, sim) {
+        if (!intent || !intent.sourceUid || !player || !sim || !sim.groundItems) {
+            return;
+        }
+        const uid = String(intent.sourceUid);
+        const inst = getItem(sim.groundItems.inventory, uid);
+        if (!inst || !worldPinUseReady(inst.worldPinKind)) {
+            emitSystemFloat(player, 'You cannot use this object.');
+            return;
+        }
+        const root = groundRootLocation(sim.groundItems, uid);
+        if (!root) {
+            emitSystemFloat(player, 'You cannot use this object.');
+            return;
+        }
+        const tile = { x: root.x, y: root.y, z: root.z };
+        const approach = resolveBrowseFieldApproach(
+            player.tile,
+            sim.tileMap || null,
+            tile
+        );
+        if (approach.status === 'wrong_floor') {
+            emitSystemFloat(player, 'You cannot use that floor.');
+            pendingUseWorldPin = null;
+            return;
+        }
+        if (approach.status === 'no_path') {
+            emitSystemFloat(player, 'There is no way.');
+            pendingUseWorldPin = null;
+            return;
+        }
+        if (approach.status === 'in_range') {
+            pendingUseWorldPin = null;
+            commitWorldPinUse(player, sim, uid);
+            return;
+        }
+        if (approach.status === 'walk' && approach.dest) {
+            pendingOpenGround = null;
+            pendingUseWorldPin = {
+                uid,
+                x: tile.x,
+                y: tile.y,
+                z: tile.z,
+                kind: inst.worldPinKind
+            };
             if (!Array.isArray(player.commandQueue)) player.commandQueue = [];
             player.commandQueue.push({
                 type: 'START_AUTOWALK',
@@ -3482,6 +3639,23 @@ function bindInventoryPanel(opts) {
 
             if (id === 'use') {
                 addItem(entry.label || 'Use', () => {
+                    if (worldPinUseReady(entry.worldPinKind)) {
+                        handleUseWorldPinIntent(
+                            {
+                                type: 'USE',
+                                sourceUid: entry.sourceUid,
+                                worldPinKind: entry.worldPinKind,
+                                tile: entry.tile || menuIntent.tile || tile
+                            },
+                            player,
+                            sim
+                        );
+                        return;
+                    }
+                    if (entry.stub) {
+                        emitSystemFloat(player, 'Not available yet');
+                        return;
+                    }
                     if (!Array.isArray(player.commandQueue)) {
                         player.commandQueue = [];
                     }
@@ -3607,6 +3781,18 @@ function bindInventoryPanel(opts) {
                 break;
             case 'OPEN_CONTAINER':
                 handleOpenContainerIntent(intent, player, sim);
+                break;
+            case 'USE':
+                if (worldPinUseReady(intent.worldPinKind)) {
+                    handleUseWorldPinIntent(intent, player, sim);
+                    break;
+                }
+                emitSystemFloat(
+                    player,
+                    intent.stub
+                        ? 'Not available yet'
+                        : 'You cannot use this object.'
+                );
                 break;
             case 'TALK_NPC':
                 handleTalkNpcIntent(intent, player, sim);

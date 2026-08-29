@@ -36,6 +36,7 @@ const {
 
 const { frictionToRgba } = require('./stitch.js');
 const { normalizeStampKind } = require('../../../settings.js');
+const { normalizeWorldList } = require('./world_pins.js');
 
 /** Fixed sub-layers: zOrder low under high; UI lists vertical first / ground last. */
 const SUB_LAYER_DEFS = Object.freeze([
@@ -885,8 +886,10 @@ function normalizeHybridPack(raw) {
         id,
         label: raw.label != null ? String(raw.label) : id,
         floors: Object.create(null),
-        spawns: raw.spawns != null ? raw.spawns : null
+        spawns: raw.spawns != null ? raw.spawns : null,
+        world: raw.world != null ? normalizeWorldList(raw.world) : null
     };
+    if (pack.world && !pack.world.length) pack.world = null;
 
     if (Array.isArray(raw.floors)) {
         for (let i = 0; i < raw.floors.length; i++) {
@@ -1099,7 +1102,8 @@ function serializeHybridPack(pack) {
         id: p.id,
         label: p.label,
         floors: floorsMeta,
-        spawns: p.spawns
+        spawns: p.spawns,
+        world: p.world && p.world.length ? p.world : null
     };
     return { meta, blobs };
 }
@@ -1217,7 +1221,8 @@ function deserializeHybridPack(meta, blobs) {
         id: meta.id,
         label: meta.label,
         floors,
-        spawns: meta.spawns
+        spawns: meta.spawns,
+        world: meta.world
     });
 }
 
@@ -1715,6 +1720,7 @@ function loadHybridOntoTileMap(map, packOrDir, opts) {
  * @param {string} pathPng filesystem path
  * @param {{
  *   spawns?: *|null,
+ *   world?: *|null,
  *   cols?: number,
  *   rows?: number
  * }} [opts]
@@ -1738,7 +1744,8 @@ async function bootstrapFloorFromPathPng(z, pathPng, opts) {
     const pack = normalizeHybridPack({
         id: `bootstrap_z${z}`,
         floors: [floor],
-        spawns: o.spawns != null ? o.spawns : null
+        spawns: o.spawns != null ? o.spawns : null,
+        world: o.world != null ? o.world : null
     });
     return { floor: pack.floors[String(z)], pack };
 }
@@ -1750,7 +1757,8 @@ async function bootstrapFloorFromPathPng(z, pathPng, opts) {
  *   hybridDir?: string|null,
  *   pathPng?: string|null,
  *   z?: string|number,
- *   spawns?: *
+ *   spawns?: *,
+ *   world?: *
  * }} opts
  * @returns {Promise<{
  *   source: 'hybrid'|'png'|'none',
@@ -1765,7 +1773,8 @@ async function resolveMapLoad(opts) {
     if (o.pathPng && fs.existsSync(o.pathPng)) {
         const z = o.z != null ? o.z : 0;
         const { pack } = await bootstrapFloorFromPathPng(z, o.pathPng, {
-            spawns: o.spawns
+            spawns: o.spawns,
+            world: o.world
         });
         return { source: 'png', pack };
     }
@@ -1802,6 +1811,51 @@ function hybridMapDirForFloor(floorId, mapsRoot) {
 }
 
 /**
+ * Merge already-loaded hybrid packs (floors + spawns + world).
+ * Shared by Node `tryResolveHybridMapPack` and browser `fetchHybridPackForFloors`.
+ *
+ * @param {object[]|null|undefined} packs
+ * @param {{ id?: string, label?: string }} [opts]
+ * @returns {object|null} normalized hybrid pack
+ */
+function mergeLoadedHybridPacks(packs, opts) {
+    const o = opts || {};
+    const list = Array.isArray(packs) ? packs : [];
+    /** @type {object[]} */
+    const floors = [];
+    /** @type {object[]} */
+    const spawns = [];
+    /** @type {object[]} */
+    const world = [];
+    for (let i = 0; i < list.length; i++) {
+        const pack = list[i];
+        if (!pack) continue;
+        const keys = Object.keys(pack.floors || {});
+        for (let k = 0; k < keys.length; k++) {
+            floors.push(pack.floors[keys[k]]);
+        }
+        if (Array.isArray(pack.spawns)) {
+            for (let s = 0; s < pack.spawns.length; s++) {
+                spawns.push(pack.spawns[s]);
+            }
+        }
+        if (Array.isArray(pack.world)) {
+            for (let w = 0; w < pack.world.length; w++) {
+                world.push(pack.world[w]);
+            }
+        }
+    }
+    if (!floors.length) return null;
+    return normalizeHybridPack({
+        id: o.id || 'merged_hybrid',
+        label: o.label || 'Merged hybrid packs',
+        floors,
+        spawns: spawns.length ? spawns : null,
+        world: world.length ? world : null
+    });
+}
+
+/**
  * Load and merge hybrid packs for the given floors when pack dirs exist (Node).
  * Returns null when no hybrid pack is present (caller falls back to path PNG).
  *
@@ -1814,34 +1868,20 @@ function tryResolveHybridMapPack(floorIds, opts) {
     const list = Array.isArray(floorIds) ? floorIds : [];
     if (!list.length) return null;
     /** @type {object[]} */
-    const floors = [];
-    /** @type {object[]} */
-    const spawns = [];
+    const packs = [];
     for (let i = 0; i < list.length; i++) {
         const z = list[i];
         const dir = hybridMapDirForFloor(z, o.mapsRoot || undefined);
         if (!isHybridMapDir(dir)) continue;
         try {
-            const pack = readHybridMapDir(dir);
-            const keys = Object.keys(pack.floors || {});
-            for (let k = 0; k < keys.length; k++) {
-                floors.push(pack.floors[keys[k]]);
-            }
-            if (Array.isArray(pack.spawns)) {
-                for (let s = 0; s < pack.spawns.length; s++) {
-                    spawns.push(pack.spawns[s]);
-                }
-            }
+            packs.push(readHybridMapDir(dir));
         } catch (_e) {
             // Missing/corrupt pack — skip floor
         }
     }
-    if (!floors.length) return null;
-    return normalizeHybridPack({
+    return mergeLoadedHybridPacks(packs, {
         id: o.id || 'auto_hybrid',
-        label: 'Auto hybrid (editor packs)',
-        floors,
-        spawns: spawns.length ? spawns : null
+        label: 'Auto hybrid (editor packs)'
     });
 }
 
@@ -1964,6 +2004,7 @@ module.exports = {
     resolveMapLoad,
     padHybridFloorId,
     hybridMapDirForFloor,
+    mergeLoadedHybridPacks,
     tryResolveHybridMapPack,
     exportChannelsToPngBuffer,
     exportChannelsToPngFile,

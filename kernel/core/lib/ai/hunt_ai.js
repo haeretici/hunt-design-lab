@@ -981,6 +981,52 @@ function executeManualUseItem(owner, cmd, ctx) {
                 }
             }
         }
+        const {
+            isWorldToolItem,
+            useWorldToolWith
+        } = require('../dungeon/world_pin_tool.js');
+        if (isWorldToolItem(cmd.itemId)) {
+            const tile = targetEntity && targetEntity.tile
+                ? targetEntity.tile
+                : owner.tile;
+            if (!tile) {
+                emitManualUseFail(owner, ctx, 'You cannot use this object.');
+                return;
+            }
+            const r = useWorldToolWith(
+                owner,
+                {
+                    itemId: cmd.itemId,
+                    x: tile.x,
+                    y: tile.y,
+                    z: tile.z
+                },
+                {
+                    tileMap:
+                        (ctx && ctx.tileMap) ||
+                        (ctx && ctx.sim && ctx.sim.tileMap) ||
+                        null,
+                    ground: ctx && ctx.sim && ctx.sim.groundItems,
+                    itemDb:
+                        (ctx && ctx.itemDb) ||
+                        (ctx && ctx.sim && ctx.sim._itemDb) ||
+                        owner._loadoutItemDb ||
+                        null
+                }
+            );
+            if (r && r.ok) return;
+            if (r && r.reason === 'no_spot') {
+                const onTile =
+                    owner.tile &&
+                    Math.round(Number(owner.tile.x)) === Math.round(Number(tile.x)) &&
+                    Math.round(Number(owner.tile.y)) === Math.round(Number(tile.y)) &&
+                    String(owner.tile.z != null ? owner.tile.z : 0) ===
+                        String(tile.z != null ? tile.z : 0);
+                if (onTile && tryIntentionalStairHop(owner, ctx)) return;
+            }
+            if (r && r.text) emitManualUseFail(owner, ctx, r.text);
+            return;
+        }
         if (matchedSpellId) {
             // Tile aim only for rune/spell effects; skip single-target resolve on pure aim
             if (targetEntity._aimOnly) {

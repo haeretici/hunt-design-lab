@@ -4,7 +4,7 @@
  *
  * uiMode:
  *   select — popup picker (Cancel / Select, postMessage on confirm) [default]
- *   view   — Wiki / browse (same grid/table + detail sidebar; no confirm chrome)
+ *   view   — Wiki / browse (same grid/table + detail sidebar; no picker footer)
  *
  * Layout: grid | table (DataTables). Preference: localStorage `hdl_equipment_browser_layout`.
  * Filters: text, slot, category, weapon type, vocation, level min/max — client-side.
@@ -238,7 +238,7 @@
                     : { alias: id };
             },
             apiRoot: () => appRoot(),
-            statusEl: () => byId('eqSelection'),
+            statusEl: () => byId('eqMeta'),
             onPatched: (updated) => {
                 const map = new Map(
                     (updated || []).map((u) => [String(u.id), u])

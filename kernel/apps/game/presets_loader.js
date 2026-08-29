@@ -1338,7 +1338,8 @@ function mapsRelRoot() {
 async function fetchHybridPackForFloor(floorId) {
     const pad = padFloorId(floorId);
     const res = await fetch(
-        `${apiUrl()}?action=legacy_map_load_hybrid&floor=${encodeURIComponent(pad)}`
+        `${apiUrl()}?action=legacy_map_load_hybrid&floor=${encodeURIComponent(pad)}`,
+        { cache: 'no-store' }
     );
     if (!res.ok) return null;
     const body = await res.json();
@@ -1393,22 +1394,11 @@ async function fetchHybridPackForFloors(floorIds) {
     const list = Array.isArray(floorIds) ? floorIds : [];
     if (!list.length) return null;
     /** @type {object[]} */
-    const floors = [];
-    /** @type {object[]} */
-    const spawns = [];
+    const packs = [];
     for (let i = 0; i < list.length; i++) {
         try {
             const pack = await fetchHybridPackForFloor(list[i]);
-            if (!pack || !pack.floors) continue;
-            const keys = Object.keys(pack.floors);
-            for (let k = 0; k < keys.length; k++) {
-                floors.push(pack.floors[keys[k]]);
-            }
-            if (Array.isArray(pack.spawns)) {
-                for (let s = 0; s < pack.spawns.length; s++) {
-                    spawns.push(pack.spawns[s]);
-                }
-            }
+            if (pack) packs.push(pack);
         } catch (err) {
             if (typeof console !== 'undefined' && console.warn) {
                 console.warn(
@@ -1419,15 +1409,12 @@ async function fetchHybridPackForFloors(floorIds) {
             }
         }
     }
-    if (!floors.length) return null;
     const {
-        normalizeHybridPack
+        mergeLoadedHybridPacks
     } = require('../../core/lib/dungeon/tilemap_bake.js');
-    return normalizeHybridPack({
+    return mergeLoadedHybridPacks(packs, {
         id: 'browser_hybrid',
-        label: 'Browser hybrid packs',
-        floors,
-        spawns: spawns.length ? spawns : null
+        label: 'Browser hybrid packs'
     });
 }
 

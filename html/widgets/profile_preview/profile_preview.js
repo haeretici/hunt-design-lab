@@ -169,34 +169,38 @@
     }
 
     /**
-     * Calculate estimated HP & MP based on vocation and level.
+     * HP / MP from vocation + level. Matches kernel poolMaxForLevel:
+     * L1–7 all classes 150+(L−1)×5 HP, (L−1)×5 MP; L8 = 185/35;
+     * after 8 class per-level.
      */
-    function calculateHpMp(vocation, level, promoted) {
+    function calculateHpMp(vocation, level) {
         const lvl = Math.max(1, parseInt(level, 10) || 1);
+        if (lvl < 8) {
+            return { maxHp: 150 + (lvl - 1) * 5, maxMp: (lvl - 1) * 5 };
+        }
         const voc = String(vocation || '').toLowerCase();
-
         let hpPerLvl = 5;
         let mpPerLvl = 5;
-        let baseHp = 145;
-        let baseMp = 50;
-
         if (voc.includes('knight') || voc.includes('guardian')) {
             hpPerLvl = 15;
             mpPerLvl = 5;
         } else if (voc.includes('paladin') || voc.includes('ranger') || voc.includes('scout')) {
             hpPerLvl = 10;
             mpPerLvl = 15;
-        } else if (voc.includes('sorcerer') || voc.includes('druid') || voc.includes('mage')) {
+        } else if (
+            voc.includes('sorcerer') ||
+            voc.includes('adept') ||
+            voc.includes('mage') ||
+            voc.includes('druid') ||
+            voc.includes('warden')
+        ) {
             hpPerLvl = 5;
             mpPerLvl = 30;
-        } else if (voc.includes('monk')) {
-            hpPerLvl = 12;
+        } else if (voc.includes('monk') || voc.includes('mystic')) {
+            hpPerLvl = 10;
             mpPerLvl = 10;
         }
-
-        const maxHp = baseHp + (lvl - 1) * hpPerLvl;
-        const maxMp = baseMp + (lvl - 1) * mpPerLvl;
-        return { maxHp, maxMp };
+        return { maxHp: 185 + (lvl - 8) * hpPerLvl, maxMp: 35 + (lvl - 8) * mpPerLvl };
     }
 
     /** Matches kernel/core/lib/character/stats.js pipelineToPercent. */
@@ -441,7 +445,7 @@
                 : '<span class="badge bg-secondary">Standard</span>';
         }
 
-        const estimated = calculateHpMp(profile.vocation, profile.level, profile.promoted);
+        const estimated = calculateHpMp(profile.vocation || profile.classId, profile.level);
         // Live hunt payloads may include current/max vitals; designer uses estimates.
         const maxHp =
             profile.hpMax != null && Number.isFinite(Number(profile.hpMax))

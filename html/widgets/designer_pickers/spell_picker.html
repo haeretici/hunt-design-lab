@@ -488,13 +488,10 @@
             background: var(--panel);
             border-top: 1px solid var(--border);
         }
-        /* view mode (Wiki embed): no select chrome; fill host frame */
-        body.ui-mode-view .eq-footer-actions { display: none; }
+        /* view mode (Wiki): picker confirm bar is select-only; fill host frame */
+        body.ui-mode-view .eq-footer { display: none; }
         body.ui-mode-view .eq-body {
             height: calc(100vh - 70px);
-        }
-        body.ui-mode-view .eq-footer {
-            justify-content: flex-start;
         }
         body.layout-table.ui-mode-view .eq-body,
         body.layout-table.ui-mode-select .eq-body {

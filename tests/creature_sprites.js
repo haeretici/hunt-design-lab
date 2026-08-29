@@ -126,39 +126,6 @@ test('resolveSpriteRelPath uses explicit variant path when present', () => {
     assert.strictEqual(rel, 'assets/sprites/x/creatures/small/Custom.png');
 });
 
-test('resolveSpriteRelPath uses ported sprite.legacy GIF path', () => {
-    const gif = 'assets/legacy/monsters/images/frazzlemaw.gif';
-    assert.strictEqual(
-        resolveSpriteRelPath({
-            id: 'frazzlemaw',
-            genre: 'rpg_fantasy',
-            variant: 'small',
-            sprite: { legacy: gif }
-        }),
-        gif
-    );
-    assert.strictEqual(
-        resolveSpriteRelPath({
-            id: 'frazzlemaw',
-            sprites: { legacy: gif },
-            variant: 'icon'
-        }),
-        gif
-    );
-    // Catalog original still wins over legacy when both present
-    assert.strictEqual(
-        resolveSpriteRelPath({
-            sprites: {
-                original:
-                    'assets/sprites/rpg_fantasy/creatures/original/Frazzlemaw.png',
-                legacy: gif
-            },
-            variant: 'small'
-        }),
-        'assets/sprites/rpg_fantasy/creatures/small/Frazzlemaw.png'
-    );
-});
-
 test('resolveSpriteRelPath from technical', () => {
     const rel = resolveSpriteRelPath({
         genre: 'rpg_fantasy',
@@ -205,23 +172,6 @@ test('entitySpriteOpts maps creature fields', () => {
     assert.strictEqual(opts.genre, 'rpg_fantasy');
     assert.strictEqual(opts.variant, 'small');
     assert.ok(opts.sprites);
-});
-
-test('entitySpriteOpts merges singular sprite.legacy', () => {
-    const opts = entitySpriteOpts({
-        creatureType: 'frazzlemaw',
-        sprite: {
-            legacy: 'assets/legacy/monsters/images/frazzlemaw.gif'
-        }
-    });
-    assert.strictEqual(
-        opts.sprites && opts.sprites.legacy,
-        'assets/legacy/monsters/images/frazzlemaw.gif'
-    );
-    assert.strictEqual(
-        resolveSpriteRelPath(opts),
-        'assets/legacy/monsters/images/frazzlemaw.gif'
-    );
 });
 
 test('ImageDB register/get and isReady', () => {
@@ -311,32 +261,12 @@ test('applyTemplate copies sprite meta onto creature', () => {
     assert.strictEqual(c.creatureType, 'ashen_dwarf_priest');
     assert.strictEqual(c.genre, 'rpg_fantasy');
     assert.ok(c.sprites && c.sprites.original);
-
-    const leg = new Creature({ name: 'LegacyMob' });
-    leg.applyTemplate({
-        id: 'frazzlemaw',
-        label: 'Frazzlemaw',
-        source: 'legacy',
-        sprite: {
-            legacy: 'assets/legacy/monsters/images/frazzlemaw.gif'
-        },
-        hp: 50,
-        hpMax: 50
-    });
-    assert.strictEqual(
-        leg.sprite && leg.sprite.legacy,
-        'assets/legacy/monsters/images/frazzlemaw.gif'
-    );
-    assert.strictEqual(
-        resolveSpriteRelPath(entitySpriteOpts(leg)),
-        'assets/legacy/monsters/images/frazzlemaw.gif'
-    );
     assert.strictEqual(c.technical, 'Ashen Dwarf Priest');
     assert.ok(c.sprites && c.sprites.original);
     assert.strictEqual(c.hp.max, 100);
 });
 
-test('customSprite overrides art id and ignores legacy sprite bag', () => {
+test('customSprite overrides art id', () => {
     const { Creature } = require('../kernel/core/entities/creature.js');
     const c = new Creature({ name: 'MissingArt' });
     c.applyTemplate({
@@ -344,9 +274,6 @@ test('customSprite overrides art id and ignores legacy sprite bag', () => {
         label: 'No Sprite',
         genre: 'rpg_fantasy',
         customSprite: 'ashen_dwarf_priest',
-        sprite: {
-            legacy: 'assets/legacy/monsters/images/cave rat.gif'
-        },
         hp: 10,
         hpMax: 10
     });

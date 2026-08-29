@@ -32,6 +32,7 @@ const { buildBatch } = require('../kernel/core/lib/batch_builder.js');
 const { upsertCreature, emptyCatalog, loadCatalog } = require('../kernel/core/lib/creature_manifest.js');
 const { genrePaths } = require('../kernel/settings.js');
 const { idToFileStem } = require('../kernel/core/lib/creature_sprites.js');
+const { PNG } = require('pngjs');
 const { addPaletteEntry, normalizePaletteEntry } = require(
     '../kernel/core/lib/dungeon/tilemap_bake.js'
 );
@@ -176,7 +177,7 @@ test('full roster is 16 faces; mask 9 is corner', () => {
     assert.strictEqual(WALL_ALIGN_FULL[6], 'southeast_diagonal');
 });
 
-test('rpg_fantasy ships debug stone_wall faces', () => {
+test('rpg_fantasy ships playable stone_wall faces', () => {
     const catalog = loadCatalog('rpg_fantasy', { kind: 'objects' });
     const faces = catalog.creatures.filter((c) => c.wallFamily === 'stone_wall');
     assert.strictEqual(faces.length, WALL_ALIGN_ALL.length);
@@ -194,6 +195,28 @@ test('rpg_fantasy ships debug stone_wall faces', () => {
             fs.existsSync(path.join(paths.original, stem + '.png')),
             'missing original ' + stem
         );
+        const icon = PNG.sync.read(fs.readFileSync(path.join(paths.icon, stem + '.png')));
+        const original = PNG.sync.read(
+            fs.readFileSync(path.join(paths.original, stem + '.png'))
+        );
+        assert.strictEqual(icon.width, 32, stem + ' icon size');
+        assert.strictEqual(original.width, 256, stem + ' original size');
+        const scale = original.width / icon.width;
+        for (let y = 0; y < icon.height; y++) {
+            for (let x = 0; x < icon.width; x++) {
+                const si = (y * icon.width + x) * 4;
+                const oi =
+                    (Math.floor(y * scale) * original.width + Math.floor(x * scale)) * 4;
+                if (
+                    icon.data[si] !== original.data[oi] ||
+                    icon.data[si + 1] !== original.data[oi + 1] ||
+                    icon.data[si + 2] !== original.data[oi + 2] ||
+                    icon.data[si + 3] !== original.data[oi + 3]
+                ) {
+                    assert.fail(stem + ' icon is not nearest of original at ' + x + ',' + y);
+                }
+            }
+        }
     }
 });
 

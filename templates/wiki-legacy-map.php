@@ -250,6 +250,14 @@ $cssUrl = $asset('build/app.css');
             </div>
             <div class="object-tree" style="font-size: 0.85rem;" id="objectBrowserTree">
                 <div class="tree-item d-flex align-items-center gap-2 px-2 py-1 rounded cursor-pointer text-secondary"
+                     data-target="world" data-action="select-layer">
+                    <i class="fa-solid fa-box fa-sm text-muted"></i>
+                    <span>World <span id="world-count" class="text-info fw-bold ms-1" style="font-size: 0.75rem;"></span></span>
+                    <span class="ms-auto visibility-toggle" data-layer-suffix="world" title="Toggle World">
+                        <i class="fa-solid fa-eye fa-sm"></i>
+                    </span>
+                </div>
+                <div class="tree-item d-flex align-items-center gap-2 px-2 py-1 rounded cursor-pointer text-secondary"
                      data-target="spawns" data-action="select-layer">
                     <i class="fa-solid fa-ghost fa-sm text-muted"></i>
                     <span>Spawns <span id="floor-count" class="text-info fw-bold ms-1" style="font-size: 0.75rem;"></span></span>
@@ -524,7 +532,7 @@ $cssUrl = $asset('build/app.css');
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="<?= htmlspecialchars($asset('build/map-editor.bundle.js'), ENT_QUOTES, 'UTF-8') ?>?v=1.0.6"></script>
+<script src="<?= htmlspecialchars($asset('build/map-editor.bundle.js'), ENT_QUOTES, 'UTF-8') ?>?v=1.0.10"></script>
 <script>
 /**
  * Legacy Map wiki viewer.
@@ -533,6 +541,7 @@ $cssUrl = $asset('build/app.css');
  *   - Pin rows store MAP-LOCAL tile coords (pixel = tile on floor-*-path.png).
  *   - Hybrid `floor-XX/map.json` `spawns` is SoT when that pack exists;
  *     `by_floor/XX.json` is fallback only.
+ *   - Hybrid `world` is SoT for World pins (no by_floor analog).
  *   - Same conversion as assets/legacy/monsters/js/map-spawn.js:
  *       localX = worldX - bounds.xMin, localY = worldY - bounds.yMin
  *   - Engine spawnSource.legacy_floor filters those local x/y directly — do NOT
@@ -1037,6 +1046,7 @@ document.addEventListener("DOMContentLoaded", () => {
         layerVisibility[`floor-${f}-fields`] = true;
         layerVisibility[`floor-${f}-tilemap`] = true;
         layerVisibility[`floor-${f}-spawns`] = true;
+        layerVisibility[`floor-${f}-world`] = true;
         TILEMAP_SUBS.forEach((sub) => {
             layerVisibility[`floor-${f}-tilemap-${sub}`] = true;
         });
@@ -1044,6 +1054,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function isTileMapLayer(layer) {
         return layer === 'tilemap' || (typeof layer === 'string' && layer.startsWith('tilemap:'));
+    }
+
+    function isWorldLayer(layer) {
+        return layer === 'world';
+    }
+
+    function isSpawnLayer(layer) {
+        return layer === 'spawns';
+    }
+
+    function isOverlayPinLayer(layer) {
+        return layer === 'spawns' || layer === 'world';
     }
 
     function tileMapSubFromLayer(layer) {
@@ -1386,6 +1408,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     let mapSpawnsCache = {};
     let currentMapSpawns = [];
+    let mapWorldCache = {};
+    let currentMapWorld = [];
+    let worldCatalog = {};
+    let worldPalette = [];
+    let selectedWorldPalette = null;
+    let selectedWorldPin = null;
+    let selectedWorldPins = [];
+    let worldClipboard = null;
+    let selectedWorldKind = 'container';
     /** Full official creature JSON, keyed by id (`presets/standard/creatures/<id>.json`). */
     let creatureJsonCache = {};
     /** Art lookup: creatureId → { customSprite, customSpriteGenre, … } */
@@ -1414,6 +1445,8 @@ document.addEventListener("DOMContentLoaded", () => {
         let state = { floor: currentFloor, layer: currentLayer };
         if (currentLayer === 'spawns') {
             state.spawns = JSON.parse(JSON.stringify(currentMapSpawns));
+        } else if (currentLayer === 'world') {
+            state.world = JSON.parse(JSON.stringify(currentMapWorld));
         } else if (['friction', 'sight', 'flags', 'fields'].includes(currentLayer)) {
             ensureWorldCanvas(mapPixelWidth(), mapPixelHeight());
             const wctx = worldCanvas.getContext('2d', { willReadFrequently: true });
@@ -1434,6 +1467,14 @@ document.addEventListener("DOMContentLoaded", () => {
             renderSpawns();
             updateFloorCounts();
             renderSpawnProperties();
+        } else if (state.layer === 'world') {
+            mapWorldCache[state.floor] = JSON.parse(JSON.stringify(state.world));
+            currentMapWorld = mapWorldCache[state.floor];
+            selectedWorldPin = null;
+            selectedWorldPins = [];
+            renderSpawns();
+            updateFloorCounts();
+            renderWorldProperties();
         } else if (state.imageData) {
             ensureWorldCanvas(state.imageData.width, state.imageData.height);
             const wctx = worldCanvas.getContext('2d', { willReadFrequently: true });
@@ -1459,6 +1500,8 @@ document.addEventListener("DOMContentLoaded", () => {
         let currentState = { floor: currentFloor, layer: currentLayer };
         if (currentLayer === 'spawns') {
             currentState.spawns = JSON.parse(JSON.stringify(currentMapSpawns));
+        } else if (currentLayer === 'world') {
+            currentState.world = JSON.parse(JSON.stringify(currentMapWorld));
         } else if (['friction', 'sight', 'flags', 'fields'].includes(currentLayer)) {
             ensureWorldCanvas(mapPixelWidth(), mapPixelHeight());
             const wctx = worldCanvas.getContext('2d', { willReadFrequently: true });
@@ -1491,6 +1534,8 @@ document.addEventListener("DOMContentLoaded", () => {
         let currentState = { floor: currentFloor, layer: currentLayer };
         if (currentLayer === 'spawns') {
             currentState.spawns = JSON.parse(JSON.stringify(currentMapSpawns));
+        } else if (currentLayer === 'world') {
+            currentState.world = JSON.parse(JSON.stringify(currentMapWorld));
         } else if (['friction', 'sight', 'flags', 'fields'].includes(currentLayer)) {
             ensureWorldCanvas(mapPixelWidth(), mapPixelHeight());
             const wctx = worldCanvas.getContext('2d', { willReadFrequently: true });
@@ -1698,12 +1743,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     async function ensureFloorSpawnsLoaded(floor) {
         const id = padFloor(floor);
-        if (!mapSpawnsCache[id]) {
+        if (!mapSpawnsCache[id] || !mapWorldCache[id]) {
             try {
-                mapSpawnsCache[id] = await fetchFloorSpawnRows(id);
+                const docs = await fetchFloorPinDocs(id);
+                if (!mapSpawnsCache[id]) mapSpawnsCache[id] = docs.spawns;
+                if (!mapWorldCache[id]) mapWorldCache[id] = docs.world;
             } catch (e) {
                 console.error(e);
-                mapSpawnsCache[id] = [];
+                if (!mapSpawnsCache[id]) mapSpawnsCache[id] = [];
+                if (!mapWorldCache[id]) mapWorldCache[id] = [];
             }
         }
         return mapSpawnsCache[id];
@@ -1846,6 +1894,53 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    function indexWorldCatalogRow(row, catalogKind) {
+        if (!row || typeof row !== 'object') return;
+        const id = String(row.id || '').trim();
+        if (!id) return;
+        worldCatalog[id] = {
+            id,
+            label: row.label || row.alias || row.technical || id,
+            kind: catalogKind,
+            category: row.category || '',
+            volume: row.volume != null ? Number(row.volume) : (row.capacity != null ? Number(row.capacity) : null)
+        };
+    }
+
+    function fillWorldCatalogDatalist() {
+        const dl = document.getElementById('worldCatalogDatalist');
+        if (!dl) return;
+        dl.innerHTML = '';
+        const ids = Object.keys(worldCatalog).sort();
+        for (let i = 0; i < ids.length; i++) {
+            const row = worldCatalog[ids[i]];
+            const opt = document.createElement('option');
+            opt.value = ids[i];
+            if (row.label && row.label !== ids[i]) opt.label = row.label;
+            dl.appendChild(opt);
+        }
+    }
+
+    function loadWorldCatalogs() {
+        const genre = tilemapArtGenre || 'rpg_fantasy';
+        Promise.all([
+            fetch(ASSET_ROOT + 'assets/data/' + genre + '/objects.json', { cache: 'no-store' })
+                .then((r) => (r.ok ? r.json() : null))
+                .catch(() => null),
+            fetch(ASSET_ROOT + 'presets/standard/equipment.json', { cache: 'no-store' })
+                .then((r) => (r.ok ? r.json() : null))
+                .catch(() => null)
+        ]).then(([objectsDoc, equipDoc]) => {
+            const objs = objectsDoc && Array.isArray(objectsDoc.items) ? objectsDoc.items : [];
+            for (let i = 0; i < objs.length; i++) indexWorldCatalogRow(objs[i], 'objects');
+            const eqs = equipDoc && Array.isArray(equipDoc.items) ? equipDoc.items : [];
+            for (let i = 0; i < eqs.length; i++) indexWorldCatalogRow(eqs[i], 'equipment');
+            fillWorldCatalogDatalist();
+            if (currentLayer === 'world') renderWorldPaletteUI();
+        });
+    }
+    loadWorldCatalogs();
+
     // presets_list returns { ok, items: [...], total } — not data.data.
     // limit=0 → all rows (paginate kinds default to page size 100 otherwise).
     fetch(
@@ -1888,54 +1983,67 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     /**
-     * Hybrid pack present → SoT even if `spawns` is empty. Else by_floor.
+     * Hybrid pack present → SoT even if `spawns` / `world` is empty.
+     * Else by_floor for spawns only (World has no analog).
      * @param {string} floor padded id
-     * @returns {Promise<object[]>}
+     * @returns {Promise<{ spawns: object[], world: object[] }>}
      */
-    async function fetchFloorSpawnRows(floor) {
+    async function fetchFloorPinDocs(floor) {
         try {
             const res = await fetch(hybridSpawnUrl(floor), { cache: 'no-store' });
             if (res.ok) {
                 const data = await res.json();
                 if (data && typeof data === 'object' && !Array.isArray(data)) {
-                    const rows = Array.isArray(data.spawns) ? data.spawns : [];
+                    const spawns = Array.isArray(data.spawns) ? data.spawns : [];
+                    const world = Array.isArray(data.world) ? data.world : [];
                     if (HdlTM && typeof HdlTM.markSpawnBaseline === 'function') {
-                        HdlTM.markSpawnBaseline(rows);
+                        HdlTM.markSpawnBaseline(spawns);
                     }
-                    return rows;
+                    if (HdlTM && typeof HdlTM.markWorldBaseline === 'function') {
+                        HdlTM.markWorldBaseline(world);
+                    }
+                    return { spawns, world };
                 }
             }
         } catch (e) {
             /* pack missing — fall back */
         }
+        let spawns = [];
         try {
             const res = await fetch(byFloorSpawnUrl(floor));
             if (res.ok) {
-                const rows = spawnsFromByFloorDoc(await res.json());
+                spawns = spawnsFromByFloorDoc(await res.json());
                 if (HdlTM && typeof HdlTM.markSpawnBaseline === 'function') {
-                    HdlTM.markSpawnBaseline(rows);
+                    HdlTM.markSpawnBaseline(spawns);
                 }
-                return rows;
             }
         } catch (e) {
             console.error(e);
         }
-        return [];
+        return { spawns, world: [] };
+    }
+
+    async function fetchFloorSpawnRows(floor) {
+        const docs = await fetchFloorPinDocs(floor);
+        if (!mapWorldCache[floor]) mapWorldCache[floor] = docs.world;
+        return docs.spawns;
     }
 
     function prefetchAllFloors() {
         const promises = [];
         for (let i = 0; i <= 15; i++) {
             const floor = padFloor(i);
-            if (mapSpawnsCache[floor]) continue;
+            if (mapSpawnsCache[floor] && mapWorldCache[floor]) continue;
             promises.push(
-                fetchFloorSpawnRows(floor)
-                    .then((rows) => {
-                        if (!mapSpawnsCache[floor]) mapSpawnsCache[floor] = rows;
+                fetchFloorPinDocs(floor)
+                    .then((docs) => {
+                        if (!mapSpawnsCache[floor]) mapSpawnsCache[floor] = docs.spawns;
+                        if (!mapWorldCache[floor]) mapWorldCache[floor] = docs.world;
                     })
                     .catch((e) => {
                         console.error(e);
                         if (!mapSpawnsCache[floor]) mapSpawnsCache[floor] = [];
+                        if (!mapWorldCache[floor]) mapWorldCache[floor] = [];
                     })
             );
         }
@@ -2016,9 +2124,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 openFindModal();
             } else if (e.code === 'KeyC' && !isTypingTarget(e.target)) {
                 if (isTileMapLayer(currentLayer) && copySelectedTiles()) e.preventDefault();
+                else if (currentLayer === 'world' && copySelectedWorld()) e.preventDefault();
                 else if (copySelectedSpawns()) e.preventDefault();
             } else if (e.code === 'KeyV' && !isTypingTarget(e.target)) {
                 if (isTileMapLayer(currentLayer) && tileClipboard && pasteTileClipboard()) e.preventDefault();
+                else if (currentLayer === 'world' && pasteWorldClipboard()) e.preventDefault();
                 else if (pasteSpawnClipboard()) e.preventDefault();
             }
         }
@@ -2122,6 +2232,18 @@ document.addEventListener("DOMContentLoaded", () => {
                         selectedMapSpawn = null;
                         renderSpawnProperties();
                     }
+                } else if (currentLayer === 'world' && layerVisibility[`floor-${currentFloor}-world`]) {
+                    selectedWorldPins = [];
+                    for (const pin of currentMapWorld) {
+                        if ((pin.x + 0.5) >= selectionRect.x && (pin.x + 0.5) <= selectionRect.x + selectionRect.w &&
+                            (pin.y + 0.5) >= selectionRect.y && (pin.y + 0.5) <= selectionRect.y + selectionRect.h) {
+                            selectedWorldPins.push(pin);
+                        }
+                    }
+                    selectedWorldPin = selectedWorldPins[0] || null;
+                    if (selectedWorldPin) selectedWorldPalette = null;
+                    if (currentLayer === 'world') renderWorldPaletteUI();
+                    renderWorldProperties();
                 }
             } else {
                 selectionRect = null;
@@ -2429,7 +2551,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (editorViewport) {
             const floorOn = layerVisibility[`floor-${currentFloor}`] !== false;
             editorViewport.setVisible('floor', floorOn);
-            ['friction', 'sight', 'flags', 'fields', 'tilemap', 'spawns'].forEach((l) => {
+            ['friction', 'sight', 'flags', 'fields', 'tilemap', 'spawns', 'world'].forEach((l) => {
                 const on =
                     floorOn && layerVisibility[`floor-${currentFloor}-${l}`] !== false;
                 editorViewport.setVisible(l, on);
@@ -2521,6 +2643,9 @@ document.addEventListener("DOMContentLoaded", () => {
         if (currentLayer === 'spawns') {
             layerProps.style.display = '';
             renderPaletteUI();
+        } else if (currentLayer === 'world') {
+            layerProps.style.display = '';
+            renderWorldPaletteUI();
         } else if (isTileMapLayer(currentLayer)) {
             layerProps.style.display = '';
             const sub = tileMapSubFromLayer(currentLayer);
@@ -2647,7 +2772,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const penBtn = document.querySelector('.tool-btn[data-tool="pen"]');
         const bucketBtn = document.querySelector('.tool-btn[data-tool="bucket"]');
-        if (layer === 'spawns') {
+        if (layer === 'spawns' || layer === 'world') {
             if (penBtn) penBtn.disabled = true;
             if (bucketBtn) bucketBtn.disabled = true;
             if (currentTool === 'pen' || currentTool === 'bucket') {
@@ -3079,6 +3204,11 @@ document.addEventListener("DOMContentLoaded", () => {
             countSpan.textContent =
                 filtering && currentCount > 0 ? '(' + currentCount + ')' : '';
         }
+        const worldSpan = document.getElementById('world-count');
+        if (worldSpan) {
+            const n = (currentMapWorld || []).length;
+            worldSpan.textContent = n > 0 ? '(' + n + ')' : '';
+        }
 
         monsterResults.innerHTML = filtering
             ? 'Found ' + totalAll + ' total matches.'
@@ -3086,19 +3216,19 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     async function loadFloorSpawns(floor) {
-        if (mapSpawnsCache[floor]) {
-            currentMapSpawns = mapSpawnsCache[floor];
-            renderSpawns();
-            return;
+        if (!mapSpawnsCache[floor] || !mapWorldCache[floor]) {
+            try {
+                const docs = await fetchFloorPinDocs(floor);
+                if (!mapSpawnsCache[floor]) mapSpawnsCache[floor] = docs.spawns;
+                if (!mapWorldCache[floor]) mapWorldCache[floor] = docs.world;
+            } catch (e) {
+                console.error(e);
+                if (!mapSpawnsCache[floor]) mapSpawnsCache[floor] = [];
+                if (!mapWorldCache[floor]) mapWorldCache[floor] = [];
+            }
         }
-
-        try {
-            mapSpawnsCache[floor] = await fetchFloorSpawnRows(floor);
-            currentMapSpawns = mapSpawnsCache[floor];
-        } catch (e) {
-            console.error(e);
-            currentMapSpawns = [];
-        }
+        currentMapSpawns = mapSpawnsCache[floor] || [];
+        currentMapWorld = mapWorldCache[floor] || [];
         renderSpawns();
     }
 
@@ -3460,14 +3590,7 @@ document.addEventListener("DOMContentLoaded", () => {
             '/creatures/icon/' +
             stem +
             '.png';
-        // Secondary fallback: reference GIFs (map-spawn.js style)
-        const gifName = String(rawName || artId)
-            .trim()
-            .toLowerCase()
-            .replace(/\.gif$/i, '');
-        const legacyGifUrl =
-            ASSET_ROOT + 'assets/legacy/monsters/images/' + gifName + '.gif';
-        return { standardUrl, legacyGifUrl };
+        return { standardUrl };
     }
 
     function drawImageForSpawn(art, cx, cy, drawCtx) {
@@ -3475,16 +3598,11 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!g) return;
         let img = imageCache.get(art.standardUrl);
         if (!img) {
-            img = { image: new Image(), loaded: false, error: false, triedFallback: false };
+            img = { image: new Image(), loaded: false, error: false };
             img.image.onload = () => { img.loaded = true; markDirty(); };
             img.image.onerror = () => {
-                if (!img.triedFallback) {
-                    img.triedFallback = true;
-                    img.image.src = art.legacyGifUrl;
-                } else {
-                    img.error = true;
-                    markDirty();
-                }
+                img.error = true;
+                markDirty();
             };
             img.image.src = art.standardUrl;
             imageCache.set(art.standardUrl, img);
@@ -3643,12 +3761,13 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
 
-        if (!layerVisibility[`floor-${currentFloor}`] || !layerVisibility[`floor-${currentFloor}-spawns`]) {
+        if (!layerVisibility[`floor-${currentFloor}`]) {
             return;
         }
 
         const filterText = monsterNameInput.value.toLowerCase().trim();
 
+        if (layerVisibility[`floor-${currentFloor}-spawns`]) {
         for (const spawn of currentMapSpawns) {
             if (!matchesFilter(spawn, filterText)) continue;
 
@@ -3677,6 +3796,56 @@ document.addEventListener("DOMContentLoaded", () => {
             const art = resolveSpawnArt(spawn);
             drawImageForSpawn(art, screenX, screenY, overlayCtx);
         }
+        }
+
+        if (!layerVisibility[`floor-${currentFloor}-world`]) {
+            return;
+        }
+
+        const worldFilter = monsterNameInput.value.toLowerCase().trim();
+        for (const pin of currentMapWorld) {
+            if (worldFilter && HdlTM && typeof HdlTM.worldMatchesQuery === 'function') {
+                if (!HdlTM.worldMatchesQuery(pin, worldFilter)) continue;
+            } else if (worldFilter) {
+                const blob = ((pin.catalogId || '') + ' ' + (pin.id || '') + ' ' + (pin.kind || '')).toLowerCase();
+                if (blob.indexOf(worldFilter) === -1) continue;
+            }
+            const x = Number(pin.x);
+            const y = Number(pin.y);
+            const screenX = (x * z) - scrollLeft;
+            const screenY = (y * z) - scrollTop;
+            if (screenX < -100 || screenX > viewW + 100 || screenY < -100 || screenY > viewH + 100) {
+                continue;
+            }
+            const selected = selectedWorldPins.includes(pin) || pin === selectedWorldPin;
+            overlayCtx.fillStyle = selected ? 'rgba(80, 220, 110, 0.45)' : 'rgba(80, 220, 110, 0.18)';
+            overlayCtx.fillRect(screenX, screenY, 32, 32);
+            overlayCtx.strokeStyle = selected ? '#50dc6e' : '#2a8a44';
+            overlayCtx.lineWidth = selected ? 2 : 1;
+            overlayCtx.strokeRect(screenX + 0.5, screenY + 0.5, 31, 31);
+            const art = resolveWorldArt(pin);
+            drawImageForSpawn(art, screenX, screenY, overlayCtx);
+        }
+    }
+
+    function resolveWorldArt(pin) {
+        const id = pin && pin.catalogId;
+        const kind = (pin && pin.catalogKind) || 'objects';
+        const genre = tilemapArtGenre || 'rpg_fantasy';
+        if (!id) {
+            return { standardUrl: '', fallbackUrl: '' };
+        }
+        let rel = null;
+        if (HdlTM && typeof HdlTM.resolveSpriteRelPath === 'function') {
+            rel = HdlTM.resolveSpriteRelPath({
+                genre,
+                kind: kind === 'equipment' ? 'equipment' : 'objects',
+                id,
+                variant: 'icon'
+            });
+        }
+        const url = rel ? ASSET_ROOT + rel : '';
+        return { standardUrl: url, fallbackUrl: url };
     }
 
     /** @deprecated residual name — routes to overlay */
@@ -3740,6 +3909,1332 @@ document.addEventListener("DOMContentLoaded", () => {
                 renderSpawnProperties();
             });
         });
+    }
+
+    function worldCatalogLabel(id) {
+        const row = worldCatalog[id];
+        return (row && row.label) || id || '';
+    }
+
+    function resolveWorldPaletteItem(raw) {
+        const text = String(raw || '').trim();
+        if (!text) return null;
+        if (worldCatalog[text]) {
+            const row = worldCatalog[text];
+            return { id: row.id, name: row.label, catalogKind: row.kind };
+        }
+        const lower = text.toLowerCase();
+        const ids = Object.keys(worldCatalog);
+        for (let i = 0; i < ids.length; i++) {
+            const row = worldCatalog[ids[i]];
+            if (!row) continue;
+            if (String(row.label || '').toLowerCase() === lower) {
+                return { id: row.id, name: row.label, catalogKind: row.kind };
+            }
+        }
+        const slug = HdlTM && typeof HdlTM.slugifyWorldId === 'function'
+            ? HdlTM.slugifyWorldId(text)
+            : text.toLowerCase().replace(/[^a-z0-9]+/g, '_');
+        return { id: slug, name: text, catalogKind: 'objects' };
+    }
+
+    function renderWorldPaletteUI() {
+        if (!document.getElementById('layer-props')) return;
+        const kinds = (HdlTM && HdlTM.WORLD_KINDS) || [
+            'container', 'chest', 'lever', 'door', 'teleport', 'switch', 'trap', 'harvest'
+        ];
+        let kindOpts = '';
+        for (let i = 0; i < kinds.length; i++) {
+            const k = kinds[i];
+            kindOpts += '<option value="' + k + '"' +
+                (k === selectedWorldKind ? ' selected' : '') + '>' + k + '</option>';
+        }
+        let html = `<div class="mb-2">
+            <label class="form-label small text-uppercase text-secondary fw-bold mb-1">World palette</label>
+            <div class="d-flex gap-1 mb-2">
+                <select id="world-kind-select" class="form-select form-select-sm bg-black border-secondary text-white" style="max-width:7.5rem;">${kindOpts}</select>
+                <input type="text" id="world-palette-input" list="worldCatalogDatalist" class="form-control form-control-sm bg-black border-secondary text-white" placeholder="catalog id…">
+                <button class="btn btn-sm btn-outline-primary" id="btn-add-world-palette"><i class="fa-solid fa-plus"></i></button>
+            </div>
+            <datalist id="worldCatalogDatalist"></datalist>
+            <div class="palette-container d-flex flex-wrap gap-1 mb-2">`;
+        worldPalette.forEach((item, index) => {
+            const isSelected = selectedWorldPalette === item;
+            const label = item.name || item.id || '';
+            html += `<button class="btn btn-sm ${isSelected ? 'btn-primary' : 'btn-outline-secondary'} world-palette-item-btn" data-index="${index}" title="${item.id}">${label}</button>`;
+        });
+        html += `</div>
+            <div class="small">
+                <strong>Kind:</strong> ${selectedWorldKind}
+                · <strong>Stamp:</strong> ${selectedWorldPalette ? (selectedWorldPalette.name || selectedWorldPalette.id) : 'None'}
+            </div>
+            <div class="small text-secondary mt-1">Click the map to place. Inspectors author container / chest / lever / door / teleport / trap / harvest fields.</div>
+        </div>`;
+        document.getElementById('layer-props').innerHTML = html;
+        fillWorldCatalogDatalist();
+        const kindSel = document.getElementById('world-kind-select');
+        if (kindSel) {
+            kindSel.addEventListener('change', () => {
+                selectedWorldKind = kindSel.value || 'container';
+                renderWorldPaletteUI();
+            });
+        }
+        const addBtn = document.getElementById('btn-add-world-palette');
+        if (addBtn) {
+            addBtn.addEventListener('click', () => {
+                const el = document.getElementById('world-palette-input');
+                const val = el ? el.value.trim() : '';
+                if (!val) return;
+                const item = resolveWorldPaletteItem(val);
+                if (item && !worldPalette.find((m) => m.id === item.id)) {
+                    worldPalette.push(item);
+                    selectedWorldPalette = item;
+                    renderWorldPaletteUI();
+                }
+            });
+        }
+        document.querySelectorAll('.world-palette-item-btn').forEach((btn) => {
+            btn.addEventListener('click', (e) => {
+                const idx = e.target.closest('.world-palette-item-btn').dataset.index;
+                selectedWorldPalette = worldPalette[idx];
+                selectedWorldPin = null;
+                selectedWorldPins = [];
+                renderWorldPaletteUI();
+                renderWorldProperties();
+            });
+        });
+    }
+
+    function makeNewWorldPin(x, y, catalogId) {
+        const z = parseInt(currentFloor, 10) || 0;
+        const used = HdlTM && typeof HdlTM.normalizeWorldList === 'function'
+            ? currentMapWorld.map((p) => p && p.id).filter(Boolean)
+            : [];
+        const cat = worldCatalog[catalogId];
+        const raw = {
+            catalogId,
+            catalogKind: cat && cat.kind ? cat.kind : (selectedWorldPalette && selectedWorldPalette.catalogKind) || 'objects',
+            kind: selectedWorldKind,
+            x: Math.round(Number(x)),
+            y: Math.round(Number(y)),
+            z
+        };
+        if (HdlTM && typeof HdlTM.makeEditorWorldPin === 'function') {
+            return HdlTM.makeEditorWorldPin(raw, worldCatalog, {
+                z,
+                kind: selectedWorldKind,
+                usedIds: used
+            });
+        }
+        return raw;
+    }
+
+    function renderWorldItemRows(items) {
+        const list = Array.isArray(items) ? items : [];
+        let html = '';
+        for (let i = 0; i < list.length; i++) {
+            const row = list[i];
+            html += `<div class="d-flex gap-1 mb-1 world-item-row" data-index="${i}">
+                <input type="text" class="form-control form-control-sm bg-black border-secondary text-white world-item-id" list="worldCatalogDatalist" value="${escapeHtml(row.item || '')}" placeholder="item id">
+                <input type="number" class="form-control form-control-sm bg-black border-secondary text-white world-item-count" min="1" value="${row.count != null ? row.count : 1}" style="max-width:4.5rem;">
+                <button type="button" class="btn btn-sm btn-outline-danger world-item-del" data-index="${i}">×</button>
+            </div>`;
+        }
+        return html;
+    }
+
+    function readWorldItemRows(root) {
+        if (!root) return [];
+        const rows = [];
+        root.querySelectorAll('.world-item-row').forEach((el) => {
+            const idEl = el.querySelector('.world-item-id');
+            const cEl = el.querySelector('.world-item-count');
+            const item = idEl ? String(idEl.value || '').trim() : '';
+            if (!item) return;
+            let count = cEl ? Math.floor(Number(cEl.value)) : 1;
+            if (!Number.isFinite(count) || count < 1) count = 1;
+            rows.push({ item, count });
+        });
+        return rows;
+    }
+
+    function renderWorldSetRows(set) {
+        const bag = set && typeof set === 'object' && !Array.isArray(set) ? set : {};
+        const keys = Object.keys(bag);
+        let html = '';
+        for (let i = 0; i < keys.length; i++) {
+            html += `<div class="d-flex gap-1 mb-1 world-set-row">
+                <input type="text" class="form-control form-control-sm bg-black border-secondary text-white world-set-key" value="${escapeHtml(keys[i])}" placeholder="storage key">
+                <input type="text" class="form-control form-control-sm bg-black border-secondary text-white world-set-value" value="${escapeHtml(String(bag[keys[i]]))}" placeholder="value" style="max-width:6rem;">
+                <button type="button" class="btn btn-sm btn-outline-danger world-set-del">×</button>
+            </div>`;
+        }
+        return html;
+    }
+
+    function readWorldSetRows(root) {
+        if (!root) return {};
+        const out = {};
+        root.querySelectorAll('.world-set-row').forEach((el) => {
+            const kEl = el.querySelector('.world-set-key');
+            const vEl = el.querySelector('.world-set-value');
+            const key = kEl ? String(kEl.value || '').trim() : '';
+            if (!key) return;
+            let value = vEl ? String(vEl.value || '').trim() : '1';
+            if (value !== '' && value !== 'true' && value !== 'false' && Number.isFinite(Number(value))) {
+                value = Number(value);
+            } else if (value === '') {
+                value = 1;
+            }
+            out[key] = value;
+        });
+        return out;
+    }
+
+    function chestOnceStorage(pin) {
+        const once = pin && pin.once;
+        if (once == null) return '';
+        if (typeof once === 'string' || typeof once === 'number') return String(once);
+        const clause = Array.isArray(once)
+            ? once.find((c) => c && (c.storage || c.key))
+            : once;
+        if (!clause) return '';
+        return String(clause.storage || clause.key || '');
+    }
+
+    function chestOnceEq(pin) {
+        const once = pin && pin.once;
+        if (!once || typeof once !== 'object') return 0;
+        const clause = Array.isArray(once) ? once[0] : once;
+        if (!clause) return 0;
+        if (clause.eq !== undefined) return clause.eq;
+        if (clause.equals !== undefined) return clause.equals;
+        return 0;
+    }
+
+    function chestWhenFields(pin) {
+        const when = pin && pin.when;
+        const clause = Array.isArray(when)
+            ? when.find((c) => c && (c.item || c.itemId))
+            : when;
+        if (!clause || typeof clause !== 'object') return { item: '', min: 1 };
+        return {
+            item: String(clause.item || clause.itemId || ''),
+            min: clause.min != null ? clause.min : 1
+        };
+    }
+
+    function leverStatesText(pin) {
+        const s = pin && Array.isArray(pin.states) && pin.states.length ? pin.states : ['off', 'on'];
+        return s.join(',');
+    }
+
+    function doorGateWhen(pin) {
+        const g = pin && pin.gate;
+        if (!g || typeof g !== 'object') return null;
+        if (g.when != null) return g.when;
+        if (g.storage || g.item || g.itemId || g.key) return g;
+        return null;
+    }
+
+    function doorGateFields(pin) {
+        const g = pin && pin.gate && typeof pin.gate === 'object' ? pin.gate : null;
+        const when = doorGateWhen(pin);
+        const storageClause = Array.isArray(when)
+            ? when.find((c) => c && (c.storage || c.key))
+            : when && (when.storage || when.key) ? when : null;
+        const itemClause = Array.isArray(when)
+            ? when.find((c) => c && (c.item || c.itemId))
+            : when && (when.item || when.itemId) ? when : null;
+        let eq = 0;
+        if (storageClause) {
+            if (storageClause.eq !== undefined) eq = storageClause.eq;
+            else if (storageClause.equals !== undefined) eq = storageClause.equals;
+        }
+        return {
+            storage: storageClause ? String(storageClause.storage || storageClause.key || '') : '',
+            eq,
+            item: itemClause ? String(itemClause.item || itemClause.itemId || '') : '',
+            min: itemClause && itemClause.min != null ? itemClause.min : 1,
+            level: g && g.level != null ? g.level : ''
+        };
+    }
+
+    function teleportToFields(pin) {
+        const to = pin && pin.to && typeof pin.to === 'object' ? pin.to : null;
+        return {
+            x: to && to.x != null ? to.x : '',
+            y: to && to.y != null ? to.y : '',
+            z: to && to.z != null ? to.z : (pin && pin.z != null ? pin.z : 0)
+        };
+    }
+
+    function dropSpawnWaveMix(effects) {
+        const list = Array.isArray(effects) ? effects : [];
+        const out = [];
+        let hasSpawn = false;
+        let hasWave = false;
+        for (let i = 0; i < list.length; i++) {
+            const row = list[i];
+            const t = row && row.type;
+            if (t === 'spawn') {
+                if (hasWave) continue;
+                hasSpawn = true;
+            } else if (t === 'wave') {
+                if (hasSpawn) continue;
+                hasWave = true;
+            }
+            out.push(row);
+        }
+        return out;
+    }
+
+    function renderWorldEffectRows(effects) {
+        const list = Array.isArray(effects) ? effects : [];
+        let html = '';
+        for (let i = 0; i < list.length; i++) {
+            const row = list[i] || {};
+            if (row.type === 'door') {
+                html += `<div class="d-flex flex-wrap gap-1 mb-1 align-items-center world-effect-row" data-type="door" data-index="${i}">
+                    <span class="small text-secondary" style="min-width:2.4rem;">door</span>
+                    <input type="text" class="form-control form-control-sm bg-black border-secondary text-white world-effect-door-id" value="${escapeHtml(row.id || '')}" placeholder="pin id">
+                    <div class="form-check mb-0">
+                        <input class="form-check-input world-effect-open" type="checkbox" ${row.open !== false ? 'checked' : ''}>
+                        <label class="form-check-label small">Open</label>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-outline-danger world-effect-del">×</button>
+                </div>`;
+            } else if (row.type === 'spawn') {
+                html += `<div class="d-flex flex-wrap gap-1 mb-1 align-items-center world-effect-row" data-type="spawn" data-index="${i}">
+                    <span class="small text-secondary" style="min-width:2.4rem;">spawn</span>
+                    <input type="text" class="form-control form-control-sm bg-black border-secondary text-white world-effect-creature" value="${escapeHtml(row.creatureId || '')}" placeholder="creature id" style="max-width:8rem;">
+                    <input type="number" class="form-control form-control-sm bg-black border-secondary text-white world-effect-x" value="${row.x != null ? row.x : ''}" placeholder="x" style="max-width:4.5rem;" title="x">
+                    <input type="number" class="form-control form-control-sm bg-black border-secondary text-white world-effect-y" value="${row.y != null ? row.y : ''}" placeholder="y" style="max-width:4.5rem;" title="y">
+                    <input type="number" class="form-control form-control-sm bg-black border-secondary text-white world-effect-z" value="${row.z != null ? row.z : ''}" placeholder="z" style="max-width:4rem;" title="z">
+                    <input type="number" class="form-control form-control-sm bg-black border-secondary text-white world-effect-count" min="1" value="${row.count != null ? row.count : 1}" placeholder="n" style="max-width:4rem;" title="count">
+                    <input type="number" class="form-control form-control-sm bg-black border-secondary text-white world-effect-respawn" min="0" value="${row.respawn != null ? row.respawn : 0}" placeholder="respawn" style="max-width:4.5rem;" title="respawn sec">
+                    <button type="button" class="btn btn-sm btn-outline-danger world-effect-del">×</button>
+                </div>`;
+            } else if (row.type === 'wave') {
+                html += `<div class="d-flex flex-wrap gap-1 mb-1 align-items-center world-effect-row" data-type="wave" data-index="${i}">
+                    <span class="small text-secondary" style="min-width:2.4rem;">wave</span>
+                    <input type="text" class="form-control form-control-sm bg-black border-secondary text-white world-effect-wave-id" value="${escapeHtml(row.id || '')}" placeholder="wave id (optional)">
+                    <button type="button" class="btn btn-sm btn-outline-danger world-effect-del">×</button>
+                </div>`;
+            } else if (row.type === 'unlock') {
+                html += `<div class="d-flex flex-wrap gap-1 mb-1 align-items-center world-effect-row" data-type="unlock" data-index="${i}">
+                    <span class="small text-secondary" style="min-width:2.4rem;">unlock</span>
+                    <input type="text" class="form-control form-control-sm bg-black border-secondary text-white world-effect-unlock-id" value="${escapeHtml(row.id || '')}" placeholder="door id (empty = waves)">
+                    <button type="button" class="btn btn-sm btn-outline-danger world-effect-del">×</button>
+                </div>`;
+            } else {
+                const fr = row.friction != null ? row.friction : '';
+                html += `<div class="d-flex flex-wrap gap-1 mb-1 align-items-center world-effect-row" data-type="cell" data-index="${i}">
+                    <span class="small text-secondary" style="min-width:2.4rem;">cell</span>
+                    <input type="number" class="form-control form-control-sm bg-black border-secondary text-white world-effect-x" value="${row.x != null ? row.x : 0}" style="max-width:4.5rem;" title="x">
+                    <input type="number" class="form-control form-control-sm bg-black border-secondary text-white world-effect-y" value="${row.y != null ? row.y : 0}" style="max-width:4.5rem;" title="y">
+                    <input type="number" class="form-control form-control-sm bg-black border-secondary text-white world-effect-z" value="${row.z != null ? row.z : 0}" style="max-width:4rem;" title="z">
+                    <input type="number" class="form-control form-control-sm bg-black border-secondary text-white world-effect-friction" min="0" max="255" value="${fr}" placeholder="friction" style="max-width:5.5rem;" title="friction">
+                    <button type="button" class="btn btn-sm btn-outline-danger world-effect-del">×</button>
+                </div>`;
+            }
+        }
+        return html;
+    }
+
+    function readWorldEffectRows(root) {
+        if (!root) return [];
+        const rows = [];
+        root.querySelectorAll('.world-effect-row').forEach((el) => {
+            const type = el.getAttribute('data-type') || 'cell';
+            if (type === 'door') {
+                const idEl = el.querySelector('.world-effect-door-id');
+                const openEl = el.querySelector('.world-effect-open');
+                const id = idEl ? String(idEl.value || '').trim() : '';
+                if (!id) return;
+                rows.push({ type: 'door', id, open: !!(openEl && openEl.checked) });
+                return;
+            }
+            if (type === 'spawn') {
+                const cidEl = el.querySelector('.world-effect-creature');
+                const creatureId = cidEl ? String(cidEl.value || '').trim() : '';
+                if (!creatureId) return;
+                const xEl = el.querySelector('.world-effect-x');
+                const yEl = el.querySelector('.world-effect-y');
+                const zEl = el.querySelector('.world-effect-z');
+                const nEl = el.querySelector('.world-effect-count');
+                const effect = { type: 'spawn', creatureId };
+                const x = xEl && String(xEl.value).trim() !== '' ? Number(xEl.value) : NaN;
+                const y = yEl && String(yEl.value).trim() !== '' ? Number(yEl.value) : NaN;
+                if (Number.isFinite(x) && Number.isFinite(y)) {
+                    effect.x = Math.round(x);
+                    effect.y = Math.round(y);
+                }
+                const z = zEl && String(zEl.value).trim() !== '' ? Number(zEl.value) : NaN;
+                if (Number.isFinite(z)) effect.z = Math.round(z);
+                let count = nEl ? Math.floor(Number(nEl.value)) : 1;
+                if (!Number.isFinite(count) || count < 1) count = 1;
+                if (count > 1) effect.count = count;
+                const rEl = el.querySelector('.world-effect-respawn');
+                if (rEl && String(rEl.value).trim() !== '') {
+                    const respawn = Number(rEl.value);
+                    if (Number.isFinite(respawn) && respawn > 0) effect.respawn = respawn;
+                }
+                rows.push(effect);
+                return;
+            }
+            if (type === 'wave') {
+                const idEl = el.querySelector('.world-effect-wave-id');
+                const id = idEl ? String(idEl.value || '').trim() : '';
+                const effect = { type: 'wave' };
+                if (id) effect.id = id;
+                rows.push(effect);
+                return;
+            }
+            if (type === 'unlock') {
+                const idEl = el.querySelector('.world-effect-unlock-id');
+                const id = idEl ? String(idEl.value || '').trim() : '';
+                const effect = { type: 'unlock' };
+                if (id) effect.id = id;
+                rows.push(effect);
+                return;
+            }
+            const xEl = el.querySelector('.world-effect-x');
+            const yEl = el.querySelector('.world-effect-y');
+            const zEl = el.querySelector('.world-effect-z');
+            const fEl = el.querySelector('.world-effect-friction');
+            const x = xEl ? Number(xEl.value) : 0;
+            const y = yEl ? Number(yEl.value) : 0;
+            const z = zEl ? Number(zEl.value) : 0;
+            if (!Number.isFinite(x) || !Number.isFinite(y)) return;
+            const effect = { type: 'cell', x: Math.round(x), y: Math.round(y), z: Number.isFinite(z) ? Math.round(z) : 0 };
+            if (fEl && String(fEl.value).trim() !== '') {
+                let fr = Math.floor(Number(fEl.value));
+                if (Number.isFinite(fr)) {
+                    if (fr < 0) fr = 0;
+                    if (fr > 255) fr = 255;
+                    effect.friction = fr;
+                }
+            }
+            if (effect.friction == null) return;
+            rows.push(effect);
+        });
+        return rows;
+    }
+
+    function renderWorldProperties() {
+        const propsContent = document.getElementById('propsContent');
+        if (!propsContent) return;
+        if (selectedWorldPins.length === 0 && !selectedWorldPin) {
+            propsContent.innerHTML = `<div class="small text-muted">Select a World pin to inspect. Stamp from the palette, then click the map.</div>`;
+            return;
+        }
+        if (selectedWorldPins.length === 0 && selectedWorldPin) {
+            selectedWorldPins = [selectedWorldPin];
+        }
+        const kinds = (HdlTM && HdlTM.WORLD_KINDS) || [
+            'container', 'chest', 'lever', 'door', 'teleport', 'switch', 'trap', 'harvest'
+        ];
+        let html = `<div class="d-flex gap-2 mb-3">
+                        <button class="btn btn-sm btn-danger flex-grow-1" id="btn-remove-selected-world">Remove Selected</button>
+                    </div>`;
+        html += `<div class="selected-items-list pe-1" style="max-height: calc(100vh - 250px); overflow-y: auto; overflow-x: hidden;">`;
+        selectedWorldPins.forEach((pin, index) => {
+            const kind = pin.kind || 'container';
+            const effectList = Array.isArray(pin.effects) ? pin.effects : [];
+            let hasSpawnEffect = false;
+            let hasWaveEffect = false;
+            for (let ei = 0; ei < effectList.length; ei++) {
+                const et = effectList[ei] && effectList[ei].type;
+                if (et === 'spawn') hasSpawnEffect = true;
+                if (et === 'wave') hasWaveEffect = true;
+            }
+            let kindOpts = '';
+            for (let i = 0; i < kinds.length; i++) {
+                kindOpts += '<option value="' + kinds[i] + '"' +
+                    (kinds[i] === kind ? ' selected' : '') + '>' + kinds[i] + '</option>';
+            }
+            const itemsHtml = kind === 'container' ? renderWorldItemRows(pin.items) : '';
+            html += `
+                <div class="mb-3 pb-3 ${index < selectedWorldPins.length - 1 ? 'border-bottom border-secondary' : ''}">
+                    <p class="fw-bold mb-1 text-white">${escapeHtml((pin.catalogId || pin.id || 'pin').toUpperCase())}</p>
+                    <div class="mb-2">
+                        <label class="form-label small text-secondary mb-0">Id</label>
+                        <input type="text" class="form-control form-control-sm bg-black border-secondary text-white prop-world-id" data-index="${index}" value="${escapeHtml(pin.id || '')}">
+                    </div>
+                    <div class="mb-2 prop-pair">
+                        <div>
+                            <label class="form-label small text-secondary mb-0">Kind</label>
+                            <select class="form-select form-select-sm bg-black border-secondary text-white prop-world-kind" data-index="${index}">${kindOpts}</select>
+                        </div>
+                        <div>
+                            <label class="form-label small text-secondary mb-0">Tag</label>
+                            <input type="text" class="form-control form-control-sm bg-black border-secondary text-white prop-world-tag" data-index="${index}" value="${escapeHtml(pin.tag || '')}">
+                        </div>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label small text-secondary mb-0">Catalog</label>
+                        <input type="text" class="form-control form-control-sm bg-black border-secondary text-white prop-world-catalog" data-index="${index}" list="worldCatalogDatalist" value="${escapeHtml(pin.catalogId || '')}">
+                    </div>
+                    <div class="mb-2 prop-pair">
+                        <div>
+                            <label class="form-label small text-secondary mb-0">X</label>
+                            <input type="number" class="form-control form-control-sm bg-black border-secondary text-white prop-world-x" data-index="${index}" value="${Math.round(pin.x)}">
+                        </div>
+                        <div>
+                            <label class="form-label small text-secondary mb-0">Y</label>
+                            <input type="number" class="form-control form-control-sm bg-black border-secondary text-white prop-world-y" data-index="${index}" value="${Math.round(pin.y)}">
+                        </div>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label small text-secondary mb-0">Z</label>
+                        <input type="number" class="form-control form-control-sm bg-black border-secondary text-white prop-world-z" data-index="${index}" min="0" max="15" value="${pin.z != null ? pin.z : (parseInt(currentFloor, 10) || 0)}">
+                    </div>
+                    <div class="form-check mb-1">
+                        <input class="form-check-input prop-world-blocking" type="checkbox" data-index="${index}" id="world-block-${index}" ${pin.blocking ? 'checked' : ''}>
+                        <label class="form-check-label small" for="world-block-${index}">Blocking</label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input prop-world-pickup" type="checkbox" data-index="${index}" id="world-pick-${index}" ${pin.pickupable ? 'checked' : ''}>
+                        <label class="form-check-label small" for="world-pick-${index}">Pickupable</label>
+                    </div>
+                    ${kind === 'container' ? `
+                    <div class="mb-2 prop-pair">
+                        <div>
+                            <label class="form-label small text-secondary mb-0">Capacity</label>
+                            <input type="number" class="form-control form-control-sm bg-black border-secondary text-white prop-world-cap" data-index="${index}" min="1" value="${pin.capacity != null ? pin.capacity : 20}">
+                        </div>
+                        <div class="form-check mt-4">
+                            <input class="form-check-input prop-world-shared" type="checkbox" data-index="${index}" id="world-shared-${index}" ${pin.shared !== false ? 'checked' : ''}>
+                            <label class="form-check-label small" for="world-shared-${index}">Shared</label>
+                        </div>
+                    </div>
+                    <label class="form-label small text-secondary mb-1">Items</label>
+                    <div class="world-items-list mb-2" data-index="${index}">${itemsHtml}</div>
+                    <button type="button" class="btn btn-sm btn-outline-secondary mb-2 btn-add-world-item" data-index="${index}">Add item</button>
+                    ` : kind === 'chest' ? `
+                    <div class="form-check mb-2">
+                        <input class="form-check-input prop-world-shared" type="checkbox" data-index="${index}" id="world-shared-${index}" ${pin.shared ? 'checked' : ''}>
+                        <label class="form-check-label small" for="world-shared-${index}">Shared (first opener locks hunt)</label>
+                    </div>
+                    <div class="mb-2 prop-pair">
+                        <div>
+                            <label class="form-label small text-secondary mb-0">Once storage</label>
+                            <input type="text" class="form-control form-control-sm bg-black border-secondary text-white prop-world-once-key" data-index="${index}" value="${escapeHtml(chestOnceStorage(pin))}" placeholder="quest.demo.chest">
+                        </div>
+                        <div>
+                            <label class="form-label small text-secondary mb-0">Once equals</label>
+                            <input type="number" class="form-control form-control-sm bg-black border-secondary text-white prop-world-once-eq" data-index="${index}" value="${chestOnceEq(pin)}">
+                        </div>
+                    </div>
+                    <div class="mb-2 prop-pair">
+                        <div>
+                            <label class="form-label small text-secondary mb-0">When item</label>
+                            <input type="text" class="form-control form-control-sm bg-black border-secondary text-white prop-world-when-item" data-index="${index}" list="worldCatalogDatalist" value="${escapeHtml(chestWhenFields(pin).item)}" placeholder="optional">
+                        </div>
+                        <div>
+                            <label class="form-label small text-secondary mb-0">When min</label>
+                            <input type="number" class="form-control form-control-sm bg-black border-secondary text-white prop-world-when-min" data-index="${index}" min="1" value="${chestWhenFields(pin).min}">
+                        </div>
+                    </div>
+                    <label class="form-label small text-secondary mb-1">Give</label>
+                    <div class="world-give-list mb-2" data-index="${index}">${renderWorldItemRows(pin.give)}</div>
+                    <button type="button" class="btn btn-sm btn-outline-secondary mb-2 btn-add-world-give" data-index="${index}">Add item</button>
+                    <label class="form-label small text-secondary mb-1">Set storage</label>
+                    <div class="world-set-list mb-2" data-index="${index}">${renderWorldSetRows(pin.set)}</div>
+                    <button type="button" class="btn btn-sm btn-outline-secondary mb-2 btn-add-world-set" data-index="${index}">Add key</button>
+                    <div class="mb-2">
+                        <label class="form-label small text-secondary mb-0">Empty text</label>
+                        <input type="text" class="form-control form-control-sm bg-black border-secondary text-white prop-world-empty" data-index="${index}" value="${escapeHtml(pin.emptyText || '')}" placeholder="The chest is empty.">
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label small text-secondary mb-0">Transform to</label>
+                        <input type="text" class="form-control form-control-sm bg-black border-secondary text-white prop-world-transform" data-index="${index}" list="worldCatalogDatalist" value="${escapeHtml(pin.transformTo || '')}">
+                    </div>
+                    ` : (kind === 'lever' || kind === 'switch') ? `
+                    <div class="mb-2">
+                        <label class="form-label small text-secondary mb-0">States</label>
+                        <input type="text" class="form-control form-control-sm bg-black border-secondary text-white prop-world-states" data-index="${index}" value="${escapeHtml(leverStatesText(pin))}" placeholder="off,on">
+                    </div>
+                    <label class="form-label small text-secondary mb-1">Effects</label>
+                    <div class="world-effects-list mb-2" data-index="${index}">${renderWorldEffectRows(pin.effects)}</div>
+                    <div class="d-flex flex-wrap gap-1 mb-2">
+                        <button type="button" class="btn btn-sm btn-outline-secondary btn-add-world-effect-cell" data-index="${index}">Add cell</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary btn-add-world-effect-door" data-index="${index}">Add door</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary btn-add-world-effect-spawn" data-index="${index}"${hasWaveEffect ? ' disabled' : ''}>Add spawn</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary btn-add-world-effect-wave" data-index="${index}"${hasSpawnEffect ? ' disabled' : ''}>Add wave</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary btn-add-world-effect-unlock" data-index="${index}">Add unlock</button>
+                    </div>
+                    <div class="mb-2 prop-pair">
+                        <div>
+                            <label class="form-label small text-secondary mb-0">When storage</label>
+                            <input type="text" class="form-control form-control-sm bg-black border-secondary text-white prop-world-once-key" data-index="${index}" value="${escapeHtml(chestOnceStorage({ once: pin.when }))}" placeholder="optional gate">
+                        </div>
+                        <div>
+                            <label class="form-label small text-secondary mb-0">When equals</label>
+                            <input type="number" class="form-control form-control-sm bg-black border-secondary text-white prop-world-once-eq" data-index="${index}" value="${chestOnceEq({ once: pin.when })}">
+                        </div>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label small text-secondary mb-0">Transform on use</label>
+                        <input type="text" class="form-control form-control-sm bg-black border-secondary text-white prop-world-transform-use" data-index="${index}" list="worldCatalogDatalist" value="${escapeHtml(typeof pin.transformOnUse === 'string' ? pin.transformOnUse : (Array.isArray(pin.transformOnUse) ? pin.transformOnUse.filter(Boolean).join(',') : ''))}" placeholder="on-art catalog (or off,on)">
+                    </div>
+                    ` : kind === 'door' ? `
+                    <div class="mb-2">
+                        <label class="form-label small text-secondary mb-0">Closed catalog</label>
+                        <input type="text" class="form-control form-control-sm bg-black border-secondary text-white prop-world-closed" data-index="${index}" list="worldCatalogDatalist" value="${escapeHtml(pin.closedId || '')}">
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label small text-secondary mb-0">Open catalog</label>
+                        <input type="text" class="form-control form-control-sm bg-black border-secondary text-white prop-world-open" data-index="${index}" list="worldCatalogDatalist" value="${escapeHtml(pin.openId || '')}">
+                    </div>
+                    <div class="mb-2 prop-pair">
+                        <div>
+                            <label class="form-label small text-secondary mb-0">Lock item</label>
+                            <input type="text" class="form-control form-control-sm bg-black border-secondary text-white prop-world-lock" data-index="${index}" list="worldCatalogDatalist" value="${escapeHtml(pin.lockId || '')}" placeholder="optional key">
+                        </div>
+                        <div class="form-check mt-4">
+                            <input class="form-check-input prop-world-consume" type="checkbox" data-index="${index}" id="world-consume-${index}" ${pin.consume ? 'checked' : ''}>
+                            <label class="form-check-label small" for="world-consume-${index}">Consume key</label>
+                        </div>
+                    </div>
+                    <div class="mb-2 prop-pair">
+                        <div>
+                            <label class="form-label small text-secondary mb-0">Gate storage</label>
+                            <input type="text" class="form-control form-control-sm bg-black border-secondary text-white prop-world-gate-key" data-index="${index}" value="${escapeHtml(doorGateFields(pin).storage)}" placeholder="quest.demo.door">
+                        </div>
+                        <div>
+                            <label class="form-label small text-secondary mb-0">Gate equals</label>
+                            <input type="number" class="form-control form-control-sm bg-black border-secondary text-white prop-world-gate-eq" data-index="${index}" value="${doorGateFields(pin).eq}">
+                        </div>
+                    </div>
+                    <div class="mb-2 prop-pair">
+                        <div>
+                            <label class="form-label small text-secondary mb-0">Gate item</label>
+                            <input type="text" class="form-control form-control-sm bg-black border-secondary text-white prop-world-gate-item" data-index="${index}" list="worldCatalogDatalist" value="${escapeHtml(doorGateFields(pin).item)}" placeholder="optional">
+                        </div>
+                        <div>
+                            <label class="form-label small text-secondary mb-0">Gate min</label>
+                            <input type="number" class="form-control form-control-sm bg-black border-secondary text-white prop-world-gate-min" data-index="${index}" min="1" value="${doorGateFields(pin).min}">
+                        </div>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label small text-secondary mb-0">Gate level</label>
+                        <input type="number" class="form-control form-control-sm bg-black border-secondary text-white prop-world-gate-level" data-index="${index}" min="1" value="${doorGateFields(pin).level}" placeholder="optional min player.level">
+                    </div>
+                    ` : kind === 'teleport' ? `
+                    <div class="mb-2 prop-pair">
+                        <div>
+                            <label class="form-label small text-secondary mb-0">To X</label>
+                            <input type="number" class="form-control form-control-sm bg-black border-secondary text-white prop-world-to-x" data-index="${index}" value="${teleportToFields(pin).x}">
+                        </div>
+                        <div>
+                            <label class="form-label small text-secondary mb-0">To Y</label>
+                            <input type="number" class="form-control form-control-sm bg-black border-secondary text-white prop-world-to-y" data-index="${index}" value="${teleportToFields(pin).y}">
+                        </div>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label small text-secondary mb-0">To Z</label>
+                        <input type="number" class="form-control form-control-sm bg-black border-secondary text-white prop-world-to-z" data-index="${index}" min="0" max="15" value="${teleportToFields(pin).z}">
+                    </div>
+                    ` : kind === 'harvest' ? `
+                    <div class="form-check mb-2">
+                        <input class="form-check-input prop-world-shared" type="checkbox" data-index="${index}" id="world-shared-${index}" ${pin.shared !== false ? 'checked' : ''}>
+                        <label class="form-check-label small" for="world-shared-${index}">Shared (first harvest locks until cooldown)</label>
+                    </div>
+                    <div class="mb-2 prop-pair">
+                        <div>
+                            <label class="form-label small text-secondary mb-0">Once storage</label>
+                            <input type="text" class="form-control form-control-sm bg-black border-secondary text-white prop-world-once-key" data-index="${index}" value="${escapeHtml(chestOnceStorage(pin))}" placeholder="harvest.bush">
+                        </div>
+                        <div>
+                            <label class="form-label small text-secondary mb-0">Once equals</label>
+                            <input type="number" class="form-control form-control-sm bg-black border-secondary text-white prop-world-once-eq" data-index="${index}" value="${chestOnceEq(pin)}">
+                        </div>
+                    </div>
+                    <label class="form-label small text-secondary mb-1">Give</label>
+                    <div class="world-give-list mb-2" data-index="${index}">${renderWorldItemRows(pin.give)}</div>
+                    <button type="button" class="btn btn-sm btn-outline-secondary mb-2 btn-add-world-give" data-index="${index}">Add item</button>
+                    <label class="form-label small text-secondary mb-1">Set storage</label>
+                    <div class="world-set-list mb-2" data-index="${index}">${renderWorldSetRows(pin.set)}</div>
+                    <button type="button" class="btn btn-sm btn-outline-secondary mb-2 btn-add-world-set" data-index="${index}">Add key</button>
+                    <div class="mb-2">
+                        <label class="form-label small text-secondary mb-0">Empty text</label>
+                        <input type="text" class="form-control form-control-sm bg-black border-secondary text-white prop-world-empty" data-index="${index}" value="${escapeHtml(pin.emptyText || '')}" placeholder="You find nothing.">
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label small text-secondary mb-0">Transform to</label>
+                        <input type="text" class="form-control form-control-sm bg-black border-secondary text-white prop-world-transform" data-index="${index}" list="worldCatalogDatalist" value="${escapeHtml(pin.transformTo || '')}">
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label small text-secondary mb-0">Cooldown sec</label>
+                        <input type="number" class="form-control form-control-sm bg-black border-secondary text-white prop-world-cooldown" data-index="${index}" min="0" step="0.1" value="${pin.cooldown != null ? pin.cooldown : ''}" placeholder="optional">
+                    </div>
+                    ` : kind === 'trap' ? `
+                    <div class="form-check mb-2">
+                        <input class="form-check-input prop-world-shared" type="checkbox" data-index="${index}" id="world-shared-${index}" ${pin.shared !== false ? 'checked' : ''}>
+                        <label class="form-check-label small" for="world-shared-${index}">Shared (first step locks until cooldown)</label>
+                    </div>
+                    <div class="mb-2 prop-pair">
+                        <div>
+                            <label class="form-label small text-secondary mb-0">Damage</label>
+                            <input type="number" class="form-control form-control-sm bg-black border-secondary text-white prop-world-damage" data-index="${index}" min="0" value="${pin.damage != null ? pin.damage : ''}" placeholder="hp">
+                        </div>
+                        <div>
+                            <label class="form-label small text-secondary mb-0">Field</label>
+                            <input type="text" class="form-control form-control-sm bg-black border-secondary text-white prop-world-field" data-index="${index}" value="${escapeHtml(pin.field || '')}" placeholder="fire / poison / energy">
+                        </div>
+                    </div>
+                    <div class="mb-2 prop-pair">
+                        <div>
+                            <label class="form-label small text-secondary mb-0">Once storage</label>
+                            <input type="text" class="form-control form-control-sm bg-black border-secondary text-white prop-world-once-key" data-index="${index}" value="${escapeHtml(chestOnceStorage(pin))}" placeholder="optional">
+                        </div>
+                        <div>
+                            <label class="form-label small text-secondary mb-0">Once equals</label>
+                            <input type="number" class="form-control form-control-sm bg-black border-secondary text-white prop-world-once-eq" data-index="${index}" value="${chestOnceEq(pin)}">
+                        </div>
+                    </div>
+                    <label class="form-label small text-secondary mb-1">Set storage</label>
+                    <div class="world-set-list mb-2" data-index="${index}">${renderWorldSetRows(pin.set)}</div>
+                    <button type="button" class="btn btn-sm btn-outline-secondary mb-2 btn-add-world-set" data-index="${index}">Add key</button>
+                    <div class="mb-2">
+                        <label class="form-label small text-secondary mb-0">Transform to</label>
+                        <input type="text" class="form-control form-control-sm bg-black border-secondary text-white prop-world-transform" data-index="${index}" list="worldCatalogDatalist" value="${escapeHtml(pin.transformTo || '')}">
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label small text-secondary mb-0">Cooldown sec</label>
+                        <input type="number" class="form-control form-control-sm bg-black border-secondary text-white prop-world-cooldown" data-index="${index}" min="0" step="0.1" value="${pin.cooldown != null ? pin.cooldown : ''}" placeholder="optional">
+                    </div>
+                    ` : `<div class="small text-secondary mb-2">Unknown kind fields persist if already in the pin.</div>`}
+                    ${kind !== 'chest' && kind !== 'door' && kind !== 'lever' && kind !== 'switch' && kind !== 'harvest' && kind !== 'trap' ? `
+                    <div class="mb-2">
+                        <label class="form-label small text-secondary mb-0">Transform on use</label>
+                        <input type="text" class="form-control form-control-sm bg-black border-secondary text-white prop-world-transform-use" data-index="${index}" list="worldCatalogDatalist" value="${escapeHtml(typeof pin.transformOnUse === 'string' ? pin.transformOnUse : '')}">
+                    </div>
+                    ` : ''}
+                    <div class="mb-2 prop-pair">
+                        <div>
+                            <label class="form-label small text-secondary mb-0">Decay sec</label>
+                            <input type="number" class="form-control form-control-sm bg-black border-secondary text-white prop-world-decay-sec" data-index="${index}" min="0" step="0.1" value="${pin.decay && pin.decay.sec != null ? pin.decay.sec : ''}" placeholder="optional">
+                        </div>
+                        <div>
+                            <label class="form-label small text-secondary mb-0">Decay to</label>
+                            <input type="text" class="form-control form-control-sm bg-black border-secondary text-white prop-world-decay-to" data-index="${index}" list="worldCatalogDatalist" value="${escapeHtml(pin.decay && pin.decay.to ? pin.decay.to : '')}" placeholder="remove if empty">
+                        </div>
+                    </div>
+                    <div class="d-flex gap-2 mb-0">
+                        <button class="btn btn-sm btn-primary flex-grow-1 btn-update-world" data-index="${index}">Update</button>
+                        <button class="btn btn-sm btn-info flex-grow-1 text-white btn-center-world" data-index="${index}">Center</button>
+                        <button class="btn btn-sm btn-danger flex-grow-1 btn-delete-world" data-index="${index}">Delete</button>
+                    </div>
+                </div>
+            `;
+        });
+        html += `</div>`;
+        propsContent.innerHTML = html;
+
+        const rm = document.getElementById('btn-remove-selected-world');
+        if (rm) {
+            rm.addEventListener('click', () => {
+                saveState();
+                currentMapWorld = currentMapWorld.filter((p) => !selectedWorldPins.includes(p));
+                mapWorldCache[currentFloor] = currentMapWorld;
+                selectedWorldPins = [];
+                selectedWorldPin = null;
+                renderSpawns();
+                updateFloorCounts();
+                renderWorldProperties();
+            });
+        }
+        document.querySelectorAll('.btn-add-world-item').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const idx = parseInt(btn.dataset.index, 10);
+                const pin = selectedWorldPins[idx];
+                if (!pin) return;
+                if (!Array.isArray(pin.items)) pin.items = [];
+                pin.items.push({ item: '', count: 1 });
+                renderWorldProperties();
+            });
+        });
+        document.querySelectorAll('.btn-add-world-give').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const idx = parseInt(btn.dataset.index, 10);
+                const pin = selectedWorldPins[idx];
+                if (!pin) return;
+                if (!Array.isArray(pin.give)) pin.give = [];
+                pin.give.push({ item: '', count: 1 });
+                renderWorldProperties();
+            });
+        });
+        document.querySelectorAll('.btn-add-world-set').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const idx = parseInt(btn.dataset.index, 10);
+                const pin = selectedWorldPins[idx];
+                if (!pin) return;
+                if (!pin.set || typeof pin.set !== 'object' || Array.isArray(pin.set)) {
+                    pin.set = {};
+                }
+                let n = Object.keys(pin.set).length;
+                let k = n === 0 ? 'quest.key' : 'quest.key_' + (n + 1);
+                while (pin.set[k] != null) {
+                    n += 1;
+                    k = 'quest.key_' + n;
+                }
+                pin.set[k] = 1;
+                renderWorldProperties();
+            });
+        });
+        document.querySelectorAll('.world-item-del').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const row = btn.closest('.world-item-row');
+                const list = btn.closest('.world-items-list, .world-give-list');
+                const pidx = list ? parseInt(list.dataset.index, 10) : -1;
+                const pin = selectedWorldPins[pidx];
+                if (!pin || !row || !list) return;
+                const iidx = parseInt(row.dataset.index, 10);
+                const bag = list.classList.contains('world-give-list') ? 'give' : 'items';
+                if (Array.isArray(pin[bag])) pin[bag].splice(iidx, 1);
+                renderWorldProperties();
+            });
+        });
+        document.querySelectorAll('.world-set-del').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const row = btn.closest('.world-set-row');
+                const list = btn.closest('.world-set-list');
+                const pidx = list ? parseInt(list.dataset.index, 10) : -1;
+                const pin = selectedWorldPins[pidx];
+                if (!pin || !row) return;
+                const kEl = row.querySelector('.world-set-key');
+                const key = kEl ? String(kEl.value || '').trim() : '';
+                if (pin.set && typeof pin.set === 'object' && key) delete pin.set[key];
+                renderWorldProperties();
+            });
+        });
+        document.querySelectorAll('.btn-add-world-effect-cell').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const idx = parseInt(btn.dataset.index, 10);
+                const pin = selectedWorldPins[idx];
+                if (!pin) return;
+                if (!Array.isArray(pin.effects)) pin.effects = [];
+                pin.effects.push({
+                    type: 'cell',
+                    x: Math.round(Number(pin.x)) || 0,
+                    y: Math.round(Number(pin.y)) || 0,
+                    z: pin.z != null ? pin.z : (parseInt(currentFloor, 10) || 0),
+                    friction: 100
+                });
+                renderWorldProperties();
+            });
+        });
+        document.querySelectorAll('.btn-add-world-effect-door').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const idx = parseInt(btn.dataset.index, 10);
+                const pin = selectedWorldPins[idx];
+                if (!pin) return;
+                if (!Array.isArray(pin.effects)) pin.effects = [];
+                pin.effects.push({ type: 'door', id: '', open: true });
+                renderWorldProperties();
+            });
+        });
+        document.querySelectorAll('.btn-add-world-effect-spawn').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const idx = parseInt(btn.dataset.index, 10);
+                const pin = selectedWorldPins[idx];
+                if (!pin) return;
+                if (!Array.isArray(pin.effects)) pin.effects = [];
+                for (let i = 0; i < pin.effects.length; i++) {
+                    if (pin.effects[i] && pin.effects[i].type === 'wave') return;
+                }
+                pin.effects.push({
+                    type: 'spawn',
+                    creatureId: '',
+                    x: Math.round(Number(pin.x)) || 0,
+                    y: Math.round(Number(pin.y)) || 0,
+                    z: pin.z != null ? pin.z : (parseInt(currentFloor, 10) || 0),
+                    count: 1
+                });
+                renderWorldProperties();
+            });
+        });
+        document.querySelectorAll('.btn-add-world-effect-wave').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const idx = parseInt(btn.dataset.index, 10);
+                const pin = selectedWorldPins[idx];
+                if (!pin) return;
+                if (!Array.isArray(pin.effects)) pin.effects = [];
+                for (let i = 0; i < pin.effects.length; i++) {
+                    if (pin.effects[i] && pin.effects[i].type === 'spawn') return;
+                }
+                pin.effects.push({ type: 'wave' });
+                renderWorldProperties();
+            });
+        });
+        document.querySelectorAll('.btn-add-world-effect-unlock').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const idx = parseInt(btn.dataset.index, 10);
+                const pin = selectedWorldPins[idx];
+                if (!pin) return;
+                if (!Array.isArray(pin.effects)) pin.effects = [];
+                pin.effects.push({ type: 'unlock' });
+                renderWorldProperties();
+            });
+        });
+        document.querySelectorAll('.world-effect-del').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const row = btn.closest('.world-effect-row');
+                const list = btn.closest('.world-effects-list');
+                const pidx = list ? parseInt(list.dataset.index, 10) : -1;
+                const pin = selectedWorldPins[pidx];
+                if (!pin || !row || !Array.isArray(pin.effects)) return;
+                const iidx = parseInt(row.dataset.index, 10);
+                if (Number.isFinite(iidx)) pin.effects.splice(iidx, 1);
+                renderWorldProperties();
+            });
+        });
+        document.querySelectorAll('.prop-world-kind').forEach((sel) => {
+            sel.addEventListener('change', () => {
+                const idx = parseInt(sel.dataset.index, 10);
+                const pin = selectedWorldPins[idx];
+                if (!pin) return;
+                saveState();
+                applyWorldPinFields(pin, readWorldPinFields(idx));
+                renderWorldProperties();
+            });
+        });
+        document.querySelectorAll('.btn-update-world').forEach((btn) => {
+            btn.addEventListener('click', async () => {
+                const idx = parseInt(btn.dataset.index, 10);
+                const pin = selectedWorldPins[idx];
+                if (!pin) return;
+                const fields = readWorldPinFields(idx);
+                const plan = HdlTM && typeof HdlTM.planWorldFloorMove === 'function'
+                    ? HdlTM.planWorldFloorMove(currentFloor, fields.z)
+                    : { ok: false, reason: 'same' };
+                if (plan.ok) {
+                    await moveWorldToFloor(pin, fields);
+                    return;
+                }
+                saveState();
+                applyWorldPinFields(pin, fields);
+                renderSpawns();
+                updateFloorCounts();
+            });
+        });
+        document.querySelectorAll('.btn-center-world').forEach((btn) => {
+            btn.addEventListener('click', (e) => {
+                const idx = parseInt(e.target.dataset.index, 10);
+                const pin = selectedWorldPins[idx];
+                zoomImageAtPoint(pin.x, pin.y, currentFloor, 1600);
+            });
+        });
+        document.querySelectorAll('.btn-delete-world').forEach((btn) => {
+            btn.addEventListener('click', (e) => {
+                saveState();
+                const idx = parseInt(e.target.dataset.index, 10);
+                const pin = selectedWorldPins[idx];
+                const mapIdx = currentMapWorld.indexOf(pin);
+                if (mapIdx > -1) currentMapWorld.splice(mapIdx, 1);
+                selectedWorldPins.splice(idx, 1);
+                if (selectedWorldPin === pin) {
+                    selectedWorldPin = selectedWorldPins.length > 0 ? selectedWorldPins[0] : null;
+                }
+                mapWorldCache[currentFloor] = currentMapWorld;
+                renderSpawns();
+                updateFloorCounts();
+                renderWorldProperties();
+            });
+        });
+    }
+
+    function readWorldPinFields(index) {
+        const idEl = document.querySelector('.prop-world-id[data-index="' + index + '"]');
+        const kindEl = document.querySelector('.prop-world-kind[data-index="' + index + '"]');
+        const tagEl = document.querySelector('.prop-world-tag[data-index="' + index + '"]');
+        const catEl = document.querySelector('.prop-world-catalog[data-index="' + index + '"]');
+        const xEl = document.querySelector('.prop-world-x[data-index="' + index + '"]');
+        const yEl = document.querySelector('.prop-world-y[data-index="' + index + '"]');
+        const zEl = document.querySelector('.prop-world-z[data-index="' + index + '"]');
+        const blockEl = document.querySelector('.prop-world-blocking[data-index="' + index + '"]');
+        const pickEl = document.querySelector('.prop-world-pickup[data-index="' + index + '"]');
+        const capEl = document.querySelector('.prop-world-cap[data-index="' + index + '"]');
+        const sharedEl = document.querySelector('.prop-world-shared[data-index="' + index + '"]');
+        const itemsRoot = document.querySelector('.world-items-list[data-index="' + index + '"]');
+        const giveRoot = document.querySelector('.world-give-list[data-index="' + index + '"]');
+        const setRoot = document.querySelector('.world-set-list[data-index="' + index + '"]');
+        const onceKeyEl = document.querySelector('.prop-world-once-key[data-index="' + index + '"]');
+        const onceEqEl = document.querySelector('.prop-world-once-eq[data-index="' + index + '"]');
+        const whenItemEl = document.querySelector('.prop-world-when-item[data-index="' + index + '"]');
+        const whenMinEl = document.querySelector('.prop-world-when-min[data-index="' + index + '"]');
+        const emptyEl = document.querySelector('.prop-world-empty[data-index="' + index + '"]');
+        const transformEl = document.querySelector('.prop-world-transform[data-index="' + index + '"]');
+        const statesEl = document.querySelector('.prop-world-states[data-index="' + index + '"]');
+        const effectsRoot = document.querySelector('.world-effects-list[data-index="' + index + '"]');
+        const closedEl = document.querySelector('.prop-world-closed[data-index="' + index + '"]');
+        const openEl = document.querySelector('.prop-world-open[data-index="' + index + '"]');
+        const lockEl = document.querySelector('.prop-world-lock[data-index="' + index + '"]');
+        const consumeEl = document.querySelector('.prop-world-consume[data-index="' + index + '"]');
+        const gateKeyEl = document.querySelector('.prop-world-gate-key[data-index="' + index + '"]');
+        const gateEqEl = document.querySelector('.prop-world-gate-eq[data-index="' + index + '"]');
+        const gateItemEl = document.querySelector('.prop-world-gate-item[data-index="' + index + '"]');
+        const gateMinEl = document.querySelector('.prop-world-gate-min[data-index="' + index + '"]');
+        const gateLevelEl = document.querySelector('.prop-world-gate-level[data-index="' + index + '"]');
+        const toXEl = document.querySelector('.prop-world-to-x[data-index="' + index + '"]');
+        const toYEl = document.querySelector('.prop-world-to-y[data-index="' + index + '"]');
+        const toZEl = document.querySelector('.prop-world-to-z[data-index="' + index + '"]');
+        const transformUseEl = document.querySelector('.prop-world-transform-use[data-index="' + index + '"]');
+        const decaySecEl = document.querySelector('.prop-world-decay-sec[data-index="' + index + '"]');
+        const decayToEl = document.querySelector('.prop-world-decay-to[data-index="' + index + '"]');
+        const cooldownEl = document.querySelector('.prop-world-cooldown[data-index="' + index + '"]');
+        const damageEl = document.querySelector('.prop-world-damage[data-index="' + index + '"]');
+        const fieldEl = document.querySelector('.prop-world-field[data-index="' + index + '"]');
+        const kind = kindEl ? kindEl.value : 'container';
+        const onceKey = onceKeyEl ? onceKeyEl.value.trim() : '';
+        let onceEq = onceEqEl ? Number(onceEqEl.value) : 0;
+        if (!Number.isFinite(onceEq)) onceEq = 0;
+        const whenItem = whenItemEl ? whenItemEl.value.trim() : '';
+        let whenMin = whenMinEl ? Math.floor(Number(whenMinEl.value)) : 1;
+        if (!Number.isFinite(whenMin) || whenMin < 1) whenMin = 1;
+        return {
+            id: idEl ? idEl.value.trim() : '',
+            kind,
+            tag: tagEl ? tagEl.value.trim() : '',
+            catalogId: catEl ? catEl.value.trim() : '',
+            x: xEl ? Number(xEl.value) : 0,
+            y: yEl ? Number(yEl.value) : 0,
+            z: zEl ? Number(zEl.value) : (parseInt(currentFloor, 10) || 0),
+            blocking: !!(blockEl && blockEl.checked),
+            pickupable: !!(pickEl && pickEl.checked),
+            capacity: capEl ? Number(capEl.value) : 20,
+            shared: sharedEl ? !!sharedEl.checked : kind !== 'chest',
+            items: readWorldItemRows(itemsRoot),
+            give: readWorldItemRows(giveRoot),
+            set: readWorldSetRows(setRoot),
+            once: onceKey ? { storage: onceKey, eq: onceEq } : null,
+            when: whenItem ? { item: whenItem, min: whenMin } : null,
+            emptyText: emptyEl ? emptyEl.value.trim() : '',
+            transformTo: transformEl ? transformEl.value.trim() : '',
+            states: statesEl ? statesEl.value.trim() : 'off,on',
+            effects: readWorldEffectRows(effectsRoot),
+            closedId: closedEl ? closedEl.value.trim() : '',
+            openId: openEl ? openEl.value.trim() : '',
+            lockId: lockEl ? lockEl.value.trim() : '',
+            consume: !!(consumeEl && consumeEl.checked),
+            gateStorage: gateKeyEl ? gateKeyEl.value.trim() : '',
+            gateEq: (function () {
+                let n = gateEqEl ? Number(gateEqEl.value) : 0;
+                return Number.isFinite(n) ? n : 0;
+            })(),
+            gateItem: gateItemEl ? gateItemEl.value.trim() : '',
+            gateMin: (function () {
+                let n = gateMinEl ? Math.floor(Number(gateMinEl.value)) : 1;
+                return Number.isFinite(n) && n >= 1 ? n : 1;
+            })(),
+            gateLevel: (function () {
+                if (!gateLevelEl || gateLevelEl.value === '') return 0;
+                const n = Math.floor(Number(gateLevelEl.value));
+                return Number.isFinite(n) && n >= 1 ? n : 0;
+            })(),
+            to: (function () {
+                const x = toXEl ? Number(toXEl.value) : NaN;
+                const y = toYEl ? Number(toYEl.value) : NaN;
+                if (!Number.isFinite(x) || !Number.isFinite(y)) return null;
+                let z = toZEl ? Number(toZEl.value) : NaN;
+                if (!Number.isFinite(z)) z = parseInt(currentFloor, 10) || 0;
+                return { x: Math.round(x), y: Math.round(y), z: Math.round(z) };
+            })(),
+            transformOnUse: (function () {
+                const raw = transformUseEl ? transformUseEl.value.trim() : '';
+                if (!raw) return '';
+                if (raw.indexOf(',') >= 0) {
+                    return raw.split(',').map((s) => s.trim());
+                }
+                return raw;
+            })(),
+            decay: (function () {
+                let sec = decaySecEl ? Number(decaySecEl.value) : 0;
+                if (!Number.isFinite(sec) || sec <= 0) return null;
+                const decay = { sec };
+                const to = decayToEl ? decayToEl.value.trim() : '';
+                if (to) decay.to = to;
+                return decay;
+            })(),
+            cooldown: (function () {
+                let n = cooldownEl ? Number(cooldownEl.value) : 0;
+                if (!Number.isFinite(n) || n <= 0) return 0;
+                return n;
+            })(),
+            damage: (function () {
+                if (!damageEl || String(damageEl.value).trim() === '') return 0;
+                const n = Math.floor(Number(damageEl.value));
+                return Number.isFinite(n) && n >= 1 ? n : 0;
+            })(),
+            field: fieldEl ? fieldEl.value.trim() : ''
+        };
+    }
+
+    function buildDoorGate(fields) {
+        const clauses = [];
+        if (fields.gateStorage) {
+            clauses.push({ storage: fields.gateStorage, eq: fields.gateEq });
+        }
+        if (fields.gateItem) {
+            clauses.push({ item: fields.gateItem, min: fields.gateMin });
+        }
+        const gate = {};
+        if (clauses.length === 1) gate.when = clauses[0];
+        else if (clauses.length > 1) gate.when = clauses;
+        if (fields.gateLevel >= 1) gate.level = fields.gateLevel;
+        return Object.keys(gate).length ? gate : null;
+    }
+
+    function applyWorldPinFields(pin, fields) {
+        pin.id = fields.id || pin.id;
+        pin.kind = fields.kind || pin.kind;
+        pin.tag = fields.tag || undefined;
+        if (!pin.tag) delete pin.tag;
+        pin.catalogId = fields.catalogId || pin.catalogId;
+        pin.x = Math.round(Number(fields.x));
+        pin.y = Math.round(Number(fields.y));
+        pin.z = Number(fields.z);
+        pin.blocking = !!fields.blocking;
+        pin.pickupable = !!fields.pickupable;
+        if (pin.kind === 'container') {
+            pin.capacity = Math.max(1, Math.floor(Number(fields.capacity)) || 20);
+            pin.shared = fields.shared !== false;
+            pin.items = fields.items || [];
+            delete pin.once;
+            delete pin.when;
+            delete pin.give;
+            delete pin.set;
+            delete pin.emptyText;
+            delete pin.transformTo;
+            delete pin.states;
+            delete pin.effects;
+            delete pin.closedId;
+            delete pin.openId;
+            delete pin.gate;
+            delete pin.lockId;
+            delete pin.consume;
+            delete pin.to;
+        } else if (pin.kind === 'chest') {
+            pin.shared = !!fields.shared;
+            if (fields.once) pin.once = fields.once;
+            else delete pin.once;
+            if (fields.when) pin.when = fields.when;
+            else delete pin.when;
+            pin.give = fields.give || [];
+            if (fields.set && Object.keys(fields.set).length) pin.set = fields.set;
+            else delete pin.set;
+            if (fields.emptyText) pin.emptyText = fields.emptyText;
+            else delete pin.emptyText;
+            if (fields.transformTo) pin.transformTo = fields.transformTo;
+            else delete pin.transformTo;
+            delete pin.items;
+            delete pin.capacity;
+            delete pin.states;
+            delete pin.effects;
+            delete pin.closedId;
+            delete pin.openId;
+            delete pin.gate;
+            delete pin.lockId;
+            delete pin.consume;
+            delete pin.to;
+        } else if (pin.kind === 'lever' || pin.kind === 'switch') {
+            const statesRaw = String(fields.states || '').split(',');
+            const states = [];
+            for (let i = 0; i < statesRaw.length; i++) {
+                const s = statesRaw[i].trim();
+                if (s) states.push(s);
+            }
+            pin.states = states.length ? states : ['off', 'on'];
+            pin.effects = dropSpawnWaveMix(fields.effects || []);
+            if (fields.once) pin.when = fields.once;
+            else delete pin.when;
+            delete pin.items;
+            delete pin.capacity;
+            delete pin.once;
+            delete pin.give;
+            delete pin.set;
+            delete pin.emptyText;
+            delete pin.transformTo;
+            delete pin.closedId;
+            delete pin.openId;
+            delete pin.shared;
+            delete pin.gate;
+            delete pin.lockId;
+            delete pin.consume;
+            delete pin.to;
+        } else if (pin.kind === 'harvest') {
+            pin.shared = fields.shared !== false;
+            if (fields.once) pin.once = fields.once;
+            else delete pin.once;
+            if (fields.when) pin.when = fields.when;
+            pin.give = fields.give || [];
+            if (fields.set && Object.keys(fields.set).length) pin.set = fields.set;
+            else delete pin.set;
+            if (fields.emptyText) pin.emptyText = fields.emptyText;
+            else delete pin.emptyText;
+            if (fields.transformTo) pin.transformTo = fields.transformTo;
+            else delete pin.transformTo;
+            if (fields.cooldown) pin.cooldown = fields.cooldown;
+            else delete pin.cooldown;
+            delete pin.items;
+            delete pin.capacity;
+            delete pin.states;
+            delete pin.effects;
+            delete pin.closedId;
+            delete pin.openId;
+            delete pin.gate;
+            delete pin.lockId;
+            delete pin.consume;
+            delete pin.to;
+            delete pin.damage;
+            delete pin.field;
+        } else if (pin.kind === 'trap') {
+            pin.shared = fields.shared !== false;
+            if (fields.once) pin.once = fields.once;
+            else delete pin.once;
+            if (fields.when) pin.when = fields.when;
+            if (fields.set && Object.keys(fields.set).length) pin.set = fields.set;
+            else delete pin.set;
+            if (fields.transformTo) pin.transformTo = fields.transformTo;
+            else delete pin.transformTo;
+            if (fields.cooldown) pin.cooldown = fields.cooldown;
+            else delete pin.cooldown;
+            if (fields.damage) pin.damage = fields.damage;
+            else delete pin.damage;
+            if (fields.field) pin.field = fields.field;
+            else delete pin.field;
+            delete pin.items;
+            delete pin.capacity;
+            delete pin.give;
+            delete pin.emptyText;
+            delete pin.states;
+            delete pin.effects;
+            delete pin.closedId;
+            delete pin.openId;
+            delete pin.gate;
+            delete pin.lockId;
+            delete pin.consume;
+            delete pin.to;
+        } else if (pin.kind === 'door') {
+            if (fields.closedId) pin.closedId = fields.closedId;
+            else delete pin.closedId;
+            if (fields.openId) pin.openId = fields.openId;
+            else delete pin.openId;
+            if (fields.lockId) pin.lockId = fields.lockId;
+            else delete pin.lockId;
+            if (fields.consume) pin.consume = true;
+            else delete pin.consume;
+            const gate = buildDoorGate(fields);
+            if (gate) pin.gate = gate;
+            else delete pin.gate;
+            delete pin.items;
+            delete pin.capacity;
+            delete pin.once;
+            delete pin.when;
+            delete pin.give;
+            delete pin.set;
+            delete pin.emptyText;
+            delete pin.transformTo;
+            delete pin.states;
+            delete pin.effects;
+            delete pin.shared;
+            delete pin.to;
+        } else if (pin.kind === 'teleport') {
+            if (fields.to) pin.to = fields.to;
+            else delete pin.to;
+            delete pin.items;
+            delete pin.capacity;
+            delete pin.once;
+            delete pin.when;
+            delete pin.give;
+            delete pin.set;
+            delete pin.emptyText;
+            delete pin.transformTo;
+            delete pin.states;
+            delete pin.effects;
+            delete pin.closedId;
+            delete pin.openId;
+            delete pin.shared;
+            delete pin.gate;
+            delete pin.lockId;
+            delete pin.consume;
+        } else {
+            delete pin.items;
+            delete pin.capacity;
+            delete pin.once;
+            delete pin.when;
+            delete pin.give;
+            delete pin.set;
+            delete pin.emptyText;
+            delete pin.transformTo;
+            delete pin.states;
+            delete pin.effects;
+            delete pin.closedId;
+            delete pin.openId;
+            delete pin.shared;
+            delete pin.gate;
+            delete pin.lockId;
+            delete pin.consume;
+            delete pin.to;
+        }
+        if (pin.kind !== 'chest' && pin.kind !== 'door' && pin.kind !== 'harvest' && pin.kind !== 'trap') {
+            if (fields.transformOnUse && (typeof fields.transformOnUse === 'string' ? fields.transformOnUse : fields.transformOnUse.length)) {
+                pin.transformOnUse = fields.transformOnUse;
+            } else {
+                delete pin.transformOnUse;
+            }
+        } else {
+            delete pin.transformOnUse;
+        }
+        if (pin.kind !== 'harvest' && pin.kind !== 'trap') {
+            delete pin.cooldown;
+            delete pin.damage;
+            delete pin.field;
+        }
+        if (fields.decay) pin.decay = fields.decay;
+        else delete pin.decay;
+        const cat = worldCatalog[pin.catalogId];
+        if (cat && cat.kind) pin.catalogKind = cat.kind;
+    }
+
+    async function moveWorldToFloor(pin, fields) {
+        const fromFloor = currentFloor;
+        const destFloor = padFloor(fields.z);
+        await ensureFloorSpawnsLoaded(destFloor);
+        applyWorldPinFields(pin, fields);
+        const apply = HdlTM && typeof HdlTM.applyWorldFloorMove === 'function'
+            ? HdlTM.applyWorldFloorMove
+            : null;
+        const result = apply
+            ? apply(
+                mapWorldCache[fromFloor] || currentMapWorld,
+                mapWorldCache[destFloor] || [],
+                pin,
+                fields.z
+            )
+            : null;
+        if (!result) {
+            alert('Could not move World pin — pin not found on this floor');
+            return;
+        }
+        mapWorldCache[fromFloor] = result.fromList;
+        mapWorldCache[destFloor] = result.destList;
+        currentMapWorld = result.fromList;
+        selectedWorldPins = selectedWorldPins.filter((p) => p !== pin);
+        selectedWorldPin = selectedWorldPins[0] || null;
+        renderSpawns();
+        updateFloorCounts();
+        renderWorldProperties();
+        try {
+            await saveFloorWorld(destFloor);
+            await saveFloorWorld(fromFloor);
+            setDirty(false);
+        } catch (e) {
+            alert('Error saving World floor move: ' + e.message);
+        }
     }
 
     function cloneStairPadRow(row, z) {
@@ -4159,6 +5654,55 @@ document.addEventListener("DOMContentLoaded", () => {
         const clickX = clickCanvasX / zoomValue;
         const clickY = clickCanvasY / zoomValue;
 
+        if (currentLayer === 'world' && layerVisibility[`floor-${currentFloor}-world`]) {
+            let nearest = null;
+            let minD = Infinity;
+            for (const pin of currentMapWorld) {
+                const w = 32;
+                const h = 32;
+                const px = pin.x * zoomValue;
+                const py = pin.y * zoomValue;
+                if (clickCanvasX >= px && clickCanvasX <= px + w &&
+                    clickCanvasY >= py && clickCanvasY <= py + h) {
+                    const cx = px + w / 2;
+                    const cy = py + h / 2;
+                    const distSq = (clickCanvasX - cx) * (clickCanvasX - cx) + (clickCanvasY - cy) * (clickCanvasY - cy);
+                    if (distSq < minD) {
+                        minD = distSq;
+                        nearest = pin;
+                    }
+                }
+            }
+            if (nearest) {
+                selectedWorldPin = nearest;
+                selectedWorldPins = [nearest];
+                selectedWorldPalette = null;
+                renderWorldPaletteUI();
+                renderWorldProperties();
+                renderSpawns();
+                return;
+            }
+            if (selectedWorldPalette) {
+                saveState();
+                const pin = makeNewWorldPin(clickX, clickY, selectedWorldPalette.id);
+                if (pin) {
+                    currentMapWorld.push(pin);
+                    mapWorldCache[currentFloor] = currentMapWorld;
+                    selectedWorldPin = pin;
+                    selectedWorldPins = [pin];
+                    renderSpawns();
+                    updateFloorCounts();
+                    renderWorldProperties();
+                }
+            } else {
+                selectedWorldPin = null;
+                selectedWorldPins = [];
+                renderWorldProperties();
+                renderSpawns();
+            }
+            return;
+        }
+
         let nearestSpawn = null;
         let minDistanceSq = Infinity;
 
@@ -4413,6 +5957,15 @@ document.addEventListener("DOMContentLoaded", () => {
         return bags;
     }
 
+    function collectWorldBags() {
+        const bags = [];
+        for (let i = 0; i <= 15; i++) {
+            const id = padFloor(i);
+            if (mapWorldCache[id]) bags.push({ floor: id, world: mapWorldCache[id] });
+        }
+        return bags;
+    }
+
     function selectPaletteForCreature(rawId) {
         const item = resolvePaletteItem(rawId);
         if (!item.id) return null;
@@ -4474,6 +6027,22 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
             if (statusBar) statusBar.textContent = 'Eyedropper: no pin on this tile';
+            return;
+        }
+        if (currentLayer === 'world') {
+            let pin = HdlTM && typeof HdlTM.worldPinAtTile === 'function'
+                ? HdlTM.worldPinAtTile(currentMapWorld, localX, localY)
+                : null;
+            if (pin && pin.catalogId) {
+                const item = resolveWorldPaletteItem(pin.catalogId);
+                if (item && !worldPalette.find((m) => m.id === item.id)) worldPalette.push(item);
+                selectedWorldPalette = worldPalette.find((m) => m.id === (item && item.id)) || item;
+                if (pin.kind) selectedWorldKind = pin.kind;
+                renderWorldPaletteUI();
+                if (statusBar) statusBar.textContent = 'Eyedrop ' + pin.kind + ' · ' + pin.catalogId;
+                return;
+            }
+            if (statusBar) statusBar.textContent = 'Eyedropper: no World pin on this tile';
             return;
         }
 
@@ -4640,6 +6209,40 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    function copySelectedWorld() {
+        if (!HdlTM || typeof HdlTM.copyWorldPins !== 'function') return false;
+        const src = selectedWorldPins.length ? selectedWorldPins : (selectedWorldPin ? [selectedWorldPin] : []);
+        const clip = HdlTM.copyWorldPins(src);
+        if (!clip) return false;
+        worldClipboard = clip;
+        const statusBar = document.getElementById('statusBar');
+        if (statusBar) statusBar.textContent = 'Copied ' + clip.pins.length + ' World pin(s)';
+        return true;
+    }
+
+    function pasteWorldClipboard() {
+        if (!HdlTM || typeof HdlTM.pasteWorldPins !== 'function' || !worldClipboard) return false;
+        const dest = {
+            x: lastMapTile.x,
+            y: lastMapTile.y,
+            z: parseInt(currentFloor, 10) || 0
+        };
+        const pins = HdlTM.pasteWorldPins(worldClipboard, dest, worldCatalog, currentMapWorld);
+        if (!pins.length) return false;
+        saveState();
+        for (let i = 0; i < pins.length; i++) currentMapWorld.push(pins[i]);
+        mapWorldCache[currentFloor] = currentMapWorld;
+        selectedWorldPins = pins.slice();
+        selectedWorldPin = pins[0];
+        selectedWorldPalette = null;
+        renderSpawns();
+        updateFloorCounts();
+        renderWorldProperties();
+        const statusBar = document.getElementById('statusBar');
+        if (statusBar) statusBar.textContent = 'Pasted ' + pins.length + ' World pin(s)';
+        return true;
+    }
+
     function copySelectedSpawns() {
         if (!HdlTM || typeof HdlTM.copySpawnPins !== 'function') return false;
         const src = selectedMapSpawns.length ? selectedMapSpawns : (selectedMapSpawn ? [selectedMapSpawn] : []);
@@ -4682,7 +6285,19 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function jumpToSpawnHit(hit) {
-        if (!hit || !hit.spawn) return;
+        if (!hit) return;
+        if (hit.pin) {
+            const z = hit.floor != null ? hit.floor : (hit.pin.z != null ? hit.pin.z : currentFloor);
+            zoomImageAtPoint(hit.pin.x, hit.pin.y, z, Math.max(currentZoomPct(), 800));
+            if (padFloor(z) === currentFloor) {
+                selectedWorldPin = hit.pin;
+                selectedWorldPins = [hit.pin];
+                renderWorldProperties();
+                renderSpawns();
+            }
+            return;
+        }
+        if (!hit.spawn) return;
         const z = hit.floor != null ? hit.floor : (hit.spawn.z != null ? hit.spawn.z : currentFloor);
         zoomImageAtPoint(hit.spawn.x, hit.spawn.y, z, Math.max(currentZoomPct(), 800));
         if (padFloor(z) === currentFloor) {
@@ -4724,6 +6339,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     issue: 'ok'
                 }));
             }
+            if (typeof HdlTM.findWorldHits === 'function') {
+                const worldHits = HdlTM.findWorldHits(collectWorldBags(), {
+                    query: key,
+                    catalogs: worldCatalog
+                });
+                gotoSearchHits = gotoSearchHits.concat(worldHits);
+            }
         } else {
             gotoSearchIndex += 1;
         }
@@ -4739,7 +6361,9 @@ document.addEventListener("DOMContentLoaded", () => {
             statusBar.textContent = 'Match ' +
                 ((gotoSearchIndex % gotoSearchHits.length) + 1) +
                 '/' + gotoSearchHits.length +
-                ' · ' + (hit.spawn.creatureId || '');
+                ' · ' + (hit.pin
+                    ? (hit.pin.catalogId || hit.pin.id || 'world')
+                    : (hit.spawn && hit.spawn.creatureId) || '');
         }
         return true;
     }
@@ -4779,13 +6403,18 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         const cap = hits.slice(0, 250);
         list.innerHTML = cap.map((hit, i) => {
-            const s = hit.spawn || {};
-            const id = escapeHtml(s.creatureId || '(empty)');
+            const s = hit.pin || hit.spawn || {};
+            const id = escapeHtml(
+                hit.pin
+                    ? (s.catalogId || s.id || 'world')
+                    : (s.creatureId || '(empty)')
+            );
+            const kind = hit.pin ? ' · world' : '';
             const issue = hit.issue && hit.issue !== 'ok' ? ' · ' + hit.issue : '';
             return '<div class="find-hit px-2 py-1 border-bottom border-secondary" data-idx="' + i + '">' +
                 '<span class="text-info">z' + escapeHtml(hit.floor) + '</span> ' +
                 Math.round(Number(s.x)) + ',' + Math.round(Number(s.y)) +
-                ' <code>' + id + '</code>' + escapeHtml(issue) +
+                ' <code>' + id + '</code>' + escapeHtml(kind + issue) +
                 '</div>';
         }).join('');
         list.querySelectorAll('.find-hit').forEach((row) => {
@@ -4817,7 +6446,21 @@ document.addEventListener("DOMContentLoaded", () => {
         if (kind === 'unknown') opts.issue = 'unknown';
         else if (kind === 'blocked') opts.issue = 'blocked';
         else if (q.trim()) opts.query = q.trim();
-        const hits = HdlTM.findSpawnHits(collectFindBags(), opts);
+        let hits = HdlTM.findSpawnHits(collectFindBags(), opts);
+        if (typeof HdlTM.findWorldHits === 'function') {
+            const worldOpts = {
+                catalogs: worldCatalog,
+                frictionForFloor: opts.frictionForFloor
+            };
+            if (opts.issue) worldOpts.issue = opts.issue;
+            if (opts.query) worldOpts.query = opts.query;
+            let worldBags = collectWorldBags();
+            const floorOnly = document.getElementById('findCurrentFloorOnly');
+            if (floorOnly && floorOnly.checked) {
+                worldBags = worldBags.filter((b) => padFloor(b.floor) === currentFloor);
+            }
+            hits = hits.concat(HdlTM.findWorldHits(worldBags, worldOpts));
+        }
         renderFindHits(hits, kind === 'unknown' ? 'Unknown' : kind === 'blocked' ? 'Blocked' : 'Search');
     }
 
@@ -4865,6 +6508,7 @@ document.addEventListener("DOMContentLoaded", () => {
             destW,
             destH,
             spawns: visible,
+            world: currentMapWorld,
             presets: standardPresets,
             viewRect: {
                 x: viewPortX,
@@ -5033,6 +6677,28 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    async function saveFloorWorld(floor) {
+        if (!mapWorldCache[floor]) return;
+        const floorZ = parseInt(floor, 10) || 0;
+        const clean = HdlTM && typeof HdlTM.stripWorldListForSave === 'function'
+            ? HdlTM.stripWorldListForSave(mapWorldCache[floor].map((p) => Object.assign({}, p, { z: p.z != null ? p.z : floorZ })))
+            : mapWorldCache[floor];
+        const formData = new FormData();
+        formData.append('floor', floor);
+        formData.append('world', JSON.stringify(clean));
+        const res = await fetch(window.__API_URL__ + '?action=legacy_map_save_world', {
+            method: 'POST',
+            body: formData
+        });
+        if (!res.ok) {
+            const t = await res.text();
+            throw new Error('Failed to save World pins for floor ' + floor + ': ' + t);
+        }
+        if (HdlTM && typeof HdlTM.markWorldBaseline === 'function') {
+            HdlTM.markWorldBaseline(mapWorldCache[floor]);
+        }
+    }
+
     /**
      * Build a detached canvas PNG data URL from session (or base) for legacy layer save.
      * @param {string} layer
@@ -5059,7 +6725,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     async function saveLayerImage(floor, layer) {
-        if (layer === 'spawns' || isTileMapLayer(layer)) {
+        if (layer === 'spawns' || layer === 'world' || isTileMapLayer(layer)) {
             return;
         }
         const dataUrl = channelToDataUrl(layer);
@@ -5097,6 +6763,7 @@ document.addEventListener("DOMContentLoaded", () => {
             throw new Error('No TileMap session to save');
         }
         const floorId = padFloor(floor);
+        await ensureFloorSpawnsLoaded(floorId);
         const statusBar = document.getElementById('statusBar');
         if (statusBar) statusBar.textContent = 'Building hybrid pack…';
 
@@ -5105,7 +6772,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 ? tilemapSession.toHybridBinaryTransport({
                       id: 'floor_' + floorId,
                       label: 'Legacy floor ' + floorId,
-                      spawns: mapSpawnsCache[floorId] || mapSpawnsCache[floor] || null
+                      spawns: mapSpawnsCache[floorId] || mapSpawnsCache[floor] || null,
+                      world: mapWorldCache[floorId] || mapWorldCache[floor] || null
                   })
                 : null;
 
@@ -5165,6 +6833,9 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
         tilemapSession.markClean();
+        if (HdlTM && typeof HdlTM.markWorldBaseline === 'function' && mapWorldCache[floorId]) {
+            HdlTM.markWorldBaseline(mapWorldCache[floorId]);
+        }
         if (statusBar) statusBar.textContent = 'Hybrid pack saved';
     }
 
@@ -5184,6 +6855,13 @@ document.addEventListener("DOMContentLoaded", () => {
         try {
             if (currentLayer === 'spawns') {
                 await saveFloorSpawns(currentFloor);
+            } else if (currentLayer === 'world') {
+                await ensureTilemapSession();
+                if (tilemapSession) {
+                    await saveHybridPack(currentFloor);
+                } else {
+                    await saveFloorWorld(currentFloor);
+                }
             } else if (
                 isTileMapLayer(currentLayer) ||
                 channelLayers.includes(currentLayer) ||
@@ -5202,6 +6880,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 await saveHybridPack(currentFloor);
                 if (mapSpawnsCache[currentFloor]) {
                     await saveFloorSpawns(currentFloor);
+                }
+                if (mapWorldCache[currentFloor]) {
+                    await saveFloorWorld(currentFloor);
                 }
             } else {
                 await saveLayerImage(currentFloor, currentLayer);

@@ -598,10 +598,12 @@ test('weight and Cap include nested bag contents + equipped backpack', () => {
 });
 
 test('baseCapacity: L1=600 L8=670 then vocation gains', () => {
-    // Pre-vocation: same for every class
-    for (const cls of ['adventurer', 'guardian', 'scout', 'adept']) {
-        assert.strictEqual(baseCapacity(1, cls), 600, cls + ' L1');
-        assert.strictEqual(baseCapacity(8, cls), 670, cls + ' L8');
+    // Pre-vocation: same +10/lvl for every class (engine L1 floor 600)
+    const cap1to8 = [600, 610, 620, 630, 640, 650, 660, 670];
+    for (const cls of ['adventurer', 'guardian', 'scout', 'adept', 'warden', 'mystic']) {
+        for (let lv = 1; lv <= 8; lv++) {
+            assert.strictEqual(baseCapacity(lv, cls), cap1to8[lv - 1], cls + ' L' + lv);
+        }
         assert.strictEqual(baseCapacity(2, cls) - baseCapacity(1, cls), 10);
     }
     // After 8: +10 / +20 / +25

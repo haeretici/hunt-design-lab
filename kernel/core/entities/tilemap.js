@@ -42,6 +42,7 @@ const { isTickDue, forceDue, isLogicIntervalDue } = require('../lib/logic_regula
 const { takePathBudget, noteFailBackoff } = require('../lib/path_budget.js');
 const { Time } = require('../lib/time.js');
 const { onEntityTileTransition, computeEntityAvoidFieldMask } = require('../lib/combat/elemental_fields.js');
+const { onWorldPinStep } = require('../lib/dungeon/world_pin_trap.js');
 const { hopDirOffset } = require('../lib/dungeon/tile_roles.js');
 const {
     resolveTileDrawBox,
@@ -1799,6 +1800,7 @@ class TileMap extends GameObject {
         const store = this.groundStore || this.groundItems;
         if (store) {
             onEntityTileTransition(entity, prev, entity.tile, store, Time.timeSinceLevelLoad);
+            onWorldPinStep(entity, prev, entity.tile, store, Time.timeSinceLevelLoad);
         }
 
         if (typeof this.onEntityTileMoved === 'function') {

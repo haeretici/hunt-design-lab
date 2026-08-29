@@ -25,7 +25,7 @@ function makeHost() {
     let nextId = 1;
     /** @type {Map<number, object>} */
     const entities = new Map();
-    const log = { spawned: 0, despawned: 0 };
+    const log = { spawned: 0, despawned: 0, parked: 0, unparked: 0 };
 
     return {
         entities,
@@ -44,6 +44,18 @@ function makeHost() {
             };
             entities.set(id, entity);
             log.spawned += 1;
+            return entity;
+        },
+        park(entity) {
+            if (!entity) return;
+            entities.delete(entity.id);
+            log.parked += 1;
+        },
+        unpark(state) {
+            const entity = state && state.parkedEntity;
+            if (!entity || entity.id == null) return null;
+            entities.set(entity.id, entity);
+            log.unparked += 1;
             return entity;
         },
         despawn(entity) {
@@ -699,6 +711,137 @@ function testIdleAoiDespawnHysteresis() {
     log('idle aoi despawn hysteresis ok');
 }
 
+function testIdleAoiReactivatesDespiteRespawn() {
+    const host = makeHost();
+    const mgr = new SpawnManager({
+        mode: 'on_demand',
+        activateRadius: 10,
+        despawnIdleRadius: 10,
+        despawnIdleSec: 2,
+        despawnHomeDist: 0
+    });
+    mgr.load([{ creatureId: 'idle_rat', x: 50, y: 50, z: 0, respawn: 60 }]);
+
+    const ctx = {
+        time: 0,
+        observers: [{ x: 50, y: 50, z: 0 }],
+        getEntity: host.getEntity,
+        spawn: host.spawn.bind(host),
+        despawn: host.despawn.bind(host)
+    };
+    let r = mgr.tick(ctx);
+    assert.strictEqual(r.spawned.length, 1);
+    const firstId = r.spawned[0].entityId;
+
+    ctx.observers = [{ x: 0, y: 0, z: 0 }];
+    ctx.time = 1;
+    mgr.tick(ctx);
+    ctx.time = 3.01;
+    r = mgr.tick(ctx);
+    assert.strictEqual(r.idleDespawned.length, 1);
+    assert.strictEqual(mgr.listSpawned().length, 0);
+
+    ctx.observers = [{ x: 50, y: 50, z: 0 }];
+    ctx.time = 3.06;
+    r = mgr.tick(ctx);
+    assert.strictEqual(
+        r.spawned.length,
+        1,
+        'idle unload must not apply death respawn cooldown'
+    );
+    assert.notStrictEqual(r.spawned[0].entityId, firstId);
+    log('idle aoi reactivates despite respawn ok');
+}
+
+function testIdleAoiFloorHopReactivates() {
+    const host = makeHost();
+    const mgr = new SpawnManager({
+        mode: 'on_demand',
+        activateRadius: 10,
+        despawnIdleSec: 2,
+        despawnHomeDist: 0
+    });
+    mgr.load([{ creatureId: 'floor6_rat', x: 10, y: 10, z: 6, respawn: 60 }]);
+
+    const ctx = {
+        time: 0,
+        observers: [{ x: 10, y: 10, z: 6 }],
+        getEntity: host.getEntity,
+        spawn: host.spawn.bind(host),
+        despawn: host.despawn.bind(host),
+        park: host.park.bind(host),
+        unpark: host.unpark.bind(host)
+    };
+    let r = mgr.tick(ctx);
+    assert.strictEqual(r.spawned.length, 1);
+    const firstId = r.spawned[0].entityId;
+    const body = host.entities.get(firstId);
+    body.hp.current = 4;
+
+    // Same x,y on dest floor — nearby dens on the previous floor still unload
+    ctx.observers = [{ x: 10, y: 10, z: 7 }];
+    ctx.time = 1;
+    r = mgr.tick(ctx);
+    assert.strictEqual(r.idleDespawned.length, 0, 'hysteresis across floor hop');
+    assert.strictEqual(mgr.listSpawned().length, 1);
+
+    ctx.time = 3.01;
+    r = mgr.tick(ctx);
+    assert.strictEqual(r.idleDespawned.length, 1, 'other floor counts as far');
+    assert.strictEqual(mgr.listSpawned().length, 0);
+    assert.strictEqual(host.log.parked, 1);
+    assert.strictEqual(host.log.despawned, 0);
+    const parked = mgr.listStates()[0].parkedEntity;
+    assert.ok(parked);
+    assert.strictEqual(parked.hp.current, 4, 'park keeps HP');
+    assert.strictEqual(parked.id, firstId);
+
+    ctx.observers = [{ x: 10, y: 10, z: 6 }];
+    ctx.time = 3.06;
+    r = mgr.tick(ctx);
+    assert.strictEqual(
+        r.spawned.length,
+        1,
+        'return to previous floor rematerializes without respawn wait'
+    );
+    assert.strictEqual(r.spawned[0].entityId, firstId, 'same body, not a fresh spawn');
+    assert.strictEqual(host.entities.get(firstId).hp.current, 4);
+    assert.strictEqual(host.log.unparked, 1);
+    assert.strictEqual(host.log.spawned, 1, 'unpark must not spawn a second body');
+    log('idle aoi floor hop reactivates ok');
+}
+
+function testIdleAoiParkPreservesHpWithoutHostPark() {
+    // Fallback: host without park/unpark still rematerializes (fresh HP).
+    const host = makeHost();
+    const mgr = new SpawnManager({
+        mode: 'on_demand',
+        activateRadius: 10,
+        despawnIdleSec: 1,
+        despawnHomeDist: 0
+    });
+    mgr.load([{ creatureId: 'rat', x: 0, y: 0, z: 0, respawn: 60 }]);
+    const ctx = {
+        time: 0,
+        observers: [{ x: 0, y: 0, z: 0 }],
+        getEntity: host.getEntity,
+        spawn: host.spawn.bind(host),
+        despawn: host.despawn.bind(host)
+    };
+    mgr.tick(ctx);
+    ctx.observers = [];
+    ctx.time = 0;
+    mgr.tick(ctx);
+    ctx.time = 1.1;
+    mgr.tick(ctx);
+    ctx.observers = [{ x: 0, y: 0, z: 0 }];
+    ctx.time = 1.2;
+    const r = mgr.tick(ctx);
+    assert.strictEqual(r.spawned.length, 1);
+    assert.strictEqual(host.entities.get(r.spawned[0].entityId).hp.current, 10);
+    log('idle aoi without park host rematerializes fresh ok');
+}
+
 function testIdleAoiProtectsCombat() {
     const host = makeHost();
     const mgr = new SpawnManager({
@@ -940,6 +1083,102 @@ async function testSimulatorIdleDespawnAndPerf() {
     }
 }
 
+async function testSimulatorIdleParkPreservesHp() {
+    const map = openFloor(80, 80, 100);
+    const prevIdle = Settings.SPAWN_DESPAWN_IDLE_SEC;
+    const prevHome = Settings.SPAWN_DESPAWN_HOME_DIST;
+    Settings.SPAWN_DESPAWN_IDLE_SEC = 0.1;
+    Settings.SPAWN_DESPAWN_HOME_DIST = 0;
+    try {
+        const sim = new Simulator({
+            seed: 11,
+            combatAi: true,
+            spawnMode: 'on_demand',
+            parties: [
+                {
+                    name: 'P',
+                    id: 'p',
+                    waypoints: [
+                        { x: 10, y: 10, z: 0 },
+                        { x: 11, y: 10, z: 0 }
+                    ],
+                    members: [
+                        {
+                            name: 'Lead',
+                            classId: 'guardian',
+                            isLeader: true,
+                            strategyId: 'pacifist',
+                            level: 20
+                        }
+                    ]
+                }
+            ],
+            spawns: [{ creatureId: 'dummy', x: 11, y: 10, z: 0, respawn: 60 }],
+            creatureLoader: () => dummyTemplate(),
+            classLoader: (id) => presets.getClass(id)
+        });
+        attachMap(sim, map);
+        await sim.start();
+
+        Time.advanceFixedLogicStep();
+        sim.updateAll();
+        const first = sim.creatures.find((c) => c.alive);
+        assert.ok(first);
+        const firstId = first.id;
+        const wounded = Math.max(1, Math.floor((first.hp.max || 10) / 3));
+        first.hp.current = wounded;
+        first.target = null;
+        first.targetId = null;
+        first.aiState = 'idle';
+
+        const lead = sim.parties[0].members[0];
+        if (sim.tileMap && lead.tile) {
+            sim.tileMap.release(lead.tile.x, lead.tile.y, lead.tile.z, lead);
+        }
+        lead.tile = { x: 70, y: 70, z: 0 };
+        sim.tileMap.tryOccupy(70, 70, 0, lead);
+        if (typeof lead.syncPositionFromTile === 'function') {
+            lead.syncPositionFromTile();
+        }
+
+        for (let i = 0; i < 30; i++) {
+            Time.advanceFixedLogicStep();
+            sim.updateAll();
+        }
+        assert.ok(
+            sim.spawnPerfTotals && sim.spawnPerfTotals.idleDespawned >= 1,
+            'idle park counted'
+        );
+        assert.ok(
+            !sim.creatures.some((c) => c.id === firstId),
+            'parked body leaves the living list'
+        );
+
+        if (sim.tileMap && lead.tile) {
+            sim.tileMap.release(lead.tile.x, lead.tile.y, lead.tile.z, lead);
+        }
+        lead.tile = { x: 10, y: 10, z: 0 };
+        sim.tileMap.tryOccupy(10, 10, 0, lead);
+        if (typeof lead.syncPositionFromTile === 'function') {
+            lead.syncPositionFromTile();
+        }
+
+        Time.advanceFixedLogicStep();
+        sim.updateAll();
+        const back = sim.creatures.find((c) => c.id === firstId);
+        assert.ok(back, 'same entity rematerializes');
+        assert.strictEqual(back.hp.current, wounded, 'park restores wounded HP');
+        log('simulator idle park preserves hp ok', {
+            id: firstId,
+            hp: back.hp.current
+        });
+        sim.destroy();
+    } finally {
+        Settings.SPAWN_DESPAWN_IDLE_SEC = prevIdle;
+        Settings.SPAWN_DESPAWN_HOME_DIST = prevHome;
+    }
+}
+
 async function main() {
     testSettingsKnobs();
     testNormalizeAndKey();
@@ -957,6 +1196,9 @@ async function main() {
     testOneShotNoRespawn();
     testHomeDespawnDisabledWhenZero();
     testIdleAoiDespawnHysteresis();
+    testIdleAoiReactivatesDespiteRespawn();
+    testIdleAoiFloorHopReactivates();
+    testIdleAoiParkPreservesHpWithoutHostPark();
     testIdleAoiProtectsCombat();
     testMaxLivingSoftCap();
     testMaxLivingNeverEvictsProtected();
@@ -965,6 +1207,7 @@ async function main() {
     await testSimulatorOnDemandNearPlayerOnly();
     await testSimulatorRespawnViaManager();
     await testSimulatorIdleDespawnAndPerf();
+    await testSimulatorIdleParkPreservesHp();
     console.log('spawn_manager: ok');
 }
 

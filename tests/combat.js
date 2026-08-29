@@ -54,6 +54,7 @@ const {
     computeMaxBlock,
     resolveDefenseBlockContext,
     stackResists,
+    poolMaxForLevel,
     UNARMED_ATK,
     UNARMED_WEAPON_DEFENSE,
     BOW_MITIGATION_DEFENSE,
@@ -663,6 +664,50 @@ function testSpeedFromLevel() {
     assert.ok(l50.speed > l8.speed && l8.speed > l1.speed);
 
     log('speed from level ok', { l1: l1.speed, l8: l8.speed, l50: l50.speed });
+}
+
+/**
+ * L1–8 HP/MP: every class uses None vocation (150/0 +5/+5 → 185/35).
+ * After 8: class per-level. Cap 1–8 is tested in tests/inventory.js.
+ */
+function testPreVocationHpMp() {
+    const empty = rollupEquipment({}, []);
+    const classes = [
+        { id: 'guardian', baseHp: 185, baseMp: 35, hpPerLevel: 15, mpPerLevel: 5 },
+        { id: 'scout', baseHp: 185, baseMp: 35, hpPerLevel: 10, mpPerLevel: 15 },
+        { id: 'mystic', baseHp: 185, baseMp: 35, hpPerLevel: 10, mpPerLevel: 10 },
+        { id: 'adept', baseHp: 185, baseMp: 35, hpPerLevel: 5, mpPerLevel: 30 },
+        { id: 'warden', baseHp: 185, baseMp: 35, hpPerLevel: 5, mpPerLevel: 30 },
+        { id: 'adventurer', baseHp: 185, baseMp: 35, hpPerLevel: 5, mpPerLevel: 5 }
+    ];
+    const hp1to8 = [150, 155, 160, 165, 170, 175, 180, 185];
+    const mp1to8 = [0, 5, 10, 15, 20, 25, 30, 35];
+    for (let i = 0; i < classes.length; i++) {
+        const cls = classes[i];
+        for (let lv = 1; lv <= 8; lv++) {
+            const stats = buildEffectiveStats(cls, empty, { level: lv });
+            const pooled = poolMaxForLevel(lv, cls);
+            assert.strictEqual(pooled.hpMax, hp1to8[lv - 1], cls.id + ' helper L' + lv + ' hp');
+            assert.strictEqual(pooled.mpMax, mp1to8[lv - 1], cls.id + ' helper L' + lv + ' mp');
+            assert.strictEqual(stats.hpMax, hp1to8[lv - 1], cls.id + ' L' + lv + ' hp');
+            assert.strictEqual(stats.mpMax, mp1to8[lv - 1], cls.id + ' L' + lv + ' mp');
+        }
+    }
+    const l9 = {
+        guardian: { hp: 200, mp: 40 },
+        scout: { hp: 195, mp: 50 },
+        mystic: { hp: 195, mp: 45 },
+        adept: { hp: 190, mp: 65 },
+        warden: { hp: 190, mp: 65 },
+        adventurer: { hp: 190, mp: 40 }
+    };
+    for (let i = 0; i < classes.length; i++) {
+        const cls = classes[i];
+        const stats = buildEffectiveStats(cls, empty, { level: 9 });
+        assert.strictEqual(stats.hpMax, l9[cls.id].hp, cls.id + ' L9 hp');
+        assert.strictEqual(stats.mpMax, l9[cls.id].mp, cls.id + ' L9 mp');
+    }
+    log('pre-vocation hp/mp ok');
 }
 
 /**
@@ -7455,6 +7500,7 @@ function main() {
     testCooldowns();
     testEquipmentRollup();
     testSpeedFromLevel();
+    testPreVocationHpMp();
     testUnarmedDefaults();
     testWeaponSkillFromGear();
     testDefenseBonusAndOptionalFlags();

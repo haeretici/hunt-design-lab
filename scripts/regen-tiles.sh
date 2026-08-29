@@ -6,4 +6,8 @@ for d in assets/sprites/*/overlays/original; do
   [ -d "$d" ] || continue
   npm run process -- "$d" --force
 done
+for d in assets/sprites/*/objects/original; do
+  [ -d "$d" ] || continue
+  npm run process -- "$d" --force
+done
 

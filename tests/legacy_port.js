@@ -56,7 +56,6 @@ const {
     toHuntSpawns,
     resolveSpawnSource,
     resolveHuntSpawnDefs,
-    loadLegacyMonsterManifest,
     loadSpawnIndex,
     loadNavmeshAnalysis,
     legacyPath,
@@ -190,10 +189,7 @@ function testConverters() {
             { standardName: 'Bone Beast', standardId: 'bone_beast' }
         ]
     ]);
-    const t = convertMonsterToTemplate(mon, {
-        imageRel: 'assets/legacy/monsters/images/cave rat.gif',
-        nameMap
-    });
+    const t = convertMonsterToTemplate(mon, { nameMap });
     assert.strictEqual(t.id, 'cave_rat');
     assert.strictEqual(t.hp, 30);
     assert.strictEqual(t.source, 'legacy');
@@ -206,7 +202,6 @@ function testConverters() {
     assert.strictEqual(t.resists.fire, -10);
     assert.strictEqual(t.attacks.length, 1);
     assert.strictEqual(t.attacks[0].max, 10);
-    assert.ok(t.sprite && t.sprite.legacy);
     assert.ok(t.bestiary);
     assert.strictEqual(t.bestiary.class, 'Mammal');
     assert.strictEqual(t.bestiary.stars, 1);
@@ -1077,11 +1072,6 @@ function testOnDisk() {
     assert.ok(pathPngs >= 1, 'at least floor-07 path png');
     log('map path PNGs', { count: pathPngs, sample: path.relative(ROOT, map07) });
 
-    const manifest = loadLegacyMonsterManifest();
-    assert.ok(manifest, 'monsters/manifest.json present under assets/legacy/');
-    assert.ok(manifest.count >= 100, 'many creatures ported');
-    log('monster manifest', { count: manifest.count });
-
     setActiveMode('standard');
     const cave = presets.loadCreatureTemplate('cave_rat');
     assert.strictEqual(cave.id, 'cave_rat');
@@ -1242,11 +1232,6 @@ function testOnDisk() {
     assert.ok(fs.existsSync(merged), 'merged navmesh');
     const corridor = path.join(PATHS.navmesh, 'floor07_corridor.json');
     assert.ok(fs.existsSync(corridor), 'floor07_corridor sample');
-
-    const imgDir = legacyPath('monsters', 'images');
-    assert.ok(fs.existsSync(imgDir), 'monster images dir');
-    const sampleGif = path.join(imgDir, 'cave rat.gif');
-    assert.ok(fs.existsSync(sampleGif), 'cave rat.gif');
     log('legacy assets layout ok');
 }
 
