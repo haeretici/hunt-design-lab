@@ -63,6 +63,7 @@ async function apiCall(action, params = {}, opts = {}) {
         'creature_flip',
         'creature_replace',
         'creature_opaque_alpha',
+        'creature_scale_filter',
         'creature_reprocess',
         'creature_fix_green',
         'run'
@@ -675,6 +676,7 @@ async function initAssetManagerApp() {
         }
         const c = selected;
         const opaque = c.opaqueAlpha === true;
+        const scaleFilter = c.scaleFilter === 'nearest' ? 'nearest' : 'lanczos';
         elSelectionBody.className = 'am-selection-body';
         elSelectionBody.innerHTML = `
             <div class="am-selection-title">${escapeHtml(c.alias || c.technical)}</div>
@@ -701,6 +703,17 @@ async function initAssetManagerApp() {
             <p class="text-xxs text-muted mt-1 mb-2">
                 Fallback if unset: <strong>on for tiles</strong>, off otherwise. Changing reprocesses variants.
             </p>
+            <label class="label-retro text-xxs mb-1" for="amScaleFilter">Scale filter</label>
+            <select class="form-select form-select-sm" id="amScaleFilter"
+                    ${busy ? 'disabled' : ''}
+                    title="How process_sprites resizes small/icon (and 32/64→256)">
+                <option value="lanczos" ${scaleFilter === 'lanczos' ? 'selected' : ''}>Lanczos (smooth)</option>
+                <option value="nearest" ${scaleFilter === 'nearest' ? 'selected' : ''}>Nearest (pixel art)</option>
+            </select>
+            <p class="text-xxs text-muted mt-1 mb-2">
+                Use <strong>nearest</strong> for 32×32 / 64×64 pixel art so 256 variants stay blocky.
+                Changing reprocesses variants.
+            </p>
             <button type="button" class="btn btn-retro btn-retro-secondary w-100" id="amActRename"
                     title="Rename" ${busy ? 'disabled' : ''}>
                 <i class="fa-solid fa-i-cursor"></i> Rename
@@ -717,6 +730,17 @@ async function initAssetManagerApp() {
                 // Revert UI until modal confirms
                 opaqueEl.checked = !next;
                 openOpaqueAlphaConfirm(c, next);
+            });
+        }
+        const scaleEl = /** @type {HTMLSelectElement|null} */ (
+            document.getElementById('amScaleFilter')
+        );
+        if (scaleEl) {
+            scaleEl.addEventListener('change', () => {
+                const next = scaleEl.value === 'nearest' ? 'nearest' : 'lanczos';
+                scaleEl.value = scaleFilter;
+                if (next === scaleFilter) return;
+                openScaleFilterConfirm(c, next);
             });
         }
     }
@@ -1387,6 +1411,72 @@ async function initAssetManagerApp() {
                 await loadCatalog();
             } catch (err) {
                 status(`Opaque alpha failed: ${err.message || err}`);
+                setBusy(false);
+                renderSelectionPanel();
+            }
+        });
+    }
+
+    /**
+     * Confirm scaleFilter change (reprocesses alpha/medium/retro/small/icon).
+     * @param {object} c
+     * @param {'lanczos'|'nearest'} next
+     */
+    function openScaleFilterConfirm(c, next) {
+        if (!elModalHost || busy) return;
+        const mode =
+            next === 'nearest'
+                ? 'Nearest: small/icon stay blocky; 32×32 / 64×64 originals expand to 256×256.'
+                : 'Lanczos: smooth small/icon (default for photo-like 256 art).';
+        elModalHost.innerHTML = `
+            <div class="am-modal-backdrop" id="amModalBg">
+                <div class="am-modal" role="dialog" aria-modal="true">
+                    <h3>Change scale filter</h3>
+                    <p class="text-xxs mb-2">
+                        Asset: <strong>${escapeHtml(c.technical)}</strong>
+                    </p>
+                    <p class="text-xxs mb-2">
+                        Set <code>scaleFilter</code> to
+                        <strong>${next}</strong>?
+                    </p>
+                    <p class="text-xxs text-muted mb-0">
+                        ${escapeHtml(mode)}
+                        Existing alpha/medium/retro/small/icon will be regenerated.
+                    </p>
+                    <div class="am-modal-actions">
+                        <button type="button" class="btn btn-retro btn-retro-secondary" id="amScaleCancel">Cancel</button>
+                        <button type="button" class="btn btn-retro btn-retro-primary" id="amScaleOk">Confirm</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        const close = () => {
+            elModalHost.innerHTML = '';
+            renderSelectionPanel();
+        };
+        document.getElementById('amScaleCancel')?.addEventListener('click', close);
+        document.getElementById('amModalBg')?.addEventListener('click', (ev) => {
+            if (ev.target && /** @type {HTMLElement} */ (ev.target).id === 'amModalBg') close();
+        });
+        document.getElementById('amScaleOk')?.addEventListener('click', async () => {
+            close();
+            setBusy(true, `Setting scaleFilter=${next} for ${c.id}…`);
+            try {
+                await apiCall('creature_scale_filter', {
+                    genre: currentGenre(),
+                    kind: currentKind(),
+                    id: c.id,
+                    scale_filter: next
+                });
+                selected =
+                    next === 'nearest'
+                        ? { ...c, scaleFilter: 'nearest' }
+                        : { ...c, scaleFilter: undefined };
+                cacheBust = Date.now();
+                status(`scaleFilter=${next} · reprocessed ${c.technical}`);
+                await loadCatalog();
+            } catch (err) {
+                status(`Scale filter failed: ${err.message || err}`);
                 setBusy(false);
                 renderSelectionPanel();
             }

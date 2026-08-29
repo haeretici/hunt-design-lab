@@ -44,16 +44,22 @@ const { appUrl } = require('../../core/lib/app_paths.js');
 const {
     padFloorId,
     floorsFromSpawnSource,
-    resolveHuntSpawnDefs,
-    parseSpawnRows
+    parseSpawnRows,
+    resolveHuntLegacyMapPack,
+    setLegacyMapsManifest,
+    DEFAULT_LEGACY_MAP_ID,
+    LEGACY_MAP_ID_RE
 } = require('../../core/lib/content/legacy_assets.js');
 
 /**
- * In-memory spawn rows (browser only). Key: "07".
+ * In-memory spawn rows (browser only). Key: "<packId>:<floorPad>".
  * Filled hybrid-first (`map.json` `spawns`, else `by_floor`).
  * @type {Record<string, object[]>}
  */
 const legacyFloorSpawnCache = Object.create(null);
+
+/** @type {Promise<object>|null} */
+let legacyMapsManifestPromise = null;
 
 /**
  * Last loaded browser catalog (for getCatalogLists without re-fetch).
@@ -487,16 +493,75 @@ async function listModesForBrowser() {
 }
 
 /**
+ * Cache key for browser floor spawn rows (pack + floor).
+ * @param {string|null|undefined} mapId
+ * @param {string|number} floorId
+ * @returns {string}
+ */
+function spawnCacheKey(mapId, floorId) {
+    const pack =
+        mapId && LEGACY_MAP_ID_RE.test(String(mapId))
+            ? String(mapId)
+            : DEFAULT_LEGACY_MAP_ID;
+    return `${pack}:${padFloorId(floorId)}`;
+}
+
+/**
+ * Load maps manifest once (static JSON). Hunt expand / URLs resolve against it.
+ * @returns {Promise<object>}
+ */
+async function ensureLegacyMapsManifest() {
+    if (!legacyMapsManifestPromise) {
+        legacyMapsManifestPromise = fetchAssetJson(
+            'assets/legacy/maps/manifest.json'
+        )
+            .then((raw) => {
+                const manifest =
+                    raw && typeof raw === 'object' && !Array.isArray(raw)
+                        ? raw
+                        : {
+                              version: 1,
+                              defaultId: DEFAULT_LEGACY_MAP_ID,
+                              maps: [
+                                  {
+                                      id: DEFAULT_LEGACY_MAP_ID,
+                                      label: DEFAULT_LEGACY_MAP_ID
+                                  }
+                              ]
+                          };
+                setLegacyMapsManifest(manifest);
+                return manifest;
+            })
+            .catch(() => {
+                const fallback = {
+                    version: 1,
+                    defaultId: DEFAULT_LEGACY_MAP_ID,
+                    maps: [
+                        {
+                            id: DEFAULT_LEGACY_MAP_ID,
+                            label: DEFAULT_LEGACY_MAP_ID
+                        }
+                    ]
+                };
+                setLegacyMapsManifest(fallback);
+                return fallback;
+            });
+    }
+    return legacyMapsManifestPromise;
+}
+
+/**
  * Fetch spawn rows for one floor: hybrid map.json first, by_floor fallback.
  * Hybrid pack present (even with empty `spawns`) is SoT.
  * @param {string} id padded floor id
+ * @param {string} [mapId] hunt `legacyMapId` (omit = default pack)
  * @returns {Promise<object[]>}
  */
-async function fetchFloorSpawnRows(id) {
-    const mapsRel = mapsRelRoot();
+async function fetchFloorSpawnRows(id, mapId) {
+    const pack = resolveHuntLegacyMapPack({ legacyMapId: mapId }).pack;
     try {
         const hybrid = await fetchAssetJson(
-            `${mapsRel}/hybrid/floor-${id}/map.json`
+            `${pack.mapsRel}/hybrid/floor-${id}/map.json`
         );
         if (hybrid && typeof hybrid === 'object' && !Array.isArray(hybrid)) {
             return Array.isArray(hybrid.spawns) ? hybrid.spawns : [];
@@ -508,9 +573,10 @@ async function fetchFloorSpawnRows(id) {
     if (!mode.features.legacySpawnSource || !mode.assets.spawns) {
         return [];
     }
-    const spawnsRel = String(mode.assets.spawns).replace(/\/$/, '');
     try {
-        const data = await fetchAssetJson(`${spawnsRel}/by_floor/${id}.json`);
+        const data = await fetchAssetJson(
+            `${pack.spawnsRel}/by_floor/${id}.json`
+        );
         return parseSpawnRows(data);
     } catch (_) {
         return [];
@@ -520,25 +586,28 @@ async function fetchFloorSpawnRows(id) {
 /**
  * Fetch spawn pins for the given floors only (hybrid-first).
  * @param {(string|number)[]} floorIds
+ * @param {string} [mapId]
  * @returns {Promise<void>}
  */
-async function ensureLegacyFloorSpawns(floorIds) {
+async function ensureLegacyFloorSpawns(floorIds, mapId) {
     const mode = getActiveMode();
     if (!mode.features.legacySpawnSource || !mode.assets.spawns) {
         return;
     }
     const list = Array.isArray(floorIds) ? floorIds : [];
+    const packId = resolveHuntLegacyMapPack({ legacyMapId: mapId }).pack.id;
     const pending = [];
     for (let i = 0; i < list.length; i++) {
         const id = padFloorId(list[i]);
-        if (legacyFloorSpawnCache[id]) continue;
+        const key = spawnCacheKey(packId, id);
+        if (legacyFloorSpawnCache[key]) continue;
         pending.push(
-            fetchFloorSpawnRows(id)
+            fetchFloorSpawnRows(id, packId)
                 .then((rows) => {
-                    legacyFloorSpawnCache[id] = rows;
+                    legacyFloorSpawnCache[key] = rows;
                 })
                 .catch(() => {
-                    legacyFloorSpawnCache[id] = [];
+                    legacyFloorSpawnCache[key] = [];
                 })
         );
     }
@@ -547,10 +616,11 @@ async function ensureLegacyFloorSpawns(floorIds) {
 
 /**
  * @param {string|number} floorId
+ * @param {string} [packId]
  * @returns {object[]}
  */
-function loadFloorSpawnsCached(floorId) {
-    return legacyFloorSpawnCache[padFloorId(floorId)] || [];
+function loadFloorSpawnsCached(floorId, packId) {
+    return legacyFloorSpawnCache[spawnCacheKey(packId, floorId)] || [];
 }
 
 /**
@@ -608,6 +678,7 @@ async function ensureCreatureTemplatesForIds(creatureIds, creaturesOut) {
  */
 async function expandHuntForBrowser(rawHunt, creaturesOut) {
     if (!rawHunt) return rawHunt;
+    await ensureLegacyMapsManifest();
     const savedSource = rawHunt.spawnSource;
     const hasPopulation = !!(rawHunt.populationId || rawHunt.population);
 
@@ -637,7 +708,8 @@ async function expandHuntForBrowser(rawHunt, creaturesOut) {
             delete hunt.populationSkipped;
         }
         const floors = floorsNeededForHuntSpawns(hunt);
-        await ensureLegacyFloorSpawns(floors);
+        const packId = resolveHuntLegacyMapPack(rawHunt).pack.id;
+        await ensureLegacyFloorSpawns(floors, packId);
         // Full expand: spawnSource → slots, then Stage 11.1 population if present
         hunt = expandHuntDefinition(hunt, {
             seed: 1,
@@ -820,6 +892,8 @@ async function loadBrowserPresets(modeId) {
     const {
         fillCreatureCombatDefaults
     } = require('../../core/lib/content/creature_bridge.js');
+
+    await ensureLegacyMapsManifest();
 
     const wantedId =
         modeId ||
@@ -1297,29 +1371,32 @@ function getScenarioLists() {
 }
 
 /**
- * Browser map URL for a floor using the active mode asset root.
+ * Browser map URL for a floor. `mapId` is hunt `legacyMapId` (omit = default pack).
+ * Session-scoped: does not mutate PATHS / mode roots.
  * @param {string|number} floorId
+ * @param {string} [mapId]
  * @returns {string}
  */
-function mapUrlForFloor(floorId) {
+function mapUrlForFloor(floorId, mapId) {
     const raw = String(floorId);
     const id = /^\d+$/.test(raw) ? raw.padStart(2, '0') : raw;
-    let mapsRel = 'assets/legacy/map';
-    try {
-        mapsRel = modePaths().mapsRel || mapsRel;
-    } catch (_) {
-        /* keep default */
-    }
-    mapsRel = String(mapsRel).replace(/\/$/, '');
+    const mapsRel = mapsRelRoot(mapId);
     return appUrl(`${mapsRel}/floor-${id}-path.png`);
 }
 
 /**
- * Relative maps root for hybrid / path assets (active mode).
+ * Relative maps root for hybrid / path assets.
+ * With `mapId`, uses that pack (unknown → defaultId). Omit → mode / default pack.
+ * @param {string} [mapId]
  * @returns {string}
  */
-function mapsRelRoot() {
-    let mapsRel = 'assets/legacy/map';
+function mapsRelRoot(mapId) {
+    try {
+        return resolveHuntLegacyMapPack({ legacyMapId: mapId }).pack.mapsRel;
+    } catch (_) {
+        /* keep default */
+    }
+    let mapsRel = 'assets/legacy/maps/v01';
     try {
         mapsRel = modePaths().mapsRel || mapsRel;
     } catch (_) {
@@ -1333,12 +1410,14 @@ function mapsRelRoot() {
  * Returns null when no pack is present.
  *
  * @param {string|number} floorId
+ * @param {string} [mapId] hunt `legacyMapId`
  * @returns {Promise<object|null>} normalized hybrid pack
  */
-async function fetchHybridPackForFloor(floorId) {
+async function fetchHybridPackForFloor(floorId, mapId) {
     const pad = padFloorId(floorId);
+    const packId = resolveHuntLegacyMapPack({ legacyMapId: mapId }).pack.id;
     const res = await fetch(
-        `${apiUrl()}?action=legacy_map_load_hybrid&floor=${encodeURIComponent(pad)}`,
+        `${apiUrl()}?action=legacy_map_load_hybrid&floor=${encodeURIComponent(pad)}&mapId=${encodeURIComponent(packId)}`,
         { cache: 'no-store' }
     );
     if (!res.ok) return null;
@@ -1388,16 +1467,17 @@ async function fetchHybridPackForFloor(floorId) {
 /**
  * Load and merge hybrid packs for hunt floors (browser).
  * @param {Array<string|number>|null|undefined} floorIds
+ * @param {string} [mapId] hunt `legacyMapId`
  * @returns {Promise<object|null>}
  */
-async function fetchHybridPackForFloors(floorIds) {
+async function fetchHybridPackForFloors(floorIds, mapId) {
     const list = Array.isArray(floorIds) ? floorIds : [];
     if (!list.length) return null;
     /** @type {object[]} */
     const packs = [];
     for (let i = 0; i < list.length; i++) {
         try {
-            const pack = await fetchHybridPackForFloor(list[i]);
+            const pack = await fetchHybridPackForFloor(list[i], mapId);
             if (pack) packs.push(pack);
         } catch (err) {
             if (typeof console !== 'undefined' && console.warn) {

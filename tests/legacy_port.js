@@ -58,7 +58,9 @@ const {
     resolveHuntSpawnDefs,
     loadSpawnIndex,
     loadNavmeshAnalysis,
-    legacyPath,
+    resolveLegacyMapPack,
+    resolveHuntLegacyMapPack,
+    DEFAULT_LEGACY_MAP_ID,
     parseSpawnRows,
     loadFloorSpawnsFromDocs,
     resolveCreatureSpawnId,
@@ -1060,9 +1062,16 @@ function testOnDisk() {
     const map07 = mapPathPng(7);
     assert.ok(fs.existsSync(map07), `expected map at ${map07}`);
     assert.ok(
-        map07.includes(path.join('assets', 'legacy', 'map')),
-        'mapPathPng points at assets/legacy/map'
+        map07.includes(path.join('assets', 'legacy', 'maps', 'v01')),
+        'mapPathPng points at assets/legacy/maps/v01'
     );
+    const pack = resolveLegacyMapPack();
+    assert.strictEqual(pack.id, DEFAULT_LEGACY_MAP_ID);
+    assert.strictEqual(pack.mapsRel, 'assets/legacy/maps/v01');
+    assert.throws(() => resolveLegacyMapPack('Bad-Id'));
+    assert.strictEqual(resolveLegacyMapPack('missing_pack').id, DEFAULT_LEGACY_MAP_ID);
+    assert.ok(!fs.existsSync(path.join(ROOT, 'assets', 'legacy', 'map')));
+    assert.ok(!fs.existsSync(path.join(ROOT, 'assets', 'legacy', 'spawns')));
 
     // floors 0–15 expected after full port
     let pathPngs = 0;
@@ -1088,7 +1097,7 @@ function testOnDisk() {
     assert.ok(f7.length > 0, 'floor 07 spawns');
     const hybrid07 = JSON.parse(
         fs.readFileSync(
-            legacyPath('map', 'hybrid', 'floor-07', 'map.json'),
+            path.join(PATHS.maps, 'hybrid', 'floor-07', 'map.json'),
             'utf8'
         )
     );
@@ -1103,7 +1112,7 @@ function testOnDisk() {
     const f0 = loadFloorSpawns(0);
     assert.ok(f0.length > 0, 'floor 00 falls back to by_floor');
     assert.ok(
-        !fs.existsSync(legacyPath('map', 'hybrid', 'floor-00', 'map.json')),
+        !fs.existsSync(path.join(PATHS.maps, 'hybrid', 'floor-00', 'map.json')),
         'floor 00 has no hybrid pack'
     );
     const rats = filterFloorSpawns(7, { creatureId: 'cave_rat', limit: 5 });
@@ -1233,6 +1242,117 @@ function testOnDisk() {
     const corridor = path.join(PATHS.navmesh, 'floor07_corridor.json');
     assert.ok(fs.existsSync(corridor), 'floor07_corridor sample');
     log('legacy assets layout ok');
+}
+
+/**
+ * M3: hunt-root `legacyMapId` selects pack paths; omit/unknown → defaultId.
+ */
+function testHuntLegacyMapId() {
+    const omit = resolveHuntLegacyMapPack({});
+    assert.strictEqual(omit.pack.id, DEFAULT_LEGACY_MAP_ID);
+    assert.strictEqual(omit.pack.mapsRel, 'assets/legacy/maps/v01');
+    assert.strictEqual(omit.fallback, false);
+    assert.strictEqual(omit.requestedId, null);
+
+    const v01 = resolveHuntLegacyMapPack({ legacyMapId: 'v01' });
+    assert.strictEqual(v01.pack.id, 'v01');
+    assert.strictEqual(v01.pack.mapsRel, 'assets/legacy/maps/v01');
+    assert.strictEqual(v01.fallback, false);
+
+    const unknown = resolveHuntLegacyMapPack({ legacyMapId: 'missing_pack' });
+    assert.strictEqual(unknown.pack.id, DEFAULT_LEGACY_MAP_ID);
+    assert.strictEqual(unknown.fallback, true);
+    assert.ok(/missing_pack/.test(String(unknown.note)));
+
+    const invalid = resolveHuntLegacyMapPack({ legacyMapId: 'Bad-Id' });
+    assert.strictEqual(invalid.pack.id, DEFAULT_LEGACY_MAP_ID);
+    assert.strictEqual(invalid.fallback, true);
+    assert.ok(/invalid/.test(String(invalid.note)));
+
+    const omitHunt = resolveHuntSpawnDefs({
+        floor: 7,
+        floors: [7],
+        spawnSource: {
+            type: 'legacy_floor',
+            floors: [7],
+            creatureId: 'cave_rat',
+            limit: 2
+        }
+    });
+    assert.strictEqual(omitHunt.spawnSourceMeta.legacyMapId, DEFAULT_LEGACY_MAP_ID);
+    assert.strictEqual(omitHunt.spawnSourceMeta.legacyMapFallback, false);
+    assert.strictEqual(omitHunt.legacyMapPack.mapsRel, 'assets/legacy/maps/v01');
+    assert.ok(omitHunt.spawns.length >= 1);
+
+    const stamped = resolveHuntSpawnDefs({
+        legacyMapId: 'v01',
+        floor: 7,
+        floors: [7],
+        spawnSource: {
+            type: 'legacy_floor',
+            floors: [7],
+            creatureId: 'cave_rat',
+            limit: 2
+        }
+    });
+    assert.strictEqual(stamped.legacyMapId, 'v01');
+    assert.strictEqual(stamped.legacyMapPack.id, 'v01');
+    assert.ok(stamped.spawns.length >= 1);
+    assert.ok(
+        fs.existsSync(path.join(ROOT, stamped.legacyMapPack.mapsRel, 'floor-07-path.png')),
+        'v01 pack paths exist on disk'
+    );
+
+    const unknownHunt = resolveHuntSpawnDefs({
+        legacyMapId: 'missing_pack',
+        floor: 7,
+        floors: [7],
+        spawnSource: {
+            type: 'legacy_floor',
+            floors: [7],
+            creatureId: 'cave_rat',
+            limit: 1
+        }
+    });
+    assert.strictEqual(unknownHunt.spawnSourceMeta.legacyMapId, DEFAULT_LEGACY_MAP_ID);
+    assert.strictEqual(unknownHunt.spawnSourceMeta.legacyMapFallback, true);
+    assert.ok(/missing_pack/.test(String(unknownHunt.spawnSourceMeta.legacyMapNote)));
+
+    const rawWp = JSON.parse(
+        fs.readFileSync(
+            path.join(ROOT, 'presets', 'standard', 'hunts', 'wp_test_1.json'),
+            'utf8'
+        )
+    );
+    assert.strictEqual(rawWp.legacyMapId, 'v01');
+    assert.ok(!Object.prototype.hasOwnProperty.call(
+        JSON.parse(
+            fs.readFileSync(
+                path.join(ROOT, 'presets', 'standard', 'hunts', 'cave_crawl_generated.json'),
+                'utf8'
+            )
+        ),
+        'legacyMapId'
+    ));
+
+    const custom = resolveHuntLegacyMapPack(
+        { legacyMapId: 'room_a' },
+        {
+            manifest: {
+                version: 1,
+                defaultId: 'v01',
+                maps: [
+                    { id: 'v01', label: 'v01' },
+                    { id: 'room_a', label: 'Room A' }
+                ]
+            }
+        }
+    );
+    assert.strictEqual(custom.pack.id, 'room_a');
+    assert.strictEqual(custom.pack.mapsRel, 'assets/legacy/maps/room_a');
+    assert.strictEqual(custom.fallback, false);
+
+    log('hunt legacyMapId');
 }
 
 /**
@@ -1368,7 +1488,7 @@ function testSpawnPinHelpers() {
 
     const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'spawn-hybrid-first-'));
     try {
-        const hybridDir = path.join(tmp, 'map', 'hybrid', 'floor-03');
+        const hybridDir = path.join(tmp, 'hybrid', 'floor-03');
         const byDir = path.join(tmp, 'spawns', 'by_floor');
         fs.mkdirSync(hybridDir, { recursive: true });
         fs.mkdirSync(byDir, { recursive: true });
@@ -1473,6 +1593,7 @@ function main() {
     testConverters();
     testEquipmentConverters();
     testOnDisk();
+    testHuntLegacyMapId();
     testSpawnPinHelpers();
     testLegacyEquipmentPreset();
     testDragonLordEquivalency();

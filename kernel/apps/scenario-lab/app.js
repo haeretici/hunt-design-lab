@@ -104,10 +104,11 @@ const STORAGE_SPEED = 'scenario_lab_speed';
 
 /**
  * @param {string|number} floorId
+ * @param {string} [mapId] hunt `legacyMapId`
  * @returns {string}
  */
-function mapUrlFromFloor(floorId) {
-    return mapUrlForFloor(floorId);
+function mapUrlFromFloor(floorId, mapId) {
+    return mapUrlForFloor(floorId, mapId);
 }
 
 /**
@@ -1101,16 +1102,26 @@ async function initScenarioLabApp() {
 
         const floor =
             built.simOpts.floor != null ? built.simOpts.floor : 7;
+        const resolvedHunt =
+            built.resolved && built.resolved.hunt ? built.resolved.hunt : null;
+        const huntMapId =
+            (resolvedHunt &&
+                resolvedHunt.legacyMapPack &&
+                resolvedHunt.legacyMapPack.id) ||
+            (resolvedHunt && resolvedHunt.legacyMapId);
         // Stage 11.4/11.5: keep generated floorFriction; only set PNG for path hunts
         if (!built.simOpts.floorFriction && !built.simOpts.floorLayers) {
-            built.simOpts.mapPath = mapUrlFromFloor(floor);
+            built.simOpts.mapPath = mapUrlFromFloor(floor, huntMapId);
             // Editor hybrid packs carry Fields channel for long-lived map fields
             const floorList =
                 Array.isArray(built.simOpts.floors) && built.simOpts.floors.length
                     ? built.simOpts.floors
                     : [floor];
             try {
-                const hybridMapPack = await fetchHybridPackForFloors(floorList);
+                const hybridMapPack = await fetchHybridPackForFloors(
+                    floorList,
+                    huntMapId
+                );
                 if (hybridMapPack) built.simOpts.hybridMapPack = hybridMapPack;
             } catch (err) {
                 if (typeof console !== 'undefined' && console.warn) {

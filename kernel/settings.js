@@ -984,11 +984,11 @@ const PATHS = {
      * Collision path PNGs (`floor-*-path.png`).
      * Updated by modes.applyModePaths for the active content mode.
      */
-    maps: path.join(ROOT, 'assets', 'legacy', 'map'),
+    maps: path.join(ROOT, 'assets', 'legacy', 'maps', 'v01'),
     /**
      * Coarse navmesh graphs. Updated by modes.applyModePaths.
      */
-    navmesh: path.join(ROOT, 'assets', 'legacy', 'map', 'navmesh'),
+    navmesh: path.join(ROOT, 'assets', 'legacy', 'maps', 'v01', 'navmesh'),
     /**
      * Active mode combat / hunt presets (presets/<mode>/).
      * Updated by modes.applyModePaths.
@@ -997,18 +997,19 @@ const PATHS = {
 };
 
 /**
- * Absolute path to a floor collision PNG under assets/legacy/map/.
+ * Absolute path to a floor collision PNG under the active pack (`PATHS.maps`).
  * @param {string|number} floorId e.g. '07' or 7 (padded to 2 digits if numeric-like)
+ * @param {string} [mapsRoot] hunt pack root override (`legacyMapId`)
  * @returns {string}
  */
-function mapPathPng(floorId) {
+function mapPathPng(floorId, mapsRoot) {
     const raw = String(floorId);
     const id = /^\d+$/.test(raw) ? raw.padStart(2, '0') : raw;
-    return path.join(PATHS.maps, `floor-${id}-path.png`);
+    return path.join(mapsRoot || PATHS.maps, `floor-${id}-path.png`);
 }
 
 /**
- * Absolute path to a navmesh JSON under assets/legacy/map/navmesh/.
+ * Absolute path to a navmesh JSON under the active pack navmesh dir.
  * @param {string} id e.g. 'floor07_corridor' or 'legacy_merged'
  * @returns {string}
  */
@@ -1080,9 +1081,9 @@ function genrePaths(genreId, kindId = DEFAULT_KIND) {
         medium: path.join(kindRoot, 'medium'),
         /** medium quantized to 16 colors + transparent index 0. */
         retro: path.join(kindRoot, 'retro'),
-        /** alpha smooth-scaled to 64×64 RGBA (LANCZOS). */
+        /** alpha scaled to 64×64 RGBA (LANCZOS, or NEAREST if catalog scaleFilter=nearest). */
         small: path.join(kindRoot, 'small'),
-        /** alpha smooth-scaled to 32×32 RGBA (LANCZOS). */
+        /** alpha scaled to 32×32 RGBA (same filter as small/). */
         icon: path.join(kindRoot, 'icon'),
         /**
          * @deprecated Legacy alias for retro/ (pre multi-variant pipeline).

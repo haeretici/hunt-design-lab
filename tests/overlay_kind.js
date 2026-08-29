@@ -37,9 +37,14 @@ const {
 } = require('../kernel/core/lib/overlay_wang.js');
 const { generateAssetNames } = require('../kernel/core/lib/asset_names.js');
 const { buildBatch, formatGenerateCommand } = require('../kernel/core/lib/batch_builder.js');
-const { resolveOpaqueAlpha, upsertCreature, emptyCatalog, loadCatalog } = require(
-    '../kernel/core/lib/creature_manifest.js'
-);
+const {
+    resolveOpaqueAlpha,
+    resolveScaleFilter,
+    DEFAULT_SCALE_FILTER,
+    upsertCreature,
+    emptyCatalog,
+    loadCatalog
+} = require('../kernel/core/lib/creature_manifest.js');
 const { idToFileStem } = require('../kernel/core/lib/creature_sprites.js');
 const { addPaletteEntry, normalizePaletteEntry } = require(
     '../kernel/core/lib/dungeon/tilemap_bake.js'
@@ -80,6 +85,10 @@ test('rpg_fantasy ships playable dirt + water overlays', () => {
     assert.strictEqual(water.length, WANG_MASK_COUNT + WANG_INNERS.length);
     const inner = catalog.creatures.find((c) => c.id === 'dirt_wang_inner_nw');
     assert.ok(inner && inner.wangInner === 'nw');
+    assert.ok(
+        catalog.creatures.every((c) => c.scaleFilter === 'nearest'),
+        'playable overlays stamp scaleFilter=nearest'
+    );
     const paths = genrePaths('rpg_fantasy', 'overlays');
     const samples = ['dirt_wang_00', 'dirt_wang_15', 'dirt_wang_inner_nw', 'water_wang_10'];
     for (let i = 0; i < samples.length; i++) {
@@ -241,6 +250,7 @@ test('catalog upsert stamps wangFamily / wangMask', () => {
     assert.strictEqual(rec.wangFamily, 'dirt');
     assert.strictEqual(rec.wangMask, 5);
     assert.strictEqual(rec.opaqueAlpha, false);
+    assert.strictEqual(rec.scaleFilter, undefined);
 
     const inner = upsertCreature(catalog, {
         technical: 'Dirt Wang Inner NW',
@@ -257,6 +267,47 @@ test('catalog upsert stamps wangFamily / wangMask', () => {
     assert.strictEqual(inner.wangFamily, 'dirt');
     assert.strictEqual(inner.wangMask, 15);
     assert.strictEqual(inner.wangInner, 'nw');
+});
+
+test('scaleFilter resolve + upsert nearest / clear', () => {
+    assert.strictEqual(resolveScaleFilter(undefined), DEFAULT_SCALE_FILTER);
+    assert.strictEqual(resolveScaleFilter('nearest'), 'nearest');
+    assert.strictEqual(resolveScaleFilter('NEAREST-NEIGHBOR'), 'nearest');
+    assert.strictEqual(resolveScaleFilter('lanczos'), 'lanczos');
+    assert.strictEqual(resolveScaleFilter('nope'), 'lanczos');
+    const catalog = emptyCatalog('rpg_fantasy', 'overlays');
+    const rec = upsertCreature(catalog, {
+        technical: 'Dirt Wang 05',
+        kind: 'overlays',
+        scaleFilter: 'nearest'
+    });
+    assert.strictEqual(rec.scaleFilter, 'nearest');
+    const keys = Object.keys(rec);
+    assert.ok(keys.indexOf('scaleFilter') === keys.indexOf('opaqueAlpha') + 1);
+    const kept = upsertCreature(catalog, {
+        technical: 'Dirt Wang 05',
+        kind: 'overlays',
+        alias: 'Dirt 05'
+    });
+    assert.strictEqual(kept.scaleFilter, 'nearest');
+    const cleared = upsertCreature(catalog, {
+        technical: 'Dirt Wang 05',
+        kind: 'overlays',
+        scaleFilter: 'lanczos'
+    });
+    assert.strictEqual(cleared.scaleFilter, undefined);
+});
+
+test('buildBatch --scale-filter nearest reaches CLI', () => {
+    const batch = buildBatch({
+        genre: 'rpg_fantasy',
+        kind: 'overlays',
+        category: 'dirt',
+        scaleFilter: 'nearest',
+        doneFile: path.join(ROOT, 'var', 'does-not-exist-overlays-done.txt')
+    });
+    assert.strictEqual(batch.scaleFilter, 'nearest');
+    assert.ok(formatGenerateCommand(batch).includes('--scale-filter nearest'));
 });
 
 test('tile draw keeps overlay kind and tile-like anchor', () => {
@@ -464,6 +515,60 @@ assert out.getpixel((0, 0))[3] == 0, out.getpixel((0, 0))
 assert out.getpixel((2, 32))[3] == 0, out.getpixel((2, 32))
 assert out.getpixel((32, 32))[:3] == (30, 25, 40)
 assert out.getpixel((32, 32))[3] == 255
+print('ok')
+`;
+    const out = execFileSync('python3', ['-c', py], { encoding: 'utf8' });
+    assert.ok(out.trim().endsWith('ok'));
+});
+
+test('process_sprites scaleFilter nearest recovers 32px pixel, lanczos does not', () => {
+    const py = `
+import sys, tempfile
+from pathlib import Path
+from PIL import Image
+sys.path.insert(0, ${JSON.stringify(path.join(ROOT, 'bin'))})
+import process_sprites as ps
+from process_sprites import process_images, resolve_scale_filter
+assert not hasattr(ps, 'is_nearest_from_32')
+
+assert resolve_scale_filter('Pix', catalog_filters={'pix': 'nearest'}) == 'nearest'
+assert resolve_scale_filter('Pix') == 'lanczos'
+assert resolve_scale_filter('Pix', run_filter='nearest') == 'nearest'
+
+td = Path(tempfile.mkdtemp())
+orig = td / 'objects' / 'original'
+orig.mkdir(parents=True)
+src = Image.new('RGBA', (32, 32), (0, 0, 0, 255))
+src.putpixel((0, 0), (255, 0, 0, 255))
+src.putpixel((31, 31), (0, 255, 0, 255))
+src.save(orig / 'Pix.png')
+ok, skipped, errors = process_images(
+    str(orig), force=True, opaque_alpha=True, scale_filter='nearest'
+)
+assert errors == 0 and ok == 1, (ok, skipped, errors)
+icon = Image.open(td / 'objects' / 'icon' / 'Pix.png').convert('RGBA')
+assert icon.size == (32, 32)
+assert icon.getpixel((0, 0))[:3] == (255, 0, 0)
+assert icon.getpixel((31, 31))[:3] == (0, 255, 0)
+original = Image.open(orig / 'Pix.png')
+assert original.size == (256, 256)
+assert original.getpixel((0, 0))[:3] == (255, 0, 0)
+assert original.getpixel((7, 7))[:3] == (255, 0, 0)
+assert original.getpixel((8, 8))[:3] == (0, 0, 0)
+
+td2 = Path(tempfile.mkdtemp())
+orig2 = td2 / 'objects' / 'original'
+orig2.mkdir(parents=True)
+big = Image.new('RGBA', (256, 256), (0, 0, 0, 255))
+big.putpixel((0, 0), (255, 0, 0, 255))
+big.save(orig2 / 'Smooth.png')
+ok, skipped, errors = process_images(
+    str(orig2), force=True, opaque_alpha=True, scale_filter='lanczos'
+)
+assert errors == 0 and ok == 1, (ok, skipped, errors)
+icon2 = Image.open(td2 / 'objects' / 'icon' / 'Smooth.png').convert('RGBA')
+r, g, b, a = icon2.getpixel((0, 0))
+assert (r, g, b) != (255, 0, 0), (r, g, b, a)
 print('ok')
 `;
     const out = execFileSync('python3', ['-c', py], { encoding: 'utf8' });

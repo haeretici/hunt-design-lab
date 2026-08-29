@@ -419,6 +419,11 @@ class Simulator extends GameObject {
             opts.mapPaths && typeof opts.mapPaths === 'object'
                 ? opts.mapPaths
                 : null;
+        /** Node pack root for path PNG / auto hybrid (hunt `legacyMapId`). */
+        this.mapsRoot =
+            typeof opts.mapsRoot === 'string' && opts.mapsRoot
+                ? opts.mapsRoot
+                : null;
         /**
          * Phase 4: hybrid map pack (JSON meta + binary cells) or directory path.
          * When set, loadMaps prefers hybrid bake over floorLayers / path PNG.
@@ -761,6 +766,7 @@ class Simulator extends GameObject {
             floors: this.floors ? this.floors.slice() : null,
             mapPath: this.mapPath,
             mapPaths: this.mapPaths ? clonePlain(this.mapPaths) : null,
+            mapsRoot: this.mapsRoot,
             floorLayers: cloneFloorLayers(this.floorLayers),
             artLayers: cloneArtLayers(this.artLayers),
             genre: this.genre,
@@ -821,6 +827,12 @@ class Simulator extends GameObject {
                   ? null
                   : this.floors;
         if (cfg.mapPath !== undefined) this.mapPath = cfg.mapPath;
+        if (cfg.mapsRoot !== undefined) {
+            this.mapsRoot =
+                typeof cfg.mapsRoot === 'string' && cfg.mapsRoot
+                    ? cfg.mapsRoot
+                    : null;
+        }
         if (cfg.mapPaths !== undefined) {
             this.mapPaths =
                 cfg.mapPaths && typeof cfg.mapPaths === 'object'
@@ -2350,7 +2362,7 @@ class Simulator extends GameObject {
         const pathPng =
             pathOverride ||
             (this.mapPaths && this.mapPaths[String(z)]) ||
-            mapPathPng(z);
+            mapPathPng(z, this.mapsRoot);
         await this.tileMap.loadFloor(z, pathPng);
         if (this.floor == null) this.floor = z;
         this.mapPath = pathPng;
@@ -2445,7 +2457,10 @@ class Simulator extends GameObject {
             const {
                 tryResolveHybridMapPack
             } = require('../../core/lib/dungeon/tilemap_bake.js');
-            const pack = tryResolveHybridMapPack(list);
+            const pack = tryResolveHybridMapPack(
+                list,
+                this.mapsRoot ? { mapsRoot: this.mapsRoot } : undefined
+            );
             if (pack) this.hybridMapPack = pack;
         } catch (_e) {
             // fs unavailable (browser) or pack unreadable — keep PNG path
@@ -2535,6 +2550,7 @@ class Simulator extends GameObject {
                         : `hybrid://${(this.hybridMapPack && this.hybridMapPack.id) || 'pack'}`;
             }
             this._installStairsAndNavmesh();
+            await this._loadMissingConfiguredFloors();
             await this._ensureStairDestinationFloors();
             this._seedMapFieldsFromLayers();
             this._seedWorldPinsFromHybrid();
@@ -2572,6 +2588,33 @@ class Simulator extends GameObject {
         this._seedMapFieldsFromLayers();
         this._seedWorldPinsFromHybrid();
         return this.tileMap;
+    }
+
+    /**
+     * After auto-hybrid, load hunt `floors` / `mapPaths` that the pack omitted.
+     * Hybrid dirs exist per painted floor; extra z (API smoke, same PNG on z=8)
+     * still comes from path PNG / floorLayers.
+     * @returns {Promise<void>}
+     * @private
+     */
+    async _loadMissingConfiguredFloors() {
+        if (!this.tileMap) return;
+        /** @type {Array<string|number>} */
+        const list = [];
+        if (this.floors && this.floors.length) {
+            for (let i = 0; i < this.floors.length; i++) list.push(this.floors[i]);
+        } else if (this.mapPaths) {
+            const keys = Object.keys(this.mapPaths);
+            for (let i = 0; i < keys.length; i++) list.push(keys[i]);
+        }
+        for (let i = 0; i < list.length; i++) {
+            const z = list[i];
+            const layer = this.tileMap.getLayer
+                ? this.tileMap.getLayer(z)
+                : this.tileMap.layers && this.tileMap.layers[String(z)];
+            if (layer) continue;
+            await this.loadMap(z, this._resolveMapPathForFloor(z));
+        }
     }
 
     /**
@@ -2669,7 +2712,7 @@ class Simulator extends GameObject {
         }
         const sibling = this._siblingMapPath(z);
         if (sibling) return sibling;
-        return mapPathPng(z);
+        return mapPathPng(z, this.mapsRoot);
     }
 
     /**

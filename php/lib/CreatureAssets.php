@@ -166,6 +166,29 @@ final class CreatureAssets
     }
 
     /**
+     * @param array{genre: string, id: string, scale_filter: string, kind?: string, dry_run?: bool} $opts
+     * @return array{ok: bool, error?: string, ...}
+     */
+    public static function setScaleFilter(array $opts): array
+    {
+        $genre = self::assertGenre($opts['genre'] ?? '');
+        $id = self::assertId($opts['id'] ?? '');
+        $value = strtolower(trim((string) ($opts['scale_filter'] ?? '')));
+        if ($value !== 'lanczos' && $value !== 'nearest') {
+            throw new \InvalidArgumentException('scale_filter must be lanczos or nearest');
+        }
+        $argv = ['scale-filter', '-g', $genre, '--id', $id, '--value', $value, '--json'];
+        if (!empty($opts['kind'])) {
+            $argv[] = '--kind';
+            $argv[] = self::assertKind((string) $opts['kind']);
+        }
+        if (!empty($opts['dry_run'])) {
+            $argv[] = '--dry-run';
+        }
+        return self::run($argv);
+    }
+
+    /**
      * Re-run process_sprites for one stem (no flip/replace).
      *
      * @param array{genre: string, id: string, kind?: string, dry_run?: bool} $opts

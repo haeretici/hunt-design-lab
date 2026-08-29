@@ -1774,7 +1774,7 @@ async function runIntegration() {
             hunt,
             huntId: 'cave_crawl_generated',
             members: form.members,
-            mapPath: path.join(ROOT, 'assets/legacy/map/floor-07-path.png')
+            mapPath: path.join(ROOT, 'assets/legacy/maps/v01/floor-07-path.png')
         });
         // inject Node loaders via Simulator defaults
         const sim = new Simulator(opts);

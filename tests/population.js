@@ -396,14 +396,13 @@ async function testRisingPressureMacroHeadless() {
         summary.pacing.metrics && summary.pacing.metrics.midCounts;
     assert.ok(mid && (mid.champion || 0) >= 1, 'mid-loop champions fire');
     // A1 product path (docs/25): both members reach crypt; duo wipes under pressure.
-    // Goldens: 2026-08-04 after noAttackTimeoutSec 20→60; 2026-08-05 after
-    // AI_TARGET_LOSE_DIST=10 + field pathfinding Option B (Stage 08 rebaseline).
+    // 2026-08-28: hop-on-step is manual-only — AI no longer bounce on paired stairs.
     assert.strictEqual(summary.partyWipe, true);
     assert.strictEqual(summary.endReason, 'party_wipe');
-    assert.strictEqual(summary.tickCount, 2288);
-    assert.strictEqual(summary.kills, 23);
+    assert.strictEqual(summary.tickCount, 1912);
+    assert.strictEqual(summary.kills, 22);
     assert.strictEqual(summary.deaths, 2);
-    assert.strictEqual(summary.damageTaken, 2757);
+    assert.strictEqual(summary.damageTaken, 2630);
     const members = summary.parties[0].members || [];
     assert.ok(
         members.every((m) => String(m.z) === '2'),

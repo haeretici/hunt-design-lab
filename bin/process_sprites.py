@@ -20,8 +20,10 @@ Pipeline per original PNG:
        alpha/   — full-size RGBA, background removed only (no resize, no quantize)
        medium/  — 50% of alpha size (e.g. 256→128), still full-color RGBA (NEAREST)
        retro/   — medium quantized to 16 colors; palette index 0 is transparent
-       small/   — alpha smooth-scaled to 64×64 RGBA (LANCZOS)
-       icon/    — alpha smooth-scaled to 32×32 RGBA (LANCZOS)
+       small/   — alpha scaled to 64×64 RGBA (LANCZOS default; NEAREST when
+                  catalog scaleFilter=nearest or --scale-filter nearest)
+       icon/    — alpha scaled to 32×32 RGBA (same filter as small/)
+                  nearest + 32×32/64×64 original is first expanded to 256×256
 
   With --opaque-alpha: skip chroma keying; alpha/ is an opaque RGBA copy of the
   original (full A=255). Used for terrain tiles and other full-bleed assets.
@@ -30,6 +32,7 @@ Pipeline per original PNG:
   on an overlay folder is ignored (no flatten, no key fallback).
 """
 
+import json
 import shutil
 import sys
 import subprocess
@@ -95,9 +98,14 @@ SOLID_BG_MIN_FRACTION = 0.33
 # Output subfolders under …/creatures/ (siblings of original/).
 OUTPUT_VARIANTS = ("alpha", "medium", "retro", "small", "icon")
 
-# Fixed-size smooth downscales from alpha/ (RGBA, LANCZOS).
+# Fixed-size downscales from alpha/ (RGBA). Filter is per-stem (catalog / CLI).
 SMALL_SIZE = (64, 64)
 ICON_SIZE = (32, 32)
+CANONICAL_ORIGINAL_SIZE = (256, 256)
+PIXEL_NATIVE_SIZES = frozenset({(32, 32), (64, 64)})
+SCALE_FILTER_LANCZOS = "lanczos"
+SCALE_FILTER_NEAREST = "nearest"
+DEFAULT_SCALE_FILTER = SCALE_FILTER_LANCZOS
 
 
 def find_imagemagick() -> str | None:
@@ -688,6 +696,94 @@ def smooth_scale(img: Image.Image, size: tuple[int, int]) -> Image.Image:
     return img.resize(size, Image.Resampling.LANCZOS)
 
 
+def normalize_scale_filter(value: object) -> str:
+    """Catalog / CLI scaleFilter → lanczos | nearest. Missing/unknown → lanczos."""
+    if value is None:
+        return DEFAULT_SCALE_FILTER
+    v = str(value).strip().lower()
+    if v in ("nearest", "nearest-neighbor", "nn"):
+        return SCALE_FILTER_NEAREST
+    if v in ("lanczos", "smooth"):
+        return SCALE_FILTER_LANCZOS
+    return DEFAULT_SCALE_FILTER
+
+
+def resampling_for(filter_name: str) -> Image.Resampling:
+    if filter_name == SCALE_FILTER_NEAREST:
+        return Image.Resampling.NEAREST
+    return Image.Resampling.LANCZOS
+
+
+def catalog_path_for_original_dir(original_dir: Path) -> Path | None:
+    """assets/sprites/<genre>/<kind>/original → assets/data/<genre>/<kind>.json."""
+    p = Path(original_dir).resolve()
+    if p.name != "original":
+        return None
+    kind_dir = p.parent
+    genre_dir = kind_dir.parent
+    sprites_dir = genre_dir.parent
+    if sprites_dir.name != "sprites":
+        return None
+    return ROOT / "assets" / "data" / genre_dir.name / f"{kind_dir.name}.json"
+
+
+def load_catalog_scale_filters(original_dir: Path) -> dict[str, str]:
+    """stem / id → 'nearest' for catalog rows with scaleFilter=nearest."""
+    path = catalog_path_for_original_dir(Path(original_dir))
+    if not path or not path.is_file():
+        return {}
+    try:
+        raw = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError, TypeError):
+        return {}
+    if not isinstance(raw, dict):
+        return {}
+    items = raw.get("items") or raw.get("creatures") or []
+    out: dict[str, str] = {}
+    if not isinstance(items, list):
+        return out
+    for item in items:
+        if not isinstance(item, dict):
+            continue
+        if normalize_scale_filter(item.get("scaleFilter")) != SCALE_FILTER_NEAREST:
+            continue
+        keys: list[str] = []
+        ident = item.get("id")
+        if ident:
+            keys.append(str(ident))
+        sprites = item.get("sprites") if isinstance(item.get("sprites"), dict) else {}
+        orig = sprites.get("original") if sprites else None
+        if orig:
+            keys.append(Path(str(orig)).stem)
+        tech = item.get("technical")
+        if tech:
+            keys.append(str(tech).replace(" ", "_"))
+        for key in keys:
+            if not key:
+                continue
+            out[key] = SCALE_FILTER_NEAREST
+            out[key.lower()] = SCALE_FILTER_NEAREST
+    return out
+
+
+def resolve_scale_filter(
+    stem: str,
+    *,
+    run_filter: str | None = None,
+    catalog_filters: dict[str, str] | None = None,
+) -> str:
+    """CLI run filter wins, then catalog per-stem, else lanczos."""
+    if run_filter:
+        return normalize_scale_filter(run_filter)
+    if catalog_filters:
+        if stem in catalog_filters:
+            return catalog_filters[stem]
+        low = stem.lower()
+        if low in catalog_filters:
+            return catalog_filters[low]
+    return DEFAULT_SCALE_FILTER
+
+
 # Repo root: bin/process_sprites.py → parent.parent
 ROOT = Path(__file__).resolve().parent.parent
 SPRITES_ROOT = ROOT / "assets" / "sprites"
@@ -750,12 +846,16 @@ def process_images(
     chroma_ratio: float = CHROMA_RATIO,
     only_stems: set[str] | None = None,
     opaque_alpha: bool = False,
+    scale_filter: str | None = None,
+    scale_filters: dict[str, str] | None = None,
 ) -> tuple[int, int, int]:
     """Process all PNGs in directory_path → sibling alpha/medium/retro/small/icon.
 
     only_stems: if set, only process basenames (no .png) in this set (case-sensitive stem).
     opaque_alpha: if True, alpha is an opaque RGBA copy (no chroma key).
     Overlay folders ignore opaque_alpha and skip chroma (keep source alpha).
+    scale_filter: CLI override (lanczos|nearest) for every stem in this run.
+    scale_filters: per-stem map; when None, load catalog scaleFilter for this folder.
     Returns (ok, skipped, errors).
     """
     base_path = Path(directory_path)
@@ -766,6 +866,12 @@ def process_images(
             "keeping source alpha (no chroma, no flatten) so icon/small/medium stay transparent."
         )
         opaque_alpha = False
+    run_filter = normalize_scale_filter(scale_filter) if scale_filter else None
+    catalog_filters = (
+        scale_filters
+        if scale_filters is not None
+        else load_catalog_scale_filters(base_path)
+    )
     ok = skipped = errors = 0
 
     if not base_path.is_dir():
@@ -805,6 +911,20 @@ def process_images(
             with Image.open(file_path) as src:
                 img = src.copy()
 
+            img = img.convert("RGBA")
+            filt = resolve_scale_filter(
+                file_path.stem,
+                run_filter=run_filter,
+                catalog_filters=catalog_filters,
+            )
+            if filt == SCALE_FILTER_NEAREST and img.size in PIXEL_NATIVE_SIZES:
+                print(
+                    f"[SCALE] {file_path.name} {img.size[0]}x{img.size[1]} → "
+                    f"{CANONICAL_ORIGINAL_SIZE[0]}x{CANONICAL_ORIGINAL_SIZE[1]} NEAREST"
+                )
+                img = img.resize(CANONICAL_ORIGINAL_SIZE, Image.Resampling.NEAREST)
+                img.save(file_path)
+
             if img.size not in ((256, 256), (1024, 1024)):
                 print(
                     f"[WARNING] {file_path.name} is {img.size[0]}x{img.size[1]}, "
@@ -827,10 +947,11 @@ def process_images(
             medium_img = alpha_img.resize(med_size, Image.Resampling.NEAREST)
             medium_img.save(paths["medium"])
 
-            # small / icon: fixed-size smooth downscales from alpha.
-            small_img = smooth_scale(alpha_img, SMALL_SIZE)
+            # small / icon: LANCZOS default; NEAREST when catalog/CLI says so.
+            resample = resampling_for(filt)
+            small_img = alpha_img.resize(SMALL_SIZE, resample)
+            icon_img = alpha_img.resize(ICON_SIZE, resample)
             small_img.save(paths["small"])
-            icon_img = smooth_scale(alpha_img, ICON_SIZE)
             icon_img.save(paths["icon"])
 
             # retro: small + 16-color palette (index 0 transparent).
@@ -855,7 +976,7 @@ def process_images(
                 f"[OK] {file_path.name} -> {key_label}; "
                 f"alpha {aw}x{ah} RGBA, medium {mw}x{mh} RGBA, "
                 f"retro trimmed 16-color, small {sw}x{sh} RGBA, "
-                f"icon {iw}x{ih} RGBA."
+                f"icon {iw}x{ih} RGBA, scale {filt}."
             )
             ok += 1
         except Exception as e:
@@ -870,6 +991,7 @@ def process_all_genres(
     force: bool = False,
     chroma_ratio: float = CHROMA_RATIO,
     opaque_alpha: bool = False,
+    scale_filter: str | None = None,
 ) -> int:
     """Run process_images on every genre original/ folder. Returns error count."""
     dirs = discover_original_dirs()
@@ -889,6 +1011,7 @@ def process_all_genres(
             force=force,
             chroma_ratio=chroma_ratio,
             opaque_alpha=opaque_alpha,
+            scale_filter=scale_filter,
         )
         total_ok += ok
         total_skipped += skipped
@@ -904,8 +1027,10 @@ def process_all_genres(
 def _print_usage() -> None:
     print(
         "Usage:\n"
-        "  python3 process_sprites.py <folder_path> [tolerance] [--force] [--only STEM] [--opaque-alpha]\n"
-        "  python3 process_sprites.py --all [tolerance] [--force] [--opaque-alpha]\n"
+        "  python3 process_sprites.py <folder_path> [tolerance] [--force] [--only STEM] "
+        "[--opaque-alpha] [--scale-filter lanczos|nearest]\n"
+        "  python3 process_sprites.py --all [tolerance] [--force] [--opaque-alpha] "
+        "[--scale-filter lanczos|nearest]\n"
         "  python3 process_sprites.py --fix-green-file <png_path>\n"
         "\n"
         "  folder_path     Path to a genre/<kind>/original/ directory\n"
@@ -915,14 +1040,16 @@ def _print_usage() -> None:
         "  --only STEM     Process only this file stem (repeatable; not with --all)\n"
         "  --opaque-alpha  alpha/ is opaque RGBA copy (no chroma key) for this run\n"
         "                  (ignored on overlays/original: source alpha is kept)\n"
+        "  --scale-filter  lanczos (default) or nearest — overrides catalog scaleFilter\n"
+        "                  nearest: 32/64 originals expand to 256; small/icon stay blocky\n"
         "  --fix-green-file  In-place: G-dominant spill (G>=50) → R=B=G (no reprocess)\n"
         "\n"
         "Outputs (siblings of original/):\n"
         "  alpha/   full-size RGBA (keyed, or opaque copy with --opaque-alpha)\n"
         "  medium/  50% size RGBA (e.g. 128x128 from 256 alpha, NEAREST)\n"
         "  retro/   medium quantized to 16 colors + transparent index 0\n"
-        "  small/   alpha smooth-scaled to 64x64 RGBA (LANCZOS)\n"
-        "  icon/    alpha smooth-scaled to 32x32 RGBA (LANCZOS)"
+        "  small/   alpha scaled to 64x64 RGBA (catalog scaleFilter; default LANCZOS)\n"
+        "  icon/    alpha scaled to 32x32 RGBA (same filter as small/)"
     )
 
 
@@ -936,6 +1063,7 @@ if __name__ == "__main__":
     process_all = "--all" in args
     opaque_alpha = "--opaque-alpha" in args
     only_stems: set[str] = set()
+    scale_filter: str | None = None
     fix_green_path: str | None = None
     cleaned: list[str] = []
     i = 0
@@ -966,6 +1094,39 @@ if __name__ == "__main__":
             continue
         if a.startswith("--only="):
             only_stems.add(a.split("=", 1)[1])
+            i += 1
+            continue
+        if a == "--scale-filter":
+            if i + 1 >= len(args):
+                print("Error: --scale-filter requires lanczos or nearest")
+                _print_usage()
+                sys.exit(1)
+            scale_filter = normalize_scale_filter(args[i + 1])
+            if args[i + 1].strip().lower() not in (
+                "lanczos",
+                "nearest",
+                "smooth",
+                "nearest-neighbor",
+                "nn",
+            ):
+                print(f"Error: unknown --scale-filter {args[i + 1]!r} (use lanczos or nearest)")
+                _print_usage()
+                sys.exit(1)
+            i += 2
+            continue
+        if a.startswith("--scale-filter="):
+            raw = a.split("=", 1)[1]
+            if raw.strip().lower() not in (
+                "lanczos",
+                "nearest",
+                "smooth",
+                "nearest-neighbor",
+                "nn",
+            ):
+                print(f"Error: unknown --scale-filter {raw!r} (use lanczos or nearest)")
+                _print_usage()
+                sys.exit(1)
+            scale_filter = normalize_scale_filter(raw)
             i += 1
             continue
         cleaned.append(a)
@@ -1003,6 +1164,7 @@ if __name__ == "__main__":
             tolerance=custom_tolerance,
             force=force,
             opaque_alpha=opaque_alpha,
+            scale_filter=scale_filter,
         )
         sys.exit(1 if err_count else 0)
 
@@ -1016,5 +1178,6 @@ if __name__ == "__main__":
         force=force,
         only_stems=only_stems or None,
         opaque_alpha=opaque_alpha,
+        scale_filter=scale_filter,
     )
     sys.exit(1 if errors else 0)

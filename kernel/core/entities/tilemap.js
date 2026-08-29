@@ -956,13 +956,17 @@ class TileMap extends GameObject {
     }
 
     /**
-     * Player hop-on-step: if standing on a stairs/hole pad, tryUseStair.
+     * Manual hop-on-step: if standing on a stairs/hole pad, tryUseStair.
      * Ladders and rope/shovel pads are skipped. Clears leftover same-floor path.
-     * @param {{ id?: number, tile?: { x: number, y: number, z: string|number }, path?: object[], type?: string }} entity
+     * AI / party members (`controlMode === 'ai'`) MUST NOT hop here — they
+     * climb via tryUseStair / Party._tryStairHop so same-floor walks do not
+     * bounce on paired dest pads. Test stubs with no controlMode still hop.
+     * @param {{ id?: number, tile?: { x: number, y: number, z: string|number }, path?: object[], type?: string, controlMode?: string }} entity
      * @returns {boolean}
      */
     tryAutoStairHop(entity) {
         if (!entity || !entity.tile || !isPlayerEntity(entity)) return false;
+        if (!playerHopsOnStep(entity)) return false;
         if (!this.hopsOnStepAt(entity.tile.x, entity.tile.y, entity.tile.z)) {
             return false;
         }
@@ -3236,6 +3240,20 @@ function isPlayerEntity(ent) {
 }
 
 /**
+ * Hop-on-step is a manual-control landing rule. AI defaults to `controlMode:
+ * 'ai'` and must use tryUseStair. Stubs that omit controlMode still hop
+ * (tilemap unit tests).
+ * @param {object|null|undefined} ent
+ * @returns {boolean}
+ */
+function playerHopsOnStep(ent) {
+    if (!isPlayerEntity(ent)) return false;
+    const mode = ent.controlMode;
+    if (mode == null || mode === '') return true;
+    return mode === 'manual';
+}
+
+/**
  * @param {object|null|undefined} ent
  * @returns {boolean}
  */
@@ -3651,6 +3669,7 @@ module.exports = {
     stairKey,
     reverseHopDir,
     hopsOnStep,
+    playerHopsOnStep,
     registerVerticalFromPlacement,
     normalizePlacementVertical,
     resolveTilemapViewport,

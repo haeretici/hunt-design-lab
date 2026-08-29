@@ -2,7 +2,7 @@
  * Shared sample walk coordinates (Stage 3+ ghost-walk / fallback route only).
  * Prefer presets/waypoints/*.json for hunt authoring (Stage 9).
  * Validated against the synthetic floor-07 reference corridor
- * (assets/legacy/map/floor-07-path.png, horizontal walkable run ~y=96).
+ * (assets/legacy/maps/v01/floor-07-path.png, horizontal walkable run ~y=96).
  * Regenerate map with: python3 bin/build_legacy_map_reference.py
  * No creature / monster names here.
  */

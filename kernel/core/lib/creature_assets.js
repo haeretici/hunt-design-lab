@@ -25,6 +25,8 @@ const {
     technicalToFileStem,
     deriveAliasFromTechnical,
     resolveOpaqueAlpha,
+    resolveScaleFilter,
+    DEFAULT_SCALE_FILTER,
     repoPath,
     absoluteSpritePath
 } = require('./creature_manifest.js');
@@ -250,6 +252,7 @@ function listCreaturesEnriched(genreId, options = {}) {
                     resists: p.resists || combat.resists || null,
                     notes: p.notes || (c && c.notes) || null,
                     opaqueAlpha: resolveOpaqueAlpha(c ? c.opaqueAlpha : false, kindId),
+                    scaleFilter: resolveScaleFilter(c ? c.scaleFilter : undefined),
                     status: c ? c.status : 'preset_only',
                     source: p.source || (c && c.source) || 'preset',
                     tags: Array.isArray(p.tags) ? p.tags : (Array.isArray(c?.tags) ? c.tags : []),
@@ -345,6 +348,7 @@ function listCreaturesEnriched(genreId, options = {}) {
             resists: (combat && combat.resists) || c.resists || null,
             notes: c.notes || null,
             opaqueAlpha: resolveOpaqueAlpha(c.opaqueAlpha, kindId),
+            scaleFilter: resolveScaleFilter(c.scaleFilter),
             status: c.status,
             source: c.source,
             tags: Array.isArray(c.tags) ? c.tags : [],
@@ -924,6 +928,63 @@ function setOpaqueAlpha(genreId, creatureId, opaqueAlpha, options = {}) {
 }
 
 /**
+ * Set scaleFilter on a catalog row and reprocess variants when original exists.
+ * `lanczos` (default) is omitted from JSON. `nearest` keeps 32/64 pixel art blocky.
+ * @param {string} genreId
+ * @param {string} creatureId
+ * @param {unknown} scaleFilter
+ * @param {{ dryRun?: boolean, kind?: string }} [options]
+ */
+function setScaleFilter(genreId, creatureId, scaleFilter, options = {}) {
+    const dryRun = Boolean(options.dryRun);
+    const kindId = options.kind || DEFAULT_KIND;
+    const paths = genrePaths(genreId, kindId);
+    const catalog = loadCatalog(genreId, { kind: kindId });
+    const creature = findById(catalog, creatureId);
+    if (!creature) {
+        throw new Error(`Asset not found: ${creatureId}`);
+    }
+
+    const next = resolveScaleFilter(scaleFilter);
+    const prev = resolveScaleFilter(creature.scaleFilter);
+    const stem = resolveStem(creature, paths);
+    const originalAbs = stem ? existingPng(paths.original, stem) : null;
+
+    if (!dryRun) {
+        if (next === DEFAULT_SCALE_FILTER) {
+            delete creature.scaleFilter;
+        } else {
+            creature.scaleFilter = next;
+        }
+        const idx = catalog.creatures.findIndex((c) => c.id === creatureId);
+        if (idx >= 0) {
+            catalog.creatures[idx] = creature;
+        }
+        saveCatalog(catalog, { kind: kindId });
+        if (originalAbs && stem) {
+            reprocessStem(paths.original, stem, {
+                opaqueAlpha: resolveOpaqueAlpha(creature.opaqueAlpha, kindId),
+                kind: kindId
+            });
+        }
+    }
+
+    return {
+        ok: true,
+        action: 'set_scale_filter',
+        genre: genreId,
+        kind: kindId,
+        id: creatureId,
+        technical: creature.technical,
+        stem,
+        scaleFilter: next,
+        previousScaleFilter: prev,
+        reprocessed: Boolean(originalAbs && stem && !dryRun),
+        dryRun
+    };
+}
+
+/**
  * Re-run process_sprites.py --force for one asset stem (no flip/replace).
  * Honors catalog opaqueAlpha (and tiles default when unset).
  * @param {string} genreId
@@ -939,6 +1000,7 @@ function reprocessCreature(genreId, creatureId, options = {}) {
     );
     const kind = getAssetKind(kindId);
     const opaque = resolveOpaqueAlpha(creature.opaqueAlpha, kindId);
+    const scaleFilter = resolveScaleFilter(creature.scaleFilter);
 
     if (!dryRun) {
         reprocessStem(paths.original, stem, {
@@ -956,6 +1018,7 @@ function reprocessCreature(genreId, creatureId, options = {}) {
         technical: creature.technical,
         stem,
         opaqueAlpha: opaque,
+        scaleFilter,
         original: repoPath(
             'assets',
             'sprites',
@@ -1068,6 +1131,7 @@ module.exports = {
     flipCreatureHorizontal,
     replaceCreatureOriginal,
     setOpaqueAlpha,
+    setScaleFilter,
     reprocessCreature,
     fixGreenCreature,
     findImageMagick,

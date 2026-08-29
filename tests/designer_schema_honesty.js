@@ -491,14 +491,27 @@ function testDialogsAndWaypointsSchemas() {
     }
     const wpHunt = loadJson('presets/standard/hunts/wp_test_1.json');
     assert.strictEqual(wpHunt.waypointPreset, 'wp_test_1');
+    assert.strictEqual(wpHunt.legacyMapId, 'v01');
     assert.ok(
         !Array.isArray(wpHunt.waypoints) || wpHunt.waypoints.length === 0,
         'sample hunt must not duplicate the waypoints pack'
     );
+    const huntsValidate = compileAjv(hunts);
+    if (huntsValidate) {
+        assertValid(huntsValidate, wpHunt, 'wp_test_1 hunt');
+    }
+    assert.ok(hunts.properties.legacyMapId);
+    assert.strictEqual(
+        hunts.properties.legacyMapId.pattern,
+        '^[a-z][a-z0-9_]{0,31}$'
+    );
 }
 
 function testHuntEditorWaypointPresetEnum() {
-    const { enrichHuntSchema } = require('../kernel/apps/hunt-editor/app.js');
+    const {
+        enrichHuntSchema,
+        sanitizeHuntForEditor
+    } = require('../kernel/apps/hunt-editor/app.js');
     const hunts = loadJson('schemas/hunts.schema.json');
     const empty = enrichHuntSchema(hunts, { waypoints: [] });
     assert.deepStrictEqual(empty.properties.waypointPreset.enum, ['']);
@@ -512,6 +525,25 @@ function testHuntEditorWaypointPresetEnum() {
         '',
         'cave_loop'
     ]);
+
+    const maps = enrichHuntSchema(hunts, {
+        waypoints: [],
+        legacyMaps: {
+            defaultId: 'v01',
+            maps: [{ id: 'v01', label: 'Reference continent' }]
+        }
+    });
+    assert.deepStrictEqual(maps.properties.legacyMapId.enum, ['', 'v01']);
+    assert.strictEqual(maps.properties.legacyMapId.default, '');
+    assert.ok(!maps.properties.legacyMapId.pattern);
+    assert.deepStrictEqual(maps.properties.legacyMapId.options.enum_titles, [
+        '(default pack)',
+        'Reference continent'
+    ]);
+    const stripped = sanitizeHuntForEditor({ id: 't', legacyMapId: '' });
+    assert.ok(!Object.prototype.hasOwnProperty.call(stripped, 'legacyMapId'));
+    const kept = sanitizeHuntForEditor({ id: 't', legacyMapId: 'v01' });
+    assert.strictEqual(kept.legacyMapId, 'v01');
 }
 
 function testEmptyRelationEnumSurvives() {

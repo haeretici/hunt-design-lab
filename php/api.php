@@ -21,6 +21,7 @@
  *   action=creature_flip   — horizontal flip + reprocess (POST)
  *   action=creature_replace — multipart file upload replaces original + reprocess (POST)
  *   action=creature_opaque_alpha — set opaqueAlpha + reprocess (POST)
+ *   action=creature_scale_filter — set scaleFilter + reprocess (POST)
  *   action=creature_reprocess — re-run process_sprites for one stem (POST)
  *   action=creature_fix_green — neutralize accentuated green on original + reprocess (POST)
  *
@@ -44,6 +45,11 @@
  *   action=presets_rename   — explicit id rename + soft-ref rewrite (POST: mode, kind, from, to)
  *   action=presets_delete   — delete entity; response may include soft warnings (POST)
  *   action=presets_validate — kernel validate pieces/biomes/dungeons (?mode=&kind=&id=&level=layout|stress)
+ *
+ * Legacy map packs (editor):
+ *   action=legacy_maps_list — manifest maps ({ defaultId, maps: [{id,label}] })
+ *   action=legacy_map_create — new pack (id, label, width, height; optional fromSelection + sourceMapId + x + y); POST requireWrite
+ *   action=legacy_map_* — save/load hybrid + pins; mapId query/body (omit = defaultId)
  *
  * Bug reports (Hunt UI / Scenario Lab):
  *   action=bugs_save — write a JSON report under bugs/ (POST body: { report })
@@ -86,10 +92,10 @@ if ($action === '') {
     Response::error(
         'Missing or invalid action. Use: run, status, log, list, scripts, ' .
         'sim_results_list, sim_results_get, sim_results_folder, ' .
-        'catalog_genres, catalog_list, creature_remove, creature_rename, creature_flip, creature_replace, creature_opaque_alpha, creature_reprocess, creature_fix_green, ' .
+        'catalog_genres, catalog_list, creature_remove, creature_rename, creature_flip, creature_replace, creature_opaque_alpha, creature_scale_filter, creature_reprocess, creature_fix_green, ' .
         'modes_list, hunts_list, hunts_get, hunts_template, hunts_save, hunts_delete, presets_browser_pack, ' .
         'presets_kinds, presets_list, presets_get, presets_ids, presets_refs, presets_template, presets_save, presets_rename, presets_delete, presets_validate, ' .
-        'legacy_map_save_spawns, legacy_map_save_world, legacy_map_save_layer, legacy_map_save_hybrid, legacy_map_save_hybrid_begin, legacy_map_save_hybrid_blob, legacy_map_load_hybrid, smart_update_sprites, bugs_save',
+        'legacy_maps_list, legacy_map_create, legacy_map_save_spawns, legacy_map_save_world, legacy_map_save_layer, legacy_map_save_hybrid, legacy_map_save_hybrid_begin, legacy_map_save_hybrid_blob, legacy_map_load_hybrid, smart_update_sprites, bugs_save',
         400
     );
     exit;
@@ -226,6 +232,18 @@ try {
                 'kind' => (string) $req->get('kind', 'creatures'),
                 'id' => (string) $req->get('id', ''),
                 'opaque_alpha' => (bool) $req->get('opaque_alpha', false),
+                'dry_run' => (bool) $req->get('dry_run', false),
+            ]);
+            Response::ok($data);
+            break;
+
+        case 'creature_scale_filter':
+            requireWrite($req);
+            $data = CreatureAssets::setScaleFilter([
+                'genre' => (string) $req->get('genre', ''),
+                'kind' => (string) $req->get('kind', 'creatures'),
+                'id' => (string) $req->get('id', ''),
+                'scale_filter' => (string) $req->get('scale_filter', 'lanczos'),
                 'dry_run' => (bool) $req->get('dry_run', false),
             ]);
             Response::ok($data);
@@ -405,6 +423,25 @@ try {
             Response::ok($data);
             break;
 
+        case 'legacy_maps_list':
+            Response::ok(LegacyMapEditor::listMaps());
+            break;
+
+        case 'legacy_map_create':
+            requireWrite($req);
+            $data = LegacyMapEditor::createMap([
+                'id' => (string) $req->get('id', ''),
+                'label' => (string) $req->get('label', ''),
+                'width' => $req->get('width', 256),
+                'height' => $req->get('height', 256),
+                'fromSelection' => $req->get('fromSelection', ''),
+                'sourceMapId' => (string) $req->get('sourceMapId', ''),
+                'x' => $req->get('x', 0),
+                'y' => $req->get('y', 0),
+            ]);
+            Response::ok($data);
+            break;
+
         case 'legacy_map_save_spawns':
             requireWrite($req);
             $spawns = $req->get('spawns', null);
@@ -420,6 +457,7 @@ try {
             }
             $data = LegacyMapEditor::saveSpawns([
                 'floor' => (string) $req->get('floor', ''),
+                'mapId' => (string) $req->get('mapId', $req->get('map', '')),
                 'spawns' => $spawns,
             ]);
             Response::ok($data);
@@ -440,6 +478,7 @@ try {
             }
             $data = LegacyMapEditor::saveWorld([
                 'floor' => (string) $req->get('floor', ''),
+                'mapId' => (string) $req->get('mapId', $req->get('map', '')),
                 'world' => $world,
             ]);
             Response::ok($data);
@@ -449,6 +488,7 @@ try {
             requireWrite($req);
             $data = LegacyMapEditor::saveLayer([
                 'floor' => (string) $req->get('floor', ''),
+                'mapId' => (string) $req->get('mapId', $req->get('map', '')),
                 'layer' => (string) $req->get('layer', ''),
                 'image' => (string) $req->get('image', ''),
             ]);
@@ -459,6 +499,7 @@ try {
             requireWrite($req);
             $data = LegacyMapEditor::saveHybrid([
                 'floor' => (string) $req->get('floor', ''),
+                'mapId' => (string) $req->get('mapId', $req->get('map', '')),
                 'meta' => $req->get('meta', null),
                 'blobsBase64' => $req->get('blobsBase64', $req->get('blobs', null)),
             ]);
@@ -470,6 +511,7 @@ try {
             requireWrite($req);
             $data = LegacyMapEditor::saveHybridBegin([
                 'floor' => (string) $req->get('floor', ''),
+                'mapId' => (string) $req->get('mapId', $req->get('map', '')),
                 'meta' => $req->get('meta', null),
             ]);
             Response::ok($data);
@@ -496,6 +538,7 @@ try {
             }
             $data = LegacyMapEditor::saveHybridBlob([
                 'floor' => (string) $req->get('floor', ''),
+                'mapId' => (string) $req->get('mapId', $req->get('map', '')),
                 'path' => (string) $req->get('path', $req->get('rel', '')),
             ], $raw);
             Response::ok($data);
@@ -504,6 +547,7 @@ try {
         case 'legacy_map_load_hybrid':
             $data = LegacyMapEditor::loadHybrid([
                 'floor' => (string) $req->get('floor', ''),
+                'mapId' => (string) $req->get('mapId', $req->get('map', '')),
                 'embed' => $req->get('embed', false),
             ]);
             Response::ok($data);

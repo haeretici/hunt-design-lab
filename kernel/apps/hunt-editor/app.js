@@ -192,6 +192,27 @@ async function fetchRelationIds(modeId) {
     return idsByKind;
 }
 
+/**
+ * @returns {Promise<{ defaultId: string, maps: { id: string, label: string }[] }>}
+ */
+async function fetchLegacyMapsForEditor() {
+    try {
+        const data = await apiCall('legacy_maps_list');
+        const maps = Array.isArray(data.maps)
+            ? data.maps.filter((m) => m && typeof m.id === 'string')
+            : [];
+        return {
+            defaultId:
+                typeof data.defaultId === 'string' && data.defaultId
+                    ? data.defaultId
+                    : 'v01',
+            maps
+        };
+    } catch (_) {
+        return { defaultId: 'v01', maps: [] };
+    }
+}
+
 function enrichHuntSchema(schemaDoc, idsByKind) {
     const out = cloneJson(schemaDoc);
 
@@ -252,7 +273,67 @@ function enrichHuntSchema(schemaDoc, idsByKind) {
         }
     }
 
+    const legacyMaps = normalizeLegacyMapsInput(idsByKind && idsByKind.legacyMaps);
+    if (
+        legacyMaps &&
+        out.properties &&
+        out.properties.legacyMapId
+    ) {
+        const ids = legacyMaps.maps.map((m) => String(m.id));
+        const titles = legacyMaps.maps.map((m) => String(m.label || m.id));
+        out.properties.legacyMapId.enum = [''].concat(ids);
+        out.properties.legacyMapId.default = '';
+        delete out.properties.legacyMapId.pattern;
+        out.properties.legacyMapId.options = Object.assign(
+            {},
+            out.properties.legacyMapId.options,
+            { enum_titles: ['(default pack)'].concat(titles) }
+        );
+    }
+
     return out;
+}
+
+/**
+ * @param {unknown} raw
+ * @returns {{ defaultId?: string, maps: { id: string, label: string }[] }|null}
+ */
+function normalizeLegacyMapsInput(raw) {
+    if (!raw) return null;
+    if (Array.isArray(raw)) {
+        const maps = [];
+        for (let i = 0; i < raw.length; i++) {
+            const x = raw[i];
+            if (typeof x === 'string' && x) {
+                maps.push({ id: x, label: x });
+            } else if (x && typeof x === 'object' && typeof x.id === 'string') {
+                maps.push({
+                    id: x.id,
+                    label: typeof x.label === 'string' && x.label ? x.label : x.id
+                });
+            }
+        }
+        return maps.length ? { maps } : null;
+    }
+    if (raw && typeof raw === 'object' && Array.isArray(raw.maps)) {
+        const maps = [];
+        for (let i = 0; i < raw.maps.length; i++) {
+            const m = raw.maps[i];
+            if (!m || typeof m.id !== 'string' || !m.id) continue;
+            maps.push({
+                id: m.id,
+                label: typeof m.label === 'string' && m.label ? m.label : m.id
+            });
+        }
+        return maps.length
+            ? {
+                  defaultId:
+                      typeof raw.defaultId === 'string' ? raw.defaultId : undefined,
+                  maps
+              }
+            : null;
+    }
+    return null;
 }
 
 /**
@@ -278,6 +359,11 @@ function sanitizeHuntForEditor(hunt) {
             delete waves.regions;
         }
         delete waves.region;
+    }
+    if (out.legacyMapId == null || String(out.legacyMapId).trim() === '') {
+        delete out.legacyMapId;
+    } else {
+        out.legacyMapId = String(out.legacyMapId).trim();
     }
     return out;
 }
@@ -441,7 +527,10 @@ async function initHuntEditorApp() {
         if (!relationIdsCache[modeId]) {
             relationIdsCache[modeId] = await fetchRelationIds(modeId);
         }
-        const schema = enrichHuntSchema(schemaDoc, relationIdsCache[modeId] || {});
+        const idsByKind = Object.assign({}, relationIdsCache[modeId] || {}, {
+            legacyMaps: await fetchLegacyMapsForEditor()
+        });
+        const schema = enrichHuntSchema(schemaDoc, idsByKind);
         const startval = sanitizeHuntForEditor(huntObj);
 
         suppressDirty = true;
@@ -1128,5 +1217,6 @@ async function initHuntEditorApp() {
 
 module.exports = {
     initHuntEditorApp,
-    enrichHuntSchema
+    enrichHuntSchema,
+    sanitizeHuntForEditor
 };

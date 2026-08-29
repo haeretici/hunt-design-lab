@@ -152,7 +152,8 @@ function cliFlagsFromForm(form) {
         rows: form.rows,
         cols: form.cols,
         model: form.model,
-        opaqueAlpha: form.opaqueAlpha
+        opaqueAlpha: form.opaqueAlpha,
+        scaleFilter: form.scaleFilter
     };
 }
 
@@ -286,6 +287,10 @@ function readForm() {
     const dryRun = !!(dryRunEl && dryRunEl.checked);
     const opaqueEl = /** @type {HTMLInputElement|null} */ (document.getElementById('opaqueAlpha'));
     const opaqueAlpha = !!(opaqueEl && opaqueEl.checked);
+    const nearestEl = /** @type {HTMLInputElement|null} */ (
+        document.getElementById('scaleFilterNearest')
+    );
+    const scaleFilter = nearestEl && nearestEl.checked ? 'nearest' : null;
     return {
         genre,
         kind,
@@ -296,6 +301,7 @@ function readForm() {
         iterations,
         model,
         opaqueAlpha,
+        scaleFilter,
         dryRun
     };
 }
@@ -440,6 +446,7 @@ async function initBatchBuilderApp() {
             iterations: form.iterations,
             model: form.model,
             opaqueAlpha: form.opaqueAlpha,
+            scaleFilter: form.scaleFilter,
             dryRun: form.dryRun
         };
     }
@@ -475,6 +482,9 @@ async function initBatchBuilderApp() {
         const iterEl = /** @type {HTMLInputElement|null} */ (document.getElementById('iterations'));
         const dryEl = /** @type {HTMLInputElement|null} */ (document.getElementById('dryRun'));
         const opaqueEl = /** @type {HTMLInputElement|null} */ (document.getElementById('opaqueAlpha'));
+        const nearestEl = /** @type {HTMLInputElement|null} */ (
+            document.getElementById('scaleFilterNearest')
+        );
 
         if (rowsEl && prefs.rows != null) {
             const n = parseInt(String(prefs.rows), 10);
@@ -500,6 +510,9 @@ async function initBatchBuilderApp() {
         }
         if (opaqueEl && typeof prefs.opaqueAlpha === 'boolean') {
             opaqueEl.checked = prefs.opaqueAlpha;
+        }
+        if (nearestEl && (prefs.scaleFilter === 'nearest' || prefs.scaleFilter === 'lanczos')) {
+            nearestEl.checked = prefs.scaleFilter === 'nearest';
         }
     }
 
@@ -592,7 +605,8 @@ async function initBatchBuilderApp() {
                     rows: batch.rows,
                     cols: batch.cols,
                     model: batch.model,
-                    opaqueAlpha: batch.opaqueAlpha
+                    opaqueAlpha: batch.opaqueAlpha,
+                    scaleFilter: batch.scaleFilter
                 },
                 iterations,
                 { dryRun: !!opts.dryRun }
@@ -705,6 +719,7 @@ async function initBatchBuilderApp() {
                 seed: form.seed,
                 model: form.model,
                 opaqueAlpha: form.opaqueAlpha,
+                scaleFilter: form.scaleFilter,
                 exclude: [...doneSet],
                 items
             });
@@ -847,6 +862,7 @@ async function initBatchBuilderApp() {
                 dry_run: form.dryRun,
                 opaque_alpha: form.opaqueAlpha
             };
+            if (form.scaleFilter === 'nearest') payload.scale_filter = 'nearest';
             if (form.seed != null) payload.seed = form.seed;
             if (form.category) payload.category = form.category;
         }
@@ -913,6 +929,10 @@ async function initBatchBuilderApp() {
         schedulePrefsSave();
     });
     document.getElementById('opaqueAlpha')?.addEventListener('change', () => {
+        refreshCliCommand();
+        schedulePrefsSave();
+    });
+    document.getElementById('scaleFilterNearest')?.addEventListener('change', () => {
         refreshCliCommand();
         schedulePrefsSave();
     });

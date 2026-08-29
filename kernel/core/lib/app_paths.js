@@ -55,7 +55,7 @@ function getAppRoot() {
 }
 
 /**
- * @param {string} relPath path from repo root, e.g. `assets/legacy/map/x.png` or `/presets/a.json`
+ * @param {string} relPath path from repo root, e.g. `assets/legacy/maps/v01/x.png` or `/presets/a.json`
  * @returns {string} URL for fetch / Image.src
  */
 function appUrl(relPath) {

@@ -14354,13 +14354,6 @@
             "respawn": 90
         },
         {
-            "creatureId": "mountain_troll",
-            "x": 293,
-            "y": 916,
-            "z": 6,
-            "respawn": 90
-        },
-        {
             "creatureId": "deer",
             "x": 302,
             "y": 920,
@@ -20718,13 +20711,6 @@
         },
         {
             "creatureId": "mountain_troll",
-            "x": 295,
-            "y": 916,
-            "z": 6,
-            "respawn": 60
-        },
-        {
-            "creatureId": "mountain_troll",
             "x": 292,
             "y": 917,
             "z": 6,
@@ -20750,6 +20736,52 @@
             "y": 918,
             "z": 6,
             "respawn": 60
+        }
+    ],
+    "world": [
+        {
+            "id": "container_6_294_911",
+            "kind": "container",
+            "catalogId": "anniversary_backpack",
+            "catalogKind": "equipment",
+            "x": 294,
+            "y": 911,
+            "z": 6,
+            "blocking": false,
+            "pickupable": true,
+            "capacity": 15,
+            "shared": true,
+            "items": [
+                {
+                    "item": "albino_plate",
+                    "count": 1
+                }
+            ]
+        },
+        {
+            "id": "chest_6_294_909",
+            "kind": "chest",
+            "catalogId": "treasure_chest_ornamented",
+            "catalogKind": "equipment",
+            "x": 294,
+            "y": 909,
+            "z": 6,
+            "blocking": true,
+            "pickupable": false,
+            "shared": false,
+            "once": {
+                "storage": "quest.demo.chest",
+                "eq": 0
+            },
+            "give": [
+                {
+                    "item": "gold_coin",
+                    "count": 50
+                }
+            ],
+            "set": {
+                "quest.demo.chest": 1
+            }
         }
     ]
 }

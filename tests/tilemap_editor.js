@@ -1181,6 +1181,116 @@ function testExplicitStairDest() {
     log('explicit stair dest + rebake preserve ok');
 }
 
+function subCatalog(session, subId, x, y) {
+    const sl = session.floor.subLayers.find((s) => s && s.id === subId);
+    assert.ok(sl, subId + ' sub-layer');
+    const pi = sl.cells[y * session.cols + x] & 0xffff;
+    if (!pi) return null;
+    const e = session.floor.palette[pi];
+    return e ? e.catalogId : null;
+}
+
+function testClearAllLayers() {
+    const roles = roleCatalog();
+    const session = createEditorSession({ cols: 8, rows: 8, z: 7, roleCatalog: roles });
+    const grass = {
+        catalogId: 'clr_grass',
+        roleId: 'floor',
+        kind: 'tiles',
+        subLayer: 'ground'
+    };
+    const tree = {
+        catalogId: 'clr_tree',
+        roleId: 'scenery_blocking',
+        kind: 'objects',
+        subLayer: 'scenery'
+    };
+    const dirt = dirtFamily();
+    const stairs = {
+        catalogId: 'clr_stairs',
+        roleId: 'stairs_up',
+        kind: 'tiles',
+        subLayer: 'vertical',
+        hop: { dir: 'north', deltaZ: -1 }
+    };
+    const i = (x, y) => y * 8 + x;
+
+    session.beginStroke();
+    for (let y = 0; y < 8; y++) {
+        for (let x = 0; x < 8; x++) {
+            session.paintAt(x, y, { stamp: grass, subLayer: 'ground' });
+        }
+    }
+    session.endStroke();
+
+    session.beginStroke();
+    session.paintAt(2, 2, { stamp: tree, subLayer: 'scenery' });
+    session.paintAt(3, 2, { stamp: dirt, subLayer: 'path' });
+    session.paintAt(4, 2, { stamp: dirt, subLayer: 'path' });
+    session.paintAt(2, 3, { stamp: stairs, subLayer: 'vertical' });
+    session.endStroke();
+
+    session.paintChannel('fields', 2, 2, 1);
+    session.paintChannel('flags', 3, 2, 1, { packageBits: TILE_FLAG_PZ_PACKAGE });
+    session.paintChannel('friction', 3, 3, 40);
+
+    assert.strictEqual(session.floor.friction[i(0, 0)], DEFAULT_OPEN_FRICTION);
+    assert.ok(session.findStairAt(2, 3));
+    assert.strictEqual(pathCatalog(session, 3, 2), 'dirt_wang_02');
+    assert.strictEqual(pathCatalog(session, 4, 2), 'dirt_wang_08');
+
+    const miss = session.clearAllLayers(null);
+    assert.strictEqual(miss.rect, null);
+    const oob = session.clearAllLayers({ x0: 99, y0: 99, x1: 100, y1: 100 });
+    assert.strictEqual(oob.rect, null);
+
+    const r = session.clearAllLayers({ x0: 2, y0: 2, x1: 3, y1: 3 });
+    assert.ok(r && r.rect);
+
+    assert.strictEqual(subCatalog(session, 'ground', 2, 2), null);
+    assert.strictEqual(subCatalog(session, 'scenery', 2, 2), null);
+    assert.strictEqual(subCatalog(session, 'path', 3, 2), null);
+    assert.strictEqual(subCatalog(session, 'vertical', 2, 3), null);
+    assert.strictEqual(pathCatalog(session, 4, 2), 'dirt_wang_00', '1-ring re-resolve after hole');
+
+    assert.strictEqual(session.floor.friction[i(2, 2)], FRICTION_BLOCKED);
+    assert.strictEqual(session.floor.sight[i(2, 2)], SIGHT_BLOCKED);
+    assert.strictEqual(session.floor.flags[i(2, 2)], 0);
+    assert.strictEqual(session.floor.flags[i(3, 2)], 0);
+    assert.strictEqual(session.floor.fields[i(2, 2)], 0);
+    assert.strictEqual(session.floor.overrideMask[i(2, 2)], 0);
+    assert.strictEqual(session.floor.overrideMask[i(3, 2)], 0);
+    assert.strictEqual(session.floor.overrideMask[i(3, 3)], 0);
+    assert.ok(!session.findStairAt(2, 3));
+    assert.strictEqual(session.floor.friction[i(3, 3)], FRICTION_BLOCKED);
+
+    assert.strictEqual(subCatalog(session, 'ground', 0, 0), 'clr_grass');
+    assert.strictEqual(session.floor.friction[i(0, 0)], DEFAULT_OPEN_FRICTION);
+
+    const transport = session.toHybridBinaryTransport({ id: 'clr_all' });
+    const reloaded = createEditorSession({ cols: 1, rows: 1, z: 0, roleCatalog: roles });
+    reloaded.loadHybridTransport(transport.meta, transport.blobs);
+    assert.strictEqual(subCatalog(reloaded, 'ground', 2, 2), null, 'hole stamps survive hybrid save');
+    assert.strictEqual(subCatalog(reloaded, 'scenery', 2, 2), null);
+    assert.strictEqual(subCatalog(reloaded, 'path', 3, 2), null);
+    assert.strictEqual(reloaded.floor.friction[i(2, 2)], FRICTION_BLOCKED, 'void bake survives hybrid save');
+    assert.strictEqual(reloaded.floor.fields[i(2, 2)], 0);
+    assert.strictEqual(subCatalog(reloaded, 'ground', 0, 0), 'clr_grass');
+    assert.ok(!reloaded.findStairAt(2, 3));
+
+    session.undo();
+    assert.strictEqual(subCatalog(session, 'scenery', 2, 2), 'clr_tree');
+    assert.strictEqual(subCatalog(session, 'ground', 2, 2), 'clr_grass');
+    assert.strictEqual(session.floor.fields[i(2, 2)], 1);
+    assert.strictEqual(session.floor.flags[i(3, 2)] & TILE_FLAG_PZ_PACKAGE, TILE_FLAG_PZ_PACKAGE);
+    assert.strictEqual(session.floor.friction[i(3, 3)], 40);
+    assert.ok(session.findStairAt(2, 3));
+    assert.strictEqual(pathCatalog(session, 3, 2), 'dirt_wang_02');
+    assert.strictEqual(pathCatalog(session, 4, 2), 'dirt_wang_08');
+
+    log('clear all layers ok');
+}
+
 function main() {
     testUiOrderAndFlags();
     testArtSetStamps();
@@ -1201,6 +1311,7 @@ function main() {
     testWallWangResolve();
     testWallWangHopSkipAndEyedropper();
     testExplicitStairDest();
+    testClearAllLayers();
     console.log('tilemap_editor: ok');
 }
 

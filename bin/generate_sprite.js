@@ -79,6 +79,9 @@ Options:
   --opaque-alpha         process_sprites: opaque alpha copy (no chroma key);
                          stamps opaqueAlpha=true on all catalog rows in this batch
                          (forbidden for --kind overlays and wall families)
+  --scale-filter <id>    lanczos (default) | nearest. Stamps catalog scaleFilter
+                         and process_sprites small/icon. Use nearest for 32/64
+                         pixel art (32/64 originals expand to 256 with NEAREST)
   --no-record            Do not append names to done file
   --resplit-last         Re-crop existing sprites.png onto the last sheet's roster
                          (last rows×cols names from the done list). Overwrites only
@@ -125,6 +128,7 @@ function parseArgs(argv) {
         skipProcess: false,
         skipInventory: false,
         opaqueAlpha: false,
+        scaleFilter: null,
         record: true,
         resplitLast: false,
         help: false
@@ -204,6 +208,14 @@ function parseArgs(argv) {
             case '--opaque-alpha':
                 opts.opaqueAlpha = true;
                 break;
+            case '--scale-filter': {
+                const v = String(next()).trim().toLowerCase();
+                if (v !== 'lanczos' && v !== 'nearest') {
+                    throw new Error('--scale-filter must be lanczos or nearest');
+                }
+                opts.scaleFilter = v;
+                break;
+            }
             case '--no-record':
                 opts.record = false;
                 break;
@@ -314,6 +326,13 @@ function batchOptsFromConfig(raw, opts) {
             raw.opaqueAlpha === true ||
             raw.opaque_alpha === true ||
             opts.opaqueAlpha === true,
+        scaleFilter:
+            raw.scaleFilter === 'nearest' ||
+            raw.scaleFilter === 'lanczos' ||
+            raw.scale_filter === 'nearest' ||
+            raw.scale_filter === 'lanczos'
+                ? raw.scaleFilter || raw.scale_filter
+                : opts.scaleFilter,
         creatures: raw.items || raw.creatures || undefined
     };
 }
@@ -330,7 +349,8 @@ function refreshCreatureCatalog(batch) {
     });
     for (const c of batch.items || batch.creatures) {
         const tags = c.category ? [c.category] : [];
-        upsertCreature(catalog, {
+        /** @type {Record<string, unknown>} */
+        const row = {
             technical: c.technical,
             alias: c.alias,
             genre: batch.genreId,
@@ -345,7 +365,13 @@ function refreshCreatureCatalog(batch) {
             ),
             tags,
             source: 'pipeline'
-        });
+        };
+        if (batch.scaleFilter === 'nearest' || batch.scaleFilter === 'lanczos') {
+            row.scaleFilter = batch.scaleFilter;
+        } else if (c.scaleFilter === 'nearest' || c.scaleFilter === 'lanczos') {
+            row.scaleFilter = c.scaleFilter;
+        }
+        upsertCreature(catalog, row);
     }
     const written = saveCatalog(catalog, { kind: kindId });
     return { written, stats, total: catalog.creatures.length };
@@ -534,6 +560,11 @@ function runOneIteration(batch, opts, meta) {
         try {
             const pyArgs = [py, batch.paths.original];
             if (opaque) pyArgs.push('--opaque-alpha');
+            if (batch.scaleFilter === 'nearest' || batch.scaleFilter === 'lanczos') {
+                pyArgs.push('--scale-filter', batch.scaleFilter);
+            } else if (opts.scaleFilter === 'nearest' || opts.scaleFilter === 'lanczos') {
+                pyArgs.push('--scale-filter', opts.scaleFilter);
+            }
             if (forceSheetAfterSplit) {
                 pyArgs.push('--force');
                 for (const stem of stems) {
@@ -590,7 +621,8 @@ function main() {
         cols: opts.cols,
         doneFile: opts.doneFile || undefined,
         model: opts.model || undefined,
-        opaqueAlpha: opts.opaqueAlpha === true
+        opaqueAlpha: opts.opaqueAlpha === true,
+        scaleFilter: opts.scaleFilter
     };
 
     let rawConfig = null;

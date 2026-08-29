@@ -1,0 +1,61 @@
+{
+  "version": 1,
+  "pointCount": 18,
+  "connectionCount": 17,
+  "annotatedCount": 7,
+  "crossFloorEdges": 2,
+  "icons": {
+    "flag": 1,
+    "sword": 1,
+    "skull": 1,
+    "down": 2,
+    "up": 2
+  },
+  "iconLegend": {
+    "up": "Stairs / hole up (floor change up)",
+    "down": "Stairs / hole down (floor change down)",
+    "flag": "Landmark / POI",
+    "sword": "Combat / hunting area",
+    "skull": "Danger / boss area"
+  },
+  "pointsByFloor": {
+    "07": 14,
+    "06": 2,
+    "08": 2
+  },
+  "crossFloorSamples": [
+    {
+      "a": {
+        "i": 12,
+        "x": 470,
+        "y": 860,
+        "z": "07",
+        "icon": "down"
+      },
+      "b": {
+        "i": 13,
+        "x": 470,
+        "y": 860,
+        "z": "06",
+        "icon": "up"
+      }
+    },
+    {
+      "a": {
+        "i": 15,
+        "x": 282,
+        "y": 102,
+        "z": "07",
+        "icon": "up"
+      },
+      "b": {
+        "i": 16,
+        "x": 282,
+        "y": 102,
+        "z": "08",
+        "icon": "down"
+      }
+    }
+  ],
+  "notes": "Synthetic reference analysis (bin/build_legacy_map_reference.py)"
+}

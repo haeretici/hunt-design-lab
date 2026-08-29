@@ -226,6 +226,11 @@
         }
       }
     },
+    "legacyMapId": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]{0,31}$",
+      "description": "Legacy map pack id under assets/legacy/maps (manifest id). Omit = default pack."
+    },
     "spawnSource": {
       "type": "object",
       "description": "Source configuration for hunt monster spawns.",

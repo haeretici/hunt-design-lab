@@ -12,6 +12,10 @@ const path = require('path');
 const { fork } = require('child_process');
 const { Time, LOGIC_DT } = require('../../core/lib/time.js');
 const { Settings, ROOT } = require('../../settings.js');
+const {
+    resolveHuntLegacyMapPack,
+    padFloorId
+} = require('../../core/lib/content/legacy_assets.js');
 const { unbindSeededRandom } = require('../../core/lib/utils.js');
 const {
     summaryCore,
@@ -497,7 +501,7 @@ function resolveHuntConfig(input) {
     }
 
     // When layout generated a map, do not fall back to continent path PNGs
-    const mapPath = floorLayers
+    let mapPath = floorLayers
         ? config.mapPath || hunt.mapPath || undefined
         : config.mapPath || hunt.mapPath || undefined;
     const mapPaths = floorLayers
@@ -511,6 +515,15 @@ function resolveHuntConfig(input) {
             : hunt && hunt.hybridMapPack != null
               ? hunt.hybridMapPack
               : null;
+    let mapsRoot;
+    if (!floorLayers) {
+        try {
+            const pack = resolveHuntLegacyMapPack(hunt).pack;
+            mapsRoot = path.join(ROOT, pack.mapsRel);
+        } catch (_e) {
+            mapsRoot = undefined;
+        }
+    }
     if (!hybridMapPack && !floorLayers) {
         try {
             const {
@@ -522,10 +535,15 @@ function resolveHuntConfig(input) {
                     : floor != null
                       ? [floor]
                       : [];
-            hybridMapPack = tryResolveHybridMapPack(floorList);
+            hybridMapPack = tryResolveHybridMapPack(floorList, {
+                mapsRoot: mapsRoot || undefined
+            });
         } catch (_e) {
             hybridMapPack = null;
         }
+    }
+    if (!mapPath && !floorLayers && mapsRoot) {
+        mapPath = path.join(mapsRoot, `floor-${padFloorId(floor)}-path.png`);
     }
 
     // Stage 11.10: layout meta for runtime biome_transition + macro pacing
@@ -568,6 +586,7 @@ function resolveHuntConfig(input) {
         floors,
         mapPath,
         mapPaths,
+        mapsRoot: mapsRoot || null,
         hybridMapPack: hybridMapPack || null,
         floorFriction,
         floorLayers,

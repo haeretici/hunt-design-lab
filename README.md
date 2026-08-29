@@ -369,7 +369,7 @@ Third-party terms, unclear copyright status of model outputs, and reference data
 | Material | Location (typical) | Notes |
 | :--- | :--- | :--- |
 | **AI-generated sprites & sheets** | `assets/sprites/**` | Produced with Google Antigravity (`agy`) and/or Grok Build (`grok` / Imagine-style tools). See **AI-generated media** below. |
-| **Legacy reference pack (public)** | `assets/legacy/**` | Distributed with **reference data only** (maps/bounds/navmesh JSON, spawn tables, notes) plus **one automatically generated** path-map image for illustration (`map/floor-07-path.png`). **Not** a commercial art pack. |
+| **Legacy reference pack (public)** | `assets/legacy/**` | Distributed with **reference data only** (maps/bounds/navmesh JSON, spawn tables, notes) plus **one automatically generated** path-map image for illustration (`maps/v01/floor-07-path.png`). **Not** a commercial art pack. |
 | **Legacy monster art** | `assets/legacy/monsters/` | Removed. Do not re-add GIFs or `manifest.json` here. |
 | **Derived combat / content packs** | parts of `presets/**`, `assets/data/**` | May mix original design with ports or AI-assisted labels. Review before shipping a product. |
 | **Vendor / install trees** | `node_modules/`, etc. | Their own licenses. |

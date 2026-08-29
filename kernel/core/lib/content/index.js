@@ -61,5 +61,11 @@ module.exports = {
     floorsFromSpawnSource: legacyAssets.floorsFromSpawnSource,
     loadSpawnIndex: legacyAssets.loadSpawnIndex,
     loadNavmeshAnalysis: legacyAssets.loadNavmeshAnalysis,
-    legacyPath: legacyAssets.legacyPath
+    legacyPath: legacyAssets.legacyPath,
+    resolveLegacyMapPack: legacyAssets.resolveLegacyMapPack,
+    resolveHuntLegacyMapPack: legacyAssets.resolveHuntLegacyMapPack,
+    setLegacyMapsManifest: legacyAssets.setLegacyMapsManifest,
+    loadLegacyMapsManifest: legacyAssets.loadLegacyMapsManifest,
+    LEGACY_MAP_ID_RE: legacyAssets.LEGACY_MAP_ID_RE,
+    DEFAULT_LEGACY_MAP_ID: legacyAssets.DEFAULT_LEGACY_MAP_ID
 };

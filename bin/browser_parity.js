@@ -9,7 +9,7 @@
  * Usage:
  *   npm run browser:parity
  *   npm run browser:parity -- --to-tick 780 --speed 20
- *   npm run browser:parity -- --to-tick 2400   # full A1 session (wipe ~2278)
+ *   npm run browser:parity -- --to-tick 2400   # full A1 session (wipe ~1912)
  *   BROWSER_PARITY_URL=http://localhost:8080/hunt-design-lab/index.php npm run browser:parity
  *
  * Requires: system Chrome/Chromium + optional local PHP server (auto-starts
@@ -42,8 +42,8 @@ const DEFAULT_URL = `http://localhost:8080/${PROJECT_BASE}/index.php`;
 const DEFAULT_HUNT = 'rising_pressure_macro';
 const DEFAULT_PARTY = 'rising_pressure_duo';
 const DEFAULT_SEED = 42;
-// Default past first stair hops + auto parity window (Guardian@645, Scout@656).
-// Full A1 session: --to-tick 2400 (party_wipe ends @2278; both members both floors).
+// Default past first stair hops + auto parity window (Guardian@557, Scout@568).
+// Full A1 session: --to-tick 2400 (party_wipe ends @1912; both members both floors).
 const DEFAULT_TO_TICK = 780;
 const DEFAULT_SPEED = 20;
 

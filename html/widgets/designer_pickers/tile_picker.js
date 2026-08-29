@@ -519,7 +519,7 @@
         // Track displayed keys to render any unhandled custom properties
         const handledKeys = new Set([
             'id', 'alias', 'label', 'technical', 'genre', 'kind', 'sprites',
-            'status', 'source', 'createdAt', 'updatedAt', 'opaqueAlpha',
+            'status', 'source', 'createdAt', 'updatedAt', 'opaqueAlpha', 'scaleFilter',
             'level', 'slot', 'category', 'weaponType', 'vocation', 'twoHanded',
             'range', 'imbuementSlots', 'atk', 'extraAtk', 'extraAtkElement',
             'defense', 'defenseBonus', 'armor', 'speed', 'weight', 'skillBonuses',

@@ -108,12 +108,13 @@ const {
 const PREFS_KEY = 'huntSimulator';
 
 /**
- * Browser-reachable URL for a floor path PNG (active mode maps root).
+ * Browser-reachable URL for a floor path PNG.
  * @param {string|number} floorId
+ * @param {string} [mapId] hunt `legacyMapId`
  * @returns {string}
  */
-function mapUrlFromFloor(floorId) {
-    return mapUrlForFloor(floorId);
+function mapUrlFromFloor(floorId, mapId) {
+    return mapUrlForFloor(floorId, mapId);
 }
 
 // Re-export mapUrl for tests / external callers
@@ -1331,13 +1332,18 @@ async function initGameApp() {
         formPartyId = partyId;
         // Prefer editor hybrid packs (map fields + channels) when present
         let hybridMapPack = null;
+        const huntMapId =
+            (hunt.legacyMapPack && hunt.legacyMapPack.id) || hunt.legacyMapId;
         if (!hasGeneratedFloor) {
             const floorList =
                 Array.isArray(hunt.floors) && hunt.floors.length
                     ? hunt.floors
                     : [floor];
             try {
-                hybridMapPack = await fetchHybridPackForFloors(floorList);
+                hybridMapPack = await fetchHybridPackForFloors(
+                    floorList,
+                    huntMapId
+                );
             } catch (err) {
                 if (typeof console !== 'undefined' && console.warn) {
                     console.warn('hybrid map load failed', err);
@@ -1351,7 +1357,9 @@ async function initGameApp() {
             huntId,
             partyId,
             members,
-            mapPath: hasGeneratedFloor ? null : mapUrlFromFloor(floor),
+            mapPath: hasGeneratedFloor
+                ? null
+                : mapUrlFromFloor(floor, huntMapId),
             hybridMapPack,
             injectors,
             ...(testParityTrace !== undefined

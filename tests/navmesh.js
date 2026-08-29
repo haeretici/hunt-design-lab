@@ -296,12 +296,12 @@ function testLoadFloor07Sample() {
     assert.ok(mesh.points.length >= 5);
     assert.deepStrictEqual(mesh.getPath(0, 4), [0, 1, 2, 3, 4]);
 
-    // File path helper (assets/legacy/map/navmesh)
+    // File path helper (assets/legacy/maps/v01/navmesh)
     assert.ok(
         navmeshPath('floor07_corridor').includes(path.join('navmesh')) &&
-            (navmeshPath('floor07_corridor').includes(path.join('legacy', 'map')) ||
-                navmeshPath('floor07_corridor').includes(path.join('maps', 'navmesh'))),
-        'navmeshPath under assets/legacy/map/navmesh'
+            (navmeshPath('floor07_corridor').includes(path.join('legacy', 'maps', 'v01')) ||
+                navmeshPath('floor07_corridor').includes(path.join('maps', 'v01', 'navmesh'))),
+        'navmeshPath under assets/legacy/maps/v01/navmesh'
     );
     assert.ok(PATHS.navmesh);
 

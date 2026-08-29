@@ -22,9 +22,9 @@ from pathlib import Path
 from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[1]
-MAP_DIR = ROOT / "assets" / "legacy" / "map"
+MAP_DIR = ROOT / "assets" / "legacy" / "maps" / "v01"
 NAVMESH_DIR = MAP_DIR / "navmesh"
-SPAWNS_DIR = ROOT / "assets" / "legacy" / "spawns"
+SPAWNS_DIR = MAP_DIR / "spawns"
 BY_FLOOR_DIR = SPAWNS_DIR / "by_floor"
 
 # Canvas size is part of the load contract (tests assert cols/rows).
@@ -417,7 +417,7 @@ def build_spawns() -> dict:
             {
                 "floor": fid,
                 "count": len(spawns),
-                "path": f"assets/legacy/spawns/by_floor/{fid}.json",
+                "path": f"assets/legacy/maps/v01/spawns/by_floor/{fid}.json",
             }
         )
         total += len(spawns)
@@ -451,9 +451,9 @@ def update_port_manifest() -> None:
         data = json.loads(manifest_path.read_text(encoding="utf-8"))
     else:
         data = {"version": 1}
-    data["mapPathPattern"] = "assets/legacy/map/floor-<id>-path.png"
-    data["navmesh"] = "assets/legacy/map/navmesh/merged.json"
-    data["spawns"] = "assets/legacy/spawns/"
+    data["mapPathPattern"] = "assets/legacy/maps/v01/floor-<id>-path.png"
+    data["navmesh"] = "assets/legacy/maps/v01/navmesh/merged.json"
+    data["spawns"] = "assets/legacy/maps/v01/spawns/"
     data["mapReference"] = "synthetic (bin/build_legacy_map_reference.py)"
     data["note"] = (
         "Dev reference port. Map path PNG / navmesh / spawns are synthetic OSS "
@@ -506,7 +506,7 @@ Default party waypoints (`DEFAULT_FLOOR07_WAYPOINTS`): `(260…304, 96, z=7)` al
 
 ## Spawns
 
-`assets/legacy/spawns/by_floor/07.json` holds dens `cave_rat` rows inside the dens bbox
+`assets/legacy/maps/v01/spawns/by_floor/07.json` holds dens `cave_rat` rows inside the dens bbox
 (`x 400–540`, `y 800–900`) plus a few format demos. Other floors are empty or
 tiny stair-landing samples so the multi-floor file contract remains.
 """,

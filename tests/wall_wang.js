@@ -181,6 +181,10 @@ test('rpg_fantasy ships playable stone_wall faces', () => {
     const catalog = loadCatalog('rpg_fantasy', { kind: 'objects' });
     const faces = catalog.creatures.filter((c) => c.wallFamily === 'stone_wall');
     assert.strictEqual(faces.length, WALL_ALIGN_ALL.length);
+    assert.ok(
+        faces.every((c) => c.scaleFilter === 'nearest'),
+        'playable stone_wall stamps scaleFilter=nearest'
+    );
     assert.deepStrictEqual(
         faces.map((c) => c.wallAlign).sort(),
         WALL_ALIGN_ALL.slice().sort()
@@ -237,6 +241,16 @@ test('catalog upsert stamps wallFamily / wallAlign', () => {
     assert.strictEqual(rec.wallAlign, 'pole');
     assert.strictEqual(rec.opaqueAlpha, false);
     assert.strictEqual(rec.wangFamily, undefined);
+    assert.strictEqual(rec.scaleFilter, undefined);
+    const nearest = upsertCreature(catalog, {
+        technical: 'Stone Wall Pole',
+        kind: 'objects',
+        category: 'wall',
+        wallFamily: 'stone_wall',
+        wallAlign: 'pole',
+        scaleFilter: 'nearest'
+    });
+    assert.strictEqual(nearest.scaleFilter, 'nearest');
 });
 
 test('family / align / hop helpers', () => {

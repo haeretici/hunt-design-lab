@@ -223,6 +223,14 @@ const HDL_SCRIPTS = [
                 'default' => false,
                 'flag' => '--opaque-alpha',
             ],
+            'scale_filter' => [
+                'type' => 'enum',
+                'values' => ['lanczos', 'nearest'],
+                'required' => false,
+                'default' => 'lanczos',
+                'flag' => '--scale-filter',
+                'omit_if_default' => true,
+            ],
             'skip_agy' => [
                 'type' => 'bool',
                 'required' => false,

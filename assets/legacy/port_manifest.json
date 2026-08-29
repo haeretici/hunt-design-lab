@@ -7,9 +7,9 @@
     "dummy",
     "venom_spitter"
   ],
-  "mapPathPattern": "assets/legacy/map/floor-<id>-path.png",
-  "navmesh": "assets/legacy/map/navmesh/merged.json",
-  "spawns": "assets/legacy/spawns/",
+  "mapPathPattern": "assets/legacy/maps/v01/floor-<id>-path.png",
+  "navmesh": "assets/legacy/maps/v01/navmesh/merged.json",
+  "spawns": "assets/legacy/maps/v01/spawns/",
   "note": "Dev reference port. Map path PNG / navmesh / spawns are synthetic OSS samples (not commercial world geography). Prefer commercial-safe original content for product builds.",
   "mapReference": "synthetic (bin/build_legacy_map_reference.py)"
 }

@@ -28,6 +28,13 @@ const { parseWallId } = require('./wall_wang.js');
 
 const CATALOG_VERSION = 1;
 
+/** Catalog `scaleFilter` values. Missing → lanczos. */
+const SCALE_FILTERS = Object.freeze({
+    LANCZOS: 'lanczos',
+    NEAREST: 'nearest'
+});
+const DEFAULT_SCALE_FILTER = SCALE_FILTERS.LANCZOS;
+
 /**
  * Resolve catalog `opaqueAlpha` for process_sprites / UI.
  * Explicit true/false always win. When missing:
@@ -46,6 +53,51 @@ function resolveOpaqueAlpha(value, kindId) {
     }
     // Missing / unknown
     return kindId === 'tiles';
+}
+
+/**
+ * Resolve catalog `scaleFilter` for process_sprites / UI.
+ * Missing / unknown → lanczos (smooth). `nearest` keeps 32/64 pixel art blocky
+ * when original is expanded to 256 and small/icon are written.
+ * @param {unknown} value
+ * @returns {'lanczos'|'nearest'}
+ */
+function resolveScaleFilter(value) {
+    if (value == null || value === '') {
+        return DEFAULT_SCALE_FILTER;
+    }
+    const v = String(value).trim().toLowerCase();
+    if (v === 'nearest' || v === 'nearest-neighbor' || v === 'nn') {
+        return SCALE_FILTERS.NEAREST;
+    }
+    if (v === 'lanczos' || v === 'smooth') {
+        return SCALE_FILTERS.LANCZOS;
+    }
+    return DEFAULT_SCALE_FILTER;
+}
+
+/**
+ * Place `scaleFilter` after `opaqueAlpha` when not the default. Omit lanczos.
+ * @param {object} record
+ * @param {'lanczos'|'nearest'} scaleFilter
+ * @returns {object}
+ */
+function withOptionalScaleFilter(record, scaleFilter) {
+    if (scaleFilter === DEFAULT_SCALE_FILTER) {
+        return record;
+    }
+    /** @type {Record<string, unknown>} */
+    const out = {};
+    for (const key of Object.keys(record)) {
+        out[key] = record[key];
+        if (key === 'opaqueAlpha') {
+            out.scaleFilter = scaleFilter;
+        }
+    }
+    if (!Object.prototype.hasOwnProperty.call(out, 'scaleFilter')) {
+        out.scaleFilter = scaleFilter;
+    }
+    return out;
 }
 
 /** @typedef {'planned'|'original_only'|'ready'|'legacy_transformed'} CreatureStatus */
@@ -325,38 +377,50 @@ function upsertCreature(catalog, partial) {
         partial.status ||
         statusFromSprites(mergedSprites);
 
-    const record = {
-        id,
-        technical: existing && !partial.technical ? existing.technical : technical,
-        alias:
-            partial.alias ||
-            existing?.alias ||
-            deriveAliasFromTechnical(technical),
-        genre,
-        kind: partial.kind || existing?.kind || catalog.kind || DEFAULT_KIND,
-        category:
-            partial.category != null
-                ? partial.category
-                : existing?.category ?? null,
-        opaqueAlpha:
-            partial.opaqueAlpha !== undefined
-                ? Boolean(partial.opaqueAlpha)
-                : existing && existing.opaqueAlpha !== undefined
-                  ? Boolean(existing.opaqueAlpha)
-                  : resolveOpaqueAlpha(undefined, partial.kind || existing?.kind || catalog.kind),
-        status,
-        sprites: mergedSprites,
-        tags: Array.isArray(partial.tags)
-            ? partial.tags.slice()
-            : existing?.tags
-              ? existing.tags.slice()
-              : [],
-        source: partial.source || existing?.source || SOURCES.PIPELINE,
-        createdAt:
-            partial.createdAt ||
-            existing?.createdAt ||
-            new Date().toISOString().slice(0, 10)
-    };
+    let scaleFilter = DEFAULT_SCALE_FILTER;
+    if (Object.prototype.hasOwnProperty.call(partial, 'scaleFilter')) {
+        scaleFilter = resolveScaleFilter(partial.scaleFilter);
+    } else if (existing && Object.prototype.hasOwnProperty.call(existing, 'scaleFilter')) {
+        scaleFilter = resolveScaleFilter(existing.scaleFilter);
+    }
+    const record = withOptionalScaleFilter(
+        {
+            id,
+            technical: existing && !partial.technical ? existing.technical : technical,
+            alias:
+                partial.alias ||
+                existing?.alias ||
+                deriveAliasFromTechnical(technical),
+            genre,
+            kind: partial.kind || existing?.kind || catalog.kind || DEFAULT_KIND,
+            category:
+                partial.category != null
+                    ? partial.category
+                    : existing?.category ?? null,
+            opaqueAlpha:
+                partial.opaqueAlpha !== undefined
+                    ? Boolean(partial.opaqueAlpha)
+                    : existing && existing.opaqueAlpha !== undefined
+                      ? Boolean(existing.opaqueAlpha)
+                      : resolveOpaqueAlpha(
+                            undefined,
+                            partial.kind || existing?.kind || catalog.kind
+                        ),
+            status,
+            sprites: mergedSprites,
+            tags: Array.isArray(partial.tags)
+                ? partial.tags.slice()
+                : existing?.tags
+                  ? existing.tags.slice()
+                  : [],
+            source: partial.source || existing?.source || SOURCES.PIPELINE,
+            createdAt:
+                partial.createdAt ||
+                existing?.createdAt ||
+                new Date().toISOString().slice(0, 10)
+        },
+        scaleFilter
+    );
     const wang =
         parseWangId(id) ||
         parseWangId(record.technical) ||
@@ -477,7 +541,7 @@ function dateFromMtime(filePath) {
 /**
  * Scan original/ PNGs for a genre+kind and build a merged catalog.
  * The transformed/ folder is intentionally ignored (not inventoried).
- * Existing catalog entries keep alias, tags, source, createdAt when id matches.
+ * Existing catalog entries keep alias, tags, source, createdAt, scaleFilter when id matches.
  *
  * @param {string} genreId
  * @param {{ merge?: boolean, existing?: object, kind?: string }} [options]
@@ -676,7 +740,10 @@ module.exports = {
     CATALOG_VERSION,
     STATUSES,
     SOURCES,
+    SCALE_FILTERS,
+    DEFAULT_SCALE_FILTER,
     resolveOpaqueAlpha,
+    resolveScaleFilter,
     technicalToId,
     technicalToFileStem,
     fileStemToTechnical,

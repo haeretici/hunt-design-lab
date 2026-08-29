@@ -4,7 +4,7 @@
  * Playable 32×32 pixel art (not batch image-gen). Optional --labels for QA.
  *
  * Writes icon/ (32), small/ (64), medium/ (128), alpha/ + original/ (256)
- * nearest-from-32. Real alpha. No green plate.
+ * nearest-from-32. Stamps catalog scaleFilter=nearest. Real alpha. No green plate.
  *
  *   node bin/generate_debug_wang_art.js --force --family dirt --mask 15,05
  *   node bin/generate_debug_wang_art.js --force --family water --mask 15
@@ -951,6 +951,7 @@ function upsertArt(catalog, item, originalRel) {
         status: 'original_only',
         source: 'pipeline',
         opaqueAlpha: false,
+        scaleFilter: 'nearest',
         tags: item.wangFamily
             ? [item.wangFamily]
             : item.wallFamily
@@ -1420,7 +1421,8 @@ function main() {
                 wangFamily: family,
                 wangMask: 15,
                 wangInner: inner,
-                opaqueAlpha: false
+                opaqueAlpha: false,
+                scaleFilter: 'nearest'
             };
             upsertArt(overlayCatalog, item, written.originalRel);
             if (!overlayDone.has(item.technical)) {

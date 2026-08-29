@@ -143,8 +143,8 @@ function main() {
             version: 1,
             genre: 'rpg_fantasy',
             assets: {
-                maps: 'assets/legacy/map',
-                navmesh: 'assets/legacy/map/navmesh',
+                maps: 'assets/legacy/maps/v01',
+                navmesh: 'assets/legacy/maps/v01/navmesh',
                 spawns: null,
                 sprites: 'assets/sprites',
                 data: 'assets/data'
@@ -190,11 +190,11 @@ function main() {
         });
     });
 
-    test('modePaths maps still point at assets/legacy/map for v1', () => {
+    test('modePaths maps point at assets/legacy/maps/v01', () => {
         setActiveMode('standard');
         const p = modePaths('standard');
         assert.ok(p.maps.includes('legacy'));
-        assert.ok(p.mapsRel === 'assets/legacy/map');
+        assert.ok(p.mapsRel === 'assets/legacy/maps/v01');
         assert.strictEqual(getBrowserCatalog('standard').hunts.length >= 1, true);
     });
 

@@ -87,6 +87,7 @@ function huntToSimulatorOpts(resolved, extra) {
         mapPath: mapPath || null,
         mapPaths:
             r.mapPaths && typeof r.mapPaths === 'object' ? r.mapPaths : null,
+        mapsRoot: typeof r.mapsRoot === 'string' && r.mapsRoot ? r.mapsRoot : null,
         hybridMapPack:
             x.hybridMapPack !== undefined
                 ? x.hybridMapPack

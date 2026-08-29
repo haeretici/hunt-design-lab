@@ -1,6 +1,9 @@
 /**
- * Load helpers for assets/legacy (ported legacy map, spawns).
+ * Load helpers for assets/legacy (ported legacy map packs, spawns).
  * Node-only (fs). Browser: inject data or fetch JSON under /assets/legacy/.
+ *
+ * Packs live under `assets/legacy/maps/<id>/` (flatten). Manifest:
+ * `assets/legacy/maps/manifest.json`. Default pack is `defaultId` (v01).
  */
 
 'use strict';
@@ -26,6 +29,11 @@ try {
     fs = null;
 }
 
+/** Pack id = folder name. */
+const LEGACY_MAP_ID_RE = /^[a-z][a-z0-9_]{0,31}$/;
+const DEFAULT_LEGACY_MAP_ID = 'v01';
+const LEGACY_MAPS_ROOT_REL = 'assets/legacy/maps';
+
 /**
  * @param {string} rel under assets/legacy/
  * @returns {string}
@@ -44,10 +52,190 @@ function readJson(file) {
 }
 
 /**
+ * @returns {object}
+ */
+function loadLegacyMapsManifest() {
+    if (!fs) throw new Error('legacy_assets: fs unavailable');
+    const p = legacyPath('maps', 'manifest.json');
+    if (!fs.existsSync(p)) {
+        throw new Error('legacy maps manifest missing');
+    }
+    const raw = readJson(p);
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw)) {
+        throw new Error('invalid legacy maps manifest');
+    }
+    return raw;
+}
+
+/**
+ * Browser injects the maps manifest so hunt expand can resolve packs without fs.
+ * @type {object|null}
+ */
+let injectedMapsManifest = null;
+
+/**
+ * @param {object|null|undefined} manifest
+ */
+function setLegacyMapsManifest(manifest) {
+    injectedMapsManifest =
+        manifest && typeof manifest === 'object' && !Array.isArray(manifest)
+            ? manifest
+            : null;
+}
+
+/**
+ * @returns {object|null}
+ */
+function getLegacyMapsManifest() {
+    return injectedMapsManifest;
+}
+
+/**
+ * @returns {object}
+ */
+function fallbackMapsManifest() {
+    return {
+        version: 1,
+        defaultId: DEFAULT_LEGACY_MAP_ID,
+        maps: [{ id: DEFAULT_LEGACY_MAP_ID, label: DEFAULT_LEGACY_MAP_ID }]
+    };
+}
+
+/**
+ * @param {{ manifest?: object }} [opts]
+ * @returns {object}
+ */
+function manifestFromOpts(opts) {
+    if (opts && opts.manifest && typeof opts.manifest === 'object') {
+        return opts.manifest;
+    }
+    if (injectedMapsManifest) return injectedMapsManifest;
+    if (fs) return loadLegacyMapsManifest();
+    return fallbackMapsManifest();
+}
+
+/**
+ * @param {object} pack
+ * @returns {string}
+ */
+function packAbs(pack) {
+    if (pack && pack.mapsRel) return path.join(ROOT, pack.mapsRel);
+    return packRootAbs();
+}
+
+/**
+ * Resolve a pack from the maps manifest.
+ * Empty/omit id → defaultId. Unknown id → defaultId. Invalid id → throw.
+ *
+ * @param {string|null|undefined} [id]
+ * @param {{ manifest?: object }} [opts]
+ * @returns {{
+ *   id: string,
+ *   label: string,
+ *   mapsRel: string,
+ *   spawnsRel: string,
+ *   navmeshRel: string,
+ *   boundsRel: string
+ * }}
+ */
+function resolveLegacyMapPack(id, opts) {
+    const manifest = manifestFromOpts(opts);
+    const defaultId =
+        typeof manifest.defaultId === 'string' &&
+        LEGACY_MAP_ID_RE.test(manifest.defaultId)
+            ? manifest.defaultId
+            : DEFAULT_LEGACY_MAP_ID;
+    let packId;
+    if (id == null || id === '') {
+        packId = defaultId;
+    } else {
+        packId = String(id);
+        if (!LEGACY_MAP_ID_RE.test(packId)) {
+            throw new Error('invalid legacy map id');
+        }
+    }
+    const maps = Array.isArray(manifest.maps) ? manifest.maps : [];
+    let row = maps.find((m) => m && m.id === packId) || null;
+    if (!row) {
+        packId = defaultId;
+        row = maps.find((m) => m && m.id === packId) || null;
+    }
+    const mapsRel = `${LEGACY_MAPS_ROOT_REL}/${packId}`;
+    const label =
+        row && typeof row.label === 'string' && row.label ? row.label : packId;
+    return {
+        id: packId,
+        label,
+        mapsRel,
+        spawnsRel: `${mapsRel}/spawns`,
+        navmeshRel: `${mapsRel}/navmesh`,
+        boundsRel: `${mapsRel}/bounds.json`
+    };
+}
+
+/**
+ * Hunt-root `legacyMapId` → pack. Omit → defaultId. Unknown / invalid →
+ * defaultId + note (does not throw).
+ *
+ * @param {object|null|undefined} hunt
+ * @param {{ manifest?: object }} [opts]
+ * @returns {{
+ *   pack: ReturnType<typeof resolveLegacyMapPack>,
+ *   requestedId: string|null,
+ *   fallback: boolean,
+ *   note: string|null
+ * }}
+ */
+function resolveHuntLegacyMapPack(hunt, opts) {
+    const requested =
+        hunt && hunt.legacyMapId != null && String(hunt.legacyMapId).trim() !== ''
+            ? String(hunt.legacyMapId).trim()
+            : null;
+
+    let pack;
+    let fallback = false;
+    let note = null;
+    if (requested && !LEGACY_MAP_ID_RE.test(requested)) {
+        pack = resolveLegacyMapPack(null, opts);
+        fallback = true;
+        note =
+            'invalid legacyMapId ' +
+            JSON.stringify(requested) +
+            '; using default pack ' +
+            pack.id;
+    } else {
+        pack = resolveLegacyMapPack(requested, opts);
+        if (requested && pack.id !== requested) {
+            fallback = true;
+            note =
+                'unknown legacyMapId ' +
+                JSON.stringify(requested) +
+                '; using default pack ' +
+                pack.id;
+        }
+    }
+    if (note && typeof console !== 'undefined' && console.warn) {
+        console.warn(note);
+    }
+    return { pack, requestedId: requested, fallback, note };
+}
+
+/**
+ * Absolute pack root (flatten). `legacyRoot` is a pack-root override (tests).
+ * @param {string} [legacyRoot]
+ * @returns {string}
+ */
+function packRootAbs(legacyRoot) {
+    if (legacyRoot) return legacyRoot;
+    if (PATHS.maps) return PATHS.maps;
+    return path.join(ROOT, LEGACY_MAPS_ROOT_REL, DEFAULT_LEGACY_MAP_ID);
+}
+
+/**
  * @returns {object|null} bounds.json
  */
 function loadLegacyBounds() {
-    const p = legacyPath('map', 'bounds.json');
+    const p = path.join(packRootAbs(), 'bounds.json');
     if (!fs || !fs.existsSync(p)) return null;
     return readJson(p);
 }
@@ -62,35 +250,34 @@ function padFloorId(floorId) {
 }
 
 /**
- * Absolute hybrid map.json for a floor, or a test root override.
+ * Absolute hybrid map.json for a floor, or a pack-root override.
  * @param {string} id padded floor id
- * @param {string} [legacyRoot]
+ * @param {string} [legacyRoot] pack root
  * @returns {string}
  */
 function hybridMapJsonPath(id, legacyRoot) {
-    if (legacyRoot) {
-        return path.join(legacyRoot, 'map', 'hybrid', `floor-${id}`, 'map.json');
-    }
-    return legacyPath('map', 'hybrid', `floor-${id}`, 'map.json');
+    return path.join(packRootAbs(legacyRoot), 'hybrid', `floor-${id}`, 'map.json');
 }
 
 /**
- * Absolute by_floor JSON for a floor, or a test root override.
+ * Absolute by_floor JSON for a floor, or a pack-root override.
  * @param {string} id padded floor id
- * @param {string} [legacyRoot]
+ * @param {string} [legacyRoot] pack root
  * @returns {string}
  */
 function byFloorJsonPath(id, legacyRoot) {
-    if (legacyRoot) {
-        return path.join(legacyRoot, 'spawns', 'by_floor', `${id}.json`);
-    }
-    return legacyPath('spawns', 'by_floor', `${id}.json`);
+    return path.join(
+        packRootAbs(legacyRoot),
+        'spawns',
+        'by_floor',
+        `${id}.json`
+    );
 }
 
 /**
  * Spawns for one floor (0–15 or "07").
  * Node: hybrid `floor-XX/map.json` `spawns` when that pack exists;
- * else `assets/legacy/spawns/by_floor/NN.json`.
+ * else pack `spawns/by_floor/NN.json`.
  * Browser: returns [] unless a loader is injected via resolveSpawnSource opts.
  * @param {string|number} floorId
  * @param {{ legacyRoot?: string }} [opts]
@@ -274,7 +461,8 @@ function floorsFromSpawnSource(source, ctx) {
  * @param {{
  *   floors?: (string|number)[],
  *   floor?: string|number,
- *   loadFloorSpawns?: (floorId: string|number) => object[]
+ *   loadFloorSpawns?: (floorId: string|number) => object[],
+ *   legacyRoot?: string
  * }} [ctx]
  * @returns {{
  *   spawns: object[],
@@ -353,7 +541,7 @@ function resolveLegacyFloorSpawnSource(source, ctx, spawnMode) {
     const load =
         typeof ctx.loadFloorSpawns === 'function'
             ? ctx.loadFloorSpawns
-            : loadFloorSpawns;
+            : (floorId) => loadFloorSpawns(floorId, { legacyRoot: ctx.legacyRoot });
     const filter = normalizeSpawnFilter(source);
 
     /** @type {object[]} */
@@ -417,13 +605,17 @@ function uniqueCreatureIds(defs) {
  *
  * @param {object} hunt
  * @param {{
- *   loadFloorSpawns?: (floorId: string|number) => object[]
+ *   loadFloorSpawns?: (floorId: string|number, packId?: string) => object[],
+ *   legacyRoot?: string,
+ *   manifest?: object
  * }} [opts]
  * @returns {object}
  */
 function resolveHuntSpawnDefs(hunt, opts) {
     if (!hunt || typeof hunt !== 'object') return hunt;
-    if (!hunt.spawnSource) return hunt;
+    if (!hunt.spawnSource && !hunt.legacyMapId) return hunt;
+    const o = opts || {};
+    const packResolved = resolveHuntLegacyMapPack(hunt, o);
 
     const floors =
         Array.isArray(hunt.floors) && hunt.floors.length
@@ -431,10 +623,31 @@ function resolveHuntSpawnDefs(hunt, opts) {
             : hunt.floor != null
               ? [hunt.floor]
               : [];
+    const packAbsRoot = o.legacyRoot || packAbs(packResolved.pack);
+    const injected =
+        typeof o.loadFloorSpawns === 'function' ? o.loadFloorSpawns : null;
+    const load = injected
+        ? (floorId) => injected(floorId, packResolved.pack.id)
+        : (floorId) => loadFloorSpawns(floorId, { legacyRoot: packAbsRoot });
+
+    if (!hunt.spawnSource) {
+        const outPackOnly = Object.assign({}, hunt);
+        outPackOnly.legacyMapPack = packResolved.pack;
+        if (packResolved.note) {
+            outPackOnly.legacyMapMeta = {
+                requestedId: packResolved.requestedId,
+                fallback: packResolved.fallback,
+                note: packResolved.note
+            };
+        }
+        return outPackOnly;
+    }
+
     const resolved = resolveSpawnSource(hunt.spawnSource, {
         floors,
         floor: hunt.floor,
-        loadFloorSpawns: opts && opts.loadFloorSpawns
+        loadFloorSpawns: load,
+        legacyRoot: packAbsRoot
     });
 
     const out = Object.assign({}, hunt);
@@ -446,8 +659,21 @@ function resolveHuntSpawnDefs(hunt, opts) {
     // wipe defs when loadFloorSpawns is unavailable (browser second pass).
     out.spawnSourceSpec = hunt.spawnSource;
     delete out.spawnSource;
+    out.legacyMapPack = packResolved.pack;
+    if (packResolved.note) {
+        out.legacyMapMeta = {
+            requestedId: packResolved.requestedId,
+            fallback: packResolved.fallback,
+            note: packResolved.note
+        };
+    }
     // Lightweight audit trail (not sent to SpawnManager)
-    out.spawnSourceMeta = resolved.meta;
+    out.spawnSourceMeta = Object.assign({}, resolved.meta, {
+        legacyMapId: packResolved.pack.id,
+        legacyMapRequested: packResolved.requestedId,
+        legacyMapFallback: packResolved.fallback,
+        legacyMapNote: packResolved.note
+    });
     return out;
 }
 
@@ -456,7 +682,7 @@ function resolveHuntSpawnDefs(hunt, opts) {
  * @returns {object|null}
  */
 function loadSpawnIndex() {
-    const p = legacyPath('spawns', 'index.json');
+    const p = path.join(packRootAbs(), 'spawns', 'index.json');
     if (!fs || !fs.existsSync(p)) return null;
     return readJson(p);
 }
@@ -466,13 +692,24 @@ function loadSpawnIndex() {
  * @returns {object|null}
  */
 function loadNavmeshAnalysis() {
-    const p = legacyPath('map', 'navmesh', 'analysis.json');
+    const nav = PATHS.navmesh || path.join(packRootAbs(), 'navmesh');
+    const p = path.join(nav, 'analysis.json');
     if (!fs || !fs.existsSync(p)) return null;
     return readJson(p);
 }
 
 module.exports = {
+    LEGACY_MAP_ID_RE,
+    DEFAULT_LEGACY_MAP_ID,
+    LEGACY_MAPS_ROOT_REL,
     legacyPath,
+    loadLegacyMapsManifest,
+    setLegacyMapsManifest,
+    getLegacyMapsManifest,
+    resolveLegacyMapPack,
+    resolveHuntLegacyMapPack,
+    packAbs,
+    packRootAbs,
     padFloorId,
     loadLegacyBounds,
     loadFloorSpawns,

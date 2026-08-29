@@ -112,8 +112,8 @@ function normalizeMode(raw, fallbackId) {
         version: raw.version != null ? Number(raw.version) || 1 : 1,
         genre: raw.genre || 'rpg_fantasy',
         assets: {
-            maps: assets.maps || 'assets/legacy/map',
-            navmesh: assets.navmesh || 'assets/legacy/map/navmesh',
+            maps: assets.maps || 'assets/legacy/maps/v01',
+            navmesh: assets.navmesh || 'assets/legacy/maps/v01/navmesh',
             spawns: assets.spawns || null,
             monsters: assets.monsters || null,
             sprites: assets.sprites || 'assets/sprites',

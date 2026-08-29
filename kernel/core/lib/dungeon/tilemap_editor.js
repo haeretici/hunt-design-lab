@@ -2026,6 +2026,56 @@ function createEditorSession(opts) {
     }
 
     /**
+     * Punch a hole through every authoring channel in a tile rect.
+     * Clears all TileMap sub-layers, fields, and override bits. Stroke-end
+     * re-resolves the Wang 1-ring and bakes empty-stack void (friction/sight
+     * 255, flags 0). Stairs in the rect drop. World / spawn pins are not
+     * touched.
+     * @param {{ x0: number, y0: number, x1: number, y1: number }} rect inclusive
+     * @returns {{ rect: object|null }}
+     */
+    function clearAllLayers(rect) {
+        if (!rect) return { rect: null };
+        ensureChannels(floor);
+        const x0 = Math.min(rect.x0, rect.x1) | 0;
+        const y0 = Math.min(rect.y0, rect.y1) | 0;
+        const x1 = Math.max(rect.x0, rect.x1) | 0;
+        const y1 = Math.max(rect.y0, rect.y1) | 0;
+        const xa = Math.max(0, x0);
+        const ya = Math.max(0, y0);
+        const xb = Math.min(floor.cols - 1, x1);
+        const yb = Math.min(floor.rows - 1, y1);
+        if (xb < xa || yb < ya) return { rect: null };
+
+        const wasPainting = painting;
+        if (!wasPainting) beginStroke();
+
+        const cells = [];
+        for (let y = ya; y <= yb; y++) {
+            for (let x = xa; x <= xb; x++) cells.push([x, y]);
+        }
+        ensureStrokeBeforeForCells(cells, true);
+
+        const layers = floor.subLayers || [];
+        for (let c = 0; c < cells.length; c++) {
+            const px = cells[c][0];
+            const py = cells[c][1];
+            const i = idx(px, py);
+            for (let s = 0; s < layers.length; s++) {
+                const sl = layers[s];
+                if (sl && sl.cells) sl.cells[i] = 0;
+            }
+            floor.fields[i] = 0;
+            floor.overrideMask[i] = 0;
+            strokeDirty.add(i);
+        }
+        strokeNeedsBake = true;
+        markDirty();
+        if (!wasPainting) return endStroke();
+        return { rect: boundsFromIndices(strokeDirty) };
+    }
+
+    /**
      * Stair pad at (x,y) on this floor, or null.
      * @param {number} x
      * @param {number} y
@@ -2216,6 +2266,7 @@ function createEditorSession(opts) {
         sampleCellAt,
         copyTiles,
         pasteTiles,
+        clearAllLayers,
         findStairAt,
         setStairDest,
         resetStairDest,

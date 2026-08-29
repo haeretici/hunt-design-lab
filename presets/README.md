@@ -14,5 +14,5 @@ Art catalogs remain under `assets/data/` and `assets/sprites/` (not mode-scoped)
 
 1. Copy `presets/standard` → `presets/<id>/`.
 2. Edit `mode.json`: set `id`, `label`, `isDefault: false`, asset roots, `browser` lists, defaults.
-3. Optionally enable `features.legacySpawnSource` and point `assets.spawns` at `assets/legacy/spawns` for dens tables.
+3. Optionally enable `features.legacySpawnSource` and point `assets.spawns` at `assets/legacy/maps/v01/spawns` for dens tables.
 4. Refresh — `listModes()` discovers the folder automatically.

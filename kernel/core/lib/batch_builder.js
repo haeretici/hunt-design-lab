@@ -312,6 +312,7 @@ const COMPOSE_RECAP = {
  * @property {string} [model] image model label (agy Gemini * or Grok 4.6 *)
  * @property {string[]} [exclude] extra technical names to skip
  * @property {boolean} [opaqueAlpha] when true, process_sprites writes opaque alpha copies (no chroma)
+ * @property {'lanczos'|'nearest'|null} [scaleFilter] when nearest, stamp catalog + process_sprites NEAREST
  * @property {Array<{technical:string,alias:string,category?:string}>} [creatures] inject fixed list (legacy name)
  * @property {Array<{technical:string,alias:string,category?:string}>} [items] inject fixed list (preferred).
  *   Length may be &lt; count: remaining slots are auto-filled via generateAssetNames (seed + done/exclude).
@@ -783,6 +784,10 @@ function buildBatch(options = {}) {
         kindId === 'overlays' || wallFamilyMode
             ? false
             : options.opaqueAlpha === true || kindId === 'tiles';
+    const scaleFilter =
+        options.scaleFilter === 'nearest' || options.scaleFilter === 'lanczos'
+            ? options.scaleFilter
+            : null;
 
     return {
         genre,
@@ -793,6 +798,7 @@ function buildBatch(options = {}) {
         wallFamily: wallFamilyMode ? wallFamilyOpt : undefined,
         wangFamily: wallFamilyMode ? undefined : wangFamilyOpt,
         opaqueAlpha,
+        scaleFilter,
         paths,
         doneFile,
         rows,
@@ -838,6 +844,13 @@ function formatBatchSummary(batch) {
                 : batch.kindId === 'overlays'
                   ? 'no (keep alpha)'
                   : 'no (chroma key)'
+        }`,
+        `Scale filter: ${
+            batch.scaleFilter === 'nearest'
+                ? 'nearest (pixel art)'
+                : batch.scaleFilter === 'lanczos'
+                  ? 'lanczos'
+                  : 'lanczos (default)'
         }`,
         `Destination: ${batch.paths.spritesheet}`,
         `Done file: ${batch.doneFile}`,
@@ -890,6 +903,7 @@ function batchToConfigJson(batch, opts = {}) {
         seed: batch.seed,
         model: batch.model,
         opaqueAlpha: Boolean(batch.opaqueAlpha),
+        scaleFilter: batch.scaleFilter || undefined,
         destDir,
         spritesheet,
         doneFile,
@@ -901,7 +915,8 @@ function batchToConfigJson(batch, opts = {}) {
             wangMask: c.wangMask,
             wallFamily: c.wallFamily || undefined,
             wallAlign: c.wallAlign || undefined,
-            opaqueAlpha: Boolean(c.opaqueAlpha ?? batch.opaqueAlpha)
+            opaqueAlpha: Boolean(c.opaqueAlpha ?? batch.opaqueAlpha),
+            scaleFilter: c.scaleFilter || batch.scaleFilter || undefined
         })),
         // BC for tools that still read creatures[]
         creatures: batch.items.map((c) => ({
@@ -934,7 +949,7 @@ function shellSingleQuote(s) {
 /**
  * One-shot CLI from project root: flags only (no JSON).
  *
- * @param {ReturnType<typeof buildBatch>|{ genreId: string, kindId?: string, category?: string|null, seed: number|null, rows: number, cols: number, model: string, opaqueAlpha?: boolean }} batch
+ * @param {ReturnType<typeof buildBatch>|{ genreId: string, kindId?: string, category?: string|null, seed: number|null, rows: number, cols: number, model: string, opaqueAlpha?: boolean, scaleFilter?: string|null }} batch
  * @param {{ dryRun?: boolean, iterations?: number, extraArgs?: string[] }} [opts]
  * @returns {string}
  */
@@ -972,6 +987,9 @@ function formatGenerateCommand(batch, opts = {}) {
     }
     if (batch.opaqueAlpha) {
         parts.push('--opaque-alpha');
+    }
+    if (batch.scaleFilter === 'nearest' || batch.scaleFilter === 'lanczos') {
+        parts.push('--scale-filter', batch.scaleFilter);
     }
     if (opts.dryRun) {
         parts.push('--dry-run');

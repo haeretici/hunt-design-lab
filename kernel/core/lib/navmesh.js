@@ -671,7 +671,7 @@ function findLongPath(tileMap, start, end, options) {
 
 /**
  * Load navmesh JSON from disk (Node).
- * Looks under assets/legacy/map/navmesh/<id>.json then presets/navmesh/<id>.json.
+ * Looks under the active pack `navmesh/<id>.json` then presets/navmesh/<id>.json.
  *
  * @param {string} idOrPath mesh id or absolute/relative path ending in .json
  * @returns {Navmesh}
@@ -699,7 +699,7 @@ function loadNavmesh(idOrPath) {
         }
         if (!full) {
             throw new Error(
-                `loadNavmesh: no file for "${id}" under assets/legacy/map/navmesh or presets/navmesh`
+                `loadNavmesh: no file for "${id}" under pack navmesh or presets/navmesh`
             );
         }
     } else if (!path.isAbsolute(full) && ROOT) {

@@ -36,7 +36,8 @@ const {
     collisionFromPixel,
     registerVerticalFromPlacement,
     reverseHopDir,
-    hopsOnStep
+    hopsOnStep,
+    playerHopsOnStep
 } = require('../kernel/core/entities/tilemap.js');
 
 const VERBOSE = !!process.env.VERBOSE;
@@ -192,13 +193,13 @@ async function testLoadRealFloor07() {
     const filePath = mapPathPng('07');
     assert.ok(
         fs.existsSync(filePath),
-        `sample map missing: ${filePath} (expected under assets/legacy/map/)`
+        `sample map missing: ${filePath} (expected under assets/legacy/maps/v01/)`
     );
     assert.ok(
-        PATHS.maps.includes(`${path.sep}legacy${path.sep}map`) ||
-            PATHS.maps.endsWith(`${path.sep}map`) ||
-            PATHS.maps.endsWith('/map'),
-        `PATHS.maps should be assets/legacy/map, got ${PATHS.maps}`
+        PATHS.maps.includes(`${path.sep}legacy${path.sep}maps${path.sep}v01`) ||
+            PATHS.maps.endsWith(`${path.sep}v01`) ||
+            PATHS.maps.endsWith('/v01'),
+        `PATHS.maps should be assets/legacy/maps/v01, got ${PATHS.maps}`
     );
 
     const map = new TileMap();
@@ -1334,6 +1335,10 @@ function testHopOnStepPolicy() {
     assert.strictEqual(hopsOnStep('ladder'), false);
     assert.strictEqual(hopsOnStep('rope'), false);
     assert.strictEqual(hopsOnStep('shovel'), false);
+    assert.strictEqual(playerHopsOnStep({ type: 'player' }), true);
+    assert.strictEqual(playerHopsOnStep({ type: 'player', controlMode: 'manual' }), true);
+    assert.strictEqual(playerHopsOnStep({ type: 'player', controlMode: 'ai' }), false);
+    assert.strictEqual(playerHopsOnStep({ type: 'creature' }), false);
 
     const open = new Uint8Array(25);
     open.fill(100);
@@ -1376,6 +1381,21 @@ function testHopOnStepPolicy() {
     assert.strictEqual(player.tile.x, 1);
     assert.strictEqual(player.tile.y, 1);
     assert.deepStrictEqual(player.path, [], 'path cleared after hop');
+
+    const aiWalker = {
+        id: 25,
+        type: 'player',
+        controlMode: 'ai',
+        tile: { x: 0, y: 3, z: 0 },
+        path: [],
+        alive: true
+    };
+    ents.set(25, aiWalker);
+    assert.ok(map.tryOccupy(0, 3, 0, aiWalker));
+    assert.ok(map.moveEntityToTile(aiWalker, 2, 3, 0), 'AI step onto hole');
+    assert.strictEqual(String(aiWalker.tile.z), '0', 'AI does not hop-on-step');
+    assert.strictEqual(aiWalker.tile.x, 2);
+    assert.strictEqual(aiWalker.tile.y, 3);
 
     const climber = {
         id: 22,

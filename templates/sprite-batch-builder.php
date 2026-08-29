@@ -112,6 +112,12 @@ $activeNav = 'sprites';
                                         </label>
                                     </div>
                                     <div class="form-check mt-1">
+                                        <input class="form-check-input" type="checkbox" id="scaleFilterNearest" value="1">
+                                        <label class="form-check-label text-xxs" for="scaleFilterNearest" title="Stamps catalog scaleFilter=nearest; process_sprites uses NEAREST for small/icon (32/64 originals expand to 256)">
+                                            Nearest scale (pixel art 32/64)
+                                        </label>
+                                    </div>
+                                    <div class="form-check mt-1">
                                         <input class="form-check-input" type="checkbox" id="dryRun" value="1">
                                         <label class="form-check-label text-xxs" for="dryRun">
                                             Dry run (plan only — no image gen or file writes)

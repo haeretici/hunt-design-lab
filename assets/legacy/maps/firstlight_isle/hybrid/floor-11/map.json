@@ -1,0 +1,56 @@
+{
+    "version": 2,
+    "id": "floor_11",
+    "label": "Legacy floor 11",
+    "floors": [
+        {
+            "z": 11,
+            "cols": 225,
+            "rows": 198,
+            "palette": [
+                null
+            ],
+            "subLayers": [
+                {
+                    "id": "ground",
+                    "zOrder": 0,
+                    "blob": null,
+                    "empty": true
+                },
+                {
+                    "id": "path",
+                    "zOrder": 1,
+                    "blob": null,
+                    "empty": true
+                },
+                {
+                    "id": "scenery",
+                    "zOrder": 2,
+                    "blob": null,
+                    "empty": true
+                },
+                {
+                    "id": "furniture",
+                    "zOrder": 3,
+                    "blob": null,
+                    "empty": true
+                },
+                {
+                    "id": "vertical",
+                    "zOrder": 4,
+                    "blob": null,
+                    "empty": true
+                }
+            ],
+            "channels": {
+                "friction": "floors/11/friction.u8.gz",
+                "sight": "floors/11/sight.u8.gz",
+                "flags": "floors/11/flags.u8.gz"
+            },
+            "overrideMask": null,
+            "stairs": []
+        }
+    ],
+    "spawns": [],
+    "world": []
+}

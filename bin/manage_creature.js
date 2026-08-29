@@ -27,6 +27,7 @@ const {
     flipCreatureHorizontal,
     replaceCreatureOriginal,
     setOpaqueAlpha,
+    setScaleFilter,
     reprocessCreature,
     fixGreenCreature
 } = require('../kernel/core/lib/creature_assets.js');
@@ -45,6 +46,7 @@ Commands:
   flip      Horizontal flip of original/ via ImageMagick, then process_sprites --force --only
   replace   Overwrite original/ from --file, then process_sprites --force --only
   opaque    Set opaqueAlpha flag and reprocess stem (--value true|false)
+  scale-filter  Set scaleFilter and reprocess stem (--value lanczos|nearest)
   reprocess Re-run process_sprites --force --only for one stem (no flip/replace)
   fix-green Neutralize accentuated green (R=B=G) on original/, then reprocess
 
@@ -56,10 +58,10 @@ Options:
   --name <technical>   New technical name (rename)
   --alias <alias>      Optional new alias (rename)
   --file <path>        Source image path (replace)
-  --value <bool>       true|false for opaque command
+  --value <bool|id>    opaque: true|false; scale-filter: lanczos|nearest
   --limit <n>          Max rows for list
   --query <text>       Filter list by id/technical/alias
-  --dry-run            Report only (remove/rename/flip/replace/reprocess/opaque/fix-green)
+  --dry-run            Report only (remove/rename/flip/replace/reprocess/opaque/scale-filter/fix-green)
   --keep-done          Do not edit done list on remove
   --json               Machine-readable JSON on stdout
   -h, --help           Show help
@@ -283,6 +285,28 @@ function main() {
                 ]);
                 break;
             }
+            case 'scale-filter':
+            case 'scale_filter': {
+                if (!opts.id) throw new Error('--id is required for scale-filter');
+                if (opts.value == null) {
+                    throw new Error('--value lanczos|nearest is required for scale-filter');
+                }
+                const v = String(opts.value).trim().toLowerCase();
+                if (v !== 'lanczos' && v !== 'nearest') {
+                    throw new Error('--value must be lanczos or nearest');
+                }
+                const data = setScaleFilter(opts.genre, opts.id, v, {
+                    dryRun: opts.dryRun,
+                    kind: opts.kind
+                });
+                emit(opts, data, [
+                    `${opts.dryRun ? 'Would set' : 'Set'} scaleFilter=${data.scaleFilter} for ${data.id}`,
+                    data.reprocessed
+                        ? '  reprocessed stem'
+                        : '  catalog only (no original on disk)'
+                ]);
+                break;
+            }
             case 'reprocess':
             case 'regen': {
                 if (!opts.id) throw new Error('--id is required for reprocess');
@@ -293,6 +317,7 @@ function main() {
                 emit(opts, data, [
                     `${opts.dryRun ? 'Would reprocess' : 'Reprocessed'} ${data.id} (${data.stem})`,
                     `  opaqueAlpha=${data.opaqueAlpha}`,
+                    `  scaleFilter=${data.scaleFilter}`,
                     `  original: ${data.original}`
                 ]);
                 break;

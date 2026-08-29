@@ -160,6 +160,27 @@ $cssUrl = $asset('build/app.css');
         .map-toolbar-filters {
             flex-wrap: wrap;
         }
+        .select-rect-fields {
+            flex-wrap: wrap;
+        }
+        .select-rect-fields .form-control {
+            width: 4.5rem;
+            padding-left: 0.35rem;
+            padding-right: 0.2rem;
+        }
+        #toolExtras {
+            min-width: 10.5rem;
+            min-height: 1.75rem;
+        }
+        #btnClearAllLayers {
+            color: #dc3545;
+            border-color: #dc3545;
+        }
+        #btnClearAllLayers:hover:not(:disabled) {
+            color: #fff;
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
         .sidebar-panel-left .object-tree {
             flex: 1 1 auto;
             min-height: 0;
@@ -199,6 +220,9 @@ $cssUrl = $asset('build/app.css');
         </a>
         <?php require __DIR__ . '/partials/header_nav.php'; ?>
         <div class="global-actions">
+            <button type="button" class="btn btn-sm btn-outline-secondary" id="mapPackNewBtn" title="Create a new map pack" disabled>
+                <i class="fa-solid fa-file"></i> New Map
+            </button>
             <button type="button" class="btn btn-sm btn-outline-success" id="btnSaveMap" title="Save Map (Ctrl+S)">
                 <i class="fa-solid fa-floppy-disk"></i> Save Map
             </button>
@@ -228,10 +252,17 @@ $cssUrl = $asset('build/app.css');
             </div>
             <h6 class="text-uppercase text-secondary small fw-bold mb-2 sr-only" style="letter-spacing: 0.05em;">Object Browser</h6>
 
+            <div class="text-secondary small mb-1">Map</div>
+            <div class="mb-2">
+                <select id="mapPackSelect" class="form-select form-select-sm bg-black border-secondary text-white" title="Legacy map pack" disabled>
+                    <option value="">Loading…</option>
+                </select>
+            </div>
+
             <div class="text-secondary small mb-1 sr-only">Floor</div>
             <div class="mb-2 floor-selector">
                 <div class="btn-group btn-group-sm w-100">
-                    <button type="button" class="btn btn-outline-secondary" id="floorOutBtn" title="Previous floor"><i class="fa-solid fa-minus"></i></button>
+                    <button type="button" class="btn btn-outline-secondary" id="floorUpBtn" title="Up (shallower, z−1)"><i class="fa-solid fa-arrow-up"></i></button>
                     <button type="button" class="btn btn-outline-secondary dropdown-toggle" id="floorDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="min-width: 96px;">Floor 07</button>
                     <ul class="dropdown-menu dropdown-menu-dark shadow-sm" id="floorDropdownMenu">
                         <?php for ($i = 0; $i <= 15; $i++):
@@ -241,7 +272,7 @@ $cssUrl = $asset('build/app.css');
                         <li><a class="dropdown-item floor-option<?= $isActive ? ' active' : '' ?>" href="#" data-floor="<?= $floor ?>">Floor <?= $floor ?></a></li>
                         <?php endfor; ?>
                     </ul>
-                    <button type="button" class="btn btn-outline-secondary" id="floorInBtn" title="Next floor"><i class="fa-solid fa-plus"></i></button>
+                    <button type="button" class="btn btn-outline-secondary" id="floorDownBtn" title="Down (deeper, z+1)"><i class="fa-solid fa-arrow-down"></i></button>
                 </div>
             </div>
 
@@ -342,28 +373,37 @@ $cssUrl = $asset('build/app.css');
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
                 <div class="vr mx-1 bg-secondary"></div>
-                <div class="btn-group btn-group-sm">
-                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="brushShapeDropdown" data-bs-toggle="dropdown" aria-expanded="false" title="Brush Shape"><i class="fa-solid fa-paint-brush"></i> Square</button>
-                    <ul class="dropdown-menu dropdown-menu-dark shadow-sm">
-                        <li><a class="dropdown-item brush-shape active" href="#" data-shape="square">Square</a></li>
-                        <li><a class="dropdown-item brush-shape" href="#" data-shape="circle">Circle</a></li>
-                        <li><a class="dropdown-item brush-shape" href="#" data-shape="diamond">Diamond</a></li>
-                        <li><a class="dropdown-item brush-shape" href="#" data-shape="cross">Cross</a></li>
-                        <li><a class="dropdown-item brush-shape" href="#" data-shape="dither">Dither 50%</a></li>
-                        <li><a class="dropdown-item brush-shape" href="#" data-shape="spray">Spray</a></li>
-                    </ul>
-                </div>
-                <div class="btn-group btn-group-sm ms-1">
-                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="brushSizeDropdown" data-bs-toggle="dropdown" aria-expanded="false" title="Brush Size"><i class="fa-solid fa-maximize"></i> 1x1</button>
-                    <ul class="dropdown-menu dropdown-menu-dark shadow-sm">
-                        <li><a class="dropdown-item brush-size active" href="#" data-size="1">1x1</a></li>
-                        <li><a class="dropdown-item brush-size" href="#" data-size="2">2x2</a></li>
-                        <li><a class="dropdown-item brush-size" href="#" data-size="3">3x3</a></li>
-                        <li><a class="dropdown-item brush-size" href="#" data-size="4">4x4</a></li>
-                        <li><a class="dropdown-item brush-size" href="#" data-size="5">5x5</a></li>
-                        <li><a class="dropdown-item brush-size" href="#" data-size="7">7x7</a></li>
-                        <li><a class="dropdown-item brush-size" href="#" data-size="9">9x9</a></li>
-                    </ul>
+                <div id="toolExtras" class="tool-extras d-flex align-items-center gap-1">
+                    <div class="d-flex align-items-center gap-1 d-none" data-tool-extras="pen">
+                        <div class="btn-group btn-group-sm">
+                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="brushShapeDropdown" data-bs-toggle="dropdown" aria-expanded="false" title="Brush Shape"><i class="fa-solid fa-paint-brush"></i> Square</button>
+                            <ul class="dropdown-menu dropdown-menu-dark shadow-sm">
+                                <li><a class="dropdown-item brush-shape active" href="#" data-shape="square">Square</a></li>
+                                <li><a class="dropdown-item brush-shape" href="#" data-shape="circle">Circle</a></li>
+                                <li><a class="dropdown-item brush-shape" href="#" data-shape="diamond">Diamond</a></li>
+                                <li><a class="dropdown-item brush-shape" href="#" data-shape="cross">Cross</a></li>
+                                <li><a class="dropdown-item brush-shape" href="#" data-shape="dither">Dither 50%</a></li>
+                                <li><a class="dropdown-item brush-shape" href="#" data-shape="spray">Spray</a></li>
+                            </ul>
+                        </div>
+                        <div class="btn-group btn-group-sm">
+                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="brushSizeDropdown" data-bs-toggle="dropdown" aria-expanded="false" title="Brush Size"><i class="fa-solid fa-maximize"></i> 1x1</button>
+                            <ul class="dropdown-menu dropdown-menu-dark shadow-sm">
+                                <li><a class="dropdown-item brush-size active" href="#" data-size="1">1x1</a></li>
+                                <li><a class="dropdown-item brush-size" href="#" data-size="2">2x2</a></li>
+                                <li><a class="dropdown-item brush-size" href="#" data-size="3">3x3</a></li>
+                                <li><a class="dropdown-item brush-size" href="#" data-size="4">4x4</a></li>
+                                <li><a class="dropdown-item brush-size" href="#" data-size="5">5x5</a></li>
+                                <li><a class="dropdown-item brush-size" href="#" data-size="7">7x7</a></li>
+                                <li><a class="dropdown-item brush-size" href="#" data-size="9">9x9</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center gap-1" data-tool-extras="select">
+                        <button type="button" class="btn btn-sm btn-outline-danger" id="btnClearAllLayers" title="Clear All Layers" aria-label="Clear All Layers" disabled>
+                            <i class="fa-solid fa-eraser"></i>
+                        </button>
+                    </div>
                 </div>
                 <button type="button" class="btn btn-sm btn-outline-secondary ms-1" id="btnToggleGrid" title="Toggle Grid">
                     <i class="fa-solid fa-border-all"></i>
@@ -419,6 +459,16 @@ $cssUrl = $asset('build/app.css');
                         <input class="form-check-input" type="checkbox" id="showMapCenter">
                         <label class="form-check-label small text-secondary" for="showMapCenter" title="Mark the center of the current viewport with a cross">Show Center</label>
                     </div>
+                    <div id="selectRectFields" class="select-rect-fields d-flex align-items-center gap-1" title="Selection in map tiles. Edit to adjust the active select rect.">
+                        <label class="small text-secondary mb-0" for="selectRectX">X</label>
+                        <input type="number" class="form-control form-control-sm bg-black border-secondary text-white" id="selectRectX" step="1" placeholder="x" title="Selection X" autocomplete="off">
+                        <label class="small text-secondary mb-0" for="selectRectY">Y</label>
+                        <input type="number" class="form-control form-control-sm bg-black border-secondary text-white" id="selectRectY" step="1" placeholder="y" title="Selection Y" autocomplete="off">
+                        <label class="small text-secondary mb-0" for="selectRectW">W</label>
+                        <input type="number" class="form-control form-control-sm bg-black border-secondary text-white" id="selectRectW" step="1" min="1" placeholder="w" title="Selection width" autocomplete="off">
+                        <label class="small text-secondary mb-0" for="selectRectH">H</label>
+                        <input type="number" class="form-control form-control-sm bg-black border-secondary text-white" id="selectRectH" step="1" min="1" placeholder="h" title="Selection height" autocomplete="off">
+                    </div>
                     <input type="text" class="form-control form-control-sm bg-black border-secondary text-white ms-auto" placeholder="Filter id…" id="monster-name" style="width: 140px;" title="Filter overlay by creature id / label">
                 </div>
             </div>
@@ -466,6 +516,70 @@ $cssUrl = $asset('build/app.css');
       </div>
       <div class="modal-body" id="monsterModalBody">
       </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="packSwitchModal" tabindex="-1" aria-labelledby="packSwitchModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content bg-dark text-white">
+      <div class="modal-header border-secondary">
+        <h5 class="modal-title" id="packSwitchModalLabel">Switch map pack?</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="packSwitchModalBody">
+        Unsaved changes on this map. Save before switching, discard, or cancel.
+      </div>
+      <div class="modal-footer border-secondary">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-outline-warning" id="packSwitchModalDiscard">Discard</button>
+        <button type="button" class="btn btn-primary" id="packSwitchModalSave">Save and switch</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="mapCreateModal" tabindex="-1" aria-labelledby="mapCreateModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content bg-dark text-white">
+      <form id="mapCreateForm">
+        <div class="modal-header border-secondary">
+          <h5 class="modal-title" id="mapCreateModalLabel">New map</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-2">
+            <label class="form-label small" for="mapCreateId">Id</label>
+            <input type="text" class="form-control bg-black border-secondary text-white" id="mapCreateId" name="id" required pattern="[a-z][a-z0-9_]{0,31}" maxlength="32" placeholder="room_a" autocomplete="off">
+            <div class="form-text text-secondary">Folder name. a–z, then letters, digits, underscore. Immutable.</div>
+          </div>
+          <div class="mb-2">
+            <label class="form-label small" for="mapCreateLabel">Label</label>
+            <input type="text" class="form-control bg-black border-secondary text-white" id="mapCreateLabel" name="label" placeholder="Small room" autocomplete="off">
+          </div>
+          <div class="form-check mb-2">
+            <input class="form-check-input" type="checkbox" id="mapCreateFromSelection" disabled title="Draw a tile selection first">
+            <label class="form-check-label small" for="mapCreateFromSelection">New map from selection</label>
+          </div>
+          <p class="form-text text-secondary d-none mb-2" id="mapCreateFromSelectionHint"></p>
+          <div class="d-flex gap-2 mb-2">
+            <div class="flex-grow-1">
+              <label class="form-label small" for="mapCreateWidth">Width</label>
+              <input type="number" class="form-control bg-black border-secondary text-white" id="mapCreateWidth" name="width" min="8" max="2560" step="1" value="256" required>
+            </div>
+            <div class="flex-grow-1">
+              <label class="form-label small" for="mapCreateHeight">Height</label>
+              <input type="number" class="form-control bg-black border-secondary text-white" id="mapCreateHeight" name="height" min="8" max="2048" step="1" value="256" required>
+            </div>
+          </div>
+          <div class="form-text text-secondary">Tiles. Min 8×8, max 2560×2048. Floors 0–15. Fill is blocked yellow. Hybrid is written on first Save.</div>
+          <div class="text-danger small mt-2 d-none" id="mapCreateError"></div>
+        </div>
+        <div class="modal-footer border-secondary">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="mapCreateSubmit">Create</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
@@ -532,7 +646,7 @@ $cssUrl = $asset('build/app.css');
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="<?= htmlspecialchars($asset('build/map-editor.bundle.js'), ENT_QUOTES, 'UTF-8') ?>?v=1.0.10"></script>
+<script src="<?= htmlspecialchars($asset('build/map-editor.bundle.js'), ENT_QUOTES, 'UTF-8') ?>?v=1.0.11"></script>
 <script>
 /**
  * Legacy Map wiki viewer.
@@ -550,6 +664,34 @@ $cssUrl = $asset('build/app.css');
  */
 document.addEventListener("DOMContentLoaded", () => {
     const ASSET_ROOT = window.__APP_ROOT__ || '/';
+    const LEGACY_MAP_ID_RE = /^[a-z][a-z0-9_]{0,31}$/;
+    const LAST_MAP_STORAGE_KEY = 'hdl.mapEditor.lastMapId';
+    const LEGACY_MAPS_ROOT_REL = 'assets/legacy/maps';
+    let mapsManifest = {
+        version: 1,
+        defaultId: 'v01',
+        maps: [{ id: 'v01', label: 'Reference continent (synthetic 2560×2048)' }]
+    };
+    let currentMapId = 'v01';
+    let currentMapsRel = LEGACY_MAPS_ROOT_REL + '/v01';
+    function packUrl(rel) {
+        return ASSET_ROOT + currentMapsRel + '/' + String(rel).replace(/^\//, '');
+    }
+    function appendMapId(fd) {
+        fd.append('mapId', currentMapId);
+    }
+    function legacyMapApiUrl(action, extraQuery) {
+        let url =
+            window.__API_URL__ +
+            '?action=' +
+            encodeURIComponent(action) +
+            '&mapId=' +
+            encodeURIComponent(currentMapId);
+        if (extraQuery) {
+            url += extraQuery.charAt(0) === '&' ? extraQuery : '&' + extraQuery;
+        }
+        return url;
+    }
 
     const imageContainer = document.getElementById('imageContainer');
     const viewportArea = document.getElementById('viewportArea');
@@ -1015,6 +1157,166 @@ document.addEventListener("DOMContentLoaded", () => {
     let lastFindKind = '';
     let minimapRaf = 0;
 
+    function selectionRectToTiles(rect) {
+        if (!rect) return null;
+        const x = Math.floor(Number(rect.x) || 0);
+        const y = Math.floor(Number(rect.y) || 0);
+        const x1 = Math.floor((Number(rect.x) || 0) + (Number(rect.w) || 0));
+        const y1 = Math.floor((Number(rect.y) || 0) + (Number(rect.h) || 0));
+        return { x: x, y: y, w: Math.max(0, x1 - x), h: Math.max(0, y1 - y) };
+    }
+
+    function getActiveSelectionTiles() {
+        const t = selectionRectToTiles(selectionRect);
+        if (!t || t.w < 1 || t.h < 1) return null;
+        return t;
+    }
+
+    function isSelectRectFieldFocused() {
+        const a = document.activeElement;
+        if (!a || !a.id) return false;
+        return a.id === 'selectRectX' || a.id === 'selectRectY' || a.id === 'selectRectW' || a.id === 'selectRectH';
+    }
+
+    function syncSelectRectFields(force) {
+        const xEl = document.getElementById('selectRectX');
+        const yEl = document.getElementById('selectRectY');
+        const wEl = document.getElementById('selectRectW');
+        const hEl = document.getElementById('selectRectH');
+        if (!xEl || !yEl || !wEl || !hEl) return;
+        if (!force && isSelectRectFieldFocused()) return;
+        const t = selectionRectToTiles(selectionRect);
+        if (!t) {
+            xEl.value = '';
+            yEl.value = '';
+            wEl.value = '';
+            hEl.value = '';
+            updateClearAllLayersEnabled();
+            return;
+        }
+        xEl.value = String(t.x);
+        yEl.value = String(t.y);
+        wEl.value = String(t.w);
+        hEl.value = String(t.h);
+        updateClearAllLayersEnabled();
+    }
+
+    function updateSelectRectFieldsVisibility() {
+        const el = document.getElementById('selectRectFields');
+        if (!el) return;
+        el.classList.toggle('d-none', currentTool !== 'select');
+    }
+
+    function updateClearAllLayersEnabled() {
+        const btn = document.getElementById('btnClearAllLayers');
+        if (!btn) return;
+        const t = getActiveSelectionTiles();
+        btn.disabled = !t || !tilemapSession || typeof tilemapSession.clearAllLayers !== 'function';
+    }
+
+    function updateToolExtras() {
+        document.querySelectorAll('[data-tool-extras]').forEach((el) => {
+            el.classList.toggle('d-none', el.getAttribute('data-tool-extras') !== currentTool);
+        });
+        updateClearAllLayersEnabled();
+    }
+
+    function clearSelectedAllLayers() {
+        if (!tilemapSession || typeof tilemapSession.clearAllLayers !== 'function') return false;
+        const t = getActiveSelectionTiles();
+        const statusBar = document.getElementById('statusBar');
+        if (!t) {
+            if (statusBar) statusBar.textContent = 'Draw a tile selection first.';
+            return false;
+        }
+        const { rect } = tilemapSession.clearAllLayers({
+            x0: t.x,
+            y0: t.y,
+            x1: t.x + t.w - 1,
+            y1: t.y + t.h - 1
+        });
+        if (rect) {
+            syncCanvasesFromSession(rect, {
+                layers: ['tilemap', 'friction', 'sight', 'flags', 'fields']
+            });
+        }
+        updateUndoRedoUI();
+        setDirty(true);
+        if (statusBar) {
+            statusBar.textContent = 'Cleared ' + t.w + '×' + t.h + ' tiles (all layers)';
+        }
+        return true;
+    }
+
+    function refreshSelectionTargets() {
+        if (!selectionRect) return;
+        if (currentLayer === 'spawns' && layerVisibility[`floor-${currentFloor}-spawns`]) {
+            const filterText = monsterNameInput.value.toLowerCase().trim();
+            selectedMapSpawns = [];
+            for (const spawn of currentMapSpawns || []) {
+                if (!matchesFilter(spawn, filterText)) continue;
+                if ((spawn.x + 0.5) >= selectionRect.x && (spawn.x + 0.5) <= selectionRect.x + selectionRect.w &&
+                    (spawn.y + 0.5) >= selectionRect.y && (spawn.y + 0.5) <= selectionRect.y + selectionRect.h) {
+                    selectedMapSpawns.push(spawn);
+                }
+            }
+            if (selectedMapSpawns.length > 0) {
+                selectedMapSpawn = selectedMapSpawns[0];
+                selectedPaletteItem = null;
+                if (currentLayer === 'spawns') renderPaletteUI();
+                renderSpawnProperties();
+            } else {
+                selectedMapSpawns = [];
+                selectedMapSpawn = null;
+                renderSpawnProperties();
+            }
+        } else if (currentLayer === 'world' && layerVisibility[`floor-${currentFloor}-world`]) {
+            selectedWorldPins = [];
+            for (const pin of currentMapWorld || []) {
+                if ((pin.x + 0.5) >= selectionRect.x && (pin.x + 0.5) <= selectionRect.x + selectionRect.w &&
+                    (pin.y + 0.5) >= selectionRect.y && (pin.y + 0.5) <= selectionRect.y + selectionRect.h) {
+                    selectedWorldPins.push(pin);
+                }
+            }
+            selectedWorldPin = selectedWorldPins[0] || null;
+            if (selectedWorldPin) selectedWorldPalette = null;
+            if (currentLayer === 'world') renderWorldPaletteUI();
+            renderWorldProperties();
+        }
+    }
+
+    function applySelectRectFromFields() {
+        const xEl = document.getElementById('selectRectX');
+        const yEl = document.getElementById('selectRectY');
+        const wEl = document.getElementById('selectRectW');
+        const hEl = document.getElementById('selectRectH');
+        if (!xEl || !yEl || !wEl || !hEl) return;
+        const x = parseInt(xEl.value, 10);
+        const y = parseInt(yEl.value, 10);
+        const w = parseInt(wEl.value, 10);
+        const h = parseInt(hEl.value, 10);
+        if (!Number.isFinite(x) || !Number.isFinite(y) || !Number.isFinite(w) || !Number.isFinite(h) || w < 1 || h < 1) {
+            syncSelectRectFields(true);
+            return;
+        }
+        const mapW = mapPixelWidth();
+        const mapH = mapPixelHeight();
+        const nx = Math.max(0, Math.min(mapW - 1, x));
+        const ny = Math.max(0, Math.min(mapH - 1, y));
+        const nw = Math.max(1, Math.min(mapW - nx, w));
+        const nh = Math.max(1, Math.min(mapH - ny, h));
+        selectionRect = { x: nx, y: ny, w: nw, h: nh };
+        xEl.value = String(nx);
+        yEl.value = String(ny);
+        wEl.value = String(nw);
+        hEl.value = String(nh);
+        updateClearAllLayersEnabled();
+        refreshSelectionTargets();
+        renderSpawns();
+        const statusBar = document.getElementById('statusBar');
+        if (statusBar) statusBar.textContent = 'Selection ' + nx + ',' + ny + ' ' + nw + '×' + nh;
+    }
+
     function setDirty(isDirty) {
         hasUnsavedChanges = isDirty;
         markDirty();
@@ -1035,6 +1337,10 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             document.getElementById('statusBar').textContent = 'All changes saved';
         }
+    }
+
+    function isMapDirty() {
+        return !!hasUnsavedChanges || !!(tilemapSession && tilemapSession.dirty);
     }
 
     for (let i = 0; i <= 15; i++) {
@@ -1112,6 +1418,7 @@ document.addEventListener("DOMContentLoaded", () => {
             editorViewport.setMapSize(tilemapSession.cols, tilemapSession.rows);
         }
         syncViewFromSession(rect || null, layers);
+        updateClearAllLayersEnabled();
     }
 
     /** Ensure display canvas matches floor size. */
@@ -1291,9 +1598,11 @@ document.addEventListener("DOMContentLoaded", () => {
             // Hybrid pack is source of truth when present (overrides path PNG canvases).
             try {
                 const res = await fetch(
-                    window.__API_URL__ +
-                        '?action=legacy_map_load_hybrid&floor=' +
-                        encodeURIComponent(padFloor(currentFloor))
+                    legacyMapApiUrl(
+                        'legacy_map_load_hybrid',
+                        'floor=' + encodeURIComponent(padFloor(currentFloor))
+                    ),
+                    { cache: 'no-store' }
                 );
                 if (gen !== mapLoadGen) return null;
                 if (res.ok) {
@@ -1583,6 +1892,13 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    const btnClearAllLayers = document.getElementById('btnClearAllLayers');
+    if (btnClearAllLayers) {
+        btnClearAllLayers.addEventListener('click', () => {
+            clearSelectedAllLayers();
+        });
+    }
+
     document.querySelectorAll('.brush-size').forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.preventDefault();
@@ -1712,6 +2028,432 @@ document.addEventListener("DOMContentLoaded", () => {
             el.addEventListener('hidden.bs.modal', onHide);
             modal.show();
         });
+    }
+
+    /**
+     * @returns {Promise<'save'|'discard'|'cancel'>}
+     */
+    function confirmPackSwitch() {
+        const el = document.getElementById('packSwitchModal');
+        const saveBtn = document.getElementById('packSwitchModalSave');
+        const discardBtn = document.getElementById('packSwitchModalDiscard');
+        if (!el || !saveBtn || !discardBtn || typeof bootstrap === 'undefined' || !bootstrap.Modal) {
+            const ok = window.confirm(
+                'Unsaved changes. OK discards and switches map; Cancel stays.'
+            );
+            return Promise.resolve(ok ? 'discard' : 'cancel');
+        }
+        return new Promise((resolve) => {
+            const modal = bootstrap.Modal.getOrCreateInstance(el);
+            let settled = false;
+            function finish(choice) {
+                if (settled) return;
+                settled = true;
+                saveBtn.removeEventListener('click', onSave);
+                discardBtn.removeEventListener('click', onDiscard);
+                el.removeEventListener('hidden.bs.modal', onHide);
+                resolve(choice);
+            }
+            function onSave() {
+                finish('save');
+                modal.hide();
+            }
+            function onDiscard() {
+                finish('discard');
+                modal.hide();
+            }
+            function onHide() {
+                finish('cancel');
+            }
+            saveBtn.addEventListener('click', onSave);
+            discardBtn.addEventListener('click', onDiscard);
+            el.addEventListener('hidden.bs.modal', onHide);
+            modal.show();
+        });
+    }
+
+    function listedMapIds() {
+        const maps = mapsManifest && Array.isArray(mapsManifest.maps) ? mapsManifest.maps : [];
+        return maps.map((m) => m && m.id).filter((id) => typeof id === 'string' && LEGACY_MAP_ID_RE.test(id));
+    }
+
+    function persistLastMapId(id) {
+        try {
+            localStorage.setItem(LAST_MAP_STORAGE_KEY, id);
+        } catch (_e) {
+            /* private mode */
+        }
+    }
+
+    function readLastMapId() {
+        try {
+            return localStorage.getItem(LAST_MAP_STORAGE_KEY);
+        } catch (_e) {
+            return null;
+        }
+    }
+
+    function pickOpenMapId() {
+        const ids = new Set(listedMapIds());
+        const defaultId =
+            mapsManifest && typeof mapsManifest.defaultId === 'string' && ids.has(mapsManifest.defaultId)
+                ? mapsManifest.defaultId
+                : listedMapIds()[0] || 'v01';
+        const urlId = new URLSearchParams(window.location.search).get('map');
+        if (urlId && LEGACY_MAP_ID_RE.test(urlId) && ids.has(urlId)) {
+            return urlId;
+        }
+        const stored = readLastMapId();
+        if (stored && LEGACY_MAP_ID_RE.test(stored) && ids.has(stored)) {
+            return stored;
+        }
+        return defaultId;
+    }
+
+    function applyPack(id) {
+        currentMapId = id;
+        currentMapsRel = LEGACY_MAPS_ROOT_REL + '/' + id;
+        const sel = document.getElementById('mapPackSelect');
+        if (sel && sel.value !== id) sel.value = id;
+    }
+
+    function fillMapPackSelect() {
+        const sel = document.getElementById('mapPackSelect');
+        if (!sel) return;
+        const maps = mapsManifest && Array.isArray(mapsManifest.maps) ? mapsManifest.maps : [];
+        sel.innerHTML = '';
+        maps.forEach((m) => {
+            if (!m || !LEGACY_MAP_ID_RE.test(m.id)) return;
+            const opt = document.createElement('option');
+            opt.value = m.id;
+            opt.textContent = m.label || m.id;
+            if (m.id === currentMapId) opt.selected = true;
+            sel.appendChild(opt);
+        });
+        if (!sel.options.length) {
+            const opt = document.createElement('option');
+            opt.value = currentMapId;
+            opt.textContent = currentMapId;
+            sel.appendChild(opt);
+        }
+        sel.value = currentMapId;
+        sel.disabled = false;
+        const newBtn = document.getElementById('mapPackNewBtn');
+        if (newBtn) newBtn.disabled = false;
+    }
+
+    async function fetchMapsList() {
+        try {
+            const res = await fetch(window.__API_URL__ + '?action=legacy_maps_list', {
+                cache: 'no-store'
+            });
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            const body = await res.json();
+            const maps = body && Array.isArray(body.maps) ? body.maps : [];
+            const defaultId =
+                body && typeof body.defaultId === 'string' && LEGACY_MAP_ID_RE.test(body.defaultId)
+                    ? body.defaultId
+                    : 'v01';
+            if (maps.length) {
+                mapsManifest = {
+                    version: body.version || 1,
+                    defaultId,
+                    maps: maps
+                        .filter((m) => m && typeof m.id === 'string' && LEGACY_MAP_ID_RE.test(m.id))
+                        .map((m) => ({ id: m.id, label: m.label || m.id }))
+                };
+            }
+        } catch (e) {
+            console.warn('legacy_maps_list failed; using default pack', e);
+        }
+    }
+
+    async function loadPackBounds() {
+        try {
+            const res = await fetch(packUrl('bounds.json'), { cache: 'no-store' });
+            if (!res.ok) return;
+            const data = await res.json();
+            if (data && typeof data === 'object') {
+                bounds = {
+                    xMin: Number(data.xMin) || 0,
+                    yMin: Number(data.yMin) || 0,
+                    width: Number(data.width) || bounds.width,
+                    height: Number(data.height) || bounds.height
+                };
+            }
+        } catch (_e) {
+            /* keep defaults */
+        }
+    }
+
+    function clearPackCaches() {
+        mapSpawnsCache = {};
+        mapWorldCache = {};
+        currentMapSpawns = [];
+        currentMapWorld = [];
+        tilemapSession = null;
+        updateClearAllLayersEnabled();
+        floorPngReady = false;
+        sessionLoadPromise = null;
+        sessionLoadGen = -1;
+        window.__pngChannelRgba = {};
+        window.__initialLayersLoaded = false;
+        if (editorViewport) {
+            editorViewport.setSession(null);
+            if (typeof editorViewport.clearBaseRgba === 'function') editorViewport.clearBaseRgba();
+        }
+    }
+
+    function reloadCurrentFloor() {
+        window.__initialLayersLoaded = false;
+        selectFloorAndLayer(currentFloor, currentLayer || 'spawns');
+    }
+
+    async function switchMapPack(nextId) {
+        if (!nextId || nextId === currentMapId) return false;
+        if (isMapDirty()) {
+            const choice = await confirmPackSwitch();
+            if (choice === 'cancel') return false;
+            if (choice === 'save') {
+                const ok = await window.saveCurrentMap();
+                if (!ok) return false;
+            }
+        }
+        applyPack(nextId);
+        persistLastMapId(nextId);
+        setDirty(false);
+        clearPackCaches();
+        await loadPackBounds();
+        reloadCurrentFloor();
+        prefetchAllFloors();
+        const sb = document.getElementById('statusBar');
+        if (sb) sb.textContent = 'Map pack ' + nextId;
+        return true;
+    }
+
+    function bindMapPackSelect() {
+        const sel = document.getElementById('mapPackSelect');
+        if (!sel || sel.dataset.bound === '1') return;
+        sel.dataset.bound = '1';
+        sel.addEventListener('change', async () => {
+            const next = sel.value;
+            const prev = currentMapId;
+            if (!next || next === prev) return;
+            sel.value = prev;
+            const ok = await switchMapPack(next);
+            if (ok) sel.value = currentMapId;
+            else sel.value = prev;
+        });
+    }
+
+    function setMapCreateError(msg) {
+        const err = document.getElementById('mapCreateError');
+        if (!err) return;
+        if (msg) {
+            err.textContent = msg;
+            err.classList.remove('d-none');
+        } else {
+            err.textContent = '';
+            err.classList.add('d-none');
+        }
+    }
+
+    async function openCreatedPack(id) {
+        applyPack(id);
+        persistLastMapId(id);
+        setDirty(false);
+        clearPackCaches();
+        await loadPackBounds();
+        selectFloorAndLayer('07', currentLayer || 'spawns');
+        prefetchAllFloors();
+        const sb = document.getElementById('statusBar');
+        if (sb) sb.textContent = 'Created map pack ' + id;
+    }
+
+    async function submitCreateMap() {
+        const idEl = document.getElementById('mapCreateId');
+        const labelEl = document.getElementById('mapCreateLabel');
+        const widthEl = document.getElementById('mapCreateWidth');
+        const heightEl = document.getElementById('mapCreateHeight');
+        const fromSelEl = document.getElementById('mapCreateFromSelection');
+        const submitBtn = document.getElementById('mapCreateSubmit');
+        const id = idEl ? String(idEl.value || '').trim() : '';
+        const label = labelEl ? String(labelEl.value || '').trim() : '';
+        const fromSelection = !!(fromSelEl && fromSelEl.checked);
+        const sel = fromSelection ? getActiveSelectionTiles() : null;
+        const width = fromSelection && sel ? sel.w : (widthEl ? Number(widthEl.value) : NaN);
+        const height = fromSelection && sel ? sel.h : (heightEl ? Number(heightEl.value) : NaN);
+        setMapCreateError('');
+        if (!LEGACY_MAP_ID_RE.test(id)) {
+            setMapCreateError('Id must match a–z, then letters, digits, or underscore (max 32).');
+            return;
+        }
+        if (fromSelection && !sel) {
+            setMapCreateError('Draw a tile selection first.');
+            return;
+        }
+        if (!Number.isInteger(width) || width < 8 || width > 2560) {
+            setMapCreateError('Width must be an integer between 8 and 2560.');
+            return;
+        }
+        if (!Number.isInteger(height) || height < 8 || height > 2048) {
+            setMapCreateError('Height must be an integer between 8 and 2048.');
+            return;
+        }
+        const modalEl = document.getElementById('mapCreateModal');
+        const createModal = modalEl
+            ? bootstrap.Modal.getInstance(modalEl) || bootstrap.Modal.getOrCreateInstance(modalEl)
+            : null;
+        if (isMapDirty()) {
+            if (createModal) createModal.hide();
+            const choice = await confirmPackSwitch();
+            if (choice === 'cancel') {
+                if (createModal) createModal.show();
+                return;
+            }
+            if (choice === 'save') {
+                const ok = await window.saveCurrentMap();
+                if (!ok) {
+                    if (createModal) createModal.show();
+                    return;
+                }
+            }
+        }
+        if (submitBtn) submitBtn.disabled = true;
+        try {
+            const fd = new FormData();
+            fd.append('id', id);
+            fd.append('label', label);
+            fd.append('width', String(width));
+            fd.append('height', String(height));
+            if (fromSelection && sel) {
+                fd.append('fromSelection', '1');
+                fd.append('sourceMapId', currentMapId);
+                fd.append('x', String(sel.x));
+                fd.append('y', String(sel.y));
+            }
+            const res = await fetch(window.__API_URL__ + '?action=legacy_map_create', {
+                method: 'POST',
+                body: fd
+            });
+            const body = await res.json().catch(() => null);
+            if (!res.ok || !body || body.ok === false) {
+                throw new Error((body && body.error) || ('HTTP ' + res.status));
+            }
+            const createdId = body.id || id;
+            await fetchMapsList();
+            fillMapPackSelect();
+            await openCreatedPack(createdId);
+            if (createModal) createModal.hide();
+        } catch (e) {
+            setMapCreateError(e && e.message ? e.message : String(e));
+            if (createModal) createModal.show();
+        } finally {
+            if (submitBtn) submitBtn.disabled = false;
+        }
+    }
+
+    let mapCreateSizeBeforeSelection = { width: '256', height: '256' };
+
+    function syncMapCreateFromSelectionUi() {
+        const cb = document.getElementById('mapCreateFromSelection');
+        const widthEl = document.getElementById('mapCreateWidth');
+        const heightEl = document.getElementById('mapCreateHeight');
+        const hint = document.getElementById('mapCreateFromSelectionHint');
+        const t = getActiveSelectionTiles();
+        const has = !!t;
+        if (cb) {
+            cb.disabled = !has;
+            if (!has) cb.checked = false;
+            cb.title = has
+                ? 'Crop all floors from the current selection'
+                : 'Draw a tile selection first';
+        }
+        if (cb && cb.checked && t) {
+            if (widthEl) {
+                widthEl.value = String(t.w);
+                widthEl.readOnly = true;
+            }
+            if (heightEl) {
+                heightEl.value = String(t.h);
+                heightEl.readOnly = true;
+            }
+            if (hint) {
+                hint.textContent =
+                    'Crop ' + t.w + '×' + t.h + ' from (' + t.x + ',' + t.y +
+                    '). All floors, spawns, and hybrid; coords origin (0,0).';
+                hint.classList.remove('d-none');
+            }
+        } else {
+            if (widthEl) widthEl.readOnly = false;
+            if (heightEl) heightEl.readOnly = false;
+            if (hint) {
+                hint.textContent = '';
+                hint.classList.add('d-none');
+            }
+        }
+    }
+
+    function bindMapPackNew() {
+        const btn = document.getElementById('mapPackNewBtn');
+        const form = document.getElementById('mapCreateForm');
+        const el = document.getElementById('mapCreateModal');
+        const fromSel = document.getElementById('mapCreateFromSelection');
+        if (!btn || !form || !el || btn.dataset.bound === '1') return;
+        btn.dataset.bound = '1';
+        btn.addEventListener('click', () => {
+            form.reset();
+            const widthEl = document.getElementById('mapCreateWidth');
+            const heightEl = document.getElementById('mapCreateHeight');
+            if (widthEl) {
+                widthEl.value = '256';
+                widthEl.readOnly = false;
+            }
+            if (heightEl) {
+                heightEl.value = '256';
+                heightEl.readOnly = false;
+            }
+            mapCreateSizeBeforeSelection = { width: '256', height: '256' };
+            if (fromSel) fromSel.checked = false;
+            setMapCreateError('');
+            syncMapCreateFromSelectionUi();
+            bootstrap.Modal.getOrCreateInstance(el).show();
+            setTimeout(() => {
+                const idEl = document.getElementById('mapCreateId');
+                if (idEl) idEl.focus();
+            }, 200);
+        });
+        if (fromSel) {
+            fromSel.addEventListener('change', () => {
+                const widthEl = document.getElementById('mapCreateWidth');
+                const heightEl = document.getElementById('mapCreateHeight');
+                if (fromSel.checked) {
+                    mapCreateSizeBeforeSelection = {
+                        width: widthEl ? String(widthEl.value || '256') : '256',
+                        height: heightEl ? String(heightEl.value || '256') : '256'
+                    };
+                } else {
+                    if (widthEl) widthEl.value = mapCreateSizeBeforeSelection.width;
+                    if (heightEl) heightEl.value = mapCreateSizeBeforeSelection.height;
+                }
+                syncMapCreateFromSelectionUi();
+            });
+        }
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            submitCreateMap();
+        });
+    }
+
+    async function initMapPack() {
+        await fetchMapsList();
+        const id = pickOpenMapId();
+        applyPack(id);
+        persistLastMapId(id);
+        fillMapPackSelect();
+        bindMapPackSelect();
+        bindMapPackNew();
+        await loadPackBounds();
     }
 
     function planFloorMove(fromZ, toZ) {
@@ -1865,20 +2607,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // --- Data loads ----------------------------------------------------------
 
-    fetch(ASSET_ROOT + 'assets/legacy/map/bounds.json')
-        .then((res) => res.json())
-        .then((data) => {
-            if (data && typeof data === 'object') {
-                bounds = {
-                    xMin: Number(data.xMin) || bounds.xMin,
-                    yMin: Number(data.yMin) || bounds.yMin,
-                    width: Number(data.width) || bounds.width,
-                    height: Number(data.height) || bounds.height
-                };
-            }
-        })
-        .catch(() => { /* keep defaults */ });
-
     function fillMonsterDatalist() {
         const dl = document.getElementById('monsterDatalist');
         if (!dl) return;
@@ -1975,11 +2703,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function hybridSpawnUrl(floor) {
-        return ASSET_ROOT + 'assets/legacy/map/hybrid/floor-' + floor + '/map.json';
+        return packUrl('hybrid/floor-' + floor + '/map.json');
     }
 
     function byFloorSpawnUrl(floor) {
-        return ASSET_ROOT + 'assets/legacy/spawns/by_floor/' + floor + '.json';
+        return packUrl('spawns/by_floor/' + floor + '.json');
     }
 
     /**
@@ -2053,7 +2781,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
-    prefetchAllFloors();
 
     // --- Pan / zoom (aligned with map-spawn.js) ------------------------------
 
@@ -2095,6 +2822,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 } else {
                     selectedStairPad = null;
                 }
+                syncSelectRectFields();
                 renderSpawns();
                 renderSpawnProperties();
             }
@@ -2152,6 +2880,8 @@ document.addEventListener("DOMContentLoaded", () => {
             btn.classList.add('active', 'btn-outline-primary');
             btn.classList.remove('btn-outline-secondary');
             currentTool = btn.dataset.tool;
+            updateSelectRectFieldsVisibility();
+            updateToolExtras();
 
             if (currentTool === 'pan' || isSpaceDown) {
                 imageContainer.style.cursor = 'grab';
@@ -2202,6 +2932,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (selectionRect.w > 3 || selectionRect.h > 3) {
                 wasDragging = true;
             }
+            syncSelectRectFields();
             renderSpawns();
         }
         updateStatusBarCoordinates(event.clientX, event.clientY);
@@ -2212,38 +2943,12 @@ document.addEventListener("DOMContentLoaded", () => {
         if (isSelecting) {
             isSelecting = false;
             if (wasDragging && selectionRect) {
-                if (currentLayer === 'spawns' && layerVisibility[`floor-${currentFloor}-spawns`]) {
-                    const filterText = monsterNameInput.value.toLowerCase().trim();
-                    selectedMapSpawns = [];
-                    for (const spawn of currentMapSpawns) {
-                        if (!matchesFilter(spawn, filterText)) continue;
-                        if ((spawn.x + 0.5) >= selectionRect.x && (spawn.x + 0.5) <= selectionRect.x + selectionRect.w &&
-                            (spawn.y + 0.5) >= selectionRect.y && (spawn.y + 0.5) <= selectionRect.y + selectionRect.h) {
-                            selectedMapSpawns.push(spawn);
-                        }
-                    }
-                    if (selectedMapSpawns.length > 0) {
-                        selectedMapSpawn = selectedMapSpawns[0];
-                        selectedPaletteItem = null;
-                        if (currentLayer === 'spawns') renderPaletteUI();
-                        renderSpawnProperties();
-                    } else {
-                        selectedMapSpawns = [];
-                        selectedMapSpawn = null;
-                        renderSpawnProperties();
-                    }
-                } else if (currentLayer === 'world' && layerVisibility[`floor-${currentFloor}-world`]) {
-                    selectedWorldPins = [];
-                    for (const pin of currentMapWorld) {
-                        if ((pin.x + 0.5) >= selectionRect.x && (pin.x + 0.5) <= selectionRect.x + selectionRect.w &&
-                            (pin.y + 0.5) >= selectionRect.y && (pin.y + 0.5) <= selectionRect.y + selectionRect.h) {
-                            selectedWorldPins.push(pin);
-                        }
-                    }
-                    selectedWorldPin = selectedWorldPins[0] || null;
-                    if (selectedWorldPin) selectedWorldPalette = null;
-                    if (currentLayer === 'world') renderWorldPaletteUI();
-                    renderWorldProperties();
+                const t = selectionRectToTiles(selectionRect);
+                if (t && t.w > 0 && t.h > 0) {
+                    selectionRect = { x: t.x, y: t.y, w: t.w, h: t.h };
+                    refreshSelectionTargets();
+                } else {
+                    selectionRect = null;
                 }
             } else {
                 selectionRect = null;
@@ -2323,6 +3028,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         document.removeEventListener('mousemove', onMouseMove);
         document.removeEventListener('mouseup', onMouseUp);
+        syncSelectRectFields();
         renderSpawns();
     }
     imageContainer.addEventListener('mousedown', (e) => {
@@ -2585,7 +3291,7 @@ document.addEventListener("DOMContentLoaded", () => {
             targetSuffix = 'path';
         }
 
-        const imgSrc = ASSET_ROOT + 'assets/legacy/map/floor-' + floor + '-' + targetSuffix + '.png';
+        const imgSrc = packUrl('floor-' + floor + '-' + targetSuffix + '.png');
         const img = new Image();
         img.onload = () => {
             const w = img.naturalWidth;
@@ -2680,6 +3386,7 @@ document.addEventListener("DOMContentLoaded", () => {
             loadFloorSpawns(currentFloor);
             window.__initialLayersLoaded = true;
             tilemapSession = null; // rebuild per floor
+            updateClearAllLayersEnabled();
             floorPngReady = false;
             window.__pngChannelRgba = {};
             if (editorViewport) {
@@ -3115,10 +3822,10 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // Floor selector: − / dropdown / + (same pattern as zoom)
+    // Floor selector: up (z−1) / dropdown / down (z+1)
     const floorOptions = document.querySelectorAll('.floor-option');
-    const floorOutBtn = document.getElementById('floorOutBtn');
-    const floorInBtn = document.getElementById('floorInBtn');
+    const floorUpBtn = document.getElementById('floorUpBtn');
+    const floorDownBtn = document.getElementById('floorDownBtn');
 
     function goToFloor(floorStr) {
         const f = padFloor(floorStr);
@@ -3134,14 +3841,14 @@ document.addEventListener("DOMContentLoaded", () => {
             goToFloor(opt.dataset.floor);
         });
     });
-    if (floorOutBtn) {
-        floorOutBtn.addEventListener('click', () => {
+    if (floorUpBtn) {
+        floorUpBtn.addEventListener('click', () => {
             const z = Math.max(0, (parseInt(currentFloor, 10) || 0) - 1);
             goToFloor(z);
         });
     }
-    if (floorInBtn) {
-        floorInBtn.addEventListener('click', () => {
+    if (floorDownBtn) {
+        floorDownBtn.addEventListener('click', () => {
             const z = Math.min(15, (parseInt(currentFloor, 10) || 0) + 1);
             goToFloor(z);
         });
@@ -3179,6 +3886,21 @@ document.addEventListener("DOMContentLoaded", () => {
             markDirty();
         });
     }
+    ['selectRectX', 'selectRectY', 'selectRectW', 'selectRectH'].forEach((id) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.addEventListener('change', () => applySelectRectFromFields());
+        el.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                applySelectRectFromFields();
+                el.blur();
+            }
+        });
+    });
+    updateSelectRectFieldsVisibility();
+    updateToolExtras();
+    syncSelectRectFields();
 
     function updateFloorCounts() {
         const filterText = monsterNameInput.value.toLowerCase().trim();
@@ -6615,26 +7337,35 @@ document.addEventListener("DOMContentLoaded", () => {
         scheduleMinimap();
     });
 
-    // Boot: deep-link or default center (local 1129,767 @ 1600% — map-spawn.js)
+    // Boot: pack (?map= → last-opened → defaultId), then deep-link or default center.
     const urlParams = new URLSearchParams(window.location.search);
     const centerPoint = urlParams.get('point');
 
-    selectFloorAndLayer(currentFloor, 'spawns', () => {
-        if (centerPoint) {
-            const params = centerPoint.split(',');
-            setTimeout(() => {
-                if (params[3] !== undefined) {
-                    zoomImageAtPoint(params[0], params[1], params[2], params[3]);
+    initMapPack()
+        .then(() => {
+            prefetchAllFloors();
+            selectFloorAndLayer(currentFloor, 'spawns', () => {
+                if (centerPoint) {
+                    const params = centerPoint.split(',');
+                    setTimeout(() => {
+                        if (params[3] !== undefined) {
+                            zoomImageAtPoint(params[0], params[1], params[2], params[3]);
+                        } else {
+                            zoomImageAtPoint(params[0], params[1], params[2]);
+                        }
+                    }, 600);
                 } else {
-                    zoomImageAtPoint(params[0], params[1], params[2]);
+                    setTimeout(() => {
+                        zoomImageAtPoint(1129, 767, 7, 100);
+                    }, 600);
                 }
-            }, 600);
-        } else {
-            setTimeout(() => {
-                zoomImageAtPoint(1129, 767, 7, 100);
-            }, 600);
-        }
-    });
+            });
+        })
+        .catch((e) => {
+            console.error('map pack init failed', e);
+            prefetchAllFloors();
+            selectFloorAndLayer(currentFloor, 'spawns');
+        });
 
     async function saveFloorSpawns(floor) {
         if (!mapSpawnsCache[floor]) return;
@@ -6663,8 +7394,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const formData = new FormData();
         formData.append('floor', floor);
         formData.append('spawns', JSON.stringify(cleanSpawns));
+        appendMapId(formData);
 
-        const res = await fetch(window.__API_URL__ + '?action=legacy_map_save_spawns', {
+        const res = await fetch(legacyMapApiUrl('legacy_map_save_spawns'), {
             method: 'POST',
             body: formData
         });
@@ -6686,7 +7418,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const formData = new FormData();
         formData.append('floor', floor);
         formData.append('world', JSON.stringify(clean));
-        const res = await fetch(window.__API_URL__ + '?action=legacy_map_save_world', {
+        appendMapId(formData);
+        const res = await fetch(legacyMapApiUrl('legacy_map_save_world'), {
             method: 'POST',
             body: formData
         });
@@ -6742,8 +7475,9 @@ document.addEventListener("DOMContentLoaded", () => {
         formData.append('floor', floor);
         formData.append('layer', targetLayer);
         formData.append('image', base64Data);
+        appendMapId(formData);
 
-        const res = await fetch(window.__API_URL__ + '?action=legacy_map_save_layer', {
+        const res = await fetch(legacyMapApiUrl('legacy_map_save_layer'), {
             method: 'POST',
             body: formData
         });
@@ -6785,10 +7519,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const beginFd = new FormData();
         beginFd.append('floor', floorId);
         beginFd.append('meta', JSON.stringify(transport.meta));
-        const beginRes = await fetch(
-            window.__API_URL__ + '?action=legacy_map_save_hybrid_begin',
-            { method: 'POST', body: beginFd }
-        );
+        appendMapId(beginFd);
+        const beginRes = await fetch(legacyMapApiUrl('legacy_map_save_hybrid_begin'), {
+            method: 'POST',
+            body: beginFd
+        });
         if (!beginRes.ok) {
             const t = await beginRes.text();
             throw new Error('Failed to start hybrid save: ' + t);
@@ -6809,12 +7544,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 throw new Error('Hybrid blob is not gzip (rebuild map-editor.bundle.js): ' + rel);
             }
             const headers = { 'Content-Type': 'application/octet-stream' };
-            const url =
-                window.__API_URL__ +
-                '?action=legacy_map_save_hybrid_blob&floor=' +
-                encodeURIComponent(floorId) +
-                '&path=' +
-                encodeURIComponent(rel);
+            const url = legacyMapApiUrl(
+                'legacy_map_save_hybrid_blob',
+                'floor=' + encodeURIComponent(floorId) + '&path=' + encodeURIComponent(rel)
+            );
             const blobRes = await fetch(url, { method: 'POST', headers, body: u8 });
             if (!blobRes.ok) {
                 const t = await blobRes.text();
@@ -6843,7 +7576,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!isMapEditReady()) {
             const statusBarEarly = document.getElementById('statusBar');
             if (statusBarEarly) statusBarEarly.textContent = 'Map is still loading';
-            return;
+            return false;
         }
         const btnSaveMap = document.getElementById('btnSaveMap');
         const statusBar = document.getElementById('statusBar');
@@ -6851,48 +7584,47 @@ document.addEventListener("DOMContentLoaded", () => {
         if (statusBar) statusBar.textContent = 'Saving...';
 
         const channelLayers = ['friction', 'sight', 'flags', 'fields'];
-        
+        // Wiki boots on Spawns. Select extras (Clear All Layers) mutate the
+        // TileMap session without leaving that layer — a Spawns-only POST
+        // would show "Map saved" and drop the hole on reload.
+        const sessionDirty = !!(tilemapSession && tilemapSession.dirty);
+        const saveHybrid =
+            sessionDirty ||
+            isTileMapLayer(currentLayer) ||
+            channelLayers.includes(currentLayer) ||
+            currentLayer === 'world';
+
         try {
-            if (currentLayer === 'spawns') {
-                await saveFloorSpawns(currentFloor);
-            } else if (currentLayer === 'world') {
+            if (saveHybrid) {
                 await ensureTilemapSession();
-                if (tilemapSession) {
-                    await saveHybridPack(currentFloor);
-                } else {
+                if (!tilemapSession && currentLayer === 'world') {
                     await saveFloorWorld(currentFloor);
-                }
-            } else if (
-                isTileMapLayer(currentLayer) ||
-                channelLayers.includes(currentLayer) ||
-                (tilemapSession && tilemapSession.dirty)
-            ) {
-                // TileMap + channel layers always write the hybrid pack (fields live
-                // only in hybrid; path PNG alone cannot hold them). ensureSession
-                // bootstraps from hybrid or path PNG when the floor was opened
-                // spawns-only (preferHybridOnly).
-                await ensureTilemapSession();
-                if (!tilemapSession) {
+                } else if (!tilemapSession) {
                     throw new Error(
                         'No map session to save — hybrid load / path PNG bootstrap failed'
                     );
+                } else {
+                    await saveHybridPack(currentFloor);
+                    if (mapSpawnsCache[currentFloor] || currentLayer === 'spawns') {
+                        await saveFloorSpawns(currentFloor);
+                    }
+                    if (mapWorldCache[currentFloor] || currentLayer === 'world') {
+                        await saveFloorWorld(currentFloor);
+                    }
                 }
-                await saveHybridPack(currentFloor);
-                if (mapSpawnsCache[currentFloor]) {
-                    await saveFloorSpawns(currentFloor);
-                }
-                if (mapWorldCache[currentFloor]) {
-                    await saveFloorWorld(currentFloor);
-                }
+            } else if (currentLayer === 'spawns') {
+                await saveFloorSpawns(currentFloor);
             } else {
                 await saveLayerImage(currentFloor, currentLayer);
             }
             setDirty(false);
             if (statusBar) statusBar.textContent = 'Map saved';
+            return true;
         } catch (e) {
             console.error(e);
             alert('Error saving map: ' + e.message);
             if (statusBar) statusBar.textContent = 'Error saving map';
+            return false;
         } finally {
             if (btnSaveMap) btnSaveMap.disabled = false;
         }

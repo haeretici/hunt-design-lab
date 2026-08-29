@@ -32,7 +32,8 @@ const {
     technicalToId,
     technicalToFileStem,
     fileStemToTechnical,
-    absoluteSpritePath
+    absoluteSpritePath,
+    resolveScaleFilter
 } = require('../kernel/core/lib/creature_manifest.js');
 
 const DEFAULT_MIN_WIDTH = 256;
@@ -365,6 +366,19 @@ function cleanGenre(genreId, opts) {
     const label = opts.dryRun ? 'would remove' : 'remove';
     const originals = listPngFiles(paths.original);
     const variants = processedVariantDirs(paths);
+    const catalog = loadCatalog(genreId, { kind: kindId });
+    /** @type {Set<string>} lowercase stems whose catalog scaleFilter is nearest */
+    const nearestStems = new Set();
+    for (const c of catalog.creatures || []) {
+        if (resolveScaleFilter(c.scaleFilter) !== 'nearest') continue;
+        nearestStems.add(String(c.id || '').toLowerCase());
+        const rel = c.sprites && c.sprites.original;
+        if (rel) {
+            nearestStems.add(
+                path.basename(String(rel), path.extname(String(rel))).toLowerCase()
+            );
+        }
+    }
 
     /** @type {Array<{ stem: string, width: number, height: number, original: string, processed: string[], technical: string, id: string }>} */
     const undersized = [];
@@ -381,6 +395,12 @@ function cleanGenre(genreId, opts) {
             continue;
         }
         if (size.width < opts.minWidth) {
+            if (nearestStems.has(stem.toLowerCase())) {
+                console.log(
+                    `  keep nearest pixel-art ${stem}.png (${size.width}×${size.height})`
+                );
+                continue;
+            }
             const technical = fileStemToTechnical(stem);
             undersized.push({
                 stem,

@@ -1804,7 +1804,7 @@ function hybridMapDirForFloor(floorId, mapsRoot) {
             try {
                 return require('../../../settings.js').PATHS.maps;
             } catch (_e) {
-                return path.join(process.cwd(), 'assets', 'legacy', 'map');
+                return path.join(process.cwd(), 'assets', 'legacy', 'maps', 'v01');
             }
         })();
     return path.join(root, 'hybrid', `floor-${padHybridFloorId(floorId)}`);
