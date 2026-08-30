@@ -46,7 +46,7 @@ const {
     buildHuntSummary: buildSummaryFromTelemetry
 } = require('../../core/lib/telemetry.js');
 const { pacingTagFromEntity } = require('../../core/lib/dungeon/pacing.js');
-const { normalizeEquipmentMap } = require('../../core/lib/character/stats.js');
+const { normalizeEquipmentMap, findItem } = require('../../core/lib/character/stats.js');
 const {
     resolvePlayerSpriteArt
 } = require('../../core/lib/character/player_profile.js');
@@ -57,7 +57,15 @@ const {
 } = require('../../core/lib/character/progression.js');
 const { applyCondition } = require('../../core/lib/combat/conditions.js');
 const { EntityMarkersScript } = require('../../core/scripts/entity_markers.js');
-const { createGroundStore } = require('../../core/lib/character/ground_items.js');
+const {
+    createGroundStore,
+    spawnGroundItem,
+    fillCorpse
+} = require('../../core/lib/character/ground_items.js');
+const {
+    rollCreatureLoot,
+    formatLootMessage
+} = require('../../core/lib/character/loot_roll.js');
 const {
     purgeExpiredFields,
     isTileFieldHazardForEntity
@@ -345,6 +353,18 @@ class Simulator extends GameObject {
          * @type {object|null}
          */
         this.sessionExpConfig = null;
+        /**
+         * Wild-death corpse spawn. `true`/`false` pins the session; `null`
+         * inherits Settings.features.corpseLoot. Hunt sessions pin via
+         * huntToSimulatorOpts (mode on in watch; headless default off).
+         * @type {boolean|null}
+         */
+        this.corpseLoot =
+            typeof opts.corpseLoot === 'boolean'
+                ? opts.corpseLoot
+                : opts.features && typeof opts.features.corpseLoot === 'boolean'
+                  ? opts.features.corpseLoot
+                  : null;
 
         /** @type {TileMap|null} */
         this.tileMap = null;
@@ -3690,6 +3710,115 @@ class Simulator extends GameObject {
     }
 
     /**
+     * Wild-death corpse spawn: ctor pin → Settings.features → false.
+     * Mode default is applied by huntToSimulatorOpts (not here) so bare
+     * Simulator tests and headless CI do not inherit standard-on.
+     * @returns {boolean}
+     */
+    _isCorpseLootEnabled() {
+        if (typeof this.corpseLoot === 'boolean') return this.corpseLoot;
+        if (
+            Settings.features &&
+            typeof Settings.features.corpseLoot === 'boolean'
+        ) {
+            return Settings.features.corpseLoot;
+        }
+        return false;
+    }
+
+    /**
+     * Empty corpse-like ground container on the death tile. Does not roll loot.
+     * @param {object} defender
+     * @returns {string|null} ground uid
+     */
+    _spawnWildCreatureCorpse(defender) {
+        if (!defender || !this.groundItems || !defender.tile) return null;
+        const itemDb = this._itemDb || null;
+        let itemId = 'monster_corpse';
+        if (defender.corpseId != null && String(defender.corpseId).trim()) {
+            const cid = String(defender.corpseId).trim();
+            if (findItem(itemDb, cid)) itemId = cid;
+        }
+        const label = this._creatureDisplayLabel(defender);
+        const z =
+            defender.tile.z !== undefined && defender.tile.z !== null
+                ? defender.tile.z
+                : 0;
+        return spawnGroundItem({
+            ground: this.groundItems,
+            itemId,
+            x: defender.tile.x,
+            y: defender.tile.y,
+            z,
+            itemDb,
+            instFlags: {
+                isCorpse: true,
+                name: 'Dead ' + label
+            }
+        });
+    }
+
+    /**
+     * @param {object|null|undefined} creature
+     * @returns {string}
+     */
+    _creatureDisplayLabel(creature) {
+        if (!creature) return 'creature';
+        if (creature.name && String(creature.name).trim()) {
+            return String(creature.name).trim();
+        }
+        if (creature.label && String(creature.label).trim()) {
+            return String(creature.label).trim();
+        }
+        if (creature.creatureType && String(creature.creatureType).trim()) {
+            return String(creature.creatureType).trim();
+        }
+        return 'creature';
+    }
+
+    /**
+     * Roll template loot into the corpse; overflow stays on the death tile
+     * under the corpse. FCT on the killer. Flag-on path does not add
+     * lootValue to lootGained (worth counts on bag insert).
+     * @param {object} defender
+     * @param {string} corpseUid
+     * @param {object|null|undefined} attacker
+     */
+    _fillWildCreatureCorpse(defender, corpseUid, attacker) {
+        if (!defender || !corpseUid || !this.groundItems || !defender.tile) return;
+        const itemDb = this._itemDb || null;
+        const rolled = rollCreatureLoot(defender.loot, itemDb, Math.random);
+        const z =
+            defender.tile.z !== undefined && defender.tile.z !== null
+                ? defender.tile.z
+                : 0;
+        fillCorpse({
+            ground: this.groundItems,
+            corpseUid,
+            items: rolled.items,
+            itemDb,
+            x: defender.tile.x,
+            y: defender.tile.y,
+            z
+        });
+        const tile =
+            attacker && attacker.tile ? attacker.tile : defender.tile;
+        if (!tile) return;
+        this.emitCombatText({
+            x: tile.x,
+            y: tile.y,
+            z: tile.z !== undefined && tile.z !== null ? tile.z : 0,
+            text: formatLootMessage(
+                this._creatureDisplayLabel(defender),
+                rolled.items,
+                itemDb
+            ),
+            color: '#c0c0c0',
+            life: 2.2
+        });
+    }
+
+    /**
      * Record attack result into telemetry + kill awards.
      * @param {object} attacker
      * @param {object} defender
@@ -3782,6 +3911,9 @@ class Simulator extends GameObject {
         // Death / kill
         if (defender && defender.alive === false) {
             if (defender.type === 'creature') {
+                // Snapshot before unlinkSummon clears masterId (summons: no corpse).
+                const spawnCorpse =
+                    this._isCorpseLootEnabled() && !isSummon(defender);
                 // Summon links: master death dismisses adds; summon death unlinks
                 if (
                     !isSummon(defender) &&
@@ -3794,7 +3926,9 @@ class Simulator extends GameObject {
                 }
 
                 const exp = defender.expValue || 0;
-                const loot = defender.lootValue || 0;
+                const loot = this._isCorpseLootEnabled()
+                    ? 0
+                    : defender.lootValue || 0;
                 samplePacingEvent(this.telemetry, {
                     kind: 'kill',
                     t: Time.timeSinceLevelLoad,
@@ -3844,6 +3978,12 @@ class Simulator extends GameObject {
                         defender.id,
                         Time.timeSinceLevelLoad
                     );
+                }
+                if (spawnCorpse) {
+                    const corpseUid = this._spawnWildCreatureCorpse(defender);
+                    if (corpseUid) {
+                        this._fillWildCreatureCorpse(defender, corpseUid, attacker);
+                    }
                 }
             } else if (defender.type === 'player') {
                 sampleDeath(this.telemetry);

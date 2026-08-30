@@ -1197,5 +1197,35 @@
             "respawn": 90
         }
     ],
-    "world": []
+    "world": [
+        {
+            "id": "harvest_7_99_195",
+            "kind": "harvest",
+            "catalogId": "abandoned_meteor_rock",
+            "catalogKind": "objects",
+            "x": 99,
+            "y": 195,
+            "z": 7,
+            "blocking": false,
+            "pickupable": false,
+            "shared": false,
+            "when": {
+                "item": "shovel",
+                "min": 1
+            },
+            "once": {
+                "storage": "firstlight.morris.amulet",
+                "eq": 1
+            },
+            "give": [
+                {
+                    "item": "strange_amulet",
+                    "count": 1
+                }
+            ],
+            "set": {
+                "firstlight.morris.amulet": 2
+            }
+        }
+    ]
 }

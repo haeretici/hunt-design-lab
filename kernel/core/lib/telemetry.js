@@ -444,6 +444,17 @@ function sampleDeath(t) {
 }
 
 /**
+ * Item-based loot (corpse bag insert). Does not increment kills.
+ * @param {object} t
+ * @param {number} [amount=0]
+ */
+function sampleLootTaken(t, amount) {
+    if (!t) return;
+    const n = Math.max(0, Math.floor(Number(amount) || 0));
+    if (n) t.lootGained = (t.lootGained || 0) + n;
+}
+
+/**
  * Record a potion / item consumable use (future Stage 7+ UI).
  * @param {object} t
  * @param {'mana'|'potion'|string} kind
@@ -974,6 +985,7 @@ module.exports = {
     sampleAttack,
     sampleKill,
     sampleDeath,
+    sampleLootTaken,
     sampleConsumable,
     samplePacingEvent,
     sampleBiomeTransition,

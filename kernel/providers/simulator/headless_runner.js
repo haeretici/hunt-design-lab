@@ -26,6 +26,7 @@ const { Simulator } = require('./simulator.js');
 const {
     huntToSimulatorOpts,
     pickInjectors,
+    pickOptionalBoolean,
     isSessionTerminal
 } = require('./hunt_opts.js');
 
@@ -621,7 +622,13 @@ function resolveHuntConfig(input) {
             : Array.isArray(hunt.commandHistory)
               ? hunt.commandHistory.slice()
               : null,
-        forceAiControl: config.forceAiControl != null ? !!config.forceAiControl : !!hunt.forceAiControl
+        forceAiControl: config.forceAiControl != null ? !!config.forceAiControl : !!hunt.forceAiControl,
+        corpseLoot: pickOptionalBoolean([
+            config.corpseLoot,
+            config.features && config.features.corpseLoot,
+            hunt.corpseLoot,
+            hunt.features && hunt.features.corpseLoot
+        ])
     };
 }
 
@@ -835,6 +842,7 @@ async function runHeadlessHunt(input) {
                 injectors: pickInjectors(input || {}),
                 recordSteps,
                 combatAi: true,
+                headless: true,
                 // Opt-in only (browser:parity / bug:repro --parity-*); default off
                 ...(input && input.parityTrace !== undefined
                     ? { parityTrace: input.parityTrace }
@@ -944,6 +952,7 @@ async function runHeadlessHuntToTick(input) {
                     injectors: pickInjectors(merged),
                     recordSteps: resolved.recordSteps,
                     combatAi: true,
+                    headless: true,
                     ...(merged.parityTrace !== undefined
                         ? { parityTrace: merged.parityTrace }
                         : {})
@@ -999,6 +1008,7 @@ async function runHeadlessHuntToTick(input) {
                 injectors: pickInjectors(merged),
                 recordSteps,
                 combatAi: true,
+                headless: true,
                 ...(merged.parityTrace !== undefined
                     ? { parityTrace: merged.parityTrace }
                     : {})

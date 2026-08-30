@@ -1,0 +1,139 @@
+{
+    "id": "firstlight_isle",
+    "label": "Firstlight Isle",
+    "notes": "Outpost core stage 1. Opaque tiles bind (weight > 0). Overlay / stone_wall / scenery / furniture are editor stamps (weight 0). Plaza furniture is new; hunt tile variant is icon at 32px.",
+    "genre": "rpg_fantasy",
+    "kind": "tiles",
+    "roles": {
+        "floor": [
+            {
+                "id": "damp_dirt_floor",
+                "weight": 12,
+                "roleId": "floor"
+            },
+            {
+                "id": "overgrown_grass_floor",
+                "weight": 6,
+                "roleId": "floor"
+            },
+            {
+                "id": "damp_wood_floor",
+                "weight": 3,
+                "roleId": "floor"
+            }
+        ],
+        "path": [
+            {
+                "id": "polished_dirt_path",
+                "weight": 3,
+                "roleId": "path"
+            },
+            {
+                "id": "dirt_wang_15",
+                "kind": "overlays",
+                "roleId": "path",
+                "wangFamily": "dirt",
+                "weight": 0
+            }
+        ],
+        "wall": [
+            {
+                "id": "damp_stone_wall",
+                "weight": 12,
+                "roleId": "wall"
+            },
+            {
+                "id": "stone_wall_pole",
+                "kind": "objects",
+                "roleId": "wall",
+                "wallFamily": "stone_wall",
+                "wallAlign": "pole",
+                "weight": 0
+            }
+        ],
+        "water": [
+            {
+                "id": "damp_deep_water",
+                "weight": 4,
+                "roleId": "water"
+            },
+            {
+                "id": "water_wang_15",
+                "kind": "overlays",
+                "roleId": "water",
+                "wangFamily": "water",
+                "weight": 0
+            }
+        ],
+        "stairs_up": [
+            {
+                "id": "broken_cave_stairs",
+                "weight": 5,
+                "roleId": "stairs_up",
+                "render": {
+                    "anchor": "bottom_center"
+                }
+            }
+        ],
+        "scenery": [
+            {
+                "id": "simple_dead_tree",
+                "weight": 0,
+                "roleId": "scenery_blocking",
+                "kind": "objects",
+                "render": {
+                    "scale": 1.4,
+                    "anchor": "bottom_center"
+                }
+            },
+            {
+                "id": "abandoned_flower_patch",
+                "weight": 0,
+                "roleId": "scenery_cover",
+                "kind": "objects"
+            },
+            {
+                "id": "village_railing",
+                "weight": 0,
+                "roleId": "scenery_blocking",
+                "kind": "objects"
+            },
+            {
+                "id": "village_torch_stand",
+                "weight": 0,
+                "roleId": "scenery_cover",
+                "kind": "objects"
+            }
+        ],
+        "furniture": [
+            {
+                "id": "village_table",
+                "weight": 0,
+                "roleId": "furniture_blocking",
+                "kind": "objects"
+            },
+            {
+                "id": "village_bench",
+                "weight": 0,
+                "roleId": "furniture_blocking",
+                "kind": "objects"
+            },
+            {
+                "id": "village_crate",
+                "weight": 0,
+                "roleId": "furniture_blocking",
+                "kind": "objects"
+            },
+            {
+                "id": "village_barrel",
+                "weight": 0,
+                "roleId": "furniture_blocking",
+                "kind": "objects"
+            }
+        ]
+    },
+    "rules": {
+        "blockedEdgeOnly": true,
+        "pathMix": 0.18
+    }
+}

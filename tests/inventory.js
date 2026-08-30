@@ -73,7 +73,9 @@ const {
     canPickupFromTile,
     getStack,
     peekTop,
-    getRenderableStack
+    getRenderableStack,
+    spawnGroundItem,
+    fillCorpse
 } = require('../kernel/core/lib/character/ground_items.js');
 const { Player } = require('../kernel/core/entities/player.js');
 
@@ -321,6 +323,19 @@ const ITEM_DB = [
         twoHanded: true,
         atk: 50,
         weight: 7000
+    },
+    {
+        id: 'monster_corpse',
+        label: 'Dead creature',
+        category: 'container',
+        volume: 20,
+        weight: 5000,
+        isCorpse: true
+    },
+    {
+        id: 'rock',
+        label: 'Rock',
+        weight: 100
     }
 ];
 
@@ -2201,6 +2216,22 @@ test('item behavioral helpers: itemIsMultiUse, itemIsUsable, itemIsEquipable', (
 
     assert.ok(itemIsEquipable({ id: 'iron_longsword', category: 'sword', slot: 'rightHand' }), 'sword is equipable');
     assert.ok(!itemIsEquipable({ id: 'blaze_field_rune', category: 'rune' }), 'rune is not equipable');
+
+    const presets = require('../kernel/core/lib/presets.js');
+    const live = presets.loadEquipment().items;
+    const shovel = live.find((it) => it.id === 'shovel');
+    const rope = live.find((it) => it.id === 'rope');
+    const pick = live.find((it) => it.id === 'pick');
+    const rod = live.find((it) => it.id === 'fishing_rod');
+    const worm = live.find((it) => it.id === 'worm');
+    assert.ok(shovel && rope && pick && rod && worm, 'shipped tool rows');
+    assert.ok(itemIsMultiUse(shovel), 'shipped shovel is multi-use');
+    assert.ok(itemIsMultiUse(rope), 'shipped rope is multi-use');
+    assert.ok(itemIsMultiUse(pick), 'shipped pick is multi-use');
+    assert.ok(!itemIsMultiUse(rod), 'fishing_rod is not multi-use');
+    assert.ok(!itemIsMultiUse(worm), 'worm is not multi-use');
+    assert.ok(!itemIsUsable(worm), 'worm is not food');
+    assert.ok(!itemIsEquipable(shovel), 'tools are not equipable');
 });
 
 // --- Container-from-ground (open bag on tile) ---
@@ -2691,6 +2722,139 @@ test('picking up ground bag makes isGroundContainerOpenable false', () => {
         }).ok
     );
     assert.ok(!isGroundContainerOpenable(ground, gBag));
+});
+
+test('spawnGroundItem places container corpse on tile', () => {
+    const ground = createGroundStore();
+    const uid = spawnGroundItem({
+        ground,
+        itemId: 'monster_corpse',
+        x: 3,
+        y: 4,
+        z: 0,
+        itemDb: ITEM_DB,
+        instFlags: { isCorpse: true, name: 'Dead Cave Rat' }
+    });
+    assert.ok(uid);
+    assert.strictEqual(peekTop(ground, 3, 4, 0), uid);
+    const inst = getItem(ground.inventory, uid);
+    assert.strictEqual(inst.isCorpse, true);
+    assert.strictEqual(inst.name, 'Dead Cave Rat');
+    const cont = getContainer(ground.inventory, uid);
+    assert.ok(cont);
+    assert.strictEqual(cont.capacity, 20);
+    assert.ok(cont.slots.every((s) => s == null));
+});
+
+test('pickup from corpse container into backpack (Cap-aware)', () => {
+    const ground = createGroundStore();
+    const corpseUid = spawnGroundItem({
+        ground,
+        itemId: 'monster_corpse',
+        x: 4,
+        y: 4,
+        z: 0,
+        itemDb: ITEM_DB,
+        instFlags: { isCorpse: true, name: 'Dead Cave Rat' }
+    });
+    fillCorpse({
+        ground,
+        corpseUid,
+        items: [{ itemId: 'steel_helm', count: 1 }],
+        itemDb: ITEM_DB,
+        x: 4,
+        y: 4,
+        z: 0
+    });
+    const inv = buildInventoryFromSeed(
+        { equipment: { backpack: 'backpack' }, backpack: [] },
+        ITEM_DB
+    );
+    const player = makePlayerAt(4, 4, 0, { level: 50, classId: 'guardian' });
+    const helmUid = getContainer(ground.inventory, corpseUid).slots.find(Boolean);
+    assert.ok(helmUid);
+    const pick = pickupItemFromGround({
+        ground,
+        uid: helmUid,
+        playerInv: inv,
+        player,
+        itemDb: ITEM_DB
+    });
+    assert.ok(pick.ok, pick.error);
+    assert.ok(getItem(inv, pick.playerUid));
+    assert.ok(!getItem(ground.inventory, helmUid));
+    assert.ok(isGroundContainerOpenable(ground, corpseUid));
+    assert.strictEqual(peekTop(ground, 4, 4, 0), corpseUid);
+});
+
+test('pickup from corpse Cap fail leaves item in corpse', () => {
+    const ground = createGroundStore();
+    const corpseUid = spawnGroundItem({
+        ground,
+        itemId: 'monster_corpse',
+        x: 4,
+        y: 4,
+        z: 0,
+        itemDb: ITEM_DB,
+        instFlags: { isCorpse: true, name: 'Dead Cave Rat' }
+    });
+    fillCorpse({
+        ground,
+        corpseUid,
+        items: [{ itemId: 'lead_anvil', count: 1 }],
+        itemDb: ITEM_DB,
+        x: 4,
+        y: 4,
+        z: 0
+    });
+    const inv = buildInventoryFromSeed(
+        {
+            equipment: {
+                backpack: 'backpack',
+                rightHand: 'iron_longsword',
+                armor: 'steel_plate'
+            },
+            backpack: ['steel_helm', 'oak_shield', 'steel_boots', 'steel_greaves']
+        },
+        ITEM_DB
+    );
+    const player = makePlayerAt(4, 4, 0, { level: 1, classId: 'guardian' });
+    const anvilUid = getContainer(ground.inventory, corpseUid).slots.find(Boolean);
+    assert.ok(anvilUid);
+    const pick = pickupItemFromGround({
+        ground,
+        uid: anvilUid,
+        playerInv: inv,
+        player,
+        itemDb: ITEM_DB
+    });
+    assert.ok(!pick.ok);
+    assert.strictEqual(pick.error, 'not_enough_cap');
+    assert.ok(getItem(ground.inventory, anvilUid));
+    assert.strictEqual(peekTop(ground, 4, 4, 0), corpseUid);
+    const cont = getContainer(ground.inventory, corpseUid);
+    assert.ok(cont.slots.includes(anvilUid));
+});
+
+test('spawnGroundItem forces container when isCorpse / volume', () => {
+    const ground = createGroundStore();
+    const uid = spawnGroundItem({
+        ground,
+        itemId: 'rock',
+        x: 1,
+        y: 1,
+        z: 0,
+        itemDb: ITEM_DB,
+        instFlags: { isCorpse: true },
+        volume: 4
+    });
+    assert.ok(uid);
+    const inst = getItem(ground.inventory, uid);
+    assert.strictEqual(inst.isCorpse, true);
+    const cont = getContainer(ground.inventory, uid);
+    assert.ok(cont);
+    assert.strictEqual(cont.capacity, 4);
+    assert.strictEqual(cont.slots.length, 4);
 });
 
 console.log(`inventory tests: ${passed} passed, ${failed} failed`);

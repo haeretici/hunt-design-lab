@@ -18,6 +18,7 @@ const {
     sampleAttack,
     sampleKill,
     sampleDeath,
+    sampleLootTaken,
     sampleConsumable,
     buildHuntSummary,
     ratePerHour,
@@ -166,6 +167,10 @@ function testEmptyAndSample() {
     assert.strictEqual(t.rawExpGained, 90);
     assert.strictEqual(t.levelUps, 2);
     assert.strictEqual(t.lootGained, 3);
+
+    sampleLootTaken(t, 20);
+    assert.strictEqual(t.lootGained, 23);
+    assert.strictEqual(t.kills, 2, 'loot taken does not add kills');
 
     log('empty + sample ok');
 }

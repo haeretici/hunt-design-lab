@@ -1,0 +1,90 @@
+{
+    "id": "outfitter_calder",
+    "label": "Calder",
+    "notes": "Outpost vendor-lite (tools and food). Trade opens shop. Currency gold_coin. Not a hunt target.",
+    "hp": 80,
+    "hpMax": 80,
+    "speed": 0,
+    "level": 1,
+    "armor": 0,
+    "mitigation": 100,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": false,
+    "isNpc": true,
+    "kind": "npc",
+    "dialogId": "outfitter_calder",
+    "shop": {
+        "currency": "gold_coin",
+        "items": [
+            {
+                "item": "backpack",
+                "buy": 10
+            },
+            {
+                "item": "bag",
+                "buy": 4
+            },
+            {
+                "item": "bread",
+                "buy": 3
+            },
+            {
+                "item": "carrot",
+                "buy": 1
+            },
+            {
+                "item": "cheese",
+                "buy": 5,
+                "sell": 2
+            },
+            {
+                "item": "fishing_rod",
+                "buy": 150,
+                "sell": 30
+            },
+            {
+                "item": "ham",
+                "buy": 8
+            },
+            {
+                "item": "machete",
+                "buy": 6
+            },
+            {
+                "item": "meat",
+                "buy": 5,
+                "sell": 2
+            },
+            {
+                "item": "pick",
+                "buy": 15
+            },
+            {
+                "item": "rope",
+                "buy": 50,
+                "sell": 8
+            },
+            {
+                "item": "shovel",
+                "buy": 10,
+                "sell": 2
+            },
+            {
+                "item": "torch",
+                "buy": 2
+            },
+            {
+                "item": "worm",
+                "buy": 1
+            }
+        ]
+    },
+    "canBlock": false,
+    "attacks": [],
+    "flags": {
+        "attackable": false,
+        "hostile": false,
+        "isNpc": true
+    }
+}

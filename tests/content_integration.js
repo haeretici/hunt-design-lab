@@ -268,6 +268,17 @@ function testEquipmentCategoryDefaults() {
         combat: { atk: 99 }
     });
     assert.strictEqual(override.atk, 99);
+
+    assert.ok(EQUIPMENT_CATEGORY_DEFAULTS.tool);
+    assert.ok(!EQUIPMENT_CATEGORY_DEFAULTS.tool.slot);
+    const toolFilled = fillEquipmentCombatDefaults({
+        id: 'shovel',
+        category: 'tool',
+        weight: 3500
+    });
+    assert.ok(!toolFilled.slot);
+    assert.ok(!toolFilled.weaponType);
+    assert.strictEqual(toolFilled.weight, 3500);
     log('equipment defaults', { swordAtk: sword.atk, shieldDef: shield.defense });
 }
 

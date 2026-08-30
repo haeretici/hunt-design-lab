@@ -9816,6 +9816,12 @@
             "spriteId": "ancient_stompers"
         },
         {
+            "id": "fishing_rod",
+            "label": "Fishing Rod",
+            "weight": 850,
+            "customSprite": "fishing_rod"
+        },
+        {
             "id": "fists_of_enlightenment",
             "label": "Fists of Enlightenment",
             "category": "fist",
@@ -16368,6 +16374,19 @@
             "spriteId": "arcane_bronze_cuirass"
         },
         {
+            "id": "monster_corpse",
+            "label": "Dead creature",
+            "category": "container",
+            "weight": 5000,
+            "type": [
+                "container"
+            ],
+            "volume": 20,
+            "isCorpse": true,
+            "customSprite": "dead_minotaur_item",
+            "spriteId": "cursed_round_shield"
+        },
+        {
             "id": "mystic_robe",
             "label": "Mystic Robe",
             "category": "armor",
@@ -19008,6 +19027,13 @@
             "spriteId": "ancient_wall_shield"
         },
         {
+            "id": "pick",
+            "label": "Pick",
+            "category": "tool",
+            "weight": 4500,
+            "customSprite": "pick"
+        },
+        {
             "id": "piercing_bolt",
             "label": "Piercing Bolt",
             "category": "ammo",
@@ -21215,6 +21241,13 @@
             "spriteId": "bloodied_falchion"
         },
         {
+            "id": "rope",
+            "label": "Rope",
+            "category": "tool",
+            "weight": 1800,
+            "customSprite": "rope"
+        },
+        {
             "id": "rose_shield",
             "label": "Rose Shield",
             "category": "shield",
@@ -22698,6 +22731,13 @@
             "imbuementSlots": 1,
             "customSprite": "shoulder_plate",
             "spriteId": "arcane_bronze_cuirass"
+        },
+        {
+            "id": "shovel",
+            "label": "Shovel",
+            "category": "tool",
+            "weight": 3500,
+            "customSprite": "shovel"
         },
         {
             "id": "shroud_of_despair",
@@ -28977,6 +29017,13 @@
             "defense": 7,
             "customSprite": "wooden_sword",
             "spriteId": "ancient_broadsword"
+        },
+        {
+            "id": "worm",
+            "label": "Worm",
+            "stackable": true,
+            "weight": 5,
+            "customSprite": "worm"
         },
         {
             "id": "wyvern_fang",

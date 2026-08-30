@@ -11,6 +11,77 @@
 
 'use strict';
 
+/**
+ * First strict boolean in `values`, else null.
+ * @param {unknown[]} values
+ * @returns {boolean|null}
+ */
+function pickOptionalBoolean(values) {
+    const list = Array.isArray(values) ? values : [];
+    for (let i = 0; i < list.length; i++) {
+        if (typeof list[i] === 'boolean') return list[i];
+    }
+    return null;
+}
+
+/**
+ * Session corpse-loot flag. Hunt/opts pin wins. Headless (runner extra or
+ * Settings.HEADLESS) defaults **false** so DPS/golden/CI keep scalar
+ * lootValue. Watch inherits mode.features (standard: true) then Settings.
+ *
+ * @param {object|null|undefined} resolved
+ * @param {object|null|undefined} extra
+ * @returns {boolean}
+ */
+function resolveCorpseLootFlag(resolved, extra) {
+    const x = extra || {};
+    const r = resolved || {};
+    const explicit = pickOptionalBoolean([
+        x.corpseLoot,
+        x.features && x.features.corpseLoot,
+        r.corpseLoot,
+        r.features && r.features.corpseLoot
+    ]);
+    if (explicit !== null) return explicit;
+
+    const headless =
+        x.headless === true ||
+        (x.headless !== false &&
+            (function () {
+                try {
+                    const { Settings } = require('../../settings.js');
+                    return !!(Settings && Settings.HEADLESS);
+                } catch (_) {
+                    return false;
+                }
+            })());
+    if (headless) return false;
+
+    try {
+        const { Settings } = require('../../settings.js');
+        if (
+            Settings &&
+            Settings.features &&
+            typeof Settings.features.corpseLoot === 'boolean'
+        ) {
+            return Settings.features.corpseLoot;
+        }
+    } catch (_) {
+        /* Settings optional */
+    }
+
+    try {
+        const { getActiveMode } = require('../../core/lib/modes.js');
+        const m = getActiveMode();
+        if (m && m.features && typeof m.features.corpseLoot === 'boolean') {
+            return m.features.corpseLoot;
+        }
+    } catch (_) {
+        /* modes optional */
+    }
+    return false;
+}
+
 /** Injector keys accepted by Simulator (functions / tables). */
 const INJECTOR_KEYS = [
     'creatureLoader',
@@ -142,7 +213,8 @@ function huntToSimulatorOpts(resolved, extra) {
             : Array.isArray(r.commandHistory)
               ? r.commandHistory.slice()
               : null,
-        forceAiControl: x.forceAiControl != null ? !!x.forceAiControl : !!r.forceAiControl
+        forceAiControl: x.forceAiControl != null ? !!x.forceAiControl : !!r.forceAiControl,
+        corpseLoot: resolveCorpseLootFlag(r, x)
     };
 
     // Inventory practice: keep watch canvas alive after hunt end (drop/pickup lab)
@@ -218,13 +290,16 @@ const SIMULATOR_HUNT_FIELD_KEYS = Object.freeze([
     'perFloorWaypoints',
     'inventoryPractice',
     'commandHistory',
-    'forceAiControl'
+    'forceAiControl',
+    'corpseLoot'
 ]);
 
 module.exports = {
     INJECTOR_KEYS,
     SIMULATOR_HUNT_FIELD_KEYS,
     pickInjectors,
+    pickOptionalBoolean,
+    resolveCorpseLootFlag,
     isSessionTerminal,
     huntToSimulatorOpts
 };

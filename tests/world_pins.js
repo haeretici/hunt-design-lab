@@ -390,6 +390,7 @@ const SEED_DB = [
     { id: 'rope', label: 'Rope', category: 'tool' },
     { id: 'shovel', label: 'Shovel', category: 'tool' },
     { id: 'elven_rope', label: 'Elven Rope', category: 'tool' },
+    { id: 'strange_amulet', label: 'Strange Amulet', category: 'amulet', slot: 'amulet', weight: 600 },
     { id: 'blueberry', label: 'Blueberry', stackable: true, weight: 1 },
     { id: 'bush', label: 'Bush' },
     { id: 'bush_empty', label: 'Empty Bush' },
@@ -1962,6 +1963,78 @@ function testHarvestGiveThenCooldown() {
     log('harvest give then cooldown ok');
 }
 
+function testHarvestToolDigNoHop() {
+    assert.strictEqual(resolveToolRole('pick'), null);
+    const ground = createGroundStore();
+    seedWorldPinsOntoGround(
+        ground,
+        [
+            {
+                id: 'harvest_7_99_195',
+                kind: 'harvest',
+                catalogId: 'abandoned_meteor_rock',
+                catalogKind: 'objects',
+                x: 1,
+                y: 1,
+                z: 0,
+                shared: false,
+                when: { item: 'shovel', min: 1 },
+                once: { storage: 'firstlight.morris.amulet', eq: 1 },
+                give: [{ item: 'strange_amulet', count: 1 }],
+                set: { 'firstlight.morris.amulet': 2 }
+            }
+        ],
+        { itemDb: SEED_DB }
+    );
+    const inst = getItem(
+        ground.inventory,
+        groundUidForWorldPin(ground, 'harvest_7_99_195')
+    );
+    const player = makeChestPlayer({
+        storage: { 'firstlight.morris.amulet': 1 }
+    });
+    const noTool = useWorldHarvest(player, inst, { itemDb: SEED_DB, time: 0 });
+    assert.strictEqual(noTool.ok, false);
+    assert.strictEqual(noTool.text, DEFAULT_HARVEST_EMPTY_TEXT);
+    assert.ok(giveItemToPlayer(player, { itemId: 'shovel', count: 1 }, SEED_DB).ok);
+    const dug = useWorldHarvest(player, inst, { itemDb: SEED_DB, time: 0 });
+    assert.strictEqual(dug.ok, true, dug.reason);
+    assert.strictEqual(countPlayerItem(player, 'strange_amulet'), 1);
+    assert.strictEqual(countPlayerItem(player, 'shovel'), 1, 'shovel is not consumed');
+    assert.strictEqual(getStorage(player, 'firstlight.morris.amulet'), 2);
+    assert.ok(!inst.worldPinUsed, 'shared false does not lock the hunt');
+    const again = useWorldHarvest(player, inst, { itemDb: SEED_DB, time: 1 });
+    assert.strictEqual(again.ok, false);
+    const other = makeChestPlayer({
+        id: 3,
+        storage: { 'firstlight.morris.amulet': 1 }
+    });
+    assert.ok(giveItemToPlayer(other, { itemId: 'shovel', count: 1 }, SEED_DB).ok);
+    const otherDig = useWorldHarvest(other, inst, { itemDb: SEED_DB, time: 1 });
+    assert.strictEqual(otherDig.ok, true, otherDig.reason);
+    log('harvest tool dig no hop ok');
+}
+
+function testFirstlightAmuletHarvestPin() {
+    const mapsRoot = path.join(__dirname, '..', 'assets', 'legacy', 'maps', 'firstlight_isle');
+    const pack = tryResolveHybridMapPack(['07'], { mapsRoot, id: 'firstlight_isle' });
+    assert.ok(pack && Array.isArray(pack.world), 'firstlight hybrid world');
+    const pin = pack.world.find((row) => row && row.id === 'harvest_7_99_195');
+    assert.ok(pin, 'south-beach harvest pin');
+    assert.strictEqual(pin.kind, 'harvest');
+    assert.strictEqual(pin.shared, false);
+    assert.strictEqual(pin.x, 99);
+    assert.strictEqual(pin.y, 195);
+    assert.strictEqual(String(pin.z), '7');
+    assert.ok(pin.when && pin.when.item === 'shovel');
+    assert.ok(pin.once && pin.once.storage === 'firstlight.morris.amulet');
+    assert.strictEqual(pin.once.eq, 1);
+    assert.ok(pin.give && pin.give[0] && pin.give[0].item === 'strange_amulet');
+    assert.strictEqual(pin.set['firstlight.morris.amulet'], 2);
+    assert.ok(pin.tag !== 'shovel', 'must not be a shovel hop tag');
+    log('firstlight amulet harvest pin ok');
+}
+
 function testTrapStepOnDamageAndField() {
     const z = 7;
     const map = makeFlatMap(3, 1, z, null);
@@ -2135,6 +2208,8 @@ async function main() {
     testLeverWaveUnlock();
     testLeverUnlockDoor();
     testHarvestGiveThenCooldown();
+    testHarvestToolDigNoHop();
+    testFirstlightAmuletHarvestPin();
     testTrapStepOnDamageAndField();
     testTrapCooldownRestore();
     testTrapStepViaTileMapMove();

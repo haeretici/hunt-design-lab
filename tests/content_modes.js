@@ -106,6 +106,7 @@ function main() {
         assert.strictEqual(m.features.monsterSummons, true);
         assert.strictEqual(m.features.expProgression, false);
         assert.strictEqual(m.features.skillProgression, false);
+        assert.strictEqual(m.features.corpseLoot, true);
     });
 
     test('optional legacy pack enables spawn source when installed', () => {

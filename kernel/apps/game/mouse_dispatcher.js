@@ -2,8 +2,9 @@
  * Canvas mouse action dispatcher — pure hit resolve + intent matrix.
  *
  * Modes 0/1/2 live. Classic unshifted RMB: useThing (open/use) before pickup
- * (legacy parity). Stage 5a: QUICKLOOT / OPEN_CORPSE stubs. Stage 6b: TALK_NPC
- * is an adapter intent (walk-then-talk; stub only when the NPC has no dialog).
+ * (legacy parity). Stage 5a/5b: QUICKLOOT stays stub; OPEN_CORPSE is live
+ * (walk-then-open). Stage 6b: TALK_NPC is an adapter intent (walk-then-talk;
+ * stub only when the NPC has no dialog).
  * Stage 7: Classic LMB+RMB Look chord + moveStack amount rules (pure).
  * Stage 8: Browse Field (virtual tile container).
  * Ground drag stays in inventory_panel (Q1.1 A).
@@ -830,14 +831,19 @@ function buildCanvasContextMenuEntries(hit, opts) {
                 itemId: hit.pickableItem.id || hit.pickableInst && hit.pickableInst.itemId
             });
         }
-        if (hit.pickableItem && itemIsContainer(hit.pickableItem)) {
+        const openPickable =
+            (hit.pickableItem && itemIsContainer(hit.pickableItem)) ||
+            thingIsCorpse(hit.pickableInst, hit.pickableItem);
+        if (openPickable) {
             const pinKind = hit.pickableInst && hit.pickableInst.worldPinKind;
             if (!pinKind || pinKind === 'container') {
                 entries.push({
                     id: 'open',
                     label: 'Open',
                     sourceUid: hit.pickableUid,
-                    itemId: hit.pickableItem.id || hit.pickableInst && hit.pickableInst.itemId,
+                    itemId:
+                        (hit.pickableItem && hit.pickableItem.id) ||
+                        (hit.pickableInst && hit.pickableInst.itemId),
                     ground: true
                 });
             }
@@ -985,7 +991,8 @@ function tryTalkNpc(hit, _playerTile) {
 }
 
 /**
- * Stage 5a: reserved quickloot intent (adapter FCT; no inventory mutation).
+ * Stage 5a: reserved quickloot intent (still stub). Adapter maps uid → open
+ * (D.9); no vacuum until F1.
  * @param {object} hit
  * @returns {object}
  */
@@ -1000,17 +1007,44 @@ function quicklootStubIntent(hit) {
 }
 
 /**
- * Stage 5a: reserved open-corpse intent (adapter FCT; no container open).
+ * Live OPEN_CORPSE (adapter walk-then-open). No `stub`.
  * @param {object} hit
  * @returns {object}
  */
-function openCorpseStubIntent(hit) {
+function openCorpseIntent(hit) {
+    const uid = hit && hit.pickableUid != null ? hit.pickableUid : null;
     return {
         type: 'OPEN_CORPSE',
-        stub: true,
         tile: hit ? { x: hit.x, y: hit.y, z: hit.z } : null,
-        pickableUid: hit && hit.pickableUid != null ? hit.pickableUid : null,
-        sourceUid: hit && hit.pickableUid != null ? hit.pickableUid : null,
+        pickableUid: uid,
+        sourceUid: uid,
+        ground: true,
+        isCorpse: true
+    };
+}
+
+/**
+ * D.9: while F1 vacuum is unshipped, map stub QUICKLOOT with a corpse uid to
+ * OPEN_CORPSE so Classic loot mode 0 RMB is not a dead FCT. Null → keep FCT.
+ * @param {object|null|undefined} intent
+ * @returns {object|null}
+ */
+function mapStubQuicklootToOpen(intent) {
+    if (!intent || intent.type !== 'QUICKLOOT') return null;
+    if (intent.stub !== true) return null;
+    const uid =
+        intent.pickableUid != null
+            ? intent.pickableUid
+            : intent.sourceUid != null
+              ? intent.sourceUid
+              : null;
+    if (uid == null || uid === '') return null;
+    return {
+        type: 'OPEN_CORPSE',
+        pickableUid: uid,
+        sourceUid: uid,
+        ground: true,
+        tile: intent.tile || null,
         isCorpse: true
     };
 }
@@ -1029,7 +1063,8 @@ function normalizeLootMode(lootMode) {
 }
 
 /**
- * Classic corpse loot branch when hit is corpse-like (Stage 5a stubs only).
+ * Classic corpse loot branch when hit is corpse-like.
+ * OPEN_CORPSE is live; QUICKLOOT stays stub (adapter maps stub → open).
  * Returns null when no corpse or this input is not a loot-mode slot.
  *
  * @param {object} hit
@@ -1045,15 +1080,15 @@ function classicCorpseLootIntents(hit, lootMode, mods, button) {
 
     // Shift + RMB/LMB on corpse: mode 0 open; mode 1 quickloot; mode 2 → Look fallthrough
     if (mods.shift) {
-        if (lm === 0) return [openCorpseStubIntent(hit)];
+        if (lm === 0) return [openCorpseIntent(hit)];
         if (lm === 1) return [quicklootStubIntent(hit)];
         return null;
     }
 
     if (button === 'right') {
-        // Loot: Right → quickloot; SHIFT+Right / Left → open corpse
+        // Loot: Right → quickloot stub (adapter opens); SHIFT+Right / Left → open
         if (lm === 0) return [quicklootStubIntent(hit)];
-        return [openCorpseStubIntent(hit)];
+        return [openCorpseIntent(hit)];
     }
 
     // Loot: Left — unshifted LMB quickloots corpse only (not attack)
@@ -1132,7 +1167,7 @@ function smartCtrl(hit) {
     }
     // Legacy: world container/corpse without parent → open (not menu)
     if (isCorpseLike(hit)) {
-        return [openCorpseStubIntent(hit)];
+        return [openCorpseIntent(hit)];
     }
     return [openContextMenuIntent(hit)];
 }
@@ -1287,7 +1322,7 @@ function classicUnshiftedRight(hit, flags, playerTile, lootMode) {
         ];
     }
 
-    // Stage 5a: corpse loot stubs only when corpse-like (no-op until 5b)
+    // Corpse loot modes (OPEN live; QUICKLOOT stub → adapter open)
     const corpseLoot = classicCorpseLootIntents(
         hit,
         lootMode,
@@ -1351,7 +1386,7 @@ function regularCtrlUse(hit) {
  * @param {{ shift?: boolean, ctrl?: boolean, alt?: boolean, meta?: boolean }} [input.modifiers]
  * @param {object|null} input.hit from resolveCanvasHit
  * @param {number} [input.mode] mouseControlMode (0 Regular, 1 Classic, 2 Smart); default 1
- * @param {number} [input.lootMode] classic lootControlMode (0/1/2); stub body until 5b
+ * @param {number} [input.lootMode] classic lootControlMode (0/1/2); OPEN live, QUICKLOOT stub
  * @param {boolean} [input.talkOnRightClick] Regular: RMB talks to NPC when true (Stage 6b)
  * @param {object|null|undefined} [input.activeCursor] uiState.activeActionCursor
  * @param {string} [input.playerControlMode] 'manual' | 'ai'
@@ -1666,7 +1701,8 @@ module.exports = {
     npcHasDialogData,
     TALK_NPC_RANGE,
     quicklootStubIntent,
-    openCorpseStubIntent,
+    openCorpseIntent,
+    mapStubQuicklootToOpen,
     normalizeLootMode,
     allowGroundLmbDrag,
     classicGroundUseThingIntents,

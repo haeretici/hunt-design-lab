@@ -132,7 +132,10 @@ function normalizeMode(raw, fallbackId) {
             // Phase C: credit player.experience + level-ups on kill (default off).
             expProgression: features.expProgression === true,
             // Phase D: live skill tries (default off; no-op until D lands).
-            skillProgression: features.skillProgression === true
+            skillProgression: features.skillProgression === true,
+            // Wild-death corpse container. standard: true (D4). Headless
+            // hunt opts pin false so DPS / golden / CI stay scalar.
+            corpseLoot: features.corpseLoot === true
         },
         defaults: {
             huntId: defaults.huntId || null,

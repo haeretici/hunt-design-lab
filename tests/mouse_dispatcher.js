@@ -1,5 +1,5 @@
 /**
- * mouse_dispatcher — Classic / Regular / Smart + Stage 5a stubs + Stage 6b talk + Stage 8 Browse Field.
+ * mouse_dispatcher — Classic / Regular / Smart + Stage 5a/5b D3 (OPEN live, QUICKLOOT stub) + Stage 6b talk + Stage 8 Browse Field.
  */
 
 'use strict';
@@ -30,7 +30,8 @@ const {
     browseFieldTileKey,
     isBrowsableGroundInst,
     BROWSE_FIELD_CAPACITY,
-    TALK_NPC_RANGE
+    TALK_NPC_RANGE,
+    mapStubQuicklootToOpen
 } = require('../kernel/apps/game/mouse_dispatcher.js');
 const { createGroundStore } = require('../kernel/core/lib/character/ground_items.js');
 const { itemIsContainer } = require('../kernel/core/lib/character/inventory.js');
@@ -1494,7 +1495,7 @@ test('allowGroundLmbDrag mode 2 blocks creature + use items', () => {
     );
 });
 
-// --- Stage 5a: loot / quickloot / open corpse stubs ---
+// --- Stage 5a/5b D3: QUICKLOOT stub; OPEN_CORPSE live ---
 
 function placeCorpse(sim, x, y, z) {
     return placeGround(sim.groundItems, x, y, z, 'test_corpse');
@@ -1545,9 +1546,10 @@ test('Classic lootMode 0 unshifted RMB corpse → QUICKLOOT stub', () => {
     );
     assert.strictEqual(intents[0].type, 'QUICKLOOT');
     assert.strictEqual(intents[0].stub, true);
+    assert.ok(intents[0].pickableUid);
 });
 
-test('Classic lootMode 0 Shift+RMB corpse → OPEN_CORPSE stub', () => {
+test('Classic lootMode 0 Shift+RMB corpse → OPEN_CORPSE', () => {
     const player = makePlayer();
     const sim = makeSim();
     placeCorpse(sim, 3, 3, 0);
@@ -1566,7 +1568,10 @@ test('Classic lootMode 0 Shift+RMB corpse → OPEN_CORPSE stub', () => {
         })
     );
     assert.strictEqual(intents[0].type, 'OPEN_CORPSE');
-    assert.strictEqual(intents[0].stub, true);
+    assert.ok(!intents[0].stub);
+    assert.ok(intents[0].pickableUid);
+    assert.strictEqual(intents[0].sourceUid, intents[0].pickableUid);
+    assert.strictEqual(intents[0].isCorpse, true);
 });
 
 test('Classic lootMode 1 unshifted RMB corpse → OPEN_CORPSE; Shift → QUICKLOOT', () => {
@@ -1583,6 +1588,7 @@ test('Classic lootMode 1 unshifted RMB corpse → OPEN_CORPSE; Shift → QUICKLO
         baseInput(hit, { button: 'right', mode: 1, lootMode: 1 })
     );
     assert.strictEqual(open[0].type, 'OPEN_CORPSE');
+    assert.ok(!open[0].stub);
     const ql = processMouseAction(
         baseInput(hit, {
             button: 'right',
@@ -1592,6 +1598,7 @@ test('Classic lootMode 1 unshifted RMB corpse → OPEN_CORPSE; Shift → QUICKLO
         })
     );
     assert.strictEqual(ql[0].type, 'QUICKLOOT');
+    assert.strictEqual(ql[0].stub, true);
 });
 
 test('Classic lootMode 2 LMB corpse → QUICKLOOT; RMB → OPEN_CORPSE', () => {
@@ -1613,10 +1620,12 @@ test('Classic lootMode 2 LMB corpse → QUICKLOOT; RMB → OPEN_CORPSE', () => {
         })
     );
     assert.strictEqual(left[0].type, 'QUICKLOOT');
+    assert.strictEqual(left[0].stub, true);
     const right = processMouseAction(
         baseInput(hit, { button: 'right', mode: 1, lootMode: 2 })
     );
     assert.strictEqual(right[0].type, 'OPEN_CORPSE');
+    assert.ok(!right[0].stub);
 });
 
 test('Classic lootMode does not change non-corpse behavior', () => {
@@ -1662,7 +1671,7 @@ test('Smart LMB corpse → QUICKLOOT stub (priority slot 4)', () => {
     assert.strictEqual(intents[0].stub, true);
 });
 
-test('Context menu corpse stubs disabled; no false success fields', () => {
+test('Context menu Open enabled on corpse; Loot/Quickloot still disabled', () => {
     const player = makePlayer();
     const sim = makeSim();
     placeCorpse(sim, 2, 2, 0);
@@ -1673,8 +1682,10 @@ test('Context menu corpse stubs disabled; no false success fields', () => {
         itemDb
     });
     const entries = buildCanvasContextMenuEntries(hit);
+    const open = entries.find((e) => e.id === 'open');
     const loot = entries.find((e) => e.id === 'loot_corpse');
     const ql = entries.find((e) => e.id === 'quickloot');
+    assert.ok(open && !open.disabled && open.sourceUid);
     assert.ok(loot && loot.disabled === true && loot.stub === true);
     assert.ok(ql && ql.disabled === true && ql.stub === true);
 });
@@ -1685,13 +1696,42 @@ test('QUICKLOOT / OPEN_CORPSE remain adapter intents (not command queue)', () =>
         player,
         [
             { type: 'QUICKLOOT', stub: true },
-            { type: 'OPEN_CORPSE', stub: true },
+            { type: 'OPEN_CORPSE' },
             { type: 'TALK_NPC', stub: true }
         ],
         {}
     );
     assert.strictEqual(remaining.length, 3);
     assert.strictEqual(player.commandQueue.length, 0);
+});
+
+test('mapStubQuicklootToOpen: stub + uid → OPEN_CORPSE; no uid → null', () => {
+    const mapped = mapStubQuicklootToOpen({
+        type: 'QUICKLOOT',
+        stub: true,
+        pickableUid: 'corpse-1',
+        tile: { x: 3, y: 3, z: 0 },
+        isCorpse: true
+    });
+    assert.ok(mapped);
+    assert.strictEqual(mapped.type, 'OPEN_CORPSE');
+    assert.ok(!mapped.stub);
+    assert.strictEqual(mapped.sourceUid, 'corpse-1');
+    assert.strictEqual(mapped.pickableUid, 'corpse-1');
+    assert.strictEqual(mapped.ground, true);
+    assert.deepStrictEqual(mapped.tile, { x: 3, y: 3, z: 0 });
+    assert.strictEqual(
+        mapStubQuicklootToOpen({ type: 'QUICKLOOT', stub: true }),
+        null
+    );
+    assert.strictEqual(
+        mapStubQuicklootToOpen({
+            type: 'QUICKLOOT',
+            pickableUid: 'corpse-1'
+        }),
+        null,
+        'live QUICKLOOT (F1) is not remapped'
+    );
 });
 
 // --- Stage 6a: NPC talk proximity stubs ---
@@ -1804,7 +1844,7 @@ test('Alt+RMB on NPC → no SET_TARGET', () => {
     assert.strictEqual(intents.length, 0);
 });
 
-test('Smart Ctrl on corpse → OPEN_CORPSE stub', () => {
+test('Smart Ctrl on corpse → OPEN_CORPSE', () => {
     const player = makePlayer();
     const sim = makeSim();
     placeCorpse(sim, 2, 2, 0);
@@ -1823,7 +1863,9 @@ test('Smart Ctrl on corpse → OPEN_CORPSE stub', () => {
         })
     );
     assert.strictEqual(intents[0].type, 'OPEN_CORPSE');
-    assert.strictEqual(intents[0].stub, true);
+    assert.ok(!intents[0].stub);
+    assert.ok(intents[0].pickableUid);
+    assert.strictEqual(intents[0].sourceUid, intents[0].pickableUid);
 });
 
 test('Classic RMB hostile NPC → SET_TARGET, never TALK_NPC', () => {

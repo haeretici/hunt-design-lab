@@ -2,7 +2,7 @@
     "version": 1,
     "genre": "rpg_fantasy",
     "kind": "objects",
-    "updatedAt": "2026-08-29T16:34:54.338Z",
+    "updatedAt": "2026-08-29T21:14:40.185Z",
     "items": [
         {
             "id": "abandoned_castle_wall_piece",
@@ -1516,6 +1516,66 @@
             "createdAt": "2026-07-25"
         },
         {
+            "id": "village_barrel",
+            "technical": "Village Barrel",
+            "alias": "Barrel",
+            "genre": "rpg_fantasy",
+            "kind": "objects",
+            "category": "container",
+            "opaqueAlpha": false,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/objects/original/Village_Barrel.png",
+                "transformed": null
+            },
+            "tags": [
+                "container"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-08-29"
+        },
+        {
+            "id": "village_bench",
+            "technical": "Village Bench",
+            "alias": "Bench",
+            "genre": "rpg_fantasy",
+            "kind": "objects",
+            "category": "furniture",
+            "opaqueAlpha": false,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/objects/original/Village_Bench.png",
+                "transformed": null
+            },
+            "tags": [
+                "furniture"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-08-29"
+        },
+        {
+            "id": "village_crate",
+            "technical": "Village Crate",
+            "alias": "Crate",
+            "genre": "rpg_fantasy",
+            "kind": "objects",
+            "category": "container",
+            "opaqueAlpha": false,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/objects/original/Village_Crate.png",
+                "transformed": null
+            },
+            "tags": [
+                "container"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-08-29"
+        },
+        {
             "id": "village_fence",
             "technical": "Village Fence",
             "alias": "Fence wall",
@@ -1590,6 +1650,46 @@
             ],
             "source": "pipeline",
             "createdAt": "2026-07-24"
+        },
+        {
+            "id": "village_table",
+            "technical": "Village Table",
+            "alias": "Table",
+            "genre": "rpg_fantasy",
+            "kind": "objects",
+            "category": "furniture",
+            "opaqueAlpha": false,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/objects/original/Village_Table.png",
+                "transformed": null
+            },
+            "tags": [
+                "furniture"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-08-29"
+        },
+        {
+            "id": "village_torch_stand",
+            "technical": "Village Torch Stand",
+            "alias": "Torch Stand",
+            "genre": "rpg_fantasy",
+            "kind": "objects",
+            "category": "deco",
+            "opaqueAlpha": false,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/objects/original/Village_Torch_Stand.png",
+                "transformed": null
+            },
+            "tags": [
+                "deco"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-08-29"
         },
         {
             "id": "village_trapdoor",

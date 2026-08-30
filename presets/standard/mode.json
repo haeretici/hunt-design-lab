@@ -18,7 +18,8 @@
         "runeConsumption": true,
         "monsterSummons": true,
         "expProgression": false,
-        "skillProgression": false
+        "skillProgression": false,
+        "corpseLoot": true
     },
     "defaults": {
         "huntId": "golden_cave_crawl",
@@ -41,7 +42,8 @@
             "biome_volume_macro",
             "test_arena",
             "standard_arena_rest_chain",
-            "wp_test_1"
+            "wp_test_1",
+            "firstlight_outpost"
         ],
         "populations": [
             "catalog_dwarves",
@@ -1089,6 +1091,7 @@
             "orchid_frog",
             "ore_walker",
             "organic_matter",
+            "outfitter_calder",
             "overcharged_disruption",
             "overcharged_energy_elemental",
             "paladin_familiar",
@@ -1642,6 +1645,7 @@
             "zombie"
         ],
         "dialogs": [
+            "outfitter_calder",
             "town_guide"
         ],
         "waypoints": [

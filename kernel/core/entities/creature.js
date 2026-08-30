@@ -346,6 +346,10 @@ class Creature extends GameObject {
         if (template.maxBlock != null) this.maxBlock = Number(template.maxBlock);
         if (template.exp != null) this.expValue = Number(template.exp);
         if (template.lootValue != null) this.lootValue = Number(template.lootValue);
+        if (Array.isArray(template.loot)) this.loot = template.loot.slice();
+        if (template.corpseId != null && String(template.corpseId).trim()) {
+            this.corpseId = String(template.corpseId).trim();
+        }
         if (template.aggro !== undefined) this.aggro = !!template.aggro;
         if (template.resists) {
             this.resists = Object.assign({}, DEFAULT_RESISTS, template.resists);

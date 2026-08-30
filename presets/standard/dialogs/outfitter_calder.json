@@ -1,0 +1,20 @@
+{
+    "id": "outfitter_calder",
+    "greeting": "Looking for supplies?",
+    "start": "start",
+    "nodes": {
+        "start": {
+            "text": "Ropes, shovels, food. What do you need?",
+            "replies": [
+                {
+                    "label": "Trade",
+                    "action": "open_shop"
+                },
+                {
+                    "label": "Bye",
+                    "action": "close"
+                }
+            ]
+        }
+    }
+}

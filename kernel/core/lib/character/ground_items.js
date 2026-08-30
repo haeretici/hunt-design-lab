@@ -40,8 +40,11 @@ const {
     totalCarriedWeight,
     canCarryAdditional,
     isInsideSubtree,
-    ensureItemContainer
+    ensureItemContainer,
+    containerCapacity,
+    DEFAULT_ROOT_SLOTS
 } = require('./inventory.js');
+const { sampleLootTaken } = require('../telemetry.js');
 
 /** Max items drawn per tile stack (top of pile). */
 const MAX_GROUND_RENDER = 10;
@@ -420,6 +423,276 @@ function pushToTileStack(ground, uid, x, y, z) {
 }
 
 /**
+ * @param {number} n
+ * @returns {(null)[]}
+ */
+function emptySlots(n) {
+    const cap = Math.max(0, Math.floor(n) || 0);
+    /** @type {(null)[]} */
+    const slots = [];
+    for (let i = 0; i < cap; i++) slots.push(null);
+    return slots;
+}
+
+/**
+ * Ensure `uid` is a container of `capacity` (creates or resizes).
+ * @param {import('./inventory.js').Inventory} inv
+ * @param {string} uid
+ * @param {number} capacity
+ * @returns {object}
+ */
+function forceItemContainer(inv, uid, capacity) {
+    const cap =
+        Number.isFinite(Number(capacity)) && Number(capacity) >= 1
+            ? Math.floor(Number(capacity))
+            : DEFAULT_ROOT_SLOTS;
+    const existing = inv.containers[uid];
+    if (existing) {
+        existing.capacity = cap;
+        if (!Array.isArray(existing.slots)) existing.slots = emptySlots(cap);
+        while (existing.slots.length < cap) existing.slots.push(null);
+        if (existing.slots.length > cap) existing.slots.length = cap;
+        return existing;
+    }
+    inv.containers[uid] = {
+        capacity: cap,
+        slots: emptySlots(cap),
+        isRoot: false
+    };
+    return inv.containers[uid];
+}
+
+/**
+ * @param {object|null|undefined} inst
+ * @param {object|null|undefined} template
+ * @returns {boolean}
+ */
+function itemLooksCorpse(inst, template) {
+    if (inst && (inst.isCorpse === true || inst.corpse === true)) return true;
+    if (!template) return false;
+    if (template.isCorpse === true || template.corpse === true) return true;
+    const kind = template.kind != null ? String(template.kind).toLowerCase() : '';
+    if (kind === 'corpse') return true;
+    const cat =
+        template.category != null ? String(template.category).toLowerCase() : '';
+    return cat === 'corpse';
+}
+
+/**
+ * Gold `worth * count`; else 1 per insert. Corpses themselves are 0
+ * (contents counted separately).
+ * @param {object|null|undefined} inst
+ * @param {object[]|Record<string, object>|null} [itemDb]
+ * @returns {number}
+ */
+function itemLootCredit(inst, itemDb) {
+    if (!inst) return 0;
+    const template = findItem(itemDb, inst.itemId);
+    if (itemLooksCorpse(inst, template)) return 0;
+    const count = Math.max(1, getStackCount(inst) || 1);
+    if (template && template.worth != null && Number.isFinite(Number(template.worth))) {
+        return Math.max(0, Math.floor(Number(template.worth) * count));
+    }
+    return 1;
+}
+
+/**
+ * Worth of uid plus nested slots. Corpse bags contribute contents only.
+ * @param {import('./inventory.js').Inventory} inv
+ * @param {string} uid
+ * @param {object[]|Record<string, object>|null} [itemDb]
+ * @returns {number}
+ */
+function subtreeLootCredit(inv, uid, itemDb) {
+    const inst = getItem(inv, uid);
+    if (!inst) return 0;
+    const template = findItem(itemDb, inst.itemId);
+    if (itemLooksCorpse(inst, template)) {
+        const cont = getContainer(inv, uid);
+        if (!cont || !Array.isArray(cont.slots)) return 0;
+        let n = 0;
+        for (let i = 0; i < cont.slots.length; i++) {
+            if (cont.slots[i]) n += subtreeLootCredit(inv, cont.slots[i], itemDb);
+        }
+        return n;
+    }
+    return itemLootCredit(inst, itemDb);
+}
+
+/**
+ * Credit only loot taken from a corpse container (nested) or the corpse bag.
+ * Overflow piles on the tile are not corpse-inserts.
+ * @param {GroundStore} ground
+ * @param {string} uid
+ * @param {object} gInst
+ * @param {boolean} nestedInBag
+ * @param {object[]|Record<string, object>|null} [itemDb]
+ * @returns {number}
+ */
+function pickupCorpseLootCredit(ground, uid, gInst, nestedInBag, itemDb) {
+    if (!ground || !gInst) return 0;
+    if (nestedInBag) {
+        const parent = getItem(ground.inventory, gInst.location.containerUid);
+        const pTpl = parent ? findItem(itemDb, parent.itemId) : null;
+        if (!itemLooksCorpse(parent, pTpl)) return 0;
+        return subtreeLootCredit(ground.inventory, uid, itemDb);
+    }
+    const tpl = findItem(itemDb, gInst.itemId);
+    if (!itemLooksCorpse(gInst, tpl)) return 0;
+    return subtreeLootCredit(ground.inventory, uid, itemDb);
+}
+
+/**
+ * @param {object|null|undefined} party
+ * @param {object|null|undefined} telemetry
+ * @param {number} credit
+ */
+function applyCorpseLootCredit(party, telemetry, credit) {
+    const n = Math.max(0, Math.floor(Number(credit) || 0));
+    if (!n) return;
+    if (party) party.lootGained = (party.lootGained || 0) + n;
+    if (telemetry) sampleLootTaken(telemetry, n);
+}
+
+/**
+ * Create an item on a ground tile (top of stack). Forces a container when
+ * the instance/template is a corpse or `volume` is set.
+ *
+ * @param {{
+ *   ground: GroundStore,
+ *   itemId: string,
+ *   x: number,
+ *   y: number,
+ *   z?: string|number,
+ *   itemDb?: object[]|Record<string, object>|null,
+ *   instFlags?: object|null,
+ *   volume?: number
+ * }} opts
+ * @returns {string|null} uid
+ */
+function spawnGroundItem(opts) {
+    const o = opts && typeof opts === 'object' ? opts : {};
+    const ground = o.ground;
+    const itemId = o.itemId != null ? String(o.itemId).trim() : '';
+    if (!ground || !ground.inventory || !itemId) return null;
+    const x = Number(o.x);
+    const y = Number(o.y);
+    if (!Number.isFinite(x) || !Number.isFinite(y)) return null;
+    const z = o.z !== undefined && o.z !== null ? o.z : 0;
+    const itemDb = o.itemDb || null;
+    let uid;
+    try {
+        uid = createItemInstance(ground.inventory, itemId, itemDb, { count: 1 });
+    } catch (_) {
+        return null;
+    }
+    if (!uid) return null;
+    const inst = getItem(ground.inventory, uid);
+    if (!inst) return null;
+    const flags = o.instFlags && typeof o.instFlags === 'object' ? o.instFlags : null;
+    if (flags) {
+        const keys = Object.keys(flags);
+        for (let i = 0; i < keys.length; i++) {
+            const k = keys[i];
+            if (k === 'uid' || k === 'itemId') continue;
+            inst[k] = flags[k];
+        }
+    }
+    const template = findItem(itemDb, itemId);
+    const isCorpse = itemLooksCorpse(inst, template);
+    let cap = null;
+    if (o.volume != null && Number.isFinite(Number(o.volume))) {
+        cap = Math.max(1, Math.floor(Number(o.volume)));
+    }
+    if (isCorpse || cap != null) {
+        if (cap == null) cap = containerCapacity(template, itemDb);
+        forceItemContainer(ground.inventory, uid, cap);
+    }
+    pushToTileStack(ground, uid, x, y, z);
+    return uid;
+}
+
+/**
+ * Move `uid` to the top of the tile stack (last index). No-op if missing.
+ * @param {GroundStore} ground
+ * @param {string} uid
+ * @param {number} x
+ * @param {number} y
+ * @param {string|number} z
+ */
+function ensureUidOnTop(ground, uid, x, y, z) {
+    if (!ground || !ground.stacks || !uid) return;
+    const stack = ground.stacks[tileKey(x, y, z)];
+    if (!Array.isArray(stack) || stack.length < 2) return;
+    const idx = stack.lastIndexOf(uid);
+    if (idx < 0 || idx === stack.length - 1) return;
+    stack.splice(idx, 1);
+    stack.push(uid);
+}
+
+/**
+ * Place rolled loot inside a corpse container. Overflow sits on the same
+ * tile **under** the corpse (corpse stays stack top). Player Cap is not
+ * consulted (server FLAG_NOLIMIT analog).
+ *
+ * @param {{
+ *   ground: GroundStore,
+ *   corpseUid: string,
+ *   items: Array<{ itemId: string, count?: number }>,
+ *   itemDb?: object[]|Record<string, object>|null,
+ *   x: number,
+ *   y: number,
+ *   z?: string|number
+ * }} opts
+ * @returns {{ placed: string[], overflow: string[] }}
+ */
+function fillCorpse(opts) {
+    const o = opts && typeof opts === 'object' ? opts : {};
+    /** @type {string[]} */
+    const placed = [];
+    /** @type {string[]} */
+    const overflow = [];
+    const ground = o.ground;
+    const corpseUid = o.corpseUid != null ? String(o.corpseUid) : '';
+    if (!ground || !ground.inventory || !corpseUid) return { placed, overflow };
+    const x = Number(o.x);
+    const y = Number(o.y);
+    if (!Number.isFinite(x) || !Number.isFinite(y)) return { placed, overflow };
+    const z = o.z !== undefined && o.z !== null ? o.z : 0;
+    const itemDb = o.itemDb || null;
+    const rows = Array.isArray(o.items) ? o.items : [];
+    const inv = ground.inventory;
+
+    for (let i = 0; i < rows.length; i++) {
+        const row = rows[i];
+        if (!row || row.itemId == null || String(row.itemId).trim() === '') continue;
+        const itemId = String(row.itemId).trim();
+        let count = 1;
+        if (row.count != null && Number.isFinite(Number(row.count))) {
+            count = Math.max(1, Math.floor(Number(row.count)));
+        }
+        let uid;
+        try {
+            uid = createItemInstance(inv, itemId, itemDb, { count });
+        } catch (_) {
+            continue;
+        }
+        if (!uid) continue;
+        const result = placeInContainer(inv, uid, corpseUid, null, itemDb);
+        if (result.ok) {
+            placed.push(result.uid || uid);
+            continue;
+        }
+        const inst = getItem(inv, uid);
+        if (!inst || inst.location) continue;
+        pushToTileStack(ground, uid, x, y, z);
+        overflow.push(uid);
+    }
+    if (overflow.length) ensureUidOnTop(ground, corpseUid, x, y, z);
+    return { placed, overflow };
+}
+
+/**
  * Detach nested item from its parent container slots (does not destroy).
  * @param {import('./inventory.js').Inventory} inv
  * @param {string} uid
@@ -646,7 +919,9 @@ function dropItemToGround(opts) {
  * @param {string} [opts.containerUid] explicit player container (disables auto equip)
  * @param {number|null} [opts.index] explicit index when containerUid set
  * @param {string} [opts.equipmentSlot] e.g. 'backpack' (equip if empty, else nest)
- * @returns {{ ok: boolean, error?: string, playerUid?: string, equipped?: boolean }}
+ * @param {object} [opts.party] credit `lootGained` when taking from a corpse
+ * @param {object} [opts.telemetry] `sampleLootTaken` when taking from a corpse
+ * @returns {{ ok: boolean, error?: string, playerUid?: string, equipped?: boolean, corpseLootWorth?: number }}
  */
 function pickupItemFromGround(opts) {
     const o = opts || {};
@@ -719,15 +994,26 @@ function pickupItemFromGround(opts) {
      * @returns {{ ok: boolean, error?: string, playerUid?: string, equipped?: boolean }}
      */
     function commitSuccess(playerUid, equipped) {
+        const credit = pickupCorpseLootCredit(
+            ground,
+            uid,
+            gInst,
+            nestedInBag,
+            itemDb
+        );
         if (onTileStack) {
             restoreWorldPinWalkIfNeeded(ground, gInst, x, y, z);
             removeFromTileStack(ground, uid, x, y, z);
         }
         destroyItem(ground.inventory, uid);
         syncRootToEquippedBackpack(playerInv);
-        /** @type {{ ok: boolean, playerUid: string, equipped?: boolean }} */
+        /** @type {{ ok: boolean, playerUid: string, equipped?: boolean, corpseLootWorth?: number }} */
         const out = { ok: true, playerUid };
         if (equipped) out.equipped = true;
+        if (credit > 0) {
+            applyCorpseLootCredit(o.party, o.telemetry, credit);
+            out.corpseLootWorth = credit;
+        }
         return out;
     }
 
@@ -1222,5 +1508,7 @@ module.exports = {
     pickupItemFromGround,
     placePlayerItemIntoGroundContainer,
     moveGroundItemIntoContainer,
-    moveGroundItemToTile
+    moveGroundItemToTile,
+    spawnGroundItem,
+    fillCorpse
 };

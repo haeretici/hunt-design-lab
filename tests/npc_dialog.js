@@ -1051,6 +1051,43 @@ test('TAS node jump does not apply reply give_item', () => {
     assert.strictEqual(getStorage(player, 'guide.gift'), 0);
 });
 
+test('outfitter_calder ships mapped shop prices', () => {
+    const tpl = presets.loadCreatureTemplate('outfitter_calder');
+    assert.strictEqual(tpl.isNpc, true);
+    assert.strictEqual(tpl.dialogId, 'outfitter_calder');
+    const shop = resolveShop(tpl);
+    assert.ok(shop);
+    assert.strictEqual(shop.currency, 'gold_coin');
+    const rows = shop.items || [];
+    const byId = {};
+    for (let i = 0; i < rows.length; i++) {
+        const id = rows[i].itemId || rows[i].item;
+        byId[id] = rows[i];
+    }
+    assert.strictEqual(byId.shovel.buy, 10);
+    assert.strictEqual(byId.shovel.sell, 2);
+    assert.strictEqual(byId.rope.buy, 50);
+    assert.strictEqual(byId.rope.sell, 8);
+    assert.strictEqual(byId.pick.buy, 15);
+    assert.ok(!byId.pick.sell);
+    assert.strictEqual(byId.fishing_rod.buy, 150);
+    assert.strictEqual(byId.fishing_rod.sell, 30);
+    assert.strictEqual(byId.worm.buy, 1);
+    const itemDb = presets.loadEquipment().items;
+    const { player } = makeInvTalkPair({ shop: tpl.shop });
+    assert.ok(giveItemToPlayer(player, { itemId: 'gold_coin', count: 10 }, itemDb).ok);
+    const bought = buyFromShop(player, shop, 'shovel', 1, itemDb);
+    assert.strictEqual(bought.ok, true, bought.reason);
+    assert.strictEqual(countPlayerItem(player, 'shovel'), 1);
+    assert.strictEqual(countPlayerItem(player, 'gold_coin'), 0);
+    const raw = loadDialogById('outfitter_calder');
+    assert.ok(raw && raw.nodes && raw.nodes.start);
+    const trade = (raw.nodes.start.replies || []).some(
+        (r) => r && r.action === 'open_shop'
+    );
+    assert.ok(trade, 'Trade opens shop');
+});
+
 if (failed) {
     console.error(`${failed} failed, ${passed} passed`);
     process.exit(1);

@@ -505,13 +505,15 @@ const Settings = {
      * @type {{
      *   expProgression?: boolean|null,
      *   skillProgression?: boolean|null,
-     *   partyShareEnabled?: boolean|null
+     *   partyShareEnabled?: boolean|null,
+     *   corpseLoot?: boolean|null
      * }}
      */
     features: {
         expProgression: null,
         skillProgression: null,
-        partyShareEnabled: null
+        partyShareEnabled: null,
+        corpseLoot: null
     },
     /**
      * Personal exp rate knobs (Phase C). Applied after party share raw.

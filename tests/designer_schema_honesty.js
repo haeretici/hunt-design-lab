@@ -223,6 +223,7 @@ function testDeclaredKeys() {
     assert.ok(item.properties.slot.enum.includes(''));
     assert.strictEqual(item.properties.slot.default, '');
     assert.ok(item.properties.category.enum.includes('potion'));
+    assert.ok(item.properties.category.enum.includes('tool'));
     assert.ok(item.properties.weaponType.enum.includes('melee'));
     assert.ok(item.properties.weaponType.enum.includes(''));
     assert.strictEqual(item.properties.weaponType.default, '');
@@ -342,6 +343,32 @@ function testLiveFilesValidate() {
     );
     assert.ok(potion, 'small_health_potion');
     assert.deepStrictEqual(potion.heal, [60, 90]);
+
+    const eqItems = loadJson('presets/standard/equipment.json').items;
+    const shovel = eqItems.find((it) => it.id === 'shovel');
+    assert.ok(shovel, 'shovel');
+    assert.strictEqual(shovel.category, 'tool');
+    assert.strictEqual(shovel.weight, 3500);
+    assert.ok(!shovel.slot);
+    assert.ok(!shovel.type);
+    const rope = eqItems.find((it) => it.id === 'rope');
+    assert.ok(rope, 'rope');
+    assert.strictEqual(rope.category, 'tool');
+    assert.strictEqual(rope.weight, 1800);
+    const pick = eqItems.find((it) => it.id === 'pick');
+    assert.ok(pick, 'pick');
+    assert.strictEqual(pick.category, 'tool');
+    const rod = eqItems.find((it) => it.id === 'fishing_rod');
+    assert.ok(rod, 'fishing_rod');
+    assert.ok(!rod.category, 'fishing_rod omits category');
+    assert.strictEqual(rod.weight, 850);
+    const worm = eqItems.find((it) => it.id === 'worm');
+    assert.ok(worm, 'worm');
+    assert.ok(!worm.category, 'worm is bait, not food/tool');
+    assert.strictEqual(worm.weight, 5);
+    assert.strictEqual(worm.stackable, true);
+    assert.ok(!worm.consumable);
+    assert.ok(!worm.usable);
 }
 
 function testArtSetAcceptsOverlayAndWallFamily() {

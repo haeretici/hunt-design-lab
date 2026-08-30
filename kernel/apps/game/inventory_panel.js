@@ -43,7 +43,8 @@ const {
     isInBrowseOpenRange,
     resolveBrowseFieldApproach,
     resolveApproach,
-    BROWSE_FIELD_CAPACITY
+    BROWSE_FIELD_CAPACITY,
+    mapStubQuicklootToOpen
 } = require('./mouse_dispatcher.js');
 const { isTalkableNpc } = require('../../core/lib/npc/flags.js');
 const { resolveDialog } = require('../../core/lib/npc/dialog.js');
@@ -88,7 +89,7 @@ const {
 } = require('../../core/lib/character/equipment_runtime.js');
 const {
     dropItemToGround,
-    pickupItemFromGround,
+    pickupItemFromGround: pickupItemFromGroundKernel,
     placePlayerItemIntoGroundContainer,
     moveGroundItemIntoContainer,
     moveGroundItemToTile,
@@ -133,6 +134,19 @@ const DRAG_THRESHOLD_PX = 5;
 function itemLabel(item) {
     if (!item) return 'Item';
     return item.label || item.name || item.id || 'Item';
+}
+
+/**
+ * Ground-container panel title: instance name (`Dead Minotaur Guard`) else template.
+ * @param {object|null|undefined} inst
+ * @param {object|null|undefined} item
+ * @returns {string}
+ */
+function containerPanelTitle(inst, item) {
+    if (inst && inst.name != null && String(inst.name).trim() !== '') {
+        return String(inst.name);
+    }
+    return itemLabel(item) || 'Container';
 }
 
 /**
@@ -225,7 +239,7 @@ function bindInventoryPanel(opts) {
      */
     const browsePanels = new Map();
     /**
-     * Walk-then-browse deferred open (same family as future OPEN_CORPSE).
+     * Walk-then-browse deferred open (same family as OPEN_CORPSE).
      * @type {{ x: number, y: number, z: string|number }|null}
      */
     let pendingBrowse = null;
@@ -320,6 +334,27 @@ function bindInventoryPanel(opts) {
 
     const simOf = () =>
         typeof o.getSim === 'function' ? o.getSim() : null;
+
+    /**
+     * Ground pickup with session loot credit (corpse bag insert).
+     * @param {object} opts
+     * @returns {{ ok: boolean, error?: string, playerUid?: string, equipped?: boolean, corpseLootWorth?: number }}
+     */
+    function pickupItemFromGround(opts) {
+        const bag = Object.assign({}, opts || {});
+        const sim = simOf();
+        if (sim) {
+            if (!bag.telemetry) bag.telemetry = sim.telemetry;
+            if (
+                !bag.party &&
+                bag.player &&
+                typeof sim.findPartyOf === 'function'
+            ) {
+                bag.party = sim.findPartyOf(bag.player);
+            }
+        }
+        return pickupItemFromGroundKernel(bag);
+    }
 
     /**
      * Client coords → map tile under the watch canvas (CSS-scale aware).
@@ -1017,7 +1052,7 @@ function bindInventoryPanel(opts) {
             if (h) {
                 const inst = getItem(gInv, p.containerUid);
                 const item = inst ? findItem(itemDb, inst.itemId) : null;
-                h.textContent = itemLabel(item) || 'Container';
+                h.textContent = containerPanelTitle(inst, item);
             }
         });
         for (let i = 0; i < toClose.length; i++) {
@@ -1237,7 +1272,7 @@ function bindInventoryPanel(opts) {
         header.className = 'inv-panel-header';
         const title = document.createElement('span');
         title.className = 'inv-panel-title';
-        title.textContent = itemLabel(item) || 'Container';
+        title.textContent = containerPanelTitle(inst, item);
         const closeBtn = document.createElement('button');
         closeBtn.type = 'button';
         closeBtn.className = 'inv-panel-close';
@@ -3797,14 +3832,38 @@ function bindInventoryPanel(opts) {
             case 'TALK_NPC':
                 handleTalkNpcIntent(intent, player, sim);
                 break;
-            case 'QUICKLOOT':
-                // Stage 5a stub — no vacuum until 5b (no inventory mutation)
+            case 'QUICKLOOT': {
+                // F1 vacuum unshipped: stub + corpse uid → open (D.9). Do not vacuum.
+                const mapped = mapStubQuicklootToOpen(intent);
+                if (mapped) {
+                    handleOpenContainerIntent(mapped, player, sim);
+                    break;
+                }
                 emitSystemFloat(player, 'Not available yet');
                 break;
-            case 'OPEN_CORPSE':
-                // Stage 5a stub — corpse container open lands with 5b
-                emitSystemFloat(player, 'Not available yet');
+            }
+            case 'OPEN_CORPSE': {
+                const uid =
+                    intent.sourceUid != null
+                        ? intent.sourceUid
+                        : intent.pickableUid;
+                if (uid == null || uid === '') {
+                    emitSystemFloat(player, 'Cannot open that here');
+                    break;
+                }
+                handleOpenContainerIntent(
+                    {
+                        type: 'OPEN_CONTAINER',
+                        sourceUid: uid,
+                        ground: true,
+                        tile: intent.tile,
+                        isCorpse: true
+                    },
+                    player,
+                    sim
+                );
                 break;
+            }
             case 'BROWSE_FIELD':
                 handleBrowseFieldIntent(intent, player, sim);
                 break;

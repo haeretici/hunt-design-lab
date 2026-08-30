@@ -79,6 +79,11 @@
     },
     "exp": { "type": "number", "minimum": 0 },
     "lootValue": { "type": "number" },
+    "corpseId": {
+      "type": "string",
+      "format": "equipment_id",
+      "description": "Optional combat item id for the death container. Missing or unknown → monster_corpse."
+    },
     "aggro": { "type": "boolean" },
     "isNpc": {
       "type": "boolean",

@@ -16,7 +16,8 @@ const {
     assertPartyMembersHaveSkillSource
 } = require('../../core/lib/character/player_profile.js');
 const {
-    huntToSimulatorOpts
+    huntToSimulatorOpts,
+    pickOptionalBoolean
 } = require('../../providers/simulator/hunt_opts.js');
 
 /** Max editable party slots in the browser UI. */
@@ -744,7 +745,13 @@ function resolvedFromBrowserHunt(opts) {
         maxTicks,
         maxKills,
         maxSeconds,
-        noAttackTimeoutSec
+        noAttackTimeoutSec,
+        corpseLoot: pickOptionalBoolean([
+            o.corpseLoot,
+            o.features && o.features.corpseLoot,
+            hunt.corpseLoot,
+            hunt.features && hunt.features.corpseLoot
+        ])
     };
 }
 

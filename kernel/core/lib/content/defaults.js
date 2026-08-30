@@ -208,6 +208,9 @@ const EQUIPMENT_CATEGORY_DEFAULTS = Object.freeze({
         slot: 'amulet',
         armor: 1,
         weight: 400
+    }),
+    tool: Object.freeze({
+        weight: 2000
     })
 });
 

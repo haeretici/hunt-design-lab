@@ -1,0 +1,53 @@
+{
+    "id": "firstlight_outpost",
+    "label": "Firstlight outpost (stage 1 plaza)",
+    "notes": "Outpost core 41×41 around hill stairs. Party on z=6 plaza; hop to surface z=7. spawnSource uses creatureIds + inclusive bbox (kernel filter). No NPCs this stage.",
+    "legacyMapId": "firstlight_isle",
+    "floor": 6,
+    "floors": [
+        6,
+        7
+    ],
+    "spawnMode": "on_demand",
+    "spawnSource": {
+        "type": "legacy_floor",
+        "floors": [
+            6,
+            7
+        ],
+        "bbox": {
+            "xMin": 61,
+            "yMin": 114,
+            "xMax": 101,
+            "yMax": 154
+        },
+        "creatureIds": [
+            "mountain_troll",
+            "troll_trained_salamander",
+            "dawnfly",
+            "meadow_strider",
+            "woodling",
+            "deer",
+            "rabbit",
+            "squirrel"
+        ]
+    },
+    "waypoints": [
+        {
+            "x": 80,
+            "y": 132,
+            "z": 6
+        },
+        {
+            "x": 81,
+            "y": 134,
+            "z": 6
+        },
+        {
+            "x": 81,
+            "y": 135,
+            "z": 7
+        }
+    ],
+    "artSet": "firstlight_isle"
+}

@@ -88,9 +88,10 @@
             "rune",
             "currency",
             "gem",
-            "food"
+            "food",
+            "tool"
           ],
-          "description": "Item family. Combat + loot-only (currency / gem / food / potion / rune)."
+          "description": "Item family. Combat + loot-only (currency / gem / food / potion / rune / tool). tool is backpack-only; not a hand slot."
         },
         "weaponType": {
           "type": "string",
