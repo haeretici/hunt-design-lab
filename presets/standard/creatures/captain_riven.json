@@ -1,0 +1,27 @@
+{
+    "id": "captain_riven",
+    "label": "Riven",
+    "notes": "Outpost hill-south flavor. Dock teleport later (not this stage). No shop. C.4 wander radius 2. Not a hunt target.",
+    "customSprite": "captain_riven",
+    "hp": 80,
+    "hpMax": 80,
+    "speed": 80,
+    "level": 1,
+    "armor": 0,
+    "mitigation": 100,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": false,
+    "isNpc": true,
+    "kind": "npc",
+    "dialogId": "captain_riven",
+    "walkInterval": 2000,
+    "walkRadius": 2,
+    "canBlock": false,
+    "attacks": [],
+    "flags": {
+        "attackable": false,
+        "hostile": false,
+        "isNpc": true
+    }
+}

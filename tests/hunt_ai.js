@@ -99,6 +99,7 @@ const {
     tryCreatureAttacks,
     ensureCreatureKit,
     isFleeing,
+    creatureAutoAttacks,
     idealStandDistance,
     recordDamageTakenBy,
     applyThreatDecay,
@@ -114,6 +115,7 @@ const {
     tryEngagedAttacks,
     runCombatTick,
     Idle,
+    Aggro,
     Retarget,
     Leash,
     beyondLeash,
@@ -847,23 +849,30 @@ function testWeaponAutoFamilies() {
     });
     assert.ok(r3 && r3.ok, 'null ammo allows infinite distance auto');
 
-    // Wand needs mana
+    // Wand auto does not spend mana; restores manaGain when final > 0
     attacker.combatStats.weaponType = 'magic';
     attacker.combatStats.magic = 80;
     attacker.combatStats.weaponRange = 3;
+    attacker.combatStats.weaponMin = 10;
+    attacker.combatStats.weaponMax = 10;
+    attacker.combatStats.weaponElement = 'energy';
+    attacker.combatStats.weaponManaGain = 3;
     attacker.moveDelay = 0;
     attacker.cooldowns.auto.attack = 0;
     attacker.mp.current = 0;
+    attacker.mp.max = 100;
     const r4 = tryAutoAttack({
         attacker,
         defender: Object.assign({}, defender, {
             tile: { x: 4, y: 2, z: 0 },
             hp: { current: 200, max: 200 },
-            alive: true
+            alive: true,
+            combatStats: { armor: 0, mitigation: 0, resists: {}, maxBlock: 0 }
         }),
         ctx: { spellBook, tileMap: map, rng: () => 0.5 }
     });
-    assert.ok(!r4, 'wand auto blocked without mana');
+    assert.ok(r4 && r4.ok, 'wand auto works at 0 mana');
+    assert.ok(attacker.mp.current >= 3, 'wand auto restored mana at 0 MP');
 
     attacker.mp.current = 50;
     attacker.moveDelay = 0;
@@ -879,8 +888,8 @@ function testWeaponAutoFamilies() {
         defender: wandTarget,
         ctx: { spellBook, tileMap: map, rng: () => 0.5 }
     });
-    assert.ok(r5 && r5.ok, 'wand auto with mana');
-    assert.ok(attacker.mp.current < 50, 'wand spent mana');
+    assert.ok(r5 && r5.ok, 'wand auto with mana pool');
+    assert.strictEqual(attacker.mp.current, 53, 'wand auto generated mana instead of spending');
 
     // Wand range from equipped weaponRange (not spell def alone)
     const {
@@ -4579,6 +4588,95 @@ function testManualControlAndCommandQueue() {
 }
 
 /**
+ * Mixed AI/manual: hopping onto the last waypoint (or standing next to a
+ * finished leader) must not freeze the session while a living member is
+ * still `controlMode: 'manual'`. Leaving manual re-checks route_complete.
+ */
+function testManualControlSuppressesRouteComplete() {
+    const map = openFloor(8, 4, 100);
+    const sim = new Simulator({ seed: 11, combatAi: true, recordSteps: false });
+    sim.setTileMap(map);
+    sim.floor = 0;
+    sim._ensurePresetLoaders();
+    sim.sessionState = 'running';
+    sim.active = true;
+
+    const party = new Party({
+        name: 'Mix',
+        waypoints: [
+            { x: 1, y: 1, z: 0 },
+            { x: 4, y: 1, z: 0 }
+        ]
+    });
+    const leader = new Player({
+        id: sim.allocEntityId(),
+        name: 'Leader',
+        classId: 'guardian',
+        isLeader: true,
+        controlMode: 'ai',
+        tile: { x: 4, y: 1, z: 0 }
+    });
+    const adept = new Player({
+        id: sim.allocEntityId(),
+        name: 'Adept',
+        classId: 'adept',
+        isLeader: false,
+        controlMode: 'manual',
+        tile: { x: 5, y: 1, z: 0 }
+    });
+    assert.ok(map.tryOccupy(4, 1, 0, leader), 'place leader on last waypoint');
+    assert.ok(map.tryOccupy(5, 1, 0, adept), 'place manual adept beside leader');
+    leader.syncPositionFromTile && leader.syncPositionFromTile();
+    adept.syncPositionFromTile && adept.syncPositionFromTile();
+    leader.routeComplete = true;
+    leader.currentWaypoint = party.waypoints.length;
+    adept.currentWaypoint = 0;
+    party.addMember(leader);
+    party.addMember(adept);
+    initPlayerAi(leader);
+    initPlayerAi(adept);
+    sim.parties.push(party);
+    sim.insertChild(party);
+    sim.entityById.set(leader.id, leader);
+    sim.entityById.set(adept.id, adept);
+
+    Time.advanceFixedLogicStep();
+    sim.updateAll();
+
+    assert.strictEqual(
+        sim.sessionState,
+        'running',
+        'manual member holds route_complete (bug: Adept stair hop froze hunt)'
+    );
+    assert.strictEqual(
+        adept.routeComplete,
+        false,
+        'manual follower is not auto-completed by leader proximity'
+    );
+    assert.ok(
+        !sim.allRoutesComplete(),
+        'sim allRoutesComplete stays false while Adept is manual'
+    );
+    assert.ok(
+        party.hasLivingManualControl(),
+        'party reports living manual control'
+    );
+
+    adept.commandQueue = adept.commandQueue || [];
+    adept.commandQueue.push({ type: 'SET_CONTROL_MODE', mode: 'ai' });
+    Time.advanceFixedLogicStep();
+    sim.updateAll();
+
+    assert.strictEqual(
+        sim.sessionState,
+        'route_complete',
+        'leaving manual allows route_complete'
+    );
+    sim.destroy();
+    log('manual control suppresses route_complete ok');
+}
+
+/**
  * Stage 6b Phase 3: npc_dialog CUSTOM_COMMAND advances a session; talkable
  * NPCs stay out of AOI enemies; unknown macros still no-op.
  */
@@ -5177,6 +5275,184 @@ function testProtectionZoneBlocksIncomingTargetAndHits() {
     log('protection zone blocks incoming target and hits ok');
 }
 
+/**
+ * Non-hostile animals (aggro:false) still follow / flee; they must not freeze.
+ * runHealth ≥ hp → flee-on-sight (deer, rabbit). Talkable NPCs stay idle.
+ * Offensive kit is skipped unless the unit is a summon.
+ */
+function testNonHostileFleeOnSight() {
+    const map = openFloor(20, 20, 100);
+
+    function ctxFor(creature, player) {
+        return {
+            tileMap: map,
+            players: [player],
+            rng: () => 0,
+            sim: {
+                getEntityById(id) {
+                    if (id === player.id) return player;
+                    if (id === creature.id) return creature;
+                    return null;
+                }
+            }
+        };
+    }
+
+    let nextId = 9610;
+    function spawnPreset(id, tile) {
+        const tpl = presets.loadCreatureTemplate(id);
+        assert.ok(tpl, id + ' preset');
+        const c = new Creature({
+            id: nextId++,
+            name: id,
+            tile: { x: tile.x, y: tile.y, z: 0 },
+            homeTile: { x: tile.x, y: tile.y, z: 0 }
+        });
+        c.applyTemplate(tpl);
+        map.tryOccupy(tile.x, tile.y, 0, c);
+        initCreatureAi(c);
+        return c;
+    }
+
+    const player = new Player({
+        id: 9601,
+        name: 'Hunter',
+        tile: { x: 10, y: 10, z: 0 },
+        speed: 100,
+        hp: 500,
+        hpMax: 500
+    });
+    player.alive = true;
+    if (player.hp && typeof player.hp === 'object') {
+        player.hp.current = 500;
+        player.hp.max = 500;
+    }
+    map.tryOccupy(10, 10, 0, player);
+
+    const fleeIds = ['deer', 'rabbit', 'squirrel', 'sheep'];
+    for (let i = 0; i < fleeIds.length; i++) {
+        const id = fleeIds[i];
+        const start = { x: 11, y: 10 };
+        map.clearOccupancy(0);
+        map.tryOccupy(10, 10, 0, player);
+        const animal = spawnPreset(id, start);
+        assert.strictEqual(animal.aggro, false, id + ' template aggro false');
+        assert.ok(isFleeing(animal), id + ' runHealth ≥ hp is flee-on-sight');
+        assert.strictEqual(
+            creatureAutoAttacks(animal),
+            false,
+            id + ' does not auto-attack'
+        );
+        const hp0 = player.hp.current;
+        const d0 = distBetween(animal, player);
+        const ctx = ctxFor(animal, player);
+        Idle.execute(animal, ctx);
+        assert.ok(animal.target, id + ' acquires a follow target');
+        assert.strictEqual(animal.aiState, 'aggro', id + ' leaves idle');
+        for (let step = 0; step < 6; step++) {
+            animal.moveDelay = 0;
+            Aggro.execute(animal, ctx);
+        }
+        assert.ok(
+            distBetween(animal, player) > d0,
+            id + ' steps away from the player (d0=' +
+                d0 +
+                ' now=' +
+                distBetween(animal, player) +
+                ')'
+        );
+        assert.strictEqual(
+            player.hp.current,
+            hp0,
+            id + ' must not hit the player'
+        );
+        map.clearOccupancy(0);
+    }
+
+    // Cat: non-hostile, runHealth < hp → follow without attacking.
+    map.tryOccupy(10, 10, 0, player);
+    const cat = spawnPreset('cat', { x: 13, y: 10 });
+    assert.strictEqual(cat.aggro, false);
+    assert.ok(!isFleeing(cat), 'cat at full HP is not fleeing');
+    const catD0 = distBetween(cat, player);
+    const catCtx = ctxFor(cat, player);
+    const catHp0 = player.hp.current;
+    Idle.execute(cat, catCtx);
+    assert.ok(cat.target, 'cat acquires a follow target');
+    for (let step = 0; step < 6; step++) {
+        cat.moveDelay = 0;
+        Aggro.execute(cat, catCtx);
+    }
+    assert.ok(
+        distBetween(cat, player) < catD0,
+        'cat closes in (follow) without attacking'
+    );
+    assert.strictEqual(player.hp.current, catHp0, 'cat must not hit');
+
+    // Talkable NPC must stay idle even with a player adjacent.
+    map.clearOccupancy(0);
+    map.tryOccupy(10, 10, 0, player);
+    const guide = spawnPreset('town_guide', { x: 11, y: 10 });
+    assert.ok(isTalkableNpc(guide), 'town_guide is talkable');
+    Idle.execute(guide, ctxFor(guide, player));
+    assert.strictEqual(guide.target, null, 'NPC does not follow');
+    assert.strictEqual(guide.aiState, 'idle', 'NPC stays idle');
+    assert.strictEqual(guide.tile.x, 11);
+    assert.strictEqual(guide.tile.y, 10);
+
+    // Hostile melee while fleeing does not swing.
+    map.clearOccupancy(0);
+    map.tryOccupy(10, 10, 0, player);
+    const rat = new Creature({
+        id: 9699,
+        name: 'FleeRat',
+        tile: { x: 11, y: 10, z: 0 },
+        homeTile: { x: 11, y: 10, z: 0 },
+        speed: 100,
+        hp: 5,
+        hpMax: 50,
+        aggro: true,
+        attacks: [
+            {
+                id: 'melee',
+                kind: 'melee',
+                min: 10,
+                max: 20,
+                range: 1,
+                intervalSec: 0.05,
+                chance: 100,
+                element: 'physical'
+            }
+        ],
+        flags: {
+            targetDistance: 1,
+            runHealth: 40,
+            staticAttackChance: 100,
+            aggroRange: 7,
+            loseTargetDistance: 12
+        },
+        strategiesTarget: { nearest: 100 }
+    });
+    rat.alive = true;
+    map.tryOccupy(11, 10, 0, rat);
+    ensureCreatureKit(rat);
+    initCreatureAi(rat);
+    rat.target = player;
+    rat.targetId = player.id;
+    rat._attackReadyIn = [0];
+    assert.ok(isFleeing(rat), 'low HP rat is fleeing');
+    const ratHp0 = player.hp.current;
+    const fired = tryCreatureAttacks(rat, player, {
+        players: [player],
+        rng: () => 0,
+        tileMap: map
+    });
+    assert.ok(!fired || !fired.fired, 'fleeing melee kit does not swing');
+    assert.strictEqual(player.hp.current, ratHp0);
+
+    log('non-hostile flee-on-sight ok');
+}
+
 async function main() {
     testStrategyHelpers();
     testSelfAoeSpellRangeAndPriorityFallback();
@@ -5203,6 +5479,7 @@ async function main() {
     testCreaturePathFailCircleAndLoseTarget();
     testInvisiblePresenceIdleWander();
     testProtectionZoneBlocksIncomingTargetAndHits();
+    testNonHostileFleeOnSight();
     testDragonLordWaveCast();
     testEngageAttackAndMoveDecoupled();
     testEngageSpellPriorityOverAuto();
@@ -5213,6 +5490,7 @@ async function main() {
     await testHeadlessHuntFloor07();
     await testGhostWalkStillWorks();
     testManualControlAndCommandQueue();
+    testManualControlSuppressesRouteComplete();
     testManualAutowalkFloorHopClearsDest();
     testNpcDialogCustomCommand();
     console.log('hunt_ai: ok');

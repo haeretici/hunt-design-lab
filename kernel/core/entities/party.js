@@ -218,12 +218,27 @@ class Party extends GameObject {
     }
 
     /**
+     * Whether a living member is under player control.
+     * Manual play must not trip `route_complete` (logic freeze).
+     * @returns {boolean}
+     */
+    hasLivingManualControl() {
+        for (let i = 0; i < this.members.length; i++) {
+            const m = this.members[i];
+            if (m && m.alive && m.controlMode === 'manual') return true;
+        }
+        return false;
+    }
+
+    /**
      * Whether every living member finished the waypoint list.
      * Looping parties never complete (patrol continues until session ends).
+     * A living `controlMode: 'manual'` member also blocks completion.
      * @returns {boolean}
      */
     allRoutesComplete() {
         if (this.loopWaypoints) return false;
+        if (this.hasLivingManualControl()) return false;
         if (!this.members.length) return true;
         for (let i = 0; i < this.members.length; i++) {
             const m = this.members[i];
@@ -235,6 +250,7 @@ class Party extends GameObject {
     /**
      * Hunt AI: mark followers near a finished leader as route-complete.
      * Same-tile stack is legal; d ≤ 3 still finishes lagging members.
+     * Manual members are skipped — they are not on the AI route.
      * Call from combat session only — not ghost-walk.
      */
     syncFollowerRouteComplete() {
@@ -243,6 +259,7 @@ class Party extends GameObject {
         for (let i = 0; i < this.members.length; i++) {
             const m = this.members[i];
             if (!m || !m.alive || m.isLeader || m.routeComplete) continue;
+            if (m.controlMode === 'manual') continue;
             if (!m.tile || String(m.tile.z) !== String(leader.tile.z)) continue;
             if (tileDistance(m.tile, leader.tile) <= 3) {
                 m.routeComplete = true;

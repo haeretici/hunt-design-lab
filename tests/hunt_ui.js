@@ -52,8 +52,15 @@ const {
     getActivePlayerFromSim,
     listActiveStatusIcons,
     statusIconsSignature,
+    isSourceOnProtectionZone,
+    renderStatusBar,
     buildEquipmentItemDetailHtml
 } = require('../kernel/apps/game/equipment_panel.js');
+const {
+    TileMap,
+    TILE_FLAG_NO_CAST,
+    TILE_FLAG_PZ_PACKAGE
+} = require('../kernel/core/entities/tilemap.js');
 const {
     huntToSimulatorOpts,
     isSessionTerminal,
@@ -811,6 +818,101 @@ test('listActiveStatusIcons shows mana_shield from condition or gear flag', () =
         conditions: [{ kind: 'mana_shield', poolRemaining: 10, poolMax: 406 }]
     });
     assert.strictEqual(kindsOnly, kindsOnlyAfter);
+});
+
+test('listActiveStatusIcons shows protection_zone only on full PZ package', () => {
+    const open = new Uint8Array(25);
+    open.fill(100);
+    const map = new TileMap('pz-status');
+    map.loadFloorFromFriction(0, 5, 5, open);
+    map.setTileFlags(2, 2, 0, TILE_FLAG_PZ_PACKAGE);
+    map.setTileFlags(0, 0, 0, TILE_FLAG_NO_CAST);
+
+    const onPz = listActiveStatusIcons(
+        { tile: { x: 2, y: 2, z: 0 }, conditions: [] },
+        { tileMap: map }
+    );
+    assert.strictEqual(onPz.length, 1);
+    assert.strictEqual(onPz[0].kind, 'protection_zone');
+    assert.strictEqual(onPz[0].icon, 'fa-house');
+    assert.ok(isSourceOnProtectionZone({ tile: { x: 2, y: 2, z: 0 } }, map));
+
+    const noCastOnly = listActiveStatusIcons(
+        { tile: { x: 0, y: 0, z: 0 } },
+        { tileMap: map }
+    );
+    assert.strictEqual(noCastOnly.length, 0, 'NO_CAST-only is not PZ');
+
+    const offPz = listActiveStatusIcons(
+        { tile: { x: 1, y: 1, z: 0 } },
+        { tileMap: map }
+    );
+    assert.strictEqual(offPz.length, 0);
+
+    const noMap = listActiveStatusIcons({ tile: { x: 2, y: 2, z: 0 } });
+    assert.strictEqual(noMap.length, 0, 'without tileMap, PZ is not shown');
+
+    const mixed = listActiveStatusIcons(
+        {
+            tile: { x: 2, y: 2, z: 0 },
+            conditions: [{ kind: 'poison' }]
+        },
+        { tileMap: map }
+    );
+    assert.deepStrictEqual(
+        mixed.map((i) => i.kind),
+        ['protection_zone', 'poison']
+    );
+    assert.strictEqual(
+        statusIconsSignature(
+            { tile: { x: 2, y: 2, z: 0 }, conditions: [{ kind: 'poison' }] },
+            { tileMap: map }
+        ),
+        'protection_zone,poison'
+    );
+    assert.strictEqual(
+        statusIconsSignature({ tile: { x: 1, y: 1, z: 0 } }, { tileMap: map }),
+        ''
+    );
+    // Flat x/y/z (no tile bag) still resolves.
+    assert.strictEqual(
+        listActiveStatusIcons({ x: 2, y: 2, z: 0 }, { tileMap: map })[0].kind,
+        'protection_zone'
+    );
+});
+
+test('renderStatusBar paints and clears the protection_zone house icon', () => {
+    const attrs = {};
+    const bar = {
+        dataset: {},
+        innerHTML: '',
+        hidden: true,
+        setAttribute(name, value) {
+            attrs[name] = value;
+        }
+    };
+    const open = new Uint8Array(9);
+    open.fill(100);
+    const map = new TileMap('pz-bar');
+    map.loadFloorFromFriction(0, 3, 3, open);
+    map.setTileFlags(1, 1, 0, TILE_FLAG_PZ_PACKAGE);
+
+    renderStatusBar(bar, { tile: { x: 1, y: 1, z: 0 } }, { tileMap: map });
+    assert.strictEqual(bar.hidden, false);
+    assert.strictEqual(attrs['aria-hidden'], 'false');
+    assert.ok(
+        bar.innerHTML.indexOf('data-status="protection_zone"') >= 0,
+        'PZ data-status on icon'
+    );
+    assert.ok(bar.innerHTML.indexOf('fa-house') >= 0, 'house FA class');
+    assert.ok(
+        /You are in a protection zone/i.test(bar.innerHTML),
+        'tooltip names the zone'
+    );
+
+    renderStatusBar(bar, { tile: { x: 0, y: 0, z: 0 } }, { tileMap: map });
+    assert.strictEqual(bar.hidden, true);
+    assert.strictEqual(bar.innerHTML, '');
 });
 
 test('buildPreviewProfile exposes live vitals for profile preview popup', () => {

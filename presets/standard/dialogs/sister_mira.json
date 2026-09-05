@@ -1,0 +1,42 @@
+{
+    "id": "sister_mira",
+    "greeting": "Peace in this house.",
+    "start": "start",
+    "nodes": {
+        "start": {
+            "text": "Light the lamps and sit a while. I keep no clinic here.",
+            "replies": [
+                {
+                    "label": "Rest",
+                    "goto": "rest"
+                },
+                {
+                    "label": "Blessing",
+                    "goto": "blessing"
+                },
+                {
+                    "label": "Bye",
+                    "action": "close"
+                }
+            ]
+        },
+        "rest": {
+            "text": "I cannot tend wounds. If you are hurt, that is your own work.",
+            "replies": [
+                {
+                    "label": "I see.",
+                    "action": "close"
+                }
+            ]
+        },
+        "blessing": {
+            "text": "Walk kindly. The hill has enough trouble without more.",
+            "replies": [
+                {
+                    "label": "Thanks",
+                    "action": "close"
+                }
+            ]
+        }
+    }
+}

@@ -849,7 +849,11 @@ function testWeaponSkillFromGear() {
             category: 'wand',
             type: ['wand'],
             weaponType: 'magic',
-            range: 5
+            range: 5,
+            min: 13,
+            max: 25,
+            element: 'fire',
+            manaGain: 3
         },
         {
             id: 'type_only_club',
@@ -954,6 +958,13 @@ function testWeaponSkillFromGear() {
     assert.strictEqual(wandStats.skill, 15);
     assert.strictEqual(wandStats.autoAttack, 'wand_auto');
     assert.strictEqual(wandStats.weaponRange, 5, 'wand auto range comes from weapon');
+    assert.strictEqual(wandGear.weaponMin, 13);
+    assert.strictEqual(wandGear.weaponMax, 25);
+    assert.strictEqual(wandGear.weaponElement, 'fire');
+    assert.strictEqual(wandGear.weaponManaGain, 3);
+    assert.strictEqual(wandStats.weaponMin, 13);
+    assert.strictEqual(wandStats.weaponElement, 'fire');
+    assert.strictEqual(wandStats.weaponManaGain, 3);
 
     // type[] fallback when category missing
     const clubGear = rollupEquipment({ rightHand: 'type_only_club' }, itemDb);
@@ -985,6 +996,108 @@ function testWeaponSkillFromGear() {
         sword: swordStats.skillKey,
         bow: bowStats.skillKey
     });
+}
+
+function testWandAutoFixedRangeAndManaGain() {
+    const itemDb = [
+        {
+            id: 'test_fire_wand',
+            slot: 'rightHand',
+            category: 'wand',
+            type: ['wand'],
+            weaponType: 'magic',
+            range: 4,
+            min: 10,
+            max: 10,
+            element: 'fire',
+            manaGain: 3
+        }
+    ];
+    const gear = rollupEquipment({ rightHand: 'test_fire_wand' }, itemDb);
+    const cls = {
+        id: 'adept',
+        skillKey: 'magic',
+        autoAttack: 'wand_auto',
+        skills: { melee: 10, distance: 10, shielding: 10, magic: 50, fist: 10 }
+    };
+    const stats = buildEffectiveStats(cls, gear, { level: 13 });
+    const preview = previewDamageRange(stats, {
+        id: 'wand_auto',
+        kind: 'auto',
+        powerCurve: 'magic_strike',
+        basePower: 18,
+        element: 'energy'
+    });
+    assert.strictEqual(preview.min, 10);
+    assert.strictEqual(preview.max, 10);
+
+    const attacker = {
+        type: 'player',
+        level: 13,
+        alive: true,
+        hp: { current: 200, max: 200 },
+        mp: { current: 20, max: 100 },
+        combatStats: stats
+    };
+    const dummy = {
+        hp: { current: 500, max: 500 },
+        combatStats: { armor: 0, mitigation: 0, resists: {}, maxBlock: 0 }
+    };
+    const wandSpell = {
+        id: 'wand_auto',
+        kind: 'auto',
+        powerCurve: 'magic_strike',
+        element: 'energy',
+        mana: 0,
+        cooldowns: {}
+    };
+    const hit = resolveAttack({
+        attacker,
+        defender: dummy,
+        spell: wandSpell,
+        skipCooldown: true,
+        rng: () => 0
+    });
+    assert.ok(hit.ok && hit.hit);
+    assert.strictEqual(hit.final, 10);
+    assert.strictEqual(hit.breakdown.element, 'fire');
+    assert.strictEqual(attacker.mp.current, 23, 'wand auto restores manaGain');
+    assert.strictEqual(hit.manaGained, 3);
+
+    attacker.mp.current = 0;
+    dummy.hp.current = 500;
+    const oom = resolveAttack({
+        attacker,
+        defender: dummy,
+        spell: wandSpell,
+        skipCooldown: true,
+        rng: () => 0
+    });
+    assert.ok(oom.ok && oom.hit, 'wand auto works at 0 mana');
+    assert.strictEqual(attacker.mp.current, 3);
+
+    attacker.mp.current = 10;
+    const immune = {
+        hp: { current: 500, max: 500 },
+        combatStats: {
+            armor: 0,
+            mitigation: 0,
+            resists: { fire: 100 },
+            maxBlock: 0
+        }
+    };
+    const zero = resolveAttack({
+        attacker,
+        defender: immune,
+        spell: wandSpell,
+        skipCooldown: true,
+        rng: () => 0
+    });
+    assert.ok(zero.ok && zero.hit);
+    assert.strictEqual(zero.final, 0);
+    assert.strictEqual(attacker.mp.current, 10, 'no manaGain when final is 0');
+    assert.strictEqual(zero.manaGained, 0);
+    log('wand auto fixed range + manaGain ok');
 }
 
 /**
@@ -7503,6 +7616,7 @@ function main() {
     testPreVocationHpMp();
     testUnarmedDefaults();
     testWeaponSkillFromGear();
+    testWandAutoFixedRangeAndManaGain();
     testDefenseBonusAndOptionalFlags();
     testProfileSlotAliases();
     testProfileSkillOverrides();

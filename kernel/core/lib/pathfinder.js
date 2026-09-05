@@ -314,8 +314,8 @@ function findPath(tileMap, start, end, options) {
         // Solid obstacle fields (barrier / vine, bit 16) always hard-block,
         // including as a path goal — unlike combat targets behind open tiles.
         if (fields && (fields[idx] & 16) !== 0) return true;
-        // NO_CREATURE (PZ package bit): creatures cannot path onto the tile.
-        // Players are exempt via creatureMayEnterTile. Applies to goal too.
+        // NO_CREATURE (PZ package bit): monsters cannot path onto the tile.
+        // Players + talkable NPCs are exempt via creatureMayEnterTile.
         if (
             mover &&
             tileMap &&

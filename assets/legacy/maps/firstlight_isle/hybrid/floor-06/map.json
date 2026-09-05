@@ -1,766 +1,877 @@
 {
-  "version": 2,
-  "id": "firstlight_isle",
-  "label": "Firstlight Isle",
-  "floors": [
-    {
-      "z": 6,
-      "cols": 225,
-      "rows": 198,
-      "palette": [
-        null,
-        {
-          "catalogId": "broken_cave_stairs",
-          "kind": "tiles",
-          "roleId": "stairs_up",
-          "anchor": "bottom_center",
-          "hop": {
-            "dir": "center",
-            "deltaZ": 1
-          }
-        },
-        {
-          "catalogId": "damp_dirt_floor",
-          "kind": "tiles",
-          "roleId": "floor"
-        },
-        {
-          "catalogId": "broken_cave_stairs",
-          "kind": "tiles",
-          "roleId": "stairs_up",
-          "anchor": "bottom_center",
-          "hop": {
-            "dir": "center",
-            "deltaZ": -1
-          }
-        },
-        {
-          "catalogId": "simple_dead_tree",
-          "kind": "objects",
-          "roleId": "scenery_blocking",
-          "scale": 1.4,
-          "anchor": "bottom_center"
-        },
-        {
-          "catalogId": "polished_dirt_path",
-          "kind": "tiles",
-          "roleId": "path"
-        },
-        {
-          "catalogId": "broken_cave_stairs",
-          "kind": "tiles",
-          "roleId": "stairs_up",
-          "anchor": "bottom_center",
-          "hop": {
-            "dir": "south",
-            "deltaZ": 1
-          }
-        },
-        {
-          "catalogId": "damp_deep_water",
-          "kind": "tiles",
-          "roleId": "water"
-        },
-        {
-          "catalogId": "dirt_wang_15",
-          "kind": "overlays",
-          "roleId": "path",
-          "wangFamily": "dirt",
-          "wangMask": 15
-        },
-        {
-          "catalogId": "dirt_wang_11",
-          "kind": "overlays",
-          "roleId": "path",
-          "wangFamily": "dirt",
-          "wangMask": 11
-        },
-        {
-          "catalogId": "dirt_wang_07",
-          "kind": "overlays",
-          "roleId": "path",
-          "wangFamily": "dirt",
-          "wangMask": 7
-        },
-        {
-          "catalogId": "dirt_wang_inner_sw",
-          "kind": "overlays",
-          "roleId": "path",
-          "wangFamily": "dirt",
-          "wangMask": 15,
-          "wangInner": "sw"
-        },
-        {
-          "catalogId": "dirt_wang_03",
-          "kind": "overlays",
-          "roleId": "path",
-          "wangFamily": "dirt",
-          "wangMask": 3
-        },
-        {
-          "catalogId": "dirt_wang_13",
-          "kind": "overlays",
-          "roleId": "path",
-          "wangFamily": "dirt",
-          "wangMask": 13
-        },
-        {
-          "catalogId": "dirt_wang_09",
-          "kind": "overlays",
-          "roleId": "path",
-          "wangFamily": "dirt",
-          "wangMask": 9
-        },
-        {
-          "catalogId": "dirt_wang_10",
-          "kind": "overlays",
-          "roleId": "path",
-          "wangFamily": "dirt",
-          "wangMask": 10
-        },
-        {
-          "catalogId": "dirt_wang_12",
-          "kind": "overlays",
-          "roleId": "path",
-          "wangFamily": "dirt",
-          "wangMask": 12
-        },
-        {
-          "catalogId": "dirt_wang_14",
-          "kind": "overlays",
-          "roleId": "path",
-          "wangFamily": "dirt",
-          "wangMask": 14
-        },
-        {
-          "catalogId": "dirt_wang_inner_nw",
-          "kind": "overlays",
-          "roleId": "path",
-          "wangFamily": "dirt",
-          "wangMask": 15,
-          "wangInner": "nw"
-        },
-        {
-          "catalogId": "dirt_wang_06",
-          "kind": "overlays",
-          "roleId": "path",
-          "wangFamily": "dirt",
-          "wangMask": 6
-        },
-        {
-          "catalogId": "dirt_wang_05",
-          "kind": "overlays",
-          "roleId": "path",
-          "wangFamily": "dirt",
-          "wangMask": 5
-        },
-        {
-          "catalogId": "water_wang_15",
-          "kind": "overlays",
-          "roleId": "water",
-          "wangFamily": "water",
-          "wangMask": 15
-        },
-        {
-          "catalogId": "water_wang_10",
-          "kind": "overlays",
-          "roleId": "water",
-          "wangFamily": "water",
-          "wangMask": 10
-        },
-        {
-          "catalogId": "water_wang_12",
-          "kind": "overlays",
-          "roleId": "water",
-          "wangFamily": "water",
-          "wangMask": 12
-        },
-        {
-          "catalogId": "water_wang_06",
-          "kind": "overlays",
-          "roleId": "water",
-          "wangFamily": "water",
-          "wangMask": 6
-        },
-        {
-          "catalogId": "water_wang_01",
-          "kind": "overlays",
-          "roleId": "water",
-          "wangFamily": "water",
-          "wangMask": 1
-        },
-        {
-          "catalogId": "water_wang_05",
-          "kind": "overlays",
-          "roleId": "water",
-          "wangFamily": "water",
-          "wangMask": 5
-        },
-        {
-          "catalogId": "dirt_wang_08",
-          "kind": "overlays",
-          "roleId": "path",
-          "wangFamily": "dirt",
-          "wangMask": 8
-        },
-        {
-          "catalogId": "dirt_wang_inner_se",
-          "kind": "overlays",
-          "roleId": "path",
-          "wangFamily": "dirt",
-          "wangMask": 15,
-          "wangInner": "se"
-        },
-        {
-          "catalogId": "water_wang_08",
-          "kind": "overlays",
-          "roleId": "water",
-          "wangFamily": "water",
-          "wangMask": 8
-        },
-        {
-          "catalogId": "water_wang_13",
-          "kind": "overlays",
-          "roleId": "water",
-          "wangFamily": "water",
-          "wangMask": 13
-        },
-        {
-          "catalogId": "water_wang_09",
-          "kind": "overlays",
-          "roleId": "water",
-          "wangFamily": "water",
-          "wangMask": 9
-        },
-        {
-          "catalogId": "water_wang_07",
-          "kind": "overlays",
-          "roleId": "water",
-          "wangFamily": "water",
-          "wangMask": 7
-        },
-        {
-          "catalogId": "water_wang_14",
-          "kind": "overlays",
-          "roleId": "water",
-          "wangFamily": "water",
-          "wangMask": 14
-        },
-        {
-          "catalogId": "water_wang_03",
-          "kind": "overlays",
-          "roleId": "water",
-          "wangFamily": "water",
-          "wangMask": 3
-        },
-        {
-          "catalogId": "water_wang_11",
-          "kind": "overlays",
-          "roleId": "water",
-          "wangFamily": "water",
-          "wangMask": 11
-        },
-        {
-          "catalogId": "water_wang_inner_sw",
-          "kind": "overlays",
-          "roleId": "water",
-          "wangFamily": "water",
-          "wangMask": 15,
-          "wangInner": "sw"
-        },
-        {
-          "catalogId": "water_wang_inner_se",
-          "kind": "overlays",
-          "roleId": "water",
-          "wangFamily": "water",
-          "wangMask": 15,
-          "wangInner": "se"
-        },
-        {
-          "catalogId": "dirt_wang_05",
-          "kind": "overlays",
-          "roleId": "path",
-          "wangFamily": "dirt",
-          "wangMask": 5,
-          "wangLocked": true
-        },
-        {
-          "catalogId": "stone_wall_pole",
-          "kind": "objects",
-          "roleId": "wall",
-          "wallFamily": "stone_wall",
-          "wallAlign": "pole"
-        },
-        {
-          "catalogId": "stone_wall_horizontal",
-          "kind": "objects",
-          "roleId": "wall",
-          "wallFamily": "stone_wall",
-          "wallAlign": "horizontal"
-        },
-        {
-          "catalogId": "stone_wall_vertical",
-          "kind": "objects",
-          "roleId": "wall",
-          "wallFamily": "stone_wall",
-          "wallAlign": "vertical"
-        },
-        {
-          "catalogId": "stone_wall_corner",
-          "kind": "objects",
-          "roleId": "wall",
-          "wallFamily": "stone_wall",
-          "wallAlign": "corner"
-        },
-        {
-          "catalogId": "stone_wall_south_end",
-          "kind": "objects",
-          "roleId": "wall",
-          "wallFamily": "stone_wall",
-          "wallAlign": "south_end"
-        },
-        {
-          "catalogId": "stone_wall_east_end",
-          "kind": "objects",
-          "roleId": "wall",
-          "wallFamily": "stone_wall",
-          "wallAlign": "east_end"
-        },
-        {
-          "catalogId": "stone_wall_west_end",
-          "kind": "objects",
-          "roleId": "wall",
-          "wallFamily": "stone_wall",
-          "wallAlign": "west_end"
-        },
-        {
-          "catalogId": "stone_wall_north_end",
-          "kind": "objects",
-          "roleId": "wall",
-          "wallFamily": "stone_wall",
-          "wallAlign": "north_end"
-        },
-        {
-          "catalogId": "stone_wall_northeast_diagonal",
-          "kind": "objects",
-          "roleId": "wall",
-          "wallFamily": "stone_wall",
-          "wallAlign": "northeast_diagonal"
-        },
-        {
-          "catalogId": "stone_wall_southeast_diagonal",
-          "kind": "objects",
-          "roleId": "wall",
-          "wallFamily": "stone_wall",
-          "wallAlign": "southeast_diagonal"
-        },
-        {
-          "catalogId": "stone_wall_southwest_diagonal",
-          "kind": "objects",
-          "roleId": "wall",
-          "wallFamily": "stone_wall",
-          "wallAlign": "southwest_diagonal"
-        },
-        {
-          "catalogId": "stone_wall_south_t",
-          "kind": "objects",
-          "roleId": "wall",
-          "wallFamily": "stone_wall",
-          "wallAlign": "south_t"
-        },
-        {
-          "catalogId": "stone_wall_east_t",
-          "kind": "objects",
-          "roleId": "wall",
-          "wallFamily": "stone_wall",
-          "wallAlign": "east_t"
-        },
-        {
-          "catalogId": "stone_wall_west_t",
-          "kind": "objects",
-          "roleId": "wall",
-          "wallFamily": "stone_wall",
-          "wallAlign": "west_t"
-        },
-        {
-          "catalogId": "stone_wall_north_t",
-          "kind": "objects",
-          "roleId": "wall",
-          "wallFamily": "stone_wall",
-          "wallAlign": "north_t"
-        },
-        {
-          "catalogId": "stone_wall_intersection",
-          "kind": "objects",
-          "roleId": "wall",
-          "wallFamily": "stone_wall",
-          "wallAlign": "intersection"
-        },
-        {
-          "catalogId": "simple_dead_tree",
-          "kind": "objects",
-          "roleId": "scenery_blocking",
-          "scale": 5,
-          "anchor": "bottom_center"
-        },
-        {
-          "catalogId": "overgrown_grass_floor",
-          "kind": "tiles",
-          "roleId": "floor"
-        },
-        {
-          "catalogId": "damp_wood_floor",
-          "kind": "tiles",
-          "roleId": "floor"
-        },
-        {
-          "catalogId": "village_table",
-          "kind": "objects",
-          "roleId": "furniture_blocking"
-        },
-        {
-          "catalogId": "village_bench",
-          "kind": "objects",
-          "roleId": "furniture_blocking"
-        },
-        {
-          "catalogId": "village_crate",
-          "kind": "objects",
-          "roleId": "furniture_blocking"
-        },
-        {
-          "catalogId": "village_barrel",
-          "kind": "objects",
-          "roleId": "furniture_blocking"
-        },
-        {
-          "catalogId": "village_torch_stand",
-          "kind": "objects",
-          "roleId": "scenery_cover"
-        },
-        {
-          "catalogId": "village_railing",
-          "kind": "objects",
-          "roleId": "scenery_blocking"
-        },
-        {
-          "catalogId": "abandoned_flower_patch",
-          "kind": "objects",
-          "roleId": "scenery_cover"
+    "version": 2,
+    "id": "floor_06",
+    "label": "Legacy floor 06",
+    "floors": [
+        {
+            "z": 6,
+            "cols": 225,
+            "rows": 198,
+            "palette": [
+                null,
+                {
+                    "catalogId": "broken_cave_stairs",
+                    "kind": "tiles",
+                    "roleId": "stairs_up",
+                    "anchor": "bottom_center",
+                    "hop": {
+                        "dir": "center",
+                        "deltaZ": 1
+                    }
+                },
+                {
+                    "catalogId": "damp_dirt_floor",
+                    "kind": "tiles",
+                    "roleId": "floor"
+                },
+                {
+                    "catalogId": "broken_cave_stairs",
+                    "kind": "tiles",
+                    "roleId": "stairs_up",
+                    "anchor": "bottom_center",
+                    "hop": {
+                        "dir": "center",
+                        "deltaZ": -1
+                    }
+                },
+                {
+                    "catalogId": "simple_dead_tree",
+                    "kind": "objects",
+                    "roleId": "scenery_blocking",
+                    "scale": 1.4,
+                    "anchor": "bottom_center"
+                },
+                {
+                    "catalogId": "polished_dirt_path",
+                    "kind": "tiles",
+                    "roleId": "path"
+                },
+                {
+                    "catalogId": "broken_cave_stairs",
+                    "kind": "tiles",
+                    "roleId": "stairs_up",
+                    "anchor": "bottom_center",
+                    "hop": {
+                        "dir": "south",
+                        "deltaZ": 1
+                    }
+                },
+                {
+                    "catalogId": "damp_deep_water",
+                    "kind": "tiles",
+                    "roleId": "water"
+                },
+                {
+                    "catalogId": "dirt_wang_15",
+                    "kind": "overlays",
+                    "roleId": "path",
+                    "wangFamily": "dirt",
+                    "wangMask": 15
+                },
+                {
+                    "catalogId": "dirt_wang_11",
+                    "kind": "overlays",
+                    "roleId": "path",
+                    "wangFamily": "dirt",
+                    "wangMask": 11
+                },
+                {
+                    "catalogId": "dirt_wang_07",
+                    "kind": "overlays",
+                    "roleId": "path",
+                    "wangFamily": "dirt",
+                    "wangMask": 7
+                },
+                {
+                    "catalogId": "dirt_wang_inner_sw",
+                    "kind": "overlays",
+                    "roleId": "path",
+                    "wangFamily": "dirt",
+                    "wangMask": 15,
+                    "wangInner": "sw"
+                },
+                {
+                    "catalogId": "dirt_wang_03",
+                    "kind": "overlays",
+                    "roleId": "path",
+                    "wangFamily": "dirt",
+                    "wangMask": 3
+                },
+                {
+                    "catalogId": "dirt_wang_13",
+                    "kind": "overlays",
+                    "roleId": "path",
+                    "wangFamily": "dirt",
+                    "wangMask": 13
+                },
+                {
+                    "catalogId": "dirt_wang_09",
+                    "kind": "overlays",
+                    "roleId": "path",
+                    "wangFamily": "dirt",
+                    "wangMask": 9
+                },
+                {
+                    "catalogId": "dirt_wang_10",
+                    "kind": "overlays",
+                    "roleId": "path",
+                    "wangFamily": "dirt",
+                    "wangMask": 10
+                },
+                {
+                    "catalogId": "dirt_wang_12",
+                    "kind": "overlays",
+                    "roleId": "path",
+                    "wangFamily": "dirt",
+                    "wangMask": 12
+                },
+                {
+                    "catalogId": "dirt_wang_14",
+                    "kind": "overlays",
+                    "roleId": "path",
+                    "wangFamily": "dirt",
+                    "wangMask": 14
+                },
+                {
+                    "catalogId": "dirt_wang_inner_nw",
+                    "kind": "overlays",
+                    "roleId": "path",
+                    "wangFamily": "dirt",
+                    "wangMask": 15,
+                    "wangInner": "nw"
+                },
+                {
+                    "catalogId": "dirt_wang_06",
+                    "kind": "overlays",
+                    "roleId": "path",
+                    "wangFamily": "dirt",
+                    "wangMask": 6
+                },
+                {
+                    "catalogId": "dirt_wang_05",
+                    "kind": "overlays",
+                    "roleId": "path",
+                    "wangFamily": "dirt",
+                    "wangMask": 5
+                },
+                {
+                    "catalogId": "water_wang_15",
+                    "kind": "overlays",
+                    "roleId": "water",
+                    "wangFamily": "water",
+                    "wangMask": 15
+                },
+                {
+                    "catalogId": "water_wang_10",
+                    "kind": "overlays",
+                    "roleId": "water",
+                    "wangFamily": "water",
+                    "wangMask": 10
+                },
+                {
+                    "catalogId": "water_wang_12",
+                    "kind": "overlays",
+                    "roleId": "water",
+                    "wangFamily": "water",
+                    "wangMask": 12
+                },
+                {
+                    "catalogId": "water_wang_06",
+                    "kind": "overlays",
+                    "roleId": "water",
+                    "wangFamily": "water",
+                    "wangMask": 6
+                },
+                {
+                    "catalogId": "water_wang_01",
+                    "kind": "overlays",
+                    "roleId": "water",
+                    "wangFamily": "water",
+                    "wangMask": 1
+                },
+                {
+                    "catalogId": "water_wang_05",
+                    "kind": "overlays",
+                    "roleId": "water",
+                    "wangFamily": "water",
+                    "wangMask": 5
+                },
+                {
+                    "catalogId": "dirt_wang_08",
+                    "kind": "overlays",
+                    "roleId": "path",
+                    "wangFamily": "dirt",
+                    "wangMask": 8
+                },
+                {
+                    "catalogId": "dirt_wang_inner_se",
+                    "kind": "overlays",
+                    "roleId": "path",
+                    "wangFamily": "dirt",
+                    "wangMask": 15,
+                    "wangInner": "se"
+                },
+                {
+                    "catalogId": "water_wang_08",
+                    "kind": "overlays",
+                    "roleId": "water",
+                    "wangFamily": "water",
+                    "wangMask": 8
+                },
+                {
+                    "catalogId": "water_wang_13",
+                    "kind": "overlays",
+                    "roleId": "water",
+                    "wangFamily": "water",
+                    "wangMask": 13
+                },
+                {
+                    "catalogId": "water_wang_09",
+                    "kind": "overlays",
+                    "roleId": "water",
+                    "wangFamily": "water",
+                    "wangMask": 9
+                },
+                {
+                    "catalogId": "water_wang_07",
+                    "kind": "overlays",
+                    "roleId": "water",
+                    "wangFamily": "water",
+                    "wangMask": 7
+                },
+                {
+                    "catalogId": "water_wang_14",
+                    "kind": "overlays",
+                    "roleId": "water",
+                    "wangFamily": "water",
+                    "wangMask": 14
+                },
+                {
+                    "catalogId": "water_wang_03",
+                    "kind": "overlays",
+                    "roleId": "water",
+                    "wangFamily": "water",
+                    "wangMask": 3
+                },
+                {
+                    "catalogId": "water_wang_11",
+                    "kind": "overlays",
+                    "roleId": "water",
+                    "wangFamily": "water",
+                    "wangMask": 11
+                },
+                {
+                    "catalogId": "water_wang_inner_sw",
+                    "kind": "overlays",
+                    "roleId": "water",
+                    "wangFamily": "water",
+                    "wangMask": 15,
+                    "wangInner": "sw"
+                },
+                {
+                    "catalogId": "water_wang_inner_se",
+                    "kind": "overlays",
+                    "roleId": "water",
+                    "wangFamily": "water",
+                    "wangMask": 15,
+                    "wangInner": "se"
+                },
+                {
+                    "catalogId": "dirt_wang_05",
+                    "kind": "overlays",
+                    "roleId": "path",
+                    "wangFamily": "dirt",
+                    "wangMask": 5,
+                    "wangLocked": true
+                },
+                {
+                    "catalogId": "stone_wall_pole",
+                    "kind": "objects",
+                    "roleId": "wall",
+                    "wallFamily": "stone_wall",
+                    "wallAlign": "pole"
+                },
+                {
+                    "catalogId": "stone_wall_horizontal",
+                    "kind": "objects",
+                    "roleId": "wall",
+                    "wallFamily": "stone_wall",
+                    "wallAlign": "horizontal"
+                },
+                {
+                    "catalogId": "stone_wall_vertical",
+                    "kind": "objects",
+                    "roleId": "wall",
+                    "wallFamily": "stone_wall",
+                    "wallAlign": "vertical"
+                },
+                {
+                    "catalogId": "stone_wall_corner",
+                    "kind": "objects",
+                    "roleId": "wall",
+                    "wallFamily": "stone_wall",
+                    "wallAlign": "corner"
+                },
+                {
+                    "catalogId": "stone_wall_south_end",
+                    "kind": "objects",
+                    "roleId": "wall",
+                    "wallFamily": "stone_wall",
+                    "wallAlign": "south_end"
+                },
+                {
+                    "catalogId": "stone_wall_east_end",
+                    "kind": "objects",
+                    "roleId": "wall",
+                    "wallFamily": "stone_wall",
+                    "wallAlign": "east_end"
+                },
+                {
+                    "catalogId": "stone_wall_west_end",
+                    "kind": "objects",
+                    "roleId": "wall",
+                    "wallFamily": "stone_wall",
+                    "wallAlign": "west_end"
+                },
+                {
+                    "catalogId": "stone_wall_north_end",
+                    "kind": "objects",
+                    "roleId": "wall",
+                    "wallFamily": "stone_wall",
+                    "wallAlign": "north_end"
+                },
+                {
+                    "catalogId": "stone_wall_northeast_diagonal",
+                    "kind": "objects",
+                    "roleId": "wall",
+                    "wallFamily": "stone_wall",
+                    "wallAlign": "northeast_diagonal"
+                },
+                {
+                    "catalogId": "stone_wall_southeast_diagonal",
+                    "kind": "objects",
+                    "roleId": "wall",
+                    "wallFamily": "stone_wall",
+                    "wallAlign": "southeast_diagonal"
+                },
+                {
+                    "catalogId": "stone_wall_southwest_diagonal",
+                    "kind": "objects",
+                    "roleId": "wall",
+                    "wallFamily": "stone_wall",
+                    "wallAlign": "southwest_diagonal"
+                },
+                {
+                    "catalogId": "stone_wall_south_t",
+                    "kind": "objects",
+                    "roleId": "wall",
+                    "wallFamily": "stone_wall",
+                    "wallAlign": "south_t"
+                },
+                {
+                    "catalogId": "stone_wall_east_t",
+                    "kind": "objects",
+                    "roleId": "wall",
+                    "wallFamily": "stone_wall",
+                    "wallAlign": "east_t"
+                },
+                {
+                    "catalogId": "stone_wall_west_t",
+                    "kind": "objects",
+                    "roleId": "wall",
+                    "wallFamily": "stone_wall",
+                    "wallAlign": "west_t"
+                },
+                {
+                    "catalogId": "stone_wall_north_t",
+                    "kind": "objects",
+                    "roleId": "wall",
+                    "wallFamily": "stone_wall",
+                    "wallAlign": "north_t"
+                },
+                {
+                    "catalogId": "stone_wall_intersection",
+                    "kind": "objects",
+                    "roleId": "wall",
+                    "wallFamily": "stone_wall",
+                    "wallAlign": "intersection"
+                },
+                {
+                    "catalogId": "simple_dead_tree",
+                    "kind": "objects",
+                    "roleId": "scenery_blocking",
+                    "scale": 5,
+                    "anchor": "bottom_center"
+                },
+                {
+                    "catalogId": "overgrown_grass_floor",
+                    "kind": "tiles",
+                    "roleId": "floor"
+                },
+                {
+                    "catalogId": "damp_wood_floor",
+                    "kind": "tiles",
+                    "roleId": "floor"
+                },
+                {
+                    "catalogId": "village_table",
+                    "kind": "objects",
+                    "roleId": "furniture_blocking"
+                },
+                {
+                    "catalogId": "village_bench",
+                    "kind": "objects",
+                    "roleId": "furniture_blocking"
+                },
+                {
+                    "catalogId": "village_crate",
+                    "kind": "objects",
+                    "roleId": "furniture_blocking"
+                },
+                {
+                    "catalogId": "village_barrel",
+                    "kind": "objects",
+                    "roleId": "furniture_blocking"
+                },
+                {
+                    "catalogId": "village_torch_stand",
+                    "kind": "objects",
+                    "roleId": "scenery_cover"
+                },
+                {
+                    "catalogId": "village_railing",
+                    "kind": "objects",
+                    "roleId": "scenery_blocking"
+                },
+                {
+                    "catalogId": "abandoned_flower_patch",
+                    "kind": "objects",
+                    "roleId": "scenery_cover"
+                },
+                {
+                    "catalogId": "dirt_wang_01",
+                    "kind": "overlays",
+                    "roleId": "path",
+                    "wangFamily": "dirt",
+                    "wangMask": 1
+                },
+                {
+                    "catalogId": "dirt_wang_02",
+                    "kind": "overlays",
+                    "roleId": "path",
+                    "wangFamily": "dirt",
+                    "wangMask": 2
+                },
+                {
+                    "catalogId": "dirt_wang_00",
+                    "kind": "overlays",
+                    "roleId": "path",
+                    "wangFamily": "dirt",
+                    "wangMask": 0
+                },
+                {
+                    "catalogId": "water_wang_02",
+                    "kind": "overlays",
+                    "roleId": "water",
+                    "wangFamily": "water",
+                    "wangMask": 2
+                },
+                {
+                    "catalogId": "dirt_wang_04",
+                    "kind": "overlays",
+                    "roleId": "path",
+                    "wangFamily": "dirt",
+                    "wangMask": 4
+                },
+                {
+                    "catalogId": "water_wang_04",
+                    "kind": "overlays",
+                    "roleId": "water",
+                    "wangFamily": "water",
+                    "wangMask": 4
+                },
+                {
+                    "catalogId": "water_wang_00",
+                    "kind": "overlays",
+                    "roleId": "water",
+                    "wangFamily": "water",
+                    "wangMask": 0
+                },
+                {
+                    "catalogId": "water_wang_inner_nw",
+                    "kind": "overlays",
+                    "roleId": "water",
+                    "wangFamily": "water",
+                    "wangMask": 15,
+                    "wangInner": "nw"
+                },
+                {
+                    "catalogId": "shallow_water",
+                    "kind": "tiles",
+                    "roleId": "water"
+                }
+            ],
+            "subLayers": [
+                {
+                    "id": "ground",
+                    "zOrder": 0,
+                    "blob": "floors/6/sub_ground.u16.gz"
+                },
+                {
+                    "id": "path",
+                    "zOrder": 1,
+                    "blob": "floors/6/sub_path.u16.gz"
+                },
+                {
+                    "id": "scenery",
+                    "zOrder": 2,
+                    "blob": "floors/6/sub_scenery.u16.gz"
+                },
+                {
+                    "id": "furniture",
+                    "zOrder": 3,
+                    "blob": "floors/6/sub_furniture.u16.gz"
+                },
+                {
+                    "id": "vertical",
+                    "zOrder": 4,
+                    "blob": "floors/6/sub_vertical.u16.gz"
+                }
+            ],
+            "channels": {
+                "friction": "floors/6/friction.u8.gz",
+                "sight": "floors/6/sight.u8.gz",
+                "flags": "floors/6/flags.u8.gz",
+                "fields": "floors/6/fields.u8.gz"
+            },
+            "overrideMask": "floors/6/override.u8.gz",
+            "stairs": [
+                {
+                    "x": 81,
+                    "y": 134,
+                    "z": 6,
+                    "dir": "south",
+                    "type": "stairs",
+                    "deltaZ": 1,
+                    "bidirectional": false,
+                    "to": {
+                        "x": 81,
+                        "y": 135,
+                        "z": 7
+                    }
+                }
+            ]
         }
-      ],
-      "subLayers": [
+    ],
+    "spawns": [
         {
-          "id": "ground",
-          "zOrder": 0,
-          "blob": "floors/6/sub_ground.u16.gz"
+            "creatureId": "troll_trained_salamander",
+            "x": 87,
+            "y": 109,
+            "z": 6,
+            "respawn": 90
         },
         {
-          "id": "path",
-          "zOrder": 1,
-          "blob": "floors/6/sub_path.u16.gz"
+            "creatureId": "mountain_troll",
+            "x": 108,
+            "y": 110,
+            "z": 6,
+            "respawn": 90
         },
         {
-          "id": "scenery",
-          "zOrder": 2,
-          "blob": "floors/6/sub_scenery.u16.gz"
+            "creatureId": "troll_trained_salamander",
+            "x": 91,
+            "y": 113,
+            "z": 6,
+            "respawn": 90
         },
         {
-          "id": "furniture",
-          "zOrder": 3,
-          "blob": "floors/6/sub_furniture.u16.gz"
+            "creatureId": "sheep",
+            "x": 102,
+            "y": 110,
+            "z": 6,
+            "respawn": 90
         },
         {
-          "id": "vertical",
-          "zOrder": 4,
-          "blob": "floors/6/sub_vertical.u16.gz"
-        }
-      ],
-      "channels": {
-        "friction": "floors/6/friction.u8.gz",
-        "sight": "floors/6/sight.u8.gz",
-        "flags": "floors/6/flags.u8.gz",
-        "fields": "floors/6/fields.u8.gz"
-      },
-      "overrideMask": null,
-      "stairs": [
+            "creatureId": "mountain_troll",
+            "x": 118,
+            "y": 115,
+            "z": 6,
+            "respawn": 90
+        },
         {
-          "x": 81,
-          "y": 134,
-          "z": 6,
-          "dir": "south",
-          "type": "stairs",
-          "deltaZ": 1,
-          "bidirectional": false,
-          "to": {
+            "creatureId": "troll_trained_salamander",
+            "x": 111,
+            "y": 114,
+            "z": 6,
+            "respawn": 90
+        },
+        {
+            "creatureId": "troll_trained_salamander",
+            "x": 87,
+            "y": 116,
+            "z": 6,
+            "respawn": 90
+        },
+        {
+            "creatureId": "mountain_troll",
+            "x": 124,
+            "y": 119,
+            "z": 6,
+            "respawn": 90
+        },
+        {
+            "creatureId": "mountain_troll",
+            "x": 127,
+            "y": 121,
+            "z": 6,
+            "respawn": 90
+        },
+        {
+            "creatureId": "rabbit",
+            "x": 132,
+            "y": 129,
+            "z": 6,
+            "respawn": 90
+        },
+        {
+            "creatureId": "mountain_troll",
+            "x": 130,
+            "y": 129,
+            "z": 6,
+            "respawn": 90
+        },
+        {
+            "creatureId": "mountain_troll",
+            "x": 132,
+            "y": 136,
+            "z": 6,
+            "respawn": 90
+        },
+        {
+            "creatureId": "deer",
+            "x": 90,
+            "y": 142,
+            "z": 6,
+            "respawn": 90
+        },
+        {
+            "creatureId": "mountain_troll",
+            "x": 133,
+            "y": 143,
+            "z": 6,
+            "respawn": 90
+        },
+        {
+            "creatureId": "rabbit",
+            "x": 134,
+            "y": 145,
+            "z": 6,
+            "respawn": 90
+        },
+        {
+            "creatureId": "mountain_troll",
+            "x": 87,
+            "y": 147,
+            "z": 6,
+            "respawn": 90
+        },
+        {
+            "creatureId": "mountain_troll",
+            "x": 132,
+            "y": 150,
+            "z": 6,
+            "respawn": 90
+        },
+        {
+            "creatureId": "mountain_troll",
             "x": 81,
-            "y": 135,
-            "z": 7
-          }
+            "y": 153,
+            "z": 6,
+            "respawn": 27055
+        },
+        {
+            "creatureId": "mountain_troll",
+            "x": 82,
+            "y": 153,
+            "z": 6,
+            "respawn": 90
+        },
+        {
+            "creatureId": "mountain_troll",
+            "x": 126,
+            "y": 153,
+            "z": 6,
+            "respawn": 90
+        },
+        {
+            "creatureId": "mountain_troll",
+            "x": 96,
+            "y": 154,
+            "z": 6,
+            "respawn": 90
+        },
+        {
+            "creatureId": "troll_trained_salamander",
+            "x": 123,
+            "y": 154,
+            "z": 6,
+            "respawn": 90
+        },
+        {
+            "creatureId": "rabbit",
+            "x": 118,
+            "y": 155,
+            "z": 6,
+            "respawn": 90
+        },
+        {
+            "creatureId": "mountain_troll",
+            "x": 108,
+            "y": 156,
+            "z": 6,
+            "respawn": 90
+        },
+        {
+            "creatureId": "mountain_troll",
+            "x": 128,
+            "y": 156,
+            "z": 6,
+            "respawn": 90
+        },
+        {
+            "creatureId": "mountain_troll",
+            "x": 84,
+            "y": 157,
+            "z": 6,
+            "respawn": 90
+        },
+        {
+            "creatureId": "mountain_troll",
+            "x": 130,
+            "y": 159,
+            "z": 6,
+            "respawn": 90
+        },
+        {
+            "creatureId": "mountain_troll",
+            "x": 93,
+            "y": 161,
+            "z": 6,
+            "respawn": 90
+        },
+        {
+            "creatureId": "mountain_troll",
+            "x": 127,
+            "y": 161,
+            "z": 6,
+            "respawn": 90
+        },
+        {
+            "creatureId": "mountain_troll",
+            "x": 96,
+            "y": 163,
+            "z": 6,
+            "respawn": 90
+        },
+        {
+            "creatureId": "mountain_troll",
+            "x": 110,
+            "y": 163,
+            "z": 6,
+            "respawn": 90
+        },
+        {
+            "creatureId": "mountain_troll",
+            "x": 93,
+            "y": 164,
+            "z": 6,
+            "respawn": 90
+        },
+        {
+            "creatureId": "mountain_troll",
+            "x": 120,
+            "y": 165,
+            "z": 6,
+            "respawn": 90
+        },
+        {
+            "creatureId": "mountain_troll",
+            "x": 80,
+            "y": 139,
+            "z": 6,
+            "respawn": 60
+        },
+        {
+            "creatureId": "mountain_troll",
+            "x": 81,
+            "y": 140,
+            "z": 6,
+            "respawn": 60
+        },
+        {
+            "creatureId": "mountain_troll",
+            "x": 79,
+            "y": 139,
+            "z": 6,
+            "respawn": 60
+        },
+        {
+            "creatureId": "mountain_troll",
+            "x": 84,
+            "y": 140,
+            "z": 6,
+            "respawn": 60
+        },
+        {
+            "creatureId": "outfitter_calder",
+            "x": 75,
+            "y": 133,
+            "z": 6,
+            "respawn": 60
+        },
+        {
+            "creatureId": "smith_brannok",
+            "x": 86,
+            "y": 130,
+            "z": 6,
+            "respawn": 60
+        },
+        {
+            "creatureId": "arcanist_quell",
+            "x": 91,
+            "y": 130,
+            "z": 6,
+            "respawn": 60
+        },
+        {
+            "creatureId": "wayguide_osric",
+            "x": 80,
+            "y": 134,
+            "z": 6,
+            "respawn": 60
+        },
+        {
+            "creatureId": "quartermaster_hale",
+            "x": 83,
+            "y": 132,
+            "z": 6,
+            "respawn": 60
+        },
+        {
+            "creatureId": "sister_mira",
+            "x": 96,
+            "y": 133,
+            "z": 6,
+            "respawn": 60
+        },
+        {
+            "creatureId": "captain_riven",
+            "x": 81,
+            "y": 144,
+            "z": 6,
+            "respawn": 60
         }
-      ]
-    }
-  ],
-  "spawns": [
-    {
-      "creatureId": "troll_trained_salamander",
-      "x": 87,
-      "y": 109,
-      "z": 6,
-      "respawn": 90
-    },
-    {
-      "creatureId": "mountain_troll",
-      "x": 108,
-      "y": 110,
-      "z": 6,
-      "respawn": 90
-    },
-    {
-      "creatureId": "troll_trained_salamander",
-      "x": 91,
-      "y": 113,
-      "z": 6,
-      "respawn": 90
-    },
-    {
-      "creatureId": "sheep",
-      "x": 102,
-      "y": 110,
-      "z": 6,
-      "respawn": 90
-    },
-    {
-      "creatureId": "mountain_troll",
-      "x": 118,
-      "y": 115,
-      "z": 6,
-      "respawn": 90
-    },
-    {
-      "creatureId": "troll_trained_salamander",
-      "x": 111,
-      "y": 114,
-      "z": 6,
-      "respawn": 90
-    },
-    {
-      "creatureId": "troll_trained_salamander",
-      "x": 87,
-      "y": 116,
-      "z": 6,
-      "respawn": 90
-    },
-    {
-      "creatureId": "mountain_troll",
-      "x": 124,
-      "y": 119,
-      "z": 6,
-      "respawn": 90
-    },
-    {
-      "creatureId": "mountain_troll",
-      "x": 127,
-      "y": 121,
-      "z": 6,
-      "respawn": 90
-    },
-    {
-      "creatureId": "rabbit",
-      "x": 132,
-      "y": 129,
-      "z": 6,
-      "respawn": 90
-    },
-    {
-      "creatureId": "mountain_troll",
-      "x": 130,
-      "y": 129,
-      "z": 6,
-      "respawn": 90
-    },
-    {
-      "creatureId": "mountain_troll",
-      "x": 132,
-      "y": 136,
-      "z": 6,
-      "respawn": 90
-    },
-    {
-      "creatureId": "deer",
-      "x": 90,
-      "y": 142,
-      "z": 6,
-      "respawn": 90
-    },
-    {
-      "creatureId": "mountain_troll",
-      "x": 133,
-      "y": 143,
-      "z": 6,
-      "respawn": 90
-    },
-    {
-      "creatureId": "rabbit",
-      "x": 134,
-      "y": 145,
-      "z": 6,
-      "respawn": 90
-    },
-    {
-      "creatureId": "mountain_troll",
-      "x": 87,
-      "y": 147,
-      "z": 6,
-      "respawn": 90
-    },
-    {
-      "creatureId": "mountain_troll",
-      "x": 132,
-      "y": 150,
-      "z": 6,
-      "respawn": 90
-    },
-    {
-      "creatureId": "mountain_troll",
-      "x": 81,
-      "y": 153,
-      "z": 6,
-      "respawn": 27055
-    },
-    {
-      "creatureId": "mountain_troll",
-      "x": 82,
-      "y": 153,
-      "z": 6,
-      "respawn": 90
-    },
-    {
-      "creatureId": "mountain_troll",
-      "x": 126,
-      "y": 153,
-      "z": 6,
-      "respawn": 90
-    },
-    {
-      "creatureId": "mountain_troll",
-      "x": 96,
-      "y": 154,
-      "z": 6,
-      "respawn": 90
-    },
-    {
-      "creatureId": "troll_trained_salamander",
-      "x": 123,
-      "y": 154,
-      "z": 6,
-      "respawn": 90
-    },
-    {
-      "creatureId": "rabbit",
-      "x": 118,
-      "y": 155,
-      "z": 6,
-      "respawn": 90
-    },
-    {
-      "creatureId": "mountain_troll",
-      "x": 108,
-      "y": 156,
-      "z": 6,
-      "respawn": 90
-    },
-    {
-      "creatureId": "mountain_troll",
-      "x": 128,
-      "y": 156,
-      "z": 6,
-      "respawn": 90
-    },
-    {
-      "creatureId": "mountain_troll",
-      "x": 84,
-      "y": 157,
-      "z": 6,
-      "respawn": 90
-    },
-    {
-      "creatureId": "mountain_troll",
-      "x": 130,
-      "y": 159,
-      "z": 6,
-      "respawn": 90
-    },
-    {
-      "creatureId": "mountain_troll",
-      "x": 93,
-      "y": 161,
-      "z": 6,
-      "respawn": 90
-    },
-    {
-      "creatureId": "mountain_troll",
-      "x": 127,
-      "y": 161,
-      "z": 6,
-      "respawn": 90
-    },
-    {
-      "creatureId": "mountain_troll",
-      "x": 96,
-      "y": 163,
-      "z": 6,
-      "respawn": 90
-    },
-    {
-      "creatureId": "mountain_troll",
-      "x": 110,
-      "y": 163,
-      "z": 6,
-      "respawn": 90
-    },
-    {
-      "creatureId": "mountain_troll",
-      "x": 93,
-      "y": 164,
-      "z": 6,
-      "respawn": 90
-    },
-    {
-      "creatureId": "mountain_troll",
-      "x": 120,
-      "y": 165,
-      "z": 6,
-      "respawn": 90
-    },
-    {
-      "creatureId": "mountain_troll",
-      "x": 80,
-      "y": 139,
-      "z": 6,
-      "respawn": 60
-    },
-    {
-      "creatureId": "mountain_troll",
-      "x": 81,
-      "y": 140,
-      "z": 6,
-      "respawn": 60
-    },
-    {
-      "creatureId": "mountain_troll",
-      "x": 79,
-      "y": 139,
-      "z": 6,
-      "respawn": 60
-    },
-    {
-      "creatureId": "mountain_troll",
-      "x": 84,
-      "y": 140,
-      "z": 6,
-      "respawn": 60
-    }
-  ],
-  "world": null
+    ],
+    "world": []
 }

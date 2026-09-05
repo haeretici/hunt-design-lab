@@ -490,6 +490,22 @@ function emptyEquipmentRollup() {
          */
         weaponRange: null,
         /**
+         * Wand/rod auto raw floor (item.min). Null when the weapon has no fixed range.
+         */
+        weaponMin: null,
+        /**
+         * Wand/rod auto raw ceiling (item.max). Null when the weapon has no fixed range.
+         */
+        weaponMax: null,
+        /**
+         * Wand/rod auto element (item.element / legacy wandType). Null when unset.
+         */
+        weaponElement: null,
+        /**
+         * Mana restored on a damaging wand/rod auto (item.manaGain). 0 when unset.
+         */
+        weaponManaGain: 0,
+        /**
          * Weapon classification rank (0 = none / omit). Fatal chance uses this.
          */
         weaponTier: 0,
@@ -784,6 +800,22 @@ function addItemToRollup(rollup, item, slot) {
         if (item.tier != null && item.tier !== '') {
             const t = Math.floor(Number(item.tier));
             if (Number.isFinite(t) && t > 0) rollup.weaponTier = t;
+        }
+        if (item.min != null && item.min !== '') {
+            const n = Number(item.min);
+            if (Number.isFinite(n) && n >= 0) rollup.weaponMin = n;
+        }
+        if (item.max != null && item.max !== '') {
+            const n = Number(item.max);
+            if (Number.isFinite(n) && n >= 0) rollup.weaponMax = n;
+        }
+        if (item.element) {
+            const el = String(item.element).trim().toLowerCase();
+            if (el) rollup.weaponElement = el;
+        }
+        if (item.manaGain != null && item.manaGain !== '') {
+            const n = Math.floor(Number(item.manaGain));
+            if (Number.isFinite(n) && n >= 0) rollup.weaponManaGain = n;
         }
     }
     // Non-weapon non-ammo atk (e.g. rings) still stacks as extra
@@ -1456,6 +1488,24 @@ function buildEffectiveStats(classDef, equipmentRollup, opts) {
             : gear.weaponRange != null
               ? gear.weaponRange
               : null,
+        /** Wand/rod auto floor; null unarmed or when the item has no min. */
+        weaponMin: unarmed
+            ? null
+            : gear.weaponMin != null
+              ? gear.weaponMin
+              : null,
+        /** Wand/rod auto ceiling; null unarmed or when the item has no max. */
+        weaponMax: unarmed
+            ? null
+            : gear.weaponMax != null
+              ? gear.weaponMax
+              : null,
+        /** Wand/rod auto element; null unarmed or when the item has no element. */
+        weaponElement: unarmed ? null : gear.weaponElement || null,
+        /** Mana restored on a damaging wand/rod auto; 0 unarmed or unset. */
+        weaponManaGain: unarmed
+            ? 0
+            : Math.max(0, Math.floor(Number(gear.weaponManaGain) || 0)),
         /** Weapon classification rank; 0 unarmed or omit. Fatal uses this. */
         weaponTier: unarmed ? 0 : Math.max(0, Math.floor(Number(gear.weaponTier) || 0)),
         /** True when right hand is empty (legacy fist defaults applied). */

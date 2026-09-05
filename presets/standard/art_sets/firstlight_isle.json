@@ -7,9 +7,12 @@
     "roles": {
         "floor": [
             {
-                "id": "damp_dirt_floor",
+                "id": "ancient_dirt_floor",
                 "weight": 12,
-                "roleId": "floor"
+                "roleId": "floor",
+                "kind": "tiles",
+                "wangFamily": "",
+                "wallAlign": ""
             },
             {
                 "id": "overgrown_grass_floor",
@@ -30,10 +33,10 @@
             },
             {
                 "id": "dirt_wang_15",
-                "kind": "overlays",
+                "weight": 0,
                 "roleId": "path",
-                "wangFamily": "dirt",
-                "weight": 0
+                "kind": "overlays",
+                "wangFamily": "dirt"
             }
         ],
         "wall": [
@@ -44,14 +47,19 @@
             },
             {
                 "id": "stone_wall_pole",
-                "kind": "objects",
+                "weight": 0,
                 "roleId": "wall",
+                "kind": "objects",
                 "wallFamily": "stone_wall",
-                "wallAlign": "pole",
-                "weight": 0
+                "wallAlign": "pole"
             }
         ],
         "water": [
+            {
+                "id": "shallow_water",
+                "weight": 4,
+                "roleId": "water"
+            },
             {
                 "id": "damp_deep_water",
                 "weight": 4,
@@ -59,10 +67,10 @@
             },
             {
                 "id": "water_wang_15",
-                "kind": "overlays",
+                "weight": 0,
                 "roleId": "water",
-                "wangFamily": "water",
-                "weight": 0
+                "kind": "overlays",
+                "wangFamily": "water"
             }
         ],
         "stairs_up": [

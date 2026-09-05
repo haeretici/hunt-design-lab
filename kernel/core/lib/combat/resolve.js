@@ -319,6 +319,34 @@ function spendMana(attacker, manaCost) {
 }
 
 /**
+ * @param {object|null|undefined} spell
+ * @returns {boolean}
+ */
+function isWandAutoSpell(spell) {
+    return !!(spell && String(spell.id) === 'wand_auto');
+}
+
+/**
+ * Wand auto uses the equipped item's authored min/max/element/manaGain.
+ * Explicit spell.min/max still win (tests). Spell default element is a fallback.
+ *
+ * @param {object} spell
+ * @param {object|null|undefined} aStats
+ * @returns {{ min: *, max: *, element: string, manaGain: number }}
+ */
+function resolveWandAutoOverlay(spell, aStats) {
+    const stats = aStats || {};
+    const min = spell && spell.min != null ? spell.min : stats.weaponMin;
+    const max = spell && spell.max != null ? spell.max : stats.weaponMax;
+    const element =
+        (stats.weaponElement && String(stats.weaponElement)) ||
+        (spell && spell.element) ||
+        'energy';
+    const manaGain = Math.max(0, Math.floor(Number(stats.weaponManaGain) || 0));
+    return { min, max, element, manaGain };
+}
+
+/**
  * Restore mana on an entity (player.mp or creature.mana).
  * @param {object} entity
  * @param {number} amount
@@ -803,6 +831,16 @@ function resolveAttack(opts) {
     const extraAtkElement =
         isWeaponAuto && extraAtk > 0 ? atkBag.extraAtkElement || null : null;
 
+    const wandOverlay = isWandAutoSpell(spell)
+        ? resolveWandAutoOverlay(spell, aStats)
+        : null;
+    const spellMin = wandOverlay ? wandOverlay.min : spell.min;
+    const spellMax = wandOverlay ? wandOverlay.max : spell.max;
+    const spellElement = wandOverlay
+        ? wandOverlay.element
+        : spell.element || 'physical';
+    const wandManaGain = wandOverlay ? wandOverlay.manaGain : 0;
+
     const canCritOrLeech = spellCanCritOrLeech(spell);
     const critBand = o.critBand || critBandForSpell(spell);
     const canFatal = canCritOrLeech && attacker.type !== 'creature';
@@ -819,7 +857,7 @@ function resolveAttack(opts) {
         damageAmplitude: spell.damageAmplitude,
         attacker: atkBag,
         defender: defBag,
-        element: spell.element || 'physical',
+        element: spellElement,
         isMelee,
         hitChance,
         hit: o.hit,
@@ -829,15 +867,14 @@ function resolveAttack(opts) {
         critical: o.critical,
         fatalChance,
         fatal: o.fatal,
-        min: spell.min,
-        max: spell.max,
+        min: spellMin,
+        max: spellMax,
         extraAtk,
         extraAtkElement,
         rng: o.rng
     });
 
     // Stance damage dealt / received (not healing).
-    const spellElement = spell.element || 'physical';
     if (result.hit && result.final > 0 && spellElement !== 'healing') {
         let final = result.final;
         if (atkMods.damageDealtMult !== 1) {
@@ -873,6 +910,7 @@ function resolveAttack(opts) {
     let skillProgress = null;
     /** @type {object|null} */
     let manaProgress = null;
+    let manaGained = 0;
     let blockChargeSpent = false;
 
     if (applyMutations) {
@@ -889,13 +927,22 @@ function resolveAttack(opts) {
                 });
             }
         }
+        // Wand/rod auto restores authored manaGain when the swing still deals
+        // final damage after mitigation / resist / block / armor.
+        if (
+            wandManaGain > 0 &&
+            result.hit &&
+            result.final > 0
+        ) {
+            manaGained = applyManaDelta(attacker, wandManaGain);
+        }
         // Post-cast self root: same-tick combatMove is gated by canStep/moveDelay.
         applyMoveLock(attacker, moveLock);
         if (result.hit && result.final > 0) {
             hpDelta = applyHpDelta(
                 defender,
                 result.final,
-                spell.element || 'physical'
+                spellElement
             );
             // Leech uses actual HP lost (after mana-shield / floor), not raw.
             if (canCritOrLeech && hpDelta < 0) {
@@ -1022,7 +1069,8 @@ function resolveAttack(opts) {
         range: result.range,
         moveLock,
         skillProgress,
-        manaProgress
+        manaProgress,
+        manaGained
     };
 }
 
@@ -1052,11 +1100,20 @@ function fail(reason, spell) {
  */
 function previewDamageRange(attackerStats, spell) {
     const bag = attackerBagFromStats(attackerStats || {});
+    if (isWandAutoSpell(spell)) {
+        const overlay = resolveWandAutoOverlay(spell, attackerStats);
+        if (overlay.min != null || overlay.max != null) {
+            const lo = Math.max(0, Number(overlay.min) || 0);
+            let hi = Math.max(0, Number(overlay.max) || 0);
+            if (hi < lo) hi = lo;
+            return { min: lo, max: hi };
+        }
+    }
     return computeDamageRange(
-        spell.powerCurve || 'fixed',
+        (spell && spell.powerCurve) || 'fixed',
         bag,
-        spell.basePower,
-        spell.damageAmplitude
+        spell && spell.basePower,
+        spell && spell.damageAmplitude
     );
 }
 

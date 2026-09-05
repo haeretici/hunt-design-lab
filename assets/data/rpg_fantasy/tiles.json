@@ -119,6 +119,25 @@
             "createdAt": "2026-07-24"
         },
         {
+            "id": "shallow_water",
+            "technical": "Shallow Water",
+            "alias": "Shallow water",
+            "genre": "rpg_fantasy",
+            "kind": "tiles",
+            "category": "water",
+            "opaqueAlpha": true,
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/tiles/original/Shallow_Water.png",
+                "transformed": null
+            },
+            "tags": [
+                "water"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-07-24"
+        },
+        {
             "id": "ancient_dirt_floor",
             "technical": "Ancient Dirt Floor",
             "alias": "Dirt Floor floor",

@@ -934,7 +934,7 @@ html.cursor-targeting * {
     justify-content: center;
   }
 
-  // Miniature condition flags under Soul/Cap (Font Awesome; legacy status icons)
+  // Miniature condition + zone flags under Soul/Cap (Font Awesome)
   .eq-status-bar {
     position: absolute;
     left: 1px;
@@ -1116,6 +1116,21 @@ html.cursor-targeting * {
 .inv-npc-dialog-panel {
   min-width: 200px;
   max-width: 280px;
+  max-height: min(70vh, 480px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.inv-npc-dialog-body {
+  overflow-x: hidden;
+  overflow-y: auto;
+  min-height: 0;
+  max-height: min(50vh, 320px);
+
+  &[hidden] {
+    display: none;
+  }
 }
 
 .inv-npc-dialog-text {
@@ -1162,36 +1177,110 @@ html.cursor-targeting * {
 }
 
 .inv-npc-dialog-panel.is-shop {
-  max-width: 320px;
+  min-width: 260px;
+  max-width: 340px;
+  max-height: min(80vh, 560px);
 }
 
 .inv-npc-shop {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.3rem;
+  min-height: 0;
+  flex: 1 1 auto;
 
   &[hidden] {
     display: none;
   }
 }
 
+.inv-npc-shop-tabs {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.inv-npc-shop-tab {
+  flex: 1 1 0;
+  border: 1px solid $border-color;
+  background: $bg-dark;
+  color: $text-main;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.28rem 0.4rem;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:hover:not(.is-active) {
+    border-color: $accent-primary;
+    color: $accent-primary;
+  }
+
+  &.is-active {
+    border-color: $accent-primary;
+    color: $accent-primary;
+    background: rgba($accent-primary, 0.16);
+  }
+}
+
+.inv-npc-shop-search {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid $border-color;
+  background: $bg-dark;
+  color: $text-main;
+  font-size: 0.75rem;
+  padding: 0.22rem 0.4rem;
+  border-radius: 4px;
+}
+
+.inv-npc-shop-list {
+  flex: 1 1 auto;
+  min-height: 4.5rem;
+  max-height: min(40vh, 220px);
+  overflow-x: hidden;
+  overflow-y: auto;
+  border: 1px solid $border-color;
+  border-radius: 4px;
+  background: $bg-darkest;
+}
+
 .inv-npc-shop-currency {
   font-size: 0.75rem;
   color: $text-main;
-  margin-bottom: 0.15rem;
-}
-
-.inv-npc-shop-heading {
-  font-size: 0.72rem;
-  font-weight: 600;
-  color: $text-main;
-  margin-top: 0.2rem;
+  margin-top: 0.1rem;
 }
 
 .inv-npc-shop-row {
   display: flex;
   align-items: center;
   gap: 0.3rem;
+  padding: 0.28rem 0.35rem;
+  cursor: pointer;
+  border-bottom: 1px solid $border-color;
+
+  &:last-child {
+    border-bottom: 0;
+  }
+
+  &:hover {
+    background: rgba($accent-primary, 0.1);
+  }
+
+  &.is-selected {
+    background: rgba($accent-primary, 0.18);
+  }
+
+  &.is-unaffordable {
+    opacity: 0.55;
+  }
+}
+
+.inv-npc-shop-icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  object-fit: contain;
+  image-rendering: pixelated;
 }
 
 .inv-npc-shop-name {
@@ -1203,21 +1292,99 @@ html.cursor-targeting * {
   white-space: nowrap;
 }
 
-.inv-npc-shop-price {
+.inv-npc-shop-price,
+.inv-npc-shop-have {
   font-size: 0.72rem;
   color: $text-main;
   min-width: 1.4rem;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.inv-npc-shop-deal {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex-shrink: 0;
+}
+
+.inv-npc-shop-amount-row {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.inv-npc-shop-amount-slider {
+  flex: 1 1 auto;
+  min-width: 0;
+  accent-color: $accent-secondary;
+}
+
+.inv-npc-shop-amount-input {
+  width: 3.2rem;
+  box-sizing: border-box;
+  border: 1px solid $border-color;
+  background: $bg-dark;
+  color: $text-main;
+  font-family: $font-mono;
+  font-size: 0.75rem;
+  text-align: right;
+  padding: 0.12rem 0.25rem;
+  border-radius: 4px;
+}
+
+.inv-npc-shop-amount-dec,
+.inv-npc-shop-amount-inc {
+  width: 1.45rem;
+  height: 1.45rem;
+  padding: 0;
+  border: 1px solid $border-color;
+  background: $bg-dark;
+  color: $text-main;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  line-height: 1;
+
+  &:hover {
+    border-color: $accent-primary;
+    color: $accent-primary;
+  }
+}
+
+.inv-npc-shop-deal-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.08rem;
+}
+
+.inv-npc-shop-deal-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.72rem;
+  color: $text-main;
+}
+
+.inv-npc-shop-deal-label {
+  color: $text-muted;
+}
+
+.inv-npc-shop-unit-price,
+.inv-npc-shop-total {
+  font-family: $font-mono;
   text-align: right;
 }
 
 .inv-npc-shop-buy,
 .inv-npc-shop-sell,
+.inv-npc-shop-confirm,
 .inv-npc-shop-back {
   border: 1px solid $border-color;
   background: $bg-dark;
   color: $text-main;
   font-size: 0.72rem;
-  padding: 0.18rem 0.4rem;
+  padding: 0.22rem 0.4rem;
   border-radius: 4px;
   cursor: pointer;
 
@@ -1226,17 +1393,27 @@ html.cursor-targeting * {
     color: $accent-primary;
     background: rgba($accent-primary, 0.12);
   }
+
+  &:disabled {
+    opacity: 0.45;
+    cursor: default;
+  }
+}
+
+.inv-npc-shop-confirm {
+  width: 100%;
+  font-weight: 600;
 }
 
 .inv-npc-shop-back {
   width: 100%;
   text-align: left;
-  margin-top: 0.25rem;
 }
 
 .inv-npc-shop-empty {
-  font-size: 0.78rem;
-  color: $text-main;
+  font-size: 0.75rem;
+  color: $text-muted;
+  padding: 0.45rem 0.4rem;
 }
 
 .inv-panel-header {

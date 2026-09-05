@@ -7,6 +7,7 @@
 
 const { getActivePlayerFromSim, readSourceVitals } = require('./equipment_panel.js');
 const { resolveManaShieldBar } = require('../../core/lib/combat/conditions.js');
+const { placeContextMenu } = require('./float_panel_place.js');
 
 /** Sidebar mana-shield fill (matches canvas nameplate). */
 const MANA_SHIELD_BAR_FILL = '#a855f7';
@@ -726,6 +727,7 @@ function bindCombatPanel(opts) {
                 };
                 activeCombatCtxMenu.appendChild(btn);
                 document.body.appendChild(activeCombatCtxMenu);
+                placeContextMenu(activeCombatCtxMenu, ev.clientX, ev.clientY);
             };
 
             const targetChild = listEl.children[index];

@@ -1,0 +1,183 @@
+{
+    "id": "smith_brannok",
+    "label": "Brannok",
+    "notes": "Outpost vendor-lite (weapons and armor). Trade opens shop. Currency gold_coin. Mapped rows only. C.4 wander radius 2. Not a hunt target.",
+    "customSprite": "smith_brannok",
+    "hp": 80,
+    "hpMax": 80,
+    "speed": 80,
+    "level": 1,
+    "armor": 0,
+    "mitigation": 100,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": false,
+    "isNpc": true,
+    "kind": "npc",
+    "dialogId": "smith_brannok",
+    "walkInterval": 2000,
+    "walkRadius": 2,
+    "shop": {
+        "currency": "gold_coin",
+        "items": [
+            {
+                "item": "arrow",
+                "buy": 3
+            },
+            {
+                "item": "axe",
+                "buy": 20,
+                "sell": 7
+            },
+            {
+                "item": "bolt",
+                "buy": 4
+            },
+            {
+                "item": "chain_helmet",
+                "buy": 52,
+                "sell": 12
+            },
+            {
+                "item": "coat",
+                "buy": 8
+            },
+            {
+                "item": "crossbow",
+                "buy": 500
+            },
+            {
+                "item": "dagger",
+                "buy": 5
+            },
+            {
+                "item": "doublet",
+                "buy": 16,
+                "sell": 3
+            },
+            {
+                "item": "hand_axe",
+                "buy": 8,
+                "sell": 4
+            },
+            {
+                "item": "jacket",
+                "buy": 10
+            },
+            {
+                "item": "leather_armor",
+                "buy": 25,
+                "sell": 5
+            },
+            {
+                "item": "leather_helmet",
+                "buy": 12
+            },
+            {
+                "item": "leather_legs",
+                "buy": 10
+            },
+            {
+                "item": "rapier",
+                "buy": 15,
+                "sell": 5
+            },
+            {
+                "item": "sabre",
+                "buy": 25,
+                "sell": 12
+            },
+            {
+                "item": "short_sword",
+                "buy": 30,
+                "sell": 10
+            },
+            {
+                "item": "simple_arrow",
+                "buy": 2
+            },
+            {
+                "item": "spear",
+                "buy": 10,
+                "sell": 3
+            },
+            {
+                "item": "studded_helmet",
+                "buy": 63,
+                "sell": 20
+            },
+            {
+                "item": "studded_shield",
+                "buy": 50,
+                "sell": 16
+            },
+            {
+                "item": "wooden_shield",
+                "buy": 15
+            },
+            {
+                "item": "bone_club",
+                "sell": 5
+            },
+            {
+                "item": "brass_helmet",
+                "sell": 22
+            },
+            {
+                "item": "brass_shield",
+                "sell": 25
+            },
+            {
+                "item": "chain_armor",
+                "sell": 40
+            },
+            {
+                "item": "copper_shield",
+                "sell": 50
+            },
+            {
+                "item": "hatchet",
+                "sell": 25
+            },
+            {
+                "item": "katana",
+                "sell": 35
+            },
+            {
+                "item": "leather_boots",
+                "sell": 2
+            },
+            {
+                "item": "mace",
+                "sell": 30
+            },
+            {
+                "item": "plate_shield",
+                "sell": 40
+            },
+            {
+                "item": "studded_armor",
+                "sell": 10
+            },
+            {
+                "item": "studded_legs",
+                "sell": 15
+            },
+            {
+                "item": "sword",
+                "sell": 25
+            },
+            {
+                "item": "viking_helmet",
+                "sell": 25
+            }
+        ]
+    },
+    "canBlock": false,
+    "attacks": [],
+    "flags": {
+        "attackable": false,
+        "hostile": false,
+        "isNpc": true
+    }
+}

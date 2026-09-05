@@ -111,6 +111,7 @@ const {
     clearCircleRetry
 } = require('./cadence.js');
 const { tileDistance } = require('../movement.js');
+const { isTalkableNpc } = require('../npc/flags.js');
 
 function leashRange() {
     return Settings.AI_CREATURE_LEASH != null ? Settings.AI_CREATURE_LEASH : 18;
@@ -461,9 +462,10 @@ const Idle = {
     execute(owner, ctx) {
         if (!owner.alive) return;
         ensureKit(owner);
-        // Static / speed 0 training dummies never aggro
+        // Talkable NPCs wander via tickNpcIdle — never follow / flee / attack.
+        if (isTalkableNpc(owner)) return;
+        // Static / speed 0 training dummies never acquire a follow target.
         if (owner.speed <= 0 && owner.aggro === false) return;
-        if (owner.aggro === false) return;
 
         // Taunt may have stamped target while Idle — enter combat immediately.
         const challenged = resolveChallengeTarget(owner, ctx);

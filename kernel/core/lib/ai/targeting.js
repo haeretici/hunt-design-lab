@@ -8,6 +8,7 @@
 
 const { tileDistance } = require('../movement.js');
 const { canSeeCreature } = require('../combat/conditions.js');
+const { isAttackableCreature } = require('../npc/flags.js');
 
 /**
  * Living combatants from a list.
@@ -205,6 +206,7 @@ function isProtectedTarget(target, tileMap) {
 
 /**
  * Whether target is still a valid living enemy on the same floor.
+ * Talkable NPCs are never hunt prey (`isAttackableCreature`).
  * Optional opts.tileMap: reject targets standing on NO_CAST / PZ tiles
  * (`attackMayAffectTile` false). Adjacent hostiles cannot hit into PZ.
  * @param {object} self
@@ -218,6 +220,7 @@ function isValidTarget(self, target, opts) {
     if (target.hp && target.hp.current <= 0) return false;
     if (!self.tile || !target.tile) return false;
     if (String(self.tile.z) !== String(target.tile.z)) return false;
+    if (!isAttackableCreature(target)) return false;
     // Invisible targets: only observers that can see invis keep them (legacy canSeeCreature).
     // Most monsters with immunities.invisible can see; players typically cannot.
     if (!canSeeCreature(self, target)) return false;

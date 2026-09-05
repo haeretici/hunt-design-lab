@@ -840,6 +840,35 @@ test('OPEN_CORPSE out of range queues walk-then-open', () => {
     }
 });
 
+test('corpse loot rolls do not consume session LCG', () => {
+    /**
+     * @param {boolean} corpseLoot
+     * @returns {{ state: number, draws: number }}
+     */
+    function run(corpseLoot) {
+        const { sim, player } = makeHunt({ corpseLoot });
+        try {
+            sim.bindSeededRandom();
+            const mob = spawnMob(sim, 5, 5, {
+                loot: [
+                    { id: 'gold_coin', chance: 100000, minCount: 1, maxCount: 4 }
+                ]
+            });
+            kill(sim, player, mob);
+            const state = sim.seededRandom.getState();
+            const draws = sim.seededRandom.getDrawCount();
+            sim.unbindSeededRandom();
+            return { state, draws };
+        } finally {
+            sim.destroy();
+        }
+    }
+    const off = run(false);
+    const on = run(true);
+    assert.strictEqual(on.draws, off.draws);
+    assert.strictEqual(on.state, off.state);
+});
+
 test('headless default: hunt opts pin false; kill keeps scalar lootValue', () => {
     const prevH = Settings.HEADLESS;
     const prevFeat = Settings.features.corpseLoot;

@@ -1,0 +1,27 @@
+{
+    "id": "wayguide_osric",
+    "label": "Osric",
+    "notes": "Outpost greeter at hill stairs. Guide dialog only. No shop (creature-product buy list skipped). C.4 wander radius 2. Not a hunt target.",
+    "customSprite": "wayguide_osric",
+    "hp": 80,
+    "hpMax": 80,
+    "speed": 80,
+    "level": 1,
+    "armor": 0,
+    "mitigation": 100,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": false,
+    "isNpc": true,
+    "kind": "npc",
+    "dialogId": "wayguide_osric",
+    "walkInterval": 2000,
+    "walkRadius": 2,
+    "canBlock": false,
+    "attacks": [],
+    "flags": {
+        "attackable": false,
+        "hostile": false,
+        "isNpc": true
+    }
+}

@@ -17,6 +17,12 @@ const {
     nodeBodyText,
     createNpcDialogPanel
 } = require('../kernel/apps/game/npc_dialog_panel.js');
+const {
+    shopAmountStep,
+    applyShopAmountDelta,
+    defaultShopAmount,
+    filterShopRowsByName
+} = require('../kernel/apps/game/npc_shop_ui.js');
 const { bindInventoryPanel } = require('../kernel/apps/game/inventory_panel.js');
 
 let passed = 0;
@@ -64,7 +70,12 @@ function makeNode(tag) {
         textContent: '',
         hidden: false,
         disabled: false,
-        type: tag === 'button' ? 'button' : '',
+        type: tag === 'button' ? 'button' : tag === 'input' ? 'text' : '',
+        value: tag === 'input' ? '' : undefined,
+        min: '',
+        max: '',
+        step: '',
+        placeholder: '',
         offsetLeft: 100,
         offsetTop: 140,
         _listeners: {},
@@ -72,6 +83,13 @@ function makeNode(tag) {
             if (name === 'class') node.className = String(value);
             if (name === 'id') node.id = String(value);
             if (name === 'aria-label') node['aria-label'] = String(value);
+            if (name === 'aria-pressed') node['aria-pressed'] = String(value);
+            if (name === 'type') node.type = String(value);
+            if (name === 'placeholder') node.placeholder = String(value);
+            if (name === 'min') node.min = String(value);
+            if (name === 'max') node.max = String(value);
+            if (name === 'value') node.value = String(value);
+            if (name === 'role') node.role = String(value);
             if (String(name).indexOf('data-') === 0) {
                 const key = String(name)
                     .slice(5)
@@ -134,7 +152,10 @@ function makeNode(tag) {
             const ev = {
                 target: node,
                 preventDefault() {},
-                stopPropagation() {}
+                stopPropagation() {},
+                shiftKey: false,
+                ctrlKey: false,
+                metaKey: false
             };
             (node._listeners.click || []).forEach((fn) => fn(ev));
         }
@@ -217,6 +238,24 @@ function installDom() {
     };
 }
 
+function fire(node, type, extra) {
+    const ev = Object.assign(
+        {
+            target: node,
+            preventDefault() {},
+            stopPropagation() {},
+            shiftKey: false,
+            ctrlKey: false,
+            metaKey: false,
+            key: '',
+            deltaY: 0
+        },
+        extra || {}
+    );
+    (node._listeners[type] || []).forEach((fn) => fn(ev));
+    return ev;
+}
+
 function makeTalkPair() {
     const template = presets.loadCreatureTemplate('town_guide');
     const npc = new Creature({
@@ -277,6 +316,7 @@ test('openForTest shows start node name, text, and replies', () => {
             String(el.className).indexOf('inv-npc-dialog-panel') >= 0,
             'dialog chrome class'
         );
+        assert.ok(el.querySelector('.inv-npc-dialog-body'), 'scroll body wrap');
         assert.strictEqual(el.querySelector('.inv-panel-title').textContent, 'Guide');
         assert.strictEqual(
             el.querySelector('.inv-npc-dialog-text').textContent,
@@ -525,6 +565,13 @@ const ITEM_DB = [
         category: 'food',
         stackable: true,
         weight: 10
+    },
+    {
+        id: 'cookie',
+        label: 'Cookie',
+        category: 'food',
+        stackable: true,
+        weight: 10
     }
 ];
 
@@ -726,6 +773,198 @@ test('Trade reply opens shop; buy fail floats; buy then Back', () => {
             ),
             'open_shop is queued for TAS'
         );
+        panel.dispose();
+    } finally {
+        dom.restore();
+    }
+});
+
+test('shopAmountStep matches legacy scrollbar modifiers', () => {
+    assert.strictEqual(shopAmountStep(null), 1);
+    assert.strictEqual(shopAmountStep({}), 1);
+    assert.strictEqual(shopAmountStep({ shiftKey: true }), 10);
+    assert.strictEqual(shopAmountStep({ ctrlKey: true }), 100);
+    assert.strictEqual(shopAmountStep({ metaKey: true }), 100);
+    assert.strictEqual(shopAmountStep({ shiftKey: true, ctrlKey: true }), 1000);
+    assert.strictEqual(applyShopAmountDelta(1, 1, { shiftKey: true }, 1, 100), 11);
+    assert.strictEqual(applyShopAmountDelta(1, 1, { ctrlKey: true }, 1, 100), 100);
+    assert.strictEqual(applyShopAmountDelta(20, -1, { shiftKey: true }, 1, 100), 10);
+    assert.strictEqual(defaultShopAmount('buy', 40), 1);
+    assert.strictEqual(defaultShopAmount('sell', 40), 40);
+    assert.deepStrictEqual(
+        filterShopRowsByName(
+            [{ itemId: 'bread' }, { itemId: 'cookie' }],
+            'coo',
+            ITEM_DB
+        ).map((r) => r.itemId),
+        ['cookie']
+    );
+});
+
+function makeVendorPanel(dom, shopItems, extraPlayer) {
+    const npc = new Creature({
+        id: 21,
+        name: 'Guide',
+        tile: { x: 4, y: 2, z: 0 },
+        hp: 80,
+        hpMax: 80
+    });
+    npc.isNpc = true;
+    npc.kind = 'npc';
+    npc.shop = {
+        currency: 'gold_coin',
+        items: shopItems || [
+            { item: 'bread', buy: 4, sell: 1 },
+            { item: 'cookie', buy: 2, sell: 1 }
+        ]
+    };
+    npc.dialog = {
+        start: 'start',
+        nodes: {
+            start: {
+                text: 'Wares?',
+                replies: [
+                    { label: 'Trade', action: 'open_shop' },
+                    { label: 'Bye', action: 'close' }
+                ]
+            }
+        }
+    };
+    const player = new Player({
+        id: 1,
+        name: 'Talker',
+        tile: { x: 2, y: 2, z: 0 },
+        itemDb: ITEM_DB
+    });
+    player.alive = true;
+    player._loadoutItemDb = ITEM_DB;
+    player.initInventory({ equipment: { backpack: 'backpack' } }, ITEM_DB);
+    player._npcTalk = null;
+    player.commandQueue = [];
+    if (typeof extraPlayer === 'function') extraPlayer(player);
+    const ctx = {
+        entityById: new Map([[npc.id, npc]]),
+        creatures: [npc],
+        itemDb: ITEM_DB
+    };
+    const floats = [];
+    const root = makeNode('div');
+    dom.body.appendChild(root);
+    const panel = createNpcDialogPanel({
+        floatRoot: root,
+        getPlayer: () => player,
+        getCtx: () => ctx,
+        onSystemFloat: (_p, text) => floats.push(text)
+    });
+    panel.openForTest(npc, player, ctx);
+    const trade = panel
+        .getElement()
+        .querySelectorAll('.inv-npc-dialog-reply')
+        .find((b) => b.textContent === 'Trade');
+    trade.click();
+    return { panel, player, npc, ctx, floats };
+}
+
+test('shop opens on Buy tab with first offer selected', () => {
+    const dom = installDom();
+    try {
+        const { panel } = makeVendorPanel(dom);
+        const el = panel.getElement();
+        const tabs = el.querySelectorAll('.inv-npc-shop-tab');
+        assert.strictEqual(tabs.length, 2);
+        assert.strictEqual(tabs[0].textContent, 'Buy');
+        assert.ok(tabs[0].classList.contains('is-active'), 'buy tab default');
+        assert.strictEqual(tabs[1].textContent, 'Sell');
+        assert.ok(!tabs[1].classList.contains('is-active'));
+        const rows = el.querySelectorAll('.inv-npc-shop-row');
+        assert.strictEqual(rows.length, 2);
+        assert.ok(rows[0].classList.contains('is-selected'));
+        assert.strictEqual(rows[0].dataset.itemId, 'bread');
+        assert.ok(el.querySelector('.inv-npc-shop-list'));
+        assert.ok(el.querySelector('.inv-npc-shop-search'));
+        assert.strictEqual(el.querySelector('.inv-npc-shop-unit-price').textContent, '4');
+        assert.strictEqual(el.querySelector('.inv-npc-shop-total').textContent, '4');
+        assert.strictEqual(el.querySelector('.inv-npc-shop-amount-input').value, '1');
+        panel.dispose();
+    } finally {
+        dom.restore();
+    }
+});
+
+test('shop Sell tab lists sell offers and defaults amount to owned stack', () => {
+    const dom = installDom();
+    try {
+        const { panel, player } = makeVendorPanel(dom, null, (p) => {
+            assert.ok(giveItemToPlayer(p, { itemId: 'bread', count: 7 }, ITEM_DB).ok);
+        });
+        const el = panel.getElement();
+        el.querySelectorAll('.inv-npc-shop-tab')[1].click();
+        const shop = panel.getElement();
+        assert.ok(
+            shop.querySelectorAll('.inv-npc-shop-tab')[1].classList.contains('is-active'),
+            'sell tab active'
+        );
+        const rows = shop.querySelectorAll('.inv-npc-shop-row');
+        assert.strictEqual(rows.length, 2);
+        const bread = rows.find((r) => r.dataset.itemId === 'bread');
+        assert.ok(bread);
+        assert.ok(bread.classList.contains('is-selected'), 'first sell row selected');
+        assert.strictEqual(shop.querySelector('.inv-npc-shop-have').textContent, '7');
+        assert.strictEqual(shop.querySelector('.inv-npc-shop-amount-input').value, '7');
+        assert.strictEqual(shop.querySelector('.inv-npc-shop-total').textContent, '7');
+        shop.querySelector('.inv-npc-shop-sell').click();
+        assert.strictEqual(countPlayerItem(player, 'bread'), 0);
+        assert.strictEqual(countPlayerItem(player, 'gold_coin'), 7);
+        panel.dispose();
+    } finally {
+        dom.restore();
+    }
+});
+
+test('shop search filters offers by name', () => {
+    const dom = installDom();
+    try {
+        const { panel } = makeVendorPanel(dom);
+        const el = panel.getElement();
+        const search = el.querySelector('.inv-npc-shop-search');
+        search.value = 'cook';
+        fire(search, 'input');
+        const rows = panel.getElement().querySelectorAll('.inv-npc-shop-row');
+        assert.strictEqual(rows.length, 1);
+        assert.strictEqual(rows[0].dataset.itemId, 'cookie');
+        assert.ok(rows[0].classList.contains('is-selected'));
+        assert.strictEqual(
+            panel.getElement().querySelector('.inv-npc-shop-unit-price').textContent,
+            '2'
+        );
+        panel.dispose();
+    } finally {
+        dom.restore();
+    }
+});
+
+test('shop amount Shift ±10 and Ctrl ±100; confirm buys count', () => {
+    const dom = installDom();
+    try {
+        const { panel, player } = makeVendorPanel(dom, null, (p) => {
+            assert.ok(giveItemToPlayer(p, { itemId: 'gold_coin', count: 500 }, ITEM_DB).ok);
+        });
+        const el = panel.getElement();
+        const inc = el.querySelector('.inv-npc-shop-amount-inc');
+        fire(inc, 'click', { shiftKey: true });
+        assert.strictEqual(el.querySelector('.inv-npc-shop-amount-input').value, '11');
+        assert.strictEqual(el.querySelector('.inv-npc-shop-total').textContent, '44');
+        fire(inc, 'click', { ctrlKey: true });
+        assert.strictEqual(el.querySelector('.inv-npc-shop-amount-input').value, '100');
+        fire(el.querySelector('.inv-npc-shop-amount-dec'), 'click', { shiftKey: true });
+        assert.strictEqual(el.querySelector('.inv-npc-shop-amount-input').value, '90');
+        const amount = el.querySelector('.inv-npc-shop-amount-input');
+        amount.value = '3';
+        fire(amount, 'change');
+        assert.strictEqual(el.querySelector('.inv-npc-shop-total').textContent, '12');
+        el.querySelector('.inv-npc-shop-buy').click();
+        assert.strictEqual(countPlayerItem(player, 'bread'), 3);
+        assert.strictEqual(countPlayerItem(player, 'gold_coin'), 488);
         panel.dispose();
     } finally {
         dom.restore();

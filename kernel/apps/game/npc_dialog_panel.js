@@ -24,9 +24,11 @@ const {
     executeShopDeal
 } = require('../../core/lib/npc/session.js');
 const { transferFailText, countPlayerItem, resolveItemDb } = require('../../core/lib/npc/items.js');
+const { findItem } = require('../../core/lib/character/stats.js');
 const {
     resolveShop,
     listShopRows,
+    shopDealMax,
     shopFailText,
     shopItemLabel
 } = require('../../core/lib/npc/shop.js');
@@ -36,6 +38,13 @@ const {
     placeFloatPanel,
     boundsForOrigin
 } = require('./float_panel_place.js');
+const { resolveItemSpriteUrl } = require('./equipment_panel.js');
+const {
+    clampShopAmount,
+    applyShopAmountDelta,
+    defaultShopAmount,
+    filterShopRowsByName
+} = require('./npc_shop_ui.js');
 
 /**
  * @param {object|null|undefined} npc
@@ -246,6 +255,29 @@ function createNpcDialogPanel(opts) {
     let el = null;
     let lastSig = '';
     let docBound = false;
+    /** @type {{ npcId: *, side: 'buy'|'sell', search: string, selectedItemId: string|null, amount: number }|null} */
+    let shopUi = null;
+
+    function resetShopUi() {
+        shopUi = null;
+    }
+
+    /**
+     * @param {object|null|undefined} npc
+     */
+    function ensureShopUi(npc) {
+        const id = npc && npc.id != null ? npc.id : null;
+        if (!shopUi || String(shopUi.npcId) !== String(id)) {
+            shopUi = {
+                npcId: id,
+                side: 'buy',
+                search: '',
+                selectedItemId: null,
+                amount: 1
+            };
+        }
+        return shopUi;
+    }
 
     const rootOf = () => {
         if (typeof o.getFloatRoot === 'function') {
@@ -271,6 +303,7 @@ function createNpcDialogPanel(opts) {
         }
         el = null;
         lastSig = '';
+        resetShopUi();
     }
 
     function requestClose(player) {
@@ -313,16 +346,19 @@ function createNpcDialogPanel(opts) {
             });
             header.appendChild(title);
             header.appendChild(closeBtn);
+            const bodyWrap = document.createElement('div');
+            bodyWrap.className = 'inv-npc-dialog-body';
             const body = document.createElement('div');
             body.className = 'inv-npc-dialog-text';
             const repliesEl = document.createElement('div');
             repliesEl.className = 'inv-npc-dialog-replies';
+            bodyWrap.appendChild(body);
+            bodyWrap.appendChild(repliesEl);
             const shopEl = document.createElement('div');
             shopEl.className = 'inv-npc-shop';
             shopEl.hidden = true;
             el.appendChild(header);
-            el.appendChild(body);
-            el.appendChild(repliesEl);
+            el.appendChild(bodyWrap);
             el.appendChild(shopEl);
             root.appendChild(el);
             bindPanelDrag(header, el);
@@ -335,6 +371,7 @@ function createNpcDialogPanel(opts) {
         const textEl = el.querySelector('.inv-npc-dialog-text');
         if (textEl) textEl.textContent = nodeBodyText(dialog, node);
 
+        const bodyWrap = el.querySelector('.inv-npc-dialog-body');
         const repliesEl = el.querySelector('.inv-npc-dialog-replies');
         const shopEl = el.querySelector('.inv-npc-shop');
         if (!repliesEl) {
@@ -347,13 +384,16 @@ function createNpcDialogPanel(opts) {
                 repliesEl.removeChild(repliesEl.firstChild);
             }
             repliesEl.hidden = true;
+            if (bodyWrap) bodyWrap.hidden = true;
             if (shopEl) shopEl.hidden = false;
             el.classList.add('is-shop');
             renderShop(player, npc, shopEl, ctx);
             if (justCreated) placeNpcPanel(el, npc, ctx, o, root);
             return;
         }
+        resetShopUi();
         repliesEl.hidden = false;
+        if (bodyWrap) bodyWrap.hidden = false;
         if (shopEl) {
             shopEl.hidden = true;
             while (shopEl.firstChild) shopEl.removeChild(shopEl.firstChild);
@@ -393,6 +433,7 @@ function createNpcDialogPanel(opts) {
     function renderShop(player, npc, shopEl, ctx) {
         if (!shopEl) return;
         while (shopEl.firstChild) shopEl.removeChild(shopEl.firstChild);
+        const ui = ensureShopUi(npc);
         const shop = resolveShop(npc);
         const itemDb = resolveItemDb(player, ctx);
         if (!shop) {
@@ -403,38 +444,219 @@ function createNpcDialogPanel(opts) {
             shopEl.appendChild(makeBackBtn(player, npc));
             return;
         }
-        const coinLabel = shopItemLabel(shop.currency, itemDb) || shop.currency;
-        const have = countPlayerItem(player, shop.currency);
-        const wallet = document.createElement('div');
-        wallet.className = 'inv-npc-shop-currency';
-        wallet.textContent = coinLabel + ': ' + String(have);
-        shopEl.appendChild(wallet);
 
-        const buyRows = listShopRows(shop, player, { side: 'buy' });
-        if (buyRows.length) {
-            const heading = document.createElement('div');
-            heading.className = 'inv-npc-shop-heading';
-            heading.textContent = 'Buy';
-            shopEl.appendChild(heading);
-            for (let i = 0; i < buyRows.length; i++) {
-                shopEl.appendChild(
-                    makeShopRow(player, npc, shop, buyRows[i], 'buy', itemDb, ctx)
-                );
-            }
-        }
-        const sellRows = listShopRows(shop, player, { side: 'sell' });
-        if (sellRows.length) {
-            const heading = document.createElement('div');
-            heading.className = 'inv-npc-shop-heading';
-            heading.textContent = 'Sell';
-            shopEl.appendChild(heading);
-            for (let i = 0; i < sellRows.length; i++) {
-                shopEl.appendChild(
-                    makeShopRow(player, npc, shop, sellRows[i], 'sell', itemDb, ctx)
-                );
-            }
-        }
+        const tabs = document.createElement('div');
+        tabs.className = 'inv-npc-shop-tabs';
+        tabs.setAttribute('role', 'tablist');
+        tabs.appendChild(makeShopTab(player, npc, shopEl, ctx, 'buy', ui.side === 'buy'));
+        tabs.appendChild(makeShopTab(player, npc, shopEl, ctx, 'sell', ui.side === 'sell'));
+        shopEl.appendChild(tabs);
+
+        const search = document.createElement('input');
+        search.type = 'search';
+        search.className = 'inv-npc-shop-search';
+        search.setAttribute('placeholder', 'Search');
+        search.setAttribute('aria-label', 'Search');
+        search.value = ui.search;
+        shopEl.appendChild(search);
+
+        const listEl = document.createElement('div');
+        listEl.className = 'inv-npc-shop-list';
+        shopEl.appendChild(listEl);
+
+        const deal = makeShopDeal();
+        shopEl.appendChild(deal.root);
         shopEl.appendChild(makeBackBtn(player, npc));
+
+        const livePlayer = () => playerOf() || player;
+
+        function sideRows() {
+            return listShopRows(shop, livePlayer(), { side: ui.side });
+        }
+
+        function visibleRows() {
+            return filterShopRowsByName(sideRows(), ui.search, itemDb);
+        }
+
+        function selectedRow() {
+            const rows = visibleRows();
+            if (ui.selectedItemId) {
+                for (let i = 0; i < rows.length; i++) {
+                    if (rows[i].itemId === ui.selectedItemId) return rows[i];
+                }
+            }
+            return rows[0] || null;
+        }
+
+        function currentMax() {
+            return shopDealMax(livePlayer(), shop, selectedRow(), ui.side);
+        }
+
+        function unitPrice(row) {
+            if (!row) return 0;
+            return ui.side === 'sell' ? row.sell : row.buy;
+        }
+
+        function canAffordRow(row) {
+            if (!row) return false;
+            const p = livePlayer();
+            if (ui.side === 'sell') return countPlayerItem(p, row.itemId) > 0;
+            return countPlayerItem(p, shop.currency) >= unitPrice(row);
+        }
+
+        function applyAmount(n) {
+            const max = currentMax();
+            ui.amount = clampShopAmount(n, 1, max);
+            deal.slider.min = '1';
+            deal.slider.max = String(max);
+            deal.slider.value = String(ui.amount);
+            deal.amountInput.value = String(ui.amount);
+            const row = selectedRow();
+            const unit = unitPrice(row);
+            deal.price.textContent = row ? String(unit) : '—';
+            deal.total.textContent = row ? String(unit * ui.amount) : '—';
+            const coinLabel = shopItemLabel(shop.currency, itemDb) || shop.currency;
+            deal.currency.textContent =
+                coinLabel + ': ' + String(countPlayerItem(livePlayer(), shop.currency));
+            const sideClass = ui.side === 'sell' ? 'inv-npc-shop-sell' : 'inv-npc-shop-buy';
+            deal.confirm.className = 'inv-npc-shop-confirm ' + sideClass;
+            deal.confirm.textContent = ui.side === 'sell' ? 'Sell' : 'Buy';
+            deal.confirm.dataset.shopSide = ui.side;
+            if (row) {
+                deal.confirm.dataset.itemId = row.itemId;
+                deal.confirm.disabled = false;
+            } else {
+                deal.confirm.dataset.itemId = '';
+                deal.confirm.disabled = true;
+            }
+        }
+
+        function refreshList() {
+            const rows = visibleRows();
+            const prevId = ui.selectedItemId;
+            const picked = selectedRow();
+            ui.selectedItemId = picked ? picked.itemId : null;
+            if (picked && picked.itemId !== prevId) {
+                ui.amount = defaultShopAmount(
+                    ui.side,
+                    shopDealMax(livePlayer(), shop, picked, ui.side)
+                );
+            }
+            while (listEl.firstChild) listEl.removeChild(listEl.firstChild);
+            if (!rows.length) {
+                const empty = document.createElement('div');
+                empty.className = 'inv-npc-shop-empty';
+                empty.textContent = ui.search ? 'No matching items.' : 'Nothing to sell.';
+                listEl.appendChild(empty);
+            }
+            for (let i = 0; i < rows.length; i++) {
+                const row = rows[i];
+                const rowEl = makeShopRow(row, itemDb, ui.side, livePlayer());
+                if (picked && row.itemId === picked.itemId) {
+                    rowEl.classList.add('is-selected');
+                }
+                if (!canAffordRow(row)) rowEl.classList.add('is-unaffordable');
+                rowEl.addEventListener('click', () => {
+                    const same = ui.selectedItemId === row.itemId;
+                    ui.selectedItemId = row.itemId;
+                    if (!same) {
+                        ui.amount = defaultShopAmount(
+                            ui.side,
+                            shopDealMax(livePlayer(), shop, row, ui.side)
+                        );
+                    }
+                    refreshList();
+                });
+                listEl.appendChild(rowEl);
+            }
+            applyAmount(ui.amount);
+        }
+
+        search.addEventListener('input', () => {
+            ui.search = search.value != null ? String(search.value) : '';
+            refreshList();
+        });
+        search.addEventListener('change', () => {
+            ui.search = search.value != null ? String(search.value) : '';
+            refreshList();
+        });
+
+        deal.slider.addEventListener('input', () => {
+            applyAmount(deal.slider.value);
+        });
+        deal.amountInput.addEventListener('input', () => {
+            applyAmount(deal.amountInput.value);
+        });
+        deal.amountInput.addEventListener('change', () => {
+            applyAmount(deal.amountInput.value);
+        });
+        deal.amountInput.addEventListener('keydown', (ev) => {
+            const key = ev && ev.key;
+            if (key !== 'ArrowUp' && key !== 'Up' && key !== 'ArrowDown' && key !== 'Down') {
+                return;
+            }
+            if (typeof ev.preventDefault === 'function') ev.preventDefault();
+            const dir = key === 'ArrowDown' || key === 'Down' ? -1 : 1;
+            applyAmount(applyShopAmountDelta(ui.amount, dir, ev, 1, currentMax()));
+        });
+        deal.dec.addEventListener('click', (ev) => {
+            applyAmount(applyShopAmountDelta(ui.amount, -1, ev, 1, currentMax()));
+        });
+        deal.inc.addEventListener('click', (ev) => {
+            applyAmount(applyShopAmountDelta(ui.amount, 1, ev, 1, currentMax()));
+        });
+        const onWheel = (ev) => {
+            if (typeof ev.preventDefault === 'function') ev.preventDefault();
+            const dir = ev && ev.deltaY < 0 ? 1 : -1;
+            applyAmount(applyShopAmountDelta(ui.amount, dir, ev, 1, currentMax()));
+        };
+        deal.amountRow.addEventListener('wheel', onWheel, { passive: false });
+        deal.confirm.addEventListener('click', () => {
+            const row = selectedRow();
+            if (!row) return;
+            onShopDeal(livePlayer(), npc, ui.side, row.itemId, ui.amount, ctx);
+        });
+
+        if (!ui.selectedItemId) {
+            const first = visibleRows()[0];
+            if (first) {
+                ui.selectedItemId = first.itemId;
+                ui.amount = defaultShopAmount(
+                    ui.side,
+                    shopDealMax(livePlayer(), shop, first, ui.side)
+                );
+            }
+        }
+        refreshList();
+    }
+
+    /**
+     * @param {object} player
+     * @param {object} npc
+     * @param {HTMLElement} shopEl
+     * @param {object|null|undefined} ctx
+     * @param {'buy'|'sell'} side
+     * @param {boolean} active
+     * @returns {HTMLElement}
+     */
+    function makeShopTab(player, npc, shopEl, ctx, side, active) {
+        const tab = document.createElement('button');
+        tab.type = 'button';
+        tab.className = 'inv-npc-shop-tab' + (active ? ' is-active' : '');
+        tab.setAttribute('role', 'tab');
+        tab.setAttribute('aria-pressed', active ? 'true' : 'false');
+        tab.dataset.shopSide = side;
+        tab.textContent = side === 'sell' ? 'Sell' : 'Buy';
+        tab.addEventListener('click', () => {
+            const ui = ensureShopUi(npc);
+            if (ui.side === side) return;
+            ui.side = side;
+            ui.search = '';
+            ui.selectedItemId = null;
+            ui.amount = 1;
+            renderShop(playerOf() || player, npc, shopEl, ctx);
+        });
+        return tab;
     }
 
     /**
@@ -454,38 +676,147 @@ function createNpcDialogPanel(opts) {
     }
 
     /**
-     * @param {object} player
-     * @param {object} npc
-     * @param {object} shop
      * @param {object} row
-     * @param {'buy'|'sell'} side
      * @param {object[]|Record<string, object>|null} itemDb
-     * @param {object|null|undefined} ctx
+     * @param {'buy'|'sell'} side
+     * @param {object} player
      * @returns {HTMLElement}
      */
-    function makeShopRow(player, npc, shop, row, side, itemDb, ctx) {
+    function makeShopRow(row, itemDb, side, player) {
         const rowEl = document.createElement('div');
         rowEl.className = 'inv-npc-shop-row';
+        rowEl.dataset.itemId = row.itemId;
+        rowEl.dataset.shopSide = side;
+        const item = findItem(itemDb, row.itemId);
+        if (item && (item.sprites || item.sprite || item.customSprite || item.spriteId)) {
+            const url = resolveItemSpriteUrl(item);
+            if (url) {
+                const img = document.createElement('img');
+                img.className = 'inv-npc-shop-icon';
+                img.alt = '';
+                img.src = url;
+                img.draggable = false;
+                img.onerror = () => {
+                    if (img.parentNode) img.parentNode.removeChild(img);
+                };
+                rowEl.appendChild(img);
+            }
+        }
         const name = document.createElement('span');
         name.className = 'inv-npc-shop-name';
         name.textContent = shopItemLabel(row.itemId, itemDb);
         const price = document.createElement('span');
         price.className = 'inv-npc-shop-price';
-        const unit = side === 'sell' ? row.sell : row.buy;
-        price.textContent = String(unit);
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = side === 'sell' ? 'inv-npc-shop-sell' : 'inv-npc-shop-buy';
-        btn.textContent = side === 'sell' ? 'Sell' : 'Buy';
-        btn.dataset.itemId = row.itemId;
-        btn.dataset.shopSide = side;
-        btn.addEventListener('click', () => {
-            onShopDeal(playerOf() || player, npc, side, row.itemId, ctx);
-        });
+        price.textContent = String(side === 'sell' ? row.sell : row.buy);
         rowEl.appendChild(name);
         rowEl.appendChild(price);
-        rowEl.appendChild(btn);
+        if (side === 'sell') {
+            const have = document.createElement('span');
+            have.className = 'inv-npc-shop-have';
+            have.textContent = String(countPlayerItem(player, row.itemId));
+            rowEl.appendChild(have);
+        }
         return rowEl;
+    }
+
+    /**
+     * @returns {{
+     *   root: HTMLElement,
+     *   amountRow: HTMLElement,
+     *   slider: HTMLInputElement,
+     *   amountInput: HTMLInputElement,
+     *   dec: HTMLElement,
+     *   inc: HTMLElement,
+     *   price: HTMLElement,
+     *   total: HTMLElement,
+     *   currency: HTMLElement,
+     *   confirm: HTMLButtonElement
+     * }}
+     */
+    function makeShopDeal() {
+        const root = document.createElement('div');
+        root.className = 'inv-npc-shop-deal';
+
+        const amountRow = document.createElement('div');
+        amountRow.className = 'inv-npc-shop-amount-row';
+        const dec = document.createElement('button');
+        dec.type = 'button';
+        dec.className = 'inv-npc-shop-amount-dec';
+        dec.setAttribute('aria-label', 'Decrease amount');
+        dec.textContent = '\u2212';
+        const slider = document.createElement('input');
+        slider.type = 'range';
+        slider.className = 'inv-npc-shop-amount-slider';
+        slider.min = '1';
+        slider.max = '1';
+        slider.value = '1';
+        slider.step = '1';
+        const amountInput = document.createElement('input');
+        amountInput.type = 'number';
+        amountInput.className = 'inv-npc-shop-amount-input';
+        amountInput.min = '1';
+        amountInput.value = '1';
+        amountInput.setAttribute('aria-label', 'Amount');
+        const inc = document.createElement('button');
+        inc.type = 'button';
+        inc.className = 'inv-npc-shop-amount-inc';
+        inc.setAttribute('aria-label', 'Increase amount');
+        inc.textContent = '+';
+        amountRow.appendChild(dec);
+        amountRow.appendChild(slider);
+        amountRow.appendChild(amountInput);
+        amountRow.appendChild(inc);
+        root.appendChild(amountRow);
+
+        const meta = document.createElement('div');
+        meta.className = 'inv-npc-shop-deal-meta';
+        const price = addDealMetaRow(meta, 'Price', 'inv-npc-shop-unit-price');
+        const total = addDealMetaRow(meta, 'Total', 'inv-npc-shop-total');
+        const currency = document.createElement('div');
+        currency.className = 'inv-npc-shop-currency';
+        currency.textContent = '';
+        meta.appendChild(currency);
+        root.appendChild(meta);
+
+        const confirm = document.createElement('button');
+        confirm.type = 'button';
+        confirm.className = 'inv-npc-shop-confirm inv-npc-shop-buy';
+        confirm.textContent = 'Buy';
+        root.appendChild(confirm);
+
+        return {
+            root,
+            amountRow,
+            slider,
+            amountInput,
+            dec,
+            inc,
+            price,
+            total,
+            currency,
+            confirm
+        };
+    }
+
+    /**
+     * @param {HTMLElement} parent
+     * @param {string} label
+     * @param {string} valueClass
+     * @returns {HTMLElement}
+     */
+    function addDealMetaRow(parent, label, valueClass) {
+        const row = document.createElement('div');
+        row.className = 'inv-npc-shop-deal-row';
+        const lab = document.createElement('span');
+        lab.className = 'inv-npc-shop-deal-label';
+        lab.textContent = label;
+        const val = document.createElement('span');
+        val.className = valueClass;
+        val.textContent = '—';
+        row.appendChild(lab);
+        row.appendChild(val);
+        parent.appendChild(row);
+        return val;
     }
 
     /**
@@ -493,6 +824,7 @@ function createNpcDialogPanel(opts) {
      * @param {object} npc
      */
     function onBackFromShop(player, npc) {
+        resetShopUi();
         closeShop(player);
         if (npc) enqueueCloseShop(player, npc.id);
         lastSig = '';
@@ -507,13 +839,14 @@ function createNpcDialogPanel(opts) {
      * @param {object} npc
      * @param {'buy'|'sell'} side
      * @param {string} itemId
+     * @param {number} [count]
      * @param {object|null|undefined} ctx
      */
-    function onShopDeal(player, npc, side, itemId, ctx) {
+    function onShopDeal(player, npc, side, itemId, count, ctx) {
         const result = executeShopDeal(
             player,
             npc,
-            { action: side, itemId, count: 1 },
+            { action: side, itemId, count: count != null ? count : 1 },
             ctx
         );
         if (!result.ok) {

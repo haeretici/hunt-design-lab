@@ -104,7 +104,7 @@ function defaultAutoSpell(spellId) {
             basePower: 18,
             /** Fallback when equipped wand has no range; runtime prefers weaponRange. */
             range: 4,
-            mana: 5,
+            mana: 0,
             hitChance: 100,
             isMelee: false,
             moveLock: 0.05,

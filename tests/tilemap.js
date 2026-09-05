@@ -1168,13 +1168,45 @@ function testPhase2FlagsStairsAndPz() {
     assert.strictEqual(map.canEnter(1, 1, 0, player), true);
     assert.strictEqual(map.canEnter(1, 1, 0, creature), false);
 
+    const npc = { id: 30, type: 'monster', isNpc: true, kind: 'npc' };
+    const hostileNpc = { id: 31, type: 'monster', isNpc: true, attackableNpc: true };
+    assert.strictEqual(
+        map.creatureMayEnterTile(1, 1, 0, npc),
+        true,
+        'talkable NPC may enter full PZ'
+    );
+    assert.strictEqual(map.canEnter(1, 1, 0, npc), true);
+    assert.strictEqual(
+        map.creatureMayEnterTile(1, 1, 0, hostileNpc),
+        false,
+        'attackable NPC still blocked on PZ'
+    );
+    assert.strictEqual(
+        map.creatureMayEnterTile(1, 1, 0, null),
+        false,
+        'bare probe still blocked on NO_CREATURE'
+    );
+
     // NO_CREATURE alone (no cast block)
     map.setTileFlags(2, 2, 0, TILE_FLAG_NO_CREATURE);
     assert.strictEqual(map.attackMayAffectTile(2, 2, 0), true, 'single-bit no cast open');
     assert.strictEqual(map.blocksCast(2, 2, 0), false);
     assert.strictEqual(map.canEnter(2, 2, 0, creature), false);
     assert.strictEqual(map.canEnter(2, 2, 0, player), true);
+    assert.strictEqual(map.canEnter(2, 2, 0, npc), true, 'talkable NPC on NO_CREATURE');
     assert.strictEqual(map.isProtectionZonePackage(2, 2, 0), false);
+
+    map.setTileFlags(3, 1, 0, TILE_FLAG_STAIR | TILE_FLAG_NO_CREATURE);
+    assert.strictEqual(
+        map.creatureMayEnterTile(3, 1, 0, npc),
+        false,
+        'talkable NPC blocked on hop pad'
+    );
+    assert.strictEqual(
+        map.creatureMayEnterTile(3, 1, 0, player),
+        true,
+        'player still walks hop pad'
+    );
 
     // Pathfinding: creature cannot path onto full PZ
     const path = map.search(
@@ -1190,6 +1222,13 @@ function testPhase2FlagsStairsAndPz() {
         { allowDiagonal: false, mover: player, useStackPolicy: true }
     );
     assert.ok(playerPath && playerPath.length >= 2, 'player can path onto PZ');
+
+    const npcPath = map.search(
+        { x: 0, y: 1, z: 0 },
+        { x: 1, y: 1, z: 0 },
+        { allowDiagonal: false, mover: npc, useStackPolicy: true }
+    );
+    assert.ok(npcPath && npcPath.length >= 2, 'talkable NPC can path onto PZ');
 
     // --- Hop north exit offset (stairs_up: deltaZ -1) ---
     const north = registerVerticalFromPlacement(

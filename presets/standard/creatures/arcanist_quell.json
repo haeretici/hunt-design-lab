@@ -1,0 +1,84 @@
+{
+    "id": "arcanist_quell",
+    "label": "Quell",
+    "notes": "Outpost vendor-lite (potions, wands, field runes). Trade opens shop. Currency gold_coin. Mapped rows only; buys nothing. C.4 wander radius 2. Not a hunt target.",
+    "customSprite": "arcanist_quell",
+    "hp": 80,
+    "hpMax": 80,
+    "speed": 80,
+    "level": 1,
+    "armor": 0,
+    "mitigation": 100,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": false,
+    "isNpc": true,
+    "kind": "npc",
+    "dialogId": "arcanist_quell",
+    "walkInterval": 2000,
+    "walkRadius": 2,
+    "shop": {
+        "currency": "gold_coin",
+        "items": [
+            {
+                "item": "purge_field_rune",
+                "buy": 15
+            },
+            {
+                "item": "spark_field_rune",
+                "buy": 38
+            },
+            {
+                "item": "blaze_field_rune",
+                "buy": 28
+            },
+            {
+                "item": "health_potion",
+                "buy": 50
+            },
+            {
+                "item": "mana_potion",
+                "buy": 56
+            },
+            {
+                "item": "lunar_rod",
+                "buy": 1000
+            },
+            {
+                "item": "withering_rod",
+                "buy": 5000
+            },
+            {
+                "item": "venom_field_rune",
+                "buy": 21
+            },
+            {
+                "item": "small_health_potion",
+                "buy": 20
+            },
+            {
+                "item": "viperfang_rod",
+                "buy": 500
+            },
+            {
+                "item": "wand_of_decay",
+                "buy": 5000
+            },
+            {
+                "item": "wand_of_dragonbreath",
+                "buy": 1000
+            },
+            {
+                "item": "wand_of_vortex",
+                "buy": 500
+            }
+        ]
+    },
+    "canBlock": false,
+    "attacks": [],
+    "flags": {
+        "attackable": false,
+        "hostile": false,
+        "isNpc": true
+    }
+}

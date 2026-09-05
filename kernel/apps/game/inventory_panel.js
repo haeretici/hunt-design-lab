@@ -122,6 +122,7 @@ const {
     slotClientRect,
     collectOccupiedRects,
     placeFloatPanel,
+    placeContextMenu,
     boundsForOrigin
 } = require('./float_panel_place.js');
 
@@ -2250,6 +2251,7 @@ function bindInventoryPanel(opts) {
         }
 
         document.body.appendChild(ctxMenu);
+        placeContextMenu(ctxMenu, x, y);
     }
 
     /**
@@ -3766,6 +3768,7 @@ function bindInventoryPanel(opts) {
         }
 
         document.body.appendChild(ctxMenu);
+        placeContextMenu(ctxMenu, clientX || 0, clientY || 0);
     }
 
     /**
@@ -4267,6 +4270,7 @@ function bindInventoryPanel(opts) {
         }
 
         document.body.appendChild(ctxMenu);
+        placeContextMenu(ctxMenu, clientX || 0, clientY || 0);
     }
 
     /**
@@ -4367,6 +4371,7 @@ function bindInventoryPanel(opts) {
         }
 
         document.body.appendChild(ctxMenu);
+        placeContextMenu(ctxMenu, clientX || 0, clientY || 0);
     }
 
     /**

@@ -301,6 +301,17 @@
             addRow('fa-solid fa-crosshair', 'Range', `${item.range} tiles`, '');
         }
 
+        if (item.min != null || item.max != null) {
+            const lo = item.min != null ? Number(item.min) : Number(item.max);
+            const hi = item.max != null ? Number(item.max) : Number(item.min);
+            const span = lo === hi ? String(lo) : `${lo}–${hi}`;
+            const el = item.element ? ` ${formatPropLabel(item.element)}` : '';
+            addRow('fa-solid fa-wand-magic-sparkles', 'Attack', `${span}${el}`, 'text-danger fw-bold');
+        }
+        if (item.manaGain != null && Number(item.manaGain) > 0) {
+            addRow('fa-solid fa-droplet', 'Mana Gain', `+${Math.floor(Number(item.manaGain))} on damaging auto`, 'text-info');
+        }
+
         // Physical Attack
         if (item.atk != null && item.atk !== 0) {
             addRow('fa-solid fa-burst', 'Attack (Physical)', `+${item.atk}`, 'text-danger fw-bold');
@@ -669,9 +680,19 @@
 
             let statsDesc = [];
             if (item.armor) statsDesc.push(`Arm: ${item.armor}`);
+            if (item.min != null || item.max != null) {
+                const lo = item.min != null ? Number(item.min) : Number(item.max);
+                const hi = item.max != null ? Number(item.max) : Number(item.min);
+                const span = lo === hi ? String(lo) : `${lo}–${hi}`;
+                const el = item.element ? ` ${item.element}` : '';
+                statsDesc.push(`Atk: ${span}${el}`);
+            }
             if (item.atk) {
                 const is2h = (item.twoHanded === true || item.twoHanded === 'true' || item.twoHanded === 1);
                 statsDesc.push(`Atk: ${item.atk} (${is2h ? '2h' : '1h'})`);
+            }
+            if (item.manaGain != null && Number(item.manaGain) > 0) {
+                statsDesc.push(`MP +${Math.floor(Number(item.manaGain))}`);
             }
             if (item.defense) statsDesc.push(`Def: ${item.defense}`);
             if (item.weight) statsDesc.push(`${(item.weight / 100).toFixed(1)} oz`);

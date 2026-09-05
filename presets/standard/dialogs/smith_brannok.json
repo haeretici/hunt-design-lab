@@ -1,0 +1,20 @@
+{
+    "id": "smith_brannok",
+    "greeting": "Need a blade or a shield?",
+    "start": "start",
+    "nodes": {
+        "start": {
+            "text": "Steel and leather. What do you need?",
+            "replies": [
+                {
+                    "label": "Trade",
+                    "action": "open_shop"
+                },
+                {
+                    "label": "Bye",
+                    "action": "close"
+                }
+            ]
+        }
+    }
+}

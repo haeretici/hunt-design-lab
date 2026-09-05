@@ -1,0 +1,206 @@
+{
+    "id": "quartermaster_hale",
+    "greeting": "If you can follow orders, I have work.",
+    "start": "start",
+    "nodes": {
+        "start": {
+            "text": "A lost amulet and a rare plant. What can you handle?",
+            "replies": [
+                {
+                    "label": "Amulet",
+                    "goto": "amulet_offer",
+                    "when": {
+                        "storage": "firstlight.morris.amulet",
+                        "eq": 0
+                    }
+                },
+                {
+                    "label": "Amulet",
+                    "goto": "amulet_wait",
+                    "when": {
+                        "storage": "firstlight.morris.amulet",
+                        "eq": 1
+                    }
+                },
+                {
+                    "label": "Amulet",
+                    "goto": "amulet_turnin",
+                    "when": {
+                        "storage": "firstlight.morris.amulet",
+                        "eq": 2
+                    }
+                },
+                {
+                    "label": "Amulet",
+                    "goto": "amulet_done",
+                    "when": {
+                        "storage": "firstlight.morris.amulet",
+                        "min": 3
+                    }
+                },
+                {
+                    "label": "Herbs",
+                    "goto": "herbs_offer",
+                    "when": {
+                        "storage": "firstlight.morris.herbs",
+                        "eq": 0
+                    }
+                },
+                {
+                    "label": "Herbs",
+                    "goto": "herbs_wait",
+                    "when": {
+                        "storage": "firstlight.morris.herbs",
+                        "eq": 1
+                    }
+                },
+                {
+                    "label": "Herbs",
+                    "goto": "herbs_turnin",
+                    "when": {
+                        "storage": "firstlight.morris.herbs",
+                        "eq": 2
+                    }
+                },
+                {
+                    "label": "Herbs",
+                    "goto": "herbs_done",
+                    "when": {
+                        "storage": "firstlight.morris.herbs",
+                        "min": 3
+                    }
+                },
+                {
+                    "label": "Bye",
+                    "action": "close"
+                }
+            ]
+        },
+        "amulet_offer": {
+            "text": "A strange amulet lies buried on the south beach. Take a shovel, dig it up, and bring it here.",
+            "set": {
+                "firstlight.morris.amulet": 1
+            },
+            "replies": [
+                {
+                    "label": "I will.",
+                    "action": "close"
+                }
+            ]
+        },
+        "amulet_wait": {
+            "text": "Still missing. South beach. Shovel. Bring the amulet back.",
+            "replies": [
+                {
+                    "label": "On it.",
+                    "action": "close"
+                }
+            ]
+        },
+        "amulet_turnin": {
+            "text": "That's the one. Hand it over.",
+            "replies": [
+                {
+                    "label": "Here it is",
+                    "goto": "amulet_paid",
+                    "take": {
+                        "item": "strange_amulet",
+                        "count": 1
+                    },
+                    "give": {
+                        "item": "gold_coin",
+                        "count": 50
+                    },
+                    "when": {
+                        "item": "strange_amulet",
+                        "min": 1
+                    },
+                    "set": {
+                        "firstlight.morris.amulet": 3
+                    }
+                },
+                {
+                    "label": "Later",
+                    "action": "close"
+                }
+            ]
+        },
+        "amulet_paid": {
+            "text": "Fifty gold. Well done.",
+            "replies": [
+                {
+                    "label": "Bye",
+                    "action": "close"
+                }
+            ]
+        },
+        "amulet_done": {
+            "text": "That amulet is settled. I do not need another.",
+            "replies": [
+                {
+                    "label": "Bye",
+                    "action": "close"
+                }
+            ]
+        },
+        "herbs_offer": {
+            "text": "A rare plant grows west of this hill. Use it, then come back.",
+            "set": {
+                "firstlight.morris.herbs": 1
+            },
+            "replies": [
+                {
+                    "label": "I will.",
+                    "action": "close"
+                }
+            ]
+        },
+        "herbs_wait": {
+            "text": "The plant is still out west. Use it, then report.",
+            "replies": [
+                {
+                    "label": "On it.",
+                    "action": "close"
+                }
+            ]
+        },
+        "herbs_turnin": {
+            "text": "You used the plant. Here's your pay.",
+            "replies": [
+                {
+                    "label": "Collect",
+                    "goto": "herbs_paid",
+                    "give": {
+                        "item": "gold_coin",
+                        "count": 50
+                    },
+                    "set": {
+                        "firstlight.morris.herbs": 3
+                    }
+                },
+                {
+                    "label": "Later",
+                    "action": "close"
+                }
+            ]
+        },
+        "herbs_paid": {
+            "text": "Fifty gold. That will do.",
+            "replies": [
+                {
+                    "label": "Bye",
+                    "action": "close"
+                }
+            ]
+        },
+        "herbs_done": {
+            "text": "The herb job is closed.",
+            "replies": [
+                {
+                    "label": "Bye",
+                    "action": "close"
+                }
+            ]
+        }
+    }
+}

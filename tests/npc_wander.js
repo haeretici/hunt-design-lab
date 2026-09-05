@@ -7,7 +7,12 @@
 
 const assert = require('assert');
 const presets = require('../kernel/core/lib/presets.js');
-const { TileMap } = require('../kernel/core/entities/tilemap.js');
+const {
+    TileMap,
+    TILE_FLAG_PZ_PACKAGE,
+    TILE_FLAG_STAIR,
+    TILE_FLAG_NO_CREATURE
+} = require('../kernel/core/entities/tilemap.js');
 const { Creature } = require('../kernel/core/entities/creature.js');
 const { Player } = require('../kernel/core/entities/player.js');
 const { Party } = require('../kernel/core/entities/party.js');
@@ -145,6 +150,16 @@ test('no wander when interval / speed / radius is 0', () => {
     occupy(map, pinned);
     assert.strictEqual(tickNpcWander(pinned, ctx, 5000).walked, false);
     assert.strictEqual(canNpcWalkTo(pinned, { x: 1, y: 0 }, map), false);
+});
+
+test('talkable NPC may wander onto PZ, not hop pads', () => {
+    const map = openFloor(16, 16);
+    const npc = makeNpc({ tile: { x: 5, y: 5, z: 0 }, walkRadius: 2 });
+    occupy(map, npc);
+    map.setTileFlags(6, 5, 0, TILE_FLAG_PZ_PACKAGE);
+    assert.strictEqual(canNpcWalkTo(npc, { x: 1, y: 0 }, map), true);
+    map.setTileFlags(6, 5, 0, TILE_FLAG_STAIR | TILE_FLAG_NO_CREATURE);
+    assert.strictEqual(canNpcWalkTo(npc, { x: 1, y: 0 }, map), false);
 });
 
 test('after interval, steps a cardinal tile inside radius', () => {

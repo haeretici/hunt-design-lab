@@ -639,6 +639,17 @@
             statList.appendChild(createStatRow('fa-solid fa-crosshair', 'Range', `${item.range} tiles`, 'tp-val-cat'));
         }
 
+        if (item.min != null || item.max != null) {
+            const lo = item.min != null ? Number(item.min) : Number(item.max);
+            const hi = item.max != null ? Number(item.max) : Number(item.min);
+            const span = lo === hi ? String(lo) : `${lo}–${hi}`;
+            const el = item.element ? ` ${formatPropLabel(item.element)}` : '';
+            statList.appendChild(createStatRow('fa-solid fa-wand-magic-sparkles', 'Attack', `${span}${el}`, 'tp-val-atk'));
+        }
+        if (item.manaGain != null && Number(item.manaGain) > 0) {
+            statList.appendChild(createStatRow('fa-solid fa-droplet', 'Mana Gain', `+${Math.floor(Number(item.manaGain))} on damaging auto`, 'tp-val-cat'));
+        }
+
         // Physical Attack
         if (item.atk != null && item.atk !== 0) {
             statList.appendChild(createStatRow('fa-solid fa-burst', 'Attack (Physical)', `+${item.atk}`, 'tp-val-atk'));

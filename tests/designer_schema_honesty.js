@@ -204,6 +204,10 @@ function testDeclaredKeys() {
             'atk',
             'extraAtk',
             'extraAtkElement',
+            'min',
+            'max',
+            'element',
+            'manaGain',
             'maxHitChance',
             'autoShape',
             'tier',
@@ -236,6 +240,9 @@ function testDeclaredKeys() {
     assert.ok(item.properties.condition.properties.type.enum.includes('mana_shield'));
     assert.ok(item.properties.condition.properties.type.enum.includes(''));
     assert.ok(item.properties.extraAtkElement.enum.includes(''));
+    assert.ok(item.properties.element.enum.includes(''));
+    assert.strictEqual(item.properties.element.default, '');
+    assert.ok(item.properties.element.enum.includes('fire'));
     assert.ok(item.properties.extraAtkElement.enum.includes('fire'));
     assert.strictEqual(item.properties.extraAtkElement.default, '');
     const ct = creatures.properties.changeTarget.properties;

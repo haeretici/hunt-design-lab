@@ -6,11 +6,14 @@
 'use strict';
 
 const assert = require('assert');
-const { TileMap } = require('../kernel/core/entities/tilemap.js');
+const {
+    TileMap,
+    TILE_FLAG_PZ_PACKAGE
+} = require('../kernel/core/entities/tilemap.js');
 const { Creature } = require('../kernel/core/entities/creature.js');
 const { Player } = require('../kernel/core/entities/player.js');
 const { Party } = require('../kernel/core/entities/party.js');
-const { Simulator } = require('../kernel/providers/simulator/simulator.js');
+const { Simulator, findSpawnTile } = require('../kernel/providers/simulator/simulator.js');
 const {
     isTalkableNpc,
     isAttackableCreature,
@@ -22,8 +25,11 @@ const {
     ensureAoiFrame,
     invalidateAoiFrame,
     buildCtx,
-    initPlayerAi
+    initPlayerAi,
+    tickHuntAi
 } = require('../kernel/core/lib/ai/hunt_ai.js');
+const { isValidTarget } = require('../kernel/core/lib/ai/targeting.js');
+const { Engage, changePlayerState } = require('../kernel/core/lib/ai/player_states.js');
 const {
     resolveCanvasHit,
     buildCanvasContextMenuEntries
@@ -133,6 +139,35 @@ test('Q6.2 hostile never-talk', () => {
     assert.ok(isAttackableCreature({ isNpc: true, attackableNpc: true }));
     assert.ok(!isAttackableCreature({ isNpc: true }));
     assert.ok(isAttackableCreature({ id: 9, alive: true }));
+    const observer = { tile: { x: 0, y: 0, z: 0 } };
+    assert.ok(
+        !isValidTarget(observer, {
+            isNpc: true,
+            alive: true,
+            hp: { current: 80 },
+            tile: { x: 1, y: 0, z: 0 }
+        }),
+        'isValidTarget rejects talkable NPC'
+    );
+    assert.ok(
+        isValidTarget(observer, {
+            id: 9,
+            alive: true,
+            hp: { current: 10 },
+            tile: { x: 1, y: 0, z: 0 }
+        }),
+        'isValidTarget keeps monsters'
+    );
+    assert.ok(
+        isValidTarget(observer, {
+            isNpc: true,
+            attackableNpc: true,
+            alive: true,
+            hp: { current: 10 },
+            tile: { x: 1, y: 0, z: 0 }
+        }),
+        'isValidTarget keeps attackableNpc'
+    );
 });
 
 test('copyNpcFields + applyTemplate keep NPC identity after spawn', () => {
@@ -258,6 +293,54 @@ test('spawnFromTable: talkable defaults aggro false; monster stays true', () => 
     }
 });
 
+test('findSpawnTile: player + talkable NPC stay on PZ; monster displaces', () => {
+    const map = openFloor(16, 16, 100);
+    map.setTileFlags(3, 3, 0, TILE_FLAG_PZ_PACKAGE);
+    const npcTile = findSpawnTile(map, 3, 3, 0, 0, { template: npcTemplate() });
+    assert.deepStrictEqual(npcTile, { x: 3, y: 3 }, 'NPC spawn stays on PZ pin');
+    const playerTile = findSpawnTile(map, 3, 3, 0, 0, { type: 'player' });
+    assert.deepStrictEqual(playerTile, { x: 3, y: 3 }, 'player spawn stays on PZ');
+    const ratTile = findSpawnTile(map, 3, 3, 0, 0, { template: monsterTemplate() });
+    assert.ok(ratTile, 'monster finds a nearby tile');
+    assert.ok(
+        !(ratTile.x === 3 && ratTile.y === 3),
+        'monster displaced off PZ'
+    );
+    const bare = findSpawnTile(map, 3, 3, 0, 0);
+    assert.ok(bare, 'bare probe finds a nearby tile');
+    assert.ok(!(bare.x === 3 && bare.y === 3), 'bare probe displaced off PZ');
+
+    const sim = new Simulator({ seed: 31, combatAi: false });
+    sim.setTileMap(map);
+    sim.floor = 0;
+    try {
+        const guide = sim.spawnFromTable({
+            creatureId: 'town_guide',
+            x: 3,
+            y: 3,
+            z: 0,
+            template: npcTemplate()
+        });
+        assert.ok(guide);
+        assert.strictEqual(guide.tile.x, 3);
+        assert.strictEqual(guide.tile.y, 3);
+        const rat = sim.spawnFromTable({
+            creatureId: 'cave_rat',
+            x: 3,
+            y: 3,
+            z: 0,
+            template: monsterTemplate()
+        });
+        assert.ok(rat);
+        assert.ok(
+            !(rat.tile.x === 3 && rat.tile.y === 3),
+            'spawnFromTable monster not on occupied/PZ pin'
+        );
+    } finally {
+        sim.destroy();
+    }
+});
+
 test('AOI enemies skip talkable NPC; monster still listed', () => {
     const map = openFloor(24, 24, 100);
     const sim = new Simulator({ seed: 32, combatAi: false });
@@ -309,6 +392,95 @@ test('AOI enemies skip talkable NPC; monster still listed', () => {
         const ctx = buildCtx(sim, null, null);
         assert.ok(!ctx.enemies.some((c) => c.id === guide.id));
         assert.ok(ctx.enemies.some((c) => c.id === rat.id));
+    } finally {
+        sim.destroy();
+    }
+});
+
+test('player hunt AI does not target or attack talkable NPC', () => {
+    const map = openFloor(24, 24, 100);
+    const sim = new Simulator({ seed: 33, combatAi: true });
+    sim.setTileMap(map);
+    sim.floor = 0;
+    try {
+        const party = new Party({
+            name: 'Aggro',
+            waypoints: [
+                { x: 5, y: 5, z: 0 },
+                { x: 12, y: 5, z: 0 }
+            ]
+        });
+        const player = new Player({
+            id: sim.allocEntityId(),
+            name: 'Lead',
+            classId: 'guardian',
+            isLeader: true,
+            strategyId: 'guardian_aggro',
+            level: 20,
+            tile: { x: 5, y: 5, z: 0 }
+        });
+        map.tryOccupy(5, 5, 0, player);
+        party.addMember(player);
+        initPlayerAi(player, { strategyId: 'guardian_aggro' });
+        // Stock guardian_aggro is 0.95 and tickHuntAi rolls Math.random —
+        // a miss leaves _engageDecision false until Time advances.
+        player.strategy.aggression = 1;
+        sim.parties.push(party);
+        sim.insertChild(party);
+        sim.entityById.set(player.id, player);
+
+        const guide = sim.spawnFromTable({
+            creatureId: 'town_guide',
+            x: 6,
+            y: 5,
+            z: 0,
+            template: npcTemplate()
+        });
+        assert.ok(guide);
+        const hp0 = guide.hp.current;
+
+        const tickReady = () => {
+            player.moveDelay = 0;
+            invalidateAoiFrame(sim);
+            tickHuntAi(sim);
+        };
+
+        tickReady();
+        assert.ok(
+            player.target !== guide && player.targetId !== guide.id,
+            'AI must not sticky-target the NPC'
+        );
+        assert.ok(!player.inBattle, 'NPC must not start a fight');
+        assert.strictEqual(guide.hp.current, hp0, 'NPC HP unchanged');
+        assert.ok(
+            player.aiState !== 'engage',
+            'must not enter engage on NPC only'
+        );
+
+        changePlayerState(player, Engage);
+        player.target = guide;
+        player.targetId = guide.id;
+        player.inBattle = true;
+        tickReady();
+        assert.ok(
+            player.target !== guide && player.targetId !== guide.id,
+            'stale NPC sticky must clear'
+        );
+        assert.ok(player.aiState !== 'engage', 'must leave engage when only NPC');
+        assert.strictEqual(guide.hp.current, hp0, 'NPC HP still unchanged');
+
+        const rat = sim.spawnFromTable({
+            creatureId: 'cave_rat',
+            x: 7,
+            y: 5,
+            z: 0,
+            template: monsterTemplate()
+        });
+        tickReady();
+        assert.ok(rat, 'rat spawned');
+        assert.ok(player.target, 'AI should acquire the monster');
+        assert.strictEqual(player.target.id, rat.id, 'AI still targets monster');
+        assert.ok(player.target.id !== guide.id);
     } finally {
         sim.destroy();
     }

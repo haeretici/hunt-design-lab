@@ -1,0 +1,27 @@
+{
+    "id": "goblin_nibb",
+    "label": "Nibb",
+    "notes": "West-meadow flavor goblin. No shop. Fishing and key later recorte. C.4 wander radius 2. Not a hunt target.",
+    "customSprite": "goblin_nibb",
+    "hp": 80,
+    "hpMax": 80,
+    "speed": 80,
+    "level": 1,
+    "armor": 0,
+    "mitigation": 100,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": false,
+    "isNpc": true,
+    "kind": "npc",
+    "dialogId": "goblin_nibb",
+    "walkInterval": 2000,
+    "walkRadius": 2,
+    "canBlock": false,
+    "attacks": [],
+    "flags": {
+        "attackable": false,
+        "hostile": false,
+        "isNpc": true
+    }
+}

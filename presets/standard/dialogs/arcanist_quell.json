@@ -1,0 +1,20 @@
+{
+    "id": "arcanist_quell",
+    "greeting": "Potions and field runes, if you have the coin.",
+    "start": "start",
+    "nodes": {
+        "start": {
+            "text": "Wands, rods, and a few field runes. What do you need?",
+            "replies": [
+                {
+                    "label": "Trade",
+                    "action": "open_shop"
+                },
+                {
+                    "label": "Bye",
+                    "action": "close"
+                }
+            ]
+        }
+    }
+}

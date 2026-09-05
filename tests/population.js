@@ -399,10 +399,10 @@ async function testRisingPressureMacroHeadless() {
     // 2026-08-28: hop-on-step is manual-only — AI no longer bounce on paired stairs.
     assert.strictEqual(summary.partyWipe, true);
     assert.strictEqual(summary.endReason, 'party_wipe');
-    assert.strictEqual(summary.tickCount, 1912);
+    assert.strictEqual(summary.tickCount, 1824);
     assert.strictEqual(summary.kills, 22);
     assert.strictEqual(summary.deaths, 2);
-    assert.strictEqual(summary.damageTaken, 2630);
+    assert.strictEqual(summary.damageTaken, 2645);
     const members = summary.parties[0].members || [];
     assert.ok(
         members.every((m) => String(m.z) === '2'),

@@ -903,6 +903,17 @@
 
         const lvl = selected.level != null ? Number(selected.level) : null;
         const atk = selected.atk != null ? Number(selected.atk) : null;
+        let wandAtk = '';
+        if (selected.min != null || selected.max != null) {
+            const lo = selected.min != null ? Number(selected.min) : Number(selected.max);
+            const hi = selected.max != null ? Number(selected.max) : Number(selected.min);
+            wandAtk = lo === hi ? String(lo) : `${lo}–${hi}`;
+            if (selected.element) wandAtk += ` ${String(selected.element)}`;
+        }
+        const manaGain =
+            selected.manaGain != null && Number(selected.manaGain) > 0
+                ? Math.floor(Number(selected.manaGain))
+                : null;
         const extraAtk = selected.extraAtk != null ? Number(selected.extraAtk) : null;
         const arm = selected.armor != null ? Number(selected.armor) : null;
         const def = selected.defense != null ? Number(selected.defense) : null;
@@ -954,6 +965,16 @@
                     <div class="eq-stat-row">
                         <div class="eq-stat-label"><i class="fa-solid fa-hand-fist text-danger"></i> Attack Power</div>
                         <div class="eq-stat-val eq-val-atk">${atk}</div>
+                    </div>` : ''}
+                    ${wandAtk ? `
+                    <div class="eq-stat-row">
+                        <div class="eq-stat-label"><i class="fa-solid fa-wand-magic-sparkles text-danger"></i> Attack</div>
+                        <div class="eq-stat-val eq-val-atk">${escapeHtml(wandAtk)}</div>
+                    </div>` : ''}
+                    ${manaGain != null ? `
+                    <div class="eq-stat-row">
+                        <div class="eq-stat-label"><i class="fa-solid fa-droplet text-info"></i> Mana Gain</div>
+                        <div class="eq-stat-val">+${manaGain} on damaging auto</div>
                     </div>` : ''}
                     ${extraAtk != null && extraAtk > 0 ? `
                     <div class="eq-stat-row">

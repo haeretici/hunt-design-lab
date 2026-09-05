@@ -263,6 +263,27 @@
           "description": "Weapon classification rank. Fatal chance = 0.05 t² + 0.4 t + 0.05 percent when t > 0. Omit or 0 = never. No standard rows ship a tier."
         },
         "range": { "type": "number", "minimum": 0 },
+        "min": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Wand/rod auto-attack damage floor (legacy fromDamage). Omit on other items."
+        },
+        "max": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Wand/rod auto-attack damage ceiling (legacy toDamage). Omit on other items."
+        },
+        "element": {
+          "type": "string",
+          "default": "",
+          "enum": ["", "physical", "fire", "ice", "energy", "earth", "holy", "death"],
+          "description": "Wand/rod auto-attack element (legacy wandType). Empty = unset (omit on disk)."
+        },
+        "manaGain": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Mana restored on a wand/rod auto that deals final damage > 0 after reductions. Authored from wand level; not computed at runtime."
+        },
         "durationSec": {
           "type": "integer",
           "minimum": 0,

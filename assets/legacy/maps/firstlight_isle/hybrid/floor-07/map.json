@@ -48,6 +48,21 @@
                         "dir": "center",
                         "deltaZ": -1
                     }
+                },
+                {
+                    "catalogId": "ancient_dirt_floor",
+                    "kind": "tiles",
+                    "roleId": "floor"
+                },
+                {
+                    "catalogId": "shallow_water",
+                    "kind": "tiles",
+                    "roleId": "water"
+                },
+                {
+                    "catalogId": "overgrown_grass_floor",
+                    "kind": "tiles",
+                    "roleId": "floor"
                 }
             ],
             "subLayers": [
@@ -1195,6 +1210,13 @@
             "y": 184,
             "z": 7,
             "respawn": 90
+        },
+        {
+            "creatureId": "goblin_nibb",
+            "x": 59,
+            "y": 140,
+            "z": 7,
+            "respawn": 60
         }
     ],
     "world": [
@@ -1209,13 +1231,13 @@
             "blocking": false,
             "pickupable": false,
             "shared": false,
-            "when": {
-                "item": "shovel",
-                "min": 1
-            },
             "once": {
                 "storage": "firstlight.morris.amulet",
                 "eq": 1
+            },
+            "when": {
+                "item": "shovel",
+                "min": 1
             },
             "give": [
                 {
@@ -1225,6 +1247,25 @@
             ],
             "set": {
                 "firstlight.morris.amulet": 2
+            }
+        },
+        {
+            "id": "harvest_7_62_138",
+            "kind": "harvest",
+            "catalogId": "abandoned_flower_patch",
+            "catalogKind": "objects",
+            "x": 62,
+            "y": 138,
+            "z": 7,
+            "blocking": false,
+            "pickupable": false,
+            "shared": false,
+            "once": {
+                "storage": "firstlight.morris.herbs",
+                "eq": 1
+            },
+            "set": {
+                "firstlight.morris.herbs": 2
             }
         }
     ]

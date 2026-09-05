@@ -45,6 +45,35 @@ const {
 } = require('./cadence.js');
 const { hasLineOfSight } = require('../shapes.js');
 const { resolveFollowTrailDest } = require('./party_follow.js');
+const { isAttackableCreature } = require('../npc/flags.js');
+
+/**
+ * AOI enemy id set, or null when ctx.enemies was omitted.
+ * @param {object[]|null|undefined} list
+ * @returns {Set<string|number>|null}
+ */
+function enemyIdSet(list) {
+    if (!Array.isArray(list)) return null;
+    const ids = new Set();
+    for (let i = 0; i < list.length; i++) {
+        const e = list[i];
+        if (e && e.id != null) ids.add(e.id);
+    }
+    return ids;
+}
+
+/**
+ * Spatial-index results include talkable NPCs and party summons.
+ * Restrict to hunt prey: attackable, and in ctx.enemies when that list exists.
+ * @param {object|null|undefined} e
+ * @param {Set<string|number>|null} allowedIds
+ * @returns {boolean}
+ */
+function isHuntPrey(e, allowedIds) {
+    if (!e || !isAttackableCreature(e)) return false;
+    if (allowedIds) return allowedIds.has(e.id);
+    return true;
+}
 
 /**
  * @typedef {object} HuntCtx
@@ -89,9 +118,12 @@ function nearbyEnemies(owner, ctx) {
     const c = ctx || {};
     let near;
     if (c.creatureIndex) {
+        // Index holds every creature (NPCs, party summons). Filter to hunt prey.
+        const allowedIds = enemyIdSet(c.enemies);
         near = queryWithinRange(owner, queryR, {
             index: c.creatureIndex,
-            excludeSelf: true
+            excludeSelf: true,
+            filter: (e) => isHuntPrey(e, allowedIds)
         });
     } else {
         near = entitiesWithinRange(owner, c.enemies || [], queryR);

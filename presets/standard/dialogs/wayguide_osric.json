@@ -1,0 +1,81 @@
+{
+    "id": "wayguide_osric",
+    "greeting": "New to the hill? I can point you.",
+    "start": "start",
+    "nodes": {
+        "start": {
+            "text": "Shops, Hale's jobs, the temple, the stairs, or the captain south of the rim.",
+            "replies": [
+                {
+                    "label": "Shops",
+                    "goto": "shops"
+                },
+                {
+                    "label": "Hale",
+                    "goto": "hale"
+                },
+                {
+                    "label": "Temple",
+                    "goto": "temple"
+                },
+                {
+                    "label": "Stairs",
+                    "goto": "stairs"
+                },
+                {
+                    "label": "Captain",
+                    "goto": "captain"
+                },
+                {
+                    "label": "Bye",
+                    "action": "close"
+                }
+            ]
+        },
+        "shops": {
+            "text": "Calder west sells tools and food. Brannok north has steel. Quell east keeps potions and field runes.",
+            "replies": [
+                {
+                    "label": "Thanks",
+                    "action": "close"
+                }
+            ]
+        },
+        "hale": {
+            "text": "Hale stands in the courtyard. He pays for a buried amulet and a rare plant.",
+            "replies": [
+                {
+                    "label": "Thanks",
+                    "action": "close"
+                }
+            ]
+        },
+        "temple": {
+            "text": "Mira keeps the small temple east of Quell. Door on the west wall.",
+            "replies": [
+                {
+                    "label": "Thanks",
+                    "action": "close"
+                }
+            ]
+        },
+        "stairs": {
+            "text": "The stairs beside me drop to the island surface. Same pad coming back up.",
+            "replies": [
+                {
+                    "label": "Thanks",
+                    "action": "close"
+                }
+            ]
+        },
+        "captain": {
+            "text": "Riven waits south of the rim wall. Gap at the east end of that wall. No boat from here.",
+            "replies": [
+                {
+                    "label": "Thanks",
+                    "action": "close"
+                }
+            ]
+        }
+    }
+}

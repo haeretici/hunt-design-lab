@@ -36,6 +36,7 @@ const {
 const {
     resolveShop,
     listShopRows,
+    shopDealMax,
     buyFromShop,
     sellToShop,
     shopFailText
@@ -901,6 +902,20 @@ test('resolveShop + listShopRows hide gated rows', () => {
         listShopRows(shop, { storage: {} }, { side: 'sell' }).map((r) => r.itemId),
         ['bread', 'cookie']
     );
+});
+
+test('shopDealMax caps buy by gold and sell by backpack count', () => {
+    const { player } = makeInvTalkPair();
+    const shop = resolveShop({ shop: sampleShop() });
+    const bread = shop.items[0];
+    assert.strictEqual(shopDealMax(player, shop, bread, 'buy'), 1);
+    assert.ok(giveItemToPlayer(player, { itemId: 'gold_coin', count: 10 }, ITEM_DB).ok);
+    assert.strictEqual(shopDealMax(player, shop, bread, 'buy'), 2);
+    assert.ok(giveItemToPlayer(player, { itemId: 'gold_coin', count: 490 }, ITEM_DB).ok);
+    assert.strictEqual(shopDealMax(player, shop, bread, 'buy'), 100);
+    assert.strictEqual(shopDealMax(player, shop, bread, 'sell'), 1);
+    assert.ok(giveItemToPlayer(player, { itemId: 'bread', count: 7 }, ITEM_DB).ok);
+    assert.strictEqual(shopDealMax(player, shop, bread, 'sell'), 7);
 });
 
 test('buyFromShop takes currency and gives the item; cannot afford is a no-op', () => {

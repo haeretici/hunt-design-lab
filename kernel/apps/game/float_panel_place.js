@@ -1,7 +1,10 @@
 /**
- * Viewport placement for #inventoryFloatRoot panels (bags, Browse Field, NPC).
- * Prefer the right of the source slot/tile; flip left if it would clip; clamp
- * to the canvas (map origin) or the viewport (inventory slot origin).
+ * Viewport placement for #inventoryFloatRoot panels (bags, Browse Field, NPC)
+ * and cursor-anchored RMB menus (`.inv-context-menu`).
+ * Float panels: prefer the right of the source slot/tile; flip left if it
+ * would clip; clamp to the canvas (map origin) or the viewport (slot origin).
+ * Context menus: prefer top-left at the cursor; flip left/up if they would
+ * clip (last backpack column, bottom of the list); then clamp.
  */
 
 'use strict';
@@ -229,6 +232,86 @@ function placeFloatPanel(panel, opts) {
 }
 
 /**
+ * Cursor-anchored popup (inventory / canvas / combat / action-bar RMB).
+ * Prefer top-left at (x, y); flip left/up if it would clip; then clamp.
+ *
+ * @param {object} [opts]
+ * @param {number} [opts.x]
+ * @param {number} [opts.y]
+ * @param {number} [opts.menuW]
+ * @param {number} [opts.menuH]
+ * @param {{ left: number, top: number, right: number, bottom: number }} [opts.bounds]
+ * @returns {{ left: number, top: number }}
+ */
+function computeContextMenuPosition(opts) {
+    const o = opts || {};
+    const menuW = Math.max(1, Number(o.menuW) || 160);
+    const menuH = Math.max(1, Number(o.menuH) || 40);
+    const bounds = o.bounds || viewportBounds(null);
+    let left = Number(o.x);
+    let top = Number(o.y);
+    if (!Number.isFinite(left)) left = bounds.left;
+    if (!Number.isFinite(top)) top = bounds.top;
+
+    if (left + menuW > bounds.right) {
+        left = left - menuW;
+    }
+    if (top + menuH > bounds.bottom) {
+        top = top - menuH;
+    }
+
+    const maxLeft = bounds.right - menuW;
+    const maxTop = bounds.bottom - menuH;
+    left = clamp(left, bounds.left, maxLeft);
+    top = clamp(top, bounds.top, maxTop);
+    return { left, top };
+}
+
+/**
+ * Measure a mounted `.inv-context-menu` and write clamped left/top.
+ *
+ * @param {{ style?: { left?: string, top?: string }, offsetWidth?: number, offsetHeight?: number, getBoundingClientRect?: function(): * }|null|undefined} el
+ * @param {number} x
+ * @param {number} y
+ * @param {object} [opts]
+ * @param {number} [opts.fallbackW]
+ * @param {number} [opts.fallbackH]
+ * @param {{ left: number, top: number, right: number, bottom: number }} [opts.bounds]
+ * @param {{ innerWidth?: number, innerHeight?: number }|null} [opts.win]
+ * @returns {{ left: number, top: number }|null}
+ */
+function placeContextMenu(el, x, y, opts) {
+    if (!el || !el.style) return null;
+    const o = opts || {};
+    const win =
+        o.win || (typeof window !== 'undefined' ? window : null);
+    let menuW = Number(el.offsetWidth) || 0;
+    let menuH = Number(el.offsetHeight) || 0;
+    if (
+        (menuW <= 0 || menuH <= 0) &&
+        typeof el.getBoundingClientRect === 'function'
+    ) {
+        const r = el.getBoundingClientRect();
+        if (r) {
+            if (menuW <= 0) menuW = Number(r.width) || 0;
+            if (menuH <= 0) menuH = Number(r.height) || 0;
+        }
+    }
+    if (menuW <= 0) menuW = o.fallbackW || 160;
+    if (menuH <= 0) menuH = o.fallbackH || 80;
+    const pos = computeContextMenuPosition({
+        x,
+        y,
+        menuW,
+        menuH,
+        bounds: o.bounds || viewportBounds(win)
+    });
+    el.style.left = pos.left + 'px';
+    el.style.top = pos.top + 'px';
+    return pos;
+}
+
+/**
  * @param {string|null|undefined} kind 'canvas' | 'slot' | other
  * @param {{ getBoundingClientRect?: function(): * }|null|undefined} canvasEl
  * @param {{ innerWidth?: number, innerHeight?: number }|null|undefined} win
@@ -255,5 +338,7 @@ module.exports = {
     collectOccupiedRects,
     computeFloatPosition,
     placeFloatPanel,
+    computeContextMenuPosition,
+    placeContextMenu,
     boundsForOrigin
 };

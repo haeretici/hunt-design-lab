@@ -15,6 +15,8 @@ const { Time } = require('../../core/lib/time.js');
 const { isTalkableNpc } = require('../../core/lib/npc/flags.js');
 const { mergeStorageBags } = require('../../core/lib/npc/storage.js');
 const { Utils, unbindSeededRandom } = require('../../core/lib/utils.js');
+/** Mix into session seed for the loot LCG (decorrelated from combat). */
+const LOOT_LCG_XOR = 0x9e3779b9;
 const { Settings, mapPathPng } = require('../../settings.js');
 const { Navmesh } = require('../../core/lib/navmesh.js');
 const {
@@ -326,6 +328,12 @@ class Simulator extends GameObject {
         this.seed = raw >>> 0 || 1;
         this.tickCount = 0;
         this.seededRandom = null;
+        /**
+         * Dedicated loot LCG. Corpse rolls MUST NOT draw session Math.random
+         * (watch corpseLoot on would desync combat/hops from headless).
+         * @type {(() => number)|null}
+         */
+        this.lootRandom = null;
         this.rngState = 0;
         /**
          * Session phase:
@@ -2131,6 +2139,9 @@ class Simulator extends GameObject {
      */
     bindSeededRandom() {
         this.seededRandom = Utils.createSeededRandom(this.seed);
+        this.lootRandom = Utils.createSeededRandom(
+            ((this.seed >>> 0) ^ LOOT_LCG_XOR) >>> 0 || 1
+        );
         Math.random = this.seededRandom;
         return this.seededRandom;
     }
@@ -2972,7 +2983,14 @@ class Simulator extends GameObject {
             const id = this.allocEntityId();
             const isLeader = def.isLeader != null ? !!def.isLeader : i === 0;
 
-            const spawnTile = findSpawnTile(this.tileMap, start.x, start.y, z, i);
+            const spawnTile = findSpawnTile(
+                this.tileMap,
+                start.x,
+                start.y,
+                z,
+                i,
+                { type: 'player' }
+            );
             if (!spawnTile) {
                 throw new Error(
                     `spawnParty: no free tile near start for member ${i} at ${start.x},${start.y},z=${z}`
@@ -3710,6 +3728,23 @@ class Simulator extends GameObject {
     }
 
     /**
+     * Loot-stream rng. Never the session combat LCG.
+     * Unseeded tests (no bindSeededRandom) keep native Math.random.
+     * @returns {function(): number}
+     * @private
+     */
+    _lootRng() {
+        if (typeof this.lootRandom === 'function') return this.lootRandom;
+        if (typeof this.seededRandom === 'function') {
+            this.lootRandom = Utils.createSeededRandom(
+                ((this.seed >>> 0) ^ LOOT_LCG_XOR) >>> 0 || 1
+            );
+            return this.lootRandom;
+        }
+        return Math.random;
+    }
+
+    /**
      * Wild-death corpse spawn: ctor pin → Settings.features → false.
      * Mode default is applied by huntToSimulatorOpts (not here) so bare
      * Simulator tests and headless CI do not inherit standard-on.
@@ -3787,7 +3822,7 @@ class Simulator extends GameObject {
     _fillWildCreatureCorpse(defender, corpseUid, attacker) {
         if (!defender || !corpseUid || !this.groundItems || !defender.tile) return;
         const itemDb = this._itemDb || null;
-        const rolled = rollCreatureLoot(defender.loot, itemDb, Math.random);
+        const rolled = rollCreatureLoot(defender.loot, itemDb, this._lootRng());
         const z =
             defender.tile.z !== undefined && defender.tile.z !== null
                 ? defender.tile.z
@@ -4050,11 +4085,35 @@ class Simulator extends GameObject {
     }
 
     /**
+     * Whether a living enabled party member is under player control.
+     * Blocks `route_complete` so mixed AI/manual play does not freeze.
+     * @returns {boolean}
+     */
+    hasLivingManualControl() {
+        for (let i = 0; i < this.parties.length; i++) {
+            const p = this.parties[i];
+            if (!p || !p.enabled) continue;
+            if (typeof p.hasLivingManualControl === 'function') {
+                if (p.hasLivingManualControl()) return true;
+                continue;
+            }
+            const members = p.members || [];
+            for (let j = 0; j < members.length; j++) {
+                const m = members[j];
+                if (m && m.alive && m.controlMode === 'manual') return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Whether all enabled parties finished their routes.
+     * False while any living member is `controlMode: 'manual'`.
      * @returns {boolean}
      */
     allRoutesComplete() {
         if (!this.parties.length) return false;
+        if (this.hasLivingManualControl()) return false;
         for (let i = 0; i < this.parties.length; i++) {
             const p = this.parties[i];
             if (!p.enabled) continue;
@@ -5145,6 +5204,21 @@ class Simulator extends GameObject {
 }
 
 /**
+ * Mover passed to canEnter for spawn probes.
+ * `{ template }` (spawnFromTable / summon) unwraps; party uses `{ type: 'player' }`.
+ * Bare null stays a monster probe (NO_CREATURE / PZ still blocks).
+ * @param {object|null|undefined} entityOrOpts
+ * @returns {object|null}
+ */
+function spawnEnterProbe(entityOrOpts) {
+    if (!entityOrOpts || typeof entityOrOpts !== 'object') return null;
+    if (entityOrOpts.template && typeof entityOrOpts.template === 'object') {
+        return entityOrOpts.template;
+    }
+    return entityOrOpts;
+}
+
+/**
  * Find a free walkable spawn near (x,y,z). Index 0 prefers exact tile;
  * later indices take successive free tiles in a deterministic spiral
  * (skipping the exact start so members do not stack on the leader).
@@ -5160,9 +5234,10 @@ class Simulator extends GameObject {
 function findSpawnTile(tileMap, x, y, z, memberIndex, entityOrOpts) {
     const ox = Math.round(x);
     const oy = Math.round(y);
+    const probe = spawnEnterProbe(entityOrOpts);
     if (
         memberIndex === 0 &&
-        tileMap.canEnter(ox, oy, z, null) &&
+        tileMap.canEnter(ox, oy, z, probe) &&
         !isTileFieldHazardForEntity(tileMap, ox, oy, z, entityOrOpts)
     ) {
         return { x: ox, y: oy };
@@ -5176,7 +5251,7 @@ function findSpawnTile(tileMap, x, y, z, memberIndex, entityOrOpts) {
                 if (r !== 0 && Math.max(Math.abs(dx), Math.abs(dy)) !== r) continue;
                 const cx = ox + dx;
                 const cy = oy + dy;
-                if (!tileMap.canEnter(cx, cy, z, null)) continue;
+                if (!tileMap.canEnter(cx, cy, z, probe)) continue;
                 if (memberIndex > 0 && cx === ox && cy === oy) continue;
                 if (isTileFieldHazardForEntity(tileMap, cx, cy, z, entityOrOpts)) {
                     continue;

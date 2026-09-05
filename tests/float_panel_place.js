@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /**
  * Float panel placement — right of slot/tile, flip, canvas vs viewport clamp.
+ * Context menus — cursor-anchored, flip left/up, then clamp.
  */
 
 'use strict';
@@ -14,6 +15,8 @@ const {
     tileClientRect,
     computeFloatPosition,
     placeFloatPanel,
+    computeContextMenuPosition,
+    placeContextMenu,
     boundsForOrigin
 } = require('../kernel/apps/game/float_panel_place.js');
 
@@ -162,6 +165,73 @@ test('no anchor falls back to the bounds origin', () => {
     });
     assert.strictEqual(pos.left, 200);
     assert.strictEqual(pos.top, 80);
+});
+
+test('context menu with room stays at the cursor', () => {
+    const pos = computeContextMenuPosition({
+        x: 400,
+        y: 200,
+        menuW: 160,
+        menuH: 90,
+        bounds: { left: 8, top: 8, right: 1272, bottom: 712 }
+    });
+    assert.strictEqual(pos.left, 400);
+    assert.strictEqual(pos.top, 200);
+});
+
+test('context menu on last backpack column flips left of the cursor', () => {
+    const bounds = viewportBounds({ innerWidth: 1280, innerHeight: 720 });
+    const pos = computeContextMenuPosition({
+        x: 1260,
+        y: 180,
+        menuW: 160,
+        menuH: 90,
+        bounds
+    });
+    assert.strictEqual(pos.left, 1260 - 160);
+    assert.ok(pos.left + 160 <= bounds.right);
+    assert.ok(pos.left >= bounds.left);
+    assert.strictEqual(pos.top, 180);
+});
+
+test('context menu near the bottom flips above the cursor', () => {
+    const bounds = viewportBounds({ innerWidth: 1280, innerHeight: 720 });
+    const pos = computeContextMenuPosition({
+        x: 400,
+        y: 700,
+        menuW: 160,
+        menuH: 90,
+        bounds
+    });
+    assert.strictEqual(pos.left, 400);
+    assert.strictEqual(pos.top, 700 - 90);
+    assert.ok(pos.top + 90 <= bounds.bottom);
+    assert.ok(pos.top >= bounds.top);
+});
+
+test('context menu at the corner clamps after flip', () => {
+    const bounds = viewportBounds({ innerWidth: 400, innerHeight: 200 });
+    const pos = computeContextMenuPosition({
+        x: 390,
+        y: 190,
+        menuW: 160,
+        menuH: 90,
+        bounds
+    });
+    assert.ok(pos.left >= bounds.left);
+    assert.ok(pos.top >= bounds.top);
+    assert.ok(pos.left + 160 <= bounds.right);
+    assert.ok(pos.top + 90 <= bounds.bottom);
+});
+
+test('placeContextMenu writes clamped left/top', () => {
+    const el = { style: {}, offsetWidth: 160, offsetHeight: 90 };
+    const pos = placeContextMenu(el, 1260, 180, {
+        bounds: viewportBounds({ innerWidth: 1280, innerHeight: 720 })
+    });
+    assert.ok(pos);
+    assert.strictEqual(el.style.left, 1260 - 160 + 'px');
+    assert.strictEqual(el.style.top, '180px');
 });
 
 if (failed) {

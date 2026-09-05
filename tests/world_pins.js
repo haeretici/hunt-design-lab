@@ -2035,6 +2035,27 @@ function testFirstlightAmuletHarvestPin() {
     log('firstlight amulet harvest pin ok');
 }
 
+function testFirstlightHerbHarvestPin() {
+    const mapsRoot = path.join(__dirname, '..', 'assets', 'legacy', 'maps', 'firstlight_isle');
+    const pack = tryResolveHybridMapPack(['07'], { mapsRoot, id: 'firstlight_isle' });
+    assert.ok(pack && Array.isArray(pack.world), 'firstlight hybrid world');
+    const pin = pack.world.find((row) => row && row.id === 'harvest_7_62_138');
+    assert.ok(pin, 'west-meadow harvest pin');
+    assert.strictEqual(pin.kind, 'harvest');
+    assert.strictEqual(pin.shared, false);
+    assert.strictEqual(pin.x, 62);
+    assert.strictEqual(pin.y, 138);
+    assert.strictEqual(String(pin.z), '7');
+    assert.strictEqual(pin.catalogId, 'abandoned_flower_patch');
+    assert.ok(!pin.when, 'no tool gate');
+    assert.ok(!pin.give || pin.give.length === 0, 'storage only, no inventory item');
+    assert.ok(pin.once && pin.once.storage === 'firstlight.morris.herbs');
+    assert.strictEqual(pin.once.eq, 1);
+    assert.strictEqual(pin.set['firstlight.morris.herbs'], 2);
+    assert.ok(pin.tag !== 'shovel', 'must not be a shovel hop tag');
+    log('firstlight herb harvest pin ok');
+}
+
 function testTrapStepOnDamageAndField() {
     const z = 7;
     const map = makeFlatMap(3, 1, z, null);
@@ -2210,6 +2231,7 @@ async function main() {
     testHarvestGiveThenCooldown();
     testHarvestToolDigNoHop();
     testFirstlightAmuletHarvestPin();
+    testFirstlightHerbHarvestPin();
     testTrapStepOnDamageAndField();
     testTrapCooldownRestore();
     testTrapStepViaTileMapMove();

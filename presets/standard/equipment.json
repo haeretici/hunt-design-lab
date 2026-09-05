@@ -67,7 +67,11 @@
             "weight": 1800,
             "customSprite": "ember_wand",
             "spriteId": "royal_arcane_rod",
-            "range": 4
+            "range": 4,
+            "min": 1,
+            "max": 10,
+            "element": "fire",
+            "manaGain": 2
         },
         {
             "id": "hunter_bow",
@@ -555,6 +559,10 @@
             "weaponType": "magic",
             "range": 5,
             "level": 330,
+            "min": 80,
+            "max": 95,
+            "element": "ice",
+            "manaGain": 8,
             "vocation": [
                 "warden"
             ],
@@ -648,6 +656,10 @@
             "weaponType": "magic",
             "range": 5,
             "level": 330,
+            "min": 82,
+            "max": 95,
+            "element": "energy",
+            "manaGain": 8,
             "vocation": [
                 "adept"
             ],
@@ -1879,16 +1891,8 @@
         {
             "id": "bloody_tears",
             "label": "Bloody Tears",
-            "category": "wand",
-            "slot": "rightHand",
             "weight": 20,
-            "type": [
-                "rod"
-            ],
-            "weaponType": "magic",
-            "customSprite": "bloody_tears",
-            "spriteId": "royal_arcane_rod",
-            "range": 4
+            "spriteId": "royal_arcane_rod"
         },
         {
             "id": "blossom_bag",
@@ -3874,6 +3878,10 @@
             "weaponType": "magic",
             "range": 5,
             "level": 220,
+            "min": 70,
+            "max": 110,
+            "element": "earth",
+            "manaGain": 7,
             "vocation": [
                 "warden"
             ],
@@ -3922,6 +3930,10 @@
             "weaponType": "magic",
             "range": 4,
             "level": 270,
+            "min": 94,
+            "max": 100,
+            "element": "energy",
+            "manaGain": 7,
             "vocation": [
                 "adept"
             ],
@@ -4677,6 +4689,10 @@
             ],
             "weaponType": "magic",
             "level": 450,
+            "min": 85,
+            "max": 135,
+            "element": "physical",
+            "manaGain": 10,
             "vocation": [
                 "adept"
             ],
@@ -4726,6 +4742,10 @@
             ],
             "weaponType": "magic",
             "level": 450,
+            "min": 85,
+            "max": 135,
+            "element": "physical",
+            "manaGain": 10,
             "vocation": [
                 "warden"
             ],
@@ -5493,6 +5513,10 @@
             "weaponType": "magic",
             "range": 6,
             "level": 180,
+            "min": 86,
+            "max": 98,
+            "element": "ice",
+            "manaGain": 6,
             "vocation": [
                 "adept",
                 "warden"
@@ -5520,6 +5544,10 @@
             "weaponType": "magic",
             "range": 5,
             "level": 230,
+            "min": 80,
+            "max": 120,
+            "element": "ice",
+            "manaGain": 7,
             "vocation": [
                 "adept",
                 "warden"
@@ -6454,6 +6482,10 @@
             "weaponType": "magic",
             "range": 5,
             "level": 300,
+            "min": 90,
+            "max": 110,
+            "element": "earth",
+            "manaGain": 8,
             "vocation": [
                 "warden"
             ],
@@ -6506,6 +6538,10 @@
             "weaponType": "magic",
             "range": 5,
             "level": 300,
+            "min": 95,
+            "max": 115,
+            "element": "death",
+            "manaGain": 8,
             "vocation": [
                 "adept"
             ],
@@ -6640,6 +6676,10 @@
             "weaponType": "magic",
             "range": 4,
             "level": 80,
+            "min": 63,
+            "max": 77,
+            "element": "energy",
+            "manaGain": 4,
             "vocation": [
                 "adept",
                 "warden"
@@ -7542,6 +7582,10 @@
             "weaponType": "magic",
             "range": 4,
             "level": 250,
+            "min": 85,
+            "max": 105,
+            "element": "ice",
+            "manaGain": 7,
             "vocation": [
                 "warden"
             ],
@@ -7618,6 +7662,10 @@
             "weaponType": "magic",
             "range": 4,
             "level": 250,
+            "min": 85,
+            "max": 105,
+            "element": "fire",
+            "manaGain": 7,
             "vocation": [
                 "adept"
             ],
@@ -8193,6 +8241,10 @@
             "weaponType": "magic",
             "range": 5,
             "level": 180,
+            "min": 88,
+            "max": 108,
+            "element": "fire",
+            "manaGain": 6,
             "vocation": [
                 "adept",
                 "warden"
@@ -9009,6 +9061,10 @@
             "weaponType": "magic",
             "range": 5,
             "level": 300,
+            "min": 87,
+            "max": 101,
+            "element": "earth",
+            "manaGain": 8,
             "vocation": [
                 "warden"
             ],
@@ -9082,6 +9138,10 @@
             "weaponType": "magic",
             "range": 5,
             "level": 300,
+            "min": 86,
+            "max": 102,
+            "element": "energy",
+            "manaGain": 8,
             "vocation": [
                 "adept"
             ],
@@ -9219,6 +9279,10 @@
             "durationSec": 43200,
             "range": 4,
             "level": 100,
+            "min": 80,
+            "max": 110,
+            "element": "energy",
+            "manaGain": 4,
             "vocation": [
                 "adept"
             ],
@@ -9241,6 +9305,10 @@
             "durationSec": 43200,
             "range": 3,
             "level": 65,
+            "min": 65,
+            "max": 95,
+            "element": "energy",
+            "manaGain": 4,
             "vocation": [
                 "adept"
             ],
@@ -10602,6 +10670,10 @@
             "weaponType": "magic",
             "range": 4,
             "level": 250,
+            "min": 85,
+            "max": 105,
+            "element": "ice",
+            "manaGain": 7,
             "vocation": [
                 "warden"
             ],
@@ -10627,6 +10699,10 @@
             "weaponType": "magic",
             "range": 4,
             "level": 250,
+            "min": 85,
+            "max": 105,
+            "element": "fire",
+            "manaGain": 7,
             "vocation": [
                 "adept"
             ],
@@ -10785,6 +10861,10 @@
             "weaponType": "magic",
             "range": 4,
             "level": 65,
+            "min": 75,
+            "max": 95,
+            "element": "ice",
+            "manaGain": 4,
             "vocation": [
                 "warden"
             ],
@@ -11773,6 +11853,10 @@
             "weaponType": "magic",
             "range": 6,
             "level": 600,
+            "min": 103,
+            "max": 125,
+            "element": "energy",
+            "manaGain": 13,
             "vocation": [
                 "adept"
             ],
@@ -11922,6 +12006,10 @@
             "weaponType": "magic",
             "range": 6,
             "level": 600,
+            "min": 100,
+            "max": 124,
+            "element": "earth",
+            "manaGain": 13,
             "vocation": [
                 "warden"
             ],
@@ -12335,6 +12423,10 @@
             "weaponType": "magic",
             "range": 3,
             "level": 33,
+            "min": 56,
+            "max": 74,
+            "element": "ice",
+            "manaGain": 3,
             "vocation": [
                 "warden"
             ],
@@ -13611,6 +13703,10 @@
             "weaponType": "magic",
             "range": 5,
             "level": 300,
+            "min": 90,
+            "max": 110,
+            "element": "earth",
+            "manaGain": 8,
             "vocation": [
                 "warden"
             ],
@@ -13663,6 +13759,10 @@
             "weaponType": "magic",
             "range": 5,
             "level": 300,
+            "min": 95,
+            "max": 115,
+            "element": "death",
+            "manaGain": 8,
             "vocation": [
                 "adept"
             ],
@@ -14154,6 +14254,10 @@
             "weaponType": "magic",
             "range": 4,
             "level": 150,
+            "min": 80,
+            "max": 100,
+            "element": "ice",
+            "manaGain": 5,
             "vocation": [
                 "warden"
             ],
@@ -14202,6 +14306,10 @@
             "weaponType": "magic",
             "range": 4,
             "level": 150,
+            "min": 80,
+            "max": 100,
+            "element": "earth",
+            "manaGain": 5,
             "vocation": [
                 "adept"
             ],
@@ -15080,6 +15188,10 @@
             "weaponType": "magic",
             "range": 5,
             "level": 270,
+            "min": 85,
+            "max": 105,
+            "element": "ice",
+            "manaGain": 7,
             "vocation": [
                 "warden"
             ],
@@ -15180,6 +15292,10 @@
             "weaponType": "magic",
             "range": 4,
             "level": 220,
+            "min": 89,
+            "max": 109,
+            "element": "ice",
+            "manaGain": 7,
             "vocation": [
                 "adept"
             ],
@@ -16493,6 +16609,10 @@
             "weaponType": "magic",
             "range": 3,
             "level": 13,
+            "min": 13,
+            "max": 25,
+            "element": "ice",
+            "manaGain": 3,
             "vocation": [
                 "warden"
             ],
@@ -16581,6 +16701,10 @@
             "weaponType": "magic",
             "range": 4,
             "level": 65,
+            "min": 75,
+            "max": 95,
+            "element": "earth",
+            "manaGain": 4,
             "vocation": [
                 "warden"
             ],
@@ -16993,6 +17117,10 @@
             "weaponType": "magic",
             "range": 5,
             "level": 250,
+            "min": 90,
+            "max": 110,
+            "element": "ice",
+            "manaGain": 7,
             "vocation": [
                 "warden"
             ],
@@ -17070,6 +17198,10 @@
             "weaponType": "magic",
             "range": 6,
             "level": 250,
+            "min": 90,
+            "max": 120,
+            "element": "energy",
+            "manaGain": 7,
             "vocation": [
                 "adept"
             ],
@@ -17154,6 +17286,10 @@
             "weaponType": "magic",
             "range": 3,
             "level": 19,
+            "min": 23,
+            "max": 37,
+            "element": "death",
+            "manaGain": 3,
             "vocation": [
                 "warden"
             ],
@@ -17502,6 +17638,10 @@
             "weaponType": "magic",
             "range": 3,
             "level": 22,
+            "min": 23,
+            "max": 37,
+            "element": "ice",
+            "manaGain": 3,
             "vocation": [
                 "warden"
             ],
@@ -17780,6 +17920,10 @@
             "weaponType": "magic",
             "range": 3,
             "level": 37,
+            "min": 56,
+            "max": 74,
+            "element": "earth",
+            "manaGain": 3,
             "vocation": [
                 "warden"
             ],
@@ -18176,6 +18320,10 @@
             ],
             "weaponType": "magic",
             "range": 3,
+            "min": 1,
+            "max": 10,
+            "element": "energy",
+            "manaGain": 2,
             "customSprite": "chiseled_carving_rod",
             "spriteId": "royal_arcane_rod"
         },
@@ -18206,6 +18354,10 @@
             ],
             "weaponType": "magic",
             "range": 3,
+            "min": 1,
+            "max": 10,
+            "element": "energy",
+            "manaGain": 2,
             "customSprite": "chiseled_carving_wand",
             "spriteId": "royal_arcane_rod"
         },
@@ -18422,6 +18574,10 @@
             ],
             "weaponType": "magic",
             "range": 3,
+            "min": 1,
+            "max": 10,
+            "element": "energy",
+            "manaGain": 2,
             "customSprite": "chiseled_havoc_rod",
             "spriteId": "royal_arcane_rod"
         },
@@ -18452,6 +18608,10 @@
             ],
             "weaponType": "magic",
             "range": 3,
+            "min": 1,
+            "max": 10,
+            "element": "energy",
+            "manaGain": 2,
             "customSprite": "chiseled_havoc_wand",
             "spriteId": "royal_arcane_rod"
         },
@@ -18573,6 +18733,10 @@
             ],
             "weaponType": "magic",
             "range": 3,
+            "min": 1,
+            "max": 10,
+            "element": "energy",
+            "manaGain": 2,
             "customSprite": "chiseled_mending_rod",
             "spriteId": "royal_arcane_rod"
         },
@@ -18603,6 +18767,10 @@
             ],
             "weaponType": "magic",
             "range": 3,
+            "min": 1,
+            "max": 10,
+            "element": "energy",
+            "manaGain": 2,
             "customSprite": "chiseled_mending_wand",
             "spriteId": "royal_arcane_rod"
         },
@@ -19307,6 +19475,10 @@
             ],
             "weaponType": "magic",
             "range": 3,
+            "min": 1,
+            "max": 10,
+            "element": "energy",
+            "manaGain": 2,
             "customSprite": "plain_carving_rod",
             "spriteId": "royal_arcane_rod"
         },
@@ -19337,6 +19509,10 @@
             ],
             "weaponType": "magic",
             "range": 3,
+            "min": 1,
+            "max": 10,
+            "element": "energy",
+            "manaGain": 2,
             "customSprite": "plain_carving_wand",
             "spriteId": "royal_arcane_rod"
         },
@@ -19458,6 +19634,10 @@
             ],
             "weaponType": "magic",
             "range": 3,
+            "min": 1,
+            "max": 10,
+            "element": "energy",
+            "manaGain": 2,
             "customSprite": "plain_mayhem_rod",
             "spriteId": "royal_arcane_rod"
         },
@@ -19488,6 +19668,10 @@
             ],
             "weaponType": "magic",
             "range": 3,
+            "min": 1,
+            "max": 10,
+            "element": "energy",
+            "manaGain": 2,
             "customSprite": "plain_mayhem_wand",
             "spriteId": "royal_arcane_rod"
         },
@@ -19628,6 +19812,10 @@
             ],
             "weaponType": "magic",
             "range": 3,
+            "min": 1,
+            "max": 10,
+            "element": "energy",
+            "manaGain": 2,
             "customSprite": "plain_remedy_rod",
             "spriteId": "royal_arcane_rod"
         },
@@ -19658,6 +19846,10 @@
             ],
             "weaponType": "magic",
             "range": 3,
+            "min": 1,
+            "max": 10,
+            "element": "energy",
+            "manaGain": 2,
             "customSprite": "plain_remedy_wand",
             "spriteId": "royal_arcane_rod"
         },
@@ -20664,6 +20856,10 @@
             "weaponType": "magic",
             "range": 5,
             "level": 300,
+            "min": 90,
+            "max": 110,
+            "element": "earth",
+            "manaGain": 8,
             "vocation": [
                 "warden"
             ],
@@ -20716,6 +20912,10 @@
             "weaponType": "magic",
             "range": 5,
             "level": 300,
+            "min": 95,
+            "max": 115,
+            "element": "death",
+            "manaGain": 8,
             "vocation": [
                 "adept"
             ],
@@ -21215,6 +21415,10 @@
             "weaponType": "magic",
             "range": 4,
             "level": 200,
+            "min": 80,
+            "max": 110,
+            "element": "ice",
+            "manaGain": 6,
             "vocation": [
                 "warden"
             ],
@@ -21828,6 +22032,10 @@
             "weaponType": "magic",
             "range": 6,
             "level": 600,
+            "min": 113,
+            "max": 125,
+            "element": "fire",
+            "manaGain": 13,
             "vocation": [
                 "adept"
             ],
@@ -22053,6 +22261,10 @@
             "weaponType": "magic",
             "range": 6,
             "level": 600,
+            "min": 100,
+            "max": 124,
+            "element": "earth",
+            "manaGain": 13,
             "vocation": [
                 "warden"
             ],
@@ -22576,6 +22788,10 @@
             "durationSec": 604800,
             "range": 4,
             "level": 40,
+            "min": 56,
+            "max": 74,
+            "element": "ice",
+            "manaGain": 3,
             "vocation": [
                 "warden"
             ],
@@ -22612,6 +22828,10 @@
             "durationSec": 604800,
             "range": 4,
             "level": 40,
+            "min": 56,
+            "max": 74,
+            "element": "energy",
+            "manaGain": 3,
             "vocation": [
                 "adept"
             ],
@@ -23146,6 +23366,10 @@
             "weaponType": "magic",
             "range": 5,
             "level": 300,
+            "min": 90,
+            "max": 110,
+            "element": "earth",
+            "manaGain": 8,
             "vocation": [
                 "warden"
             ],
@@ -23198,6 +23422,10 @@
             "weaponType": "magic",
             "range": 5,
             "level": 300,
+            "min": 95,
+            "max": 115,
+            "element": "death",
+            "manaGain": 8,
             "vocation": [
                 "adept"
             ],
@@ -23457,6 +23685,10 @@
             "weaponType": "magic",
             "range": 3,
             "level": 6,
+            "min": 8,
+            "max": 18,
+            "element": "earth",
+            "manaGain": 2,
             "vocation": [
                 "warden"
             ],
@@ -23551,6 +23783,10 @@
             ],
             "weaponType": "magic",
             "range": 3,
+            "min": 8,
+            "max": 18,
+            "element": "energy",
+            "manaGain": 2,
             "customSprite": "adept_and_warden_staff",
             "spriteId": "weathered_staff"
         },
@@ -23566,7 +23802,8 @@
             "weaponType": "magic",
             "customSprite": "adept_test_weapon_test",
             "spriteId": "royal_arcane_rod",
-            "range": 4
+            "range": 4,
+            "manaGain": 2
         },
         {
             "id": "spirit_bastion",
@@ -23811,6 +24048,10 @@
             "weaponType": "magic",
             "range": 6,
             "level": 400,
+            "min": 98,
+            "max": 118,
+            "element": "ice",
+            "manaGain": 10,
             "vocation": [
                 "warden"
             ],
@@ -24095,6 +24336,10 @@
             "weaponType": "magic",
             "range": 6,
             "level": 400,
+            "min": 100,
+            "max": 120,
+            "element": "death",
+            "manaGain": 10,
             "vocation": [
                 "adept"
             ],
@@ -24682,6 +24927,10 @@
             "weaponType": "magic",
             "range": 3,
             "level": 37,
+            "min": 56,
+            "max": 74,
+            "element": "earth",
+            "manaGain": 3,
             "vocation": [
                 "warden"
             ],
@@ -25953,6 +26202,10 @@
             "weaponType": "magic",
             "range": 3,
             "level": 26,
+            "min": 37,
+            "max": 53,
+            "element": "earth",
+            "manaGain": 3,
             "vocation": [
                 "warden"
             ],
@@ -26087,6 +26340,10 @@
             ],
             "weaponType": "magic",
             "range": 3,
+            "min": 4,
+            "max": 8,
+            "element": "ice",
+            "manaGain": 2,
             "vocation": [
                 "warden"
             ],
@@ -26269,6 +26526,10 @@
             ],
             "weaponType": "magic",
             "range": 3,
+            "min": 4,
+            "max": 8,
+            "element": "fire",
+            "manaGain": 2,
             "vocation": [
                 "adept"
             ],
@@ -27545,6 +27806,10 @@
             "weaponType": "magic",
             "range": 3,
             "level": 42,
+            "min": 56,
+            "max": 74,
+            "element": "death",
+            "manaGain": 3,
             "vocation": [
                 "warden"
             ],
@@ -27730,6 +27995,10 @@
             ],
             "weaponType": "magic",
             "range": 3,
+            "min": 1,
+            "max": 10,
+            "element": "energy",
+            "manaGain": 2,
             "customSprite": "valuable_carving_rod",
             "spriteId": "royal_arcane_rod"
         },
@@ -27760,6 +28029,10 @@
             ],
             "weaponType": "magic",
             "range": 3,
+            "min": 1,
+            "max": 10,
+            "element": "energy",
+            "manaGain": 2,
             "customSprite": "valuable_carving_wand",
             "spriteId": "royal_arcane_rod"
         },
@@ -27881,6 +28154,10 @@
             ],
             "weaponType": "magic",
             "range": 3,
+            "min": 1,
+            "max": 10,
+            "element": "energy",
+            "manaGain": 2,
             "customSprite": "valuable_mayhem_rod",
             "spriteId": "royal_arcane_rod"
         },
@@ -27911,6 +28188,10 @@
             ],
             "weaponType": "magic",
             "range": 3,
+            "min": 1,
+            "max": 10,
+            "element": "energy",
+            "manaGain": 2,
             "customSprite": "valuable_mayhem_wand",
             "spriteId": "royal_arcane_rod"
         },
@@ -28032,6 +28313,10 @@
             ],
             "weaponType": "magic",
             "range": 3,
+            "min": 1,
+            "max": 10,
+            "element": "energy",
+            "manaGain": 2,
             "customSprite": "valuable_remedy_rod",
             "spriteId": "royal_arcane_rod"
         },
@@ -28062,6 +28347,10 @@
             ],
             "weaponType": "magic",
             "range": 3,
+            "min": 1,
+            "max": 10,
+            "element": "energy",
+            "manaGain": 2,
             "customSprite": "valuable_remedy_wand",
             "spriteId": "royal_arcane_rod"
         },
@@ -28299,6 +28588,10 @@
             "weaponType": "magic",
             "range": 3,
             "level": 26,
+            "min": 37,
+            "max": 53,
+            "element": "energy",
+            "manaGain": 3,
             "vocation": [
                 "adept"
             ],
@@ -28318,6 +28611,10 @@
             "durationSec": 900,
             "range": 4,
             "level": 41,
+            "min": 80,
+            "max": 100,
+            "element": "death",
+            "manaGain": 3,
             "vocation": [
                 "adept"
             ],
@@ -28342,6 +28639,10 @@
             "weaponType": "magic",
             "range": 3,
             "level": 19,
+            "min": 23,
+            "max": 37,
+            "element": "death",
+            "manaGain": 3,
             "vocation": [
                 "adept"
             ],
@@ -28360,6 +28661,10 @@
             "weaponType": "magic",
             "range": 4,
             "level": 65,
+            "min": 75,
+            "max": 95,
+            "element": "energy",
+            "manaGain": 4,
             "vocation": [
                 "adept"
             ],
@@ -28381,6 +28686,10 @@
             "weaponType": "magic",
             "range": 4,
             "level": 200,
+            "min": 80,
+            "max": 110,
+            "element": "energy",
+            "manaGain": 6,
             "vocation": [
                 "adept"
             ],
@@ -28403,7 +28712,8 @@
             "weaponType": "magic",
             "customSprite": "wand_of_ruin_test",
             "spriteId": "royal_arcane_rod",
-            "range": 4
+            "range": 4,
+            "manaGain": 2
         },
         {
             "id": "wand_of_dimensions",
@@ -28417,6 +28727,10 @@
             "weaponType": "magic",
             "range": 3,
             "level": 37,
+            "min": 44,
+            "max": 62,
+            "element": "death",
+            "manaGain": 3,
             "vocation": [
                 "adept"
             ],
@@ -28435,6 +28749,10 @@
             "weaponType": "magic",
             "range": 3,
             "level": 22,
+            "min": 23,
+            "max": 37,
+            "element": "fire",
+            "manaGain": 3,
             "vocation": [
                 "adept"
             ],
@@ -28454,6 +28772,10 @@
             "weaponType": "magic",
             "range": 3,
             "level": 13,
+            "min": 13,
+            "max": 25,
+            "element": "fire",
+            "manaGain": 3,
             "vocation": [
                 "adept"
             ],
@@ -28473,6 +28795,10 @@
             "weaponType": "magic",
             "range": 4,
             "level": 65,
+            "min": 75,
+            "max": 95,
+            "element": "fire",
+            "manaGain": 4,
             "vocation": [
                 "adept"
             ],
@@ -28494,6 +28820,10 @@
             "weaponType": "magic",
             "range": 3,
             "level": 33,
+            "min": 56,
+            "max": 74,
+            "element": "fire",
+            "manaGain": 3,
             "vocation": [
                 "adept"
             ],
@@ -28512,6 +28842,10 @@
             "weaponType": "magic",
             "range": 3,
             "level": 37,
+            "min": 56,
+            "max": 74,
+            "element": "energy",
+            "manaGain": 3,
             "vocation": [
                 "adept"
             ],
@@ -28531,6 +28865,10 @@
             "weaponType": "magic",
             "range": 3,
             "level": 42,
+            "min": 56,
+            "max": 74,
+            "element": "death",
+            "manaGain": 3,
             "vocation": [
                 "adept"
             ],
@@ -28550,6 +28888,10 @@
             "weaponType": "magic",
             "range": 3,
             "level": 6,
+            "min": 8,
+            "max": 18,
+            "element": "energy",
+            "manaGain": 2,
             "vocation": [
                 "adept"
             ],

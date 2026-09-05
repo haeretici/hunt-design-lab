@@ -1,0 +1,55 @@
+{
+    "id": "goblin_nibb",
+    "greeting": "Nibb stays on this grass.",
+    "start": "start",
+    "nodes": {
+        "start": {
+            "text": "West is water. East is the hill. I do not fish from here.",
+            "replies": [
+                {
+                    "label": "Plant",
+                    "goto": "plant"
+                },
+                {
+                    "label": "Hill",
+                    "goto": "hill"
+                },
+                {
+                    "label": "Fish",
+                    "goto": "fish"
+                },
+                {
+                    "label": "Bye",
+                    "action": "close"
+                }
+            ]
+        },
+        "plant": {
+            "text": "A rare plant sits on the meadow east of me. Hale wants it used, not pulled up.",
+            "replies": [
+                {
+                    "label": "Thanks",
+                    "action": "close"
+                }
+            ]
+        },
+        "hill": {
+            "text": "Stairs east up the hill. Hale pays for jobs. I keep no shop.",
+            "replies": [
+                {
+                    "label": "Thanks",
+                    "action": "close"
+                }
+            ]
+        },
+        "fish": {
+            "text": "No rod, no catch, no key. I stand here.",
+            "replies": [
+                {
+                    "label": "I see.",
+                    "action": "close"
+                }
+            ]
+        }
+    }
+}

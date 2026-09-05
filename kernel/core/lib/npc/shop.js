@@ -171,6 +171,31 @@ function listShopRows(shop, player, opts) {
 }
 
 /**
+ * Slider / deal cap for one row. Always ≥ 1 so the amount control still works
+ * when the player cannot currently afford / does not own the item (click still
+ * re-checks and FCT-fails). Buy is limited by currency; sell by backpack count.
+ * @param {object|null|undefined} player
+ * @param {Shop|null|undefined} shop
+ * @param {ShopRow|null|undefined} row
+ * @param {'buy'|'sell'|string|null|undefined} side
+ * @returns {number}
+ */
+function shopDealMax(player, shop, row, side) {
+    if (!row) return 1;
+    if (side === 'sell') {
+        const have = countPlayerItem(player, row.itemId);
+        if (have < 1) return 1;
+        return Math.min(MAX_DEAL_COUNT, have);
+    }
+    const unit = row.buy;
+    if (!(unit > 0)) return 1;
+    const money = shop ? countPlayerItem(player, shop.currency) : 0;
+    const byMoney = Math.floor(money / unit);
+    if (byMoney < 1) return 1;
+    return Math.min(MAX_DEAL_COUNT, byMoney);
+}
+
+/**
  * @param {object|null|undefined} player
  * @param {ShopRow|null|undefined} row
  * @returns {boolean}
@@ -320,6 +345,7 @@ module.exports = {
     shopMatchesWhen,
     findShopRow,
     listShopRows,
+    shopDealMax,
     rowMatchesWhen,
     buyFromShop,
     sellToShop,

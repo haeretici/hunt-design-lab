@@ -1,0 +1,27 @@
+{
+    "id": "quartermaster_hale",
+    "label": "Hale",
+    "notes": "Outpost quest officer. Amulet + Herb accept/turn-in via player.storage firstlight.morris.amulet and firstlight.morris.herbs. No shop. C.4 wander radius 2. Not a hunt target.",
+    "customSprite": "quartermaster_hale",
+    "hp": 80,
+    "hpMax": 80,
+    "speed": 80,
+    "level": 1,
+    "armor": 0,
+    "mitigation": 100,
+    "exp": 0,
+    "lootValue": 0,
+    "aggro": false,
+    "isNpc": true,
+    "kind": "npc",
+    "dialogId": "quartermaster_hale",
+    "walkInterval": 2000,
+    "walkRadius": 2,
+    "canBlock": false,
+    "attacks": [],
+    "flags": {
+        "attackable": false,
+        "hostile": false,
+        "isNpc": true
+    }
+}

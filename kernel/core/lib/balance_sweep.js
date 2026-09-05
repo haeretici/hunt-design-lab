@@ -334,9 +334,16 @@ function defaultStrategyForClass(classId) {
  * @returns {object}
  */
 function defaultEquipmentForClass(classId) {
-    if (classId === 'adept' || classId === 'warden') {
+    if (classId === 'adept') {
         return {
-            rightHand: 'ember_wand',
+            rightHand: 'scorcher_wand',
+            armor: 'steel_plate',
+            boots: 'leather_boots'
+        };
+    }
+    if (classId === 'warden') {
+        return {
+            rightHand: 'frostbite_wand',
             armor: 'steel_plate',
             boots: 'leather_boots'
         };

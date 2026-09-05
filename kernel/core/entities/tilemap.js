@@ -50,6 +50,7 @@ const {
     collectTallPropsFromFloor,
     TERRAIN_SUB_LAYER_IDS
 } = require('../lib/tile_draw.js');
+const { isTalkableNpc } = require('../lib/npc/flags.js');
 
 /**
  * Whether an entity may path with fieldPenalty (cross avoided hazards).
@@ -120,10 +121,13 @@ const TILE_FLAG_LADDER = 1 << 2; // 4 — ladder (UI / use)
 const TILE_FLAG_HOLE = 1 << 3; // 8 — down transit (hole / trapdoor)
 const TILE_FLAG_ROPE_SPOT = 1 << 4; // 16
 const TILE_FLAG_SHOVEL_SPOT = 1 << 5; // 32
-const TILE_FLAG_NO_CREATURE = 1 << 6; // 64 — creatures may not path/step onto
+const TILE_FLAG_NO_CREATURE = 1 << 6; // 64 — monsters/summons may not path/step
 // 1 << 7 reserved spare
 /** Full PZ package (editor sugar + protection role bake). */
 const TILE_FLAG_PZ_PACKAGE = TILE_FLAG_NO_CAST | TILE_FLAG_NO_CREATURE; // 65
+/** Hop pads OR NO_CREATURE so monsters (and NPCs) do not camp stairs. */
+const TILE_FLAG_HOP_PAD =
+    TILE_FLAG_STAIR | TILE_FLAG_LADDER | TILE_FLAG_HOLE;
 
 /** Default walk friction for special walkable colors (grate, protection zone). */
 const PATH_PNG_DEFAULT_WALK_FRICTION = 100;
@@ -1243,8 +1247,9 @@ class TileMap extends GameObject {
 
     /**
      * Whether a creature may step / path onto the tile under flag rules.
-     * Players always pass the flag check (walk still needs isWalkable / stack).
-     * Missing / unresolved entity on a NO_CREATURE tile → false (treat as creature).
+     * Players and talkable NPCs pass NO_CREATURE (walk still needs isWalkable /
+     * stack). Talkable NPCs stay blocked on hop pads (STAIR|LADDER|HOLE).
+     * Missing / unresolved entity on a NO_CREATURE tile → false (treat as monster).
      *
      * @param {number} x
      * @param {number} y
@@ -1254,12 +1259,12 @@ class TileMap extends GameObject {
      */
     creatureMayEnterTile(x, y, z, entity) {
         if (!this.blocksCreatures(x, y, z)) return true;
-        if (entity != null && typeof entity === 'object' && isPlayerEntity(entity)) {
-            return true;
-        }
+        if (noCreatureExempt(entity, this, x, y, z)) return true;
         const id = entityIdOf(entity);
         const mover = resolveMoverEntity(this, entity, id);
-        if (mover && isPlayerEntity(mover)) return true;
+        if (mover && mover !== entity && noCreatureExempt(mover, this, x, y, z)) {
+            return true;
+        }
         return false;
     }
 
@@ -1443,7 +1448,7 @@ class TileMap extends GameObject {
      */
     canEnter(x, y, z, entity, opts) {
         if (!this.isWalkable(x, y, z)) return false;
-        // NO_CREATURE: players walk; creatures / bare probes blocked (PZ package).
+        // NO_CREATURE: players + talkable NPCs walk; monsters / bare probes blocked.
         if (!this.creatureMayEnterTile(x, y, z, entity)) return false;
 
         const firstId = this.getOccupant(x, y, z);
@@ -3237,6 +3242,24 @@ function entityIdOf(entity) {
 function isPlayerEntity(ent) {
     if (!ent || typeof ent !== 'object') return false;
     return ent.type === 'player';
+}
+
+/**
+ * Players always pass NO_CREATURE. Talkable NPCs pass unless the tile is a
+ * hop pad (STAIR|LADDER|HOLE still OR NO_CREATURE so they do not camp stairs).
+ * @param {object|number|null|undefined} entity
+ * @param {TileMap} tileMap
+ * @param {number} x
+ * @param {number} y
+ * @param {string|number} z
+ * @returns {boolean}
+ */
+function noCreatureExempt(entity, tileMap, x, y, z) {
+    if (!entity || typeof entity !== 'object') return false;
+    if (isPlayerEntity(entity)) return true;
+    if (!isTalkableNpc(entity)) return false;
+    const flags = tileMap.getTileFlags(x, y, z);
+    return (flags & TILE_FLAG_HOP_PAD) === 0;
 }
 
 /**

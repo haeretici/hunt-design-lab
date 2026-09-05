@@ -13,6 +13,7 @@ const {
     clearTargetCursorMode,
     uiState
 } = require('./ui_state.js');
+const { placeContextMenu } = require('./float_panel_place.js');
 
 /** Max length for action-bar text (FCT). */
 const TEXT_MAX_LEN = 255;
@@ -459,15 +460,7 @@ function showSlotContextMenu(x, y, slot, deps) {
     }
 
     document.body.appendChild(ctxMenuEl);
-
-    // Keep on-screen
-    const rect = ctxMenuEl.getBoundingClientRect();
-    let left = x;
-    let top = y;
-    if (left + rect.width > window.innerWidth - 8) left = Math.max(8, window.innerWidth - rect.width - 8);
-    if (top + rect.height > window.innerHeight - 8) top = Math.max(8, window.innerHeight - rect.height - 8);
-    ctxMenuEl.style.left = `${left}px`;
-    ctxMenuEl.style.top = `${top}px`;
+    placeContextMenu(ctxMenuEl, x, y);
 
     const onDoc = (ev) => {
         if (!ctxMenuEl) return;

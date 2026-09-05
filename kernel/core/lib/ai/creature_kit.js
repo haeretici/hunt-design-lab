@@ -980,6 +980,19 @@ function isSummon(creature) {
 }
 
 /**
+ * Whether this unit auto-attacks (legacy setAttackedCreature).
+ * Non-hostile wild animals still follow / flee; summons attack even when
+ * template `aggro` is false.
+ * @param {object|null|undefined} owner
+ * @returns {boolean}
+ */
+function creatureAutoAttacks(owner) {
+    if (!owner) return false;
+    if (isSummon(owner)) return true;
+    return owner.aggro !== false;
+}
+
+/**
  * True when a summon's master is a party player (player-cast summon creature).
  * Used to keep ally summons out of the hostile enemy list and retarget them
  * at wild creatures instead of the party.
@@ -1710,6 +1723,11 @@ function tryCreatureAttacks(owner, primaryTarget, ctx) {
     // Auto-summon does not consume the offensive pass (Legacy separates ticks)
     tryMonsterSummons(owner, c, primaryTarget);
 
+    // Non-hostile wild units follow / flee but do not setAttackedCreature.
+    if (!creatureAutoAttacks(owner)) {
+        return { fired: false };
+    }
+
     const rng = typeof c.rng === 'function' ? c.rng : Math.random;
     const staticChance = kit.flags.staticAttackChance;
     if (staticChance < 100) {
@@ -1724,6 +1742,13 @@ function tryCreatureAttacks(owner, primaryTarget, ctx) {
     for (let i = 0; i < kit.attacks.length; i++) {
         const atk = kit.attacks[i];
         if (ready[i] > 0) continue;
+        // Legacy canUseSpell: melee is suppressed while fleeing.
+        if (
+            (atk.isMelee || atk.kind === 'melee') &&
+            isFleeing(owner, kit.flags)
+        ) {
+            continue;
+        }
 
         // Window opened — reset interval then roll chance (legacy order)
         ready[i] = atk.intervalSec;
@@ -1858,6 +1883,7 @@ module.exports = {
     applyKitDamageMult,
     isFleeing,
     isSummon,
+    creatureAutoAttacks,
     isPartyOwnedSummon,
     livingSummonsOf,
     idealStandDistance,

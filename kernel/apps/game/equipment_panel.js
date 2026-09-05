@@ -82,11 +82,19 @@ const SLOT_PLACEHOLDERS = Object.freeze({
 });
 
 /**
- * Font Awesome meta for engine condition kinds (equipment status strip).
- * Colors echo legacy client condition flag hues (poison green, burn orange, …).
+ * Font Awesome meta for engine condition kinds + tile-zone flags
+ * (equipment status strip). Colors echo legacy client condition flag hues
+ * (poison green, burn orange, …). PZ uses a house so it does not collide
+ * with mana_shield (`fa-shield-halved`).
  * @type {Readonly<Record<string, { icon: string, color: string, label: string, title: string }>>}
  */
 const STATUS_ICON_META = Object.freeze({
+    protection_zone: {
+        icon: 'fa-house',
+        color: '#22c55e',
+        label: 'Protection Zone',
+        title: 'You are in a protection zone'
+    },
     poison: {
         icon: 'fa-skull-crossbones',
         color: '#6bcb3f',
@@ -167,8 +175,9 @@ const STATUS_ICON_META = Object.freeze({
     }
 });
 
-/** Stable display order for the status strip (detriments first, then buffs). */
+/** Stable display order for the status strip (zone flags, detriments, then buffs). */
 const STATUS_ICON_ORDER = Object.freeze([
+    'protection_zone',
     'poison',
     'fire',
     'energy',
@@ -185,13 +194,54 @@ const STATUS_ICON_ORDER = Object.freeze([
 ]);
 
 /**
+ * Tile used for zone flags on the status strip.
+ * Prefers `source.tile`; falls back to flat x/y/z on form stubs.
+ *
+ * @param {object|null|undefined} source
+ * @returns {{ x: number, y: number, z: string|number }|null}
+ */
+function sourceTileOf(source) {
+    if (!source || typeof source !== 'object') return null;
+    const t = source.tile;
+    if (t && typeof t === 'object') {
+        const x = Number(t.x);
+        const y = Number(t.y);
+        if (!Number.isFinite(x) || !Number.isFinite(y)) return null;
+        return { x, y, z: t.z != null ? t.z : 0 };
+    }
+    const x = Number(source.x);
+    const y = Number(source.y);
+    if (!Number.isFinite(x) || !Number.isFinite(y)) return null;
+    return { x, y, z: source.z != null ? source.z : 0 };
+}
+
+/**
+ * Full PZ package under the source tile (`NO_CAST | NO_CREATURE`).
+ * NO_CAST-only (legacy green PNG) is not a protection zone.
+ *
+ * @param {object|null|undefined} source
+ * @param {{ isProtectionZonePackage?: function }|null|undefined} tileMap
+ * @returns {boolean}
+ */
+function isSourceOnProtectionZone(source, tileMap) {
+    if (!tileMap || typeof tileMap.isProtectionZonePackage !== 'function') {
+        return false;
+    }
+    const t = sourceTileOf(source);
+    if (!t) return false;
+    return !!tileMap.isProtectionZonePackage(t.x, t.y, t.z);
+}
+
+/**
  * Collect active condition kinds from a player/entity for the status strip.
  * Dedupes by kind; order follows STATUS_ICON_ORDER then unknowns alphabetically.
+ * Protection zone is a tile flag (not a condition) and needs `opts.tileMap`.
  *
  * @param {object|null|undefined} source Player entity or form member
+ * @param {{ tileMap?: { isProtectionZonePackage?: function }|null }} [opts]
  * @returns {{ kind: string, icon: string, color: string, label: string, title: string }[]}
  */
-function listActiveStatusIcons(source) {
+function listActiveStatusIcons(source, opts) {
     if (!source || typeof source !== 'object') return [];
     /** @type {Set<string>} */
     const kinds = new Set();
@@ -247,6 +297,9 @@ function listActiveStatusIcons(source) {
     if (gearFlags && gearFlags.manaShield) {
         kinds.add('mana_shield');
     }
+    if (isSourceOnProtectionZone(source, opts && opts.tileMap)) {
+        kinds.add('protection_zone');
+    }
 
     /** @type {{ kind: string, icon: string, color: string, label: string, title: string }[]} */
     const out = [];
@@ -291,10 +344,11 @@ function listActiveStatusIcons(source) {
 /**
  * Stable signature of active status kinds (for dirty-only paint).
  * @param {object|null|undefined} source
+ * @param {{ tileMap?: object|null }} [opts]
  * @returns {string}
  */
-function statusIconsSignature(source) {
-    const icons = listActiveStatusIcons(source);
+function statusIconsSignature(source, opts) {
+    const icons = listActiveStatusIcons(source, opts);
     if (!icons.length) return '';
     return icons.map((x) => x.kind).join(',');
 }
@@ -303,12 +357,12 @@ function statusIconsSignature(source) {
  * Paint the miniature status strip under Soul/Cap.
  * @param {HTMLElement|null} barEl
  * @param {object|null|undefined} source
- * @param {{ force?: boolean }} [opts]
+ * @param {{ force?: boolean, tileMap?: object|null }} [opts]
  */
 function renderStatusBar(barEl, source, opts) {
     if (!barEl) return;
     const force = !!(opts && opts.force);
-    const icons = listActiveStatusIcons(source);
+    const icons = listActiveStatusIcons(source, opts);
     // Include title so pooled remaining (tooltip) can refresh without a new kind.
     const sig = icons.map((x) => `${x.kind}:${x.title}`).join('|');
     if (!force && barEl.dataset.statusSig === sig) return;
@@ -666,11 +720,12 @@ function paintEquipmentSlotIfDirty(slotEl, slotKey, itemId, itemDb, genre, sourc
  * Paint designer-slot equipment into a card root element.
  * Slot DOM is updated only when itemId/genre/charges/duration for that slot
  * change (dirty). Cap/soul text always refreshes when this is called.
- * Status strip (condition icons) paints from source.conditions when present.
+ * Status strip paints from source.conditions plus tile-zone flags
+ * (`opts.tileMap` → protection zone).
  *
  * @param {HTMLElement|null} cardEl
  * @param {object|null} profile from buildPreviewProfile
- * @param {{ itemDb?: object[]|Record<string, object>|null, genre?: string, soulEl?: HTMLElement|null, capEl?: HTMLElement|null, statusBarEl?: HTMLElement|null, carriedWeight?: number|null, force?: boolean, source?: object|null }} [opts]
+ * @param {{ itemDb?: object[]|Record<string, object>|null, genre?: string, soulEl?: HTMLElement|null, capEl?: HTMLElement|null, statusBarEl?: HTMLElement|null, carriedWeight?: number|null, force?: boolean, source?: object|null, tileMap?: object|null }} [opts]
  */
 function renderEquipmentCard(cardEl, profile, opts) {
     if (!cardEl) return;
@@ -733,7 +788,7 @@ function renderEquipmentCard(cardEl, profile, opts) {
         o.statusBarEl ||
         cardEl.querySelector('.eq-status-bar') ||
         null;
-    renderStatusBar(statusBarEl, source, { force });
+    renderStatusBar(statusBarEl, source, { force, tileMap: o.tileMap || null });
 }
 
 /**
@@ -882,6 +937,28 @@ function buildEquipmentItemDetailHtml(item, opts) {
             'Range',
             `${escapeHtml(String(item.range))} tiles`,
             ''
+        );
+    }
+
+    if (item.min != null || item.max != null) {
+        const lo = item.min != null ? Number(item.min) : Number(item.max);
+        const hi = item.max != null ? Number(item.max) : Number(item.min);
+        const span = lo === hi ? String(lo) : `${lo}–${hi}`;
+        const el = item.element ? ` ${formatPropLabel(item.element)}` : '';
+        addRow(
+            'fa-solid fa-wand-magic-sparkles',
+            'Attack',
+            escapeHtml(`${span}${el}`),
+            'text-danger fw-bold'
+        );
+    }
+
+    if (item.manaGain != null && Number(item.manaGain) > 0) {
+        addRow(
+            'fa-solid fa-droplet',
+            'Mana Gain',
+            `+${escapeHtml(String(Math.floor(Number(item.manaGain))))} on damaging auto`,
+            'text-info'
         );
     }
 
@@ -1341,7 +1418,10 @@ function bindEquipmentPanel(opts) {
             payload && payload.profile ? payload.profile.equipment : null,
             itemDb
         );
-        const statusSig = statusIconsSignature(source);
+        const sim = typeof o.getSim === 'function' ? o.getSim() : null;
+        const tileMap = sim && sim.tileMap ? sim.tileMap : null;
+        const statusOpts = { tileMap };
+        const statusSig = statusIconsSignature(source, statusOpts);
         const sig = cardSignature(
             payload,
             carriedWeight,
@@ -1352,7 +1432,7 @@ function bindEquipmentPanel(opts) {
         if (lastCardSig !== null && sig === lastCardSig) {
             // Kinds / gear / Cap unchanged — skip slot rebuild (HP/MP flicker).
             // Pool remaining still updates the status-strip tooltip.
-            renderStatusBar(statusBarEl, source);
+            renderStatusBar(statusBarEl, source, statusOpts);
             return;
         }
         lastCardSig = sig;
@@ -1363,7 +1443,8 @@ function bindEquipmentPanel(opts) {
             capEl,
             statusBarEl,
             carriedWeight,
-            source
+            source,
+            tileMap
         });
     };
 
@@ -1481,6 +1562,7 @@ module.exports = {
     equipmentToDesignerSlots,
     listActiveStatusIcons,
     statusIconsSignature,
+    isSourceOnProtectionZone,
     renderStatusBar,
     readSourceVitals,
     buildPreviewProfile,

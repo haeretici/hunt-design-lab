@@ -1,0 +1,42 @@
+{
+    "id": "captain_riven",
+    "greeting": "Wind's wrong for a crossing.",
+    "start": "start",
+    "nodes": {
+        "start": {
+            "text": "I keep a watch on this hill. The docks are not sailing from here.",
+            "replies": [
+                {
+                    "label": "Ship",
+                    "goto": "ship"
+                },
+                {
+                    "label": "Hill",
+                    "goto": "hill"
+                },
+                {
+                    "label": "Bye",
+                    "action": "close"
+                }
+            ]
+        },
+        "ship": {
+            "text": "No boat, no teleport. When the dock opens, it will not be from this tile.",
+            "replies": [
+                {
+                    "label": "I see.",
+                    "action": "close"
+                }
+            ]
+        },
+        "hill": {
+            "text": "Stairs north through the rim gap. Hale and the shops sit on the plaza.",
+            "replies": [
+                {
+                    "label": "Thanks",
+                    "action": "close"
+                }
+            ]
+        }
+    }
+}

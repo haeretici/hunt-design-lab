@@ -3532,6 +3532,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <option value="ice_simple">ice_simple</option>
                     <option value="ice">ice</option>
                     <option value="ruins">ruins</option>
+                    <option value="firstlight_isle">firstlight_isle</option>
                 </select>
             </div>
             <div class="form-check mb-2">
