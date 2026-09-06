@@ -9,7 +9,8 @@ const assert = require('assert');
 const {
     inferCategoryFromPath,
     resolveAssetKind,
-    resolvePickerContext
+    resolvePickerContext,
+    registerRelationPickers
 } = require('../kernel/apps/designer-ui/relation_pickers.js');
 const {
     defaultCatalogKindForRole,
@@ -171,6 +172,36 @@ function testHonestySliceFallbackKinds() {
     );
 }
 
+function testRegisterBindsPickerListener() {
+    const prevWindow = global.window;
+    const listeners = [];
+    class AbstractEditor {
+        destroy() {}
+    }
+    function JSONEditor() {}
+    JSONEditor.AbstractEditor = AbstractEditor;
+    JSONEditor.defaults = { editors: {}, resolvers: [] };
+    global.window = {
+        JSONEditor,
+        addEventListener(type, fn) {
+            listeners.push({ type, fn });
+        },
+        location: { origin: 'http://localhost' }
+    };
+    try {
+        const ok = registerRelationPickers();
+        assert.strictEqual(ok, true);
+        assert.ok(
+            listeners.some((l) => l.type === 'message'),
+            'registerRelationPickers binds picker message listener'
+        );
+        assert.strictEqual(typeof window.JSONEditor.defaults.editors.tile_id, 'function');
+    } finally {
+        if (prevWindow === undefined) delete global.window;
+        else global.window = prevWindow;
+    }
+}
+
 function main() {
     testRoleKeyAndKind();
     testPickerIgnoresPackKind();
@@ -181,6 +212,7 @@ function main() {
     testArtSetPickWritesFamilyRepresentative();
     testClassBaseSpriteUnchanged();
     testHonestySliceFallbackKinds();
+    testRegisterBindsPickerListener();
     console.log('designer relation pickers ok');
 }
 

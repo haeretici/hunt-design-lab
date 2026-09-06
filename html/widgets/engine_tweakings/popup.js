@@ -140,6 +140,8 @@
             const flag = el.getAttribute('data-flag');
             if (flag) el.checked = !!dbg[flag];
         });
+        const dbgOverlay = byId('showDebugOverlay');
+        if (dbgOverlay) dbgOverlay.checked = !!s.showDebugOverlay;
 
         const feat = s.features || {};
         const expToggle = byId('expProgressionToggle');
@@ -306,6 +308,11 @@
                 if (byId('aiDebugEnabled')) byId('aiDebugEnabled').checked = true;
             }
             patch.debugAI = debugAI;
+            return patch;
+        }
+
+        if (id === 'showDebugOverlay') {
+            patch.showDebugOverlay = !!byId('showDebugOverlay')?.checked;
             return patch;
         }
 

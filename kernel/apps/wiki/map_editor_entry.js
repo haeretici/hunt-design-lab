@@ -13,7 +13,16 @@ const tileDraw = require('../../core/lib/tile_draw.js');
 const spawnRows = require('../../core/lib/content/spawn_rows.js');
 const mapEditorWorkflow = require('../../core/lib/dungeon/map_editor_workflow.js');
 const overlayWang = require('../../core/lib/overlay_wang.js');
+const overlayBorder = require('../../core/lib/overlay_border.js');
 const wallWang = require('../../core/lib/wall_wang.js');
+const wallFront = require('../../core/lib/wall_front.js');
+const overlayRect9 = require('../../core/lib/overlay_rect9.js');
+const mapEditorPicker = require('../../core/lib/dungeon/map_editor_picker.js');
+const {
+    openPickerSession,
+    openCatalogAssetPicker,
+    openEquipmentPicker
+} = require('../../../html/widgets/designer_pickers/parent_host.js');
 
 /** Catalog id → Title_Case stem (same rules as creature_sprites.idToFileStem). */
 function idToFileStem(id) {
@@ -160,8 +169,34 @@ window.HdlTileMapEditor = {
     parseWangId: overlayWang.parseWangId,
     wangFamilyOf: overlayWang.wangFamilyOf,
     wangCatalogId: overlayWang.wangCatalogId,
+    buildAutoTileIndex: overlayBorder.buildAutoTileIndex,
+    autoTileOf: overlayBorder.autoTileOf,
+    border12CatalogId: overlayBorder.border12CatalogId,
     parseWallId: wallWang.parseWallId,
     wallFamilyOf: wallWang.wallFamilyOf,
     wallCatalogId: wallWang.wallCatalogId,
-    preferredSubLayer: tilemapEditor.preferredSubLayer
+    parseWallFrontId: wallFront.parseWallFrontId,
+    wallFrontCatalogId: wallFront.wallFrontCatalogId,
+    resolveWallFrontSlot: wallFront.resolveWallFrontSlot,
+    parseRect9Id: overlayRect9.parseRect9Id,
+    rect9CatalogId: overlayRect9.rect9CatalogId,
+    resolveRect9Slot: overlayRect9.resolveRect9Slot,
+    preferredSubLayer: tilemapEditor.preferredSubLayer,
+    openPickerSession,
+    openCatalogAssetPicker,
+    openEquipmentPicker,
+    defaultRawKindForSubLayer: mapEditorPicker.defaultRawKindForSubLayer,
+    stampMatchesFilter: mapEditorPicker.stampMatchesFilter,
+    filterStamps: mapEditorPicker.filterStamps,
+    stampDockLabel: mapEditorPicker.stampDockLabel,
+    makeRawCatalogStamp: mapEditorPicker.makeRawCatalogStamp,
+    worldPaletteItemFromPick: mapEditorPicker.worldPaletteItemFromPick,
+    upsertWorldPalette: mapEditorPicker.upsertWorldPalette,
+    normalizeArtSetId: mapEditorPicker.normalizeArtSetId,
+    pickStoredArtSetId: mapEditorPicker.pickStoredArtSetId,
+    mergeArtSetByMap: mapEditorPicker.mergeArtSetByMap,
+    collectPaletteCatalogEntries: mapEditorPicker.collectPaletteCatalogEntries,
+    upsertRawRecent: mapEditorPicker.upsertRawRecent,
+    collectWorldCatalogItems: mapEditorPicker.collectWorldCatalogItems,
+    seedWorldPaletteFromPins: mapEditorPicker.seedWorldPaletteFromPins
 };

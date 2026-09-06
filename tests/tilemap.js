@@ -12,10 +12,12 @@ const path = require('path');
 const fs = require('fs');
 const { PATHS, mapPathPng, Settings } = require('../kernel/settings.js');
 const { ImageDB } = require('../kernel/core/lib/imagedb.js');
+const { Time } = require('../kernel/core/lib/time.js');
 const {
     resolveSpriteUrl,
     defaultTileVariantForDisplay
 } = require('../kernel/core/lib/creature_sprites.js');
+const { tileAnimFileStem } = require('../kernel/core/lib/tile_anim.js');
 const {
     createEmptyTileMapFloor,
     setSubLayerCell,
@@ -1074,6 +1076,275 @@ function testFailedArtDoesNotKeepPendingSprites() {
     }
 }
 
+function readyTileImg(tag) {
+    return {
+        complete: true,
+        naturalWidth: 32,
+        naturalHeight: 32,
+        width: 32,
+        height: 32,
+        tag
+    };
+}
+
+/**
+ * Hunt cycles catalog anim on ground/path; static cache does not rebuild.
+ */
+function testHuntTileAnimDoesNotRebuildCache() {
+    const prev = {
+        HEADLESS: Settings.HEADLESS,
+        useEntitySprites: Settings.useEntitySprites,
+        cameraTileX: Settings.cameraTileX,
+        cameraTileY: Settings.cameraTileY,
+        cameraTileZ: Settings.cameraTileZ,
+        tileWidth: Settings.tileWidth,
+        tileHeight: Settings.tileHeight,
+        tileSpriteVariant: Settings.tileSpriteVariant,
+        app: Settings.app,
+        timeSinceLevelLoad: Time.timeSinceLevelLoad
+    };
+    ImageDB.clear();
+    try {
+        Settings.HEADLESS = false;
+        Settings.useEntitySprites = true;
+        Settings.tileSpriteVariant = 'icon';
+        Settings.tileWidth = 32;
+        Settings.tileHeight = 32;
+        Settings.cameraTileX = 0;
+        Settings.cameraTileY = 0;
+        Settings.cameraTileZ = null;
+        Settings.app = { width: 64, height: 64 };
+        Time.timeSinceLevelLoad = 0;
+
+        const map = new TileMap();
+        const fr = new Uint8Array(4 * 4);
+        fr.fill(100);
+        map.loadFloorFromFriction(0, 4, 4, fr);
+
+        const floor = createEmptyTileMapFloor(4, 4, { z: 0 });
+        floor.palette = [
+            null,
+            normalizePaletteEntry({
+                catalogId: 'ref_water_fill',
+                kind: 'tiles',
+                roleId: 'water',
+                anim: { frames: 4, fps: 4 }
+            })
+        ];
+        setSubLayerCell(floor, 'ground', 1, 1, 1);
+        map.setAuthoringFloor(0, floor);
+
+        const f0 = readyTileImg('f0');
+        const f1 = readyTileImg('f1');
+        const baseOpts = {
+            genre: 'rpg_fantasy',
+            kind: 'tiles',
+            id: 'ref_water_fill',
+            variant: 'icon'
+        };
+        ImageDB.register(resolveSpriteUrl(baseOpts), f0);
+        ImageDB.register(
+            resolveSpriteUrl(
+                Object.assign({}, baseOpts, {
+                    stem: tileAnimFileStem('ref_water_fill', 1)
+                })
+            ),
+            f1
+        );
+
+        map._allocRenderCache = (pw, ph) => {
+            const s = mockCacheSurface(pw, ph);
+            s.ctx.drawImage = (img) => {
+                draws.push(img && img.tag ? img.tag : 'blit');
+            };
+            return s;
+        };
+        /** @type {object[]} */
+        const draws = [];
+        const g = {
+            canvas: { width: 64, height: 64 },
+            fillStyle: '',
+            fillRect() {},
+            drawImage(img) {
+                draws.push(img && img.tag ? img.tag : 'blit');
+            }
+        };
+        map.render(g);
+        assert.strictEqual(map._renderCacheRebuilds, 1, 'first paint rebuilds');
+        assert.ok(draws.indexOf('blit') >= 0, 'cache blit');
+        assert.ok(draws.indexOf('f0') >= 0, 'frame 0 overpaint at t=0');
+        assert.strictEqual(draws.indexOf('f1'), -1);
+
+        Time.timeSinceLevelLoad = 0.25;
+        draws.length = 0;
+        map.render(g);
+        assert.strictEqual(
+            map._renderCacheRebuilds,
+            1,
+            'anim frame change must not rebuild cache'
+        );
+        assert.ok(draws.indexOf('blit') >= 0);
+        assert.ok(draws.indexOf('f1') >= 0, 'frame 1 overpaint at 250ms');
+
+        // At t=0.26, anim frame has not changed: zero sprite drawImage, exactly 2 blits (cache + overlay)
+        Time.timeSinceLevelLoad = 0.26;
+        draws.length = 0;
+        map.render(g);
+        assert.strictEqual(map._renderCacheRebuilds, 1, 'steady frame: no cache rebuild');
+        assert.strictEqual(draws.filter((d) => d === 'blit').length, 2, '2 blits (static + overlay)');
+        assert.strictEqual(draws.indexOf('f0'), -1, 'no frame 0 redraw');
+        assert.strictEqual(draws.indexOf('f1'), -1, 'no frame 1 redraw when frame unchanged');
+
+        // Sub-tile camera pan within cache: exactly 2 blits, no surface redraw
+        Settings.cameraTileX = 0.5;
+        Settings.cameraTileY = 0.25;
+        draws.length = 0;
+        map.render(g);
+        assert.strictEqual(map._renderCacheRebuilds, 1, 'sub-tile pan: no cache rebuild');
+        assert.strictEqual(draws.filter((d) => d === 'blit').length, 2, '2 blits on pan');
+        assert.strictEqual(draws.indexOf('f0'), -1);
+        assert.strictEqual(draws.indexOf('f1'), -1);
+
+        // Sparse cell list check:
+        const accel = map._accelForFloor('0', floor, null);
+        assert.ok(accel, 'accel cached');
+        assert.strictEqual(accel.cells.length, 4, 'only 1 animated cell packed as 4 ints');
+        assert.strictEqual(accel.cells[0], 1, 'cell x=1');
+        assert.strictEqual(accel.cells[1], 1, 'cell y=1');
+        assert.strictEqual(accel.cells[2], 1, 'ground pIdx=1');
+        assert.strictEqual(accel.cells[3], 0, 'path pIdx=0');
+
+        log('hunt tile anim overpaint ok');
+    } finally {
+        Settings.HEADLESS = prev.HEADLESS;
+        Settings.useEntitySprites = prev.useEntitySprites;
+        Settings.cameraTileX = prev.cameraTileX;
+        Settings.cameraTileY = prev.cameraTileY;
+        Settings.cameraTileZ = prev.cameraTileZ;
+        Settings.tileWidth = prev.tileWidth;
+        Settings.tileHeight = prev.tileHeight;
+        Settings.tileSpriteVariant = prev.tileSpriteVariant;
+        Settings.app = prev.app;
+        Time.timeSinceLevelLoad = prev.timeSinceLevelLoad;
+        ImageDB.clear();
+    }
+}
+
+function testProceduralArtLayerAnimOverpaint() {
+    const prev = {
+        HEADLESS: Settings.HEADLESS,
+        useEntitySprites: Settings.useEntitySprites,
+        cameraTileX: Settings.cameraTileX,
+        cameraTileY: Settings.cameraTileY,
+        cameraTileZ: Settings.cameraTileZ,
+        tileWidth: Settings.tileWidth,
+        tileHeight: Settings.tileHeight,
+        tileSpriteVariant: Settings.tileSpriteVariant,
+        app: Settings.app,
+        timeSinceLevelLoad: Time.timeSinceLevelLoad
+    };
+    ImageDB.clear();
+    try {
+        Settings.HEADLESS = false;
+        Settings.useEntitySprites = true;
+        Settings.tileSpriteVariant = 'icon';
+        Settings.tileWidth = 32;
+        Settings.tileHeight = 32;
+        Settings.cameraTileX = 0;
+        Settings.cameraTileY = 0;
+        Settings.cameraTileZ = null;
+        Settings.app = { width: 64, height: 64 };
+        Time.timeSinceLevelLoad = 0;
+
+        const map = new TileMap();
+        map.setTileAnimIndex({
+            ref_water_fill: { frames: 4, fps: 4 }
+        });
+        const fr = new Uint8Array(4 * 4);
+        fr.fill(100);
+        map.loadFloorFromFriction(0, 4, 4, fr);
+
+        const cells = new Uint16Array(4 * 4);
+        cells[1 * 4 + 1] = 1; // (1, 1) is palette entry 1
+        map.setArtLayer(0, {
+            cols: 4,
+            rows: 4,
+            palette: [null, 'ref_water_fill'],
+            cells,
+            kind: 'tiles'
+        });
+
+        const f0 = readyTileImg('art_f0');
+        const f1 = readyTileImg('art_f1');
+        const baseOpts = {
+            genre: 'rpg_fantasy',
+            kind: 'tiles',
+            id: 'ref_water_fill',
+            variant: 'icon'
+        };
+        ImageDB.register(resolveSpriteUrl(baseOpts), f0);
+        ImageDB.register(
+            resolveSpriteUrl(
+                Object.assign({}, baseOpts, {
+                    stem: tileAnimFileStem('ref_water_fill', 1)
+                })
+            ),
+            f1
+        );
+
+        const draws = [];
+        map._allocRenderCache = (pw, ph) => {
+            const s = mockCacheSurface(pw, ph);
+            s.ctx.drawImage = (img) => {
+                draws.push(img && img.tag ? img.tag : 'blit');
+            };
+            return s;
+        };
+        const g = {
+            canvas: { width: 64, height: 64 },
+            fillStyle: '',
+            fillRect() {},
+            drawImage(img) {
+                draws.push(img && img.tag ? img.tag : 'blit');
+            }
+        };
+
+        map.render(g);
+        assert.strictEqual(map._renderCacheRebuilds, 1, 'artLayer initial cache rebuild');
+        assert.ok(draws.indexOf('art_f0') >= 0, 'artLayer frame 0 drawn on overlay');
+        assert.ok(draws.indexOf('blit') >= 0, 'artLayer blit');
+
+        // Frame tick at 250ms
+        Time.timeSinceLevelLoad = 0.25;
+        draws.length = 0;
+        map.render(g);
+        assert.strictEqual(map._renderCacheRebuilds, 1, 'static cache not rebuilt on anim tick');
+        assert.ok(draws.indexOf('art_f1') >= 0, 'artLayer frame 1 drawn on overlay at 250ms');
+
+        // Steady frame at 260ms: zero sprite drawImage, exactly 2 blits
+        Time.timeSinceLevelLoad = 0.26;
+        draws.length = 0;
+        map.render(g);
+        assert.strictEqual(draws.filter((d) => d === 'blit').length, 2, 'two blits on steady frame');
+        assert.strictEqual(draws.indexOf('art_f0'), -1);
+        assert.strictEqual(draws.indexOf('art_f1'), -1);
+
+        log('procedural artLayer anim overpaint ok');
+    } finally {
+        Settings.HEADLESS = prev.HEADLESS;
+        Settings.useEntitySprites = prev.useEntitySprites;
+        Settings.cameraTileX = prev.cameraTileX;
+        Settings.cameraTileY = prev.cameraTileY;
+        Settings.cameraTileZ = prev.cameraTileZ;
+        Settings.tileWidth = prev.tileWidth;
+        Settings.tileHeight = prev.tileHeight;
+        Settings.tileSpriteVariant = prev.tileSpriteVariant;
+        Settings.app = prev.app;
+        Time.timeSinceLevelLoad = prev.timeSinceLevelLoad;
+        ImageDB.clear();
+    }
+}
+
 function testWalkSightAndProtectionZones() {
     // 1×4: water | wall | grate | protection
     const cols = 4;
@@ -1507,6 +1778,8 @@ async function main() {
     testRenderCacheMath();
     testRenderCacheBlitAndRebuild();
     testFailedArtDoesNotKeepPendingSprites();
+    testHuntTileAnimDoesNotRebuildCache();
+    testProceduralArtLayerAnimOverpaint();
     await testLoadRealFloor07();
     console.log('tilemap: ok');
 }

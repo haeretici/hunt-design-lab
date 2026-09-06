@@ -17,7 +17,7 @@ const { mergeStorageBags } = require('../../core/lib/npc/storage.js');
 const { Utils, unbindSeededRandom } = require('../../core/lib/utils.js');
 /** Mix into session seed for the loot LCG (decorrelated from combat). */
 const LOOT_LCG_XOR = 0x9e3779b9;
-const { Settings, mapPathPng } = require('../../settings.js');
+const { Settings, mapPathPng, DEFAULT_GENRE } = require('../../settings.js');
 const { Navmesh } = require('../../core/lib/navmesh.js');
 const {
     tickHuntAi,
@@ -2431,6 +2431,61 @@ class Simulator extends GameObject {
     }
 
     /**
+     * Catalog id → `{ frames, fps }` for Hunt tile playback. Node reads
+     * live catalogs; the browser fetches `assets/data/<genre>/{tiles,overlays,objects}.json`.
+     * @returns {Promise<Record<string, { frames: number, fps: number }>|null>}
+     * @private
+     */
+    async _ensureTileAnimIndex() {
+        if (this._tileAnimIndex) return this._tileAnimIndex;
+        const genre = this.genre || DEFAULT_GENRE;
+        const kinds = ['tiles', 'overlays', 'objects'];
+        /** @type {object[]} */
+        const catalogs = [];
+        try {
+            const { loadCatalog } = require('../../core/lib/creature_manifest.js');
+            for (let i = 0; i < kinds.length; i++) {
+                catalogs.push(loadCatalog(genre, { kind: kinds[i] }));
+            }
+        } catch (_e) {
+            catalogs.length = 0;
+        }
+        let hasRows = false;
+        for (let i = 0; i < catalogs.length; i++) {
+            const cat = catalogs[i];
+            if (cat && Array.isArray(cat.creatures) && cat.creatures.length) {
+                hasRows = true;
+                break;
+            }
+        }
+        const canFetch =
+            !hasRows &&
+            !Settings.HEADLESS &&
+            typeof fetch === 'function' &&
+            typeof window !== 'undefined';
+        if (canFetch) {
+            const { appUrl } = require('../../core/lib/app_paths.js');
+            for (let i = 0; i < kinds.length; i++) {
+                try {
+                    const res = await fetch(appUrl(`assets/data/${genre}/${kinds[i]}.json`));
+                    if (res && res.ok) {
+                        catalogs.push(await res.json());
+                    }
+                } catch (_e) {
+                    /* missing kind is fine */
+                }
+            }
+        }
+        const { buildTileAnimIndex } = require('../../core/lib/tile_anim.js');
+        const index = buildTileAnimIndex(catalogs);
+        this._tileAnimIndex = index;
+        if (this.tileMap && typeof this.tileMap.setTileAnimIndex === 'function') {
+            this.tileMap.setTileAnimIndex(index);
+        }
+        return index;
+    }
+
+    /**
      * Apply hybrid map pack once (all floors) onto tileMap.
      * @returns {Promise<void>}
      * @private
@@ -2445,12 +2500,14 @@ class Simulator extends GameObject {
         }
         const { loadHybridOntoTileMap } = require('../../core/lib/dungeon/tilemap_bake.js');
         const roleCatalog = this._ensureTileRoleCatalog();
+        const tileAnimIndex = await this._ensureTileAnimIndex();
         // Do not forceBake: path-PNG bootstrap packs store friction/sight/flags
         // channels with empty sub-layers. forceBake re-bakes empty stacks → all
         // blocked (255) and spawnParty fails. bakeHybridPack still bakes when
         // channels are missing or short.
         const loaded = loadHybridOntoTileMap(this.tileMap, this.hybridMapPack, {
-            roleCatalog
+            roleCatalog,
+            tileAnimIndex
         });
         this._hybridLoaded = true;
         const pack = loaded && loaded.pack ? loaded.pack : null;
@@ -2713,7 +2770,8 @@ class Simulator extends GameObject {
             if (!isHybridMapDir(dir)) return false;
             const pack = readHybridMapDir(dir);
             loadHybridOntoTileMap(this.tileMap, pack, {
-                roleCatalog: this.tileRoleCatalog || null
+                roleCatalog: this.tileRoleCatalog || null,
+                tileAnimIndex: this._tileAnimIndex || null
             });
             if (Array.isArray(pack.world) && pack.world.length) {
                 if (!Array.isArray(this._worldPinRows)) this._worldPinRows = [];
@@ -5144,6 +5202,7 @@ class Simulator extends GameObject {
 
     onGUI(g) {
         if (Settings.HEADLESS || !g) return;
+        if (!Settings.showDebugOverlay && !Settings.debugOverlay) return;
         // Entity markers + FCT are Script.onGUI (cascaded by onGUIAll).
         // Light HUD overlay only here (DOM live panel owns detailed stats).
         g.fillStyle = '#8b9bb4';
@@ -5154,8 +5213,9 @@ class Simulator extends GameObject {
               ? 'Hunt Design Lab — ghost walk'
               : 'Hunt Design Lab — empty level';
         g.fillText(label, 8, 14);
+        const fpsStr = (Settings.app && Settings.app.FPS != null) ? `  fps ${Math.round(Settings.app.FPS)}` : '';
         g.fillText(
-            `seed ${this.seed}  tick ${this.tickCount}  ${this.sessionState}`,
+            `seed ${this.seed}  tick ${this.tickCount}  ${this.sessionState}${fpsStr}`,
             8,
             28
         );

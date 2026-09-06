@@ -51,6 +51,12 @@ const {
     TERRAIN_SUB_LAYER_IDS
 } = require('../lib/tile_draw.js');
 const { isTalkableNpc } = require('../lib/npc/flags.js');
+const {
+    animOf,
+    isCyclingTileAnim,
+    tileAnimFrameIndex,
+    tileAnimFileStem
+} = require('../lib/tile_anim.js');
 
 /**
  * Whether an entity may path with fieldPenalty (cross avoided hazards).
@@ -588,6 +594,12 @@ class TileMap extends GameObject {
          */
         this.tileRoleCatalog = null;
         /**
+         * Optional catalogId → `{ frames, fps }` for Hunt tile playback.
+         * Editor stays on frame 0 (does not use this).
+         * @type {Record<string, { frames: number, fps: number }>|null}
+         */
+        this.tileAnimIndex = null;
+        /**
          * Optional Stage 10 coarse graph for long routes.
          * @type {import('../lib/navmesh.js').Navmesh|null}
          */
@@ -633,6 +645,8 @@ class TileMap extends GameObject {
         this._renderCacheDirty = true;
         /** Debug: total rebuilds this map instance (tests / HUD). */
         this._renderCacheRebuilds = 0;
+        
+        this._invalidateAnimAccel();
     }
 
     /**
@@ -642,7 +656,101 @@ class TileMap extends GameObject {
     invalidateRenderCache() {
         this._renderCacheDirty = true;
         this._renderCache = null;
+        this._invalidateAnimAccel();
         return this;
+    }
+
+    _invalidateAnimAccel() {
+        this._animAccel = null;
+        this._animOverlay = null;
+        this._animOverlayFrames = null;
+        this._cachedImageGetter = null;
+    }
+
+    _accelForFloor(zKey, authoring, art) {
+        const source = authoring || art;
+        // zKey == null is a paint-fallback probe: reuse the keyed cache for the
+        // same source instead of rebuilding and clobbering it with zKey=null.
+        if (
+            this._animAccel &&
+            this._animAccel.source === source &&
+            (zKey == null || this._animAccel.zKey === zKey)
+        ) {
+            return this._animAccel;
+        }
+
+        const isAuth = !!authoring;
+        const palette = authoring
+            ? (authoring.palette || [])
+            : (art && art.palette) || [];
+        const paletteAnim = new Array(palette.length);
+        const paletteMeta = new Array(palette.length);
+        const cycling = [];
+        for (let i = 1; i < palette.length; i++) {
+            const placement = isAuth
+                ? palette[i]
+                : (art ? this._artPalettePlacement(art, i) : null);
+            const anim = this._placementAnim(placement);
+            paletteAnim[i] = anim;
+            if (placement) {
+                const meta = resolvePlacementRender(
+                    placement,
+                    this._roleForPlacement(placement)
+                );
+                paletteMeta[i] = meta;
+            } else {
+                paletteMeta[i] = null;
+            }
+            if (isCyclingTileAnim(anim)) cycling.push(i);
+        }
+
+        const cells = [];
+        if (cycling.length) {
+            const cycleSet = new Set(cycling);
+            if (authoring) {
+                const cols = authoring.cols | 0;
+                const rows = authoring.rows | 0;
+                let ground = null, path = null;
+                const sls = authoring.subLayers || [];
+                for (let i = 0; i < sls.length; i++) {
+                    const sl = sls[i];
+                    if (sl && sl.id === 'ground') ground = sl;
+                    else if (sl && sl.id === 'path') path = sl;
+                }
+                for (let y = 0; y < rows; y++) {
+                    for (let x = 0; x < cols; x++) {
+                        const gi = ground && ground.cells ? ground.cells[y * cols + x] | 0 : 0;
+                        const pi = path && path.cells ? path.cells[y * cols + x] | 0 : 0;
+                        if (cycleSet.has(gi) || cycleSet.has(pi)) {
+                            cells.push(x, y, gi, pi); // packed: 4 ints / cell
+                        }
+                    }
+                }
+            } else if (art && art.cells) {
+                const n = art.cells.length;
+                const cols = art.cols | 0;
+                for (let i = 0; i < n; i++) {
+                    const pIdx = art.cells[i] | 0;
+                    if (!cycleSet.has(pIdx)) continue;
+                    cells.push(i % cols, (i / cols) | 0, pIdx, 0);
+                }
+            }
+        }
+
+        const accel = {
+            zKey,
+            source,
+            paletteAnim,
+            paletteMeta,
+            cycling,
+            cells: new Int32Array(cells),
+            authoring: isAuth
+        };
+        // Never persist a null-zKey probe over a floor-keyed cache.
+        if (zKey != null || !this._animAccel) {
+            this._animAccel = accel;
+        }
+        return accel;
     }
 
     /**
@@ -691,6 +799,37 @@ class TileMap extends GameObject {
         this.tileRoleCatalog = catalog || null;
         this.invalidateRenderCache();
         return this;
+    }
+
+    /**
+     * Hunt tile-anim lookup (catalog id → frames/fps). Invalidates cache once
+     * so animated layers are omitted from the static bake.
+     * @param {Record<string, { frames: number, fps: number }>|null} index
+     * @returns {this}
+     */
+    setTileAnimIndex(index) {
+        const next = index || null;
+        if (next === this.tileAnimIndex) return this;
+        this.tileAnimIndex = next;
+        this.invalidateRenderCache();
+        return this;
+    }
+
+    /**
+     * @param {object|string|null|undefined} placementOrId
+     * @returns {{ frames: number, fps: number }|null}
+     * @private
+     */
+    _placementAnim(placementOrId) {
+        return animOf(placementOrId, this.tileAnimIndex);
+    }
+
+    /**
+     * @returns {number}
+     * @private
+     */
+    _tileAnimNow() {
+        return Time && Time.timeSinceLevelLoad != null ? Number(Time.timeSinceLevelLoad) : 0;
     }
 
     /**
@@ -2556,41 +2695,53 @@ class TileMap extends GameObject {
         const kind = art.kind || 'tiles';
         const roleIds = Array.isArray(art.roleIds) ? art.roleIds : null;
         if (typeof sprites.prefetchSprite === 'function') {
-            for (let p = 1; p < art.palette.length; p++) {
-                const tid = art.palette[p];
-                if (!tid) continue;
-                const placement = this._artPalettePlacement(art, p);
-                const role = roleIds
-                    ? this._roleForPlacement(placement)
-                    : null;
-                const meta = resolvePlacementRender(placement, role);
-                sprites.prefetchSprite({
-                    genre,
-                    kind,
-                    id: tid,
-                    variant: this._tileDrawVariant(meta.variant)
-                });
+            if (this._didPrefetchArt !== art) {
+                this._didPrefetchArt = art;
+                for (let p = 1; p < art.palette.length; p++) {
+                    const tid = art.palette[p];
+                    if (!tid) continue;
+                    const placement = this._artPalettePlacement(art, p);
+                    const role = roleIds
+                        ? this._roleForPlacement(placement)
+                        : null;
+                    const meta = resolvePlacementRender(placement, role);
+                    const variant = this._tileDrawVariant(meta.variant);
+                    const anim = this._placementAnim(tid);
+                    const frames = anim && anim.frames > 1 ? anim.frames | 0 : 1;
+                    for (let fi = 0; fi < frames; fi++) {
+                        const opts = { genre, kind, id: tid, variant };
+                        if (fi > 0) opts.stem = tileAnimFileStem(tid, fi);
+                        sprites.prefetchSprite(opts);
+                    }
+                }
             }
         }
-        const getImg = (tileId, variant) => {
+        // Call sites always pass (id, kind, variant, frame).
+        const getImg = (tileId, kindArg, variant, frameIndex) => {
             if (!tileId) return null;
-            return sprites.getReadySpriteImage({
+            const opts = {
                 genre,
-                kind,
+                kind: kindArg || kind,
                 id: tileId,
                 variant: this._tileDrawVariant(variant)
-            });
+            };
+            const f = frameIndex | 0;
+            if (f > 0) opts.stem = tileAnimFileStem(tileId, f);
+            return sprites.getReadySpriteImage(opts);
         };
-        getImg.isPending = (tileId, variant) => {
+        getImg.isPending = (tileId, kindArg, variant, frameIndex) => {
             if (!tileId || typeof sprites.isSpritePending !== 'function') {
                 return false;
             }
-            return sprites.isSpritePending({
+            const opts = {
                 genre,
-                kind,
+                kind: kindArg || kind,
                 id: tileId,
                 variant: this._tileDrawVariant(variant)
-            });
+            };
+            const f = frameIndex | 0;
+            if (f > 0) opts.stem = tileAnimFileStem(tileId, f);
+            return sprites.isSpritePending(opts);
         };
         return getImg;
     }
@@ -2618,48 +2769,107 @@ class TileMap extends GameObject {
                   ? 'objects'
                   : 'tiles';
         if (typeof sprites.prefetchSprite === 'function') {
-            for (let p = 1; p < palette.length; p++) {
-                const entry = palette[p];
-                if (!entry) continue;
-                const id =
-                    entry.catalogId != null
-                        ? String(entry.catalogId)
-                        : entry.id != null
-                          ? String(entry.id)
-                          : '';
-                if (!id) continue;
-                const kind = kindOf(entry.kind);
-                const meta = resolvePlacementRender(
-                    entry,
-                    this._roleForPlacement(entry)
-                );
-                sprites.prefetchSprite({
-                    genre: g0,
-                    kind,
-                    id,
-                    variant: this._tileDrawVariant(meta.variant)
-                });
+            if (this._didPrefetchAuthoring !== authoringFloor) {
+                this._didPrefetchAuthoring = authoringFloor;
+                for (let p = 1; p < palette.length; p++) {
+                    const entry = palette[p];
+                    if (!entry) continue;
+                    const id =
+                        entry.catalogId != null
+                            ? String(entry.catalogId)
+                            : entry.id != null
+                              ? String(entry.id)
+                              : '';
+                    if (!id) continue;
+                    const kind = kindOf(entry.kind);
+                    const meta = resolvePlacementRender(
+                        entry,
+                        this._roleForPlacement(entry)
+                    );
+                    const variant = this._tileDrawVariant(meta.variant);
+                    const anim = this._placementAnim(entry);
+                    const frames = anim && anim.frames > 1 ? anim.frames | 0 : 1;
+                    for (let fi = 0; fi < frames; fi++) {
+                        const opts = { genre: g0, kind, id, variant };
+                        if (fi > 0) opts.stem = tileAnimFileStem(id, fi);
+                        sprites.prefetchSprite(opts);
+                    }
+                }
             }
         }
-        const getImg = (catalogId, kind, variant) => {
+        // Call sites always pass (id, kind, variant, frame).
+        const getImg = (catalogId, kind, variant, frameIndex) => {
             if (!catalogId) return null;
-            return sprites.getReadySpriteImage({
+            const opts = {
                 genre: g0,
                 kind: kindOf(kind),
                 id: catalogId,
                 variant: this._tileDrawVariant(variant)
-            });
+            };
+            const f = frameIndex | 0;
+            if (f > 0) opts.stem = tileAnimFileStem(catalogId, f);
+            return sprites.getReadySpriteImage(opts);
         };
-        getImg.isPending = (catalogId, kind, variant) => {
+        getImg.isPending = (catalogId, kind, variant, frameIndex) => {
             if (!catalogId || typeof sprites.isSpritePending !== 'function') {
                 return false;
             }
-            return sprites.isSpritePending({
+            const opts = {
                 genre: g0,
                 kind: kindOf(kind),
                 id: catalogId,
                 variant: this._tileDrawVariant(variant)
-            });
+            };
+            const f = frameIndex | 0;
+            if (f > 0) opts.stem = tileAnimFileStem(catalogId, f);
+            return sprites.isSpritePending(opts);
+        };
+        return getImg;
+    }
+
+    /**
+     * Cached image getter for authoring or art layer.
+     * Reuses previously constructed getter and skips prefetch on presentation frames.
+     * @param {object|null} authoring
+     * @param {object|null} art
+     * @param {string|null} [genre]
+     * @returns {((catalogId: string, kind: string, variant?: string|null, frameIndex?: number) => *)|null}
+     * @private
+     */
+    _getImageGetter(authoring, art, genre) {
+        if (Settings.useEntitySprites === false) return null;
+        const source = authoring || art;
+        if (!source) return null;
+        const g0 = genre || (art && art.genre) || (Settings.app && Settings.app.genre) || DEFAULT_GENRE;
+        const isAuth = !!authoring;
+        const spritesReady = !!tileSpriteApi();
+
+        const cached = this._cachedImageGetter;
+        if (
+            cached &&
+            cached.source === source &&
+            cached.genre === g0 &&
+            cached.spritesReady === spritesReady &&
+            cached.getImg
+        ) {
+            return cached.getImg;
+        }
+
+        const getImg = isAuth
+            ? this._authoringImageGetter(authoring, g0)
+            : this._artTileImageGetter(art);
+
+        // Do not freeze a null getter — sprites may become ready on a later frame.
+        if (!getImg) {
+            this._cachedImageGetter = null;
+            return null;
+        }
+
+        this._cachedImageGetter = {
+            source,
+            genre: g0,
+            spritesReady,
+            getImg
         };
         return getImg;
     }
@@ -2725,6 +2935,7 @@ class TileMap extends GameObject {
      * @param {number} regionH
      * @param {number} tw
      * @param {number} th
+     * @param {{ skipAnimated?: boolean, timeSec?: number }|null} [mode]
      * @returns {boolean} pendingSprites
      * @private
      */
@@ -2738,12 +2949,27 @@ class TileMap extends GameObject {
         regionW,
         regionH,
         tw,
-        th
+        th,
+        mode
     ) {
         let pendingSprites = false;
+        const skipAnimated = !!(mode && mode.skipAnimated);
+        const timeSec =
+            mode && mode.timeSec != null ? Number(mode.timeSec) : this._tileAnimNow();
         const cols = authoring.cols | 0;
         const rows = authoring.rows | 0;
         const palette = authoring.palette || [];
+        
+        const accel =
+            (mode && mode.accel) ||
+            this._accelForFloor(
+                this._viewZ != null ? this._viewZ : null,
+                authoring,
+                null
+            );
+        const paletteAnim = accel.paletteAnim;
+        const paletteMeta = accel.paletteMeta;
+
         /** @type {Map<string, object>} */
         const subById = new Map();
         if (Array.isArray(authoring.subLayers)) {
@@ -2769,7 +2995,12 @@ class TileMap extends GameObject {
                     FRICTION_FILL_STYLE[f] || FRICTION_FILL_STYLE[FRICTION_BLOCKED];
                 g.fillRect(tilePx, tilePy, tw, th);
 
-                if (!getImg) continue;
+                if (!getImg) {
+                    if (Settings.useEntitySprites !== false && tileSpriteApi()) {
+                        pendingSprites = true;
+                    }
+                    continue;
+                }
 
                 for (let t = 0; t < TERRAIN_SUB_LAYER_IDS.length; t++) {
                     const sid = TERRAIN_SUB_LAYER_IDS[t];
@@ -2777,18 +3008,19 @@ class TileMap extends GameObject {
                     if (!sl || !sl.cells) continue;
                     const pIdx = sl.cells[y * cols + x] | 0;
                     if (pIdx <= 0 || pIdx >= palette.length) continue;
-                    const placement = palette[pIdx];
-                    if (!placement) continue;
-                    const meta = resolvePlacementRender(
-                        placement,
-                        this._roleForPlacement(placement)
-                    );
-                    if (!meta.catalogId) continue;
-                    const img = getImg(meta.catalogId, meta.kind, meta.variant);
+                    
+                    const anim = paletteAnim[pIdx];
+                    if (skipAnimated && isCyclingTileAnim(anim)) continue;
+                    
+                    const meta = paletteMeta[pIdx];
+                    if (!meta || !meta.catalogId) continue;
+
+                    const frame = skipAnimated ? 0 : tileAnimFrameIndex(anim, timeSec);
+                    const img = getImg(meta.catalogId, meta.kind, meta.variant, frame);
                     if (!img) {
                         if (
                             typeof getImg.isPending !== 'function' ||
-                            getImg.isPending(meta.catalogId, meta.kind, meta.variant)
+                            getImg.isPending(meta.catalogId, meta.kind, meta.variant, frame)
                         ) {
                             pendingSprites = true;
                         }
@@ -2842,7 +3074,10 @@ class TileMap extends GameObject {
      * @param {number} th
      * @param {{
      *   authoring?: object|null,
-     *   getAuthoringImg?: ((id: string, kind: string) => *)|null
+     *   getAuthoringImg?: ((id: string, kind: string) => *)|null,
+     *   skipAnimated?: boolean,
+     *   timeSec?: number,
+     *   accel?: object|null
      * }} [opts]
      * @returns {boolean} pendingSprites
      */
@@ -2860,6 +3095,8 @@ class TileMap extends GameObject {
         opts
     ) {
         const o = opts || {};
+        const skipAnimated = !!o.skipAnimated;
+        const timeSec = o.timeSec != null ? Number(o.timeSec) : this._tileAnimNow();
         if (o.authoring) {
             return this._paintTerrainAuthoringRegion(
                 g,
@@ -2871,9 +3108,18 @@ class TileMap extends GameObject {
                 regionW,
                 regionH,
                 tw,
-                th
+                th,
+                { skipAnimated, timeSec, accel: o.accel }
             );
         }
+
+        const accel =
+            o.accel ||
+            (art
+                ? this._accelForFloor(this._viewZ != null ? this._viewZ : null, null, art)
+                : null);
+        const paletteAnim = accel ? accel.paletteAnim : null;
+        const paletteMeta = accel ? accel.paletteMeta : null;
 
         let pendingSprites = false;
         for (let ry = 0; ry < regionH; ry++) {
@@ -2885,51 +3131,53 @@ class TileMap extends GameObject {
                 const flat = this.index(x, y, layer.cols);
                 const f = layer.friction[flat];
                 let drewSprite = false;
-                if (art && getTileImg) {
+                if (art && getTileImg && paletteMeta) {
                     const pIdx = art.cells[flat] | 0;
-                    const tileId =
-                        pIdx > 0 && pIdx < art.palette.length
-                            ? art.palette[pIdx]
-                            : null;
-                    if (tileId) {
-                        const placement = this._artPalettePlacement(art, pIdx);
-                        const meta = resolvePlacementRender(
-                            placement,
-                            this._roleForPlacement(placement)
-                        );
-                        const img = getTileImg(tileId, meta.variant);
-                        if (img) {
-                            const iw =
-                                img.naturalWidth ||
-                                img.width ||
-                                img.videoWidth ||
-                                tw;
-                            const ih =
-                                img.naturalHeight ||
-                                img.height ||
-                                img.videoHeight ||
-                                th;
-                            const box = resolveTileDrawBox(
-                                rx * tw,
-                                ry * th,
-                                tw,
-                                th,
-                                iw,
-                                ih,
-                                meta.scale,
-                                meta.anchor
-                            );
-                            try {
-                                g.drawImage(img, box.dx, box.dy, box.dw, box.dh);
-                                drewSprite = true;
-                            } catch (_e) {
-                                drewSprite = false;
+                    if (pIdx > 0 && pIdx < art.palette.length) {
+                        const anim = paletteAnim ? paletteAnim[pIdx] : null;
+                        if (skipAnimated && isCyclingTileAnim(anim)) {
+                            // Hunt overpaints after blit; leave friction fill.
+                        } else {
+                            const meta = paletteMeta[pIdx];
+                            if (meta && meta.catalogId) {
+                                const frame = skipAnimated
+                                    ? 0
+                                    : tileAnimFrameIndex(anim, timeSec);
+                                const img = getTileImg(meta.catalogId, meta.kind, meta.variant, frame);
+                                if (img) {
+                                    const iw =
+                                        img.naturalWidth ||
+                                        img.width ||
+                                        img.videoWidth ||
+                                        tw;
+                                    const ih =
+                                        img.naturalHeight ||
+                                        img.height ||
+                                        img.videoHeight ||
+                                        th;
+                                    const box = resolveTileDrawBox(
+                                        rx * tw,
+                                        ry * th,
+                                        tw,
+                                        th,
+                                        iw,
+                                        ih,
+                                        meta.scale,
+                                        meta.anchor
+                                    );
+                                    try {
+                                        g.drawImage(img, box.dx, box.dy, box.dw, box.dh);
+                                        drewSprite = true;
+                                    } catch (_e) {
+                                        drewSprite = false;
+                                    }
+                                } else if (
+                                    typeof getTileImg.isPending !== 'function' ||
+                                    getTileImg.isPending(meta.catalogId, meta.kind, meta.variant, frame)
+                                ) {
+                                    pendingSprites = true;
+                                }
                             }
-                        } else if (
-                            typeof getTileImg.isPending !== 'function' ||
-                            getTileImg.isPending(tileId, meta.variant)
-                        ) {
-                            pendingSprites = true;
                         }
                     }
                 }
@@ -2941,6 +3189,129 @@ class TileMap extends GameObject {
             }
         }
         return pendingSprites;
+    }
+
+    _animFramesDirty(accel, timeSec) {
+        const cycling = accel.cycling;
+        const prev = this._animOverlayFrames;
+        if (!prev || prev.length !== cycling.length) return true;
+        const anims = accel.paletteAnim;
+        for (let i = 0; i < cycling.length; i++) {
+            const frame = tileAnimFrameIndex(anims[cycling[i]], timeSec);
+            if (frame !== prev[i]) return true;
+        }
+        return false;
+    }
+
+    _storeAnimFrames(accel, timeSec) {
+        const cycling = accel.cycling;
+        const len = cycling.length;
+        let frames = this._animOverlayFrames;
+        if (!frames || frames.length !== len) {
+            frames = new Int32Array(len);
+            this._animOverlayFrames = frames;
+        }
+        const anims = accel.paletteAnim;
+        for (let i = 0; i < len; i++) {
+            frames[i] = tileAnimFrameIndex(anims[cycling[i]], timeSec);
+        }
+    }
+
+    _rebuildAnimOverlay(cache, layer, accel, getImg, tw, th, timeSec) {
+        if (!getImg) return false;
+        const pixelW = cache.w * tw;
+        const pixelH = cache.h * th;
+        
+        let surface = this._animOverlay;
+        if (!surface || !surface.canvas || surface.canvas.width !== pixelW || surface.canvas.height !== pixelH) {
+            surface = this._allocRenderCache(pixelW, pixelH);
+            this._animOverlay = surface;
+        }
+        if (!surface || !surface.ctx) return false;
+        
+        const g = surface.ctx;
+        if (typeof g.clearRect === 'function') {
+            g.clearRect(0, 0, pixelW, pixelH);
+        }
+        try {
+            g.imageSmoothingEnabled = false;
+        } catch (_e) {
+            /* mock */
+        }
+        
+        surface.x = cache.x;
+        surface.y = cache.y;
+        surface.w = cache.w;
+        surface.h = cache.h;
+
+        const cells = accel.cells;
+        const n = cells.length;
+        const anims = accel.paletteAnim;
+        const metas = accel.paletteMeta;
+        
+        let pendingAnimSprites = false;
+        
+        const drawOne = (meta, frame, tilePx, tilePy) => {
+            if (!meta || !meta.catalogId) return;
+            const img = getImg(meta.catalogId, meta.kind, meta.variant, frame);
+            if (!img) {
+                if (typeof getImg.isPending === 'function' && getImg.isPending(meta.catalogId, meta.kind, meta.variant, frame)) {
+                    pendingAnimSprites = true;
+                }
+                return;
+            }
+            const iw = img.naturalWidth || img.width || img.videoWidth || tw;
+            const ih = img.naturalHeight || img.height || img.videoHeight || th;
+            const box = resolveTileDrawBox(tilePx, tilePy, tw, th, iw, ih, meta.scale, meta.anchor);
+            try {
+                g.drawImage(img, box.dx, box.dy, box.dw, box.dh);
+            } catch (_e) {}
+        };
+        
+        for (let i = 0; i < n; i += 4) {
+            const x = cells[i];
+            const y = cells[i+1];
+            if (x < cache.x || y < cache.y || x >= cache.x + cache.w || y >= cache.y + cache.h) continue;
+            
+            const gi = cells[i+2];
+            const pi = cells[i+3];
+            
+            const tilePx = (x - cache.x) * tw;
+            const tilePy = (y - cache.y) * th;
+            
+            if (accel.authoring) {
+                const gAnim = gi > 0 ? anims[gi] : null;
+                const pAnim = pi > 0 ? anims[pi] : null;
+                const gCycle = isCyclingTileAnim(gAnim);
+                const pCycle = isCyclingTileAnim(pAnim);
+                
+                if (gCycle) {
+                    const flat = this.index(x, y, layer.cols);
+                    const f = layer.friction[flat];
+                    if (typeof g.fillRect === 'function') {
+                        g.fillStyle = FRICTION_FILL_STYLE[f] || FRICTION_FILL_STYLE[FRICTION_BLOCKED];
+                        g.fillRect(tilePx, tilePy, tw, th);
+                    }
+                    drawOne(metas[gi], tileAnimFrameIndex(gAnim, timeSec), tilePx, tilePy);
+                    drawOne(metas[pi], pCycle ? tileAnimFrameIndex(pAnim, timeSec) : 0, tilePx, tilePy);
+                } else if (pCycle) {
+                    drawOne(metas[pi], tileAnimFrameIndex(pAnim, timeSec), tilePx, tilePy);
+                }
+            } else {
+                const gAnim = gi > 0 ? anims[gi] : null;
+                if (isCyclingTileAnim(gAnim)) {
+                    const flat = this.index(x, y, layer.cols);
+                    const f = layer.friction[flat];
+                    if (typeof g.fillRect === 'function') {
+                        g.fillStyle = FRICTION_FILL_STYLE[f] || FRICTION_FILL_STYLE[FRICTION_BLOCKED];
+                        g.fillRect(tilePx, tilePy, tw, th);
+                    }
+                    drawOne(metas[gi], tileAnimFrameIndex(gAnim, timeSec), tilePx, tilePy);
+                }
+            }
+        }
+        
+        return pendingAnimSprites;
     }
 
     /**
@@ -3000,34 +3371,37 @@ class TileMap extends GameObject {
         this._viewRows = viewRows;
         this._viewZ = zKey;
 
-        const getTileImg = hasAuthoring ? null : this._artTileImageGetter(art);
-        const getAuthoringImg = hasAuthoring
-            ? this._authoringImageGetter(authoring, genre)
-            : null;
         const hasArt = hasAuthoring ? true : !!art;
-        const useSprites =
-            Settings.useEntitySprites !== false &&
-            !!(hasAuthoring ? getAuthoringImg : getTileImg);
-        const paintOpts = hasAuthoring
-            ? { authoring, getAuthoringImg }
-            : null;
+        const timeSec = this._tileAnimNow();
         const canBlit =
             typeof g.drawImage === 'function' &&
             (g.canvas != null || typeof OffscreenCanvas !== 'undefined');
 
+        const accel = this._accelForFloor(zKey, authoring, art);
+
         if (!canBlit) {
+            const imgGetter = this._getImageGetter(authoring, art, genre);
+            const liveOpts = hasAuthoring
+                ? {
+                      authoring,
+                      getAuthoringImg: imgGetter,
+                      skipAnimated: false,
+                      timeSec,
+                      accel
+                  }
+                : { skipAnimated: false, timeSec, accel };
             this._paintFloorRegionFractional(
                 g,
                 layer,
                 art,
-                getTileImg,
+                hasAuthoring ? null : imgGetter,
                 originX,
                 originY,
                 viewCols,
                 viewRows,
                 tw,
                 th,
-                paintOpts
+                liveOpts
             );
             return;
         }
@@ -3035,6 +3409,7 @@ class TileMap extends GameObject {
         const desired = computeTilemapCacheRect(layer, view);
         let cache = this._renderCache;
         let needRebuild = this._renderCacheDirty || !cache;
+        const useSprites = Settings.useEntitySprites !== false && !!tileSpriteApi();
 
         if (cache && !needRebuild) {
             if (
@@ -3068,20 +3443,25 @@ class TileMap extends GameObject {
                     ? { canvas: cache.canvas, ctx: cache.ctx }
                     : this._allocRenderCache(pixelW, pixelH);
 
+            const imgGetter = this._getImageGetter(authoring, art, genre);
+
             if (!surface || !surface.ctx) {
                 // No offscreen available (typical Node unit tests): direct paint.
+                const liveOpts = hasAuthoring
+                    ? { authoring, getAuthoringImg: imgGetter, skipAnimated: false, timeSec, accel }
+                    : { skipAnimated: false, timeSec, accel };
                 this._paintFloorRegionFractional(
                     g,
                     layer,
                     art,
-                    getTileImg,
+                    hasAuthoring ? null : imgGetter,
                     originX,
                     originY,
                     viewCols,
                     viewRows,
                     tw,
                     th,
-                    paintOpts
+                    liveOpts
                 );
                 return;
             }
@@ -3089,18 +3469,21 @@ class TileMap extends GameObject {
             if (typeof surface.ctx.clearRect === 'function') {
                 surface.ctx.clearRect(0, 0, pixelW, pixelH);
             }
+            const cacheOpts = hasAuthoring
+                ? { authoring, getAuthoringImg: imgGetter, skipAnimated: true, timeSec, accel }
+                : { skipAnimated: true, timeSec, accel };
             const pendingSprites = this._paintFloorRegion(
                 surface.ctx,
                 layer,
                 art,
-                getTileImg,
+                hasAuthoring ? null : imgGetter,
                 desired.x,
                 desired.y,
                 desired.w,
                 desired.h,
                 tw,
                 th,
-                paintOpts
+                cacheOpts
             );
 
             this._renderCache = {
@@ -3136,21 +3519,46 @@ class TileMap extends GameObject {
         const sh = viewRows * th;
         try {
             g.drawImage(cache.canvas, sx, sy, sw, sh, 0, 0, sw, sh);
+            if (accel.cycling.length > 0 && accel.cells.length > 0) {
+                const animDirty = this._animFramesDirty(accel, timeSec);
+                const rectDirty = !this._animOverlay || 
+                    !this._animOverlay.canvas ||
+                    this._animOverlay.x !== cache.x || 
+                    this._animOverlay.y !== cache.y || 
+                    this._animOverlay.w !== cache.w || 
+                    this._animOverlay.h !== cache.h;
+                if (animDirty || rectDirty) {
+                    const imgGetter = this._getImageGetter(authoring, art, genre);
+                    const pendingAnim = this._rebuildAnimOverlay(cache, layer, accel, imgGetter, tw, th, timeSec);
+                    if (!pendingAnim) {
+                        this._storeAnimFrames(accel, timeSec);
+                    } else {
+                        this._animOverlayFrames = null;
+                    }
+                }
+                if (this._animOverlay && this._animOverlay.canvas) {
+                    g.drawImage(this._animOverlay.canvas, sx, sy, sw, sh, 0, 0, sw, sh);
+                }
+            }
         } catch (_e) {
             // Corrupt surface: fall back once
             this.invalidateRenderCache();
+            const imgGetter = this._getImageGetter(authoring, art, genre);
+            const liveOpts = hasAuthoring
+                ? { authoring, getAuthoringImg: imgGetter, skipAnimated: false, timeSec, accel }
+                : { skipAnimated: false, timeSec, accel };
             this._paintFloorRegionFractional(
                 g,
                 layer,
                 art,
-                getTileImg,
+                hasAuthoring ? null : imgGetter,
                 originX,
                 originY,
                 viewCols,
                 viewRows,
                 tw,
                 th,
-                paintOpts
+                liveOpts
             );
         }
     }

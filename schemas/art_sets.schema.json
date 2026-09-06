@@ -116,7 +116,7 @@
       "description": "Pick lists by decorative key. Procedural bind uses terrain keys only (floor/path/wall/stairs/void|water). Scenery/furniture are editor palette only.",
       "additionalProperties": {
         "type": "array",
-        "maxItems": 4,
+        "maxItems": 10,
         "items": {
           "oneOf": [
             {

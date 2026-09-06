@@ -66,6 +66,7 @@ body {
 }
 
 .editor-header-bar {
+  position: relative;
   height: $header-height;
   min-height: $header-height;
   background-color: $bg-darkest;
@@ -251,6 +252,8 @@ body.sprite-batch-popup {
 }
 
 .editor-workspace {
+  position: relative;
+  z-index: 1;
   flex: 1;
   min-height: 0;
   overflow: hidden;

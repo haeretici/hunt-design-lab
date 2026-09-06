@@ -10,31 +10,6 @@
             "palette": [
                 null,
                 {
-                    "catalogId": "broken_cave_stairs",
-                    "kind": "tiles",
-                    "roleId": "stairs_up",
-                    "anchor": "bottom_center",
-                    "hop": {
-                        "dir": "center",
-                        "deltaZ": 1
-                    }
-                },
-                {
-                    "catalogId": "damp_dirt_floor",
-                    "kind": "tiles",
-                    "roleId": "floor"
-                },
-                {
-                    "catalogId": "broken_cave_stairs",
-                    "kind": "tiles",
-                    "roleId": "stairs_up",
-                    "anchor": "bottom_center",
-                    "hop": {
-                        "dir": "center",
-                        "deltaZ": -1
-                    }
-                },
-                {
                     "catalogId": "simple_dead_tree",
                     "kind": "objects",
                     "roleId": "scenery_blocking",
@@ -55,358 +30,6 @@
                         "dir": "south",
                         "deltaZ": 1
                     }
-                },
-                {
-                    "catalogId": "damp_deep_water",
-                    "kind": "tiles",
-                    "roleId": "water"
-                },
-                {
-                    "catalogId": "dirt_wang_15",
-                    "kind": "overlays",
-                    "roleId": "path",
-                    "wangFamily": "dirt",
-                    "wangMask": 15
-                },
-                {
-                    "catalogId": "dirt_wang_11",
-                    "kind": "overlays",
-                    "roleId": "path",
-                    "wangFamily": "dirt",
-                    "wangMask": 11
-                },
-                {
-                    "catalogId": "dirt_wang_07",
-                    "kind": "overlays",
-                    "roleId": "path",
-                    "wangFamily": "dirt",
-                    "wangMask": 7
-                },
-                {
-                    "catalogId": "dirt_wang_inner_sw",
-                    "kind": "overlays",
-                    "roleId": "path",
-                    "wangFamily": "dirt",
-                    "wangMask": 15,
-                    "wangInner": "sw"
-                },
-                {
-                    "catalogId": "dirt_wang_03",
-                    "kind": "overlays",
-                    "roleId": "path",
-                    "wangFamily": "dirt",
-                    "wangMask": 3
-                },
-                {
-                    "catalogId": "dirt_wang_13",
-                    "kind": "overlays",
-                    "roleId": "path",
-                    "wangFamily": "dirt",
-                    "wangMask": 13
-                },
-                {
-                    "catalogId": "dirt_wang_09",
-                    "kind": "overlays",
-                    "roleId": "path",
-                    "wangFamily": "dirt",
-                    "wangMask": 9
-                },
-                {
-                    "catalogId": "dirt_wang_10",
-                    "kind": "overlays",
-                    "roleId": "path",
-                    "wangFamily": "dirt",
-                    "wangMask": 10
-                },
-                {
-                    "catalogId": "dirt_wang_12",
-                    "kind": "overlays",
-                    "roleId": "path",
-                    "wangFamily": "dirt",
-                    "wangMask": 12
-                },
-                {
-                    "catalogId": "dirt_wang_14",
-                    "kind": "overlays",
-                    "roleId": "path",
-                    "wangFamily": "dirt",
-                    "wangMask": 14
-                },
-                {
-                    "catalogId": "dirt_wang_inner_nw",
-                    "kind": "overlays",
-                    "roleId": "path",
-                    "wangFamily": "dirt",
-                    "wangMask": 15,
-                    "wangInner": "nw"
-                },
-                {
-                    "catalogId": "dirt_wang_06",
-                    "kind": "overlays",
-                    "roleId": "path",
-                    "wangFamily": "dirt",
-                    "wangMask": 6
-                },
-                {
-                    "catalogId": "dirt_wang_05",
-                    "kind": "overlays",
-                    "roleId": "path",
-                    "wangFamily": "dirt",
-                    "wangMask": 5
-                },
-                {
-                    "catalogId": "water_wang_15",
-                    "kind": "overlays",
-                    "roleId": "water",
-                    "wangFamily": "water",
-                    "wangMask": 15
-                },
-                {
-                    "catalogId": "water_wang_10",
-                    "kind": "overlays",
-                    "roleId": "water",
-                    "wangFamily": "water",
-                    "wangMask": 10
-                },
-                {
-                    "catalogId": "water_wang_12",
-                    "kind": "overlays",
-                    "roleId": "water",
-                    "wangFamily": "water",
-                    "wangMask": 12
-                },
-                {
-                    "catalogId": "water_wang_06",
-                    "kind": "overlays",
-                    "roleId": "water",
-                    "wangFamily": "water",
-                    "wangMask": 6
-                },
-                {
-                    "catalogId": "water_wang_01",
-                    "kind": "overlays",
-                    "roleId": "water",
-                    "wangFamily": "water",
-                    "wangMask": 1
-                },
-                {
-                    "catalogId": "water_wang_05",
-                    "kind": "overlays",
-                    "roleId": "water",
-                    "wangFamily": "water",
-                    "wangMask": 5
-                },
-                {
-                    "catalogId": "dirt_wang_08",
-                    "kind": "overlays",
-                    "roleId": "path",
-                    "wangFamily": "dirt",
-                    "wangMask": 8
-                },
-                {
-                    "catalogId": "dirt_wang_inner_se",
-                    "kind": "overlays",
-                    "roleId": "path",
-                    "wangFamily": "dirt",
-                    "wangMask": 15,
-                    "wangInner": "se"
-                },
-                {
-                    "catalogId": "water_wang_08",
-                    "kind": "overlays",
-                    "roleId": "water",
-                    "wangFamily": "water",
-                    "wangMask": 8
-                },
-                {
-                    "catalogId": "water_wang_13",
-                    "kind": "overlays",
-                    "roleId": "water",
-                    "wangFamily": "water",
-                    "wangMask": 13
-                },
-                {
-                    "catalogId": "water_wang_09",
-                    "kind": "overlays",
-                    "roleId": "water",
-                    "wangFamily": "water",
-                    "wangMask": 9
-                },
-                {
-                    "catalogId": "water_wang_07",
-                    "kind": "overlays",
-                    "roleId": "water",
-                    "wangFamily": "water",
-                    "wangMask": 7
-                },
-                {
-                    "catalogId": "water_wang_14",
-                    "kind": "overlays",
-                    "roleId": "water",
-                    "wangFamily": "water",
-                    "wangMask": 14
-                },
-                {
-                    "catalogId": "water_wang_03",
-                    "kind": "overlays",
-                    "roleId": "water",
-                    "wangFamily": "water",
-                    "wangMask": 3
-                },
-                {
-                    "catalogId": "water_wang_11",
-                    "kind": "overlays",
-                    "roleId": "water",
-                    "wangFamily": "water",
-                    "wangMask": 11
-                },
-                {
-                    "catalogId": "water_wang_inner_sw",
-                    "kind": "overlays",
-                    "roleId": "water",
-                    "wangFamily": "water",
-                    "wangMask": 15,
-                    "wangInner": "sw"
-                },
-                {
-                    "catalogId": "water_wang_inner_se",
-                    "kind": "overlays",
-                    "roleId": "water",
-                    "wangFamily": "water",
-                    "wangMask": 15,
-                    "wangInner": "se"
-                },
-                {
-                    "catalogId": "dirt_wang_05",
-                    "kind": "overlays",
-                    "roleId": "path",
-                    "wangFamily": "dirt",
-                    "wangMask": 5,
-                    "wangLocked": true
-                },
-                {
-                    "catalogId": "stone_wall_pole",
-                    "kind": "objects",
-                    "roleId": "wall",
-                    "wallFamily": "stone_wall",
-                    "wallAlign": "pole"
-                },
-                {
-                    "catalogId": "stone_wall_horizontal",
-                    "kind": "objects",
-                    "roleId": "wall",
-                    "wallFamily": "stone_wall",
-                    "wallAlign": "horizontal"
-                },
-                {
-                    "catalogId": "stone_wall_vertical",
-                    "kind": "objects",
-                    "roleId": "wall",
-                    "wallFamily": "stone_wall",
-                    "wallAlign": "vertical"
-                },
-                {
-                    "catalogId": "stone_wall_corner",
-                    "kind": "objects",
-                    "roleId": "wall",
-                    "wallFamily": "stone_wall",
-                    "wallAlign": "corner"
-                },
-                {
-                    "catalogId": "stone_wall_south_end",
-                    "kind": "objects",
-                    "roleId": "wall",
-                    "wallFamily": "stone_wall",
-                    "wallAlign": "south_end"
-                },
-                {
-                    "catalogId": "stone_wall_east_end",
-                    "kind": "objects",
-                    "roleId": "wall",
-                    "wallFamily": "stone_wall",
-                    "wallAlign": "east_end"
-                },
-                {
-                    "catalogId": "stone_wall_west_end",
-                    "kind": "objects",
-                    "roleId": "wall",
-                    "wallFamily": "stone_wall",
-                    "wallAlign": "west_end"
-                },
-                {
-                    "catalogId": "stone_wall_north_end",
-                    "kind": "objects",
-                    "roleId": "wall",
-                    "wallFamily": "stone_wall",
-                    "wallAlign": "north_end"
-                },
-                {
-                    "catalogId": "stone_wall_northeast_diagonal",
-                    "kind": "objects",
-                    "roleId": "wall",
-                    "wallFamily": "stone_wall",
-                    "wallAlign": "northeast_diagonal"
-                },
-                {
-                    "catalogId": "stone_wall_southeast_diagonal",
-                    "kind": "objects",
-                    "roleId": "wall",
-                    "wallFamily": "stone_wall",
-                    "wallAlign": "southeast_diagonal"
-                },
-                {
-                    "catalogId": "stone_wall_southwest_diagonal",
-                    "kind": "objects",
-                    "roleId": "wall",
-                    "wallFamily": "stone_wall",
-                    "wallAlign": "southwest_diagonal"
-                },
-                {
-                    "catalogId": "stone_wall_south_t",
-                    "kind": "objects",
-                    "roleId": "wall",
-                    "wallFamily": "stone_wall",
-                    "wallAlign": "south_t"
-                },
-                {
-                    "catalogId": "stone_wall_east_t",
-                    "kind": "objects",
-                    "roleId": "wall",
-                    "wallFamily": "stone_wall",
-                    "wallAlign": "east_t"
-                },
-                {
-                    "catalogId": "stone_wall_west_t",
-                    "kind": "objects",
-                    "roleId": "wall",
-                    "wallFamily": "stone_wall",
-                    "wallAlign": "west_t"
-                },
-                {
-                    "catalogId": "stone_wall_north_t",
-                    "kind": "objects",
-                    "roleId": "wall",
-                    "wallFamily": "stone_wall",
-                    "wallAlign": "north_t"
-                },
-                {
-                    "catalogId": "stone_wall_intersection",
-                    "kind": "objects",
-                    "roleId": "wall",
-                    "wallFamily": "stone_wall",
-                    "wallAlign": "intersection"
-                },
-                {
-                    "catalogId": "simple_dead_tree",
-                    "kind": "objects",
-                    "roleId": "scenery_blocking",
-                    "scale": 5,
-                    "anchor": "bottom_center"
-                },
-                {
-                    "catalogId": "overgrown_grass_floor",
-                    "kind": "tiles",
-                    "roleId": "floor"
                 },
                 {
                     "catalogId": "damp_wood_floor",
@@ -449,66 +72,324 @@
                     "roleId": "scenery_cover"
                 },
                 {
-                    "catalogId": "dirt_wang_01",
-                    "kind": "overlays",
-                    "roleId": "path",
-                    "wangFamily": "dirt",
-                    "wangMask": 1
-                },
-                {
-                    "catalogId": "dirt_wang_02",
-                    "kind": "overlays",
-                    "roleId": "path",
-                    "wangFamily": "dirt",
-                    "wangMask": 2
-                },
-                {
-                    "catalogId": "dirt_wang_00",
-                    "kind": "overlays",
-                    "roleId": "path",
-                    "wangFamily": "dirt",
-                    "wangMask": 0
-                },
-                {
-                    "catalogId": "water_wang_02",
-                    "kind": "overlays",
-                    "roleId": "water",
-                    "wangFamily": "water",
-                    "wangMask": 2
-                },
-                {
-                    "catalogId": "dirt_wang_04",
-                    "kind": "overlays",
-                    "roleId": "path",
-                    "wangFamily": "dirt",
-                    "wangMask": 4
-                },
-                {
-                    "catalogId": "water_wang_04",
-                    "kind": "overlays",
-                    "roleId": "water",
-                    "wangFamily": "water",
-                    "wangMask": 4
-                },
-                {
-                    "catalogId": "water_wang_00",
-                    "kind": "overlays",
-                    "roleId": "water",
-                    "wangFamily": "water",
-                    "wangMask": 0
-                },
-                {
-                    "catalogId": "water_wang_inner_nw",
-                    "kind": "overlays",
-                    "roleId": "water",
-                    "wangFamily": "water",
-                    "wangMask": 15,
-                    "wangInner": "nw"
-                },
-                {
-                    "catalogId": "shallow_water",
+                    "catalogId": "ref_water_fill",
                     "kind": "tiles",
-                    "roleId": "water"
+                    "roleId": "water",
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "beach",
+                        "slot": "fill"
+                    }
+                },
+                {
+                    "catalogId": "ref_beach_e",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "beach",
+                        "slot": "e"
+                    }
+                },
+                {
+                    "catalogId": "ref_beach_dnw",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "beach",
+                        "slot": "dnw"
+                    }
+                },
+                {
+                    "catalogId": "ref_beach_s",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "beach",
+                        "slot": "s"
+                    }
+                },
+                {
+                    "catalogId": "ref_beach_cse",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "beach",
+                        "slot": "cse"
+                    }
+                },
+                {
+                    "catalogId": "ref_beach_dne",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "beach",
+                        "slot": "dne"
+                    }
+                },
+                {
+                    "catalogId": "ref_beach_dsw",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "beach",
+                        "slot": "dsw"
+                    }
+                },
+                {
+                    "catalogId": "ref_beach_w",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "beach",
+                        "slot": "w"
+                    }
+                },
+                {
+                    "catalogId": "ref_beach_csw",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "beach",
+                        "slot": "csw"
+                    }
+                },
+                {
+                    "catalogId": "ref_beach_n",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "beach",
+                        "slot": "n"
+                    }
+                },
+                {
+                    "catalogId": "ref_beach_cne",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "beach",
+                        "slot": "cne"
+                    }
+                },
+                {
+                    "catalogId": "ref_beach_cnw",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "beach",
+                        "slot": "cnw"
+                    }
+                },
+                {
+                    "catalogId": "ref_beach_dse",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "beach",
+                        "slot": "dse"
+                    }
+                },
+                {
+                    "catalogId": "ref_grass_04",
+                    "kind": "tiles",
+                    "roleId": "floor",
+                    "autoTile": {
+                        "kind": "variation",
+                        "family": "grass",
+                        "slot": "04"
+                    }
+                },
+                {
+                    "catalogId": "ref_grass_05",
+                    "kind": "tiles",
+                    "roleId": "floor",
+                    "autoTile": {
+                        "kind": "variation",
+                        "family": "grass",
+                        "slot": "05"
+                    }
+                },
+                {
+                    "catalogId": "ref_grass_03",
+                    "kind": "tiles",
+                    "roleId": "floor",
+                    "autoTile": {
+                        "kind": "variation",
+                        "family": "grass",
+                        "slot": "03"
+                    }
+                },
+                {
+                    "catalogId": "ref_grass_02",
+                    "kind": "tiles",
+                    "roleId": "floor",
+                    "autoTile": {
+                        "kind": "variation",
+                        "family": "grass",
+                        "slot": "02"
+                    }
+                },
+                {
+                    "catalogId": "ref_grass_01",
+                    "kind": "tiles",
+                    "roleId": "floor",
+                    "autoTile": {
+                        "kind": "variation",
+                        "family": "grass",
+                        "slot": "01"
+                    }
+                },
+                {
+                    "catalogId": "ref_grass_06",
+                    "kind": "tiles",
+                    "roleId": "floor",
+                    "autoTile": {
+                        "kind": "variation",
+                        "family": "grass",
+                        "slot": "06"
+                    }
+                },
+                {
+                    "catalogId": "ref_lava_fill",
+                    "kind": "tiles",
+                    "roleId": "water",
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "lava",
+                        "slot": "fill"
+                    }
+                },
+                {
+                    "catalogId": "ref_lava_s",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "lava",
+                        "slot": "s"
+                    }
+                },
+                {
+                    "catalogId": "ref_lava_e",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "lava",
+                        "slot": "e"
+                    }
+                },
+                {
+                    "catalogId": "ref_lava_cse",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "lava",
+                        "slot": "cse"
+                    }
+                },
+                {
+                    "catalogId": "ref_lava_dnw",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "lava",
+                        "slot": "dnw"
+                    }
+                },
+                {
+                    "catalogId": "ref_lava_dne",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "lava",
+                        "slot": "dne"
+                    }
+                },
+                {
+                    "catalogId": "ref_lava_dsw",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "lava",
+                        "slot": "dsw"
+                    }
+                },
+                {
+                    "catalogId": "ref_lava_dse",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "lava",
+                        "slot": "dse"
+                    }
+                },
+                {
+                    "catalogId": "ref_lava_w",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "lava",
+                        "slot": "w"
+                    }
+                },
+                {
+                    "catalogId": "ref_lava_csw",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "lava",
+                        "slot": "csw"
+                    }
+                },
+                {
+                    "catalogId": "ref_lava_n",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "lava",
+                        "slot": "n"
+                    }
+                },
+                {
+                    "catalogId": "ref_lava_cnw",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "lava",
+                        "slot": "cnw"
+                    }
+                },
+                {
+                    "catalogId": "ref_lava_cne",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "lava",
+                        "slot": "cne"
+                    }
                 }
             ],
             "subLayers": [

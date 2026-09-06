@@ -37,6 +37,7 @@ const {
 const { frictionToRgba } = require('./stitch.js');
 const { normalizeStampKind } = require('../../../settings.js');
 const { normalizeWorldList } = require('./world_pins.js');
+const { enrichPaletteAnim } = require('../tile_anim.js');
 
 /** Fixed sub-layers: zOrder low under high; UI lists vertical first / ground last. */
 const SUB_LAYER_DEFS = Object.freeze([
@@ -280,6 +281,27 @@ function normalizePaletteEntry(raw) {
         out.wallAlign = String(raw.wallAlign).trim().toLowerCase().replace(/[\s-]+/g, '_');
     }
     if (raw.wangLocked) out.wangLocked = true;
+    if (raw.borderLocked) out.borderLocked = true;
+    if (raw.autoTile && typeof raw.autoTile === 'object' && !Array.isArray(raw.autoTile)) {
+        const kind = String(raw.autoTile.kind || '').trim();
+        const family = String(raw.autoTile.family || '')
+            .trim()
+            .toLowerCase();
+        const slot = String(raw.autoTile.slot || '')
+            .trim()
+            .toLowerCase();
+        if (kind && family && slot) out.autoTile = { kind, family, slot };
+    }
+    if (raw.anim && typeof raw.anim === 'object' && !Array.isArray(raw.anim)) {
+        const frames = Math.floor(Number(raw.anim.frames));
+        const fps = Number(raw.anim.fps);
+        if (frames > 0) {
+            out.anim = {
+                frames,
+                fps: fps > 0 ? fps : 4
+            };
+        }
+    }
 
     return out;
 }
@@ -985,10 +1007,103 @@ function isAllZero(arr, n) {
 }
 
 /**
+ * Dense palette + remapped sub-layer cells for hybrid write.
+ * Index 0 stays empty. Unused and null slots drop. Does not mutate `floor`.
+ *
+ * @param {object} floor
+ * @param {number} n cell count
+ * @returns {{ palette: (object|null)[], cellsById: Record<string, Uint16Array> }}
+ */
+function compactFloorPaletteForWrite(floor, n) {
+    const srcPal = Array.isArray(floor.palette) ? floor.palette : [null];
+    const palLen = srcPal.length;
+    const used = new Uint8Array(palLen);
+    const subs = Array.isArray(floor.subLayers) ? floor.subLayers : [];
+    const count = n | 0;
+    for (let s = 0; s < subs.length; s++) {
+        const cells = subs[s] && subs[s].cells;
+        if (!cells) continue;
+        const len = Math.min(count, cells.length | 0);
+        for (let i = 0; i < len; i++) {
+            const pi = cells[i] & 0xffff;
+            if (pi > 0 && pi < palLen && srcPal[pi]) used[pi] = 1;
+        }
+    }
+    const remap = new Uint16Array(palLen);
+    /** @type {(object|null)[]} */
+    const dense = [null];
+    for (let i = 1; i < palLen; i++) {
+        if (!used[i]) continue;
+        remap[i] = dense.length;
+        dense.push(srcPal[i]);
+    }
+    /** @type {Record<string, Uint16Array>} */
+    const cellsById = Object.create(null);
+    for (let s = 0; s < subs.length; s++) {
+        const sl = subs[s];
+        if (!sl || sl.id == null) continue;
+        const out = new Uint16Array(count);
+        const cells = sl.cells;
+        if (cells) {
+            const len = Math.min(count, cells.length | 0);
+            for (let i = 0; i < len; i++) {
+                const pi = cells[i] & 0xffff;
+                out[i] = pi < palLen ? remap[pi] : 0;
+            }
+        }
+        cellsById[String(sl.id)] = out;
+    }
+    return { palette: dense, cellsById };
+}
+
+/**
+ * Strip live role objects for hybrid JSON (keep roleId + hop + intern extras).
+ * @param {object|null|undefined} e
+ * @param {number} idx
+ * @returns {object|null}
+ */
+function paletteEntryToJson(e, idx) {
+    if (idx === 0 || !e) return null;
+    /** @type {object} */
+    const pe = {
+        catalogId: e.catalogId,
+        kind: e.kind || 'tiles',
+        roleId: e.roleId || null
+    };
+    if (e.scale != null) pe.scale = e.scale;
+    if (e.anchor != null) pe.anchor = e.anchor;
+    if (e.variant != null) pe.variant = e.variant;
+    if (e.influence) pe.influence = e.influence;
+    if (e.hop) pe.hop = e.hop;
+    if (e.wangFamily) pe.wangFamily = e.wangFamily;
+    if (e.wangMask != null) pe.wangMask = e.wangMask;
+    if (e.wangInner) pe.wangInner = e.wangInner;
+    if (e.wallFamily) pe.wallFamily = e.wallFamily;
+    if (e.wallAlign) pe.wallAlign = e.wallAlign;
+    if (e.wangLocked) pe.wangLocked = true;
+    if (e.borderLocked) pe.borderLocked = true;
+    if (e.autoTile && e.autoTile.kind && e.autoTile.family && e.autoTile.slot) {
+        pe.autoTile = {
+            kind: e.autoTile.kind,
+            family: e.autoTile.family,
+            slot: e.autoTile.slot
+        };
+    }
+    if (e.anim && e.anim.frames > 0) {
+        pe.anim = {
+            frames: e.anim.frames | 0,
+            fps: e.anim.fps > 0 ? e.anim.fps : 4
+        };
+    }
+    return pe;
+}
+
+/**
  * Build JSON-serializable meta + gzip binary blob map for a hybrid pack.
  * Blob keys are relative paths under the pack directory (`*.u8.gz` / `*.u16.gz`).
  * Empty sub-layers (all palette 0) and empty fields are omitted from blobs.
  * Blob values are always gzip-compressed (no raw on-disk / transport format).
+ * Palette on disk is dense (used slots only); live intern is not mutated.
  *
  * @param {object} pack normalized hybrid pack
  * @returns {{ meta: object, blobs: Record<string, Buffer|Uint8Array> }}
@@ -1009,18 +1124,20 @@ function serializeHybridPack(pack) {
         const zKey = String(z);
         const n = floor.cols * floor.rows;
         const prefix = `floors/${zKey}`;
+        const compacted = compactFloorPaletteForWrite(floor, n);
 
         /** @type {object[]} */
         const subMeta = [];
         for (let i = 0; i < floor.subLayers.length; i++) {
             const sl = floor.subLayers[i];
-            if (isAllZero(sl.cells, n)) {
+            const cells = compacted.cellsById[sl.id] || new Uint16Array(n);
+            if (isAllZero(cells, n)) {
                 // No stamps on this sub-layer — keep meta row, no blob (deserialize fills zeros).
                 subMeta.push({ id: sl.id, zOrder: sl.zOrder, blob: null, empty: true });
                 continue;
             }
             const rel = hybridBlobRelU16(prefix, `sub_${sl.id}`);
-            blobs[rel] = gzipBytes(typedToBuffer(sl.cells));
+            blobs[rel] = gzipBytes(typedToBuffer(cells));
             subMeta.push({ id: sl.id, zOrder: sl.zOrder, blob: rel });
         }
 
@@ -1062,28 +1179,7 @@ function serializeHybridPack(pack) {
             }
         }
 
-        // Palette: strip live role objects for JSON (keep roleId + hop)
-        const paletteJson = floor.palette.map((e, idx) => {
-            if (idx === 0 || !e) return null;
-            /** @type {object} */
-            const pe = {
-                catalogId: e.catalogId,
-                kind: e.kind || 'tiles',
-                roleId: e.roleId || null
-            };
-            if (e.scale != null) pe.scale = e.scale;
-            if (e.anchor != null) pe.anchor = e.anchor;
-            if (e.variant != null) pe.variant = e.variant;
-            if (e.influence) pe.influence = e.influence;
-            if (e.hop) pe.hop = e.hop;
-            if (e.wangFamily) pe.wangFamily = e.wangFamily;
-            if (e.wangMask != null) pe.wangMask = e.wangMask;
-            if (e.wangInner) pe.wangInner = e.wangInner;
-            if (e.wallFamily) pe.wallFamily = e.wallFamily;
-            if (e.wallAlign) pe.wallAlign = e.wallAlign;
-            if (e.wangLocked) pe.wangLocked = true;
-            return pe;
-        });
+        const paletteJson = compacted.palette.map(paletteEntryToJson);
 
         floorsMeta.push({
             z: floor.z,
@@ -1651,6 +1747,7 @@ function collectFloorVerticals(floor, roleCatalog) {
  * @param {object|string} packOrDir pack object or directory path
  * @param {{
  *   roleCatalog?: Map|object|null,
+ *   tileAnimIndex?: object|null,
  *   forceBake?: boolean,
  *   zFilter?: Array<string|number>|null
  * }} [opts]
@@ -1672,6 +1769,9 @@ function loadHybridOntoTileMap(map, packOrDir, opts) {
     if (o.roleCatalog && typeof map.setTileRoleCatalog === 'function') {
         map.setTileRoleCatalog(o.roleCatalog);
     }
+    if (o.tileAnimIndex && typeof map.setTileAnimIndex === 'function') {
+        map.setTileAnimIndex(o.tileAnimIndex);
+    }
 
     const zKeys = Object.keys(pack.floors);
     for (let i = 0; i < zKeys.length; i++) {
@@ -1686,6 +1786,9 @@ function loadHybridOntoTileMap(map, packOrDir, opts) {
             fields: floor.fields || null,
             registerVertical: true
         });
+        if (o.tileAnimIndex && floor && Array.isArray(floor.palette)) {
+            enrichPaletteAnim(floor.palette, o.tileAnimIndex);
+        }
         // Phase 6: keep authoring stacks for terrain cache + tall-prop y-sort
         if (typeof map.setAuthoringFloor === 'function') {
             map.setAuthoringFloor(floor.z, floor);

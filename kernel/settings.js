@@ -20,6 +20,7 @@ const ROOT =
  *   HEADLESS: boolean,
  *   showFPS: boolean,
  *   showTime: boolean,
+ *   showDebugOverlay: boolean,
  *   screenColor: string,
  *   tileWidth: number,
  *   tileHeight: number,
@@ -115,6 +116,11 @@ const Settings = {
     HEADLESS: false,
     showFPS: true,
     showTime: true,
+    /**
+     * Canvas HUD debug text overlay in Simulator.onGUI (seed, tick, FPS, kills, damage).
+     * Off by default. Toggled via Engine Tweakings popup.
+     */
+    showDebugOverlay: false,
     screenColor: '#12121c',
     /** Pixel size when drawing tiles (Stage 1+ map view) */
     tileWidth: 32,

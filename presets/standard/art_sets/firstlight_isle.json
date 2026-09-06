@@ -1,7 +1,7 @@
 {
     "id": "firstlight_isle",
     "label": "Firstlight Isle",
-    "notes": "Outpost core stage 1. Opaque tiles bind (weight > 0). Overlay / stone_wall / scenery / furniture are editor stamps (weight 0). Plaza furniture is new; hunt tile variant is icon at 32px.",
+    "notes": "Outpost core. Opaque tiles bind (weight > 0). Overlay / stone_wall / scenery / furniture / ref_* families are editor stamps (weight 0). One row per autotile family. fills + scenery_extra hold extra family / none stamps (1\u20134 per key).",
     "genre": "rpg_fantasy",
     "kind": "tiles",
     "roles": {
@@ -23,6 +23,12 @@
                 "id": "damp_wood_floor",
                 "weight": 3,
                 "roleId": "floor"
+            },
+            {
+                "id": "ref_grass_fill",
+                "weight": 0,
+                "roleId": "floor",
+                "kind": "tiles"
             }
         ],
         "path": [
@@ -37,6 +43,12 @@
                 "roleId": "path",
                 "kind": "overlays",
                 "wangFamily": "dirt"
+            },
+            {
+                "id": "ref_square_c",
+                "weight": 0,
+                "roleId": "path",
+                "kind": "overlays"
             }
         ],
         "wall": [
@@ -52,6 +64,12 @@
                 "kind": "objects",
                 "wallFamily": "stone_wall",
                 "wallAlign": "pole"
+            },
+            {
+                "id": "ref_village_front_mid",
+                "weight": 0,
+                "roleId": "wall",
+                "kind": "objects"
             }
         ],
         "water": [
@@ -71,6 +89,30 @@
                 "roleId": "water",
                 "kind": "overlays",
                 "wangFamily": "water"
+            },
+            {
+                "id": "ref_water_fill",
+                "weight": 0,
+                "roleId": "water",
+                "kind": "tiles"
+            },
+            {
+                "id": "ref_lava_fill",
+                "weight": 0,
+                "roleId": "water",
+                "kind": "tiles"
+            },
+            {
+                "id": "ref_green_lake_fill",
+                "weight": 0,
+                "roleId": "water",
+                "kind": "tiles"
+            },
+            {
+                "id": "ref_water_pool_fill",
+                "weight": 0,
+                "roleId": "water",
+                "kind": "tiles"
             }
         ],
         "stairs_up": [
@@ -137,6 +179,66 @@
                 "weight": 0,
                 "roleId": "furniture_blocking",
                 "kind": "objects"
+            }
+        ],
+        "fills": [
+            {
+                "id": "ref_sand_fill",
+                "weight": 0,
+                "roleId": "floor",
+                "kind": "tiles"
+            },
+            {
+                "id": "ref_dirt_fill",
+                "weight": 0,
+                "roleId": "floor",
+                "kind": "tiles"
+            }
+        ],
+        "scenery_extra": [
+            {
+                "id": "ref_fence_v",
+                "weight": 0,
+                "roleId": "scenery_cover",
+                "kind": "objects",
+                "autoTile": {
+                    "kind": "none",
+                    "family": "fence",
+                    "slot": "v"
+                }
+            },
+            {
+                "id": "ref_fence_h",
+                "weight": 0,
+                "roleId": "scenery_cover",
+                "kind": "objects",
+                "autoTile": {
+                    "kind": "none",
+                    "family": "fence",
+                    "slot": "h"
+                }
+            },
+            {
+                "id": "ref_lake_single",
+                "weight": 0,
+                "roleId": "scenery_cover",
+                "kind": "objects",
+                "autoTile": {
+                    "kind": "none",
+                    "family": "lake",
+                    "slot": "single"
+                }
+            },
+            {
+                "id": "ref_mountain_01",
+                "weight": 0,
+                "roleId": "scenery_blocking",
+                "kind": "objects",
+                "autoTile": {
+                    "kind": "none",
+                    "family": "mountain",
+                    "slot": "01"
+                }
             }
         ]
     },

@@ -255,6 +255,10 @@ html.cursor-targeting * {
   aspect-ratio: #{$game-canvas-w} / #{$game-canvas-h};
   image-rendering: pixelated;
   background: #000;
+
+  &:focus-visible {
+    outline: none;
+  }
 }
 
 // Below-canvas: live hunt / scenario telemetry (full width of main column)
@@ -661,7 +665,6 @@ html.cursor-targeting * {
 .skills-panel-level-value {
   font-size: 0.78rem;
   font-family: monospace;
-  color: #00ffcc;
   font-weight: 700;
 }
 
@@ -2553,6 +2556,17 @@ body.item-details-open {
     border: 1px solid $border-color;
     background: $bg-darkest;
   }
+}
+
+.client-ui-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--bg-darkest);
+  z-index: 9999;
+  overflow-y: auto;
 }
 
 

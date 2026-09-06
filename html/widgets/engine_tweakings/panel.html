@@ -267,20 +267,31 @@
         </p>
     </div>
 
-    <!-- AI Debug Overlays — canvas only; off by default / HEADLESS -->
-    <div class="mt-2 pt-2 border-top border-secondary border-opacity-25">
+    <!-- Debug Overlays — canvas only; off by default / HEADLESS -->
+    <div class="mt-2 pt-2 border-top border-secondary border-opacity-25" id="debugOverlaysSection">
         <h6 class="text-info border-bottom border-secondary border-opacity-50 pb-2 mb-3">
-            AI Debug Overlays
+            Debug Overlays
             <span class="badge bg-secondary font-monospace ms-1" style="font-size: 0.65rem;">DEV</span>
         </h6>
-        <p class="small text-muted mb-2">
-            Canvas overlays for hunt AI tuning (disabled in headless). Master switch required.
-        </p>
         <div class="form-check form-switch mb-3">
-            <input class="form-check-input" type="checkbox" id="aiDebugEnabled">
-            <label class="form-check-label text-light small fw-semibold" for="aiDebugEnabled">
-                Enable AI debug drawing
+            <input class="form-check-input" type="checkbox" id="showDebugOverlay">
+            <label class="form-check-label text-light small fw-semibold" for="showDebugOverlay">
+                Debug HUD overlay (kills, fps, tick)
             </label>
+            <p class="small text-muted mb-0 mt-1" style="font-size: 0.7rem; line-height: 1.35;">
+                Shows hunt state, seed, tick, FPS, and kill telemetry in the top-left of the canvas. Off by default.
+            </p>
+        </div>
+        <div class="border-top border-secondary border-opacity-25 pt-2 mb-2">
+            <p class="small text-muted mb-2">
+                Canvas overlays for hunt AI tuning (disabled in headless). Master switch required.
+            </p>
+            <div class="form-check form-switch mb-3">
+                <input class="form-check-input" type="checkbox" id="aiDebugEnabled">
+                <label class="form-check-label text-light small fw-semibold" for="aiDebugEnabled">
+                    Enable AI debug drawing
+                </label>
+            </div>
         </div>
         <div class="row g-2 small" id="aiDebugFlagRow">
             <div class="col-6">

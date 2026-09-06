@@ -78,7 +78,9 @@ const EXTRA_ROLE_KEYS = [
     'hole',
     'grate',
     'rope_spot',
-    'shovel_spot'
+    'shovel_spot',
+    'fills',
+    'scenery_extra'
 ];
 
 /** Default roleId when pack role key matches a tile role id. */
@@ -434,10 +436,11 @@ function normalizeArtSetPack(raw) {
     if (scenery.length) roles.scenery = scenery;
     if (furniture.length) roles.furniture = furniture;
 
-    for (let i = 0; i < EXTRA_ROLE_KEYS.length; i++) {
-        const key = EXTRA_ROLE_KEYS[i];
+    const extraKeys = Object.keys(rolesRaw);
+    for (let i = 0; i < extraKeys.length; i++) {
+        const key = extraKeys[i];
         if (roles[key]) continue;
-        if (!rolesRaw[key]) continue;
+        if (!Array.isArray(rolesRaw[key])) continue;
         const list = normalizeRoleList(rolesRaw[key], key, packKind);
         if (list.length) roles[key] = list;
     }
@@ -1350,6 +1353,7 @@ module.exports = {
     MAX_ART_SET_VOLUME_NOTE,
     MAX_ART_SET_PER_ROLE,
     TERRAIN_BIND_ROLES,
+    EXTRA_ROLE_KEYS,
     artSeed,
     normalizeRoleEntry,
     normalizeArtSetPack,

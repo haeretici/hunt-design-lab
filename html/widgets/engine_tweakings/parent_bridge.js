@@ -15,6 +15,7 @@ const {
 } = require('./protocol.js');
 const {
     persistDebugAI,
+    persistDebugOverlay,
     persistCamera,
     persistProgression,
     applyTileScale,
@@ -122,6 +123,10 @@ function mergeTweaksPatch(state, patch) {
             : DEFAULT_LAYOUT_COUNTS;
     const next = {
         debugAI: Object.assign({}, DEBUG_AI_SHAPE, baseDebug),
+        showDebugOverlay:
+            state && typeof state.showDebugOverlay === 'boolean'
+                ? state.showDebugOverlay
+                : false,
         TIME_SPEED:
             state && typeof state.TIME_SPEED === 'number'
                 ? state.TIME_SPEED
@@ -163,6 +168,15 @@ function mergeTweaksPatch(state, patch) {
                 next.debugAI[k] = patch.debugAI[k];
             }
         }
+    }
+    const patchDebugOverlay =
+        typeof patch.showDebugOverlay === 'boolean'
+            ? patch.showDebugOverlay
+            : typeof patch.debugOverlay === 'boolean'
+              ? patch.debugOverlay
+              : undefined;
+    if (typeof patchDebugOverlay === 'boolean') {
+        next.showDebugOverlay = patchDebugOverlay;
     }
     if (typeof patch.TIME_SPEED === 'number' && Number.isFinite(patch.TIME_SPEED)) {
         next.TIME_SPEED = Math.max(0.25, Math.min(20, patch.TIME_SPEED));
@@ -342,6 +356,7 @@ function createEngineTweakingsParentBridge(ctx) {
         const prog = snapshotProgressionPrefs(Settings);
         return {
             debugAI: snapshotDebugAI(),
+            showDebugOverlay: !!Settings.showDebugOverlay,
             TIME_SPEED:
                 typeof Settings.TIME_SPEED === 'number' ? Settings.TIME_SPEED : 1,
             camera: { scale, spriteJumpHeight },
@@ -396,6 +411,17 @@ function createEngineTweakingsParentBridge(ctx) {
         if (patch.debugAI && typeof patch.debugAI === 'object') {
             applyDebugAIPatch(patch.debugAI);
             persistDebugAI(Settings);
+        }
+
+        const patchDebugOverlay =
+            typeof patch.showDebugOverlay === 'boolean'
+                ? patch.showDebugOverlay
+                : typeof patch.debugOverlay === 'boolean'
+                  ? patch.debugOverlay
+                  : undefined;
+        if (typeof patchDebugOverlay === 'boolean') {
+            Settings.showDebugOverlay = patchDebugOverlay;
+            persistDebugOverlay(Settings);
         }
 
         if (

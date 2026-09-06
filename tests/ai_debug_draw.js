@@ -27,6 +27,12 @@ const {
     ENGINE_TWEAKS_WINDOW_NAME
 } = require('../html/widgets/engine_tweakings/parent_bridge.js');
 const {
+    loadPersistedDebugOverlay,
+    persistDebugOverlay,
+    STORAGE_KEY_DEBUG_OVERLAY
+} = require('../html/widgets/engine_tweakings/bind.js');
+const { Simulator } = require('../kernel/providers/simulator/simulator.js');
+const {
     ENGINE_TWEAKS_CHANNEL: PROTO_CHANNEL
 } = require('../html/widgets/engine_tweakings/protocol.js');
 
@@ -659,6 +665,101 @@ test('createEngineTweakingsParentBridge applyPatch layoutCounts → setLayoutCou
     const snap = bridge.snapshotState();
     assert.strictEqual(snap.layoutCounts.bottom, 2);
     assert.strictEqual(snap.layoutCounts.right, 3);
+    bridge.dispose();
+});
+
+test('showDebugOverlay controls Simulator HUD text overlay', () => {
+    const prevHeadless = Settings.HEADLESS;
+    const prevOverlay = Settings.showDebugOverlay;
+    Settings.HEADLESS = false;
+    try {
+        const sim = new Simulator({ seed: 42, combatAi: true });
+        const texts = [];
+        const g = {
+            fillStyle: '',
+            font: '',
+            fillText(text) {
+                texts.push(text);
+            }
+        };
+
+        // When showDebugOverlay is false (default)
+        Settings.showDebugOverlay = false;
+        sim.onGUI(g);
+        assert.strictEqual(texts.length, 0, 'no debug text when showDebugOverlay is false');
+
+        // When showDebugOverlay is true
+        Settings.showDebugOverlay = true;
+        sim.onGUI(g);
+        assert.ok(texts.length >= 2, 'debug text drawn when showDebugOverlay is true');
+        assert.ok(texts.some(t => t.includes('seed 42')), 'contains seed');
+        assert.ok(texts.some(t => t.includes('kills')), 'contains kills');
+    } finally {
+        Settings.HEADLESS = prevHeadless;
+        Settings.showDebugOverlay = prevOverlay;
+    }
+});
+
+test('mergeTweaksPatch showDebugOverlay', () => {
+    const initial = mergeTweaksPatch({}, {});
+    assert.strictEqual(initial.showDebugOverlay, false, 'default is false');
+
+    const patchedTrue = mergeTweaksPatch({}, { showDebugOverlay: true });
+    assert.strictEqual(patchedTrue.showDebugOverlay, true);
+
+    const patchedFalse = mergeTweaksPatch({ showDebugOverlay: true }, { showDebugOverlay: false });
+    assert.strictEqual(patchedFalse.showDebugOverlay, false);
+});
+
+test('loadPersistedDebugOverlay and persistDebugOverlay', () => {
+    const store = {};
+    const mockLocalStorage = {
+        getItem(k) { return store[k] !== undefined ? store[k] : null; },
+        setItem(k, v) { store[k] = String(v); }
+    };
+    const prevStorage = global.localStorage;
+    global.localStorage = mockLocalStorage;
+    try {
+        const fakeSettings = { showDebugOverlay: false };
+        loadPersistedDebugOverlay(fakeSettings);
+        assert.strictEqual(fakeSettings.showDebugOverlay, false, 'default false when unset');
+
+        fakeSettings.showDebugOverlay = true;
+        persistDebugOverlay(fakeSettings);
+        assert.strictEqual(store[STORAGE_KEY_DEBUG_OVERLAY], 'true');
+
+        fakeSettings.showDebugOverlay = false;
+        loadPersistedDebugOverlay(fakeSettings);
+        assert.strictEqual(fakeSettings.showDebugOverlay, true, 'restored true from localStorage');
+
+        fakeSettings.showDebugOverlay = false;
+        persistDebugOverlay(fakeSettings);
+        assert.strictEqual(store[STORAGE_KEY_DEBUG_OVERLAY], 'false');
+    } finally {
+        global.localStorage = prevStorage;
+    }
+});
+
+test('createEngineTweakingsParentBridge snapshot and applyPatch showDebugOverlay', () => {
+    const fakeSettings = {
+        tileWidth: 32,
+        TIME_SPEED: 1,
+        showDebugOverlay: false,
+        features: {},
+        expRates: {},
+        skillRates: {}
+    };
+    const bridge = createEngineTweakingsParentBridge({
+        Settings: fakeSettings
+    });
+    const snap1 = bridge.snapshotState();
+    assert.strictEqual(snap1.showDebugOverlay, false);
+
+    bridge.applyPatch({ showDebugOverlay: true });
+    assert.strictEqual(fakeSettings.showDebugOverlay, true);
+    const snap2 = bridge.snapshotState();
+    assert.strictEqual(snap2.showDebugOverlay, true);
+
     bridge.dispose();
 });
 

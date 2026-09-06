@@ -341,6 +341,45 @@ function testArtSetVolumeSlim() {
     clearPresetCache();
 }
 
+function testFirstlightIsleArtSet() {
+    setActiveMode('standard');
+    clearPresetCache();
+    const raw = loadArtSet('firstlight_isle');
+    const pack = normalizeArtSetPack(raw);
+    assert.ok(pack, 'firstlight_isle normalizes');
+    const vol = evaluateArtSetVolume(pack, { maxPerRole: 10 });
+    assert.ok(vol.withinRoleMax, 'firstlight_isle role over max ' + JSON.stringify(vol.roleCounts));
+    const ids = listArtSetTileIds(pack);
+    const need = [
+        'ref_grass_fill',
+        'ref_sand_fill',
+        'ref_dirt_fill',
+        'ref_water_fill',
+        'ref_village_front_mid',
+        'ref_square_c',
+        'ref_fence_v',
+        'ref_mountain_01'
+    ];
+    for (let i = 0; i < need.length; i++) {
+        assert.ok(ids.indexOf(need[i]) >= 0, 'firstlight_isle lists ' + need[i]);
+    }
+    assert.ok(pack.roles.fills && pack.roles.fills.length >= 2, 'fills extra role kept');
+    assert.ok(
+        pack.roles.scenery_extra && pack.roles.scenery_extra.length >= 1,
+        'scenery_extra extra role kept'
+    );
+    const bound = bindArtFromRoles({
+        friction: new Uint8Array([100, 255, 100, 255]),
+        cols: 2,
+        rows: 2,
+        artSet: pack,
+        seed: 1
+    });
+    assert.ok(bound && bound.ok);
+    assert.ok(bound.palette.indexOf('ref_grass_fill') < 0, 'weight-0 ref fills are not bind tiles');
+    log('firstlight_isle art set ok', vol.unique, vol.roleCounts);
+}
+
 function testVolumeMacroHunt(mode) {
     setActiveMode(mode);
     clearPresetCache();
@@ -588,6 +627,7 @@ function main() {
     testBindFrictionDeterministic();
     testLoadPackDualMode();
     testArtSetVolumeSlim();
+    testFirstlightIsleArtSet();
     testResolveArtSetId();
     for (const mode of installedModes()) {
         testExpandHuntBindsArt(mode);

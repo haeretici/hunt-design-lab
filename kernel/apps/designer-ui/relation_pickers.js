@@ -10,7 +10,8 @@
  *   spell_shape      — object (spell.shape) → shape catalog with matrix preview
  *
  * Protocol: postMessage channel hunt-design-lab-designer-picker
- * (see html/widgets/designer_pickers/*).
+ * (see html/widgets/designer_pickers/*). Popup host is parent_host.js
+ * (shared with the wiki map editor — do not fork a second picker page).
  *
  * To add a new asset-id property later:
  *   1. Schema: `"format": "catalog_asset_id"` (+ optional `options.assetKind`)
@@ -23,7 +24,6 @@
 'use strict';
 
 const { ASSET_KINDS } = require('../../settings.js');
-const { appUrl } = require('../../core/lib/app_paths.js');
 const { resolveSpriteUrl } = require('../../core/lib/creature_sprites.js');
 const {
     inferRoleKeyFromPath,
@@ -38,25 +38,18 @@ const {
     formatShapeSummary
 } = require('../../core/lib/shapes.js');
 const {
-    DESIGNER_PICKER_CHANNEL,
-    TILE_PICKER_WINDOW,
-    EQUIPMENT_PICKER_WINDOW,
     CREATURE_PICKER_WINDOW,
     SHAPE_PICKER_WINDOW,
-    TILE_PICKER_URL_PATH,
-    EQUIPMENT_PICKER_URL_PATH,
     CREATURE_PICKER_URL_PATH,
     SHAPE_PICKER_URL_PATH,
-    MSG,
-    PARENT_MSG,
     popupFeatures
 } = require('../../../html/widgets/designer_pickers/protocol.js');
-
-/** @type {Map<string, { kind: string, apply: (value: unknown) => void, win?: Window|null, initPayload?: Record<string, unknown> }>} */
-const pending = new Map();
-
-let requestSeq = 0;
-let listenerBound = false;
+const {
+    openPickerSession,
+    openCatalogAssetPicker: hostOpenCatalogAssetPicker,
+    openEquipmentPicker: hostOpenEquipmentPicker,
+    ensureListener
+} = require('../../../html/widgets/designer_pickers/parent_host.js');
 
 /**
  * Designer shell context (mode genre, mode id, etc.). Updated from app.js on mode change.
@@ -85,14 +78,6 @@ function setRelationPickerContext(partial) {
  */
 function getRelationPickerContext() {
     return Object.assign({}, pickerContext);
-}
-
-/**
- * @returns {string}
- */
-function nextRequestId() {
-    requestSeq += 1;
-    return `du-pick-${Date.now()}-${requestSeq}`;
 }
 
 /**
@@ -376,175 +361,6 @@ function catalogAssetConfig(schema) {
 }
 
 /**
- * Open a named popup; reuses the window if still open.
- * @param {string} url
- * @param {string} name
- * @param {string} features
- * @returns {Window|null}
- */
-function openPickerWindow(url, name, features) {
-    let win = null;
-    try {
-        win = window.open(url, name, features);
-        if (win && !win.closed) {
-            try {
-                win.location.href = url;
-            } catch (_) {
-                /* first open / still loading */
-            }
-        }
-    } catch (err) {
-        console.warn('relation picker popup failed', err);
-        return null;
-    }
-    if (!win) {
-        console.warn('relation picker blocked — allow popups for this site');
-        return null;
-    }
-    try {
-        win.focus();
-    } catch (_) {
-        /* ignore */
-    }
-    return win;
-}
-
-/**
- * @param {MessageEvent} ev
- */
-function onMessage(ev) {
-    if (ev.origin !== window.location.origin) return;
-    const data = ev.data;
-    if (!data || data.channel !== DESIGNER_PICKER_CHANNEL) return;
-
-    const kind = data.kind;
-    const type = data.type;
-    const requestId = data.requestId != null ? String(data.requestId) : '';
-
-    // ready: parent must send init (child may not know requestId yet)
-    if (type === MSG.READY) {
-        // Find the pending session for this kind whose window is the source
-        for (const [rid, session] of pending.entries()) {
-            if (session.kind !== kind) continue;
-            if (session.win && !session.win.closed && ev.source === session.win) {
-                try {
-                    session.win.postMessage(
-                        {
-                            channel: DESIGNER_PICKER_CHANNEL,
-                            type: PARENT_MSG.INIT,
-                            kind,
-                            requestId: rid,
-                            ...session.initPayload
-                        },
-                        window.location.origin
-                    );
-                } catch (err) {
-                    console.warn('picker init postMessage failed', err);
-                }
-                return;
-            }
-        }
-        // Fallback: most recent pending of this kind
-        let last = null;
-        for (const [rid, session] of pending.entries()) {
-            if (session.kind === kind) last = { rid, session };
-        }
-        if (last && last.session.win && !last.session.win.closed) {
-            try {
-                last.session.win.postMessage(
-                    {
-                        channel: DESIGNER_PICKER_CHANNEL,
-                        type: PARENT_MSG.INIT,
-                        kind,
-                        requestId: last.rid,
-                        ...last.session.initPayload
-                    },
-                    window.location.origin
-                );
-            } catch (err) {
-                console.warn('picker init postMessage failed', err);
-            }
-        }
-        return;
-    }
-
-    if (type === MSG.SELECT) {
-        const session = requestId ? pending.get(requestId) : null;
-        if (session && typeof session.apply === 'function') {
-            session.apply(data.value);
-        } else if (!requestId) {
-            // Best-effort: apply to last matching kind
-            for (const [, s] of [...pending.entries()].reverse()) {
-                if (s.kind === kind && typeof s.apply === 'function') {
-                    s.apply(data.value);
-                    break;
-                }
-            }
-        }
-        if (requestId) pending.delete(requestId);
-        return;
-    }
-
-    if (type === MSG.CANCEL || type === MSG.CLOSING) {
-        if (requestId) pending.delete(requestId);
-    }
-}
-
-function ensureListener() {
-    if (listenerBound || typeof window === 'undefined') return;
-    window.addEventListener('message', onMessage);
-    listenerBound = true;
-}
-
-/**
- * @param {object} opts
- * @param {string} opts.kind 'tile' | 'shape' | catalog picker kind key
- * @param {string} opts.urlPath
- * @param {string} opts.windowName
- * @param {string} opts.features
- * @param {Record<string, unknown>} opts.initPayload
- * @param {(value: unknown) => void} opts.apply
- * @param {Record<string, string>} [opts.query]
- */
-function openPickerSession(opts) {
-    ensureListener();
-    const requestId = nextRequestId();
-    const params = new URLSearchParams({ requestId, ...(opts.query || {}) });
-    const url = appUrl(opts.urlPath) + '?' + params.toString();
-    const win = openPickerWindow(url, opts.windowName, opts.features);
-    if (!win) return null;
-
-    pending.set(requestId, {
-        kind: opts.kind,
-        apply: opts.apply,
-        win,
-        initPayload: opts.initPayload
-    });
-
-    // If child already loaded and posted ready before we registered, re-push shortly.
-    setTimeout(() => {
-        const session = pending.get(requestId);
-        if (!session || !session.win || session.win.closed) return;
-        try {
-            session.win.postMessage(
-                {
-                    channel: DESIGNER_PICKER_CHANNEL,
-                    type: PARENT_MSG.INIT,
-                    kind: opts.kind,
-                    requestId,
-                    ...session.initPayload
-                },
-                window.location.origin
-            );
-        } catch (_) {
-            /* ignore */
-        }
-    }, 400);
-
-    return requestId;
-}
-
-/**
  * Open genre catalog picker (tiles / creatures / equipment / objects).
  * Same popup shell as the former tile-only picker; `assetKind` selects catalog.
  * @param {{
@@ -562,60 +378,15 @@ function openPickerSession(opts) {
  * }} opts
  */
 function openCatalogAssetPicker(opts) {
-    const genre = opts.genre || 'rpg_fantasy';
-    const assetKind = opts.assetKind || 'tiles';
-    const currentId = opts.currentId || '';
-    const category = opts.category || '';
-    const slotFilter = opts.slotFilter || '';
-    const previewVariant = opts.previewVariant || 'alpha';
-    const categories = Array.isArray(opts.categories)
-        ? opts.categories.map((c) => String(c)).filter(Boolean)
-        : catalogCategoriesForKind(assetKind);
-    const showCategoryFilter =
-        opts.showCategoryFilter != null
-            ? !!opts.showCategoryFilter
-            : assetKind === 'tiles' ||
-              assetKind === 'objects' ||
-              assetKind === 'overlays';
-    // Window name is shared so one catalog browser is reused; navigation reloads params.
-    const windowName =
-        assetKind === 'tiles' ? TILE_PICKER_WINDOW : `du_catalog_${assetKind}`;
-    return openPickerSession({
-        kind: 'catalog',
-        urlPath: TILE_PICKER_URL_PATH,
-        windowName,
-        features: popupFeatures(960, 720),
-        query: {
-            genre,
-            kind: assetKind,
-            id: currentId,
-            category,
-            categories: categories.join(','),
-            slotFilter,
-            previewVariant,
-            showCategoryFilter: showCategoryFilter ? '1' : '0',
-            fieldPath: opts.fieldPath || '',
-            title: opts.title || ''
-        },
-        initPayload: {
-            genre,
-            assetKind,
-            currentId,
-            category,
-            categories,
-            slotFilter,
-            previewVariant,
-            showCategoryFilter,
-            fieldPath: opts.fieldPath || '',
-            title: opts.title || ''
-        },
-        apply: (value) => {
-            if (!value || typeof value !== 'object') return;
-            const id = /** @type {{id?: unknown}} */ (value).id;
-            if (id == null || String(id) === '') return;
-            opts.onSelect(String(id), /** @type {Record<string, unknown>} */ (value));
-        }
-    });
+    const o = opts || {};
+    return hostOpenCatalogAssetPicker(
+        Object.assign({}, o, {
+            genre: o.genre || pickerContext.modeGenre || 'rpg_fantasy',
+            categories: Array.isArray(o.categories)
+                ? o.categories
+                : catalogCategoriesForKind(o.assetKind || 'tiles')
+        })
+    );
 }
 
 /**
@@ -632,40 +403,13 @@ function openCatalogAssetPicker(opts) {
  * }} opts
  */
 function openEquipmentPicker(opts) {
-    const mode = opts.mode || pickerContext.modeId || 'standard';
-    const genre = opts.genre || pickerContext.modeGenre || 'rpg_fantasy';
-    const currentId = opts.currentId || '';
-    const slotFilter = opts.slotFilter || '';
-    return openPickerSession({
-        kind: 'equipment',
-        urlPath: EQUIPMENT_PICKER_URL_PATH,
-        windowName: EQUIPMENT_PICKER_WINDOW,
-        features: popupFeatures(980, 720),
-        query: {
-            mode,
-            genre,
-            id: currentId,
-            slotFilter,
-            fieldPath: opts.fieldPath || '',
-            title: opts.title || '',
-            uiMode: 'select'
-        },
-        initPayload: {
-            mode,
-            genre,
-            currentId,
-            slotFilter,
-            fieldPath: opts.fieldPath || '',
-            title: opts.title || '',
-            uiMode: 'select'
-        },
-        apply: (value) => {
-            if (!value || typeof value !== 'object') return;
-            const id = /** @type {{id?: unknown}} */ (value).id;
-            if (id == null || String(id) === '') return;
-            opts.onSelect(String(id), /** @type {Record<string, unknown>} */ (value));
-        }
-    });
+    const o = opts || {};
+    return hostOpenEquipmentPicker(
+        Object.assign({}, o, {
+            mode: o.mode || pickerContext.modeId || 'standard',
+            genre: o.genre || pickerContext.modeGenre || 'rpg_fantasy'
+        })
+    );
 }
 
 /**

@@ -2,7 +2,7 @@
     "version": 1,
     "genre": "rpg_fantasy",
     "kind": "objects",
-    "updatedAt": "2026-08-29T21:14:40.185Z",
+    "updatedAt": "2026-09-05T23:45:26.219Z",
     "items": [
         {
             "id": "abandoned_castle_wall_piece",
@@ -668,6 +668,967 @@
             ],
             "source": "pipeline",
             "createdAt": "2026-07-25"
+        },
+        {
+            "id": "ref_fence_h",
+            "technical": "Ref Fence H",
+            "alias": "Fence H",
+            "genre": "rpg_fantasy",
+            "kind": "objects",
+            "category": "deco",
+            "opaqueAlpha": false,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/objects/original/Ref_Fence_H.png",
+                "transformed": null
+            },
+            "tags": [
+                "deco",
+                "fence"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "fences_1",
+            "sourceStem": "5490",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "none",
+                "family": "fence",
+                "slot": "h"
+            }
+        },
+        {
+            "id": "ref_fence_h_gate",
+            "technical": "Ref Fence H Gate",
+            "alias": "Fence H Gate",
+            "genre": "rpg_fantasy",
+            "kind": "objects",
+            "category": "deco",
+            "opaqueAlpha": false,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/objects/original/Ref_Fence_H_Gate.png",
+                "transformed": null
+            },
+            "tags": [
+                "deco",
+                "fence"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "fences_1",
+            "sourceStem": "5498",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "none",
+                "family": "fence",
+                "slot": "h_gate"
+            }
+        },
+        {
+            "id": "ref_fence_h_south",
+            "technical": "Ref Fence H South",
+            "alias": "Fence H South",
+            "genre": "rpg_fantasy",
+            "kind": "objects",
+            "category": "deco",
+            "opaqueAlpha": false,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/objects/original/Ref_Fence_H_South.png",
+                "transformed": null
+            },
+            "tags": [
+                "deco",
+                "fence"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "fences_1",
+            "sourceStem": "5497",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "none",
+                "family": "fence",
+                "slot": "h_south"
+            }
+        },
+        {
+            "id": "ref_fence_ne",
+            "technical": "Ref Fence Ne",
+            "alias": "Fence Ne",
+            "genre": "rpg_fantasy",
+            "kind": "objects",
+            "category": "deco",
+            "opaqueAlpha": false,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/objects/original/Ref_Fence_Ne.png",
+                "transformed": null
+            },
+            "tags": [
+                "deco",
+                "fence"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "fences_1",
+            "sourceStem": "5491",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "none",
+                "family": "fence",
+                "slot": "ne"
+            }
+        },
+        {
+            "id": "ref_fence_nw",
+            "technical": "Ref Fence Nw",
+            "alias": "Fence Nw",
+            "genre": "rpg_fantasy",
+            "kind": "objects",
+            "category": "deco",
+            "opaqueAlpha": false,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/objects/original/Ref_Fence_Nw.png",
+                "transformed": null
+            },
+            "tags": [
+                "deco",
+                "fence"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "fences_1",
+            "sourceStem": "5492",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "none",
+                "family": "fence",
+                "slot": "nw"
+            }
+        },
+        {
+            "id": "ref_fence_se",
+            "technical": "Ref Fence Se",
+            "alias": "Fence Se",
+            "genre": "rpg_fantasy",
+            "kind": "objects",
+            "category": "deco",
+            "opaqueAlpha": false,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/objects/original/Ref_Fence_Se.png",
+                "transformed": null
+            },
+            "tags": [
+                "deco",
+                "fence"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "fences_1",
+            "sourceStem": "5494",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "none",
+                "family": "fence",
+                "slot": "se"
+            }
+        },
+        {
+            "id": "ref_fence_sw",
+            "technical": "Ref Fence Sw",
+            "alias": "Fence Sw",
+            "genre": "rpg_fantasy",
+            "kind": "objects",
+            "category": "deco",
+            "opaqueAlpha": false,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/objects/original/Ref_Fence_Sw.png",
+                "transformed": null
+            },
+            "tags": [
+                "deco",
+                "fence"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "fences_1",
+            "sourceStem": "5493",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "none",
+                "family": "fence",
+                "slot": "sw"
+            }
+        },
+        {
+            "id": "ref_fence_v",
+            "technical": "Ref Fence V",
+            "alias": "Fence V",
+            "genre": "rpg_fantasy",
+            "kind": "objects",
+            "category": "deco",
+            "opaqueAlpha": false,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/objects/original/Ref_Fence_V.png",
+                "transformed": null
+            },
+            "tags": [
+                "deco",
+                "fence"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "fences_1",
+            "sourceStem": "5489",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "none",
+                "family": "fence",
+                "slot": "v"
+            }
+        },
+        {
+            "id": "ref_fence_v_alt",
+            "technical": "Ref Fence V Alt",
+            "alias": "Fence V Alt",
+            "genre": "rpg_fantasy",
+            "kind": "objects",
+            "category": "deco",
+            "opaqueAlpha": false,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/objects/original/Ref_Fence_V_Alt.png",
+                "transformed": null
+            },
+            "tags": [
+                "deco",
+                "fence"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "fences_1",
+            "sourceStem": "5495",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "none",
+                "family": "fence",
+                "slot": "v_alt"
+            }
+        },
+        {
+            "id": "ref_fence_v_post",
+            "technical": "Ref Fence V Post",
+            "alias": "Fence V Post",
+            "genre": "rpg_fantasy",
+            "kind": "objects",
+            "category": "deco",
+            "opaqueAlpha": false,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/objects/original/Ref_Fence_V_Post.png",
+                "transformed": null
+            },
+            "tags": [
+                "deco",
+                "fence"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "fences_1",
+            "sourceStem": "5496",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "none",
+                "family": "fence",
+                "slot": "v_post"
+            }
+        },
+        {
+            "id": "ref_lake_single",
+            "technical": "Ref Lake Single",
+            "alias": "Lake Single",
+            "genre": "rpg_fantasy",
+            "kind": "objects",
+            "category": "deco",
+            "opaqueAlpha": false,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/objects/original/Ref_Lake_Single.png",
+                "transformed": null
+            },
+            "tags": [
+                "deco",
+                "lake"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "",
+            "sourceStem": "lake_single",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "none",
+                "family": "lake",
+                "slot": "single"
+            }
+        },
+        {
+            "id": "ref_mountain_01",
+            "technical": "Ref Mountain 01",
+            "alias": "Mountain 01",
+            "genre": "rpg_fantasy",
+            "kind": "objects",
+            "category": "rock",
+            "opaqueAlpha": false,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/objects/original/Ref_Mountain_01.png",
+                "transformed": null
+            },
+            "tags": [
+                "rock",
+                "mountain"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "mountains",
+            "sourceStem": "5377",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "none",
+                "family": "mountain",
+                "slot": "01"
+            }
+        },
+        {
+            "id": "ref_mountain_02",
+            "technical": "Ref Mountain 02",
+            "alias": "Mountain 02",
+            "genre": "rpg_fantasy",
+            "kind": "objects",
+            "category": "rock",
+            "opaqueAlpha": false,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/objects/original/Ref_Mountain_02.png",
+                "transformed": null
+            },
+            "tags": [
+                "rock",
+                "mountain"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "mountains",
+            "sourceStem": "5378",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "none",
+                "family": "mountain",
+                "slot": "02"
+            }
+        },
+        {
+            "id": "ref_mountain_03",
+            "technical": "Ref Mountain 03",
+            "alias": "Mountain 03",
+            "genre": "rpg_fantasy",
+            "kind": "objects",
+            "category": "rock",
+            "opaqueAlpha": false,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/objects/original/Ref_Mountain_03.png",
+                "transformed": null
+            },
+            "tags": [
+                "rock",
+                "mountain"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "mountains",
+            "sourceStem": "5379",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "none",
+                "family": "mountain",
+                "slot": "03"
+            }
+        },
+        {
+            "id": "ref_mountain_04",
+            "technical": "Ref Mountain 04",
+            "alias": "Mountain 04",
+            "genre": "rpg_fantasy",
+            "kind": "objects",
+            "category": "rock",
+            "opaqueAlpha": false,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/objects/original/Ref_Mountain_04.png",
+                "transformed": null
+            },
+            "tags": [
+                "rock",
+                "mountain"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "mountains",
+            "sourceStem": "5380",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "none",
+                "family": "mountain",
+                "slot": "04"
+            }
+        },
+        {
+            "id": "ref_mountain_05",
+            "technical": "Ref Mountain 05",
+            "alias": "Mountain 05",
+            "genre": "rpg_fantasy",
+            "kind": "objects",
+            "category": "rock",
+            "opaqueAlpha": false,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/objects/original/Ref_Mountain_05.png",
+                "transformed": null
+            },
+            "tags": [
+                "rock",
+                "mountain"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "mountains",
+            "sourceStem": "5381",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "none",
+                "family": "mountain",
+                "slot": "05"
+            }
+        },
+        {
+            "id": "ref_mountain_06",
+            "technical": "Ref Mountain 06",
+            "alias": "Mountain 06",
+            "genre": "rpg_fantasy",
+            "kind": "objects",
+            "category": "rock",
+            "opaqueAlpha": false,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/objects/original/Ref_Mountain_06.png",
+                "transformed": null
+            },
+            "tags": [
+                "rock",
+                "mountain"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "mountains",
+            "sourceStem": "5382",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "none",
+                "family": "mountain",
+                "slot": "06"
+            }
+        },
+        {
+            "id": "ref_mountain_07",
+            "technical": "Ref Mountain 07",
+            "alias": "Mountain 07",
+            "genre": "rpg_fantasy",
+            "kind": "objects",
+            "category": "rock",
+            "opaqueAlpha": false,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/objects/original/Ref_Mountain_07.png",
+                "transformed": null
+            },
+            "tags": [
+                "rock",
+                "mountain"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "mountains",
+            "sourceStem": "5383",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "none",
+                "family": "mountain",
+                "slot": "07"
+            }
+        },
+        {
+            "id": "ref_mountain_08",
+            "technical": "Ref Mountain 08",
+            "alias": "Mountain 08",
+            "genre": "rpg_fantasy",
+            "kind": "objects",
+            "category": "rock",
+            "opaqueAlpha": false,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/objects/original/Ref_Mountain_08.png",
+                "transformed": null
+            },
+            "tags": [
+                "rock",
+                "mountain"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "mountains",
+            "sourceStem": "5384",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "none",
+                "family": "mountain",
+                "slot": "08"
+            }
+        },
+        {
+            "id": "ref_mountain_09",
+            "technical": "Ref Mountain 09",
+            "alias": "Mountain 09",
+            "genre": "rpg_fantasy",
+            "kind": "objects",
+            "category": "rock",
+            "opaqueAlpha": false,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/objects/original/Ref_Mountain_09.png",
+                "transformed": null
+            },
+            "tags": [
+                "rock",
+                "mountain"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "mountains",
+            "sourceStem": "5385",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "none",
+                "family": "mountain",
+                "slot": "09"
+            }
+        },
+        {
+            "id": "ref_mountain_10",
+            "technical": "Ref Mountain 10",
+            "alias": "Mountain 10",
+            "genre": "rpg_fantasy",
+            "kind": "objects",
+            "category": "rock",
+            "opaqueAlpha": false,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/objects/original/Ref_Mountain_10.png",
+                "transformed": null
+            },
+            "tags": [
+                "rock",
+                "mountain"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "mountains",
+            "sourceStem": "5386",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "none",
+                "family": "mountain",
+                "slot": "10"
+            }
+        },
+        {
+            "id": "ref_mountain_11",
+            "technical": "Ref Mountain 11",
+            "alias": "Mountain 11",
+            "genre": "rpg_fantasy",
+            "kind": "objects",
+            "category": "rock",
+            "opaqueAlpha": false,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/objects/original/Ref_Mountain_11.png",
+                "transformed": null
+            },
+            "tags": [
+                "rock",
+                "mountain"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "mountains",
+            "sourceStem": "5387",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "none",
+                "family": "mountain",
+                "slot": "11"
+            }
+        },
+        {
+            "id": "ref_mountain_12",
+            "technical": "Ref Mountain 12",
+            "alias": "Mountain 12",
+            "genre": "rpg_fantasy",
+            "kind": "objects",
+            "category": "rock",
+            "opaqueAlpha": false,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/objects/original/Ref_Mountain_12.png",
+                "transformed": null
+            },
+            "tags": [
+                "rock",
+                "mountain"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "mountains",
+            "sourceStem": "5388",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "none",
+                "family": "mountain",
+                "slot": "12"
+            }
+        },
+        {
+            "id": "ref_mountain_13",
+            "technical": "Ref Mountain 13",
+            "alias": "Mountain 13",
+            "genre": "rpg_fantasy",
+            "kind": "objects",
+            "category": "rock",
+            "opaqueAlpha": false,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/objects/original/Ref_Mountain_13.png",
+                "transformed": null
+            },
+            "tags": [
+                "rock",
+                "mountain"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "mountains",
+            "sourceStem": "5389",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "none",
+                "family": "mountain",
+                "slot": "13"
+            }
+        },
+        {
+            "id": "ref_mountain_14",
+            "technical": "Ref Mountain 14",
+            "alias": "Mountain 14",
+            "genre": "rpg_fantasy",
+            "kind": "objects",
+            "category": "rock",
+            "opaqueAlpha": false,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/objects/original/Ref_Mountain_14.png",
+                "transformed": null
+            },
+            "tags": [
+                "rock",
+                "mountain"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "mountains",
+            "sourceStem": "5390",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "none",
+                "family": "mountain",
+                "slot": "14"
+            }
+        },
+        {
+            "id": "ref_village_front_left",
+            "technical": "Ref Village Front Left",
+            "alias": "Village Front Left",
+            "genre": "rpg_fantasy",
+            "kind": "objects",
+            "category": "wall",
+            "opaqueAlpha": false,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/objects/original/Ref_Village_Front_Left.png",
+                "transformed": null
+            },
+            "tags": [
+                "wall",
+                "village_front"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "walls_front_1",
+            "sourceStem": "2623",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "wallFront",
+                "family": "village_front",
+                "slot": "left"
+            }
+        },
+        {
+            "id": "ref_village_front_left_statue",
+            "technical": "Ref Village Front Left Statue",
+            "alias": "Village Front Left Statue",
+            "genre": "rpg_fantasy",
+            "kind": "objects",
+            "category": "wall",
+            "opaqueAlpha": false,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/objects/original/Ref_Village_Front_Left_Statue.png",
+                "transformed": null
+            },
+            "tags": [
+                "wall",
+                "village_front"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "walls_front_1",
+            "sourceStem": "2620",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "wallFront",
+                "family": "village_front",
+                "slot": "left_statue"
+            }
+        },
+        {
+            "id": "ref_village_front_mid",
+            "technical": "Ref Village Front Mid",
+            "alias": "Village Front Mid",
+            "genre": "rpg_fantasy",
+            "kind": "objects",
+            "category": "wall",
+            "opaqueAlpha": false,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/objects/original/Ref_Village_Front_Mid.png",
+                "transformed": null
+            },
+            "tags": [
+                "wall",
+                "village_front"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "walls_front_1",
+            "sourceStem": "2624",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "wallFront",
+                "family": "village_front",
+                "slot": "mid"
+            }
+        },
+        {
+            "id": "ref_village_front_mid_window",
+            "technical": "Ref Village Front Mid Window",
+            "alias": "Village Front Mid Window",
+            "genre": "rpg_fantasy",
+            "kind": "objects",
+            "category": "wall",
+            "opaqueAlpha": false,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/objects/original/Ref_Village_Front_Mid_Window.png",
+                "transformed": null
+            },
+            "tags": [
+                "wall",
+                "village_front"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "walls_front_1",
+            "sourceStem": "2621",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "wallFront",
+                "family": "village_front",
+                "slot": "mid_window"
+            }
+        },
+        {
+            "id": "ref_village_front_right",
+            "technical": "Ref Village Front Right",
+            "alias": "Village Front Right",
+            "genre": "rpg_fantasy",
+            "kind": "objects",
+            "category": "wall",
+            "opaqueAlpha": false,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/objects/original/Ref_Village_Front_Right.png",
+                "transformed": null
+            },
+            "tags": [
+                "wall",
+                "village_front"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "walls_front_1",
+            "sourceStem": "2625",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "wallFront",
+                "family": "village_front",
+                "slot": "right"
+            }
+        },
+        {
+            "id": "ref_village_front_right_statue",
+            "technical": "Ref Village Front Right Statue",
+            "alias": "Village Front Right Statue",
+            "genre": "rpg_fantasy",
+            "kind": "objects",
+            "category": "wall",
+            "opaqueAlpha": false,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/objects/original/Ref_Village_Front_Right_Statue.png",
+                "transformed": null
+            },
+            "tags": [
+                "wall",
+                "village_front"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "walls_front_1",
+            "sourceStem": "2622",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "wallFront",
+                "family": "village_front",
+                "slot": "right_statue"
+            }
         },
         {
             "id": "ruined_cliff_rock",

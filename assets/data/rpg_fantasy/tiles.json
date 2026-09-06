@@ -2,7 +2,7 @@
     "version": 1,
     "genre": "rpg_fantasy",
     "kind": "tiles",
-    "updatedAt": "2026-07-26T16:58:21.948Z",
+    "updatedAt": "2026-09-05T22:11:54.773Z",
     "items": [
         {
             "id": "ancient_ash_floor",
@@ -117,6 +117,796 @@
             ],
             "source": "pipeline",
             "createdAt": "2026-07-24"
+        },
+        {
+            "id": "ref_dirt_01",
+            "technical": "Ref Dirt 01",
+            "alias": "Dirt 01",
+            "genre": "rpg_fantasy",
+            "kind": "tiles",
+            "category": "floor",
+            "opaqueAlpha": true,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/tiles/original/Ref_Dirt_01.png",
+                "transformed": null
+            },
+            "tags": [
+                "floor",
+                "dirt"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "dirt_floor_walkable",
+            "sourceStem": "7687",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "variation",
+                "family": "dirt",
+                "slot": "01"
+            }
+        },
+        {
+            "id": "ref_dirt_02",
+            "technical": "Ref Dirt 02",
+            "alias": "Dirt 02",
+            "genre": "rpg_fantasy",
+            "kind": "tiles",
+            "category": "floor",
+            "opaqueAlpha": true,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/tiles/original/Ref_Dirt_02.png",
+                "transformed": null
+            },
+            "tags": [
+                "floor",
+                "dirt"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "dirt_floor_walkable",
+            "sourceStem": "7688",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "variation",
+                "family": "dirt",
+                "slot": "02"
+            }
+        },
+        {
+            "id": "ref_dirt_03",
+            "technical": "Ref Dirt 03",
+            "alias": "Dirt 03",
+            "genre": "rpg_fantasy",
+            "kind": "tiles",
+            "category": "floor",
+            "opaqueAlpha": true,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/tiles/original/Ref_Dirt_03.png",
+                "transformed": null
+            },
+            "tags": [
+                "floor",
+                "dirt"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "dirt_floor_walkable",
+            "sourceStem": "7689",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "variation",
+                "family": "dirt",
+                "slot": "03"
+            }
+        },
+        {
+            "id": "ref_dirt_04",
+            "technical": "Ref Dirt 04",
+            "alias": "Dirt 04",
+            "genre": "rpg_fantasy",
+            "kind": "tiles",
+            "category": "floor",
+            "opaqueAlpha": true,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/tiles/original/Ref_Dirt_04.png",
+                "transformed": null
+            },
+            "tags": [
+                "floor",
+                "dirt"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "dirt_floor_walkable",
+            "sourceStem": "7690",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "variation",
+                "family": "dirt",
+                "slot": "04"
+            }
+        },
+        {
+            "id": "ref_dirt_05",
+            "technical": "Ref Dirt 05",
+            "alias": "Dirt 05",
+            "genre": "rpg_fantasy",
+            "kind": "tiles",
+            "category": "floor",
+            "opaqueAlpha": true,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/tiles/original/Ref_Dirt_05.png",
+                "transformed": null
+            },
+            "tags": [
+                "floor",
+                "dirt"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "dirt_floor_walkable",
+            "sourceStem": "7691",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "variation",
+                "family": "dirt",
+                "slot": "05"
+            }
+        },
+        {
+            "id": "ref_dirt_06",
+            "technical": "Ref Dirt 06",
+            "alias": "Dirt 06",
+            "genre": "rpg_fantasy",
+            "kind": "tiles",
+            "category": "floor",
+            "opaqueAlpha": true,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/tiles/original/Ref_Dirt_06.png",
+                "transformed": null
+            },
+            "tags": [
+                "floor",
+                "dirt"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "dirt_floor_walkable",
+            "sourceStem": "7692",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "variation",
+                "family": "dirt",
+                "slot": "06"
+            }
+        },
+        {
+            "id": "ref_dirt_fill",
+            "technical": "Ref Dirt Fill",
+            "alias": "Dirt Fill",
+            "genre": "rpg_fantasy",
+            "kind": "tiles",
+            "category": "floor",
+            "opaqueAlpha": true,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/tiles/original/Ref_Dirt_Fill.png",
+                "transformed": null
+            },
+            "tags": [
+                "floor",
+                "dirt"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "dirt_floor_walkable",
+            "sourceStem": "2562",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "variation",
+                "family": "dirt",
+                "slot": "fill"
+            }
+        },
+        {
+            "id": "ref_grass_01",
+            "technical": "Ref Grass 01",
+            "alias": "Grass 01",
+            "genre": "rpg_fantasy",
+            "kind": "tiles",
+            "category": "floor",
+            "opaqueAlpha": true,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/tiles/original/Ref_Grass_01.png",
+                "transformed": null
+            },
+            "tags": [
+                "floor",
+                "grass"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "grass_ground_walkable",
+            "sourceStem": "7681",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "variation",
+                "family": "grass",
+                "slot": "01"
+            }
+        },
+        {
+            "id": "ref_grass_02",
+            "technical": "Ref Grass 02",
+            "alias": "Grass 02",
+            "genre": "rpg_fantasy",
+            "kind": "tiles",
+            "category": "floor",
+            "opaqueAlpha": true,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/tiles/original/Ref_Grass_02.png",
+                "transformed": null
+            },
+            "tags": [
+                "floor",
+                "grass"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "grass_ground_walkable",
+            "sourceStem": "7682",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "variation",
+                "family": "grass",
+                "slot": "02"
+            }
+        },
+        {
+            "id": "ref_grass_03",
+            "technical": "Ref Grass 03",
+            "alias": "Grass 03",
+            "genre": "rpg_fantasy",
+            "kind": "tiles",
+            "category": "floor",
+            "opaqueAlpha": true,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/tiles/original/Ref_Grass_03.png",
+                "transformed": null
+            },
+            "tags": [
+                "floor",
+                "grass"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "grass_ground_walkable",
+            "sourceStem": "7683",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "variation",
+                "family": "grass",
+                "slot": "03"
+            }
+        },
+        {
+            "id": "ref_grass_04",
+            "technical": "Ref Grass 04",
+            "alias": "Grass 04",
+            "genre": "rpg_fantasy",
+            "kind": "tiles",
+            "category": "floor",
+            "opaqueAlpha": true,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/tiles/original/Ref_Grass_04.png",
+                "transformed": null
+            },
+            "tags": [
+                "floor",
+                "grass"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "grass_ground_walkable",
+            "sourceStem": "7684",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "variation",
+                "family": "grass",
+                "slot": "04"
+            }
+        },
+        {
+            "id": "ref_grass_05",
+            "technical": "Ref Grass 05",
+            "alias": "Grass 05",
+            "genre": "rpg_fantasy",
+            "kind": "tiles",
+            "category": "floor",
+            "opaqueAlpha": true,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/tiles/original/Ref_Grass_05.png",
+                "transformed": null
+            },
+            "tags": [
+                "floor",
+                "grass"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "grass_ground_walkable",
+            "sourceStem": "7685",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "variation",
+                "family": "grass",
+                "slot": "05"
+            }
+        },
+        {
+            "id": "ref_grass_06",
+            "technical": "Ref Grass 06",
+            "alias": "Grass 06",
+            "genre": "rpg_fantasy",
+            "kind": "tiles",
+            "category": "floor",
+            "opaqueAlpha": true,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/tiles/original/Ref_Grass_06.png",
+                "transformed": null
+            },
+            "tags": [
+                "floor",
+                "grass"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "grass_ground_walkable",
+            "sourceStem": "7686",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "variation",
+                "family": "grass",
+                "slot": "06"
+            }
+        },
+        {
+            "id": "ref_grass_fill",
+            "technical": "Ref Grass Fill",
+            "alias": "Grass Fill",
+            "genre": "rpg_fantasy",
+            "kind": "tiles",
+            "category": "floor",
+            "opaqueAlpha": true,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/tiles/original/Ref_Grass_Fill.png",
+                "transformed": null
+            },
+            "tags": [
+                "floor",
+                "grass"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "grass_ground_walkable",
+            "sourceStem": "2561",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "variation",
+                "family": "grass",
+                "slot": "fill"
+            }
+        },
+        {
+            "id": "ref_green_lake_fill",
+            "technical": "Ref Green Lake Fill",
+            "alias": "Green Lake Fill",
+            "genre": "rpg_fantasy",
+            "kind": "tiles",
+            "category": "water",
+            "opaqueAlpha": true,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/tiles/original/Ref_Green_Lake_Fill.png",
+                "transformed": null
+            },
+            "tags": [
+                "water",
+                "green_lake"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "water_anim_3",
+            "sourceStem": "2607",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "border12",
+                "family": "green_lake",
+                "slot": "fill"
+            },
+            "anim": {
+                "frames": 4,
+                "fps": 1
+            }
+        },
+        {
+            "id": "ref_lava_fill",
+            "technical": "Ref Lava Fill",
+            "alias": "Lava Fill",
+            "genre": "rpg_fantasy",
+            "kind": "tiles",
+            "category": "lava",
+            "opaqueAlpha": true,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/tiles/original/Ref_Lava_Fill.png",
+                "transformed": null
+            },
+            "tags": [
+                "lava"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "lava_anim_2",
+            "sourceStem": "6517",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "border12",
+                "family": "lava",
+                "slot": "fill"
+            },
+            "anim": {
+                "frames": 4,
+                "fps": 1
+            }
+        },
+        {
+            "id": "ref_sand_01",
+            "technical": "Ref Sand 01",
+            "alias": "Sand 01",
+            "genre": "rpg_fantasy",
+            "kind": "tiles",
+            "category": "floor",
+            "opaqueAlpha": true,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/tiles/original/Ref_Sand_01.png",
+                "transformed": null
+            },
+            "tags": [
+                "floor",
+                "sand"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "sand_ground_walkable",
+            "sourceStem": "7699",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "variation",
+                "family": "sand",
+                "slot": "01"
+            }
+        },
+        {
+            "id": "ref_sand_02",
+            "technical": "Ref Sand 02",
+            "alias": "Sand 02",
+            "genre": "rpg_fantasy",
+            "kind": "tiles",
+            "category": "floor",
+            "opaqueAlpha": true,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/tiles/original/Ref_Sand_02.png",
+                "transformed": null
+            },
+            "tags": [
+                "floor",
+                "sand"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "sand_ground_walkable",
+            "sourceStem": "7700",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "variation",
+                "family": "sand",
+                "slot": "02"
+            }
+        },
+        {
+            "id": "ref_sand_03",
+            "technical": "Ref Sand 03",
+            "alias": "Sand 03",
+            "genre": "rpg_fantasy",
+            "kind": "tiles",
+            "category": "floor",
+            "opaqueAlpha": true,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/tiles/original/Ref_Sand_03.png",
+                "transformed": null
+            },
+            "tags": [
+                "floor",
+                "sand"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "sand_ground_walkable",
+            "sourceStem": "7701",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "variation",
+                "family": "sand",
+                "slot": "03"
+            }
+        },
+        {
+            "id": "ref_sand_04",
+            "technical": "Ref Sand 04",
+            "alias": "Sand 04",
+            "genre": "rpg_fantasy",
+            "kind": "tiles",
+            "category": "floor",
+            "opaqueAlpha": true,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/tiles/original/Ref_Sand_04.png",
+                "transformed": null
+            },
+            "tags": [
+                "floor",
+                "sand"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "sand_ground_walkable",
+            "sourceStem": "7702",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "variation",
+                "family": "sand",
+                "slot": "04"
+            }
+        },
+        {
+            "id": "ref_sand_05",
+            "technical": "Ref Sand 05",
+            "alias": "Sand 05",
+            "genre": "rpg_fantasy",
+            "kind": "tiles",
+            "category": "floor",
+            "opaqueAlpha": true,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/tiles/original/Ref_Sand_05.png",
+                "transformed": null
+            },
+            "tags": [
+                "floor",
+                "sand"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "sand_ground_walkable",
+            "sourceStem": "7703",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "variation",
+                "family": "sand",
+                "slot": "05"
+            }
+        },
+        {
+            "id": "ref_sand_06",
+            "technical": "Ref Sand 06",
+            "alias": "Sand 06",
+            "genre": "rpg_fantasy",
+            "kind": "tiles",
+            "category": "floor",
+            "opaqueAlpha": true,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/tiles/original/Ref_Sand_06.png",
+                "transformed": null
+            },
+            "tags": [
+                "floor",
+                "sand"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "sand_ground_walkable",
+            "sourceStem": "7704",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "variation",
+                "family": "sand",
+                "slot": "06"
+            }
+        },
+        {
+            "id": "ref_sand_fill",
+            "technical": "Ref Sand Fill",
+            "alias": "Sand Fill",
+            "genre": "rpg_fantasy",
+            "kind": "tiles",
+            "category": "floor",
+            "opaqueAlpha": true,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/tiles/original/Ref_Sand_Fill.png",
+                "transformed": null
+            },
+            "tags": [
+                "floor",
+                "sand"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "sand_ground_walkable",
+            "sourceStem": "2564",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "variation",
+                "family": "sand",
+                "slot": "fill"
+            }
+        },
+        {
+            "id": "ref_water_fill",
+            "technical": "Ref Water Fill",
+            "alias": "Water Fill",
+            "genre": "rpg_fantasy",
+            "kind": "tiles",
+            "category": "water",
+            "opaqueAlpha": true,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/tiles/original/Ref_Water_Fill.png",
+                "transformed": null
+            },
+            "tags": [
+                "water",
+                "beach"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "water_anim_1",
+            "sourceStem": "5806",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "border12",
+                "family": "beach",
+                "slot": "fill"
+            },
+            "anim": {
+                "frames": 4,
+                "fps": 1
+            }
+        },
+        {
+            "id": "ref_water_pool_fill",
+            "technical": "Ref Water Pool Fill",
+            "alias": "Water Pool Fill",
+            "genre": "rpg_fantasy",
+            "kind": "tiles",
+            "category": "water",
+            "opaqueAlpha": true,
+            "scaleFilter": "nearest",
+            "status": "original_only",
+            "sprites": {
+                "original": "assets/sprites/rpg_fantasy/tiles/original/Ref_Water_Pool_Fill.png",
+                "transformed": null
+            },
+            "tags": [
+                "water",
+                "water_pool"
+            ],
+            "source": "pipeline",
+            "createdAt": "2026-09-05",
+            "replaceable": false,
+            "sourcePack": "mobile_ref",
+            "sourceFolder": "water_anim_1",
+            "sourceStem": "5806",
+            "nativePx": 32,
+            "autoTile": {
+                "kind": "border12",
+                "family": "water_pool",
+                "slot": "fill"
+            },
+            "anim": {
+                "frames": 4,
+                "fps": 1
+            }
         },
         {
             "id": "shallow_water",

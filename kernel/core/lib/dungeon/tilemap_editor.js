@@ -2,10 +2,13 @@
  * TileMap editor session (Phase 5).
  *
  * Pure authoring helpers for the map editor: palette stamps, sub-layer paint,
- * Wang-16 family resolve on `path` overlays, sparse dirty-cell bake into
- * friction/sight/flags (not stroke AABB), override masks, undo/redo, hybrid
- * pack packaging. Fields are never written by bake; map-seeded fields use a
- * long default TTL constant for runtime seeding.
+ * Wang-16 family resolve on `path` overlays, 12-piece border12 (fill on
+ * `ground`, edges on `path`), ¾ wallFront strips on `vertical`, 9-piece
+ * rect9 (path overlays / scenery objects), variation alts on stroke, sparse
+ * dirty-cell bake
+ * into friction/sight/flags (not stroke AABB), override masks, undo/redo,
+ * hybrid pack packaging. Fields are never written by bake; map-seeded fields
+ * use a long default TTL constant for runtime seeding.
  *
  * Does not touch DOM or the filesystem — IO stays in the wiki page / PHP API.
  */
@@ -71,6 +74,35 @@ const {
     parseWallId,
     WALL_ALIGN_ALL
 } = require('../wall_wang.js');
+
+const {
+    autoTileOf,
+    border12FamilyOf,
+    isBorder12Fill,
+    isWallFront,
+    wallFrontFamilyOf,
+    isRect9,
+    rect9FamilyOf,
+    isResolveLocked,
+    resolveBorder12Slot,
+    border12CatalogId,
+    pickVariationId,
+    variationIds
+} = require('../overlay_border.js');
+
+const {
+    wallFrontCatalogId,
+    resolveWallFrontSlot,
+    WALL_FRONT_RESOLVE_SLOTS,
+    WALL_FRONT_FAMILY_SLOT
+} = require('../wall_front.js');
+
+const {
+    rect9CatalogId,
+    resolveRect9Slot,
+    RECT9_SLOTS,
+    RECT9_FAMILY_SLOT
+} = require('../overlay_rect9.js');
 
 /**
  * Binary walk class for bucket connectivity (matches A*: only 255 blocks).
@@ -225,7 +257,8 @@ function forEachBrushCell(cx, cy, size, shape, plot) {
 /**
  * Map art-set role key → preferred sub-layer.
  * Overlays always land on `path` (even when roleId is water).
- * Wall Wang objects land on `vertical` (cave `tiles` + role wall stay ground).
+ * Wall Wang / wallFront objects land on `vertical` (cave `tiles` + role wall stay ground).
+ * rect9 overlays land on `path`; rect9 objects on `scenery`.
  * @param {string} artRoleKey
  * @param {string|null} roleId
  * @param {string} [kind]
@@ -233,8 +266,14 @@ function forEachBrushCell(cx, cy, size, shape, plot) {
  * @returns {string}
  */
 function preferredSubLayer(artRoleKey, roleId, kind, stampOrId) {
+    if (isRect9(stampOrId || { kind, roleId })) {
+        return kind === 'objects' ? 'scenery' : 'path';
+    }
     if (kind === 'overlays') return 'path';
-    if (kind === 'objects' && isWallWang(stampOrId || { kind, roleId })) {
+    if (
+        kind === 'objects' &&
+        (isWallWang(stampOrId || { kind, roleId }) || isWallFront(stampOrId || { kind, roleId }))
+    ) {
         return 'vertical';
     }
     const rid = roleId ? normalizeEntityId(roleId) : null;
@@ -242,9 +281,11 @@ function preferredSubLayer(artRoleKey, roleId, kind, stampOrId) {
     const k = String(artRoleKey || '')
         .trim()
         .toLowerCase();
-    if (k === 'floor' || k === 'water' || k === 'wall' || k === 'void') return 'ground';
+    if (k === 'floor' || k === 'water' || k === 'wall' || k === 'void' || k === 'fills') {
+        return 'ground';
+    }
     if (k === 'path') return 'path';
-    if (k === 'scenery') return 'scenery';
+    if (k === 'scenery' || k.indexOf('scenery') === 0) return 'scenery';
     if (k === 'furniture') return 'furniture';
     if (
         k === 'stairs' ||
@@ -262,14 +303,89 @@ function preferredSubLayer(artRoleKey, roleId, kind, stampOrId) {
 }
 
 /**
+ * Family of a stamp / palette entry (Wang, wall, or autoTile).
+ * @param {object|string|null|undefined} entryOrId
+ * @param {object|null} [autoTileIndex]
+ * @returns {string|null}
+ */
+function editorFamilyOf(entryOrId, autoTileIndex) {
+    if (entryOrId == null) return null;
+    const wang = wangFamilyOf(entryOrId);
+    if (wang) return wang;
+    const wall = wallFamilyOf(entryOrId);
+    if (wall) return wall;
+    const at = autoTileOf(entryOrId, autoTileIndex);
+    if (at && at.family && at.kind && at.kind !== 'none') return at.family;
+    return null;
+}
+
+/**
  * Family brush occupancy: representative fill, resolved at stroke-end.
- * RAW (`wangLocked` / `wangResolve === false`) keeps the exact catalog id.
+ * RAW (`wangLocked` / `borderLocked` / `wangResolve === false`) keeps the exact catalog id.
+ * Variation (unlocked) writes a position-seeded alt when `opts.x/y` are set.
  * @param {object|null|undefined} stamp
+ * @param {{ x?: number, y?: number, autoTileIndex?: object|null }} [opts]
  * @returns {object|null|undefined}
  */
-function occupancyStamp(stamp) {
+function occupancyStamp(stamp, opts) {
     if (!stamp) return stamp;
-    if (stamp.wangLocked || stamp.wangResolve === false) return stamp;
+    if (isResolveLocked(stamp)) return stamp;
+    const index = opts && opts.autoTileIndex ? opts.autoTileIndex : null;
+    const atEarly = autoTileOf(stamp, index);
+    if (atEarly && atEarly.kind === 'wallFront') {
+        const midId =
+            (index &&
+                index.families &&
+                index.families[atEarly.family] &&
+                index.families[atEarly.family].fillId) ||
+            wallFrontCatalogId(atEarly.family, WALL_FRONT_FAMILY_SLOT);
+        const next = Object.assign({}, stamp, {
+            kind: 'objects',
+            catalogId: midId,
+            roleId: stamp.roleId || 'wall',
+            subLayer: 'vertical',
+            autoTile: {
+                kind: 'wallFront',
+                family: atEarly.family,
+                slot: WALL_FRONT_FAMILY_SLOT
+            },
+            wangLocked: false,
+            hop: undefined
+        });
+        delete next.wangFamily;
+        delete next.wangMask;
+        delete next.wallFamily;
+        delete next.wallAlign;
+        return next;
+    }
+    if (atEarly && atEarly.kind === 'rect9') {
+        const centerId =
+            (index &&
+                index.families &&
+                index.families[atEarly.family] &&
+                index.families[atEarly.family].fillId) ||
+            rect9CatalogId(atEarly.family, RECT9_FAMILY_SLOT);
+        const asObjects = stamp.kind === 'objects';
+        const next = Object.assign({}, stamp, {
+            kind: asObjects ? 'objects' : 'overlays',
+            catalogId: centerId,
+            roleId: stamp.roleId || (asObjects ? 'scenery_blocking' : 'path'),
+            subLayer: asObjects ? 'scenery' : 'path',
+            autoTile: {
+                kind: 'rect9',
+                family: atEarly.family,
+                slot: RECT9_FAMILY_SLOT
+            },
+            wangLocked: false,
+            borderLocked: false,
+            hop: undefined
+        });
+        delete next.wangFamily;
+        delete next.wangMask;
+        delete next.wallFamily;
+        delete next.wallAlign;
+        return next;
+    }
     const wallFamily = wallFamilyOf(stamp);
     if (wallFamily) {
         const next = Object.assign({}, stamp, {
@@ -286,15 +402,71 @@ function occupancyStamp(stamp) {
         return next;
     }
     const family = wangFamilyOf(stamp);
-    if (!family) return stamp;
-    const next = Object.assign({}, stamp, {
-        kind: 'overlays',
-        wangFamily: family,
-        catalogId: wangCatalogId(family, 15),
-        wangLocked: false,
-        subLayer: 'path'
-    });
-    return next;
+    if (family) {
+        return Object.assign({}, stamp, {
+            kind: 'overlays',
+            wangFamily: family,
+            catalogId: wangCatalogId(family, 15),
+            wangLocked: false,
+            subLayer: 'path'
+        });
+    }
+    const at = autoTileOf(stamp, index);
+    if (at && at.kind === 'variation') {
+        const ids = variationIds(at.family, index);
+        if (
+            ids.length &&
+            opts &&
+            opts.x != null &&
+            opts.y != null &&
+            Number.isFinite(Number(opts.x)) &&
+            Number.isFinite(Number(opts.y))
+        ) {
+            const catalogId = pickVariationId(ids, opts.x, opts.y);
+            if (!catalogId) return stamp;
+            const slotAt = autoTileOf(catalogId, index);
+            return Object.assign({}, stamp, {
+                catalogId,
+                kind: stamp.kind || 'tiles',
+                roleId: stamp.roleId || 'floor',
+                subLayer: stamp.subLayer || 'ground',
+                autoTile: {
+                    kind: 'variation',
+                    family: at.family,
+                    slot: (slotAt && slotAt.slot) || 'alt'
+                },
+                wangLocked: false,
+                borderLocked: false
+            });
+        }
+        const fillId =
+            (index && index.families && index.families[at.family] && index.families[at.family].fillId) ||
+            stamp.catalogId;
+        return Object.assign({}, stamp, {
+            catalogId: fillId,
+            kind: stamp.kind || 'tiles',
+            roleId: stamp.roleId || 'floor',
+            subLayer: stamp.subLayer || 'ground',
+            autoTile: { kind: 'variation', family: at.family, slot: 'fill' },
+            wangLocked: false,
+            borderLocked: false
+        });
+    }
+    if (at && at.kind === 'border12' && at.slot === 'fill') {
+        const fillId =
+            (index && index.families && index.families[at.family] && index.families[at.family].fillId) ||
+            stamp.catalogId;
+        return Object.assign({}, stamp, {
+            catalogId: fillId,
+            kind: 'tiles',
+            roleId: stamp.roleId || 'water',
+            subLayer: 'ground',
+            autoTile: { kind: 'border12', family: at.family, slot: 'fill' },
+            wangLocked: false,
+            borderLocked: false
+        });
+    }
+    return stamp;
 }
 
 /**
@@ -313,10 +485,36 @@ function pathSubLayer(floor) {
  * @param {object} floor
  * @returns {object|null}
  */
+function groundSubLayer(floor) {
+    if (!floor || !Array.isArray(floor.subLayers)) return null;
+    for (let i = 0; i < floor.subLayers.length; i++) {
+        if (floor.subLayers[i] && floor.subLayers[i].id === 'ground') return floor.subLayers[i];
+    }
+    return null;
+}
+
+/**
+ * @param {object} floor
+ * @returns {object|null}
+ */
 function verticalSubLayer(floor) {
     if (!floor || !Array.isArray(floor.subLayers)) return null;
     for (let i = 0; i < floor.subLayers.length; i++) {
         if (floor.subLayers[i] && floor.subLayers[i].id === 'vertical') {
+            return floor.subLayers[i];
+        }
+    }
+    return null;
+}
+
+/**
+ * @param {object} floor
+ * @returns {object|null}
+ */
+function scenerySubLayer(floor) {
+    if (!floor || !Array.isArray(floor.subLayers)) return null;
+    for (let i = 0; i < floor.subLayers.length; i++) {
+        if (floor.subLayers[i] && floor.subLayers[i].id === 'scenery') {
             return floor.subLayers[i];
         }
     }
@@ -527,6 +725,398 @@ function resolveWallsOnFloor(floor, seedIndices, intern, roleCatalog) {
 }
 
 /**
+ * @param {object} floor
+ * @param {object} sl
+ * @param {number} x
+ * @param {number} y
+ * @param {string} family
+ * @param {object|null} [autoTileIndex]
+ * @param {Map|object|null} [roleCatalog]
+ * @returns {boolean}
+ */
+function sameWallFrontFamilyAt(floor, sl, x, y, family, autoTileIndex, roleCatalog) {
+    const cols = floor.cols | 0;
+    const rows = floor.rows | 0;
+    if (x < 0 || y < 0 || x >= cols || y >= rows) return false;
+    const pi = sl.cells[y * cols + x] & 0xffff;
+    if (!pi) return false;
+    const entry = floor.palette[pi];
+    if (!entry || isHopStamp(entry, roleCatalog)) return false;
+    return wallFrontFamilyOf(entry, autoTileIndex) === family;
+}
+
+/**
+ * Intern left/mid/right so resolve can pick caps without 16 Wang faces.
+ * @param {(stamp: object) => number} intern
+ * @param {string} family
+ * @param {object} entry
+ * @param {object|null} [autoTileIndex]
+ */
+function internWallFrontSlots(intern, family, entry, autoTileIndex) {
+    for (let i = 0; i < WALL_FRONT_RESOLVE_SLOTS.length; i++) {
+        const slot = WALL_FRONT_RESOLVE_SLOTS[i];
+        let catalogId = wallFrontCatalogId(family, slot);
+        if (
+            autoTileIndex &&
+            autoTileIndex.families &&
+            autoTileIndex.families[family] &&
+            autoTileIndex.families[family].slots &&
+            autoTileIndex.families[family].slots[slot]
+        ) {
+            catalogId = autoTileIndex.families[family].slots[slot];
+        }
+        intern(
+            applyEntryOverrides(
+                {
+                    catalogId,
+                    kind: 'objects',
+                    roleId: entry.roleId || 'wall',
+                    autoTile: { kind: 'wallFront', family, slot },
+                    wangLocked: false,
+                    hop: undefined
+                },
+                entry
+            )
+        );
+    }
+}
+
+/**
+ * Rewrite vertical wallFront cells in the 1-ring to left/mid/right from
+ * west/east occupancy. Hop stamps skipped. RAW locked extras stay.
+ * Does not intern Wang-16 faces.
+ * @param {object} floor
+ * @param {Iterable<number>} seedIndices
+ * @param {(stamp: object) => number} intern
+ * @param {object|null} [autoTileIndex]
+ * @param {Map|object|null} [roleCatalog]
+ * @returns {number[]} changed cell indices
+ */
+function resolveWallFrontOnFloor(floor, seedIndices, intern, autoTileIndex, roleCatalog) {
+    const sl = verticalSubLayer(floor);
+    if (!sl) return [];
+    const cols = floor.cols | 0;
+    const rows = floor.rows | 0;
+    const ring = expandWangRing(cols, rows, seedIndices);
+    /** @type {Set<string>} */
+    const seeded = new Set();
+    /** @type {number[]} */
+    const changed = [];
+    for (const i of ring) {
+        const pi = sl.cells[i] & 0xffff;
+        if (!pi) continue;
+        const entry = floor.palette[pi];
+        if (!entry || isResolveLocked(entry)) continue;
+        if (isHopStamp(entry, roleCatalog)) continue;
+        const family = wallFrontFamilyOf(entry, autoTileIndex);
+        if (!family) continue;
+        if (!seeded.has(family)) {
+            internWallFrontSlots(intern, family, entry, autoTileIndex);
+            seeded.add(family);
+        }
+        const x = i % cols;
+        const y = (i / cols) | 0;
+        const slot = resolveWallFrontSlot({
+            e: sameWallFrontFamilyAt(floor, sl, x + 1, y, family, autoTileIndex, roleCatalog),
+            w: sameWallFrontFamilyAt(floor, sl, x - 1, y, family, autoTileIndex, roleCatalog)
+        });
+        let catalogId = wallFrontCatalogId(family, slot);
+        if (
+            autoTileIndex &&
+            autoTileIndex.families &&
+            autoTileIndex.families[family] &&
+            autoTileIndex.families[family].slots &&
+            autoTileIndex.families[family].slots[slot]
+        ) {
+            catalogId = autoTileIndex.families[family].slots[slot];
+        }
+        if (entry.catalogId === catalogId) continue;
+        const next = intern(
+            applyEntryOverrides(
+                {
+                    catalogId,
+                    kind: 'objects',
+                    roleId: entry.roleId || 'wall',
+                    autoTile: { kind: 'wallFront', family, slot },
+                    wangLocked: false,
+                    hop: undefined
+                },
+                entry
+            )
+        );
+        if ((next & 0xffff) !== pi) {
+            sl.cells[i] = next & 0xffff;
+            changed.push(i);
+        }
+    }
+    return changed;
+}
+
+/**
+ * @param {object} floor
+ * @param {object} sl
+ * @param {number} x
+ * @param {number} y
+ * @param {string} family
+ * @param {object|null} [autoTileIndex]
+ * @returns {boolean}
+ */
+function sameRect9FamilyAt(floor, sl, x, y, family, autoTileIndex) {
+    const cols = floor.cols | 0;
+    const rows = floor.rows | 0;
+    if (x < 0 || y < 0 || x >= cols || y >= rows) return false;
+    const pi = sl.cells[y * cols + x] & 0xffff;
+    if (!pi) return false;
+    const entry = floor.palette[pi];
+    if (!entry) return false;
+    return rect9FamilyOf(entry, autoTileIndex) === family;
+}
+
+/**
+ * Intern the 9 rect9 slots (not Wang-16 faces).
+ * @param {(stamp: object) => number} intern
+ * @param {string} family
+ * @param {object} entry
+ * @param {object|null} [autoTileIndex]
+ */
+function internRect9Slots(intern, family, entry, autoTileIndex) {
+    const asObjects = entry && entry.kind === 'objects';
+    for (let i = 0; i < RECT9_SLOTS.length; i++) {
+        const slot = RECT9_SLOTS[i];
+        let catalogId = rect9CatalogId(family, slot);
+        if (
+            autoTileIndex &&
+            autoTileIndex.families &&
+            autoTileIndex.families[family] &&
+            autoTileIndex.families[family].slots &&
+            autoTileIndex.families[family].slots[slot]
+        ) {
+            catalogId = autoTileIndex.families[family].slots[slot];
+        }
+        intern(
+            applyEntryOverrides(
+                {
+                    catalogId,
+                    kind: asObjects ? 'objects' : 'overlays',
+                    roleId:
+                        entry.roleId ||
+                        (asObjects ? 'scenery_blocking' : 'path'),
+                    autoTile: { kind: 'rect9', family, slot },
+                    wangLocked: false,
+                    borderLocked: false,
+                    hop: undefined
+                },
+                entry
+            )
+        );
+    }
+}
+
+/**
+ * Rewrite rect9 occupancy on `path` (overlays) and `scenery` (objects)
+ * from 4-neighbor same-family cells. RAW locked pieces stay.
+ * @param {object} floor
+ * @param {Iterable<number>} seedIndices
+ * @param {(stamp: object) => number} intern
+ * @param {object|null} [autoTileIndex]
+ * @returns {number[]} changed cell indices
+ */
+function resolveRect9OnFloor(floor, seedIndices, intern, autoTileIndex) {
+    const layers = [pathSubLayer(floor), scenerySubLayer(floor)].filter(Boolean);
+    if (!layers.length) return [];
+    const cols = floor.cols | 0;
+    const rows = floor.rows | 0;
+    const ring = expandWangRing(cols, rows, seedIndices);
+    /** @type {number[]} */
+    const changed = [];
+    for (let li = 0; li < layers.length; li++) {
+        const sl = layers[li];
+        /** @type {Set<string>} */
+        const seeded = new Set();
+        for (const i of ring) {
+            const pi = sl.cells[i] & 0xffff;
+            if (!pi) continue;
+            const entry = floor.palette[pi];
+            if (!entry || isResolveLocked(entry)) continue;
+            const family = rect9FamilyOf(entry, autoTileIndex);
+            if (!family) continue;
+            if (!seeded.has(family)) {
+                internRect9Slots(intern, family, entry, autoTileIndex);
+                seeded.add(family);
+            }
+            const x = i % cols;
+            const y = (i / cols) | 0;
+            const slot = resolveRect9Slot({
+                n: sameRect9FamilyAt(floor, sl, x, y - 1, family, autoTileIndex),
+                e: sameRect9FamilyAt(floor, sl, x + 1, y, family, autoTileIndex),
+                s: sameRect9FamilyAt(floor, sl, x, y + 1, family, autoTileIndex),
+                w: sameRect9FamilyAt(floor, sl, x - 1, y, family, autoTileIndex)
+            });
+            let catalogId = rect9CatalogId(family, slot);
+            if (
+                autoTileIndex &&
+                autoTileIndex.families &&
+                autoTileIndex.families[family] &&
+                autoTileIndex.families[family].slots &&
+                autoTileIndex.families[family].slots[slot]
+            ) {
+                catalogId = autoTileIndex.families[family].slots[slot];
+            }
+            if (entry.catalogId === catalogId) continue;
+            const asObjects = entry.kind === 'objects' || sl.id === 'scenery';
+            const next = intern(
+                applyEntryOverrides(
+                    {
+                        catalogId,
+                        kind: asObjects ? 'objects' : 'overlays',
+                        roleId:
+                            entry.roleId ||
+                            (asObjects ? 'scenery_blocking' : 'path'),
+                        autoTile: { kind: 'rect9', family, slot },
+                        wangLocked: false,
+                        borderLocked: false,
+                        hop: undefined
+                    },
+                    entry
+                )
+            );
+            if ((next & 0xffff) !== pi) {
+                sl.cells[i] = next & 0xffff;
+                changed.push(i);
+            }
+        }
+    }
+    return changed;
+}
+
+/**
+ * @param {object} floor
+ * @param {object} sl
+ * @param {number} x
+ * @param {number} y
+ * @param {string} family
+ * @param {object|null} [autoTileIndex]
+ * @returns {boolean}
+ */
+function sameBorder12FillAt(floor, sl, x, y, family, autoTileIndex) {
+    const cols = floor.cols | 0;
+    const rows = floor.rows | 0;
+    if (x < 0 || y < 0 || x >= cols || y >= rows) return false;
+    const pi = sl.cells[y * cols + x] & 0xffff;
+    if (!pi) return false;
+    const entry = floor.palette[pi];
+    if (!entry) return false;
+    const at = autoTileOf(entry, autoTileIndex);
+    return !!(at && at.kind === 'border12' && at.family === family && at.slot === 'fill');
+}
+
+/**
+ * Write/clear 12-piece edges on land cells in the 8-ring. Fill occupancy is
+ * on `ground`; edges on `path`. Locked cells skip. Collision stays the fill.
+ * @param {object} floor
+ * @param {Iterable<number>} seedIndices
+ * @param {(stamp: object) => number} intern
+ * @param {object|null} [autoTileIndex]
+ * @returns {number[]} changed cell indices
+ */
+function resolveBorder12OnFloor(floor, seedIndices, intern, autoTileIndex) {
+    const ground = groundSubLayer(floor);
+    const path = pathSubLayer(floor);
+    if (!ground || !path) return [];
+    const cols = floor.cols | 0;
+    const rows = floor.rows | 0;
+    const ring = expandWangRing(cols, rows, seedIndices, { diagonals: true });
+    /** @type {Set<string>} */
+    const families = new Set();
+    for (const i of ring) {
+        const gi = ground.cells[i] & 0xffff;
+        const ge = gi ? floor.palette[gi] : null;
+        const gf = border12FamilyOf(ge, autoTileIndex);
+        if (gf && isBorder12Fill(ge, autoTileIndex)) families.add(gf);
+        const pi = path.cells[i] & 0xffff;
+        const pe = pi ? floor.palette[pi] : null;
+        const pf = border12FamilyOf(pe, autoTileIndex);
+        if (pf) families.add(pf);
+    }
+    if (!families.size) return [];
+    /** @type {number[]} */
+    const changed = [];
+    for (const family of families) {
+        for (const i of ring) {
+            const x = i % cols;
+            const y = (i / cols) | 0;
+            const pathPi = path.cells[i] & 0xffff;
+            const pathEntry = pathPi ? floor.palette[pathPi] : null;
+            const locked =
+                pathEntry &&
+                isResolveLocked(pathEntry) &&
+                border12FamilyOf(pathEntry, autoTileIndex) === family;
+            if (locked) continue;
+            if (sameBorder12FillAt(floor, ground, x, y, family, autoTileIndex)) {
+                if (pathEntry && border12FamilyOf(pathEntry, autoTileIndex) === family) {
+                    path.cells[i] = 0;
+                    changed.push(i);
+                }
+                continue;
+            }
+            const slot = resolveBorder12Slot({
+                n: sameBorder12FillAt(floor, ground, x, y - 1, family, autoTileIndex),
+                e: sameBorder12FillAt(floor, ground, x + 1, y, family, autoTileIndex),
+                s: sameBorder12FillAt(floor, ground, x, y + 1, family, autoTileIndex),
+                w: sameBorder12FillAt(floor, ground, x - 1, y, family, autoTileIndex),
+                nw: sameBorder12FillAt(floor, ground, x - 1, y - 1, family, autoTileIndex),
+                ne: sameBorder12FillAt(floor, ground, x + 1, y - 1, family, autoTileIndex),
+                se: sameBorder12FillAt(floor, ground, x + 1, y + 1, family, autoTileIndex),
+                sw: sameBorder12FillAt(floor, ground, x - 1, y + 1, family, autoTileIndex)
+            });
+            if (!slot) {
+                if (pathEntry && border12FamilyOf(pathEntry, autoTileIndex) === family) {
+                    path.cells[i] = 0;
+                    changed.push(i);
+                }
+                continue;
+            }
+            let catalogId = border12CatalogId(family, slot);
+            if (
+                autoTileIndex &&
+                autoTileIndex.families &&
+                autoTileIndex.families[family] &&
+                autoTileIndex.families[family].slots &&
+                autoTileIndex.families[family].slots[slot]
+            ) {
+                catalogId = autoTileIndex.families[family].slots[slot];
+            }
+            const at = { kind: 'border12', family, slot };
+            if (
+                pathEntry &&
+                pathEntry.catalogId === catalogId &&
+                border12FamilyOf(pathEntry, autoTileIndex) === family
+            ) {
+                continue;
+            }
+            const next = intern(
+                applyEntryOverrides(
+                    {
+                        catalogId,
+                        kind: 'overlays',
+                        roleId: pathEntry && pathEntry.roleId ? pathEntry.roleId : null,
+                        autoTile: at,
+                        wangLocked: false,
+                        borderLocked: false
+                    },
+                    pathEntry || {}
+                )
+            );
+            if ((next & 0xffff) !== pathPi) {
+                path.cells[i] = next & 0xffff;
+                changed.push(i);
+            }
+        }
+    }
+    return changed;
+}
+
+/**
  * Copy optional render / influence onto a stamp / intern payload.
  * Art-set disk (`opts.fromArtSet`): `render` only — top-level scale/anchor/variant
  * are ignored. Hybrid placements keep flat scale/anchor/variant.
@@ -618,10 +1208,34 @@ function buildStampsFromArtSet(artSet, roleCatalog) {
                 kind === 'objects'
                     ? wallFamilyOf(raw) || wallFamilyOf(catalogId)
                     : null;
+            const at = autoTileOf(raw) || autoTileOf(catalogId);
+            const autoFamily =
+                at &&
+                at.kind !== 'none' &&
+                (at.kind === 'variation' ||
+                    at.kind === 'border12' ||
+                    at.kind === 'wallFront' ||
+                    at.kind === 'rect9')
+                    ? at.family
+                    : null;
             if (family) {
                 let exists = false;
                 for (let si = 0; si < stamps.length; si++) {
                     if (stamps[si] && stamps[si].wangFamily === family && stamps[si].kind === 'overlays') {
+                        exists = true;
+                        break;
+                    }
+                }
+                if (exists) continue;
+            }
+            if (autoFamily) {
+                if (at.kind === 'wallFront' && at.slot !== WALL_FRONT_FAMILY_SLOT) continue;
+                if (at.kind === 'rect9' && at.slot !== RECT9_FAMILY_SLOT) continue;
+                if (at.kind !== 'wallFront' && at.kind !== 'rect9' && at.slot !== 'fill') continue;
+                let exists = false;
+                for (let si = 0; si < stamps.length; si++) {
+                    const stAt = stamps[si] && autoTileOf(stamps[si]);
+                    if (stAt && stAt.family === autoFamily && stAt.kind === at.kind) {
                         exists = true;
                         break;
                     }
@@ -659,19 +1273,108 @@ function buildStampsFromArtSet(artSet, roleCatalog) {
                     ? wangCatalogId(family, 15)
                     : wallFamily
                       ? wallCatalogId(wallFamily, 'pole')
-                      : catalogId,
-                kind,
-                roleId,
+                      : autoFamily && at && at.kind === 'wallFront'
+                        ? wallFrontCatalogId(autoFamily, WALL_FRONT_FAMILY_SLOT)
+                        : autoFamily && at && at.kind === 'rect9'
+                          ? rect9CatalogId(autoFamily, RECT9_FAMILY_SLOT)
+                          : autoFamily && at && at.kind === 'border12'
+                            ? catalogId
+                          : autoFamily && at && at.kind === 'variation' && at.slot !== 'fill'
+                            ? catalogId
+                            : catalogId,
+                kind:
+                    autoFamily && at && at.kind === 'wallFront'
+                        ? 'objects'
+                        : autoFamily && at && at.kind === 'rect9'
+                          ? kind === 'objects'
+                              ? 'objects'
+                              : 'overlays'
+                          : autoFamily && at && at.kind === 'border12' && at.slot === 'fill'
+                            ? 'tiles'
+                            : kind,
+                roleId:
+                    autoFamily && at && at.kind === 'wallFront'
+                        ? roleId || 'wall'
+                        : autoFamily && at && at.kind === 'rect9'
+                          ? roleId || (kind === 'objects' ? 'scenery_blocking' : 'path')
+                          : autoFamily && at && at.kind === 'border12' && at.slot === 'fill'
+                            ? roleId || 'water'
+                            : roleId,
                 artRole,
-                subLayer,
+                subLayer:
+                    autoFamily && at && at.kind === 'wallFront'
+                        ? 'vertical'
+                        : autoFamily && at && at.kind === 'rect9'
+                          ? kind === 'objects'
+                              ? 'scenery'
+                              : 'path'
+                          : autoFamily && at && at.kind === 'border12' && at.slot === 'fill'
+                            ? 'ground'
+                            : autoFamily && at && at.kind === 'variation'
+                              ? preferredSubLayer(artRole, roleId, 'tiles', raw)
+                              : subLayer,
                 weight: raw.weight != null ? Number(raw.weight) : 1,
-                label: raw.label || (family ? family : wallFamily ? wallFamily : catalogId),
+                label:
+                    raw.label ||
+                    (family ? family : wallFamily ? wallFamily : autoFamily ? autoFamily : catalogId),
                 previewColor: ROLE_PREVIEW_COLORS[roleId] || ROLE_PREVIEW_COLORS[artRole] || '#666666'
             };
             if (family) {
                 stamp.wangFamily = family;
                 stamp.wangResolve = true;
                 stamp.wangLocked = false;
+            }
+            if (raw.anim && raw.anim.frames > 0) {
+                stamp.anim = {
+                    frames: raw.anim.frames | 0,
+                    fps: raw.anim.fps > 0 ? raw.anim.fps : 4
+                };
+            }
+            if (at && autoFamily) {
+                stamp.autoTile = {
+                    kind: at.kind,
+                    family: autoFamily,
+                    slot: at.kind === 'border12' ? 'fill' : at.slot === 'fill' ? 'fill' : at.slot
+                };
+                if (at.kind === 'wallFront') {
+                    stamp.autoTile.slot = WALL_FRONT_FAMILY_SLOT;
+                    stamp.kind = 'objects';
+                    stamp.roleId = stamp.roleId || 'wall';
+                    stamp.subLayer = 'vertical';
+                    stamp.wangLocked = false;
+                    stamp.borderLocked = false;
+                    delete stamp.hop;
+                    delete stamp.wallFamily;
+                    delete stamp.wallAlign;
+                } else if (at.kind === 'border12') {
+                    stamp.autoTile.slot = 'fill';
+                    stamp.kind = 'tiles';
+                    stamp.roleId = stamp.roleId || 'water';
+                    stamp.subLayer = 'ground';
+                    stamp.wangLocked = false;
+                    stamp.borderLocked = false;
+                } else if (at.kind === 'rect9') {
+                    stamp.autoTile.slot = RECT9_FAMILY_SLOT;
+                    stamp.kind = stamp.kind === 'objects' ? 'objects' : 'overlays';
+                    stamp.roleId =
+                        stamp.roleId ||
+                        (stamp.kind === 'objects' ? 'scenery_blocking' : 'path');
+                    stamp.subLayer = stamp.kind === 'objects' ? 'scenery' : 'path';
+                    stamp.wangLocked = false;
+                    stamp.borderLocked = false;
+                } else if (at.kind === 'variation') {
+                    stamp.wangLocked = false;
+                    stamp.borderLocked = false;
+                }
+            } else if (at && at.kind === 'none') {
+                stamp.autoTile = {
+                    kind: 'none',
+                    family: at.family,
+                    slot: at.slot
+                };
+                if (kind === 'objects') {
+                    stamp.subLayer = preferredSubLayer(artRole, roleId, kind, stamp);
+                }
             }
             if (wallFamily) {
                 stamp.wallFamily = wallFamily;
@@ -681,7 +1384,12 @@ function buildStampsFromArtSet(artSet, roleCatalog) {
             }
             applyEntryOverrides(stamp, raw, { fromArtSet: true });
             // Default hop for vertical roles — not wall faces
-            if (subLayer === 'vertical' && !wallFamily) {
+            if (
+                subLayer === 'vertical' &&
+                !wallFamily &&
+                !(at && at.kind === 'wallFront') &&
+                !(at && at.kind === 'rect9')
+            ) {
                 let deltaZ = -1;
                 let dir = 'center';
                 if (roleCatalog) {
@@ -950,7 +1658,7 @@ function ensureStampPaletteIndex(floor, stamp) {
             : stamp.kind === 'objects'
               ? 'objects'
               : 'tiles';
-    const locked = !!stamp.wangLocked;
+    const locked = !!(stamp.wangLocked || stamp.borderLocked);
     const family = wangFamilyOf(stamp);
     const wallFamily = wallFamilyOf(stamp);
     const parsed = family ? parseWangId(catalogId) : null;
@@ -980,6 +1688,7 @@ function ensureStampPaletteIndex(floor, stamp) {
             (e.roleId || null) === (roleId || null) &&
             (e.kind || 'tiles') === kind &&
             !!e.wangLocked === locked &&
+            !!e.borderLocked === !!stamp.borderLocked &&
             JSON.stringify(e.hop || null) === JSON.stringify(stamp.hop || null) &&
             (e.scale == null ? null : e.scale) === (stamp.scale == null ? null : stamp.scale) &&
             (e.anchor || null) === (stamp.anchor || null) &&
@@ -997,13 +1706,28 @@ function ensureStampPaletteIndex(floor, stamp) {
         anchor: stamp.anchor,
         variant: stamp.variant,
         influence: stamp.influence,
-        hop: wallFamily ? undefined : stamp.hop || undefined,
+        hop: wallFamily || isWallFront(stamp) ? undefined : stamp.hop || undefined,
         wangFamily: family || undefined,
         wangMask,
         wangInner,
         wallFamily: wallFamily || undefined,
         wallAlign: wallAlign || undefined,
-        wangLocked: locked || undefined
+        wangLocked: locked || undefined,
+        borderLocked: stamp.borderLocked ? true : undefined,
+        autoTile: stamp.autoTile && stamp.autoTile.kind && stamp.autoTile.family && stamp.autoTile.slot
+            ? {
+                  kind: stamp.autoTile.kind,
+                  family: stamp.autoTile.family,
+                  slot: stamp.autoTile.slot
+              }
+            : autoTileOf(stamp) || undefined,
+        anim:
+            stamp.anim && stamp.anim.frames > 0
+                ? {
+                      frames: stamp.anim.frames | 0,
+                      fps: stamp.anim.fps > 0 ? stamp.anim.fps : 4
+                  }
+                : undefined
     });
 }
 
@@ -1017,6 +1741,7 @@ function ensureStampPaletteIndex(floor, stamp) {
  *   floor?: object|null,
  *   roleCatalog?: Map|object|null,
  *   artSet?: object|null,
+ *   autoTileIndex?: object|null,
  *   id?: string
  * }} [opts]
  */
@@ -1038,6 +1763,8 @@ function createEditorSession(opts) {
               );
 
     let roleCatalog = o.roleCatalog || null;
+    /** @type {object|null} */
+    let autoTileIndex = o.autoTileIndex || null;
     /** @type {object[]} */
     let stamps = o.artSet ? buildStampsFromArtSet(o.artSet, roleCatalog) : [];
 
@@ -1259,7 +1986,8 @@ function createEditorSession(opts) {
     /**
      * Paint selected stamp (or erase if stamp null / erase mode) on active sub-layer.
      * Overlay family stamps always write occupancy on `path`; wall families
-     * write `vertical`. Mask / face is resolved at stroke-end (plus a 1-ring).
+     * write `vertical`; border12 fill writes `ground`. Mask / face / edges
+     * resolve at stroke-end (plus an 8-ring).
      * @param {number} x
      * @param {number} y
      * @param {{ size?: number, shape?: string, erase?: boolean, stamp?: object|null }} [opts]
@@ -1272,13 +2000,20 @@ function createEditorSession(opts) {
         const shape = po.shape || 'square';
         const erase = !!po.erase;
         const rawStamp = po.stamp !== undefined ? po.stamp : selectedStamp;
-        const stamp = erase ? null : occupancyStamp(rawStamp);
-        const subId =
-            stamp && stamp.kind === 'overlays'
-                ? 'path'
-                : stamp && isWallWang(stamp)
-                  ? 'vertical'
-                  : po.subLayer || activeSubLayer;
+        const probe = erase ? null : occupancyStamp(rawStamp, { autoTileIndex });
+        const subId = erase
+            ? po.subLayer || activeSubLayer
+            : probe && isBorder12Fill(probe, autoTileIndex)
+              ? 'ground'
+              : probe && isRect9(probe, autoTileIndex)
+                ? probe.kind === 'objects'
+                    ? 'scenery'
+                    : 'path'
+                : probe && probe.kind === 'overlays'
+                  ? 'path'
+                  : probe && (isWallWang(probe) || isWallFront(probe, autoTileIndex))
+                    ? 'vertical'
+                    : po.subLayer || activeSubLayer;
         if (!SUB_LAYER_IDS.includes(subId)) return;
 
         const cells = [];
@@ -1289,13 +2024,14 @@ function createEditorSession(opts) {
 
         ensureStrokeBeforeForCells(cells, true);
 
-        let palIdx = 0;
-        if (!erase && stamp) {
-            palIdx = ensureStampPaletteIndex(floor, stamp);
-        }
         for (let c = 0; c < cells.length; c++) {
             const px = cells[c][0];
             const py = cells[c][1];
+            let palIdx = 0;
+            if (!erase && rawStamp) {
+                const stamp = occupancyStamp(rawStamp, { x: px, y: py, autoTileIndex });
+                palIdx = stamp ? ensureStampPaletteIndex(floor, stamp) : 0;
+            }
             setSubLayerCell(floor, subId, px, py, palIdx);
             strokeDirty.add(idx(px, py));
         }
@@ -1311,7 +2047,7 @@ function createEditorSession(opts) {
      * @returns {Set<number>} indices to include in the after-snapshot
      */
     function resolveWangStroke(seed) {
-        const ring = expandWangRing(floor.cols, floor.rows, seed);
+        const ring = expandWangRing(floor.cols, floor.rows, seed, { diagonals: true });
         if (!ring.size) return seed;
         ensureStrokeBeforeForCells(Array.from(ring), false);
         const overlayChanged = resolveWangOnFloor(floor, ring, (st) =>
@@ -1323,10 +2059,30 @@ function createEditorSession(opts) {
             (st) => ensureStampPaletteIndex(floor, st),
             roleCatalog
         );
-        const changed = overlayChanged.concat(wallChanged);
+        const frontChanged = resolveWallFrontOnFloor(
+            floor,
+            ring,
+            (st) => ensureStampPaletteIndex(floor, st),
+            autoTileIndex,
+            roleCatalog
+        );
+        const borderChanged = resolveBorder12OnFloor(
+            floor,
+            ring,
+            (st) => ensureStampPaletteIndex(floor, st),
+            autoTileIndex
+        );
+        const rect9Changed = resolveRect9OnFloor(
+            floor,
+            ring,
+            (st) => ensureStampPaletteIndex(floor, st),
+            autoTileIndex
+        );
+        const changed = overlayChanged.concat(wallChanged).concat(frontChanged).concat(rect9Changed);
         for (let c = 0; c < changed.length; c++) seed.add(changed[c]);
         const snap = new Set(seed);
         for (const i of ring) snap.add(i);
+        for (let c = 0; c < borderChanged.length; c++) snap.add(borderChanged[c]);
         return snap;
     }
 
@@ -1390,27 +2146,39 @@ function createEditorSession(opts) {
         const startI = idx(x, y);
         const erase = !!po.erase;
         const rawStamp = po.stamp !== undefined ? po.stamp : selectedStamp;
-        const stamp = erase ? null : occupancyStamp(rawStamp);
+        const stamp = erase ? null : occupancyStamp(rawStamp, { autoTileIndex });
         const overlayStamp = !!(stamp && stamp.kind === 'overlays');
-        const wallStamp = !!(stamp && isWallWang(stamp));
+        const wallStamp = !!(
+            stamp &&
+            (isWallWang(stamp) || isWallFront(stamp, autoTileIndex))
+        );
+        const borderFillStamp = !!(stamp && isBorder12Fill(stamp, autoTileIndex));
+        const rect9Stamp = !!(stamp && isRect9(stamp, autoTileIndex));
+        const rect9Layer = stamp && stamp.kind === 'objects' ? 'scenery' : 'path';
         const slResolved =
-            overlayStamp && sl.id !== 'path'
-                ? floor.subLayers.find((s) => s && s.id === 'path')
-                : wallStamp && sl.id !== 'vertical'
-                  ? floor.subLayers.find((s) => s && s.id === 'vertical')
-                  : sl;
+            borderFillStamp && sl.id !== 'ground'
+                ? floor.subLayers.find((s) => s && s.id === 'ground')
+                : rect9Stamp && sl.id !== rect9Layer
+                  ? floor.subLayers.find((s) => s && s.id === rect9Layer)
+                  : overlayStamp && sl.id !== 'path'
+                    ? floor.subLayers.find((s) => s && s.id === 'path')
+                    : wallStamp && sl.id !== 'vertical'
+                      ? floor.subLayers.find((s) => s && s.id === 'vertical')
+                      : sl;
         if (!slResolved) return { rect: null };
         const startResolved = slResolved.cells[startI] & 0xffff;
-        const seedFamily =
-            wangFamilyOf(floor.palette[startResolved]) ||
-            wallFamilyOf(floor.palette[startResolved]);
-        const stampFamily = stamp
-            ? wangFamilyOf(stamp) || wallFamilyOf(stamp)
-            : null;
+        const seedFamily = editorFamilyOf(floor.palette[startResolved], autoTileIndex);
+        const stampFamily = stamp ? editorFamilyOf(stamp, autoTileIndex) : null;
         const familyMode = !!(stampFamily || (erase && seedFamily));
+        const variationStamp = !!(
+            stamp &&
+            autoTileOf(stamp, autoTileIndex) &&
+            autoTileOf(stamp, autoTileIndex).kind === 'variation' &&
+            !isResolveLocked(stamp)
+        );
         let fillIdx = 0;
-        if (!erase && stamp) fillIdx = ensureStampPaletteIndex(floor, stamp);
-        if (!familyMode && fillIdx === startResolved) return { rect: null };
+        if (!erase && stamp && !variationStamp) fillIdx = ensureStampPaletteIndex(floor, stamp);
+        if (!familyMode && !variationStamp && fillIdx === startResolved) return { rect: null };
         if (familyMode && !erase && stampFamily && seedFamily === stampFamily) {
             return { rect: null };
         }
@@ -1437,9 +2205,7 @@ function createEditorSession(opts) {
             const pi = floodSl.cells[i] & 0xffff;
             if (familyMode) {
                 if (seedFamily) {
-                    const cellFam =
-                        wangFamilyOf(floor.palette[pi]) ||
-                        wallFamilyOf(floor.palette[pi]);
+                    const cellFam = editorFamilyOf(floor.palette[pi], autoTileIndex);
                     if (cellFam !== seedFamily) continue;
                 } else if (pi !== 0) {
                     continue;
@@ -1459,11 +2225,21 @@ function createEditorSession(opts) {
         }
         if (!filled.length) return { rect: null };
 
-        const ring = expandWangRing(floor.cols, floor.rows, filled);
+        const ring = expandWangRing(floor.cols, floor.rows, filled, { diagonals: true });
         const snapIdx = Array.from(ring);
         const before = snapshotFloorSparse(floor, snapIdx);
         for (let fi = 0; fi < filled.length; fi++) {
-            floodSl.cells[filled[fi]] = fillIdx & 0xffff;
+            const i = filled[fi];
+            if (variationStamp && stamp) {
+                const x = i % floor.cols;
+                const y = (i / floor.cols) | 0;
+                const cellStamp = occupancyStamp(rawStamp, { x, y, autoTileIndex });
+                floodSl.cells[i] = cellStamp
+                    ? ensureStampPaletteIndex(floor, cellStamp) & 0xffff
+                    : 0;
+            } else {
+                floodSl.cells[i] = fillIdx & 0xffff;
+            }
         }
         const overlayChanged = resolveWangOnFloor(floor, filled, (st) =>
             ensureStampPaletteIndex(floor, st)
@@ -1474,7 +2250,26 @@ function createEditorSession(opts) {
             (st) => ensureStampPaletteIndex(floor, st),
             roleCatalog
         );
-        const wangChanged = overlayChanged.concat(wallChanged);
+        const frontChanged = resolveWallFrontOnFloor(
+            floor,
+            filled,
+            (st) => ensureStampPaletteIndex(floor, st),
+            autoTileIndex,
+            roleCatalog
+        );
+        resolveBorder12OnFloor(
+            floor,
+            filled,
+            (st) => ensureStampPaletteIndex(floor, st),
+            autoTileIndex
+        );
+        const rect9Changed = resolveRect9OnFloor(
+            floor,
+            filled,
+            (st) => ensureStampPaletteIndex(floor, st),
+            autoTileIndex
+        );
+        const wangChanged = overlayChanged.concat(wallChanged).concat(frontChanged).concat(rect9Changed);
         const bakeIdx = filled.concat(wangChanged);
         const rect = bakeDirtyIndices(bakeIdx);
         const after = snapshotFloorSparse(floor, snapIdx);
@@ -1569,7 +2364,26 @@ function createEditorSession(opts) {
             (st) => ensureStampPaletteIndex(floor, st),
             roleCatalog
         );
-        const changed = overlayChanged.concat(wallChanged);
+        const frontChanged = resolveWallFrontOnFloor(
+            floor,
+            indices,
+            (st) => ensureStampPaletteIndex(floor, st),
+            autoTileIndex,
+            roleCatalog
+        );
+        resolveBorder12OnFloor(
+            floor,
+            indices,
+            (st) => ensureStampPaletteIndex(floor, st),
+            autoTileIndex
+        );
+        const rect9Changed = resolveRect9OnFloor(
+            floor,
+            indices,
+            (st) => ensureStampPaletteIndex(floor, st),
+            autoTileIndex
+        );
+        const changed = overlayChanged.concat(wallChanged).concat(frontChanged).concat(rect9Changed);
         if (changed.length) bakeDirtyIndices(changed);
     }
 
@@ -1773,6 +2587,10 @@ function createEditorSession(opts) {
         stamps = artSet ? buildStampsFromArtSet(artSet, roleCatalog) : [];
     }
 
+    function setAutoTileIndex(index) {
+        autoTileIndex = index || null;
+    }
+
     function setRoleCatalog(roles) {
         roleCatalog = roles;
     }
@@ -1805,10 +2623,11 @@ function createEditorSession(opts) {
      * @param {string} subLayer
      * @returns {object}
      */
-    function stampFromPaletteEntry(entry, subLayer) {
+    function stampFromPaletteEntry(entry, subLayer, opts) {
         if (!entry) return null;
+        const exact = !!(opts && opts.exact);
         const family = wangFamilyOf(entry);
-        if (family && !entry.wangLocked) {
+        if (family && !entry.wangLocked && !exact) {
             for (let i = 0; i < stamps.length; i++) {
                 const st = stamps[i];
                 if (!st || st.kind !== 'overlays') continue;
@@ -1830,7 +2649,7 @@ function createEditorSession(opts) {
             );
         }
         const wallFamily = wallFamilyOf(entry);
-        if (wallFamily && !entry.wangLocked) {
+        if (wallFamily && !entry.wangLocked && !exact) {
             for (let i = 0; i < stamps.length; i++) {
                 const st = stamps[i];
                 if (!st || st.kind !== 'objects') continue;
@@ -1848,6 +2667,129 @@ function createEditorSession(opts) {
                     wangLocked: false,
                     label: wallFamily,
                     previewColor: ROLE_PREVIEW_COLORS[entry.roleId] || ROLE_PREVIEW_COLORS.wall || '#555555'
+                },
+                entry
+            );
+        }
+        const at = autoTileOf(entry, autoTileIndex);
+        if (at && at.kind === 'wallFront' && !isResolveLocked(entry) && !exact) {
+            for (let i = 0; i < stamps.length; i++) {
+                const st = stamps[i];
+                if (!st) continue;
+                const stAt = autoTileOf(st, autoTileIndex);
+                if (
+                    stAt &&
+                    stAt.kind === 'wallFront' &&
+                    stAt.family === at.family &&
+                    stAt.slot === WALL_FRONT_FAMILY_SLOT
+                ) {
+                    return st;
+                }
+            }
+            const midId =
+                (autoTileIndex &&
+                    autoTileIndex.families &&
+                    autoTileIndex.families[at.family] &&
+                    autoTileIndex.families[at.family].fillId) ||
+                wallFrontCatalogId(at.family, WALL_FRONT_FAMILY_SLOT);
+            return applyEntryOverrides(
+                {
+                    catalogId: midId,
+                    kind: 'objects',
+                    roleId: entry.roleId || 'wall',
+                    subLayer: 'vertical',
+                    autoTile: { kind: 'wallFront', family: at.family, slot: WALL_FRONT_FAMILY_SLOT },
+                    wangLocked: false,
+                    borderLocked: false,
+                    label: at.family,
+                    previewColor: ROLE_PREVIEW_COLORS[entry.roleId] || ROLE_PREVIEW_COLORS.wall || '#555555'
+                },
+                entry
+            );
+        }
+        if (at && at.kind === 'rect9' && !isResolveLocked(entry) && !exact) {
+            for (let i = 0; i < stamps.length; i++) {
+                const st = stamps[i];
+                if (!st) continue;
+                const stAt = autoTileOf(st, autoTileIndex);
+                if (
+                    stAt &&
+                    stAt.kind === 'rect9' &&
+                    stAt.family === at.family &&
+                    stAt.slot === RECT9_FAMILY_SLOT
+                ) {
+                    return st;
+                }
+            }
+            const centerId =
+                (autoTileIndex &&
+                    autoTileIndex.families &&
+                    autoTileIndex.families[at.family] &&
+                    autoTileIndex.families[at.family].fillId) ||
+                rect9CatalogId(at.family, RECT9_FAMILY_SLOT);
+            const asObjects = entry.kind === 'objects' || subLayer === 'scenery';
+            return applyEntryOverrides(
+                {
+                    catalogId: centerId,
+                    kind: asObjects ? 'objects' : 'overlays',
+                    roleId:
+                        entry.roleId ||
+                        (asObjects ? 'scenery_blocking' : 'path'),
+                    subLayer: asObjects ? 'scenery' : 'path',
+                    autoTile: { kind: 'rect9', family: at.family, slot: RECT9_FAMILY_SLOT },
+                    wangLocked: false,
+                    borderLocked: false,
+                    label: at.family,
+                    previewColor:
+                        ROLE_PREVIEW_COLORS[entry.roleId] ||
+                        ROLE_PREVIEW_COLORS.path ||
+                        '#8b7355'
+                },
+                entry
+            );
+        }
+        if (at && (at.kind === 'variation' || at.kind === 'border12') && !isResolveLocked(entry) && !exact) {
+            for (let i = 0; i < stamps.length; i++) {
+                const st = stamps[i];
+                if (!st) continue;
+                const stAt = autoTileOf(st, autoTileIndex);
+                if (stAt && stAt.kind === at.kind && stAt.family === at.family && stAt.slot === 'fill') {
+                    return st;
+                }
+            }
+            const fillId =
+                (autoTileIndex &&
+                    autoTileIndex.families &&
+                    autoTileIndex.families[at.family] &&
+                    autoTileIndex.families[at.family].fillId) ||
+                (at.slot === 'fill' ? entry.catalogId : null);
+            if (at.kind === 'border12') {
+                return applyEntryOverrides(
+                    {
+                        catalogId: fillId || entry.catalogId,
+                        kind: 'tiles',
+                        roleId: 'water',
+                        subLayer: 'ground',
+                        autoTile: { kind: 'border12', family: at.family, slot: 'fill' },
+                        wangLocked: false,
+                        borderLocked: false,
+                        label: at.family,
+                        previewColor: ROLE_PREVIEW_COLORS.water || '#2a6db0'
+                    },
+                    entry
+                );
+            }
+            return applyEntryOverrides(
+                {
+                    catalogId: fillId || entry.catalogId,
+                    kind: entry.kind || 'tiles',
+                    roleId: entry.roleId || 'floor',
+                    subLayer: subLayer || 'ground',
+                    autoTile: { kind: 'variation', family: at.family, slot: 'fill' },
+                    wangLocked: false,
+                    borderLocked: false,
+                    label: at.family,
+                    previewColor: ROLE_PREVIEW_COLORS[entry.roleId] || ROLE_PREVIEW_COLORS.floor || '#5a8f3c'
                 },
                 entry
             );
@@ -1870,13 +2812,15 @@ function createEditorSession(opts) {
                 subLayer: subLayer || preferredSubLayer(null, entry.roleId, kind, entry),
                 label: entry.catalogId,
                 previewColor: ROLE_PREVIEW_COLORS[entry.roleId] || '#666666',
-                hop: wallFamily || family ? undefined : entry.hop || undefined,
+                hop: wallFamily || family || (at && (at.kind === 'wallFront' || at.kind === 'rect9')) ? undefined : entry.hop || undefined,
                 wangFamily: family || undefined,
                 wangMask: entry.wangMask,
                 wallFamily: wallFamily || undefined,
                 wallAlign: entry.wallAlign || wallAlignOf(entry) || undefined,
                 wangLocked: !!entry.wangLocked,
-                wangResolve: entry.wangLocked ? false : undefined
+                borderLocked: !!entry.borderLocked,
+                wangResolve: entry.wangLocked || entry.borderLocked ? false : undefined,
+                autoTile: entry.autoTile || autoTileOf(entry, autoTileIndex) || undefined
             },
             entry
         );
@@ -1986,7 +2930,7 @@ function createEditorSession(opts) {
                         dx: x - xa,
                         dy: y - ya,
                         subLayer: sid,
-                        stamp: entry ? stampFromPaletteEntry(entry, sid) : null
+                        stamp: entry ? stampFromPaletteEntry(entry, sid, { exact: true }) : null
                     });
                 }
             }
@@ -2246,6 +3190,7 @@ function createEditorSession(opts) {
             }
         },
         setArtSet,
+        setAutoTileIndex,
         setRoleCatalog,
         beginStroke,
         paintAt,
@@ -2366,8 +3311,12 @@ module.exports = {
     ROLE_PREVIEW_COLORS,
     preferredSubLayer,
     occupancyStamp,
+    editorFamilyOf,
     resolveWangOnFloor,
     resolveWallsOnFloor,
+    resolveWallFrontOnFloor,
+    resolveRect9OnFloor,
+    resolveBorder12OnFloor,
     buildStampsFromArtSet,
     ensureChannels,
     frictionWalkClass,

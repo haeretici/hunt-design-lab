@@ -101,7 +101,7 @@ function withOptionalScaleFilter(record, scaleFilter) {
 }
 
 /** @typedef {'planned'|'original_only'|'ready'|'legacy_transformed'} CreatureStatus */
-/** @typedef {'pipeline'|'legacy'|'manual'} CreatureSource */
+/** @typedef {'pipeline'|'legacy'|'manual'|'reference_placeholder'} CreatureSource */
 
 const STATUSES = Object.freeze({
     PLANNED: 'planned',
@@ -113,8 +113,50 @@ const STATUSES = Object.freeze({
 const SOURCES = Object.freeze({
     PIPELINE: 'pipeline',
     LEGACY: 'legacy',
-    MANUAL: 'manual'
+    MANUAL: 'manual',
+    REFERENCE_PLACEHOLDER: 'reference_placeholder'
 });
+
+/** Extra catalog keys preserved across upsert (placeholder ingest / autotile). */
+const CATALOG_EXTRA_KEYS = Object.freeze([
+    'replaceable',
+    'sourcePack',
+    'sourceFolder',
+    'sourceStem',
+    'nativePx',
+    'autoTile',
+    'anim'
+]);
+
+/**
+ * @param {unknown} value
+ * @returns {unknown}
+ */
+function copyCatalogValue(value) {
+    if (value == null || typeof value !== 'object') return value;
+    return JSON.parse(JSON.stringify(value));
+}
+
+/**
+ * Copy placeholder / autotile extras from `partial`, else keep `existing`.
+ * @param {object} record
+ * @param {object|null|undefined} partial
+ * @param {object|null|undefined} existing
+ * @returns {object}
+ */
+function applyCatalogExtras(record, partial, existing) {
+    for (let i = 0; i < CATALOG_EXTRA_KEYS.length; i++) {
+        const key = CATALOG_EXTRA_KEYS[i];
+        if (partial && Object.prototype.hasOwnProperty.call(partial, key)) {
+            const v = partial[key];
+            if (v === undefined) continue;
+            record[key] = copyCatalogValue(v);
+        } else if (existing && Object.prototype.hasOwnProperty.call(existing, key)) {
+            record[key] = copyCatalogValue(existing[key]);
+        }
+    }
+    return record;
+}
 
 /**
  * Technical phrase → stable id (`Ashen Dwarf Priest` → `ashen_dwarf_priest`).
@@ -459,6 +501,8 @@ function upsertCreature(catalog, partial) {
         delete record.wangFamily;
     }
 
+    applyCatalogExtras(record, partial, existing);
+
     if (existing) {
         const idx = catalog.creatures.findIndex((c) => c.id === id);
         catalog.creatures[idx] = record;
@@ -740,6 +784,8 @@ module.exports = {
     CATALOG_VERSION,
     STATUSES,
     SOURCES,
+    CATALOG_EXTRA_KEYS,
+    applyCatalogExtras,
     SCALE_FILTERS,
     DEFAULT_SCALE_FILTER,
     resolveOpaqueAlpha,

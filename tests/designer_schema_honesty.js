@@ -402,6 +402,11 @@ function testArtSetAcceptsOverlayAndWallFamily() {
     );
     assertValid(
         validate,
+        loadJson('presets/standard/art_sets/firstlight_isle.json'),
+        'firstlight_isle'
+    );
+    assertValid(
+        validate,
         {
             id: 'unit_overlay_pack',
             roles: {

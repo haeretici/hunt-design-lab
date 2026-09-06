@@ -388,6 +388,146 @@ function testHybridRoundTrip() {
     }
 }
 
+function catalogAt(floor, subLayerId, x, y) {
+    const sl = (floor.subLayers || []).find((s) => s && s.id === subLayerId);
+    if (!sl) return null;
+    const pi = sl.cells[y * floor.cols + x] & 0xffff;
+    if (!pi) return null;
+    const e = floor.palette[pi];
+    return e || null;
+}
+
+function testHybridPaletteCompactOnSerialize() {
+    const floor = createEmptyTileMapFloor(4, 2, { z: 6 });
+    addPaletteEntry(floor, {
+        catalogId: 'dirt_wang_15',
+        kind: 'overlays',
+        roleId: 'path',
+        wangFamily: 'dirt'
+    });
+    const iGrass = addPaletteEntry(floor, {
+        catalogId: 'overgrown_grass_floor',
+        roleId: 'floor'
+    });
+    floor.palette.push(null);
+    const iPath = addPaletteEntry(floor, {
+        catalogId: 'polished_dirt_path',
+        roleId: 'path'
+    });
+    const iStairsN = addPaletteEntry(floor, {
+        catalogId: 'broken_cave_stairs',
+        roleId: 'stairs_up',
+        hop: { dir: 'north', deltaZ: -1 }
+    });
+    const iStairsS = addPaletteEntry(floor, {
+        catalogId: 'broken_cave_stairs',
+        roleId: 'stairs_up',
+        hop: { dir: 'south', deltaZ: 1 }
+    });
+    addPaletteEntry(floor, {
+        catalogId: 'stone_wall_pole',
+        kind: 'objects',
+        roleId: 'wall',
+        wallFamily: 'stone_wall',
+        wallAlign: 'pole'
+    });
+    setSubLayerCell(floor, 'ground', 0, 0, iGrass);
+    setSubLayerCell(floor, 'path', 1, 0, iPath);
+    setSubLayerCell(floor, 'vertical', 2, 0, iStairsN);
+    setSubLayerCell(floor, 'vertical', 3, 0, iStairsS);
+    setSubLayerCell(floor, 'ground', 0, 1, 3);
+
+    const livePalLen = floor.palette.length;
+    const liveGround = floor.subLayers.find((s) => s.id === 'ground').cells.slice();
+    const livePath = floor.subLayers.find((s) => s.id === 'path').cells.slice();
+    const liveVert = floor.subLayers.find((s) => s.id === 'vertical').cells.slice();
+
+    const pack = {
+        version: 2,
+        id: 'compact_p',
+        label: 'compact_p',
+        floors: { '6': floor },
+        spawns: null,
+        world: null
+    };
+    const { meta, blobs } = serializeHybridPack(pack);
+    assert.strictEqual(floor.palette.length, livePalLen, 'serialize does not compact live palette');
+    assert.deepStrictEqual(
+        Array.from(floor.subLayers.find((s) => s.id === 'ground').cells),
+        Array.from(liveGround)
+    );
+    assert.deepStrictEqual(
+        Array.from(floor.subLayers.find((s) => s.id === 'path').cells),
+        Array.from(livePath)
+    );
+    assert.deepStrictEqual(
+        Array.from(floor.subLayers.find((s) => s.id === 'vertical').cells),
+        Array.from(liveVert)
+    );
+
+    const written = (meta.floors[0].palette || []).filter(Boolean);
+    assert.strictEqual(written.length, 4);
+    assert.strictEqual(meta.floors[0].palette[0], null);
+    assert.ok(written.every((e) => e && e.catalogId !== 'dirt_wang_15'));
+    assert.ok(written.every((e) => e && e.catalogId !== 'stone_wall_pole'));
+
+    const again = deserializeHybridPack(meta, blobs);
+    const loaded = again.floors['6'];
+    const nonempty = (loaded.palette || []).filter(Boolean);
+    assert.strictEqual(nonempty.length, 4);
+    assert.strictEqual(loaded.palette.length, 5);
+    assert.strictEqual(catalogAt(loaded, 'ground', 0, 0).catalogId, 'overgrown_grass_floor');
+    assert.strictEqual(catalogAt(loaded, 'path', 1, 0).catalogId, 'polished_dirt_path');
+    const nHop = catalogAt(loaded, 'vertical', 2, 0);
+    const sHop = catalogAt(loaded, 'vertical', 3, 0);
+    assert.strictEqual(nHop.catalogId, 'broken_cave_stairs');
+    assert.strictEqual(nHop.hop.dir, 'north');
+    assert.strictEqual(sHop.catalogId, 'broken_cave_stairs');
+    assert.strictEqual(sHop.hop.dir, 'south');
+    assert.ok(nHop !== sHop);
+    assert.strictEqual(catalogAt(loaded, 'ground', 0, 1), null, 'null-hole cell becomes empty');
+
+    const empty = createEmptyTileMapFloor(2, 2, { z: 8 });
+    addPaletteEntry(empty, { catalogId: 'ghost_floor', roleId: 'floor' });
+    const emptyPack = normalizeHybridPack({ id: 'empty_pal', floors: [empty] });
+    const emptySer = serializeHybridPack(emptyPack);
+    const emptyAgain = deserializeHybridPack(emptySer.meta, emptySer.blobs);
+    assert.strictEqual(emptyAgain.floors['8'].palette.length, 1);
+    assert.strictEqual(emptyAgain.floors['8'].palette[0], null);
+
+    log('hybrid palette compact on serialize ok');
+}
+
+function testPaletteInternsAnim() {
+    const floor = createEmptyTileMapFloor(2, 1, { z: 7 });
+    const iWater = addPaletteEntry(floor, {
+        catalogId: 'ref_water_fill',
+        kind: 'tiles',
+        roleId: 'water',
+        autoTile: { kind: 'border12', family: 'beach', slot: 'fill' },
+        anim: { frames: 4, fps: 4 }
+    });
+    setSubLayerCell(floor, 'ground', 0, 0, iWater);
+    assert.strictEqual(floor.palette[iWater].anim.frames, 4);
+    const pack = {
+        version: 2,
+        id: 'anim_p',
+        label: 'anim_p',
+        floors: { '7': floor },
+        spawns: null,
+        world: null
+    };
+    const { meta, blobs } = serializeHybridPack(pack);
+    const written = (meta.floors[0].palette || []).filter(Boolean);
+    assert.strictEqual(written.length, 1);
+    assert.strictEqual(written[0].anim.frames, 4);
+    assert.strictEqual(written[0].anim.fps, 4);
+    const again = deserializeHybridPack(meta, blobs);
+    const loaded = again.floors['7'].palette.filter(Boolean)[0];
+    assert.strictEqual(loaded.anim.frames, 4);
+    log('palette intern anim ok');
+}
+
 function testOverrideMaskOnBake() {
     const roles = roleCatalog();
     const floor = createEmptyTileMapFloor(2, 1, { z: 0 });
@@ -1030,6 +1170,8 @@ async function main() {
     testDiffOverrides();
     testApplyToTileMapAndStairs();
     testHybridRoundTrip();
+    testHybridPaletteCompactOnSerialize();
+    testPaletteInternsAnim();
     testOverrideMaskOnBake();
     testEditorStairsLoadWithoutRebake();
     testEditorStairExplicitBidirectional();

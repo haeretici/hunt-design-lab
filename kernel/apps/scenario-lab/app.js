@@ -58,6 +58,7 @@ const {
 } = require('../../providers/simulator/hunt_opts.js');
 const {
     loadPersistedDebugAI,
+    loadPersistedDebugOverlay,
     loadPersistedCamera,
     loadPersistedProgression
 } = require('../../../html/widgets/engine_tweakings/bind.js');
@@ -716,6 +717,7 @@ async function initScenarioLabApp() {
     if (speedVal) speedVal.textContent = Settings.TIME_SPEED.toFixed(2);
 
     loadPersistedDebugAI(Settings);
+    loadPersistedDebugOverlay(Settings);
     loadPersistedCamera(Settings);
     loadPersistedProgression(Settings);
     // docs/29 Stage 3: mouse control mode + loot stub prefs

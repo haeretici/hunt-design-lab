@@ -15,7 +15,7 @@
     if (!parent || parent.closed) {
         document.addEventListener('DOMContentLoaded', () => {
             document.body.innerHTML =
-                '<div class="p-4 text-warning">Open this picker from the Designer page.</div>';
+                '<div class="p-4 text-warning">Open this picker from Designer or the map editor.</div>';
         });
         return;
     }
@@ -849,7 +849,13 @@
                 id: String(selected.id),
                 label: String(selected.alias || selected.technical || selected.id),
                 category: selected.category != null ? String(selected.category) : undefined,
-                assetKind: assetKind()
+                assetKind: assetKind(),
+                autoTile: selected.autoTile && typeof selected.autoTile === 'object'
+                    ? selected.autoTile
+                    : undefined,
+                anim: selected.anim && typeof selected.anim === 'object'
+                    ? selected.anim
+                    : undefined
             }
         });
         try {

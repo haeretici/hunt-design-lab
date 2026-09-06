@@ -10,26 +10,6 @@
             "palette": [
                 null,
                 {
-                    "catalogId": "damp_dirt_floor",
-                    "kind": "tiles",
-                    "roleId": "floor"
-                },
-                {
-                    "catalogId": "polished_dirt_path",
-                    "kind": "tiles",
-                    "roleId": "path"
-                },
-                {
-                    "catalogId": "damp_deep_water",
-                    "kind": "tiles",
-                    "roleId": "water"
-                },
-                {
-                    "catalogId": "ancient_ash_floor",
-                    "kind": "tiles",
-                    "roleId": "floor"
-                },
-                {
                     "catalogId": "broken_cave_stairs",
                     "kind": "tiles",
                     "roleId": "stairs_up",
@@ -40,29 +20,454 @@
                     }
                 },
                 {
-                    "catalogId": "broken_cave_stairs",
+                    "catalogId": "ref_water_fill",
                     "kind": "tiles",
-                    "roleId": "stairs_up",
-                    "anchor": "bottom_center",
-                    "hop": {
-                        "dir": "center",
-                        "deltaZ": -1
+                    "roleId": "water",
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "beach",
+                        "slot": "fill"
                     }
                 },
                 {
-                    "catalogId": "ancient_dirt_floor",
-                    "kind": "tiles",
-                    "roleId": "floor"
+                    "catalogId": "ref_beach_n",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "beach",
+                        "slot": "n"
+                    }
                 },
                 {
-                    "catalogId": "shallow_water",
-                    "kind": "tiles",
-                    "roleId": "water"
+                    "catalogId": "ref_beach_dne",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "beach",
+                        "slot": "dne"
+                    }
                 },
                 {
-                    "catalogId": "overgrown_grass_floor",
+                    "catalogId": "ref_beach_e",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "beach",
+                        "slot": "e"
+                    }
+                },
+                {
+                    "catalogId": "ref_beach_cne",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "beach",
+                        "slot": "cne"
+                    }
+                },
+                {
+                    "catalogId": "ref_beach_dse",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "beach",
+                        "slot": "dse"
+                    }
+                },
+                {
+                    "catalogId": "ref_beach_cse",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "beach",
+                        "slot": "cse"
+                    }
+                },
+                {
+                    "catalogId": "ref_beach_s",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "beach",
+                        "slot": "s"
+                    }
+                },
+                {
+                    "catalogId": "ref_beach_dsw",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "beach",
+                        "slot": "dsw"
+                    }
+                },
+                {
+                    "catalogId": "ref_beach_w",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "beach",
+                        "slot": "w"
+                    }
+                },
+                {
+                    "catalogId": "ref_beach_csw",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "beach",
+                        "slot": "csw"
+                    }
+                },
+                {
+                    "catalogId": "ref_beach_dnw",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "beach",
+                        "slot": "dnw"
+                    }
+                },
+                {
+                    "catalogId": "ref_beach_cnw",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "beach",
+                        "slot": "cnw"
+                    }
+                },
+                {
+                    "catalogId": "ref_grass_02",
                     "kind": "tiles",
-                    "roleId": "floor"
+                    "roleId": "floor",
+                    "autoTile": {
+                        "kind": "variation",
+                        "family": "grass",
+                        "slot": "02"
+                    }
+                },
+                {
+                    "catalogId": "ref_grass_04",
+                    "kind": "tiles",
+                    "roleId": "floor",
+                    "autoTile": {
+                        "kind": "variation",
+                        "family": "grass",
+                        "slot": "04"
+                    }
+                },
+                {
+                    "catalogId": "ref_grass_01",
+                    "kind": "tiles",
+                    "roleId": "floor",
+                    "autoTile": {
+                        "kind": "variation",
+                        "family": "grass",
+                        "slot": "01"
+                    }
+                },
+                {
+                    "catalogId": "ref_grass_03",
+                    "kind": "tiles",
+                    "roleId": "floor",
+                    "autoTile": {
+                        "kind": "variation",
+                        "family": "grass",
+                        "slot": "03"
+                    }
+                },
+                {
+                    "catalogId": "ref_grass_06",
+                    "kind": "tiles",
+                    "roleId": "floor",
+                    "autoTile": {
+                        "kind": "variation",
+                        "family": "grass",
+                        "slot": "06"
+                    }
+                },
+                {
+                    "catalogId": "ref_grass_05",
+                    "kind": "tiles",
+                    "roleId": "floor",
+                    "autoTile": {
+                        "kind": "variation",
+                        "family": "grass",
+                        "slot": "05"
+                    }
+                },
+                {
+                    "catalogId": "ref_green_lake_fill",
+                    "kind": "tiles",
+                    "roleId": "water",
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "green_lake",
+                        "slot": "fill"
+                    }
+                },
+                {
+                    "catalogId": "ref_green_lake_s",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "green_lake",
+                        "slot": "s"
+                    }
+                },
+                {
+                    "catalogId": "ref_green_lake_e",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "green_lake",
+                        "slot": "e"
+                    }
+                },
+                {
+                    "catalogId": "ref_green_lake_cse",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "green_lake",
+                        "slot": "cse"
+                    }
+                },
+                {
+                    "catalogId": "ref_green_lake_dnw",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "green_lake",
+                        "slot": "dnw"
+                    }
+                },
+                {
+                    "catalogId": "ref_green_lake_dne",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "green_lake",
+                        "slot": "dne"
+                    }
+                },
+                {
+                    "catalogId": "ref_green_lake_dsw",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "green_lake",
+                        "slot": "dsw"
+                    }
+                },
+                {
+                    "catalogId": "ref_green_lake_dse",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "green_lake",
+                        "slot": "dse"
+                    }
+                },
+                {
+                    "catalogId": "ref_green_lake_n",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "green_lake",
+                        "slot": "n"
+                    }
+                },
+                {
+                    "catalogId": "ref_green_lake_cne",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "green_lake",
+                        "slot": "cne"
+                    }
+                },
+                {
+                    "catalogId": "ref_green_lake_w",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "green_lake",
+                        "slot": "w"
+                    }
+                },
+                {
+                    "catalogId": "ref_green_lake_cnw",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "green_lake",
+                        "slot": "cnw"
+                    }
+                },
+                {
+                    "catalogId": "ref_green_lake_csw",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "green_lake",
+                        "slot": "csw"
+                    }
+                },
+                {
+                    "catalogId": "ref_water_pool_fill",
+                    "kind": "tiles",
+                    "roleId": "water",
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "water_pool",
+                        "slot": "fill"
+                    }
+                },
+                {
+                    "catalogId": "ref_water_pool_s",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "water_pool",
+                        "slot": "s"
+                    }
+                },
+                {
+                    "catalogId": "ref_water_pool_e",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "water_pool",
+                        "slot": "e"
+                    }
+                },
+                {
+                    "catalogId": "ref_water_pool_cse",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "water_pool",
+                        "slot": "cse"
+                    }
+                },
+                {
+                    "catalogId": "ref_water_pool_dnw",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "water_pool",
+                        "slot": "dnw"
+                    }
+                },
+                {
+                    "catalogId": "ref_water_pool_n",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "water_pool",
+                        "slot": "n"
+                    }
+                },
+                {
+                    "catalogId": "ref_water_pool_dsw",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "water_pool",
+                        "slot": "dsw"
+                    }
+                },
+                {
+                    "catalogId": "ref_water_pool_cne",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "water_pool",
+                        "slot": "cne"
+                    }
+                },
+                {
+                    "catalogId": "ref_water_pool_dse",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "water_pool",
+                        "slot": "dse"
+                    }
+                },
+                {
+                    "catalogId": "ref_water_pool_dne",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "water_pool",
+                        "slot": "dne"
+                    }
+                },
+                {
+                    "catalogId": "ref_water_pool_w",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "water_pool",
+                        "slot": "w"
+                    }
+                },
+                {
+                    "catalogId": "ref_water_pool_cnw",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "water_pool",
+                        "slot": "cnw"
+                    }
+                },
+                {
+                    "catalogId": "ref_water_pool_csw",
+                    "kind": "overlays",
+                    "roleId": null,
+                    "autoTile": {
+                        "kind": "border12",
+                        "family": "water_pool",
+                        "slot": "csw"
+                    }
                 }
             ],
             "subLayers": [
@@ -1264,6 +1669,7 @@
                 "storage": "firstlight.morris.herbs",
                 "eq": 1
             },
+            "give": [],
             "set": {
                 "firstlight.morris.herbs": 2
             }

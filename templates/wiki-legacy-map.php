@@ -100,6 +100,40 @@ $cssUrl = $asset('build/app.css');
             flex-direction: column;
             overflow-y: auto;
         }
+        .map-stamp-btn {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            padding: 4px;
+            min-width: 52px;
+            max-width: 76px;
+            line-height: 1.1;
+        }
+        .map-stamp-thumb {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+            image-rendering: pixelated;
+            background: #111;
+            flex-shrink: 0;
+        }
+        .map-stamp-thumb-empty {
+            display: inline-block;
+            border-radius: 2px;
+        }
+        .map-stamp-label {
+            font-size: 0.65rem;
+            max-width: 68px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        #tilemap-stamps,
+        #world-palette-stamps {
+            max-height: 14rem;
+            overflow-y: auto;
+        }
         .map-layout {
             display: flex;
             flex: 1;
@@ -646,7 +680,7 @@ $cssUrl = $asset('build/app.css');
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="<?= htmlspecialchars($asset('build/map-editor.bundle.js'), ENT_QUOTES, 'UTF-8') ?>?v=1.0.11"></script>
+<script src="<?= htmlspecialchars($asset('build/map-editor.bundle.js'), ENT_QUOTES, 'UTF-8') ?>?v=1.0.14"></script>
 <script>
 /**
  * Legacy Map wiki viewer.
@@ -666,6 +700,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const ASSET_ROOT = window.__APP_ROOT__ || '/';
     const LEGACY_MAP_ID_RE = /^[a-z][a-z0-9_]{0,31}$/;
     const LAST_MAP_STORAGE_KEY = 'hdl.mapEditor.lastMapId';
+    const LAST_ART_SET_STORAGE_KEY = 'hdl.mapEditor.lastArtSetId';
+    const ART_SET_BY_MAP_STORAGE_KEY = 'hdl.mapEditor.artSetByMap';
+    const ART_SET_IDS = [
+        'cave_simple', 'cave', 'crypt', 'swamp', 'ice_simple', 'ice', 'ruins', 'firstlight_isle'
+    ];
     const LEGACY_MAPS_ROOT_REL = 'assets/legacy/maps';
     let mapsManifest = {
         version: 1,
@@ -717,9 +756,17 @@ document.addEventListener("DOMContentLoaded", () => {
     let tilemapRoleCatalog = null;
     let tilemapArtSetId = 'cave_simple';
     let tilemapArtGenre = 'rpg_fantasy';
+    let tilemapAutoTileIndex = null;
     let tilemapEraseMode = false;
     let tileClipboard = null;
     let tilemapRawStamp = null;
+    /** RAW Apply this session (merged with current-floor hybrid palette). */
+    let tilemapRawSessionAdds = [];
+    /** Shown under RAW; rebuilt on palette render. */
+    let tilemapRawRecents = [];
+    let tilemapStampFilter = '';
+    /** @type {object[]} */
+    let tilemapVisibleStamps = [];
     let selectedFlagPackage = null;
     let selectedFlagBits = null;
     let selectedFieldValue = null;
@@ -1500,7 +1547,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 rows,
                 z: parseInt(currentFloor, 10) || 0,
                 roleCatalog: tilemapRoleCatalog,
-                artSet: window.__tilemapArtSet || null
+                artSet: window.__tilemapArtSet || null,
+                autoTileIndex: tilemapAutoTileIndex
             });
         }
         tilemapSession.bootstrapFromChannels({
@@ -1630,7 +1678,8 @@ document.addEventListener("DOMContentLoaded", () => {
                             cols: 32,
                             rows: 32,
                             z: parseInt(currentFloor, 10) || 0,
-                            roleCatalog: tilemapRoleCatalog
+                            roleCatalog: tilemapRoleCatalog,
+                            autoTileIndex: tilemapAutoTileIndex
                         });
                         tilemapSession.loadHybridTransport(data.meta, blobs);
                         if (window.__tilemapArtSet) {
@@ -1697,19 +1746,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 editorViewport.setRoleCatalog(tilemapRoleCatalog);
             }
 
-            const artRes = await fetch(ASSET_ROOT + 'presets/standard/art_sets/' + tilemapArtSetId + '.json');
-            if (artRes.ok) {
-                const art = await artRes.json();
-                if (art.genre) tilemapArtGenre = String(art.genre);
-                window.__tilemapArtSet = art;
-                if (tilemapSession) {
-                    tilemapSession.setRoleCatalog(tilemapRoleCatalog);
-                    tilemapSession.setArtSet(art, tilemapRoleCatalog);
-                }
-                if (editorViewport) {
-                    editorViewport.markDirty(['props', 'terrain', 'full']);
-                    markDirty();
-                }
+            await applyArtSetId(tilemapArtSetId, false);
+            if (tilemapSession && window.__tilemapArtSet) {
+                tilemapSession.setRoleCatalog(tilemapRoleCatalog);
+                tilemapSession.setArtSet(window.__tilemapArtSet, tilemapRoleCatalog);
             }
         } catch (e) {
             console.warn('tilemap presets', e);
@@ -2093,6 +2133,84 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    function readLastArtSetId() {
+        try {
+            return localStorage.getItem(LAST_ART_SET_STORAGE_KEY);
+        } catch (_e) {
+            return null;
+        }
+    }
+
+    function readArtSetByMap() {
+        try {
+            const raw = localStorage.getItem(ART_SET_BY_MAP_STORAGE_KEY);
+            if (!raw) return {};
+            const parsed = JSON.parse(raw);
+            return parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed : {};
+        } catch (_e) {
+            return {};
+        }
+    }
+
+    function persistArtSetSelection(id) {
+        const artId = String(id || '').trim();
+        if (!artId || ART_SET_IDS.indexOf(artId) < 0) return;
+        tilemapArtSetId = artId;
+        try {
+            localStorage.setItem(LAST_ART_SET_STORAGE_KEY, artId);
+            const next = (HdlTM && typeof HdlTM.mergeArtSetByMap === 'function')
+                ? HdlTM.mergeArtSetByMap(readArtSetByMap(), currentMapId, artId)
+                : Object.assign({}, readArtSetByMap(), { [currentMapId]: artId });
+            localStorage.setItem(ART_SET_BY_MAP_STORAGE_KEY, JSON.stringify(next));
+        } catch (_e) {
+            /* private mode */
+        }
+    }
+
+    function pickArtSetIdForMap(mapId, opts) {
+        const keep = !!(opts && opts.keep);
+        if (HdlTM && typeof HdlTM.pickStoredArtSetId === 'function') {
+            return HdlTM.pickStoredArtSetId({
+                mapId,
+                byMap: readArtSetByMap(),
+                lastId: readLastArtSetId(),
+                keepId: tilemapArtSetId,
+                preferKeep: keep,
+                allowed: ART_SET_IDS,
+                fallback: 'cave_simple'
+            });
+        }
+        const byMap = readArtSetByMap();
+        if (byMap[mapId] && ART_SET_IDS.indexOf(byMap[mapId]) >= 0) return byMap[mapId];
+        if (ART_SET_IDS.indexOf(mapId) >= 0) return mapId;
+        if (keep && ART_SET_IDS.indexOf(tilemapArtSetId) >= 0) return tilemapArtSetId;
+        const last = readLastArtSetId();
+        if (last && ART_SET_IDS.indexOf(last) >= 0) return last;
+        return 'cave_simple';
+    }
+
+    async function applyArtSetId(id, persist) {
+        const artId = String(id || '').trim();
+        if (!artId || ART_SET_IDS.indexOf(artId) < 0) return false;
+        tilemapArtSetId = artId;
+        if (persist) persistArtSetSelection(artId);
+        try {
+            const r = await fetch(ASSET_ROOT + 'presets/standard/art_sets/' + artId + '.json', { cache: 'no-store' });
+            if (!r.ok) return false;
+            const art = await r.json();
+            window.__tilemapArtSet = art;
+            if (art.genre) tilemapArtGenre = String(art.genre);
+            if (tilemapSession) tilemapSession.setArtSet(art, tilemapRoleCatalog);
+            if (editorViewport) {
+                editorViewport.markDirty(['props', 'terrain', 'full']);
+                markDirty();
+            }
+            return true;
+        } catch (_e) {
+            return false;
+        }
+    }
+
     function pickOpenMapId() {
         const ids = new Set(listedMapIds());
         const defaultId =
@@ -2191,6 +2309,10 @@ document.addEventListener("DOMContentLoaded", () => {
         mapWorldCache = {};
         currentMapSpawns = [];
         currentMapWorld = [];
+        tilemapRawSessionAdds = [];
+        tilemapRawRecents = [];
+        worldPalette = [];
+        selectedWorldPalette = null;
         tilemapSession = null;
         updateClearAllLayersEnabled();
         floorPngReady = false;
@@ -2223,6 +2345,12 @@ document.addEventListener("DOMContentLoaded", () => {
         persistLastMapId(nextId);
         setDirty(false);
         clearPackCaches();
+        const nextArt = pickArtSetIdForMap(nextId, { keep: true });
+        if (nextArt !== tilemapArtSetId) {
+            await applyArtSetId(nextArt, true);
+        } else {
+            persistArtSetSelection(nextArt);
+        }
         await loadPackBounds();
         reloadCurrentFloor();
         prefetchAllFloors();
@@ -2263,6 +2391,12 @@ document.addEventListener("DOMContentLoaded", () => {
         persistLastMapId(id);
         setDirty(false);
         clearPackCaches();
+        const nextArt = pickArtSetIdForMap(id, { keep: true });
+        if (nextArt !== tilemapArtSetId) {
+            await applyArtSetId(nextArt, true);
+        } else {
+            persistArtSetSelection(nextArt);
+        }
         await loadPackBounds();
         selectFloorAndLayer('07', currentLayer || 'spawns');
         prefetchAllFloors();
@@ -2450,9 +2584,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const id = pickOpenMapId();
         applyPack(id);
         persistLastMapId(id);
+        tilemapArtSetId = pickArtSetIdForMap(id);
+        persistArtSetSelection(tilemapArtSetId);
         fillMapPackSelect();
         bindMapPackSelect();
         bindMapPackNew();
+        await loadTilemapPresets();
         await loadPackBounds();
     }
 
@@ -2668,6 +2805,38 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
     loadWorldCatalogs();
+
+    function catalogItems(doc) {
+        if (!doc) return [];
+        if (Array.isArray(doc.items)) return doc.items;
+        if (Array.isArray(doc.creatures)) return doc.creatures;
+        return [];
+    }
+
+    function loadAutoTileCatalogs() {
+        if (!HdlTM || typeof HdlTM.buildAutoTileIndex !== 'function') return;
+        const genre = tilemapArtGenre || 'rpg_fantasy';
+        Promise.all([
+            fetch(ASSET_ROOT + 'assets/data/' + genre + '/tiles.json', { cache: 'no-store' })
+                .then((r) => (r.ok ? r.json() : null))
+                .catch(() => null),
+            fetch(ASSET_ROOT + 'assets/data/' + genre + '/overlays.json', { cache: 'no-store' })
+                .then((r) => (r.ok ? r.json() : null))
+                .catch(() => null),
+            fetch(ASSET_ROOT + 'assets/data/' + genre + '/objects.json', { cache: 'no-store' })
+                .then((r) => (r.ok ? r.json() : null))
+                .catch(() => null)
+        ]).then(([tilesDoc, overlaysDoc, objectsDoc]) => {
+            const rows = catalogItems(tilesDoc)
+                .concat(catalogItems(overlaysDoc))
+                .concat(catalogItems(objectsDoc));
+            tilemapAutoTileIndex = HdlTM.buildAutoTileIndex(rows);
+            if (tilemapSession && typeof tilemapSession.setAutoTileIndex === 'function') {
+                tilemapSession.setAutoTileIndex(tilemapAutoTileIndex);
+            }
+        });
+    }
+    loadAutoTileCatalogs();
 
     // presets_list returns { ok, items: [...], total } — not data.data.
     // limit=0 → all rows (paginate kinds default to page size 100 otherwise).
@@ -3496,6 +3665,156 @@ document.addEventListener("DOMContentLoaded", () => {
         updateObjectTreeUI();
     }
 
+    function catalogThumbUrl(catalogId, kind) {
+        if (!catalogId || !HdlTM || typeof HdlTM.resolveSpriteRelPath !== 'function') return '';
+        const k = kind === 'equipment'
+            ? 'equipment'
+            : (kind === 'overlays' ? 'overlays' : (kind === 'objects' ? 'objects' : 'tiles'));
+        const rel = HdlTM.resolveSpriteRelPath({
+            genre: tilemapArtGenre || 'rpg_fantasy',
+            kind: k,
+            id: catalogId,
+            variant: 'icon'
+        });
+        return rel ? ASSET_ROOT + rel : '';
+    }
+
+    function bindStampThumbErrors(root) {
+        const scope = root || document;
+        scope.querySelectorAll('.map-stamp-thumb').forEach((img) => {
+            img.addEventListener('error', () => {
+                img.style.display = 'none';
+            });
+        });
+    }
+
+    function applyTilemapStampFilterDom() {
+        const q = tilemapStampFilter;
+        const match = HdlTM && typeof HdlTM.stampMatchesFilter === 'function'
+            ? HdlTM.stampMatchesFilter
+            : null;
+        document.querySelectorAll('#tilemap-stamps .tilemap-stamp-btn').forEach((btn) => {
+            const idx = parseInt(btn.dataset.index, 10);
+            const stamp = tilemapVisibleStamps[idx];
+            const ok = !match || !stamp || match(stamp, q);
+            btn.style.display = ok ? '' : 'none';
+        });
+    }
+
+    function stampDockButtonHtml(stamp, index, selected, btnClass) {
+        const id = (stamp && stamp.catalogId) || (stamp && stamp.id) || '';
+        const label = (HdlTM && typeof HdlTM.stampDockLabel === 'function')
+            ? HdlTM.stampDockLabel(stamp)
+            : String((stamp && (stamp.label || stamp.name || id)) || '');
+        const color = (stamp && stamp.previewColor) || '#666';
+        const kind = (stamp && stamp.kind) || (stamp && stamp.catalogKind) || 'tiles';
+        const sel = selected ? 'btn-primary' : 'btn-outline-secondary';
+        const thumb = catalogThumbUrl(id, kind);
+        const img = thumb
+            ? `<img class="map-stamp-thumb" src="${escapeHtml(thumb)}" width="32" height="32" alt="" decoding="async">`
+            : `<span class="map-stamp-thumb map-stamp-thumb-empty" style="background:${escapeHtml(color)}"></span>`;
+        return `<button type="button" class="btn btn-sm ${sel} ${btnClass} map-stamp-btn"
+            data-index="${index}" title="${escapeHtml(id)}">${img}<span class="map-stamp-label">${escapeHtml(label)}</span></button>`;
+    }
+
+    function openRawCatalogBrowse() {
+        if (!HdlTM || typeof HdlTM.openCatalogAssetPicker !== 'function') return;
+        const kindEl = document.getElementById('tilemap-raw-kind');
+        const idEl = document.getElementById('tilemap-raw-id');
+        const kind = kindEl && kindEl.value === 'objects'
+            ? 'objects'
+            : (kindEl && kindEl.value === 'overlays' ? 'overlays' : 'tiles');
+        HdlTM.openCatalogAssetPicker({
+            genre: tilemapArtGenre || 'rpg_fantasy',
+            assetKind: kind,
+            currentId: idEl ? String(idEl.value || '').trim() : '',
+            previewVariant: 'icon',
+            showCategoryFilter: true,
+            title: kind === 'overlays' ? 'Select overlay' : (kind === 'objects' ? 'Select object' : 'Select tile'),
+            onSelect: (id, meta) => {
+                const pickedKind = meta && meta.assetKind ? String(meta.assetKind) : kind;
+                if (kindEl && (pickedKind === 'tiles' || pickedKind === 'overlays' || pickedKind === 'objects')) {
+                    kindEl.value = pickedKind;
+                }
+                if (idEl) idEl.value = id;
+                applyRawCatalogStamp(meta);
+            }
+        });
+    }
+
+    function applyWorldPickerId(id, meta, catalogKind) {
+        const item = (HdlTM && typeof HdlTM.worldPaletteItemFromPick === 'function')
+            ? HdlTM.worldPaletteItemFromPick(meta && typeof meta === 'object' ? meta : { id }, catalogKind)
+            : { id, name: (meta && meta.label) || id, catalogKind: catalogKind === 'equipment' ? 'equipment' : 'objects' };
+        if (!item) return;
+        if (HdlTM && typeof HdlTM.upsertWorldPalette === 'function') {
+            const up = HdlTM.upsertWorldPalette(worldPalette, item);
+            worldPalette = up.list;
+            selectedWorldPalette = up.item;
+        } else if (!worldPalette.find((m) => m.id === item.id)) {
+            worldPalette.push(item);
+            selectedWorldPalette = item;
+        } else {
+            selectedWorldPalette = worldPalette.find((m) => m.id === item.id) || item;
+        }
+        selectedWorldPin = null;
+        selectedWorldPins = [];
+        renderWorldPaletteUI();
+        renderWorldProperties();
+    }
+
+    function openWorldCatalogBrowse(kind) {
+        if (!HdlTM) return;
+        if (kind === 'equipment') {
+            if (typeof HdlTM.openEquipmentPicker !== 'function') return;
+            HdlTM.openEquipmentPicker({
+                mode: 'standard',
+                genre: tilemapArtGenre || 'rpg_fantasy',
+                title: 'Select item',
+                onSelect: (id, meta) => applyWorldPickerId(id, meta, 'equipment')
+            });
+            return;
+        }
+        if (typeof HdlTM.openCatalogAssetPicker !== 'function') return;
+        HdlTM.openCatalogAssetPicker({
+            genre: tilemapArtGenre || 'rpg_fantasy',
+            assetKind: 'objects',
+            previewVariant: 'icon',
+            showCategoryFilter: true,
+            title: 'Select object',
+            onSelect: (id, meta) => applyWorldPickerId(id, meta, 'objects')
+        });
+    }
+
+    function mergeMapCatalogRecents() {
+        const palette = tilemapSession && tilemapSession.floor ? tilemapSession.floor.palette : [];
+        let list = (HdlTM && typeof HdlTM.collectPaletteCatalogEntries === 'function')
+            ? HdlTM.collectPaletteCatalogEntries(palette)
+            : [];
+        for (let i = 0; i < tilemapRawSessionAdds.length; i++) {
+            const entry = tilemapRawSessionAdds[i];
+            if (HdlTM && typeof HdlTM.upsertRawRecent === 'function') {
+                list = HdlTM.upsertRawRecent(list, entry).list;
+            } else if (entry && entry.catalogId && !list.find((r) => r && r.catalogId === entry.catalogId)) {
+                list.push(entry);
+            }
+        }
+        return list;
+    }
+
+    function seedWorldPaletteFromLoadedPins() {
+        const floors = Object.keys(mapWorldCache);
+        for (let i = 0; i < floors.length; i++) {
+            const pins = mapWorldCache[floors[i]];
+            if (HdlTM && typeof HdlTM.seedWorldPaletteFromPins === 'function') {
+                worldPalette = HdlTM.seedWorldPaletteFromPins(worldPalette, pins);
+            }
+        }
+        if (HdlTM && typeof HdlTM.seedWorldPaletteFromPins === 'function') {
+            worldPalette = HdlTM.seedWorldPaletteFromPins(worldPalette, currentMapWorld);
+        }
+    }
+
     function renderTileMapPaletteUI() {
         if (!document.getElementById('layer-props')) return;
         if (!HdlTM) {
@@ -3521,7 +3840,7 @@ document.addEventListener("DOMContentLoaded", () => {
         let html = `<div class="mb-2">
             <label class="form-label small text-uppercase text-secondary fw-bold mb-1">TileMap · ${sub}</label>
             <div class="d-flex flex-wrap gap-1 mb-2" id="tilemap-sub-nav">${subNav}</div>
-            <div class="small text-muted mb-2">Pick a sub-layer, then a stamp. Overlay families resolve Wang-16 on Path at stroke-end. RAW writes one catalog id (no resolve). Copy/paste the selection (Ctrl+C / Ctrl+V). PNG / hybrid friction stays until you paint a cell.</div>
+            <div class="small text-muted mb-2">Pick a sub-layer, then a stamp. Overlay families resolve Wang-16 on Path at stroke-end. Water fill + border12 writes beach edges on land Path. Variation fills pick a seeded alt per cell. RAW locks one catalog id. Copy/paste the selection (Ctrl+C / Ctrl+V). PNG / hybrid friction stays until you paint a cell.</div>
             <div class="mb-2">
                 <label class="form-label small text-muted mb-0">Art set</label>
                 <select id="tilemap-artset" class="form-select form-select-sm bg-black border-secondary text-white">
@@ -3539,14 +3858,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 <input class="form-check-input" type="checkbox" id="tilemap-erase" ${tilemapEraseMode ? 'checked' : ''}>
                 <label class="form-check-label small" for="tilemap-erase">Erase (clear cell)</label>
             </div>
+            <div class="mb-2">
+                <input type="search" id="tilemap-stamp-filter" class="form-control form-control-sm bg-black border-secondary text-white" placeholder="Filter id / label / family" value="${escapeHtml(tilemapStampFilter)}" autocomplete="off">
+            </div>
             <div class="d-flex flex-wrap gap-1 mb-2" id="tilemap-stamps">`;
 
+        tilemapVisibleStamps = filtered;
         filtered.forEach((stamp, index) => {
             const sel = tilemapSession && tilemapSession.selectedStamp === stamp;
-            const color = stamp.previewColor || '#666';
-            html += `<button type="button" class="btn btn-sm ${sel ? 'btn-primary' : 'btn-outline-secondary'} tilemap-stamp-btn"
-                data-index="${index}" title="${stamp.catalogId} (${stamp.roleId || stamp.artRole})"
-                style="min-width:28px;border-left:4px solid ${color};">${stamp.label || stamp.catalogId}</button>`;
+            html += stampDockButtonHtml(stamp, index, sel, 'tilemap-stamp-btn');
         });
 
         if (sub === 'vertical') {
@@ -3571,19 +3891,41 @@ document.addEventListener("DOMContentLoaded", () => {
             html += `</div>`;
         }
 
-        const rawKindDefault = sub === 'path' ? 'overlays' : (sub === 'ground' ? 'tiles' : 'objects');
+        const rawKindDefault = (HdlTM && typeof HdlTM.defaultRawKindForSubLayer === 'function')
+            ? HdlTM.defaultRawKindForSubLayer(sub)
+            : (sub === 'path' ? 'overlays' : (sub === 'ground' ? 'tiles' : 'objects'));
         const rawSel = tilemapRawStamp && tilemapSession && tilemapSession.selectedStamp === tilemapRawStamp;
+        tilemapRawRecents = mergeMapCatalogRecents();
+        let rawRecentsHtml = '';
+        if (tilemapRawRecents.length) {
+            rawRecentsHtml = `<div class="mt-2">
+                <div class="form-label small text-muted mb-1">On this floor</div>
+                <div class="d-flex flex-wrap gap-1" id="tilemap-raw-recents">`;
+            tilemapRawRecents.forEach((entry, index) => {
+                const sel = rawSel && tilemapRawStamp && tilemapRawStamp.catalogId === entry.catalogId;
+                rawRecentsHtml += stampDockButtonHtml({
+                    catalogId: entry.catalogId,
+                    kind: entry.kind,
+                    label: entry.catalogId
+                }, index, sel, 'tilemap-raw-recent-btn');
+            });
+            rawRecentsHtml += `</div></div>`;
+        }
         html += `<div class="small mt-2 border-top border-secondary pt-2">
                 <label class="form-label small text-muted mb-0">RAW catalog id</label>
                 <div class="d-flex gap-1 mb-1">
-                    <input type="text" id="tilemap-raw-id" class="form-control form-control-sm bg-black border-secondary text-white" placeholder="dirt_wang_05" value="${rawSel && tilemapRawStamp ? (tilemapRawStamp.catalogId || '') : ''}">
+                    <input type="text" id="tilemap-raw-id" class="form-control form-control-sm bg-black border-secondary text-white" placeholder="dirt_wang_05" value="${rawSel && tilemapRawStamp ? escapeHtml(tilemapRawStamp.catalogId || '') : ''}">
                     <select id="tilemap-raw-kind" class="form-select form-select-sm bg-black border-secondary text-white" style="max-width:7.5rem;">
                         <option value="overlays"${rawKindDefault === 'overlays' ? ' selected' : ''}>overlays</option>
                         <option value="tiles"${rawKindDefault === 'tiles' ? ' selected' : ''}>tiles</option>
                         <option value="objects"${rawKindDefault === 'objects' ? ' selected' : ''}>objects</option>
                     </select>
+                </div>
+                <div class="d-flex gap-1 mb-1">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" id="tilemap-raw-browse" title="Browse catalog (Designer picker)">Browse</button>
                     <button type="button" class="btn btn-sm ${rawSel ? 'btn-primary' : 'btn-outline-secondary'}" id="tilemap-raw-apply" title="Stamp this catalog id without Wang resolve">Use</button>
                 </div>
+                ${rawRecentsHtml}
             </div>
             <div class="small text-muted mt-2">Paint stamps on the active sub-layer. Overlay family brushes re-resolve a 1-ring. Bake updates friction / sight / flags. Fields stay independent.</div></div>`;
         document.getElementById('layer-props').innerHTML = html;
@@ -3599,23 +3941,10 @@ document.addEventListener("DOMContentLoaded", () => {
         if (artSel) {
             artSel.value = tilemapArtSetId;
             artSel.addEventListener('change', async () => {
-                tilemapArtSetId = artSel.value;
-                try {
-                    const r = await fetch(ASSET_ROOT + 'presets/standard/art_sets/' + tilemapArtSetId + '.json');
-                    if (r.ok) {
-                        const art = await r.json();
-                        window.__tilemapArtSet = art;
-                        if (art.genre) tilemapArtGenre = String(art.genre);
-                        if (tilemapSession) tilemapSession.setArtSet(art, tilemapRoleCatalog);
-                        if (editorViewport) {
-                            editorViewport.markDirty(['props', 'terrain', 'full']);
-                            markDirty();
-                        }
-                        renderTileMapPaletteUI();
-                    }
-                } catch (e) {
-                    console.warn(e);
-                }
+                const next = artSel.value;
+                const ok = await applyArtSetId(next, true);
+                if (!ok) artSel.value = tilemapArtSetId;
+                renderTileMapPaletteUI();
             });
         }
         const eraseEl = document.getElementById('tilemap-erase');
@@ -3634,9 +3963,40 @@ document.addEventListener("DOMContentLoaded", () => {
                 renderTileMapPaletteUI();
             });
         });
+        const stampFilterEl = document.getElementById('tilemap-stamp-filter');
+        if (stampFilterEl) {
+            stampFilterEl.addEventListener('input', () => {
+                tilemapStampFilter = String(stampFilterEl.value || '');
+                applyTilemapStampFilterDom();
+            });
+        }
+        applyTilemapStampFilterDom();
+        bindStampThumbErrors(document.getElementById('tilemap-stamps'));
+        const recentsRoot = document.getElementById('tilemap-raw-recents');
+        if (recentsRoot) bindStampThumbErrors(recentsRoot);
+        document.querySelectorAll('.tilemap-raw-recent-btn').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const idx = parseInt(btn.dataset.index, 10);
+                const entry = tilemapRawRecents[idx];
+                if (!entry) return;
+                const idEl = document.getElementById('tilemap-raw-id');
+                const kindEl = document.getElementById('tilemap-raw-kind');
+                if (idEl) idEl.value = entry.catalogId;
+                if (kindEl) kindEl.value = entry.kind || 'tiles';
+                applyRawCatalogStamp({
+                    autoTile: entry.autoTile,
+                    anim: entry.anim,
+                    category: entry.category
+                });
+            });
+        });
         const rawApply = document.getElementById('tilemap-raw-apply');
         if (rawApply) {
             rawApply.addEventListener('click', () => applyRawCatalogStamp());
+        }
+        const rawBrowse = document.getElementById('tilemap-raw-browse');
+        if (rawBrowse) {
+            rawBrowse.addEventListener('click', () => openRawCatalogBrowse());
         }
         const rawIdEl = document.getElementById('tilemap-raw-id');
         if (rawIdEl) {
@@ -3952,6 +4312,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         currentMapSpawns = mapSpawnsCache[floor] || [];
         currentMapWorld = mapWorldCache[floor] || [];
+        seedWorldPaletteFromLoadedPins();
         renderSpawns();
     }
 
@@ -4663,6 +5024,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function renderWorldPaletteUI() {
         if (!document.getElementById('layer-props')) return;
+        seedWorldPaletteFromLoadedPins();
         const kinds = (HdlTM && HdlTM.WORLD_KINDS) || [
             'container', 'chest', 'lever', 'door', 'teleport', 'switch', 'trap', 'harvest'
         ];
@@ -4677,21 +5039,28 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="d-flex gap-1 mb-2">
                 <select id="world-kind-select" class="form-select form-select-sm bg-black border-secondary text-white" style="max-width:7.5rem;">${kindOpts}</select>
                 <input type="text" id="world-palette-input" list="worldCatalogDatalist" class="form-control form-control-sm bg-black border-secondary text-white" placeholder="catalog id…">
-                <button class="btn btn-sm btn-outline-primary" id="btn-add-world-palette"><i class="fa-solid fa-plus"></i></button>
+                <button class="btn btn-sm btn-outline-primary" id="btn-add-world-palette" title="Add typed catalog id"><i class="fa-solid fa-plus"></i></button>
+            </div>
+            <div class="d-flex gap-1 mb-2">
+                <button type="button" class="btn btn-sm btn-outline-secondary" id="world-palette-browse" title="Browse objects (Designer picker)">Browse</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary" id="world-palette-browse-eq" title="Browse equipment (Designer picker)">Items</button>
             </div>
             <datalist id="worldCatalogDatalist"></datalist>
-            <div class="palette-container d-flex flex-wrap gap-1 mb-2">`;
+            <div class="palette-container d-flex flex-wrap gap-1 mb-2" id="world-palette-stamps">`;
         worldPalette.forEach((item, index) => {
             const isSelected = selectedWorldPalette === item;
-            const label = item.name || item.id || '';
-            html += `<button class="btn btn-sm ${isSelected ? 'btn-primary' : 'btn-outline-secondary'} world-palette-item-btn" data-index="${index}" title="${item.id}">${label}</button>`;
+            html += stampDockButtonHtml({
+                catalogId: item.id,
+                label: item.name || item.id,
+                kind: item.catalogKind || 'objects'
+            }, index, isSelected, 'world-palette-item-btn');
         });
         html += `</div>
             <div class="small">
                 <strong>Kind:</strong> ${selectedWorldKind}
                 · <strong>Stamp:</strong> ${selectedWorldPalette ? (selectedWorldPalette.name || selectedWorldPalette.id) : 'None'}
             </div>
-            <div class="small text-secondary mt-1">Click the map to place. Inspectors author container / chest / lever / door / teleport / trap / harvest fields.</div>
+            <div class="small text-secondary mt-1">Click the map to place. Inspectors author container / chest / lever / door / teleport / trap / harvest fields. Catalog ids from this map's world pins appear as stamps below the input.</div>
         </div>`;
         document.getElementById('layer-props').innerHTML = html;
         fillWorldCatalogDatalist();
@@ -4726,6 +5095,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 renderWorldProperties();
             });
         });
+        const worldBrowse = document.getElementById('world-palette-browse');
+        if (worldBrowse) {
+            worldBrowse.addEventListener('click', () => openWorldCatalogBrowse('objects'));
+        }
+        const worldBrowseEq = document.getElementById('world-palette-browse-eq');
+        if (worldBrowseEq) {
+            worldBrowseEq.addEventListener('click', () => openWorldCatalogBrowse('equipment'));
+        }
+        bindStampThumbErrors(document.getElementById('world-palette-stamps'));
     }
 
     function makeNewWorldPin(x, y, catalogId) {
@@ -6823,7 +7201,8 @@ document.addEventListener("DOMContentLoaded", () => {
             renderTileMapPaletteUI();
         }
         if (statusBar) {
-            const fam = hit.stamp.wallFamily || hit.stamp.wangFamily;
+            const fam = hit.stamp.wallFamily || hit.stamp.wangFamily
+                || (hit.stamp.autoTile && hit.stamp.autoTile.family);
             const label = fam && !hit.stamp.wangLocked
                 ? fam
                 : (hit.stamp.catalogId || '');
@@ -6833,7 +7212,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    function applyRawCatalogStamp() {
+    function applyRawCatalogStamp(meta) {
         if (!tilemapSession) return;
         const idEl = document.getElementById('tilemap-raw-id');
         const kindEl = document.getElementById('tilemap-raw-kind');
@@ -6843,43 +7222,66 @@ document.addEventListener("DOMContentLoaded", () => {
             ? 'objects'
             : (kindEl && kindEl.value === 'overlays' ? 'overlays' : 'tiles');
         const sub = tileMapSubFromLayer(currentLayer) || (tilemapSession.activeSubLayer) || 'ground';
-        const parsed = kind === 'overlays' && HdlTM && typeof HdlTM.parseWangId === 'function'
-            ? HdlTM.parseWangId(catalogId)
-            : null;
-        const wallParsed = kind === 'objects' && HdlTM && typeof HdlTM.parseWallId === 'function'
-            ? HdlTM.parseWallId(catalogId)
-            : null;
-        const roleId = kind === 'overlays'
-            ? (parsed && parsed.family === 'water' ? 'water' : 'path')
-            : wallParsed
-              ? 'wall'
-              : (sub === 'ground' ? 'floor' : null);
         const colors = (HdlTM && HdlTM.ROLE_PREVIEW_COLORS) || {};
-        tilemapRawStamp = {
-            catalogId,
-            kind,
-            roleId,
-            subLayer: kind === 'overlays' ? 'path' : (wallParsed ? 'vertical' : sub),
-            wangFamily: parsed ? parsed.family : undefined,
-            wangMask: parsed ? parsed.mask : undefined,
-            wallFamily: wallParsed ? wallParsed.family : undefined,
-            wallAlign: wallParsed ? wallParsed.align : undefined,
-            wangLocked: !!(kind === 'overlays' && parsed) || !!wallParsed,
-            wangResolve: false,
-            label: catalogId + ' (RAW)',
-            previewColor: colors[roleId] || '#666666'
-        };
+        const stamp = (HdlTM && typeof HdlTM.makeRawCatalogStamp === 'function')
+            ? HdlTM.makeRawCatalogStamp({
+                catalogId,
+                kind,
+                subLayer: sub,
+                category: meta && meta.category,
+                autoTile: meta && meta.autoTile,
+                anim: meta && meta.anim,
+                autoTileIndex: tilemapAutoTileIndex,
+                previewColors: colors
+            })
+            : null;
+        if (!stamp) return;
+        tilemapRawStamp = stamp;
+        if (HdlTM && typeof HdlTM.upsertRawRecent === 'function') {
+            tilemapRawSessionAdds = HdlTM.upsertRawRecent(tilemapRawSessionAdds, {
+                catalogId: stamp.catalogId,
+                kind: stamp.kind,
+                roleId: stamp.roleId || null,
+                wangLocked: !!stamp.wangLocked,
+                borderLocked: !!stamp.borderLocked,
+                autoTile: stamp.autoTile || null,
+                anim: stamp.anim || null
+            }).list;
+        }
         tilemapSession.selectStamp(tilemapRawStamp);
         tilemapEraseMode = false;
-        if (kind === 'overlays' && currentLayer !== 'tilemap:path') {
+        if (stamp.kind === 'overlays' && currentLayer !== 'tilemap:path') {
             selectFloorAndLayer(currentFloor, 'tilemap:path');
-        } else if (wallParsed && currentLayer !== 'tilemap:vertical') {
+        } else if (
+            (stamp.wallFamily || (stamp.autoTile && stamp.autoTile.kind === 'wallFront')) &&
+            currentLayer !== 'tilemap:vertical'
+        ) {
             selectFloorAndLayer(currentFloor, 'tilemap:vertical');
+        } else if (
+            stamp.autoTile &&
+            stamp.autoTile.kind === 'rect9' &&
+            currentLayer !== 'tilemap:' + (stamp.subLayer || 'path')
+        ) {
+            selectFloorAndLayer(currentFloor, 'tilemap:' + (stamp.subLayer || 'path'));
+        } else if (
+            stamp.subLayer === 'scenery' &&
+            currentLayer !== 'tilemap:scenery'
+        ) {
+            selectFloorAndLayer(currentFloor, 'tilemap:scenery');
+        } else if (
+            stamp.autoTile &&
+            ((stamp.autoTile.kind === 'border12' && stamp.autoTile.slot === 'fill') ||
+                stamp.autoTile.kind === 'variation') &&
+            currentLayer !== 'tilemap:ground'
+        ) {
+            selectFloorAndLayer(currentFloor, 'tilemap:ground');
         } else {
             renderTileMapPaletteUI();
         }
         const statusBar = document.getElementById('statusBar');
-        if (statusBar) statusBar.textContent = 'RAW ' + catalogId;
+        if (statusBar) {
+            statusBar.textContent = (stamp.wangLocked ? 'RAW ' : '') + catalogId;
+        }
     }
 
     function copySelectedTiles() {
@@ -7364,6 +7766,7 @@ document.addEventListener("DOMContentLoaded", () => {
         })
         .catch((e) => {
             console.error('map pack init failed', e);
+            loadTilemapPresets();
             prefetchAllFloors();
             selectFloorAndLayer(currentFloor, 'spawns');
         });
@@ -7661,8 +8064,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Boot TileMap presets in background
-    loadTilemapPresets();
 });
 </script>
 </body>

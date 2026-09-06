@@ -25,13 +25,14 @@ $is = static function (string ...$keys) use ($activeNav): string {
 };
 ?>
         <nav class="<?= htmlspecialchars($navClass, ENT_QUOTES, 'UTF-8') ?>">
+            <a class="menu-item<?= $is('client') ?>" href="<?= htmlspecialchars($asset('index.php'), ENT_QUOTES, 'UTF-8') ?>">Client</a>
             <div class="menu-dropdown<?= $is('hunt', 'scenario-lab') ?>">
-                <span class="menu-item menu-dropdown-trigger<?= $is('analysis', 'sim-batch') ?>" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false">
+                <span class="menu-item menu-dropdown-trigger<?= $is('hunt', 'scenario-lab') ?>" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false">
                     Simulator <i class="fa-solid fa-caret-down menu-dropdown-caret" aria-hidden="true"></i>
                 </span>
                 <div class="menu-dropdown-panel" role="menu">
                     <a class="menu-dropdown-item<?= $is('hunt') ?>" role="menuitem"
-                       href="<?= htmlspecialchars($asset('index.php'), ENT_QUOTES, 'UTF-8') ?>">Hunt</a>
+                       href="<?= htmlspecialchars($asset('hunt.php'), ENT_QUOTES, 'UTF-8') ?>">Hunt</a>
                     <a class="menu-dropdown-item<?= $is('scenario-lab') ?>" role="menuitem"
                        href="<?= htmlspecialchars($asset('scenario-lab.php'), ENT_QUOTES, 'UTF-8') ?>">Scenario Lab</a>
                 </div>

@@ -105,6 +105,43 @@ function testArtSetStamps() {
     log('art set stamps', stamps.length);
 }
 
+function testFirstlightIsleRefStamps() {
+    const roles = roleCatalog();
+    const art = loadArtSet('firstlight_isle');
+    const stamps = buildStampsFromArtSet(art, roles);
+    const byId = Object.create(null);
+    for (let i = 0; i < stamps.length; i++) {
+        const id = stamps[i] && stamps[i].catalogId;
+        if (id) byId[id] = stamps[i];
+    }
+    const need = [
+        'ref_grass_fill',
+        'ref_sand_fill',
+        'ref_dirt_fill',
+        'ref_water_fill',
+        'ref_village_front_mid',
+        'ref_square_c',
+        'ref_fence_v',
+        'ref_fence_h',
+        'ref_lake_single',
+        'ref_mountain_01'
+    ];
+    for (let i = 0; i < need.length; i++) {
+        assert.ok(byId[need[i]], 'firstlight dock lists ' + need[i]);
+    }
+    assert.strictEqual(byId.ref_grass_fill.subLayer, 'ground');
+    assert.strictEqual(byId.ref_sand_fill.subLayer, 'ground');
+    assert.strictEqual(byId.ref_water_fill.subLayer, 'ground');
+    assert.strictEqual(byId.ref_water_fill.autoTile && byId.ref_water_fill.autoTile.kind, 'border12');
+    assert.strictEqual(byId.ref_village_front_mid.subLayer, 'vertical');
+    assert.strictEqual(byId.ref_square_c.subLayer, 'path');
+    assert.strictEqual(byId.ref_fence_v.subLayer, 'scenery');
+    assert.strictEqual(byId.ref_mountain_01.subLayer, 'scenery');
+    assert.strictEqual(byId.ref_mountain_01.autoTile && byId.ref_mountain_01.autoTile.kind, 'none');
+    assert.ok(byId.overgrown_grass_floor, 'bind floors stay on the dock');
+    log('firstlight isle ref stamps', stamps.length);
+}
+
 function testArtSetStampOverrides() {
     const roles = roleCatalog();
     const art = {
@@ -1015,6 +1052,52 @@ function testWallWangResolve() {
     log('wall wang resolve ok');
 }
 
+function testHybridSaveCompactsUnusedPalette() {
+    const roles = roleCatalog();
+    const session = createEditorSession({ cols: 8, rows: 8, z: 0, roleCatalog: roles });
+    const stone = stoneFamily();
+    session.beginStroke();
+    session.paintAt(3, 3, { stamp: stone });
+    session.endStroke();
+    const liveWalls = session.floor.palette.filter(
+        (e) => e && e.wallFamily === 'stone_wall'
+    );
+    assert.ok(liveWalls.length >= 16, 'live intern seeds 16 faces');
+    const liveLen = session.floor.palette.length;
+    const sl = session.floor.subLayers.find((s) => s && s.id === 'vertical');
+    const livePi = sl.cells[3 * 8 + 3] & 0xffff;
+
+    const transport = session.toHybridBinaryTransport({ id: 'compact_wall' });
+    assert.strictEqual(session.floor.palette.length, liveLen, 'save does not compact live intern');
+    assert.strictEqual(sl.cells[3 * 8 + 3] & 0xffff, livePi);
+    const written = (transport.meta.floors[0].palette || []).filter(Boolean);
+    assert.strictEqual(written.length, 1);
+    assert.strictEqual(written[0].catalogId, 'stone_wall_pole');
+
+    session.undo();
+    assert.strictEqual(verticalCatalog(session, 3, 3), null);
+    session.redo();
+    assert.strictEqual(verticalCatalog(session, 3, 3), 'stone_wall_pole');
+
+    const reloaded = createEditorSession({ cols: 1, rows: 1, z: 0, roleCatalog: roles });
+    reloaded.loadHybridTransport(transport.meta, transport.blobs);
+    assert.strictEqual(verticalCatalog(reloaded, 3, 3), 'stone_wall_pole');
+    assert.strictEqual(
+        reloaded.floor.palette.filter((e) => e && e.wallFamily === 'stone_wall').length,
+        1
+    );
+    reloaded.beginStroke();
+    reloaded.paintAt(4, 3, { stamp: stone });
+    reloaded.endStroke();
+    assert.ok(
+        reloaded.floor.palette.filter((e) => e && e.wallFamily === 'stone_wall').length >= 16,
+        'next stroke re-interns family faces'
+    );
+    assert.ok(String(verticalCatalog(reloaded, 3, 3)).indexOf('stone_wall_') === 0);
+    assert.ok(String(verticalCatalog(reloaded, 4, 3)).indexOf('stone_wall_') === 0);
+    log('hybrid save compact unused palette ok');
+}
+
 function testWallWangHopSkipAndEyedropper() {
     const roles = roleCatalog();
     const art = {
@@ -1291,9 +1374,406 @@ function testClearAllLayers() {
     log('clear all layers ok');
 }
 
+function groundCatalog(session, x, y) {
+    return subCatalog(session, 'ground', x, y);
+}
+
+function beachFill() {
+    return {
+        catalogId: 'ref_water_fill',
+        kind: 'tiles',
+        roleId: 'water',
+        subLayer: 'ground',
+        autoTile: { kind: 'border12', family: 'beach', slot: 'fill' }
+    };
+}
+
+function testBorder12IslandAndConcave() {
+    const roles = roleCatalog();
+    const fill = beachFill();
+    const session = createEditorSession({ cols: 10, rows: 10, z: 7, roleCatalog: roles });
+    session.selectStamp(fill);
+    session.beginStroke();
+    session.paintAt(5, 5, { stamp: fill });
+    session.endStroke();
+    assert.strictEqual(groundCatalog(session, 5, 5), 'ref_water_fill');
+    assert.strictEqual(pathCatalog(session, 5, 4), 'ref_beach_s', 'land north of 1×1 water');
+    assert.strictEqual(pathCatalog(session, 6, 5), 'ref_beach_w');
+    assert.strictEqual(pathCatalog(session, 5, 6), 'ref_beach_n');
+    assert.strictEqual(pathCatalog(session, 4, 5), 'ref_beach_e');
+    assert.strictEqual(pathCatalog(session, 4, 4), 'ref_beach_cse', 'NW land → outer SE');
+    assert.strictEqual(pathCatalog(session, 6, 4), 'ref_beach_csw');
+    assert.strictEqual(pathCatalog(session, 6, 6), 'ref_beach_cnw');
+    assert.strictEqual(pathCatalog(session, 4, 6), 'ref_beach_cne');
+    const i = (x, y) => y * 10 + x;
+    assert.strictEqual(session.floor.friction[i(5, 5)], FRICTION_BLOCKED, 'fill role water');
+    assert.strictEqual(session.floor.friction[i(5, 4)], 0, 'edge does not bake walk');
+
+    const lake = createEditorSession({ cols: 10, rows: 10, z: 7, roleCatalog: roles });
+    lake.beginStroke();
+    for (let y = 2; y <= 4; y++) {
+        for (let x = 2; x <= 4; x++) lake.paintAt(x, y, { stamp: fill });
+    }
+    lake.endStroke();
+    assert.strictEqual(groundCatalog(lake, 3, 3), 'ref_water_fill');
+    assert.strictEqual(pathCatalog(lake, 3, 3), null, 'fill cell has no edge overlay');
+    assert.strictEqual(pathCatalog(lake, 3, 1), 'ref_beach_s', '3×3 north shore');
+    assert.strictEqual(pathCatalog(lake, 5, 1), 'ref_beach_csw', 'NE outer');
+    assert.strictEqual(pathCatalog(lake, 5, 3), 'ref_beach_w');
+
+    lake.beginStroke();
+    lake.paintAt(2, 2, { erase: true, subLayer: 'ground' });
+    lake.endStroke();
+    assert.strictEqual(groundCatalog(lake, 2, 2), null);
+    assert.strictEqual(pathCatalog(lake, 2, 2), 'ref_beach_dse', 'notch is inner SE');
+
+    lake.undo();
+    assert.strictEqual(groundCatalog(lake, 2, 2), 'ref_water_fill');
+    assert.strictEqual(pathCatalog(lake, 2, 2), null);
+
+    log('border12 1×1 / 3×3 / concave / undo ok');
+}
+
+function testBorder12BucketRawPasteLock() {
+    const roles = roleCatalog();
+    const fill = beachFill();
+    const session = createEditorSession({ cols: 10, rows: 10, z: 7, roleCatalog: roles });
+    session.beginStroke();
+    session.paintAt(2, 2, { stamp: fill });
+    session.paintAt(3, 2, { stamp: fill });
+    session.endStroke();
+    const same = session.bucketFill(2, 2, { stamp: fill });
+    assert.strictEqual(same.rect, null, 'same-family bucket is a no-op');
+    assert.strictEqual(pathCatalog(session, 2, 1), 'ref_beach_s');
+
+    const locked = createEditorSession({ cols: 8, rows: 8, z: 7, roleCatalog: roles });
+    const edge = {
+        catalogId: 'ref_beach_n',
+        kind: 'overlays',
+        subLayer: 'path',
+        autoTile: { kind: 'border12', family: 'beach', slot: 'n' },
+        wangLocked: true,
+        borderLocked: true,
+        wangResolve: false
+    };
+    locked.beginStroke();
+    locked.paintAt(3, 2, { stamp: edge, subLayer: 'path' });
+    locked.paintAt(3, 3, { stamp: fill });
+    locked.endStroke();
+    assert.strictEqual(pathCatalog(locked, 3, 2), 'ref_beach_n', 'locked edge skips resolve');
+    assert.notStrictEqual(pathCatalog(locked, 4, 3), 'ref_beach_n');
+
+    const src = createEditorSession({ cols: 8, rows: 8, z: 7, roleCatalog: roles });
+    src.beginStroke();
+    src.paintAt(2, 2, { stamp: fill });
+    src.endStroke();
+    src.setActiveSubLayer('ground');
+    const clip = src.copyTiles({ x0: 1, y0: 1, x1: 3, y1: 3 }, { allLayers: true });
+    const dest = createEditorSession({ cols: 8, rows: 8, z: 7, roleCatalog: roles });
+    dest.pasteTiles(clip, 4, 4);
+    assert.strictEqual(groundCatalog(dest, 5, 5), 'ref_water_fill');
+    assert.strictEqual(pathCatalog(dest, 5, 4), 'ref_beach_s');
+
+    log('border12 bucket / RAW / paste ok');
+}
+
+function testVariationStrokeAndEyedropper() {
+    const { buildAutoTileIndex, pickVariationId } = require('../kernel/core/lib/overlay_border.js');
+    const roles = roleCatalog();
+    const index = buildAutoTileIndex([
+        { id: 'ref_grass_fill', autoTile: { kind: 'variation', family: 'grass', slot: 'fill' } },
+        { id: 'ref_grass_01', autoTile: { kind: 'variation', family: 'grass', slot: '01' } },
+        { id: 'ref_grass_02', autoTile: { kind: 'variation', family: 'grass', slot: '02' } },
+        { id: 'ref_grass_03', autoTile: { kind: 'variation', family: 'grass', slot: '03' } }
+    ]);
+    const family = {
+        catalogId: 'ref_grass_fill',
+        kind: 'tiles',
+        roleId: 'floor',
+        subLayer: 'ground',
+        autoTile: { kind: 'variation', family: 'grass', slot: 'fill' }
+    };
+    const session = createEditorSession({
+        cols: 8,
+        rows: 8,
+        z: 7,
+        roleCatalog: roles,
+        autoTileIndex: index
+    });
+    session.beginStroke();
+    session.paintAt(1, 1, { stamp: family });
+    session.paintAt(2, 1, { stamp: family });
+    session.endStroke();
+    const a = groundCatalog(session, 1, 1);
+    const b = groundCatalog(session, 2, 1);
+    assert.ok(a && a.indexOf('ref_grass_') === 0);
+    assert.ok(b && b.indexOf('ref_grass_') === 0);
+    assert.strictEqual(a, pickVariationId(['ref_grass_01', 'ref_grass_02', 'ref_grass_03'], 1, 1));
+    const hit = session.sampleCellAt(1, 1, { subLayer: 'ground' });
+    assert.ok(hit && hit.stamp);
+    assert.strictEqual(hit.stamp.autoTile.family, 'grass');
+    assert.strictEqual(hit.stamp.autoTile.slot, 'fill', 'eyedropper picks family fill');
+
+    const raw = {
+        catalogId: 'ref_grass_02',
+        kind: 'tiles',
+        roleId: 'floor',
+        subLayer: 'ground',
+        autoTile: { kind: 'variation', family: 'grass', slot: '02' },
+        wangLocked: true,
+        wangResolve: false
+    };
+    session.beginStroke();
+    session.paintAt(3, 3, { stamp: raw });
+    session.endStroke();
+    assert.strictEqual(groundCatalog(session, 3, 3), 'ref_grass_02');
+
+    log('variation stroke / eyedropper / RAW ok');
+}
+
+function villageFrontFamily() {
+    return {
+        catalogId: 'ref_village_front_mid',
+        kind: 'objects',
+        roleId: 'wall',
+        subLayer: 'vertical',
+        autoTile: { kind: 'wallFront', family: 'village_front', slot: 'mid' }
+    };
+}
+
+function testWallFrontResolve() {
+    const roles = roleCatalog();
+    const front = villageFrontFamily();
+    const session = createEditorSession({ cols: 12, rows: 8, z: 7, roleCatalog: roles });
+    session.selectStamp(front);
+    assert.strictEqual(session.activeSubLayer, 'vertical');
+
+    session.beginStroke();
+    session.paintAt(5, 5, { stamp: front });
+    session.endStroke();
+    assert.strictEqual(verticalCatalog(session, 5, 5), 'ref_village_front_mid', '1-cell is mid');
+    assert.strictEqual(session.floor.friction[5 * 12 + 5], FRICTION_BLOCKED);
+    assert.ok(!(session.floor.stairs || []).some((s) => s && s.x === 5 && s.y === 5));
+    const wangFaces = session.floor.palette.filter(
+        (e) => e && e.wallFamily === 'stone_wall'
+    );
+    assert.strictEqual(wangFaces.length, 0, 'wallFront does not intern Wang-16 faces');
+
+    session.beginStroke();
+    session.paintAt(6, 5, { stamp: front });
+    session.paintAt(7, 5, { stamp: front });
+    session.endStroke();
+    assert.strictEqual(verticalCatalog(session, 5, 5), 'ref_village_front_left', 'west cap');
+    assert.strictEqual(verticalCatalog(session, 6, 5), 'ref_village_front_mid');
+    assert.strictEqual(verticalCatalog(session, 7, 5), 'ref_village_front_right', 'east cap');
+
+    session.beginStroke();
+    session.paintAt(6, 5, { erase: true, subLayer: 'vertical' });
+    session.endStroke();
+    assert.strictEqual(verticalCatalog(session, 6, 5), null);
+    assert.strictEqual(verticalCatalog(session, 5, 5), 'ref_village_front_mid', 'orphan becomes mid');
+    assert.strictEqual(verticalCatalog(session, 7, 5), 'ref_village_front_mid');
+
+    session.undo();
+    assert.strictEqual(verticalCatalog(session, 5, 5), 'ref_village_front_left');
+    assert.strictEqual(verticalCatalog(session, 6, 5), 'ref_village_front_mid');
+
+    const hit = session.sampleCellAt(6, 5, { subLayer: 'vertical' });
+    assert.ok(hit && hit.stamp);
+    assert.strictEqual(hit.stamp.autoTile.family, 'village_front');
+    assert.strictEqual(hit.stamp.autoTile.slot, 'mid', 'eyedropper picks family mid');
+    assert.ok(!hit.stamp.wallFamily);
+
+    const same = session.bucketFill(5, 5, { stamp: front });
+    assert.strictEqual(same.rect, null, 'same-family bucket is a no-op');
+
+    const locked = createEditorSession({ cols: 8, rows: 8, z: 7, roleCatalog: roles });
+    const statue = {
+        catalogId: 'ref_village_front_left_statue',
+        kind: 'objects',
+        roleId: 'wall',
+        subLayer: 'vertical',
+        autoTile: { kind: 'wallFront', family: 'village_front', slot: 'left_statue' },
+        wangLocked: true,
+        wangResolve: false
+    };
+    locked.beginStroke();
+    locked.paintAt(2, 2, { stamp: statue });
+    locked.paintAt(3, 2, { stamp: front });
+    locked.endStroke();
+    assert.strictEqual(
+        verticalCatalog(locked, 2, 2),
+        'ref_village_front_left_statue',
+        'RAW statue skips resolve'
+    );
+    assert.strictEqual(verticalCatalog(locked, 3, 2), 'ref_village_front_right');
+
+    const src = createEditorSession({ cols: 8, rows: 8, z: 7, roleCatalog: roles });
+    src.beginStroke();
+    src.paintAt(1, 3, { stamp: front });
+    src.paintAt(2, 3, { stamp: front });
+    src.paintAt(3, 3, { stamp: front });
+    src.endStroke();
+    src.setActiveSubLayer('vertical');
+    const clip = src.copyTiles({ x0: 1, y0: 3, x1: 3, y1: 3 }, { subLayer: 'vertical' });
+    const dest = createEditorSession({ cols: 8, rows: 8, z: 7, roleCatalog: roles });
+    dest.pasteTiles(clip, 4, 4);
+    assert.strictEqual(verticalCatalog(dest, 4, 4), 'ref_village_front_left');
+    assert.strictEqual(verticalCatalog(dest, 5, 4), 'ref_village_front_mid');
+    assert.strictEqual(verticalCatalog(dest, 6, 4), 'ref_village_front_right');
+
+    const hop = createEditorSession({ cols: 8, rows: 8, z: 7, roleCatalog: roles });
+    const stairs = {
+        catalogId: 'test_stairs',
+        roleId: 'stairs_up',
+        kind: 'tiles',
+        subLayer: 'vertical',
+        hop: { dir: 'north', deltaZ: -1 }
+    };
+    hop.beginStroke();
+    hop.paintAt(2, 2, { stamp: front });
+    hop.paintAt(3, 2, { stamp: stairs, subLayer: 'vertical' });
+    hop.endStroke();
+    assert.strictEqual(
+        verticalCatalog(hop, 2, 2),
+        'ref_village_front_mid',
+        'stair neighbor is not a wall cap'
+    );
+    assert.ok((hop.floor.stairs || []).some((s) => s && s.x === 3 && s.y === 2));
+
+    log('wallFront 1-cell / run / erase / lock / paste / hop ok');
+}
+
+function squareFamily() {
+    return {
+        catalogId: 'ref_square_c',
+        kind: 'overlays',
+        roleId: 'path',
+        subLayer: 'path',
+        autoTile: { kind: 'rect9', family: 'square', slot: 'c' }
+    };
+}
+
+function testRect9Resolve() {
+    const roles = roleCatalog();
+    const square = squareFamily();
+    const session = createEditorSession({ cols: 12, rows: 8, z: 7, roleCatalog: roles });
+    session.selectStamp(square);
+    assert.strictEqual(session.activeSubLayer, 'path');
+
+    session.beginStroke();
+    session.paintAt(5, 5, { stamp: square });
+    session.endStroke();
+    assert.strictEqual(pathCatalog(session, 5, 5), 'ref_square_c', '1-cell is center');
+    const squareSlots = session.floor.palette.filter(
+        (e) => e && e.autoTile && e.autoTile.kind === 'rect9'
+    );
+    assert.strictEqual(squareSlots.length, 9, 'rect9 interns 9 slots');
+    const wangFaces = session.floor.palette.filter((e) => e && e.wallFamily === 'stone_wall');
+    assert.strictEqual(wangFaces.length, 0, 'rect9 does not intern Wang-16 faces');
+
+    session.beginStroke();
+    session.paintAt(6, 5, { stamp: square });
+    session.paintAt(7, 5, { stamp: square });
+    session.endStroke();
+    assert.strictEqual(pathCatalog(session, 5, 5), 'ref_square_w', 'west of 1-row');
+    assert.strictEqual(pathCatalog(session, 6, 5), 'ref_square_c');
+    assert.strictEqual(pathCatalog(session, 7, 5), 'ref_square_e', 'east of 1-row');
+
+    const box = createEditorSession({ cols: 12, rows: 8, z: 7, roleCatalog: roles });
+    box.beginStroke();
+    for (let y = 2; y <= 4; y++) {
+        for (let x = 2; x <= 4; x++) box.paintAt(x, y, { stamp: square });
+    }
+    box.endStroke();
+    assert.strictEqual(pathCatalog(box, 2, 2), 'ref_square_nw');
+    assert.strictEqual(pathCatalog(box, 3, 2), 'ref_square_n');
+    assert.strictEqual(pathCatalog(box, 4, 2), 'ref_square_ne');
+    assert.strictEqual(pathCatalog(box, 2, 3), 'ref_square_w');
+    assert.strictEqual(pathCatalog(box, 3, 3), 'ref_square_c');
+    assert.strictEqual(pathCatalog(box, 4, 3), 'ref_square_e');
+    assert.strictEqual(pathCatalog(box, 2, 4), 'ref_square_sw');
+    assert.strictEqual(pathCatalog(box, 3, 4), 'ref_square_s');
+    assert.strictEqual(pathCatalog(box, 4, 4), 'ref_square_se');
+
+    box.beginStroke();
+    box.paintAt(3, 3, { erase: true, subLayer: 'path' });
+    box.endStroke();
+    assert.strictEqual(pathCatalog(box, 3, 3), null);
+    assert.strictEqual(pathCatalog(box, 2, 3), 'ref_square_c', 'ring cardinal becomes center');
+    assert.strictEqual(pathCatalog(box, 4, 3), 'ref_square_c');
+    assert.strictEqual(pathCatalog(box, 3, 2), 'ref_square_c');
+    assert.strictEqual(pathCatalog(box, 3, 4), 'ref_square_c');
+    assert.strictEqual(pathCatalog(box, 2, 2), 'ref_square_nw');
+
+    box.undo();
+    assert.strictEqual(pathCatalog(box, 3, 3), 'ref_square_c');
+    assert.strictEqual(pathCatalog(box, 2, 2), 'ref_square_nw');
+
+    const hit = box.sampleCellAt(4, 2, { subLayer: 'path' });
+    assert.ok(hit && hit.stamp);
+    assert.strictEqual(hit.stamp.autoTile.family, 'square');
+    assert.strictEqual(hit.stamp.autoTile.slot, 'c', 'eyedropper picks family center');
+
+    const same = session.bucketFill(5, 5, { stamp: square });
+    assert.strictEqual(same.rect, null, 'same-family bucket is a no-op');
+
+    const locked = createEditorSession({ cols: 8, rows: 8, z: 7, roleCatalog: roles });
+    const rawN = {
+        catalogId: 'ref_square_n',
+        kind: 'overlays',
+        roleId: 'path',
+        subLayer: 'path',
+        autoTile: { kind: 'rect9', family: 'square', slot: 'n' },
+        wangLocked: true,
+        wangResolve: false
+    };
+    locked.beginStroke();
+    locked.paintAt(2, 2, { stamp: rawN });
+    locked.paintAt(2, 3, { stamp: square });
+    locked.endStroke();
+    assert.strictEqual(pathCatalog(locked, 2, 2), 'ref_square_n', 'RAW n skips resolve');
+    assert.strictEqual(pathCatalog(locked, 2, 3), 'ref_square_s');
+
+    const src = createEditorSession({ cols: 8, rows: 8, z: 7, roleCatalog: roles });
+    src.beginStroke();
+    src.paintAt(1, 3, { stamp: square });
+    src.paintAt(2, 3, { stamp: square });
+    src.paintAt(3, 3, { stamp: square });
+    src.endStroke();
+    src.setActiveSubLayer('path');
+    const clip = src.copyTiles({ x0: 1, y0: 3, x1: 3, y1: 3 }, { subLayer: 'path' });
+    const dest = createEditorSession({ cols: 8, rows: 8, z: 7, roleCatalog: roles });
+    dest.pasteTiles(clip, 4, 4);
+    assert.strictEqual(pathCatalog(dest, 4, 4), 'ref_square_w');
+    assert.strictEqual(pathCatalog(dest, 5, 4), 'ref_square_c');
+    assert.strictEqual(pathCatalog(dest, 6, 4), 'ref_square_e');
+
+    const fence = {
+        catalogId: 'ref_fence_v',
+        kind: 'objects',
+        roleId: 'scenery_cover',
+        subLayer: 'scenery',
+        autoTile: { kind: 'none', family: 'fence', slot: 'v' }
+    };
+    const deco = createEditorSession({ cols: 8, rows: 8, z: 7, roleCatalog: roles });
+    deco.selectStamp(fence);
+    assert.strictEqual(deco.activeSubLayer, 'scenery');
+    deco.beginStroke();
+    deco.paintAt(1, 1, { stamp: fence });
+    deco.paintAt(2, 1, { stamp: fence });
+    deco.endStroke();
+    assert.strictEqual(subCatalog(deco, 'scenery', 1, 1), 'ref_fence_v');
+    assert.strictEqual(subCatalog(deco, 'scenery', 2, 1), 'ref_fence_v', 'none does not autotile');
+    assert.strictEqual(deco.floor.friction[1 * 8 + 1], FRICTION_BLOCKED);
+
+    log('rect9 1-cell / row / 3×3 / erase / lock / paste + fence stamp ok');
+}
+
 function main() {
     testUiOrderAndFlags();
     testArtSetStamps();
+    testFirstlightIsleRefStamps();
     testArtSetStampOverrides();
     testPaintBakeRoom();
     testDiagonalBakeDoesNotFillAabb();
@@ -1309,9 +1789,15 @@ function main() {
     testWangEyedropperAndSubLayer();
     testWangBucketRawAndPaste();
     testWallWangResolve();
+    testHybridSaveCompactsUnusedPalette();
     testWallWangHopSkipAndEyedropper();
     testExplicitStairDest();
     testClearAllLayers();
+    testBorder12IslandAndConcave();
+    testBorder12BucketRawPasteLock();
+    testVariationStrokeAndEyedropper();
+    testWallFrontResolve();
+    testRect9Resolve();
     console.log('tilemap_editor: ok');
 }
 

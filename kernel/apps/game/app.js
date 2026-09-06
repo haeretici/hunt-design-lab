@@ -84,6 +84,7 @@ const {
 } = require('../../providers/simulator/hunt_opts.js');
 const {
     loadPersistedDebugAI,
+    loadPersistedDebugOverlay,
     loadPersistedCamera,
     loadPersistedProgression
 } = require('../../../html/widgets/engine_tweakings/bind.js');
@@ -485,7 +486,21 @@ function setFormLocked(locked) {
     }
 }
 
-async function initGameApp() {
+async function initGameApp(options = {}) {
+    const isClient = !!(
+        options.isClient ||
+        (typeof document !== 'undefined' &&
+            document.body &&
+            document.body.classList.contains('is-client'))
+    );
+    const prefsKey = options.prefsKey || (isClient ? 'huntClient' : PREFS_KEY);
+    if (isClient) {
+        Settings.features = Object.assign({}, Settings.features, {
+            expProgression: true,
+            skillProgression: true
+        });
+    }
+
     const canvas = document.getElementById('gameCanvas');
     const playBtn = document.getElementById('playBtn');
     const pauseBtn = document.getElementById('pauseBtn');
@@ -526,15 +541,17 @@ async function initGameApp() {
     let catalog = null;
     let injectors = null;
     /** @type {object[]} */
-    let formMembers = partyFormFromPartyId(DEFAULT_PARTY_ID).members;
+    let formMembers = isClient
+        ? (options.singlePlayerMember ? [options.singlePlayerMember] : [])
+        : partyFormFromPartyId(DEFAULT_PARTY_ID).members;
     /** @type {string} */
-    let formPartyId = DEFAULT_PARTY_ID;
+    let formPartyId = isClient ? 'solo' : DEFAULT_PARTY_ID;
     /**
      * Form slot whose view the watch camera follows (independent of Leader).
      * Defaults to the leader slot; "Set Active" updates this mid-session.
      * @type {number}
      */
-    let activeViewSlot = leaderFormSlot(formMembers);
+    let activeViewSlot = isClient ? 0 : leaderFormSlot(formMembers);
     let stopPanelPoll = null;
     let sessionLive = false;
     /** @type {{ refresh: () => void, dispose: () => void }|null} */
@@ -727,9 +744,9 @@ async function initGameApp() {
     /** @type {Record<string, unknown>|null} */
     let storedPrefs = null;
     try {
-        storedPrefs = await getUiPreferences(PREFS_KEY);
+        storedPrefs = await getUiPreferences(prefsKey);
     } catch (err) {
-        console.warn('Hunt Simulator prefs load failed', err);
+        console.warn('Prefs load failed', err);
         storedPrefs = null;
     }
 
@@ -806,6 +823,7 @@ async function initGameApp() {
 
     // Stage 12B: restore AI debug flags + camera zoom + Engine Tweakings popup
     loadPersistedDebugAI(Settings);
+    loadPersistedDebugOverlay(Settings);
     loadPersistedCamera(Settings);
     loadPersistedProgression(Settings);
     // docs/29 Stage 3: mouse control mode + loot stub prefs
@@ -882,13 +900,14 @@ async function initGameApp() {
             activeViewSlot
         });
 
-    const schedulePrefsSave = createDebouncedPrefsSaver(PREFS_KEY, collectPrefs);
+    const schedulePrefsSave = createDebouncedPrefsSaver(prefsKey, collectPrefs);
 
     /**
      * Reload form members from the selected party preset.
      * @param {string} [partyId]
      */
     const applyPartyDefaults = (partyId) => {
+        if (isClient) return;
         const id =
             partyId ||
             (partySelect && partySelect.value) ||
@@ -913,19 +932,21 @@ async function initGameApp() {
         const defaultPartyId =
             (partySelect && partySelect.value) ||
             (getActiveMode().defaults && getActiveMode().defaults.partyId) ||
-            DEFAULT_PARTY_ID;
-        let defaultMembers = partyFormFromPartyId(defaultPartyId, {
-            loadParty
-        }).members;
+            (isClient ? 'solo' : DEFAULT_PARTY_ID);
+        let defaultMembers = isClient
+            ? (options.singlePlayerMember ? [options.singlePlayerMember] : [])
+            : partyFormFromPartyId(defaultPartyId, {
+                  loadParty
+              }).members;
         const defaults = collectPrefsState({
             seed: '42',
             speed: Settings.DEFAULT_PLAY_SPEED,
             modeId: activeModeId || DEFAULT_MODE_ID,
             huntId:
-                (huntSelect && huntSelect.value) || 'cave_crawl_generated',
-            partyId: defaultPartyId,
+                (huntSelect && huntSelect.value) || (isClient ? 'firstlight_outpost' : 'cave_crawl_generated'),
+            partyId: isClient ? 'solo' : defaultPartyId,
             members: defaultMembers,
-            activeViewSlot: leaderFormSlot(defaultMembers)
+            activeViewSlot: isClient ? 0 : leaderFormSlot(defaultMembers)
         });
         const applied = applyPrefsState(storedPrefs, defaults);
         if (seedInput) seedInput.value = applied.seed;
@@ -939,7 +960,7 @@ async function initGameApp() {
             );
             if (opt) huntSelect.value = applied.huntId;
         }
-        if (partySelect && applied.partyId) {
+        if (partySelect && applied.partyId && !isClient) {
             const opt = Array.from(partySelect.options).some(
                 (o) => o.value === applied.partyId
             );
@@ -948,8 +969,14 @@ async function initGameApp() {
                 formPartyId = applied.partyId;
             }
         }
-        // Prefer restored members when they match prefs; otherwise reload party
-        if (
+        if (isClient) {
+            formMembers = options.singlePlayerMember ? [options.singlePlayerMember] : [];
+            formPartyId = 'solo';
+            activeViewSlot = 0;
+            if (formMembers.length > 0) {
+                paintPartyEditor(formMembers);
+            }
+        } else if (
             storedPrefs &&
             Array.isArray(storedPrefs.members) &&
             storedPrefs.members.length
@@ -973,10 +1000,12 @@ async function initGameApp() {
             }
         }
     } catch (err) {
-        console.warn('Hunt Simulator prefs apply failed', err);
-        applyPartyDefaults(
-            (partySelect && partySelect.value) || DEFAULT_PARTY_ID
-        );
+        console.warn('Prefs apply failed', err);
+        if (!isClient) {
+            applyPartyDefaults(
+                (partySelect && partySelect.value) || DEFAULT_PARTY_ID
+            );
+        }
     }
 
     if (speedSlider) {
@@ -1282,13 +1311,17 @@ async function initGameApp() {
         }
     };
 
-    const startSession = async () => {
+    const startSession = async (sessionOpts) => {
         if (Application.currentLevel) {
             Application.quit();
         }
 
+        const sOpts = sessionOpts || {};
         let seed = 1;
-        if (seedInput && seedInput.value.trim() !== '') {
+        if (sOpts.seed != null && Number.isFinite(Number(sOpts.seed))) {
+            seed = Number(sOpts.seed) >>> 0 || 1;
+            if (seedInput) seedInput.value = String(seed);
+        } else if (seedInput && seedInput.value.trim() !== '') {
             const parsed = parseInt(seedInput.value.trim(), 10);
             if (Number.isFinite(parsed)) seed = parsed >>> 0 || 1;
         } else {
@@ -1296,21 +1329,41 @@ async function initGameApp() {
             if (seedInput) seedInput.value = String(seed);
         }
 
-        const huntId = huntSelect ? huntSelect.value : 'cave_crawl_generated';
+        const huntId = sOpts.huntId || (huntSelect ? huntSelect.value : 'cave_crawl_generated');
         let hunt;
         try {
             // Re-expand under the session seed so layout/spawns match headless
             // (browser pack pre-expands at seed 1 for catalog only).
-            hunt = getHuntDef(huntId, { seed });
+            hunt = sOpts.hunt || getHuntDef(huntId, { seed });
         } catch (err) {
             console.error(err);
             setStatus('ERROR');
             throw err;
         }
 
-        const members = readPartyForm(formMembers);
-        applyPersistedAutoChaseToMembers(members);
+        if (sOpts.spawnPosition && sOpts.spawnPosition.x != null && sOpts.spawnPosition.y != null) {
+            hunt = JSON.parse(JSON.stringify(hunt));
+            hunt.waypoints = [{
+                x: sOpts.spawnPosition.x,
+                y: sOpts.spawnPosition.y,
+                z: sOpts.spawnPosition.z != null ? sOpts.spawnPosition.z : (hunt.floor != null ? hunt.floor : 7)
+            }];
+            if (sOpts.spawnPosition.z != null) {
+                hunt.floor = sOpts.spawnPosition.z;
+            }
+        }
+
+        let members;
+        if (Array.isArray(sOpts.members) && sOpts.members.length > 0) {
+            members = sOpts.members;
+        } else {
+            members = readPartyForm(formMembers);
+            applyPersistedAutoChaseToMembers(members);
+        }
         formMembers = members;
+        if (isClient || sOpts.members) {
+            activeViewSlot = 0;
+        }
 
         Settings.HEADLESS = false;
         // Tile size (camera zoom) comes from Engine Tweakings / localStorage —
@@ -1326,10 +1379,16 @@ async function initGameApp() {
             hunt.floorLayers
         );
         const partyId =
+            sOpts.partyId ||
             (partySelect && partySelect.value) ||
             formPartyId ||
-            DEFAULT_PARTY_ID;
+            (isClient ? 'solo' : DEFAULT_PARTY_ID);
         formPartyId = partyId;
+        const partyName =
+            sOpts.partyName ||
+            (isClient
+                ? (members[0] && members[0].name ? members[0].name : 'Player')
+                : partyId);
         // Prefer editor hybrid packs (map fields + channels) when present
         let hybridMapPack = null;
         const huntMapId =
@@ -1356,6 +1415,7 @@ async function initGameApp() {
             hunt,
             huntId,
             partyId,
+            partyName,
             members,
             mapPath: hasGeneratedFloor
                 ? null
@@ -1913,7 +1973,21 @@ async function initGameApp() {
         collapsiblePanelsCtl,
         actionBarsCtl,
         engineTweaksBridge,
-        fullscreenCtl
+        fullscreenCtl,
+        getPlayer: () =>
+            Application.currentLevel
+                ? getActivePlayerFromSim(Application.currentLevel)
+                : null,
+        getSim: () => Application.currentLevel,
+        snapshot: () =>
+            Application.currentLevel
+                ? snapshotFromSim(Application.currentLevel)
+                : null,
+        setSessionMember: (m) => {
+            formMembers = [m];
+            activeViewSlot = 0;
+            paintPartyEditor(formMembers);
+        }
     };
 }
 

@@ -12,6 +12,7 @@ const {
 const { Settings: EngineSettings } = require('../../../kernel/settings.js');
 
 const STORAGE_KEY_DEBUG_AI = 'ai_debug_overlays';
+const STORAGE_KEY_DEBUG_OVERLAY = 'hdl_debug_overlay';
 /** localStorage key for camera zoom (tile px scale) — soccer-oss camera_settings parity. */
 const STORAGE_KEY_CAMERA = 'camera_settings';
 /**
@@ -247,6 +248,44 @@ function persistDebugAI(Settings) {
 }
 
 /**
+ * Load persisted debug HUD overlay state into Settings (browser only).
+ * Missing key leaves default (disabled / false).
+ * @param {object} Settings
+ */
+function loadPersistedDebugOverlay(Settings) {
+    if (!Settings || typeof Settings !== 'object') return;
+    if (typeof localStorage === 'undefined') {
+        Settings.showDebugOverlay = false;
+        return;
+    }
+    try {
+        const raw = localStorage.getItem(STORAGE_KEY_DEBUG_OVERLAY);
+        if (raw !== null) {
+            Settings.showDebugOverlay = raw === 'true' || raw === '1' || JSON.parse(raw) === true;
+        } else {
+            Settings.showDebugOverlay = false;
+        }
+    } catch (e) {
+        console.warn('Failed to load debug overlay prefs:', e);
+        Settings.showDebugOverlay = false;
+    }
+}
+
+/**
+ * Persist debug HUD overlay toggle (browser only).
+ * @param {object} Settings
+ */
+function persistDebugOverlay(Settings) {
+    if (typeof localStorage === 'undefined') return;
+    try {
+        const val = !!(Settings && Settings.showDebugOverlay);
+        localStorage.setItem(STORAGE_KEY_DEBUG_OVERLAY, JSON.stringify(val));
+    } catch (_) {
+        /* ignore quota / private mode */
+    }
+}
+
+/**
  * Load camera zoom (tile scale) from localStorage into Settings.
  * On first visit, applies browser default (32px tiles → small sprite thumbs).
  * @param {object} Settings
@@ -296,6 +335,7 @@ function persistCamera(Settings) {
 
 module.exports = {
     STORAGE_KEY_DEBUG_AI,
+    STORAGE_KEY_DEBUG_OVERLAY,
     STORAGE_KEY_CAMERA,
     STORAGE_KEY_PROGRESSION,
     TILE_SCALE_DEFAULT,
@@ -314,6 +354,8 @@ module.exports = {
     applySpriteJumpHeight,
     loadPersistedDebugAI,
     persistDebugAI,
+    loadPersistedDebugOverlay,
+    persistDebugOverlay,
     loadPersistedCamera,
     persistCamera,
     normalizeProgressionPrefs,

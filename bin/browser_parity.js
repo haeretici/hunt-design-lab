@@ -10,7 +10,7 @@
  *   npm run browser:parity
  *   npm run browser:parity -- --to-tick 780 --speed 20
  *   npm run browser:parity -- --to-tick 2400   # full A1 session (wipe ~1824)
- *   BROWSER_PARITY_URL=http://localhost:8080/hunt-design-lab/index.php npm run browser:parity
+ *   BROWSER_PARITY_URL=http://localhost:8080/hunt-design-lab/hunt.php npm run browser:parity
  *
  * Requires: system Chrome/Chromium + optional local PHP server (auto-starts
  * when --no-server is not set and nothing answers at the URL).
@@ -38,7 +38,7 @@ const { stableStringify } = require('../kernel/core/lib/telemetry.js');
  * Official package directory name is `hunt-design-lab`.
  */
 const PROJECT_BASE = path.basename(ROOT);
-const DEFAULT_URL = `http://localhost:8080/${PROJECT_BASE}/index.php`;
+const DEFAULT_URL = `http://localhost:8080/${PROJECT_BASE}/hunt.php`;
 const DEFAULT_HUNT = 'rising_pressure_macro';
 const DEFAULT_PARTY = 'rising_pressure_duo';
 const DEFAULT_SEED = 42;

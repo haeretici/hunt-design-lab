@@ -23,6 +23,7 @@ const {
     initDesignerUiApp
 } = require('./kernel/apps/designer-ui/app.js');
 const { initWikiApp } = require('./kernel/apps/wiki/app.js');
+const { initClientApp } = require('./kernel/apps/client/app.js');
 
 /**
  * Suppress the native browser context menu for RMB inside Hunt / Scenario workspaces.
@@ -75,9 +76,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (bodyId === 'game-app') {
-        initGameApp().catch((err) =>
-            console.error('Error initializing Hunt Simulator app:', err)
-        );
+        if (document.body.classList.contains('is-client')) {
+            initClientApp().catch((err) =>
+                console.error('Error initializing Client app:', err)
+            );
+        } else {
+            initGameApp().catch((err) =>
+                console.error('Error initializing Hunt Simulator app:', err)
+            );
+        }
         return;
     }
 
@@ -113,5 +120,6 @@ document.addEventListener('DOMContentLoaded', () => {
         initWikiApp().catch((err) =>
             console.error('Error initializing Wiki app:', err)
         );
+        return;
     }
 });
