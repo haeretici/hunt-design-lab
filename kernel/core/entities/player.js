@@ -131,9 +131,19 @@ class Player extends Creature {
         /** Shield training bucket (server parity: 30). */
         this.shieldBlockCount = 0;
         /** @type {Record<string, number>} progress toward next skill level */
-        this._skillTryProgress = Object.create(null);
+        this._skillTryProgress =
+            opts._skillTryProgress && typeof opts._skillTryProgress === 'object'
+                ? Object.assign(Object.create(null), opts._skillTryProgress)
+                : opts.skillTryProgress && typeof opts.skillTryProgress === 'object'
+                  ? Object.assign(Object.create(null), opts.skillTryProgress)
+                  : Object.create(null);
         /** Progress toward next magic level (mana). */
-        this._manaTowardMagic = 0;
+        this._manaTowardMagic =
+            opts._manaTowardMagic != null && Number.isFinite(Number(opts._manaTowardMagic))
+                ? Math.max(0, Math.floor(Number(opts._manaTowardMagic)))
+                : opts.manaTowardMagic != null && Number.isFinite(Number(opts.manaTowardMagic))
+                  ? Math.max(0, Math.floor(Number(opts.manaTowardMagic)))
+                  : 0;
 
         /** Character skills from profile / party member (engine or profile keys) */
         this.skills =

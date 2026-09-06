@@ -654,6 +654,12 @@ html.cursor-targeting * {
   border: 1px solid #21262d;
   border-radius: 4px;
   background: #0a0d12;
+  cursor: default;
+  transition: border-color 0.15s ease;
+
+  &:hover {
+    border-color: #30363d;
+  }
 }
 
 .skills-panel-level-label {
@@ -684,6 +690,12 @@ html.cursor-targeting * {
   border-radius: 3px;
   background: rgba(0, 0, 0, 0.25);
   min-width: 0;
+  cursor: default;
+  transition: border-color 0.15s ease;
+
+  &:hover {
+    border-color: #30363d;
+  }
 }
 
 .skills-panel-name {

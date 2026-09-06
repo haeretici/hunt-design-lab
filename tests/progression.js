@@ -267,6 +267,20 @@ function testLevelUpFromExp() {
     const r2 = applyExpProgression(p2, getExpForLevel(5));
     assert.strictEqual(r2.newLevel, 5);
     assert.strictEqual(r2.levelUps, 4);
+
+    // Ensure seeding does not leave experience below level floor
+    const pZero = { level: 8, experience: 0 };
+    seedPlayerExperience(pZero);
+    assert.strictEqual(pZero.experience, getExpForLevel(8));
+
+    const pBelowFloor = { level: 8, experience: 100 };
+    seedPlayerExperience(pBelowFloor);
+    assert.strictEqual(pBelowFloor.experience, getExpForLevel(8));
+
+    const pAboveFloor = { level: 8, experience: 5000 };
+    seedPlayerExperience(pAboveFloor);
+    assert.strictEqual(pAboveFloor.experience, 5000);
+
     log('level-up ok');
 }
 
@@ -876,8 +890,70 @@ function main() {
     testProductPartySkillGate();
     testSkillTrainingCostAndExerciseEta();
     testProgressionPrefsNormalize();
+    testProgressionPersistence();
     setActiveSessionConfig(null);
     console.log('progression tests ok');
+}
+
+function testProgressionPersistence() {
+    const { Player } = require('../kernel/core/entities/player.js');
+    const { memberFromPlayerProfile } = require('../kernel/core/lib/character/player_profile.js');
+    const { normalizeMember, membersToPartyConfig } = require('../kernel/apps/game/party_form.js');
+
+    // 1. Player constructor preserves skill tries and mana toward magic
+    const p = new Player({
+        id: 'test_p',
+        name: 'Test',
+        classId: 'guardian',
+        level: 8,
+        experience: 5000,
+        _skillTryProgress: { sword: 42 },
+        _manaTowardMagic: 150
+    });
+    assert.strictEqual(p.level, 8);
+    assert.strictEqual(p.experience, 5000);
+    assert.strictEqual(p._skillTryProgress.sword, 42);
+    assert.strictEqual(p._manaTowardMagic, 150);
+
+    // 2. memberFromPlayerProfile preserves experience, _skillTryProgress, _manaTowardMagic
+    const prof = {
+        id: 'test_prof',
+        label: 'Hero',
+        classId: 'guardian',
+        level: 10,
+        experience: 12000,
+        _skillTryProgress: { axe: 100 },
+        _manaTowardMagic: 200,
+        skills: { axe: 30 }
+    };
+    const m = memberFromPlayerProfile(prof, {});
+    assert.strictEqual(m.level, 10);
+    assert.strictEqual(m.experience, 12000);
+    assert.strictEqual(m._skillTryProgress.axe, 100);
+    assert.strictEqual(m._manaTowardMagic, 200);
+
+    // 3. normalizeMember preserves experience, _skillTryProgress, _manaTowardMagic
+    const norm = normalizeMember({
+        name: 'Hero',
+        classId: 'guardian',
+        level: 12,
+        experience: 25000,
+        _skillTryProgress: { sword: 88 },
+        _manaTowardMagic: 350
+    }, 0);
+    assert.strictEqual(norm.level, 12);
+    assert.strictEqual(norm.experience, 25000);
+    assert.strictEqual(norm._skillTryProgress.sword, 88);
+    assert.strictEqual(norm._manaTowardMagic, 350);
+
+    // 4. membersToPartyConfig preserves experience, _skillTryProgress, _manaTowardMagic
+    const partyCfg = membersToPartyConfig([norm]);
+    assert.strictEqual(partyCfg[0].level, 12);
+    assert.strictEqual(partyCfg[0].experience, 25000);
+    assert.strictEqual(partyCfg[0]._skillTryProgress.sword, 88);
+    assert.strictEqual(partyCfg[0]._manaTowardMagic, 350);
+
+    log('progression persistence ok');
 }
 
 main();

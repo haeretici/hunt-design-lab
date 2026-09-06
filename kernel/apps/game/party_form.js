@@ -176,6 +176,33 @@ function normalizeMember(raw, index, opts) {
                   ? String(input.profileId)
                   : defaultProfileIdForClass(classId)
     };
+    const exp =
+        src.experience != null && Number.isFinite(Number(src.experience))
+            ? Math.max(0, Math.floor(Number(src.experience)))
+            : input.experience != null && Number.isFinite(Number(input.experience))
+              ? Math.max(0, Math.floor(Number(input.experience)))
+              : null;
+    if (exp != null) {
+        row.experience = exp;
+    }
+    const skillProgress =
+        (src._skillTryProgress && typeof src._skillTryProgress === 'object' && src._skillTryProgress) ||
+        (src.skillTryProgress && typeof src.skillTryProgress === 'object' && src.skillTryProgress) ||
+        (input._skillTryProgress && typeof input._skillTryProgress === 'object' && input._skillTryProgress) ||
+        (input.skillTryProgress && typeof input.skillTryProgress === 'object' && input.skillTryProgress) ||
+        null;
+    if (skillProgress) {
+        row._skillTryProgress = Object.assign({}, skillProgress);
+    }
+    const manaTowardMagic =
+        src._manaTowardMagic != null ? src._manaTowardMagic :
+        src.manaTowardMagic != null ? src.manaTowardMagic :
+        input._manaTowardMagic != null ? input._manaTowardMagic :
+        input.manaTowardMagic != null ? input.manaTowardMagic :
+        null;
+    if (manaTowardMagic != null && Number.isFinite(Number(manaTowardMagic))) {
+        row._manaTowardMagic = Math.max(0, Math.floor(Number(manaTowardMagic)));
+    }
     // Profile / member skills must reach the simulator. Without them, combat
     // falls back to classes.json vocation baselines (often much higher magic /
     // melee than authored player_profiles) and Hunt UI diverges from headless
@@ -444,6 +471,29 @@ function membersToPartyConfig(members) {
                       : false,
             equipment
         };
+        const exp =
+            src.experience != null && Number.isFinite(Number(src.experience))
+                ? Math.max(0, Math.floor(Number(src.experience)))
+                : m.experience != null && Number.isFinite(Number(m.experience))
+                  ? Math.max(0, Math.floor(Number(m.experience)))
+                  : null;
+        if (exp != null) row.experience = exp;
+        const stp =
+            (src._skillTryProgress && typeof src._skillTryProgress === 'object' && src._skillTryProgress) ||
+            (src.skillTryProgress && typeof src.skillTryProgress === 'object' && src.skillTryProgress) ||
+            (m._skillTryProgress && typeof m._skillTryProgress === 'object' && m._skillTryProgress) ||
+            (m.skillTryProgress && typeof m.skillTryProgress === 'object' && m.skillTryProgress) ||
+            null;
+        if (stp) row._skillTryProgress = Object.assign({}, stp);
+        const mtm =
+            src._manaTowardMagic != null ? src._manaTowardMagic :
+            src.manaTowardMagic != null ? src.manaTowardMagic :
+            m._manaTowardMagic != null ? m._manaTowardMagic :
+            m.manaTowardMagic != null ? m.manaTowardMagic :
+            null;
+        if (mtm != null && Number.isFinite(Number(mtm))) {
+            row._manaTowardMagic = Math.max(0, Math.floor(Number(mtm)));
+        }
         if (src.profileId || m.profileId) {
             row.profileId = String(src.profileId || m.profileId);
         }

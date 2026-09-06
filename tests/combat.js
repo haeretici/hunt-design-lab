@@ -667,21 +667,21 @@ function testSpeedFromLevel() {
 }
 
 /**
- * L1–8 HP/MP: every class uses None vocation (150/0 +5/+5 → 185/35).
+ * L1–8 HP/MP: every class uses None vocation (150/55 +5/+5 → 185/90, 5*level + 50 MP).
  * After 8: class per-level. Cap 1–8 is tested in tests/inventory.js.
  */
 function testPreVocationHpMp() {
     const empty = rollupEquipment({}, []);
     const classes = [
-        { id: 'guardian', baseHp: 185, baseMp: 35, hpPerLevel: 15, mpPerLevel: 5 },
-        { id: 'scout', baseHp: 185, baseMp: 35, hpPerLevel: 10, mpPerLevel: 15 },
-        { id: 'mystic', baseHp: 185, baseMp: 35, hpPerLevel: 10, mpPerLevel: 10 },
-        { id: 'adept', baseHp: 185, baseMp: 35, hpPerLevel: 5, mpPerLevel: 30 },
-        { id: 'warden', baseHp: 185, baseMp: 35, hpPerLevel: 5, mpPerLevel: 30 },
-        { id: 'adventurer', baseHp: 185, baseMp: 35, hpPerLevel: 5, mpPerLevel: 5 }
+        { id: 'guardian', baseHp: 185, baseMp: 90, hpPerLevel: 15, mpPerLevel: 5 },
+        { id: 'scout', baseHp: 185, baseMp: 90, hpPerLevel: 10, mpPerLevel: 15 },
+        { id: 'mystic', baseHp: 185, baseMp: 90, hpPerLevel: 10, mpPerLevel: 10 },
+        { id: 'adept', baseHp: 185, baseMp: 90, hpPerLevel: 5, mpPerLevel: 30 },
+        { id: 'warden', baseHp: 185, baseMp: 90, hpPerLevel: 5, mpPerLevel: 30 },
+        { id: 'adventurer', baseHp: 185, baseMp: 90, hpPerLevel: 5, mpPerLevel: 5 }
     ];
     const hp1to8 = [150, 155, 160, 165, 170, 175, 180, 185];
-    const mp1to8 = [0, 5, 10, 15, 20, 25, 30, 35];
+    const mp1to8 = [55, 60, 65, 70, 75, 80, 85, 90];
     for (let i = 0; i < classes.length; i++) {
         const cls = classes[i];
         for (let lv = 1; lv <= 8; lv++) {
@@ -694,12 +694,12 @@ function testPreVocationHpMp() {
         }
     }
     const l9 = {
-        guardian: { hp: 200, mp: 40 },
-        scout: { hp: 195, mp: 50 },
-        mystic: { hp: 195, mp: 45 },
-        adept: { hp: 190, mp: 65 },
-        warden: { hp: 190, mp: 65 },
-        adventurer: { hp: 190, mp: 40 }
+        guardian: { hp: 200, mp: 95 },
+        scout: { hp: 195, mp: 105 },
+        mystic: { hp: 195, mp: 100 },
+        adept: { hp: 190, mp: 120 },
+        warden: { hp: 190, mp: 120 },
+        adventurer: { hp: 190, mp: 95 }
     };
     for (let i = 0; i < classes.length; i++) {
         const cls = classes[i];
@@ -1379,7 +1379,7 @@ function testProfileSkillOverrides() {
         skills: { melee: 80, distance: 20, shielding: 70, magic: 10 },
         skillKey: 'melee',
         baseHp: 185,
-        baseMp: 35
+        baseMp: 90
     };
     const itemDb = [
         {

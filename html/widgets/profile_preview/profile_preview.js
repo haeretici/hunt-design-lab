@@ -170,13 +170,13 @@
 
     /**
      * HP / MP from vocation + level. Matches kernel poolMaxForLevel:
-     * L1–7 all classes 150+(L−1)×5 HP, (L−1)×5 MP; L8 = 185/35;
+     * L1–7 all classes 150+(L−1)×5 HP, 50+L×5 MP; L8 = 185/90;
      * after 8 class per-level.
      */
     function calculateHpMp(vocation, level) {
         const lvl = Math.max(1, parseInt(level, 10) || 1);
         if (lvl < 8) {
-            return { maxHp: 150 + (lvl - 1) * 5, maxMp: (lvl - 1) * 5 };
+            return { maxHp: 150 + (lvl - 1) * 5, maxMp: 50 + lvl * 5 };
         }
         const voc = String(vocation || '').toLowerCase();
         let hpPerLvl = 5;
@@ -200,7 +200,7 @@
             hpPerLvl = 10;
             mpPerLvl = 10;
         }
-        return { maxHp: 185 + (lvl - 8) * hpPerLvl, maxMp: 35 + (lvl - 8) * mpPerLvl };
+        return { maxHp: 185 + (lvl - 8) * hpPerLvl, maxMp: 90 + (lvl - 8) * mpPerLvl };
     }
 
     /** Matches kernel/core/lib/character/stats.js pipelineToPercent. */

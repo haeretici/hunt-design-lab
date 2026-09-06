@@ -6,6 +6,7 @@ const {
     getItem,
     equipmentMapFromInventory
 } = require('../../core/lib/character/inventory.js');
+const { getExpForLevel } = require('../../core/lib/character/progression.js');
 
 const DB_NAME = 'HuntDLClientDB';
 const DB_VERSION = 1;
@@ -128,11 +129,24 @@ function normalizeClientCharacter(char) {
         char.level != null && Number.isFinite(Number(char.level))
             ? Math.max(1, Math.floor(Number(char.level)))
             : 1;
+    const minExp = getExpForLevel(level);
     const experience =
         char.experience != null && Number.isFinite(Number(char.experience))
-            ? Math.max(0, Math.floor(Number(char.experience)))
-            : 0;
+            ? Math.max(minExp, Math.floor(Number(char.experience)))
+            : minExp;
     const skills = Object.assign({}, DEFAULT_CLIENT_SKILLS, char.skills || {});
+    const _skillTryProgress =
+        char._skillTryProgress && typeof char._skillTryProgress === 'object'
+            ? Object.assign({}, char._skillTryProgress)
+            : (char.skillTryProgress && typeof char.skillTryProgress === 'object'
+                ? Object.assign({}, char.skillTryProgress)
+                : {});
+    const _manaTowardMagic =
+        char._manaTowardMagic != null && Number.isFinite(Number(char._manaTowardMagic))
+            ? Math.max(0, Math.floor(Number(char._manaTowardMagic)))
+            : (char.manaTowardMagic != null && Number.isFinite(Number(char.manaTowardMagic))
+                ? Math.max(0, Math.floor(Number(char.manaTowardMagic)))
+                : 0);
     const equips = Object.assign({}, BASE_EQUIPS, pack.equips, char.equips || {});
     if (pack.equips.shield && !equips.shield && !equips.leftHand) {
         equips.shield = pack.equips.shield;
@@ -175,6 +189,8 @@ function normalizeClientCharacter(char) {
         level,
         experience,
         skills,
+        _skillTryProgress,
+        _manaTowardMagic,
         equips,
         inventory,
         quiver,
@@ -263,6 +279,12 @@ async function initClientApp() {
         }
         if (player.skills && typeof player.skills === 'object') {
             char.skills = Object.assign({}, char.skills, player.skills);
+        }
+        if (player._skillTryProgress && typeof player._skillTryProgress === 'object') {
+            char._skillTryProgress = Object.assign({}, player._skillTryProgress);
+        }
+        if (player._manaTowardMagic != null && Number.isFinite(Number(player._manaTowardMagic))) {
+            char._manaTowardMagic = Math.max(0, Math.floor(Number(player._manaTowardMagic)));
         }
         const eq = getEquipmentFromPlayer(player);
         if (Object.keys(eq).length > 0) {
@@ -353,6 +375,8 @@ async function initClientApp() {
                 level: 1,
                 experience: 0,
                 skills: Object.assign({}, DEFAULT_CLIENT_SKILLS),
+                _skillTryProgress: {},
+                _manaTowardMagic: 0,
                 spawnLoc: 'firstlight_outpost',
                 equips: Object.assign({}, BASE_EQUIPS, pack.equips),
                 inventory: pack.inventory.map((it) => Object.assign({}, it)),
@@ -442,10 +466,13 @@ async function initClientApp() {
 
                     // Enable live progression
                     try {
-                        const lsKey = 'hdl_tweaks_progression';
+                        const lsKey = 'hdl_progression_prefs';
                         let prog = JSON.parse(localStorage.getItem(lsKey) || '{}');
-                        prog.liveExp = true;
-                        prog.liveSkillTries = true;
+                        if (!prog || typeof prog !== 'object') prog = {};
+                        prog.features = Object.assign({}, prog.features, {
+                            expProgression: true,
+                            skillProgression: true
+                        });
                         localStorage.setItem(lsKey, JSON.stringify(prog));
                     } catch (e) {
                         console.error('Failed to set progression tweaks', e);
@@ -468,11 +495,24 @@ async function initClientApp() {
                         memberInventory.leftHand = quiverList;
                     }
 
+                    const charLvl = Math.max(1, Math.floor(Number(char.level) || 1));
+                    const charExp = Math.max(
+                        Math.floor(Number(char.experience) || 0),
+                        getExpForLevel(charLvl)
+                    );
                     const singlePlayerMember = {
                         name: char.name,
                         classId: char.vocation,
-                        level: Math.max(1, Math.floor(Number(char.level) || 1)),
-                        experience: Math.max(0, Math.floor(Number(char.experience) || 0)),
+                        level: charLvl,
+                        experience: charExp,
+                        _skillTryProgress:
+                            char._skillTryProgress && typeof char._skillTryProgress === 'object'
+                                ? Object.assign({}, char._skillTryProgress)
+                                : {},
+                        _manaTowardMagic:
+                            char._manaTowardMagic != null && Number.isFinite(Number(char._manaTowardMagic))
+                                ? Math.max(0, Math.floor(Number(char._manaTowardMagic)))
+                                : 0,
                         isLeader: true,
                         controlMode: 'manual',
                         autoChase: false,

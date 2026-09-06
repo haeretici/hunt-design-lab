@@ -66,11 +66,12 @@ const DEFAULT_SKILLS = {
 
 /**
  * Legacy None vocation: every class uses these HP/MP gains until level 8.
+ * Pre-vocation / before level 8 mana rule: 5 * level + 50 (L1: 55, L8: 90).
  * Cap is separate (`inventory.baseCapacity`): same +10/lvl, engine L1 floor 600.
  */
 const PRE_VOCATION_LEVEL = 8;
 const PRE_VOCATION_HP = 150;
-const PRE_VOCATION_MP = 0;
+const PRE_VOCATION_MP = 50;
 const PRE_VOCATION_HP_GAIN = 5;
 const PRE_VOCATION_MP_GAIN = 5;
 
@@ -1552,7 +1553,7 @@ function buildEffectiveStats(classDef, equipmentRollup, opts) {
 
 /**
  * Max HP / MP from level + class.
- * L1–7: None vocation (150 HP / 0 MP, +5/+5), same for every class.
+ * L1–7: None vocation (150 HP + (L-1)*5 / 50 + L*5 MP), same for every class.
  * L8+: class `baseHp`/`baseMp` + (level−8)×perLevel.
  *
  * @param {number} level
@@ -1567,11 +1568,11 @@ function poolMaxForLevel(level, cls) {
     if (lv < PRE_VOCATION_LEVEL) {
         return {
             hpMax: PRE_VOCATION_HP + (lv - 1) * PRE_VOCATION_HP_GAIN + hpBonus,
-            mpMax: PRE_VOCATION_MP + (lv - 1) * PRE_VOCATION_MP_GAIN + mpBonus
+            mpMax: PRE_VOCATION_MP + lv * PRE_VOCATION_MP_GAIN + mpBonus
         };
     }
     const baseHp = bag.baseHp != null ? bag.baseHp : PRE_VOCATION_HP;
-    const baseMp = bag.baseMp != null ? bag.baseMp : 50;
+    const baseMp = bag.baseMp != null ? bag.baseMp : 90;
     const hpPerLevel = bag.hpPerLevel != null ? bag.hpPerLevel : 15;
     const mpPerLevel = bag.mpPerLevel != null ? bag.mpPerLevel : 5;
     const above = lv - PRE_VOCATION_LEVEL;

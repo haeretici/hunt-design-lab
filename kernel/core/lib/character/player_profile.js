@@ -130,6 +130,33 @@ function memberFromPlayerProfile(profile, overrides) {
     if (o.profileId != null) member.profileId = String(o.profileId);
     else if (profile.id != null) member.profileId = String(profile.id);
 
+    const exp =
+        o.experience != null && Number.isFinite(Number(o.experience))
+            ? Math.max(0, Math.floor(Number(o.experience)))
+            : profile.experience != null && Number.isFinite(Number(profile.experience))
+              ? Math.max(0, Math.floor(Number(profile.experience)))
+              : undefined;
+    if (exp !== undefined) member.experience = exp;
+
+    const skillProgress =
+        (o._skillTryProgress && typeof o._skillTryProgress === 'object' && o._skillTryProgress) ||
+        (o.skillTryProgress && typeof o.skillTryProgress === 'object' && o.skillTryProgress) ||
+        (profile._skillTryProgress && typeof profile._skillTryProgress === 'object' && profile._skillTryProgress) ||
+        (profile.skillTryProgress && typeof profile.skillTryProgress === 'object' && profile.skillTryProgress) ||
+        null;
+    if (skillProgress) {
+        member._skillTryProgress = Object.assign({}, skillProgress);
+    }
+    const manaTowardMagic =
+        o._manaTowardMagic != null ? o._manaTowardMagic :
+        o.manaTowardMagic != null ? o.manaTowardMagic :
+        profile._manaTowardMagic != null ? profile._manaTowardMagic :
+        profile.manaTowardMagic != null ? profile.manaTowardMagic :
+        null;
+    if (manaTowardMagic != null && Number.isFinite(Number(manaTowardMagic))) {
+        member._manaTowardMagic = Math.max(0, Math.floor(Number(manaTowardMagic)));
+    }
+
     // Watch-mode art: profile customSprite (member override wins)
     const customSprite =
         trimId(o.customSprite) ||

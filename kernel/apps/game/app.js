@@ -424,11 +424,18 @@ function readPartyForm(prevMembers) {
         // DOM has no profile/skills fields. Same vocation → keep in-memory
         // character bag. Class change → rebind default starter (create-char).
         const prev = prevList[i] || null;
+        const domLevel = levelEl ? parseInt(levelEl.value, 10) : 50;
+        const level =
+            prev && prev.level != null && (!levelEl || levelEl.disabled || Number(prev.level) === domLevel)
+                ? Number(prev.level)
+                : Number.isFinite(domLevel) && domLevel > 0
+                  ? domLevel
+                  : (prev && prev.level != null ? Number(prev.level) : 50);
         /** @type {Record<string, any>} */
         const bag = {
             enabled: enabledEl ? enabledEl.checked : i === 0,
             name: nameEl ? nameEl.value : '',
-            level: levelEl ? levelEl.value : 50,
+            level,
             classId,
             strategyId: stratEl ? stratEl.value : 'balanced',
             controlMode: controlEl ? controlEl.value : (prev && prev.controlMode ? prev.controlMode : 'ai'),
@@ -439,7 +446,16 @@ function readPartyForm(prevMembers) {
         if (prev && prev.classId === classId) {
             if (prev.profileId) bag.profileId = prev.profileId;
             if (prev.skills && typeof prev.skills === 'object') {
-                bag.skills = prev.skills;
+                bag.skills = Object.assign({}, prev.skills);
+            }
+            if (prev._skillTryProgress && typeof prev._skillTryProgress === 'object') {
+                bag._skillTryProgress = Object.assign({}, prev._skillTryProgress);
+            }
+            if (prev._manaTowardMagic != null) {
+                bag._manaTowardMagic = prev._manaTowardMagic;
+            }
+            if (Number(prev.level) === Number(bag.level) && prev.experience != null) {
+                bag.experience = prev.experience;
             }
             if (prev.critChance != null) bag.critChance = prev.critChance;
             if (prev.critDamage != null) bag.critDamage = prev.critDamage;
@@ -883,8 +899,42 @@ async function initGameApp(options = {}) {
         });
     }
 
-    const collectPrefs = () =>
-        collectPrefsState({
+    const syncLivePartyToForm = () => {
+        if (
+            sessionLive &&
+            Application.currentLevel &&
+            Application.currentLevel.parties &&
+            Application.currentLevel.parties[0]
+        ) {
+            const simParty = Application.currentLevel.parties[0];
+            if (Array.isArray(simParty.members)) {
+                let enabledIdx = 0;
+                for (let i = 0; i < formMembers.length; i++) {
+                    const fm = formMembers[i];
+                    if (fm && fm.enabled) {
+                        const simPlayer = simParty.members[enabledIdx++];
+                        if (simPlayer) {
+                            fm.level = simPlayer.level;
+                            fm.experience = simPlayer.experience;
+                            if (simPlayer.skills && typeof simPlayer.skills === 'object') {
+                                fm.skills = Object.assign({}, fm.skills, simPlayer.skills);
+                            }
+                            if (simPlayer._skillTryProgress && typeof simPlayer._skillTryProgress === 'object') {
+                                fm._skillTryProgress = Object.assign({}, simPlayer._skillTryProgress);
+                            }
+                            if (simPlayer._manaTowardMagic != null) {
+                                fm._manaTowardMagic = simPlayer._manaTowardMagic;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    };
+
+    const collectPrefs = () => {
+        syncLivePartyToForm();
+        return collectPrefsState({
             seed: seedInput ? seedInput.value : '42',
             speed: Settings.TIME_SPEED,
             modeId:
@@ -899,8 +949,16 @@ async function initGameApp(options = {}) {
             members: readPartyForm(formMembers),
             activeViewSlot
         });
+    };
 
     const schedulePrefsSave = createDebouncedPrefsSaver(prefsKey, collectPrefs);
+
+    if (typeof window !== 'undefined') {
+        window.addEventListener('beforeunload', () => {
+            syncLivePartyToForm();
+            schedulePrefsSave();
+        });
+    }
 
     /**
      * Reload form members from the selected party preset.
@@ -1274,6 +1332,7 @@ async function initGameApp(options = {}) {
     });
 
     const stopSession = () => {
+        syncLivePartyToForm();
         Application.quit();
         Settings.cameraTileX = null;
         Settings.cameraTileY = null;
@@ -1282,6 +1341,8 @@ async function initGameApp(options = {}) {
         clearActiveMoveKeys();
         syncActiveControlToggle();
         setFormLocked(false);
+        paintPartyEditor(formMembers);
+        schedulePrefsSave();
         Application.paused = false;
         if (pauseBtn) {
             pauseBtn.disabled = true;
@@ -1313,7 +1374,7 @@ async function initGameApp(options = {}) {
 
     const startSession = async (sessionOpts) => {
         if (Application.currentLevel) {
-            Application.quit();
+            stopSession();
         }
 
         const sOpts = sessionOpts || {};

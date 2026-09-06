@@ -2892,6 +2892,56 @@ test('skills_panel readSkill resolves magic aliases', () => {
     assert.ok(SKILL_ROWS.some((r) => r.key === 'magicLevel'));
 });
 
+test('skills_panel getLevelProgress and getSkillProgress calculate percent to go', () => {
+    const { getLevelProgress, getSkillProgress, SKILL_ROWS } = require('../kernel/apps/game/skills_panel.js');
+    const { getExpForLevel, expToNext } = require('../kernel/core/lib/character/progression.js');
+
+    // Level progression tests
+    const l1Source = { level: 1, experience: 50 };
+    const l1Prog = getLevelProgress(l1Source);
+    assert.strictEqual(l1Prog.percent, 50);
+    assert.strictEqual(l1Prog.percentToGo, 50);
+    assert.strictEqual(l1Prog.tooltip, 'You have 50.00 percent to go');
+
+    // Level 50 exact reference math: span is 117700. If 13759 exp gained -> 11.69% done, 88.31% to go
+    const l50Base = getExpForLevel(50);
+    const l50Source = { level: 50, experience: l50Base + 13759 };
+    const l50Prog = getLevelProgress(l50Source);
+    assert.strictEqual(l50Prog.percent, 11.69);
+    assert.strictEqual(l50Prog.percentToGo, 88.31);
+    assert.strictEqual(l50Prog.tooltip, 'You have 88.31 percent to go');
+
+    // Skill progression tests (guardian sword: 50 tries needed for level 11)
+    const swordDef = SKILL_ROWS.find((r) => r.key === 'sword');
+    const rates = { melee: 1.1 };
+    const playerWithTries = {
+        classId: 'guardian',
+        skillRates: rates,
+        _skillTryProgress: { sword: 25 }
+    };
+    const sProg = getSkillProgress(playerWithTries, swordDef, 10, rates);
+    assert.ok(sProg != null);
+    assert.strictEqual(sProg.percent, 50);
+    assert.strictEqual(sProg.percentToGo, 50);
+    assert.strictEqual(sProg.tooltip, 'You have 50.00 percent to go');
+
+    // Magic level progression (adept ML 0 -> 1 needs 1600 mana)
+    const magicDef = SKILL_ROWS.find((r) => r.key === 'magicLevel');
+    const playerWithMana = {
+        classId: 'adept',
+        skillRates: { magic: 1.1 },
+        _manaTowardMagic: 400
+    };
+    const mProg = getSkillProgress(playerWithMana, magicDef, 0, { magic: 1.1 });
+    assert.ok(mProg != null);
+    assert.strictEqual(mProg.percent, 25);
+    assert.strictEqual(mProg.percentToGo, 75);
+    assert.strictEqual(mProg.tooltip, 'You have 75.00 percent to go');
+
+    // Missing skill returns null
+    assert.strictEqual(getSkillProgress(playerWithTries, swordDef, null, rates), null);
+});
+
 test('bindSkillsPanel paints active player skills (dirty-only)', () => {
     const { bindSkillsPanel } = require('../kernel/apps/game/skills_panel.js');
     const list = {
@@ -2907,6 +2957,7 @@ test('bindSkillsPanel paints active player skills (dirty-only)', () => {
         const player = {
             name: 'Tester',
             level: 42,
+            experience: 987654,
             skills: {
                 sword: 60,
                 axe: 10,
@@ -2916,6 +2967,9 @@ test('bindSkillsPanel paints active player skills (dirty-only)', () => {
                 shielding: 50,
                 magicLevel: 8,
                 fishing: 10
+            },
+            _skillTryProgress: {
+                sword: 50
             }
         };
         const ctl = bindSkillsPanel({
@@ -2930,9 +2984,18 @@ test('bindSkillsPanel paints active player skills (dirty-only)', () => {
         assert.ok(list.innerHTML.includes('42'), 'shows level');
         assert.ok(list.innerHTML.includes('60'), 'shows sword skill');
         assert.ok(list.innerHTML.includes('Magic Level') || list.innerHTML.includes('8'));
+        assert.ok(list.innerHTML.includes('skills-panel-level'), 'renders level container');
+        assert.ok(list.innerHTML.includes('#31582f'), 'uses progress bar color #31582f');
+        assert.ok(list.innerHTML.includes('percent to go'), 'includes percent to go tooltip');
         const html1 = list.innerHTML;
         ctl.refresh();
         assert.strictEqual(list.innerHTML, html1, 'dirty-only: unchanged skills skip rewrite');
+
+        // Verify update when skill tries progress changes
+        player._skillTryProgress.sword = 100;
+        ctl.refresh();
+        assert.notStrictEqual(list.innerHTML, html1, 'updates when progress changes');
+
         player.skills.sword = 61;
         ctl.refresh();
         assert.ok(list.innerHTML.includes('61'), 'updates when skill changes');

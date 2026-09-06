@@ -3069,6 +3069,14 @@ class Simulator extends GameObject {
                 hp: def.hp,
                 hpMax: def.hpMax,
                 level: def.level,
+                experience: def.experience,
+                _skillTryProgress: def._skillTryProgress || def.skillTryProgress || null,
+                _manaTowardMagic:
+                    def._manaTowardMagic != null
+                        ? def._manaTowardMagic
+                        : def.manaTowardMagic != null
+                          ? def.manaTowardMagic
+                          : null,
                 isLeader,
                 leaderId: null,
                 equipment: normalizeEquipmentMap(def.equipment),
@@ -3149,9 +3157,8 @@ class Simulator extends GameObject {
             // Phase C: seed total exp from level (or explicit def.experience)
             if (def.experience != null && Number.isFinite(Number(def.experience))) {
                 player.experience = Math.max(0, Math.floor(Number(def.experience)));
-            } else {
-                seedPlayerExperience(player);
             }
+            seedPlayerExperience(player);
 
             // Scenario Lab / party seed: apply starting combat conditions
             // (poison, burning, slow, haste, …) so status UI and DoTs show at t0.

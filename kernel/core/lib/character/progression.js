@@ -946,13 +946,16 @@ function freezeExpSessionConfig(opts) {
  */
 function seedPlayerExperience(player) {
     if (!player) return 0;
-    if (player.experience != null && Number.isFinite(Number(player.experience))) {
-        return Math.max(0, Math.floor(Number(player.experience)));
-    }
     const level = Math.max(1, Math.floor(Number(player.level) || 1));
-    const exp = getExpForLevel(level);
-    player.experience = exp;
-    return exp;
+    const minExp = getExpForLevel(level);
+    if (player.experience != null && Number.isFinite(Number(player.experience))) {
+        const curExp = Math.max(0, Math.floor(Number(player.experience)));
+        const exp = Math.max(curExp, minExp);
+        player.experience = exp;
+        return exp;
+    }
+    player.experience = minExp;
+    return minExp;
 }
 
 /**
