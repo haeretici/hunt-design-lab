@@ -16,7 +16,7 @@ const LEGACY_COLLAPSED_PREFIX = 'hdl_panel_collapsed_';
 const DEFAULT_ORDER = Object.freeze(['backpack', 'combat', 'skills', 'party']);
 
 const DEFAULT_HEIGHTS = Object.freeze({
-    backpack: 148,
+    backpack: 188,
     combat: 210,
     skills: 210,
     party: 210
@@ -218,18 +218,7 @@ function ensureChrome(sec, panelId) {
         if (!actions) {
             actions = document.createElement('div');
             actions.className = 'panel-title-actions';
-            // Combat: keep sort container before close
-            const sort = titleRow.querySelector('.combat-sort-container');
-            if (sort) {
-                titleRow.appendChild(actions);
-            } else {
-                titleRow.appendChild(actions);
-            }
-        }
-        // Move combat sort into actions if present as sibling
-        const sort = titleRow.querySelector('.combat-sort-container');
-        if (sort && sort.parentElement === titleRow && !actions.contains(sort)) {
-            actions.appendChild(sort);
+            titleRow.appendChild(actions);
         }
         let closeBtn = actions.querySelector('.panel-close-btn');
         if (!closeBtn) {
