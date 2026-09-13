@@ -1,6 +1,15 @@
 # Hunt Design Lab
 
-**Hunt Design Lab** (**HuntDL**) is a **Node.js 2D MMO engine** and an HTML / JavaScript toolkit for **dungeon combat simulation**, **content design**, and a multi-genre **creature concept → spritesheet** pipeline.
+> [!IMPORTANT]
+> **Project Status: Version 1.0.0 — Goal Accomplished & Repository Archived (Read-Only)**
+>
+> **The goal has been accomplished.** Hunt Design Lab has successfully created and validated the complete foundation for a 2D tile-based MMO: the 20 Hz authoritative simulation loop, movement & multi-floor navigation, combat math, spell casting, conditions, elemental field hazards, inventory & loot, NPC dialog trees, sprite processing pipeline, and tilemap authoring.
+>
+> With this MMO basis fully established, this repository is now **frozen and set as archived on GitHub (read-only)**.
+>
+> Active development has officially migrated to dedicated repositories implementing a true, production **client–server architecture**.
+
+**Hunt Design Lab** (**HuntDL**) is the foundational **Node.js 2D MMO engine** and HTML / JavaScript toolkit created for **dungeon combat simulation**, **content design**, and a multi-genre **creature concept → spritesheet** pipeline.
 
 <p align="center">
   <img src="assets/screenshots/hunt-simulator.png" alt="Hunt Simulator — live party vs. dungeon watch UI" width="900">
@@ -9,27 +18,74 @@
 | | |
 | :--- | :--- |
 | **Product** | Hunt Design Lab |
+| **Version** | `1.0.0` (Archived / Read-Only) |
 | **Short** | HuntDL |
 | **Package / repo** | `hunt-design-lab` |
 | **Mark** | Red `fa-dragon` (nav) + `assets/brand/favicon.svg` |
 
 Shared game logic lives under `kernel/` and runs in **Node** (headless / server-shaped) and in the **browser** (watch UI). CLI tools live under `bin/`. A PHP shell hosts the web apps. Sprite green-screen / quantize steps use Python (`bin/process_sprites.py`).
 
-> **Status:** early public-ready snapshot (`0.7.0`). APIs, presets, and art pipelines may still change.
+---
 
-## Engine and architecture
+## 🚀 Active Development: Client–Server Architecture Migration
 
-One goal of this repo is a **tile-based 2D MMO engine in Node.js** — not only a combat lab. The current stack is already shaped for a **client–server** split, even while the “server” and the “client” still share a process in the designer apps:
+Following the architectural migration ([35](other/35_client_server_architecture_review.md) & [36](other/36_port_parity.md)), the monolithic design lab has been factored into modular, purpose-built repositories. Development continues in the following GitHub projects:
 
-| Piece | Role today | MMO-shaped meaning |
+| Repository | Role | Purpose & Scope |
 | :--- | :--- | :--- |
-| **`kernel/` Simulator** | Authoritative world tick (fixed **20 Hz** logic). Combat, movement, occupancy, pathfinding, stairs, fields, NPC talk, and inventory all land here. | Game server |
-| **Command queue** | The UI never mutates the world directly. Clicks, hotkeys, talk replies, and item use enqueue commands (`SET_TARGET`, `CUSTOM_COMMAND`, move, use, …) that the Simulator applies on the next logic tick. | Client → server messages |
-| **Browser Hunt / Scenario Lab** | Camera, HUD, action bars, dialog panel, mouse dispatcher. Reads session state and paints; does not own rules. | Game client |
-| **Headless runner** | Same Simulator, no DOM / images. Batch hunts, sweeps, and bug repro use the identical tick. | Dedicated / CI server |
-| **Presets** | Classes, spells, creatures, hunts, dialogs, maps — JSON packs loaded by both sides. | Shared content |
+| [**`haeretici/nodejsmmo-server`**](https://github.com/haeretici/nodejsmmo-server) | **Game Server** | Authoritative Node.js 20 UPS server process. Owns world state, combat resolution, pathfinding & navmesh, creature AI, inventory, persistence, and WebSocket protocol. |
+| [**`haeretici/mmo-frontend`**](https://github.com/haeretici/mmo-frontend) | **Frontend & Client** | Public web portal, account & character management, and browser canvas game client. Renders world state and dispatches input commands without client-side rule authority. |
+| [**`haeretici/mmo-map-editor`**](https://github.com/haeretici/mmo-map-editor) | **Map Editor** | Standalone multi-floor tilemap editor for world building: sixteen stacked floors, terrain baking, friction/sight/collision layers, spawns, and world pins. |
+| [**`haeretici/mmo-content-manager`**](https://github.com/haeretici/mmo-content-manager) | **Content Manager** | Dedicated suite of web designer tools: Designer CRUD for creatures, items, and spells, catalog inspectors, and Sprite Manager integration. |
+| [**`haeretici/mmo-content`**](https://github.com/haeretici/mmo-content) | **Content Pack** | Centralized game data repository containing JSON catalogs (1,590+ creatures, 1,700+ equipment items, spells, vocations, dialogs), schemas, sprite assets, and maps. |
 
-Creature pathfinding, combat resolution, and NPC dialog stay on the simulation side. A future network client can send the same command types the local UI already queues. Logic `dt` is fixed; wall-clock speed only changes how often ticks are scheduled, not the rules.
+```mermaid
+flowchart TD
+    subgraph Client ["Client (Browser)"]
+        FE["mmo-frontend (Account / Play Canvas)"]
+    end
+
+    subgraph Server ["Server (Node.js)"]
+        SRV["nodejsmmo-server (20 UPS Authority Loop)"]
+        DB[(Persistence / Database)]
+        SRV --- DB
+    end
+
+    subgraph Tools ["Content & World Authoring"]
+        ME["mmo-map-editor"]
+        CM["mmo-content-manager"]
+    end
+
+    subgraph ContentRepo ["Game Content"]
+        CP["mmo-content (Packs, Schemas, Sprites, Maps)"]
+    end
+
+    FE <-- "WebSocket Binary Protocol" --> SRV
+    CP -->|Loads| SRV
+    CP -->|Edits / Saves| ME
+    CP -->|Edits / Saves| CM
+```
+
+In Hunt Design Lab, the simulator ran inside the browser tab to accelerate prototyping and combat balance. In the new client–server architecture:
+- The **server** is the sole authority for combat, movement, occupancy, loot, and NPC logic.
+- The **client** is a viewport that dispatches user intents and renders interpolated snapshots.
+- **Content** and **tooling** are completely decoupled from runtime execution.
+
+---
+
+## Historical Foundation: Engine and Architecture
+
+The primary goal of this repository was to pioneer and validate a **tile-based 2D MMO engine in Node.js** — establishing the core systems that the new client–server products now build upon:
+
+| Piece | Prototype Role (HuntDL) | MMO Production Meaning |
+| :--- | :--- | :--- |
+| **`kernel/` Simulator** | Authoritative world tick (fixed **20 Hz** logic). Combat, movement, occupancy, pathfinding, stairs, fields, NPC talk, and inventory all land here. | Game server (`nodejsmmo-server`) |
+| **Command queue** | The UI never mutates the world directly. Clicks, hotkeys, talk replies, and item use enqueue commands (`SET_TARGET`, `CUSTOM_COMMAND`, move, use, …) applied on the next tick. | Client → server messages |
+| **Browser Hunt / Scenario Lab** | Camera, HUD, action bars, dialog panel, mouse dispatcher. Reads session state and paints; does not own rules. | Game client (`mmo-frontend`) |
+| **Headless runner** | Same Simulator, no DOM / images. Batch hunts, sweeps, and bug repro use the identical tick. | Dedicated test runner / CI |
+| **Presets** | Classes, spells, creatures, hunts, dialogs, maps — JSON packs loaded by both sides. | Shared content (`mmo-content`) |
+
+Creature pathfinding, combat resolution, and NPC dialog stay on the simulation side. The command types prototyped here are the same primitives the production network protocol uses. Logic `dt` is fixed at 20 UPS; wall-clock scheduling never alters the rules.
 
 ## Features
 
@@ -406,11 +462,19 @@ Much of the art under `assets/sprites/` was created with **third-party generativ
 
 ## Contributing / development notes
 
-Hunt Design Lab is an independent **solo project** developed and maintained by Thiago Campos Viana. There are several great ways you can contribute to support and shape its development:
+> [!NOTE]
+> **Repository Frozen & Archived (v1.0.0):** Having accomplished its mission as the foundational engine lab, this repository is frozen and read-only. New feature development, pull requests, and active issue tracking have moved to the new client–server project repositories:
+> - Server: [`haeretici/nodejsmmo-server`](https://github.com/haeretici/nodejsmmo-server)
+> - Frontend: [`haeretici/mmo-frontend`](https://github.com/haeretici/mmo-frontend)
+> - Map Editor: [`haeretici/mmo-map-editor`](https://github.com/haeretici/mmo-map-editor)
+> - Content Manager: [`haeretici/mmo-content-manager`](https://github.com/haeretici/mmo-content-manager)
+> - Content Pack: [`haeretici/mmo-content`](https://github.com/haeretici/mmo-content)
 
-- **Join the YouTube Channel**: Subscribe to [tcviana on YouTube](https://www.youtube.com/tcviana) to follow development coding sessions, participate in discussions, share ideas, and make suggestions for new features or balance tweaks. Joining the channel and entering discussions is one of the primary ways to contribute directly to the project!
-- **Donate to speed up dev**: Because this is a solo project, contributing via cryptocurrency donations in the **Support the Project (Crypto Donations)** section below helps offset costs and significantly speeds up ongoing development and tool pipelines.
-- **Code notes**:
+Hunt Design Lab was developed and maintained as an independent solo project by Thiago Campos Viana. You can continue to follow the journey, shape the MMO's future, and support ongoing development:
+
+- **Join the YouTube Channel**: Subscribe to [tcviana on YouTube](https://www.youtube.com/tcviana) to follow development coding sessions, live architecture demos, participate in discussions, and share ideas as the client–server MMO evolves.
+- **Donate to support development**: Because this is an independent solo effort, contributing via cryptocurrency donations helps directly offset server infrastructure and AI generation costs across the new repositories. See **Support the Project (Crypto Donations)** below.
+- **Code notes (historical reference)**:
   - Shared logic belongs in `kernel/`; CLIs under `bin/` stay thin entry points.
   - Git-tracked JSON under `presets/` and `assets/data/` uses 4-space indent and a trailing newline (do not sort keys).
   - Resource-heavy image-gen and mass reprocess jobs should be intentional (cost + rate limits).
