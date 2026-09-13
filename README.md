@@ -9,23 +9,6 @@
 >
 > Active development has officially migrated to dedicated repositories implementing a true, production **client–server architecture**.
 
-**Hunt Design Lab** (**HuntDL**) is the foundational **Node.js 2D MMO engine** and HTML / JavaScript toolkit created for **dungeon combat simulation**, **content design**, and a multi-genre **creature concept → spritesheet** pipeline.
-
-<p align="center">
-  <img src="assets/screenshots/hunt-simulator.png" alt="Hunt Simulator — live party vs. dungeon watch UI" width="900">
-</p>
-
-| | |
-| :--- | :--- |
-| **Product** | Hunt Design Lab |
-| **Version** | `1.0.0` (Archived / Read-Only) |
-| **Short** | HuntDL |
-| **Package / repo** | `hunt-design-lab` |
-| **Mark** | Red `fa-dragon` (nav) + `assets/brand/favicon.svg` |
-
-Shared game logic lives under `kernel/` and runs in **Node** (headless / server-shaped) and in the **browser** (watch UI). CLI tools live under `bin/`. A PHP shell hosts the web apps. Sprite green-screen / quantize steps use Python (`bin/process_sprites.py`).
-
----
 
 ## 🚀 Active Development: Client–Server Architecture Migration
 
@@ -70,6 +53,24 @@ In Hunt Design Lab, the simulator ran inside the browser tab to accelerate proto
 - The **server** is the sole authority for combat, movement, occupancy, loot, and NPC logic.
 - The **client** is a viewport that dispatches user intents and renders interpolated snapshots.
 - **Content** and **tooling** are completely decoupled from runtime execution.
+
+---
+
+**Hunt Design Lab** (**HuntDL**) is the foundational **Node.js 2D MMO engine** and HTML / JavaScript toolkit created for **dungeon combat simulation**, **content design**, and a multi-genre **creature concept → spritesheet** pipeline.
+
+<p align="center">
+  <img src="assets/screenshots/hunt-simulator.png" alt="Hunt Simulator — live party vs. dungeon watch UI" width="900">
+</p>
+
+| | |
+| :--- | :--- |
+| **Product** | Hunt Design Lab |
+| **Version** | `1.0.0` (Archived / Read-Only) |
+| **Short** | HuntDL |
+| **Package / repo** | `hunt-design-lab` |
+| **Mark** | Red `fa-dragon` (nav) + `assets/brand/favicon.svg` |
+
+Shared game logic lives under `kernel/` and runs in **Node** (headless / server-shaped) and in the **browser** (watch UI). CLI tools live under `bin/`. A PHP shell hosts the web apps. Sprite green-screen / quantize steps use Python (`bin/process_sprites.py`).
 
 ---
 
